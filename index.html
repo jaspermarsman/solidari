@@ -491,6 +491,25 @@
       box-shadow: 0 12px 32px rgba(0,0,0,0.08);
     }
 
+    .tool-kaart.komt-binnenkort {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+    .tool-kaart.komt-binnenkort::after {
+      content: 'Binnenkort';
+      position: absolute;
+      top: 12px; right: 12px;
+      background: var(--wit-warm);
+      border: 1px solid var(--rand);
+      border-radius: 4px;
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: var(--tekst-licht);
+      padding: 2px 7px;
+      letter-spacing: 0.04em;
+    }
+
     .tool-kaart-header {
       display: flex;
       align-items: flex-start;
@@ -1145,7 +1164,7 @@
 
   <div class="tools-grid">
 
-    <a href="#" class="tool-kaart">
+    <a href="brief.html" class="tool-kaart komt-binnenkort">
       <div class="tool-kaart-header">
         <div class="tool-emoji" style="background:#FDF3E0;">📬</div>
         <span class="tool-badge badge-zon">☀️ Bij zon</span>
@@ -1157,7 +1176,7 @@
       </div>
     </a>
 
-    <a href="#" class="tool-kaart">
+    <a href="loont-werken.html" class="tool-kaart komt-binnenkort">
       <div class="tool-kaart-header">
         <div class="tool-emoji" style="background:#EBF3EE;">💶</div>
         <span class="tool-badge badge-browser">✓ Altijd beschikbaar</span>
@@ -1169,7 +1188,7 @@
       </div>
     </a>
 
-    <a href="#" class="tool-kaart">
+    <a href="toeslagen.html" class="tool-kaart">
       <div class="tool-kaart-header">
         <div class="tool-emoji" style="background:#EBF3EE;">💰</div>
         <span class="tool-badge badge-browser">✓ Altijd beschikbaar</span>
@@ -1181,7 +1200,7 @@
       </div>
     </a>
 
-    <a href="#" class="tool-kaart">
+    <a href="zorgverzekering.html" class="tool-kaart komt-binnenkort">
       <div class="tool-kaart-header">
         <div class="tool-emoji" style="background:#FDF3E0;">🏥</div>
         <span class="tool-badge badge-zon">☀️ Bij zon</span>
@@ -1193,7 +1212,7 @@
       </div>
     </a>
 
-    <a href="#" class="tool-kaart">
+    <a href="medicijnen.html" class="tool-kaart komt-binnenkort">
       <div class="tool-kaart-header">
         <div class="tool-emoji" style="background:#FDF3E0;">💊</div>
         <span class="tool-badge badge-zon">☀️ Bij zon</span>
@@ -1205,7 +1224,7 @@
       </div>
     </a>
 
-    <a href="#" class="tool-kaart">
+    <a href="18jaar.html" class="tool-kaart komt-binnenkort">
       <div class="tool-kaart-header">
         <div class="tool-emoji" style="background:#EBF3EE;">🎂</div>
         <span class="tool-badge badge-browser">✓ Altijd beschikbaar</span>
@@ -1217,7 +1236,7 @@
       </div>
     </a>
 
-    <a href="#" class="tool-kaart">
+    <a href="naturalisatie.html" class="tool-kaart">
       <div class="tool-kaart-header">
         <div class="tool-emoji" style="background:#EBF3EE;">🇳🇱</div>
         <span class="tool-badge badge-browser">✓ Altijd beschikbaar</span>
@@ -1229,7 +1248,7 @@
       </div>
     </a>
 
-    <a href="#" class="tool-kaart">
+    <a href="rechten.html" class="tool-kaart komt-binnenkort">
       <div class="tool-kaart-header">
         <div class="tool-emoji" style="background:#FDF3E0;">⚖️</div>
         <span class="tool-badge badge-zon">☀️ Bij zon</span>
@@ -1241,7 +1260,7 @@
       </div>
     </a>
 
-    <a href="#" class="tool-kaart">
+    <a href="nt2.html" class="tool-kaart komt-binnenkort">
       <div class="tool-kaart-header">
         <div class="tool-emoji" style="background:#FDF3E0;">📚</div>
         <span class="tool-badge badge-zon">☀️ Bij zon</span>
@@ -1253,7 +1272,7 @@
       </div>
     </a>
 
-    <a href="/blind" class="tool-kaart" style="border-color: #7C3AED20;">
+    <a href="blind.html"  class="tool-kaart" style="border-color: #7C3AED20;">
       <div class="tool-kaart-header">
         <div class="tool-emoji" style="background:#F5F3FF;">👁️</div>
         <span class="tool-badge" style="background:#F5F3FF; color:#7C3AED;">♿ Toegankelijk</span>
