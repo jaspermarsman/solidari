@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solidari — Gratis tools voor statushouders</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --wit: #FAFAF7;
+      --wit-warm: #F5F2EC;
+      --amber: #E8A020;
+      --amber-licht: #FDF3E0;
+      --amber-diep: #C47F10;
+      --groen: #2D5A3D;
+      --groen-licht: #EBF3EE;
+      --tekst: #1A1A18;
+      --tekst-zacht: #5C5C58;
+      --tekst-licht: #9C9C98;
+      --rand: #E8E5DE;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--wit);
+      color: var(--tekst);
+      font-family: 'Source Sans 3', sans-serif;
+      font-weight: 400;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(250, 250, 247, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--rand);
+      padding: 0 2rem;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+    }
+
+    .logo-naam {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--tekst);
+      letter-spacing: -0.02em;
+    }
+
+    .logo-naam span {
+      color: var(--amber);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--tekst-zacht);
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--tekst);
+    }
+
+    .nav-taal {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .taal-btn {
+      background: none;
+      border: 1px solid var(--rand);
+      border-radius: 4px;
+      padding: 3px 8px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      color: var(--tekst-zacht);
+      transition: all 0.2s;
+    }
+
+    .taal-btn:hover, .taal-btn.actief {
+      background: var(--amber);
+      border-color: var(--amber);
+      color: white;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      padding-top: 64px;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-achtergrond {
+      position: absolute;
+      inset: 0;
+      background: 
+        radial-gradient(ellipse 60% 50% at 80% 40%, rgba(232, 160, 32, 0.08) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 60% at 10% 80%, rgba(45, 90, 61, 0.05) 0%, transparent 50%);
+    }
+
+    .hero-inhoud {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .hero-tekst {
+      animation: opkomen 0.8s ease both;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--amber-licht);
+      border: 1px solid rgba(232, 160, 32, 0.3);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--amber-diep);
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.02em;
+    }
+
+    .hero-badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--amber);
+      animation: puls 2s ease infinite;
+    }
+
+    @keyframes puls {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.4); }
+    }
+
+    .hero-titel {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 4vw, 3.6rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      color: var(--tekst);
+      margin-bottom: 1.2rem;
+    }
+
+    .hero-titel em {
+      font-style: normal;
+      color: var(--amber);
+    }
+
+    .hero-subtitel {
+      font-size: 1.1rem;
+      color: var(--tekst-zacht);
+      line-height: 1.7;
+      margin-bottom: 2rem;
+      font-weight: 300;
+      max-width: 440px;
+    }
+
+    .hero-knoppen {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .knop-primair {
+      background: var(--groen);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 13px 28px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+      font-family: 'Source Sans 3', sans-serif;
+    }
+
+    .knop-primair:hover {
+      background: #234830;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(45, 90, 61, 0.3);
+    }
+
+    .knop-secundair {
+      background: transparent;
+      color: var(--tekst);
+      border: 1.5px solid var(--rand);
+      border-radius: 8px;
+      padding: 13px 28px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+      font-family: 'Source Sans 3', sans-serif;
+    }
+
+    .knop-secundair:hover {
+      border-color: var(--tekst-zacht);
+      transform: translateY(-1px);
+    }
+
+    /* ── ZON STATUS KAART ── */
+    .hero-kaart {
+      animation: opkomen 0.8s 0.2s ease both;
+    }
+
+    .zon-status-kaart {
+      background: white;
+      border: 1px solid var(--rand);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.06);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .zon-status-kaart::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--amber), var(--amber-diep));
+    }
+
+    .zon-status-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1.5rem;
+    }
+
+    .zon-icoon {
+      width: 48px;
+      height: 48px;
+      background: var(--amber-licht);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+    }
+
+    .zon-status-titel {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--tekst);
+    }
+
+    .zon-status-sub {
+      font-size: 0.8rem;
+      color: var(--tekst-licht);
+    }
+
+    .zon-meter {
+      background: var(--wit-warm);
+      border-radius: 8px;
+      height: 8px;
+      margin-bottom: 0.5rem;
+      overflow: hidden;
+    }
+
+    .zon-meter-balk {
+      height: 100%;
+      background: linear-gradient(90deg, var(--amber), #F5C842);
+      border-radius: 8px;
+      width: 73%;
+      animation: laden 1.5s 0.5s ease both;
+    }
+
+    @keyframes laden {
+      from { width: 0%; }
+      to { width: 73%; }
+    }
+
+    .zon-meter-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--tekst-licht);
+      margin-bottom: 1.5rem;
+    }
+
+    .zon-tools-lijst {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .zon-tool-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.85rem;
+      color: var(--tekst-zacht);
+      padding: 8px 12px;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+
+    .zon-tool-item:hover {
+      background: var(--wit-warm);
+    }
+
+    .zon-tool-status {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .status-aan { background: #4CAF50; box-shadow: 0 0 0 2px rgba(76,175,80,0.2); }
+    .status-uit { background: var(--tekst-licht); }
+
+    /* ── TALEN BALK ── */
+    .talen-balk {
+      background: var(--groen);
+      padding: 1rem 2rem;
+      text-align: center;
+    }
+
+    .talen-inhoud {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .talen-label {
+      color: rgba(255,255,255,0.7);
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .talen-vlaggen {
+      display: flex;
+      gap: 0.8rem;
+      align-items: center;
+    }
+
+    .vlag-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: rgba(255,255,255,0.85);
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .vlag-item:hover { color: white; }
+    .vlag-emoji { font-size: 1rem; }
+
+    /* ── TOOLS SECTIE ── */
+    .sectie {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+    }
+
+    .sectie-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .sectie-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--amber-diep);
+      margin-bottom: 0.8rem;
+    }
+
+    .sectie-titel {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 700;
+      color: var(--tekst);
+      letter-spacing: -0.02em;
+      margin-bottom: 0.8rem;
+    }
+
+    .sectie-subtitel {
+      font-size: 1rem;
+      color: var(--tekst-zacht);
+      font-weight: 300;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    /* ── TOOL KAARTEN ── */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .tool-kaart {
+      background: white;
+      border: 1px solid var(--rand);
+      border-radius: 16px;
+      padding: 1.6rem;
+      cursor: pointer;
+      transition: all 0.25s;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      position: relative;
+      overflow: hidden;
+      animation: opkomen 0.6s ease both;
+    }
+
+    .tool-kaart:nth-child(1) { animation-delay: 0.05s; }
+    .tool-kaart:nth-child(2) { animation-delay: 0.1s; }
+    .tool-kaart:nth-child(3) { animation-delay: 0.15s; }
+    .tool-kaart:nth-child(4) { animation-delay: 0.2s; }
+    .tool-kaart:nth-child(5) { animation-delay: 0.25s; }
+    .tool-kaart:nth-child(6) { animation-delay: 0.3s; }
+    .tool-kaart:nth-child(7) { animation-delay: 0.35s; }
+    .tool-kaart:nth-child(8) { animation-delay: 0.4s; }
+    .tool-kaart:nth-child(9) { animation-delay: 0.45s; }
+    .tool-kaart:nth-child(10) { animation-delay: 0.5s; }
+
+    .tool-kaart:hover {
+      border-color: var(--amber);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+    }
+
+    .tool-kaart-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+
+    .tool-emoji {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    .tool-badge {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.03em;
+    }
+
+    .badge-browser {
+      background: var(--groen-licht);
+      color: var(--groen);
+    }
+
+    .badge-zon {
+      background: var(--amber-licht);
+      color: var(--amber-diep);
+    }
+
+    .tool-naam {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--tekst);
+      line-height: 1.3;
+    }
+
+    .tool-omschrijving {
+      font-size: 0.85rem;
+      color: var(--tekst-zacht);
+      line-height: 1.5;
+      font-weight: 300;
+    }
+
+    .tool-talen {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+      margin-top: auto;
+      padding-top: 0.5rem;
+      border-top: 1px solid var(--rand);
+    }
+
+    .tool-taal {
+      font-size: 0.75rem;
+      background: var(--wit-warm);
+      padding: 2px 7px;
+      border-radius: 4px;
+      color: var(--tekst-zacht);
+    }
+
+    /* ── MISSIE SECTIE ── */
+    .missie-sectie {
+      background: var(--wit-warm);
+      border-top: 1px solid var(--rand);
+      border-bottom: 1px solid var(--rand);
+    }
+
+    .missie-inhoud {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .missie-tekst .sectie-label {
+      text-align: left;
+    }
+
+    .missie-titel {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      font-weight: 700;
+      color: var(--tekst);
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .missie-body {
+      font-size: 0.95rem;
+      color: var(--tekst-zacht);
+      line-height: 1.8;
+      font-weight: 300;
+      margin-bottom: 1.5rem;
+    }
+
+    .missie-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .stat-item {
+      background: white;
+      border: 1px solid var(--rand);
+      border-radius: 12px;
+      padding: 1.2rem;
+    }
+
+    .stat-getal {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--amber);
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--tekst-zacht);
+      font-weight: 400;
+    }
+
+    /* ── ZON UITLEG ── */
+    .zon-uitleg {
+      background: var(--groen);
+      border-radius: 20px;
+      padding: 2.5rem;
+      color: white;
+    }
+
+    .zon-uitleg-titel {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .zon-uitleg-tekst {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      opacity: 0.85;
+      margin-bottom: 1.5rem;
+    }
+
+    .zon-stappen {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .zon-stap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.85rem;
+      opacity: 0.9;
+    }
+
+    .zon-stap-nr {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--rand);
+      padding: 2.5rem 2rem;
+    }
+
+    .footer-inhoud {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .footer-naam {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--tekst);
+    }
+
+    .footer-naam span { color: var(--amber); }
+
+    .footer-midden {
+      font-size: 0.8rem;
+      color: var(--tekst-licht);
+      text-align: center;
+    }
+
+    .footer-midden a {
+      color: var(--tekst-zacht);
+      text-decoration: none;
+    }
+
+    .footer-midden a:hover { color: var(--tekst); }
+
+    .footer-doneer {
+      background: var(--amber-licht);
+      border: 1px solid rgba(232,160,32,0.3);
+      color: var(--amber-diep);
+      border-radius: 8px;
+      padding: 8px 18px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+      font-family: 'Source Sans 3', sans-serif;
+    }
+
+    .footer-doneer:hover {
+      background: var(--amber);
+      color: white;
+      border-color: var(--amber);
+    }
+
+    /* ── DONATIE SECTIE ── */
+    .donatie-sectie {
+      background: #0F1F17;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .donatie-sterren {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        radial-gradient(1px 1px at 15% 25%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 35% 60%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 55% 15%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 70% 45%, rgba(255,255,255,0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 85% 70%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 25% 80%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 45% 35%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 90% 20%, rgba(255,255,255,0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 10% 55%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 60% 85%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(2px 2px at 75% 30%, rgba(255,255,200,0.4) 0%, transparent 100%),
+        radial-gradient(2px 2px at 20% 40%, rgba(255,255,200,0.3) 0%, transparent 100%);
+    }
+
+    .donatie-maan {
+      position: absolute;
+      top: 2rem;
+      right: 8%;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #FFF8E0, #F0C040);
+      box-shadow: 0 0 40px rgba(240, 192, 64, 0.3);
+      opacity: 0.7;
+    }
+
+    .donatie-inhoud {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .donatie-tekst .sectie-label {
+      color: rgba(232,160,32,0.8);
+      text-align: left;
+    }
+
+    .donatie-titel {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 700;
+      color: white;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .donatie-titel em {
+      font-style: normal;
+      color: var(--amber);
+    }
+
+    .donatie-body {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.8;
+      font-weight: 300;
+      margin-bottom: 1.5rem;
+    }
+
+    .donatie-uitleg {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 2rem;
+    }
+
+    .donatie-stap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: rgba(255,255,255,0.8);
+      font-size: 0.9rem;
+    }
+
+    .donatie-stap-icoon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .donatie-kaart {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 2rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .donatie-kaart-titel {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: white;
+      margin-bottom: 0.5rem;
+    }
+
+    .donatie-kaart-sub {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 1.5rem;
+    }
+
+    .donatie-bedragen {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .donatie-bedrag {
+      background: rgba(255,255,255,0.07);
+      border: 1.5px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .donatie-bedrag:hover, .donatie-bedrag.actief {
+      background: var(--amber);
+      border-color: var(--amber);
+    }
+
+    .donatie-bedrag-getal {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: white;
+      display: block;
+    }
+
+    .donatie-bedrag-label {
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.6);
+      display: block;
+      margin-top: 2px;
+    }
+
+    .donatie-bedrag.actief .donatie-bedrag-label {
+      color: rgba(255,255,255,0.9);
+    }
+
+    .donatie-eigen {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 1.2rem;
+    }
+
+    .donatie-input {
+      flex: 1;
+      background: rgba(255,255,255,0.07);
+      border: 1.5px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 10px 14px;
+      color: white;
+      font-size: 0.9rem;
+      font-family: 'Source Sans 3', sans-serif;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .donatie-input::placeholder { color: rgba(255,255,255,0.3); }
+    .donatie-input:focus { border-color: var(--amber); }
+
+    .donatie-knop {
+      width: 100%;
+      background: var(--amber);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 14px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Source Sans 3', sans-serif;
+      transition: all 0.2s;
+    }
+
+    .donatie-knop:hover {
+      background: var(--amber-diep);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(232,160,32,0.4);
+    }
+
+    .donatie-transparantie {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.35);
+      text-align: center;
+    }
+
+    .donatie-meter-wrap {
+      margin-top: 1.5rem;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 1.2rem;
+    }
+
+    .donatie-meter-titel {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 0.8rem;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .donatie-meter-titel span:last-child {
+      color: var(--amber);
+      font-weight: 600;
+    }
+
+    .donatie-meter {
+      background: rgba(255,255,255,0.08);
+      border-radius: 6px;
+      height: 6px;
+      overflow: hidden;
+      margin-bottom: 0.6rem;
+    }
+
+    .donatie-meter-balk {
+      height: 100%;
+      background: linear-gradient(90deg, var(--amber), #F5C842);
+      border-radius: 6px;
+      width: 42%;
+      animation: laden 1.5s ease both;
+    }
+
+    .donatie-meter-label {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.35);
+    }
+
+    @media (max-width: 768px) {
+      .donatie-inhoud { grid-template-columns: 1fr; gap: 2rem; }
+      .donatie-maan { width: 50px; height: 50px; }
+    }
+
+    /* ── ANIMATIES ── */
+    @keyframes opkomen {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .hero-inhoud { grid-template-columns: 1fr; gap: 2rem; }
+      .missie-inhoud { grid-template-columns: 1fr; gap: 2rem; }
+      .nav-links { display: none; }
+      .hero-kaart { order: -1; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <svg class="logo-icon" viewBox="0 0 36 36" fill="none">
+      <circle cx="18" cy="18" r="8" fill="#E8A020"/>
+      <line x1="18" y1="2" x2="18" y2="7" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="18" y1="29" x2="18" y2="34" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="2" y1="18" x2="7" y2="18" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="29" y1="18" x2="34" y2="18" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="6.1" y1="6.1" x2="9.6" y2="9.6" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="26.4" y1="26.4" x2="29.9" y2="29.9" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="29.9" y1="6.1" x2="26.4" y2="9.6" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="9.6" y1="26.4" x2="6.1" y2="29.9" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>
+    <span class="logo-naam">Solid<span>a</span>ri</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#tools">Tools</a></li>
+    <li><a href="#missie">Over ons</a></li>
+    <li><a href="#missie">Privacy</a></li>
+    <li><a href="#doneer" style="color:var(--amber-diep); font-weight:600;">💛 Doneer</a></li>
+  </ul>
+  <div class="nav-taal">
+    <button class="taal-btn actief">NL</button>
+    <button class="taal-btn">EN</button>
+    <button class="taal-btn">AR</button>
+    <button class="taal-btn">TR</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-achtergrond"></div>
+  <div class="hero-inhoud">
+    <div class="hero-tekst">
+      <div class="hero-badge">☀️ Tools actief — de zon schijnt</div>
+      <h1 class="hero-titel">
+        Gratis hulp,<br>
+        aangedreven door<br>
+        <em>de zon</em>
+      </h1>
+      <p class="hero-subtitel">
+        Solidari biedt gratis digitale tools voor statushouders in Nederland. Begrijp je post, bereken je rechten, leer Nederlands. Allemaal op zonne-energie.
+      </p>
+      <div class="hero-knoppen">
+        <a href="#tools" class="knop-primair">Bekijk de tools</a>
+        <a href="#missie" class="knop-secundair">Ons verhaal</a>
+      </div>
+    </div>
+    <div class="hero-kaart">
+      <div class="zon-status-kaart">
+        <div class="zon-status-header">
+          <div class="zon-icoon">☀️</div>
+          <div>
+            <div class="zon-status-titel">Zonne-energie status</div>
+            <div class="zon-status-sub">Vandaag, 13:42</div>
+          </div>
+        </div>
+        <div class="zon-meter">
+          <div class="zon-meter-balk"></div>
+        </div>
+        <div class="zon-meter-label">
+          <span>Zonne-overschot: 1.840W</span>
+          <span>73%</span>
+        </div>
+        <ul class="zon-tools-lijst">
+          <li class="zon-tool-item">
+            <span class="zon-tool-status status-aan"></span>
+            📬 Brief Begrijper — actief
+          </li>
+          <li class="zon-tool-item">
+            <span class="zon-tool-status status-aan"></span>
+            💶 Loont Werken — actief
+          </li>
+          <li class="zon-tool-item">
+            <span class="zon-tool-status status-aan"></span>
+            📚 NT2 Cursus — actief
+          </li>
+          <li class="zon-tool-item">
+            <span class="zon-tool-status status-aan"></span>
+            🏠 Huurtoeslag — actief
+          </li>
+          <li class="zon-tool-item">
+            <span class="zon-tool-status status-aan"></span>
+            🇳🇱 Naturalisatie checker — actief
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TALEN BALK -->
+<div class="talen-balk">
+  <div class="talen-inhoud">
+    <span class="talen-label">Beschikbaar in</span>
+    <div class="talen-vlaggen">
+      <span class="vlag-item"><span class="vlag-emoji">🇳🇱</span> Nederlands</span>
+      <span class="vlag-item"><span class="vlag-emoji">🇬🇧</span> English</span>
+      <span class="vlag-item"><span class="vlag-emoji">🇸🇦</span> العربية</span>
+      <span class="vlag-item"><span class="vlag-emoji">🇪🇹</span> ትግርኛ</span>
+      <span class="vlag-item"><span class="vlag-emoji">🇹🇷</span> Türkçe</span>
+      <span class="vlag-item"><span class="vlag-emoji">🇺🇦</span> Українська</span>
+      <span class="vlag-item"><span class="vlag-emoji">🇦🇫</span> دری</span>
+    </div>
+  </div>
+</div>
+
+<!-- TOOLS -->
+<section id="tools" class="sectie">
+  <div class="sectie-header">
+    <div class="sectie-label">Alle tools</div>
+    <h2 class="sectie-titel">Wat kan Solidari voor je doen?</h2>
+    <p class="sectie-subtitel">Alle tools zijn gratis, meertalig en slaan geen persoonlijke gegevens op.</p>
+  </div>
+
+  <div class="tools-grid">
+
+    <a href="#" class="tool-kaart">
+      <div class="tool-kaart-header">
+        <div class="tool-emoji" style="background:#FDF3E0;">📬</div>
+        <span class="tool-badge badge-zon">☀️ Bij zon</span>
+      </div>
+      <div class="tool-naam">Brief Begrijper</div>
+      <div class="tool-omschrijving">Maak een foto van je brief. Wij leggen uit wat er staat, wat je moet doen en wanneer.</div>
+      <div class="tool-talen">
+        <span class="tool-taal">🇳🇱</span><span class="tool-taal">🇸🇦</span><span class="tool-taal">🇪🇹</span><span class="tool-taal">🇹🇷</span><span class="tool-taal">🇺🇦</span><span class="tool-taal">🇦🇫</span>
+      </div>
+    </a>
+
+    <a href="#" class="tool-kaart">
+      <div class="tool-kaart-header">
+        <div class="tool-emoji" style="background:#EBF3EE;">💶</div>
+        <span class="tool-badge badge-browser">✓ Altijd beschikbaar</span>
+      </div>
+      <div class="tool-naam">Loont Werken?</div>
+      <div class="tool-omschrijving">Bereken hoeveel je netto overhoudt als je gaat werken, vergeleken met je uitkering en toeslagen.</div>
+      <div class="tool-talen">
+        <span class="tool-taal">🇳🇱</span><span class="tool-taal">🇸🇦</span><span class="tool-taal">🇪🇹</span><span class="tool-taal">🇹🇷</span><span class="tool-taal">🇺🇦</span>
+      </div>
+    </a>
+
+    <a href="#" class="tool-kaart">
+      <div class="tool-kaart-header">
+        <div class="tool-emoji" style="background:#EBF3EE;">💰</div>
+        <span class="tool-badge badge-browser">✓ Altijd beschikbaar</span>
+      </div>
+      <div class="tool-naam">Toeslagen Calculator</div>
+      <div class="tool-omschrijving">Alle toeslagen in één overzicht: huurtoeslag, zorgtoeslag, kindgebonden budget en kinderopvangtoeslag.</div>
+      <div class="tool-talen">
+        <span class="tool-taal">🇳🇱</span><span class="tool-taal">🇸🇦</span><span class="tool-taal">🇪🇹</span><span class="tool-taal">🇹🇷</span><span class="tool-taal">🇺🇦</span><span class="tool-taal">🇦🇫</span>
+      </div>
+    </a>
+
+    <a href="#" class="tool-kaart">
+      <div class="tool-kaart-header">
+        <div class="tool-emoji" style="background:#FDF3E0;">🏥</div>
+        <span class="tool-badge badge-zon">☀️ Bij zon</span>
+      </div>
+      <div class="tool-naam">Zorgverzekering Wegwijzer</div>
+      <div class="tool-omschrijving">Wat is eigen risico? Wat vergoedt het basispakket? Welke verzekering past bij jouw situatie?</div>
+      <div class="tool-talen">
+        <span class="tool-taal">🇳🇱</span><span class="tool-taal">🇸🇦</span><span class="tool-taal">🇪🇹</span><span class="tool-taal">🇹🇷</span><span class="tool-taal">🇺🇦</span><span class="tool-taal">🇦🇫</span>
+      </div>
+    </a>
+
+    <a href="#" class="tool-kaart">
+      <div class="tool-kaart-header">
+        <div class="tool-emoji" style="background:#FDF3E0;">💊</div>
+        <span class="tool-badge badge-zon">☀️ Bij zon</span>
+      </div>
+      <div class="tool-naam">Medicijnen Vergoeding</div>
+      <div class="tool-omschrijving">Wordt dit medicijn vergoed door mijn zorgverzekering? Zoek het snel op.</div>
+      <div class="tool-talen">
+        <span class="tool-taal">🇳🇱</span><span class="tool-taal">🇸🇦</span><span class="tool-taal">🇹🇷</span><span class="tool-taal">🇦🇫</span>
+      </div>
+    </a>
+
+    <a href="#" class="tool-kaart">
+      <div class="tool-kaart-header">
+        <div class="tool-emoji" style="background:#EBF3EE;">🎂</div>
+        <span class="tool-badge badge-browser">✓ Altijd beschikbaar</span>
+      </div>
+      <div class="tool-naam">18 Jaar Worden</div>
+      <div class="tool-omschrijving">Wat verandert er als jouw kind 18 wordt? Uitkering, toeslagen, rechten — alles uitgelegd.</div>
+      <div class="tool-talen">
+        <span class="tool-taal">🇳🇱</span><span class="tool-taal">🇸🇦</span><span class="tool-taal">🇪🇹</span><span class="tool-taal">🇺🇦</span>
+      </div>
+    </a>
+
+    <a href="#" class="tool-kaart">
+      <div class="tool-kaart-header">
+        <div class="tool-emoji" style="background:#EBF3EE;">🇳🇱</div>
+        <span class="tool-badge badge-browser">✓ Altijd beschikbaar</span>
+      </div>
+      <div class="tool-naam">Naturalisatie Checker</div>
+      <div class="tool-omschrijving">Kom ik in aanmerking voor een Nederlands paspoort? Controleer de voorwaarden stap voor stap.</div>
+      <div class="tool-talen">
+        <span class="tool-taal">🇳🇱</span><span class="tool-taal">🇸🇦</span><span class="tool-taal">🇪🇹</span><span class="tool-taal">🇹🇷</span><span class="tool-taal">🇺🇦</span><span class="tool-taal">🇦🇫</span>
+      </div>
+    </a>
+
+    <a href="#" class="tool-kaart">
+      <div class="tool-kaart-header">
+        <div class="tool-emoji" style="background:#FDF3E0;">⚖️</div>
+        <span class="tool-badge badge-zon">☀️ Bij zon</span>
+      </div>
+      <div class="tool-naam">Rechten & Plichten Uitlegger</div>
+      <div class="tool-omschrijving">Wat zegt de Participatiewet, Inburgeringswet en WMO over jouw situatie? Uitgelegd in gewone taal.</div>
+      <div class="tool-talen">
+        <span class="tool-taal">🇳🇱</span><span class="tool-taal">🇸🇦</span><span class="tool-taal">🇪🇹</span><span class="tool-taal">🇹🇷</span><span class="tool-taal">🇺🇦</span><span class="tool-taal">🇦🇫</span>
+      </div>
+    </a>
+
+    <a href="#" class="tool-kaart">
+      <div class="tool-kaart-header">
+        <div class="tool-emoji" style="background:#FDF3E0;">📚</div>
+        <span class="tool-badge badge-zon">☀️ Bij zon</span>
+      </div>
+      <div class="tool-naam">Leer Nederlands — NT2</div>
+      <div class="tool-omschrijving">Gepersonaliseerde Nederlandse les in jouw eigen taal. Van A1 tot B2, met dagelijkse situaties als context.</div>
+      <div class="tool-talen">
+        <span class="tool-taal">🇸🇦</span><span class="tool-taal">🇪🇹</span><span class="tool-taal">🇹🇷</span><span class="tool-taal">🇺🇦</span><span class="tool-taal">🇦🇫</span><span class="tool-taal">🇬🇧</span>
+      </div>
+    </a>
+
+    <a href="/blind" class="tool-kaart" style="border-color: #7C3AED20;">
+      <div class="tool-kaart-header">
+        <div class="tool-emoji" style="background:#F5F3FF;">👁️</div>
+        <span class="tool-badge" style="background:#F5F3FF; color:#7C3AED;">♿ Toegankelijk</span>
+      </div>
+      <div class="tool-naam">NT2 voor Blinde Gebruikers</div>
+      <div class="tool-omschrijving">Volledig auditieve NT2-cursus. Geen scherm nodig — alles via spraak, schermlezer en braille-toetsenbord.</div>
+      <div class="tool-talen">
+        <span class="tool-taal">🇸🇦</span><span class="tool-taal">🇪🇹</span><span class="tool-taal">🇹🇷</span><span class="tool-taal">🇺🇦</span><span class="tool-taal">🇦🇫</span><span class="tool-taal">🇬🇧</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- MISSIE -->
+<section id="missie" class="missie-sectie">
+  <div class="missie-inhoud">
+    <div class="missie-tekst">
+      <div class="sectie-label">Ons verhaal</div>
+      <h2 class="missie-titel">Gratis omdat de zon gratis is</h2>
+      <p class="missie-body">
+        Solidari draait op zonne-energie van zonnepanelen thuis. Als de zon schijnt, draaien de tools. Geen advertenties, geen abonnementen, geen data die we verkopen. Alleen eerlijke hulp, aangedreven door het licht van de zon.
+      </p>
+      <p class="missie-body">
+        Statushouders staan voor een berg aan bureaucratie. Brieven die ze niet begrijpen, rechten die ze niet kennen, een taal die ze nog leren. Solidari helpt — een kleine bijdrage aan een eerlijker Nederland.
+      </p>
+      <a href="#" class="knop-primair" style="display:inline-block; margin-top:0.5rem;">Lees meer over ons</a>
+    </div>
+    <div>
+      <div class="missie-stats">
+        <div class="stat-item">
+          <div class="stat-getal">10</div>
+          <div class="stat-label">Gratis tools</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-getal">7</div>
+          <div class="stat-label">Ondersteunde talen</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-getal">0</div>
+          <div class="stat-label">Opgeslagen gegevens</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-getal">☀️</div>
+          <div class="stat-label">Energiebron</div>
+        </div>
+      </div>
+      <div class="zon-uitleg" style="margin-top:1.2rem;">
+        <div class="zon-uitleg-titel">☀️ Hoe werkt dat, op zonne-energie?</div>
+        <p class="zon-uitleg-tekst">De AI-tools draaien op een computer thuis, aangestuurd door zonnepanelen. Home Assistant bewaakt het overschot en schakelt de computer automatisch in.</p>
+        <ul class="zon-stappen">
+          <li class="zon-stap"><span class="zon-stap-nr">1</span>Zonnepanelen produceren stroom</li>
+          <li class="zon-stap"><span class="zon-stap-nr">2</span>Overschot schakelt de computer in</li>
+          <li class="zon-stap"><span class="zon-stap-nr">3</span>AI-tools worden actief</li>
+          <li class="zon-stap"><span class="zon-stap-nr">4</span>Geen zon = tools slapen</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DONATIE SECTIE -->
+<section id="doneer" class="donatie-sectie">
+  <div class="donatie-sterren"></div>
+  <div class="donatie-maan"></div>
+  <div class="donatie-inhoud">
+    <div class="donatie-tekst">
+      <div class="sectie-label">Steun Solidari</div>
+      <h2 class="donatie-titel">Als de zon niet<br>schijnt, <em>jij wel</em></h2>
+      <p class="donatie-body">
+        Overdag draaien de AI-tools gratis op zonne-energie. Maar 's avonds, in de winter, op bewolkte dagen — dan stoppen ze. Met een donatie betalen we de cloudkosten zodat Solidari ook in het donker beschikbaar blijft.
+      </p>
+      <div class="donatie-uitleg">
+        <div class="donatie-stap">
+          <div class="donatie-stap-icoon" style="background:rgba(232,160,32,0.15);">☀️</div>
+          <span>Overdag: gratis op zonnepanelen thuis</span>
+        </div>
+        <div class="donatie-stap">
+          <div class="donatie-stap-icoon" style="background:rgba(255,255,255,0.08);">🌙</div>
+          <span>'s Avonds &amp; winter: cloud via donaties</span>
+        </div>
+        <div class="donatie-stap">
+          <div class="donatie-stap-icoon" style="background:rgba(45,90,61,0.3);">💚</div>
+          <span>100% van donaties gaat naar serverkosten</span>
+        </div>
+      </div>
+      <div class="donatie-meter-wrap">
+        <div class="donatie-meter-titel">
+          <span>🌙 Nachtdekking deze maand</span>
+          <span>€21 / €50</span>
+        </div>
+        <div class="donatie-meter">
+          <div class="donatie-meter-balk"></div>
+        </div>
+        <div class="donatie-meter-label">42% gedekt — nog €29 nodig voor volledige nachtdekking</div>
+      </div>
+    </div>
+    <div class="donatie-kaart">
+      <div class="donatie-kaart-titel">🌙 Doneer voor nachtdekking</div>
+      <div class="donatie-kaart-sub">Eenmalig, geen account nodig, via iDEAL of creditcard</div>
+      <div class="donatie-bedragen">
+        <div class="donatie-bedrag" onclick="kiesBedrag(this, '2')">
+          <span class="donatie-bedrag-getal">€2</span>
+          <span class="donatie-bedrag-label">1 avond</span>
+        </div>
+        <div class="donatie-bedrag actief" onclick="kiesBedrag(this, '5')">
+          <span class="donatie-bedrag-getal">€5</span>
+          <span class="donatie-bedrag-label">1 week</span>
+        </div>
+        <div class="donatie-bedrag" onclick="kiesBedrag(this, '10')">
+          <span class="donatie-bedrag-getal">€10</span>
+          <span class="donatie-bedrag-label">1 maand</span>
+        </div>
+      </div>
+      <div class="donatie-eigen">
+        <input type="number" class="donatie-input" placeholder="Eigen bedrag (€)" id="eigenBedrag" min="1">
+      </div>
+      <button class="donatie-knop" onclick="doneer()">💛 Doneer nu via iDEAL</button>
+      <div class="donatie-transparantie">
+        Geen winstoogmerk · Geen advertenties · Volledig transparant<br>
+        Overschot gaat naar <a href="#" style="color:rgba(232,160,32,0.7); text-decoration:none;">Vluchtelingenwerk Nederland</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inhoud">
+    <a href="#" class="footer-logo">
+      <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
+        <circle cx="18" cy="18" r="8" fill="#E8A020"/>
+        <line x1="18" y1="2" x2="18" y2="7" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="18" y1="29" x2="18" y2="34" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="2" y1="18" x2="7" y2="18" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="29" y1="18" x2="34" y2="18" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="6.1" y1="6.1" x2="9.6" y2="9.6" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="26.4" y1="26.4" x2="29.9" y2="29.9" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="29.9" y1="6.1" x2="26.4" y2="9.6" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="9.6" y1="26.4" x2="6.1" y2="29.9" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      </svg>
+      <span class="footer-naam">Solid<span>a</span>ri</span>
+    </a>
+    <div class="footer-midden">
+      <a href="#">Privacy</a> · <a href="#">Disclaimer</a> · <a href="#">Contact</a><br>
+      <span style="font-size:0.75rem; margin-top:4px; display:block;">Geen cookies · Geen opslag · Geen advertenties</span>
+    </div>
+    <a href="#" class="footer-doneer">💛 Doneer</a>
+  </div>
+</footer>
+
+<script>
+  // Donatie bedrag kiezen
+  let gekozenBedrag = '5';
+  function kiesBedrag(el, bedrag) {
+    document.querySelectorAll('.donatie-bedrag').forEach(b => b.classList.remove('actief'));
+    el.classList.add('actief');
+    gekozenBedrag = bedrag;
+    document.getElementById('eigenBedrag').value = '';
+  }
+
+  function doneer() {
+    const eigen = document.getElementById('eigenBedrag').value;
+    const bedrag = eigen || gekozenBedrag;
+    alert(`Bedankt! Je doneert €${bedrag}.\n\nIn de echte versie wordt je doorgestuurd naar iDEAL.`);
+  }
+
+  // Taal knoppen
+  document.querySelectorAll('.taal-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.taal-btn').forEach(b => b.classList.remove('actief'));
+      btn.classList.add('actief');
+    });
+  });
+
+  // Smooth scroll voor nav links
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const href = a.getAttribute('href');
+      if (href !== '#') {
+        e.preventDefault();
+        document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
