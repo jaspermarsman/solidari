@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Toeslagen Calculator — Solidari</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --wit: #FAFAF7;
+      --wit-warm: #F5F2EC;
+      --amber: #E8A020;
+      --amber-licht: #FDF3E0;
+      --amber-diep: #C47F10;
+      --groen: #2D5A3D;
+      --groen-licht: #EBF3EE;
+      --tekst: #1A1A18;
+      --tekst-zacht: #5C5C58;
+      --tekst-licht: #9C9C98;
+      --rand: #E8E5DE;
+      --rood-licht: #FEF2F2;
+      --rood: #DC2626;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--wit);
+      color: var(--tekst);
+      font-family: 'Source Sans 3', sans-serif;
+      font-weight: 400;
+      line-height: 1.6;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(250,250,247,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--rand);
+      padding: 0 2rem;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none;
+    }
+    .logo-naam {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem; font-weight: 700;
+      color: var(--tekst);
+    }
+    .logo-naam span { color: var(--amber); }
+    .nav-terug {
+      display: flex; align-items: center; gap: 6px;
+      text-decoration: none;
+      color: var(--tekst-zacht);
+      font-size: 0.88rem; font-weight: 500;
+      border: 1px solid var(--rand);
+      border-radius: 8px;
+      padding: 6px 14px;
+      transition: all 0.2s;
+    }
+    .nav-terug:hover { border-color: var(--tekst-zacht); color: var(--tekst); }
+
+    /* HEADER */
+    .pagina-header {
+      padding-top: 64px;
+      background: var(--groen);
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+    .pagina-header::after {
+      content: '';
+      position: absolute;
+      right: -80px; top: -80px;
+      width: 320px; height: 320px;
+      border-radius: 50%;
+      background: rgba(232,160,32,0.08);
+    }
+    .header-inhoud {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 3rem 2rem 2.5rem;
+      position: relative; z-index: 1;
+    }
+    .header-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.12);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      opacity: 0.85;
+    }
+    .header-titel {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem; font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 0.6rem;
+    }
+    .header-sub {
+      font-size: 1rem;
+      opacity: 0.75;
+      font-weight: 300;
+      max-width: 520px;
+      line-height: 1.7;
+    }
+    .header-disclaimer {
+      margin-top: 1.2rem;
+      padding: 10px 14px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 8px;
+      font-size: 0.78rem;
+      opacity: 0.7;
+      max-width: 560px;
+    }
+
+    /* STAP INDICATOR */
+    .stap-indicator {
+      background: white;
+      border-bottom: 1px solid var(--rand);
+      padding: 0 2rem;
+    }
+    .stap-indicator-inhoud {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      gap: 0;
+    }
+    .stap-item {
+      display: flex; align-items: center; gap: 8px;
+      padding: 1rem 1.2rem 1rem 0;
+      font-size: 0.82rem;
+      color: var(--tekst-licht);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .stap-item.actief {
+      color: var(--groen);
+      border-bottom-color: var(--groen);
+      font-weight: 600;
+    }
+    .stap-item.klaar {
+      color: var(--amber-diep);
+    }
+    .stap-nr {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: var(--rand);
+      color: var(--tekst-licht);
+      font-size: 0.7rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .stap-item.actief .stap-nr { background: var(--groen); color: white; }
+    .stap-item.klaar .stap-nr { background: var(--amber); color: white; }
+
+    /* HOOFD LAYOUT */
+    .hoofd {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    /* FORMULIER */
+    .formulier-sectie {
+      background: white;
+      border: 1px solid var(--rand);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .formulier-sectie-header {
+      padding: 1.2rem 1.5rem;
+      border-bottom: 1px solid var(--rand);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .formulier-sectie-icoon {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .formulier-sectie-naam {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+    .formulier-sectie-body {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    .formulier-sectie + .formulier-sectie {
+      margin-top: 1.2rem;
+    }
+
+    /* VELD */
+    .veld { display: flex; flex-direction: column; gap: 5px; }
+    .veld-label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--tekst);
+    }
+    .veld-hint {
+      font-size: 0.75rem;
+      color: var(--tekst-licht);
+      margin-top: -3px;
+    }
+    .veld-input-wrap {
+      position: relative;
+      display: flex; align-items: center;
+    }
+    .veld-prefix {
+      position: absolute; left: 12px;
+      font-size: 0.9rem;
+      color: var(--tekst-zacht);
+      pointer-events: none;
+    }
+    .veld-suffix {
+      position: absolute; right: 12px;
+      font-size: 0.82rem;
+      color: var(--tekst-licht);
+      pointer-events: none;
+    }
+    .veld-input {
+      width: 100%;
+      border: 1.5px solid var(--rand);
+      border-radius: 8px;
+      padding: 10px 40px 10px 30px;
+      font-size: 0.9rem;
+      font-family: 'Source Sans 3', sans-serif;
+      color: var(--tekst);
+      background: var(--wit);
+      outline: none;
+      transition: border-color 0.2s;
+      -moz-appearance: textfield;
+    }
+    .veld-input::-webkit-outer-spin-button,
+    .veld-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+    .veld-input:focus { border-color: var(--groen); background: white; }
+    .veld-input.zonder-prefix { padding-left: 12px; }
+
+    /* TOGGLE */
+    .toggle-rij {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--rand);
+    }
+    .toggle-rij:last-child { border-bottom: none; padding-bottom: 0; }
+    .toggle-label { font-size: 0.85rem; color: var(--tekst-zacht); }
+    .toggle {
+      width: 40px; height: 22px;
+      background: var(--rand);
+      border-radius: 11px;
+      position: relative;
+      cursor: pointer;
+      transition: background 0.2s;
+      flex-shrink: 0;
+    }
+    .toggle.aan { background: var(--groen); }
+    .toggle::after {
+      content: '';
+      position: absolute;
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      background: white;
+      top: 3px; left: 3px;
+      transition: transform 0.2s;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+    .toggle.aan::after { transform: translateX(18px); }
+
+    /* KINDEREN TELLER */
+    .kinderen-teller {
+      display: flex; align-items: center; gap: 12px;
+    }
+    .teller-knop {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      border: 1.5px solid var(--rand);
+      background: white;
+      font-size: 1.1rem;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s;
+      color: var(--tekst-zacht);
+    }
+    .teller-knop:hover { border-color: var(--groen); color: var(--groen); }
+    .teller-waarde {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem; font-weight: 700;
+      min-width: 24px; text-align: center;
+    }
+
+    /* BEREKEN KNOP */
+    .bereken-knop {
+      width: 100%;
+      background: var(--groen);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 14px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Source Sans 3', sans-serif;
+      transition: all 0.2s;
+      margin-top: 0.5rem;
+    }
+    .bereken-knop:hover {
+      background: #234830;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(45,90,61,0.3);
+    }
+
+    /* RESULTATEN ZIJBALK */
+    .resultaten {
+      position: sticky;
+      top: 80px;
+    }
+    .resultaten-kaart {
+      background: var(--groen);
+      border-radius: 16px;
+      padding: 1.5rem;
+      color: white;
+      margin-bottom: 1rem;
+    }
+    .resultaten-titel {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 1.2rem;
+      opacity: 0.85;
+    }
+    .resultaten-totaal-label {
+      font-size: 0.75rem;
+      opacity: 0.6;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+    .resultaten-totaal-getal {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.6rem;
+      font-weight: 700;
+      color: var(--amber);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .resultaten-totaal-sub {
+      font-size: 0.78rem;
+      opacity: 0.55;
+    }
+    .resultaten-divider {
+      height: 1px;
+      background: rgba(255,255,255,0.1);
+      margin: 1.2rem 0;
+    }
+    .resultaten-lijst {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .resultaat-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .resultaat-naam {
+      display: flex; align-items: center; gap: 7px;
+      font-size: 0.83rem;
+      opacity: 0.8;
+    }
+    .resultaat-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .resultaat-bedrag {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .resultaat-item.niet-van-toepassing .resultaat-bedrag {
+      opacity: 0.3;
+      font-size: 0.78rem;
+    }
+    .resultaat-item.niet-van-toepassing .resultaat-naam {
+      opacity: 0.35;
+    }
+
+    /* WACHT STAAT */
+    .resultaten-wacht {
+      text-align: center;
+      padding: 1.5rem 0;
+    }
+    .resultaten-wacht-icoon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      opacity: 0.3;
+    }
+    .resultaten-wacht-tekst {
+      font-size: 0.82rem;
+      opacity: 0.5;
+      line-height: 1.5;
+    }
+
+    /* UITLEG KAARTEN */
+    .uitleg-kaart {
+      background: white;
+      border: 1px solid var(--rand);
+      border-radius: 12px;
+      padding: 1.2rem;
+      margin-bottom: 0.8rem;
+    }
+    .uitleg-kaart-header {
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 0.5rem;
+    }
+    .uitleg-kaart-naam {
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+    .uitleg-kaart-tekst {
+      font-size: 0.78rem;
+      color: var(--tekst-zacht);
+      line-height: 1.5;
+      font-weight: 300;
+    }
+    .uitleg-kaart-aanvragen {
+      display: inline-block;
+      margin-top: 0.6rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--groen);
+      text-decoration: none;
+    }
+    .uitleg-kaart-aanvragen:hover { text-decoration: underline; }
+
+    /* JAARLIJKS BOX */
+    .jaarlijks-box {
+      background: var(--amber-licht);
+      border: 1px solid rgba(232,160,32,0.3);
+      border-radius: 10px;
+      padding: 1rem 1.2rem;
+      margin-top: 0.5rem;
+    }
+    .jaarlijks-getal {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--amber-diep);
+    }
+    .jaarlijks-label {
+      font-size: 0.75rem;
+      color: var(--tekst-zacht);
+      margin-top: 2px;
+    }
+
+    /* INFO ALERT */
+    .info-alert {
+      background: var(--groen-licht);
+      border: 1px solid rgba(45,90,61,0.2);
+      border-radius: 10px;
+      padding: 0.9rem 1.1rem;
+      font-size: 0.8rem;
+      color: var(--groen);
+      font-weight: 500;
+      margin-top: 1rem;
+      display: none;
+    }
+    .info-alert.zichtbaar { display: block; }
+
+    /* VOETNOOT */
+    .voetnoot-sectie {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 2rem 3rem;
+    }
+    .voetnoot {
+      font-size: 0.75rem;
+      color: var(--tekst-licht);
+      line-height: 1.6;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--rand);
+    }
+
+    /* RESPONSIEF */
+    @media (max-width: 700px) {
+      .hoofd { grid-template-columns: 1fr; }
+      .resultaten { position: static; }
+      .header-titel { font-size: 1.7rem; }
+    }
+
+    /* ANIMATIES */
+    @keyframes inschuiven {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animeer { animation: inschuiven 0.4s ease both; }
+
+    .resultaat-item {
+      transition: opacity 0.3s;
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
+      <circle cx="18" cy="18" r="8" fill="#E8A020"/>
+      <line x1="18" y1="2" x2="18" y2="7" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="18" y1="29" x2="18" y2="34" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="2" y1="18" x2="7" y2="18" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="29" y1="18" x2="34" y2="18" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="6.1" y1="6.1" x2="9.6" y2="9.6" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="26.4" y1="26.4" x2="29.9" y2="29.9" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="29.9" y1="6.1" x2="26.4" y2="9.6" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="9.6" y1="26.4" x2="6.1" y2="29.9" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>
+    <span class="logo-naam">Solid<span>a</span>ri</span>
+  </a>
+  <a href="index.html" class="nav-terug">← Alle tools</a>
+</nav>
+
+<!-- HEADER -->
+<div class="pagina-header">
+  <div class="header-inhoud">
+    <div class="header-badge">💰 Toeslagen Calculator</div>
+    <h1 class="header-titel">Hoeveel toeslag heb<br>jij recht op?</h1>
+    <p class="header-sub">Vul je situatie in en zie direct welke toeslagen je kunt aanvragen en hoeveel je per maand ontvangt.</p>
+    <div class="header-disclaimer">
+      ℹ️ Deze calculator geeft een indicatie op basis van de regels van 2025. De exacte bedragen kunnen afwijken. Vraag altijd aan via Mijn Toeslagen op belastingdienst.nl.
+    </div>
+  </div>
+</div>
+
+<!-- STAP INDICATOR -->
+<div class="stap-indicator">
+  <div class="stap-indicator-inhoud">
+    <div class="stap-item actief" id="stap1-indicator">
+      <span class="stap-nr">1</span> Jouw situatie
+    </div>
+    <div class="stap-item" id="stap2-indicator">
+      <span class="stap-nr">2</span> Wonen
+    </div>
+    <div class="stap-item" id="stap3-indicator">
+      <span class="stap-nr">3</span> Kinderen
+    </div>
+    <div class="stap-item" id="stap4-indicator">
+      <span class="stap-nr">4</span> Resultaat
+    </div>
+  </div>
+</div>
+
+<!-- HOOFD -->
+<div class="hoofd">
+
+  <!-- LINKER KOLOM: FORMULIER -->
+  <div>
+
+    <!-- SECTIE 1: SITUATIE -->
+    <div class="formulier-sectie animeer" id="sectie-situatie">
+      <div class="formulier-sectie-header">
+        <div class="formulier-sectie-icoon" style="background:#EBF3EE;">👤</div>
+        <span class="formulier-sectie-naam">1 — Jouw situatie</span>
+      </div>
+      <div class="formulier-sectie-body">
+
+        <div class="veld">
+          <label class="veld-label">Wat is je gezinssamenstelling?</label>
+          <div class="veld-hint">Dit bepaalt welke toeslagen je kunt aanvragen</div>
+          <select class="veld-input zonder-prefix" id="gezin" onchange="updateFormulier()">
+            <option value="alleenstaand">Alleenstaand</option>
+            <option value="partner">Met toeslagpartner (samen)</option>
+            <option value="alleenstaand-kind">Alleenstaand met kinderen</option>
+            <option value="partner-kind">Met toeslagpartner en kinderen</option>
+          </select>
+        </div>
+
+        <div class="veld">
+          <label class="veld-label">Jouw jaarinkomen (bruto)</label>
+          <div class="veld-hint">Kijk op je loonstrook of uitkeringsspecificatie</div>
+          <div class="veld-input-wrap">
+            <span class="veld-prefix">€</span>
+            <input type="number" class="veld-input" id="inkomen" placeholder="bijv. 18000" min="0" max="150000" oninput="berekenLive()">
+            <span class="veld-suffix">per jaar</span>
+          </div>
+        </div>
+
+        <div class="veld" id="partner-inkomen-veld" style="display:none;">
+          <label class="veld-label">Inkomen toeslagpartner (bruto)</label>
+          <div class="veld-hint">Laat leeg als partner geen inkomen heeft</div>
+          <div class="veld-input-wrap">
+            <span class="veld-prefix">€</span>
+            <input type="number" class="veld-input" id="partnerinkomen" placeholder="bijv. 0" min="0" max="150000" oninput="berekenLive()">
+            <span class="veld-suffix">per jaar</span>
+          </div>
+        </div>
+
+        <div class="veld">
+          <label class="veld-label">Heb je een zorgverzekering?</label>
+          <div class="toggle-rij" style="border:none; padding:6px 0 0;">
+            <span class="toggle-label">Ja, ik heb een Nederlandse zorgverzekering</span>
+            <div class="toggle aan" id="zorgverzekering-toggle" onclick="toggleAan('zorgverzekering-toggle'); berekenLive()"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SECTIE 2: WONEN -->
+    <div class="formulier-sectie animeer" id="sectie-wonen" style="animation-delay:0.1s;">
+      <div class="formulier-sectie-header">
+        <div class="formulier-sectie-icoon" style="background:#EBF3EE;">🏠</div>
+        <span class="formulier-sectie-naam">2 — Wonen</span>
+      </div>
+      <div class="formulier-sectie-body">
+
+        <div class="toggle-rij">
+          <div>
+            <div class="toggle-label" style="font-weight:600; color:var(--tekst); font-size:0.85rem;">Huur ik een sociale huurwoning?</div>
+            <div style="font-size:0.75rem; color:var(--tekst-licht); margin-top:2px;">Van een woningcorporatie of particuliere verhuurder</div>
+          </div>
+          <div class="toggle" id="huur-toggle" onclick="toggleAan('huur-toggle'); updateHuurVeld(); berekenLive()"></div>
+        </div>
+
+        <div id="huur-veld" style="display:none;">
+          <div class="veld">
+            <label class="veld-label">Maandelijkse kale huur</label>
+            <div class="veld-hint">Alleen de huur zelf, exclusief servicekosten</div>
+            <div class="veld-input-wrap">
+              <span class="veld-prefix">€</span>
+              <input type="number" class="veld-input" id="huur" placeholder="bijv. 650" min="0" max="900" oninput="berekenLive()">
+              <span class="veld-suffix">per maand</span>
+            </div>
+          </div>
+          <div class="info-alert" id="huur-te-hoog">
+            ⚠️ Bij een huur boven €879,66 heb je geen recht op huurtoeslag (liberalisatiegrens 2025).
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SECTIE 3: KINDEREN -->
+    <div class="formulier-sectie animeer" id="sectie-kinderen" style="animation-delay:0.2s;">
+      <div class="formulier-sectie-header">
+        <div class="formulier-sectie-icoon" style="background:#FDF3E0;">👨‍👩‍👧‍👦</div>
+        <span class="formulier-sectie-naam">3 — Kinderen</span>
+      </div>
+      <div class="formulier-sectie-body">
+
+        <div class="veld">
+          <label class="veld-label">Kinderen jonger dan 18 jaar</label>
+          <div class="veld-hint">Kinderen die bij jou wonen en voor wie jij het kinderbijslag ontvangt</div>
+          <div class="kinderen-teller">
+            <button class="teller-knop" onclick="wijzigKinderen(-1)">−</button>
+            <span class="teller-waarde" id="kinderen-getal">0</span>
+            <button class="teller-knop" onclick="wijzigKinderen(1)">+</button>
+            <span style="font-size:0.82rem; color:var(--tekst-licht);">kinderen</span>
+          </div>
+        </div>
+
+        <div id="kinderopvang-sectie" style="display:none;">
+          <div class="toggle-rij">
+            <div>
+              <div class="toggle-label" style="font-weight:600; color:var(--tekst); font-size:0.85rem;">Maak ik gebruik van kinderopvang?</div>
+              <div style="font-size:0.75rem; color:var(--tekst-licht); margin-top:2px;">Dagopvang, BSO of gastouder via geregistreerd bureau</div>
+            </div>
+            <div class="toggle" id="opvang-toggle" onclick="toggleAan('opvang-toggle'); updateOpvangVeld(); berekenLive()"></div>
+          </div>
+
+          <div id="opvang-veld" style="display:none; margin-top:1rem;">
+            <div class="veld">
+              <label class="veld-label">Kosten kinderopvang per maand</label>
+              <div class="veld-input-wrap">
+                <span class="veld-prefix">€</span>
+                <input type="number" class="veld-input" id="opvangkosten" placeholder="bijv. 800" min="0" oninput="berekenLive()">
+                <span class="veld-suffix">per maand</span>
+              </div>
+            </div>
+            <div class="veld" style="margin-top:0.8rem;">
+              <label class="veld-label">Soort opvang</label>
+              <select class="veld-input zonder-prefix" id="opvangsoort" onchange="berekenLive()">
+                <option value="dagopvang">Dagopvang (0–4 jaar)</option>
+                <option value="bso">Buitenschoolse opvang (4–12 jaar)</option>
+                <option value="gastouder">Gastouderopvang</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- BEREKEN KNOP -->
+    <button class="bereken-knop" onclick="berekenAlles()">
+      💰 Bereken mijn toeslagen
+    </button>
+
+  </div>
+
+  <!-- RECHTER KOLOM: RESULTATEN -->
+  <div class="resultaten">
+
+    <div class="resultaten-kaart" id="resultaten-kaart">
+      <div class="resultaten-titel">Jouw toeslagen</div>
+
+      <div id="resultaten-wacht" class="resultaten-wacht">
+        <div class="resultaten-wacht-icoon">💰</div>
+        <div class="resultaten-wacht-tekst">Vul je situatie in<br>om je toeslagen te zien</div>
+      </div>
+
+      <div id="resultaten-inhoud" style="display:none;">
+        <div class="resultaten-totaal-label">Totaal per maand</div>
+        <div class="resultaten-totaal-getal" id="totaal-getal">€0</div>
+        <div class="resultaten-totaal-sub" id="totaal-sub">op basis van jouw gegevens</div>
+
+        <div class="resultaten-divider"></div>
+
+        <ul class="resultaten-lijst">
+          <li class="resultaat-item" id="ri-zorgtoeslag">
+            <span class="resultaat-naam">
+              <span class="resultaat-dot" style="background:#4CAF50;"></span>
+              Zorgtoeslag
+            </span>
+            <span class="resultaat-bedrag" id="rb-zorgtoeslag">—</span>
+          </li>
+          <li class="resultaat-item" id="ri-huurtoeslag">
+            <span class="resultaat-naam">
+              <span class="resultaat-dot" style="background:#2563EB;"></span>
+              Huurtoeslag
+            </span>
+            <span class="resultaat-bedrag" id="rb-huurtoeslag">—</span>
+          </li>
+          <li class="resultaat-item" id="ri-kindgebonden">
+            <span class="resultaat-naam">
+              <span class="resultaat-dot" style="background:#E8A020;"></span>
+              Kindgebonden budget
+            </span>
+            <span class="resultaat-bedrag" id="rb-kindgebonden">—</span>
+          </li>
+          <li class="resultaat-item" id="ri-kinderopvang">
+            <span class="resultaat-naam">
+              <span class="resultaat-dot" style="background:#7C3AED;"></span>
+              Kinderopvangtoeslag
+            </span>
+            <span class="resultaat-bedrag" id="rb-kinderopvang">—</span>
+          </li>
+        </ul>
+
+        <div class="resultaten-divider"></div>
+
+        <div class="jaarlijks-box">
+          <div class="jaarlijks-getal" id="jaarlijks-getal">€0</div>
+          <div class="jaarlijks-label">per jaar — dat is wat je misloopt als je niet aanvraagt</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- UITLEG KAARTEN (verschijnen na berekening) -->
+    <div id="uitleg-kaarten" style="display:none;">
+
+      <div class="uitleg-kaart" id="uk-zorgtoeslag" style="display:none;">
+        <div class="uitleg-kaart-header">
+          <span>🏥</span>
+          <span class="uitleg-kaart-naam">Zorgtoeslag aanvragen</span>
+        </div>
+        <p class="uitleg-kaart-tekst">Je hebt recht op zorgtoeslag omdat je inkomen onder de grens ligt. Aanvragen via Mijn Toeslagen — duurt 5 minuten.</p>
+        <a href="https://www.belastingdienst.nl/wps/wcm/connect/nl/toeslagen/content/zorgtoeslag" target="_blank" class="uitleg-kaart-aanvragen">→ Direct aanvragen bij Belastingdienst</a>
+      </div>
+
+      <div class="uitleg-kaart" id="uk-huurtoeslag" style="display:none;">
+        <div class="uitleg-kaart-header">
+          <span>🏠</span>
+          <span class="uitleg-kaart-naam">Huurtoeslag aanvragen</span>
+        </div>
+        <p class="uitleg-kaart-tekst">Je hebt recht op huurtoeslag. Vraag zo snel mogelijk aan — je kunt maximaal 3 maanden terugvragen.</p>
+        <a href="https://www.belastingdienst.nl/wps/wcm/connect/nl/toeslagen/content/huurtoeslag" target="_blank" class="uitleg-kaart-aanvragen">→ Direct aanvragen bij Belastingdienst</a>
+      </div>
+
+      <div class="uitleg-kaart" id="uk-kindgebonden" style="display:none;">
+        <div class="uitleg-kaart-header">
+          <span>👶</span>
+          <span class="uitleg-kaart-naam">Kindgebonden budget</span>
+        </div>
+        <p class="uitleg-kaart-tekst">Als je kinderbijslag ontvangt, heb je waarschijnlijk ook recht op kindgebonden budget. Vraag aan via Mijn Toeslagen.</p>
+        <a href="https://www.belastingdienst.nl/wps/wcm/connect/nl/toeslagen/content/kindgebonden-budget" target="_blank" class="uitleg-kaart-aanvragen">→ Direct aanvragen bij Belastingdienst</a>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<!-- VOETNOOT -->
+<div class="voetnoot-sectie">
+  <p class="voetnoot">
+    Solidari Toeslagen Calculator — op basis van de toeslagregelingen 2025 (Belastingdienst). Tarieven: zorgtoeslag max €123/mnd (alleenstaand) of €237/mnd (partners), inkomensgrens €38.519/€48.224. Huurtoeslag: afhankelijk van huur, inkomen en leeftijd. Kindgebonden budget: €1.395/jaar voor 1e kind + €749 per volgend kind (indicatief). Geen rechten te ontlenen aan deze berekeningen. Controleer altijd via <a href="https://www.belastingdienst.nl" target="_blank">belastingdienst.nl</a>. Datum: januari 2025.
+  </p>
+</div>
+
+<script>
+  // ─── STATE ───────────────────────────────────────────
+  let aantalKinderen = 0;
+
+  // ─── TOGGLE HULP ─────────────────────────────────────
+  function toggleAan(id) {
+    const el = document.getElementById(id);
+    el.classList.toggle('aan');
+  }
+
+  function isAan(id) {
+    return document.getElementById(id).classList.contains('aan');
+  }
+
+  // ─── FORMULIER UPDATE ─────────────────────────────────
+  function updateFormulier() {
+    const gezin = document.getElementById('gezin').value;
+    const heeftPartner = gezin === 'partner' || gezin === 'partner-kind';
+    const heeftKind = gezin === 'alleenstaand-kind' || gezin === 'partner-kind';
+
+    document.getElementById('partner-inkomen-veld').style.display = heeftPartner ? 'flex' : 'none';
+
+    if (heeftKind && aantalKinderen === 0) {
+      aantalKinderen = 1;
+      document.getElementById('kinderen-getal').textContent = '1';
+    } else if (!heeftKind) {
+      aantalKinderen = 0;
+      document.getElementById('kinderen-getal').textContent = '0';
+    }
+
+    updateKinderenUI();
+    berekenLive();
+  }
+
+  function updateHuurVeld() {
+    const toon = isAan('huur-toggle');
+    document.getElementById('huur-veld').style.display = toon ? 'block' : 'none';
+    if (!toon) document.getElementById('huur-te-hoog').classList.remove('zichtbaar');
+  }
+
+  function updateOpvangVeld() {
+    const toon = isAan('opvang-toggle');
+    document.getElementById('opvang-veld').style.display = toon ? 'block' : 'none';
+  }
+
+  function updateKinderenUI() {
+    const heeftKinderen = aantalKinderen > 0;
+    document.getElementById('kinderopvang-sectie').style.display = heeftKinderen ? 'block' : 'none';
+    if (!heeftKinderen && isAan('opvang-toggle')) {
+      document.getElementById('opvang-toggle').classList.remove('aan');
+      document.getElementById('opvang-veld').style.display = 'none';
+    }
+  }
+
+  function wijzigKinderen(delta) {
+    aantalKinderen = Math.max(0, Math.min(8, aantalKinderen + delta));
+    document.getElementById('kinderen-getal').textContent = aantalKinderen;
+    updateKinderenUI();
+    berekenLive();
+  }
+
+  // ─── BEREKEN LOGICA ───────────────────────────────────
+
+  function berekenZorgtoeslag(inkomen, partnerinkomen, heeftPartner, heeftVerzekering) {
+    if (!heeftVerzekering) return 0;
+
+    const MAX_ALLEEN = 38519;
+    const MAX_PARTNER = 48224;
+
+    const totaalInkomen = inkomen + (heeftPartner ? partnerinkomen : 0);
+    const grens = heeftPartner ? MAX_PARTNER : MAX_ALLEEN;
+
+    if (totaalInkomen > grens) return 0;
+
+    // Vergoedingspercentage daalt met inkomen (vereenvoudigd model 2025)
+    if (heeftPartner) {
+      if (totaalInkomen <= 24000) return 237;
+      const afbouw = (totaalInkomen - 24000) / (grens - 24000);
+      return Math.max(0, Math.round(237 * (1 - afbouw)));
+    } else {
+      if (totaalInkomen <= 24000) return 123;
+      const afbouw = (totaalInkomen - 24000) / (grens - 24000);
+      return Math.max(0, Math.round(123 * (1 - afbouw)));
+    }
+  }
+
+  function berekenHuurtoeslag(inkomen, partnerinkomen, heeftPartner, huur) {
+    const LIBERALISATIE = 879.66;
+    const MIN_HUUR = 300;
+
+    if (!isAan('huur-toggle')) return 0;
+    if (!huur || huur < MIN_HUUR || huur > LIBERALISATIE) return 0;
+
+    const totaal = inkomen + (heeftPartner ? partnerinkomen : 0);
+
+    // Inkomensgrens 2025 (vereenvoudigd)
+    const grens = heeftPartner ? 35000 : 30000;
+    if (totaal > grens) return 0;
+
+    // Basisberekening: kwaliteitskortingsgrens €442,46 — normhuur
+    const normhuur = totaal <= 16000 ? 230 : 230 + (totaal - 16000) * 0.003;
+    const subsidiabeleHuur = Math.min(huur, LIBERALISATIE);
+
+    let toeslag = 0;
+    if (subsidiabeleHuur <= 442.46) {
+      toeslag = (subsidiabeleHuur - normhuur) * 0.8;
+    } else if (subsidiabeleHuur <= 633.25) {
+      toeslag = (442.46 - normhuur) * 0.8 + (subsidiabeleHuur - 442.46) * 0.65;
+    } else {
+      toeslag = (442.46 - normhuur) * 0.8 + (633.25 - 442.46) * 0.65 + (subsidiabeleHuur - 633.25) * 0.4;
+    }
+
+    return Math.max(0, Math.round(toeslag));
+  }
+
+  function berekenKindgebonden(inkomen, partnerinkomen, heeftPartner, kinderen) {
+    if (kinderen === 0) return 0;
+
+    const totaal = inkomen + (heeftPartner ? partnerinkomen : 0);
+    const grens = 35000;
+    if (totaal > 88000) return 0;
+
+    // Basisbedragen 2025 (per jaar → per maand)
+    let jaarbedrag = 1395; // 1e kind
+    if (kinderen >= 2) jaarbedrag += 749 * (kinderen - 1);
+
+    // Alleenstaande ouderkop
+    const gezin = document.getElementById('gezin').value;
+    if (gezin === 'alleenstaand-kind') jaarbedrag += 3480;
+
+    // Afbouw boven €35.000
+    if (totaal > grens) {
+      const afbouw = Math.min(1, (totaal - grens) / (88000 - grens));
+      jaarbedrag *= (1 - afbouw);
+    }
+
+    return Math.max(0, Math.round(jaarbedrag / 12));
+  }
+
+  function berekenKinderopvang(inkomen, partnerinkomen, heeftPartner, kinderen) {
+    if (kinderen === 0 || !isAan('opvang-toggle')) return 0;
+
+    const kosten = parseFloat(document.getElementById('opvangkosten').value) || 0;
+    if (kosten === 0) return 0;
+
+    const totaal = inkomen + (heeftPartner ? partnerinkomen : 0);
+    if (totaal > 170000) return 0;
+
+    // Maximumuurtarief 2025 (dagopvang: €10,65, BSO: €9,12, gastouder: €7,53)
+    const soort = document.getElementById('opvangsoort').value;
+    const maxUurtarief = soort === 'dagopvang' ? 10.65 : soort === 'bso' ? 9.12 : 7.53;
+
+    // Vergoedingspercentage op basis van inkomen (tabel 2025 vereenvoudigd)
+    let percentage;
+    if (totaal <= 20000) percentage = 0.96;
+    else if (totaal <= 30000) percentage = 0.94;
+    else if (totaal <= 40000) percentage = 0.87;
+    else if (totaal <= 55000) percentage = 0.72;
+    else if (totaal <= 75000) percentage = 0.55;
+    else if (totaal <= 100000) percentage = 0.38;
+    else percentage = 0.33;
+
+    return Math.max(0, Math.round(kosten * percentage));
+  }
+
+  // ─── HOOFD BEREKENING ─────────────────────────────────
+
+  function berekenLive() {
+    const inkomen = parseFloat(document.getElementById('inkomen').value) || 0;
+    const partnerinkomen = parseFloat(document.getElementById('partnerinkomen').value) || 0;
+    const heeftPartner = ['partner', 'partner-kind'].includes(document.getElementById('gezin').value);
+    const huur = parseFloat(document.getElementById('huur').value) || 0;
+    const heeftVerzekering = isAan('zorgverzekering-toggle');
+
+    // Huurgrens waarschuwing
+    const huurAlert = document.getElementById('huur-te-hoog');
+    if (huur > 879.66 && isAan('huur-toggle')) {
+      huurAlert.classList.add('zichtbaar');
+    } else {
+      huurAlert.classList.remove('zichtbaar');
+    }
+
+    if (inkomen === 0) {
+      toonWacht();
+      return;
+    }
+
+    const zorgtoeslag = berekenZorgtoeslag(inkomen, partnerinkomen, heeftPartner, heeftVerzekering);
+    const huurtoeslag = berekenHuurtoeslag(inkomen, partnerinkomen, heeftPartner, huur);
+    const kindgebonden = berekenKindgebonden(inkomen, partnerinkomen, heeftPartner, aantalKinderen);
+    const kinderopvang = berekenKinderopvang(inkomen, partnerinkomen, heeftPartner, aantalKinderen);
+
+    toonResultaten(zorgtoeslag, huurtoeslag, kindgebonden, kinderopvang);
+  }
+
+  function berekenAlles() {
+    berekenLive();
+    // Scroll naar resultaten op mobiel
+    if (window.innerWidth < 700) {
+      document.querySelector('.resultaten').scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  // ─── UI UPDATEN ───────────────────────────────────────
+
+  function toonWacht() {
+    document.getElementById('resultaten-wacht').style.display = 'block';
+    document.getElementById('resultaten-inhoud').style.display = 'none';
+    document.getElementById('uitleg-kaarten').style.display = 'none';
+  }
+
+  function toonResultaten(zorgtoeslag, huurtoeslag, kindgebonden, kinderopvang) {
+    document.getElementById('resultaten-wacht').style.display = 'none';
+    document.getElementById('resultaten-inhoud').style.display = 'block';
+
+    const totaal = zorgtoeslag + huurtoeslag + kindgebonden + kinderopvang;
+
+    document.getElementById('totaal-getal').textContent = '€' + totaal.toLocaleString('nl-NL');
+    document.getElementById('totaal-sub').textContent = totaal > 0
+      ? 'per maand — vraag dit aan!'
+      : 'Je hebt geen recht op toeslagen met dit inkomen';
+    document.getElementById('jaarlijks-getal').textContent = '€' + (totaal * 12).toLocaleString('nl-NL');
+
+    zetResultaat('zorgtoeslag', zorgtoeslag);
+    zetResultaat('huurtoeslag', huurtoeslag);
+    zetResultaat('kindgebonden', kindgebonden);
+    zetResultaat('kinderopvang', kinderopvang);
+
+    // Uitleg kaarten
+    document.getElementById('uitleg-kaarten').style.display = 'block';
+    document.getElementById('uk-zorgtoeslag').style.display = zorgtoeslag > 0 ? 'block' : 'none';
+    document.getElementById('uk-huurtoeslag').style.display = huurtoeslag > 0 ? 'block' : 'none';
+    document.getElementById('uk-kindgebonden').style.display = kindgebonden > 0 ? 'block' : 'none';
+  }
+
+  function zetResultaat(id, bedrag) {
+    const item = document.getElementById('ri-' + id);
+    const bedragEl = document.getElementById('rb-' + id);
+    if (bedrag > 0) {
+      item.classList.remove('niet-van-toepassing');
+      bedragEl.textContent = '€' + bedrag + '/mnd';
+    } else {
+      item.classList.add('niet-van-toepassing');
+      bedragEl.textContent = 'Niet van toepassing';
+    }
+  }
+
+  // Init
+  updateHuurVeld();
+</script>
+</body>
+</html>
