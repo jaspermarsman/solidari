@@ -7,423 +7,93 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --wit: #FAFAF7;
-      --wit-warm: #F5F2EC;
-      --amber: #E8A020;
-      --amber-licht: #FDF3E0;
-      --amber-diep: #C47F10;
-      --groen: #2D5A3D;
-      --groen-licht: #EBF3EE;
-      --tekst: #1A1A18;
-      --tekst-zacht: #5C5C58;
-      --tekst-licht: #9C9C98;
-      --rand: #E8E5DE;
-      --rood-licht: #FEF2F2;
-      --rood: #DC2626;
-      --blauw-licht: #EFF6FF;
-      --blauw: #2563EB;
+      --wit: #FAFAF7; --wit-warm: #F5F2EC;
+      --amber: #E8A020; --amber-licht: #FDF3E0; --amber-diep: #C47F10;
+      --groen: #2D5A3D; --groen-licht: #EBF3EE;
+      --tekst: #1A1A18; --tekst-zacht: #5C5C58; --tekst-licht: #9C9C98;
+      --rand: #E8E5DE; --rood-licht: #FEF2F2; --rood: #DC2626;
+      --blauw-licht: #EFF6FF; --blauw: #2563EB;
+      --paars-licht: #F5F3FF; --paars: #7C3AED;
     }
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-
-    body {
-      background: var(--wit);
-      color: var(--tekst);
-      font-family: 'Source Sans 3', sans-serif;
-      font-weight: 400;
-      line-height: 1.6;
-      min-height: 100vh;
-    }
-
-    /* NAV */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      background: rgba(250,250,247,0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--rand);
-      padding: 0 2rem;
-      height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .nav-logo {
-      display: flex; align-items: center; gap: 10px;
-      text-decoration: none;
-    }
-    .logo-naam {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.4rem; font-weight: 700;
-      color: var(--tekst);
-    }
+    body { background: var(--wit); color: var(--tekst); font-family: 'Source Sans 3', sans-serif; font-weight: 400; line-height: 1.6; min-height: 100vh; }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(250,250,247,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--rand); padding: 0 2rem; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .logo-naam { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--tekst); }
     .logo-naam span { color: var(--amber); }
-    .nav-terug {
-      display: flex; align-items: center; gap: 6px;
-      text-decoration: none;
-      color: var(--tekst-zacht);
-      font-size: 0.88rem; font-weight: 500;
-      border: 1px solid var(--rand);
-      border-radius: 8px;
-      padding: 6px 14px;
-      transition: all 0.2s;
-    }
+    .nav-terug { display: flex; align-items: center; gap: 6px; text-decoration: none; color: var(--tekst-zacht); font-size: 0.88rem; font-weight: 500; border: 1px solid var(--rand); border-radius: 8px; padding: 6px 14px; transition: all 0.2s; }
     .nav-terug:hover { border-color: var(--tekst-zacht); color: var(--tekst); }
-
-    /* HEADER */
-    .pagina-header {
-      padding-top: 64px;
-      background: var(--groen);
-      color: white;
-      position: relative;
-      overflow: hidden;
-    }
-    .pagina-header::before {
-      content: '🇳🇱';
-      position: absolute;
-      right: 8%;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 7rem;
-      opacity: 0.07;
-      pointer-events: none;
-    }
-    .pagina-header::after {
-      content: '';
-      position: absolute;
-      right: -80px; top: -80px;
-      width: 320px; height: 320px;
-      border-radius: 50%;
-      background: rgba(232,160,32,0.08);
-    }
-    .header-inhoud {
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 3rem 2rem 2.5rem;
-      position: relative; z-index: 1;
-    }
-    .header-badge {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: rgba(255,255,255,0.12);
-      border-radius: 20px;
-      padding: 4px 12px;
-      font-size: 0.75rem; font-weight: 600;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      margin-bottom: 1rem;
-      opacity: 0.85;
-    }
-    .header-titel {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.2rem; font-weight: 700;
-      line-height: 1.2;
-      margin-bottom: 0.6rem;
-    }
-    .header-sub {
-      font-size: 1rem;
-      opacity: 0.75;
-      font-weight: 300;
-      max-width: 480px;
-      line-height: 1.7;
-    }
-
-    /* VOORTGANGSBALK */
-    .voortgang-balk {
-      background: rgba(255,255,255,0.08);
-      height: 4px;
-      position: relative;
-    }
-    .voortgang-balk-vulling {
-      height: 100%;
-      background: var(--amber);
-      transition: width 0.5s ease;
-    }
-
-    /* HOOFD CONTAINER */
-    .hoofd {
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 2.5rem 2rem 4rem;
-    }
-
-    /* VRAAG KAART */
-    .vraag-kaart {
-      background: white;
-      border: 1px solid var(--rand);
-      border-radius: 20px;
-      overflow: hidden;
-      margin-bottom: 1.5rem;
-      animation: inschuiven 0.4s ease both;
-    }
-
-    @keyframes inschuiven {
-      from { opacity: 0; transform: translateY(16px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .vraag-header {
-      padding: 1.5rem 1.8rem 1.2rem;
-      border-bottom: 1px solid var(--rand);
-    }
-    .vraag-stap {
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--amber-diep);
-      margin-bottom: 0.5rem;
-    }
-    .vraag-tekst {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: var(--tekst);
-      line-height: 1.3;
-    }
-    .vraag-uitleg {
-      font-size: 0.82rem;
-      color: var(--tekst-licht);
-      margin-top: 6px;
-      font-weight: 300;
-      line-height: 1.5;
-    }
-
-    /* ANTWOORD KNOPPEN */
-    .antwoorden {
-      padding: 1.2rem 1.8rem 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .antwoord-knop {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 14px 16px;
-      border: 1.5px solid var(--rand);
-      border-radius: 12px;
-      background: var(--wit);
-      cursor: pointer;
-      text-align: left;
-      font-family: 'Source Sans 3', sans-serif;
-      font-size: 0.9rem;
-      color: var(--tekst);
-      transition: all 0.2s;
-      width: 100%;
-    }
-    .antwoord-knop:hover {
-      border-color: var(--groen);
-      background: var(--groen-licht);
-      transform: translateX(4px);
-    }
-    .antwoord-knop.ja:hover { border-color: var(--groen); }
+    .pagina-header { padding-top: 64px; background: var(--groen); color: white; position: relative; overflow: hidden; }
+    .pagina-header::before { content: '🇳🇱'; position: absolute; right: 8%; top: 50%; transform: translateY(-50%); font-size: 7rem; opacity: 0.07; pointer-events: none; }
+    .pagina-header::after { content: ''; position: absolute; right: -80px; top: -80px; width: 320px; height: 320px; border-radius: 50%; background: rgba(232,160,32,0.08); }
+    .header-inhoud { max-width: 720px; margin: 0 auto; padding: 3rem 2rem 2.5rem; position: relative; z-index: 1; }
+    .header-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.12); border-radius: 20px; padding: 4px 12px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem; opacity: 0.85; }
+    .header-titel { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 700; line-height: 1.2; margin-bottom: 0.6rem; }
+    .header-sub { font-size: 1rem; opacity: 0.75; font-weight: 300; max-width: 480px; line-height: 1.7; }
+    .voortgang-balk { background: rgba(255,255,255,0.08); height: 4px; }
+    .voortgang-balk-vulling { height: 100%; background: var(--amber); transition: width 0.5s ease; }
+    .hoofd { max-width: 720px; margin: 0 auto; padding: 2.5rem 2rem 4rem; }
+    .vraag-kaart { background: white; border: 1px solid var(--rand); border-radius: 20px; overflow: hidden; margin-bottom: 1.5rem; animation: inschuiven 0.4s ease both; }
+    @keyframes inschuiven { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    .vraag-header { padding: 1.5rem 1.8rem 1.2rem; border-bottom: 1px solid var(--rand); }
+    .vraag-stap { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--amber-diep); margin-bottom: 0.5rem; }
+    .vraag-tekst { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 600; color: var(--tekst); line-height: 1.3; }
+    .vraag-uitleg { font-size: 0.82rem; color: var(--tekst-licht); margin-top: 6px; font-weight: 300; line-height: 1.5; }
+    .antwoorden { padding: 1.2rem 1.8rem 1.5rem; display: flex; flex-direction: column; gap: 10px; }
+    .antwoord-knop { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border: 1.5px solid var(--rand); border-radius: 12px; background: var(--wit); cursor: pointer; text-align: left; font-family: 'Source Sans 3', sans-serif; font-size: 0.9rem; color: var(--tekst); transition: all 0.2s; width: 100%; }
+    .antwoord-knop:hover { border-color: var(--groen); background: var(--groen-licht); transform: translateX(4px); }
     .antwoord-knop.nee:hover { border-color: var(--rood); background: var(--rood-licht); }
-    .antwoord-icoon {
-      width: 32px; height: 32px;
-      border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.9rem;
-      flex-shrink: 0;
-    }
-    .antwoord-tekst { font-weight: 500; }
-    .antwoord-sub { font-size: 0.78rem; color: var(--tekst-licht); font-weight: 300; }
-
-    /* GEKOZEN ANTWOORD (history) */
-    .geschiedenis-item {
-      background: var(--wit-warm);
-      border: 1px solid var(--rand);
-      border-radius: 14px;
-      padding: 1rem 1.4rem;
-      margin-bottom: 0.8rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      opacity: 0.7;
-    }
-    .geschiedenis-vraag {
-      font-size: 0.82rem;
-      color: var(--tekst-zacht);
-      flex: 1;
-    }
-    .geschiedenis-antwoord {
-      font-size: 0.82rem;
-      font-weight: 600;
-      padding: 3px 10px;
-      border-radius: 6px;
-      flex-shrink: 0;
-    }
+    .antwoord-knop.anders:hover { border-color: var(--amber); background: var(--amber-licht); }
+    .antwoord-knop.info:hover { border-color: var(--blauw); background: var(--blauw-licht); }
+    .antwoord-icoon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.95rem; flex-shrink: 0; }
+    .antwoord-tekst { font-weight: 500; line-height: 1.3; }
+    .antwoord-sub { font-size: 0.78rem; color: var(--tekst-licht); font-weight: 300; margin-top: 2px; }
+    .geschiedenis-item { background: var(--wit-warm); border: 1px solid var(--rand); border-radius: 14px; padding: 0.9rem 1.4rem; margin-bottom: 0.7rem; display: flex; align-items: center; justify-content: space-between; gap: 12px; opacity: 0.75; }
+    .geschiedenis-vraag { font-size: 0.82rem; color: var(--tekst-zacht); flex: 1; }
+    .geschiedenis-antwoord { font-size: 0.8rem; font-weight: 600; padding: 3px 10px; border-radius: 6px; flex-shrink: 0; white-space: nowrap; }
     .ga-ja { background: var(--groen-licht); color: var(--groen); }
     .ga-nee { background: var(--rood-licht); color: var(--rood); }
     .ga-anders { background: var(--amber-licht); color: var(--amber-diep); }
-
-    /* RESULTAAT */
-    .resultaat-kaart {
-      border-radius: 20px;
-      overflow: hidden;
-      animation: inschuiven 0.5s ease both;
-    }
-    .resultaat-header {
-      padding: 2rem 2rem 1.5rem;
-      color: white;
-    }
+    .ga-info { background: var(--blauw-licht); color: var(--blauw); }
+    .resultaat-kaart { border-radius: 20px; overflow: hidden; animation: inschuiven 0.5s ease both; }
+    .resultaat-header { padding: 2rem 2rem 1.5rem; color: white; }
     .resultaat-icoon-groot { font-size: 2.5rem; margin-bottom: 0.8rem; }
-    .resultaat-titel {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.6rem;
-      font-weight: 700;
-      line-height: 1.2;
-      margin-bottom: 0.5rem;
-    }
-    .resultaat-sub {
-      font-size: 0.9rem;
-      opacity: 0.8;
-      font-weight: 300;
-      line-height: 1.6;
-    }
-    .resultaat-body {
-      background: white;
-      padding: 1.5rem 2rem;
-      border: 1px solid var(--rand);
-      border-top: none;
-      border-radius: 0 0 20px 20px;
-    }
-
-    /* POSITIEF RESULTAAT */
+    .resultaat-titel { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; line-height: 1.2; margin-bottom: 0.5rem; }
+    .resultaat-sub { font-size: 0.9rem; opacity: 0.85; font-weight: 300; line-height: 1.6; }
+    .resultaat-body { background: white; padding: 1.5rem 2rem 2rem; border: 1px solid var(--rand); border-top: none; border-radius: 0 0 20px 20px; }
     .resultaat-positief .resultaat-header { background: var(--groen); }
-
-    .stap-lijst {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-bottom: 1.5rem;
-    }
-    .stap-item-res {
-      display: flex;
-      gap: 12px;
-      align-items: flex-start;
-    }
-    .stap-nr-res {
-      width: 24px; height: 24px;
-      border-radius: 50%;
-      background: var(--groen);
-      color: white;
-      font-size: 0.7rem;
-      font-weight: 700;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-      margin-top: 1px;
-    }
-    .stap-tekst-res {
-      font-size: 0.85rem;
-      color: var(--tekst-zacht);
-      line-height: 1.5;
-    }
-    .stap-tekst-res strong { color: var(--tekst); }
-
-    /* NEGATIEF RESULTAAT */
     .resultaat-negatief .resultaat-header { background: #374151; }
-
-    .alternatief-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 1.5rem;
-    }
-    .alternatief-item {
-      background: var(--wit-warm);
-      border: 1px solid var(--rand);
-      border-radius: 10px;
-      padding: 12px;
-    }
-    .alternatief-naam {
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: var(--tekst);
-      margin-bottom: 3px;
-    }
-    .alternatief-tekst {
-      font-size: 0.75rem;
-      color: var(--tekst-zacht);
-      font-weight: 300;
-      line-height: 1.4;
-    }
-
-    /* WACHT — haast resultaat */
     .resultaat-wacht .resultaat-header { background: var(--amber-diep); }
-
-    /* KNOPPEN */
-    .actie-knoppen {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .knop-primair {
-      background: var(--groen);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 11px 22px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
-      font-family: 'Source Sans 3', sans-serif;
-      transition: all 0.2s;
-      display: inline-block;
-    }
+    .resultaat-route .resultaat-header { background: var(--paars); }
+    .stap-lijst { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 1.5rem; }
+    .stap-item-res { display: flex; gap: 12px; align-items: flex-start; }
+    .stap-nr-res { width: 24px; height: 24px; border-radius: 50%; background: var(--groen); color: white; font-size: 0.7rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+    .stap-tekst-res { font-size: 0.85rem; color: var(--tekst-zacht); line-height: 1.5; }
+    .stap-tekst-res strong { color: var(--tekst); }
+    .route-paden { display: flex; flex-direction: column; gap: 12px; margin-bottom: 1.5rem; }
+    .route-pad { border: 1.5px solid var(--rand); border-radius: 12px; padding: 14px 16px; background: var(--wit-warm); }
+    .route-pad-header { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+    .route-pad-nr { width: 28px; height: 28px; border-radius: 8px; background: var(--paars); color: white; font-size: 0.75rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .route-pad-titel { font-weight: 600; font-size: 0.9rem; color: var(--tekst); }
+    .route-pad-tekst { font-size: 0.8rem; color: var(--tekst-zacht); line-height: 1.5; padding-left: 38px; }
+    .alternatief-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1.5rem; }
+    .alternatief-item { background: var(--wit-warm); border: 1px solid var(--rand); border-radius: 10px; padding: 12px; }
+    .alternatief-naam { font-size: 0.82rem; font-weight: 600; color: var(--tekst); margin-bottom: 3px; }
+    .alternatief-tekst { font-size: 0.75rem; color: var(--tekst-zacht); font-weight: 300; line-height: 1.4; }
+    .info-box { background: var(--blauw-licht); border-left: 3px solid var(--blauw); border-radius: 0 8px 8px 0; padding: 10px 14px; margin-bottom: 1rem; font-size: 0.82rem; color: var(--tekst-zacht); line-height: 1.5; }
+    .amber-box { background: var(--amber-licht); border-left: 3px solid var(--amber); border-radius: 0 8px 8px 0; padding: 10px 14px; margin-bottom: 1rem; font-size: 0.82rem; color: var(--tekst-zacht); line-height: 1.5; }
+    .sectie-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--tekst-licht); margin-bottom: 0.6rem; }
+    .actie-knoppen { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 1.5rem; }
+    .knop-primair { background: var(--groen); color: white; border: none; border-radius: 8px; padding: 11px 22px; font-size: 0.9rem; font-weight: 600; cursor: pointer; text-decoration: none; font-family: 'Source Sans 3', sans-serif; transition: all 0.2s; display: inline-block; }
     .knop-primair:hover { background: #234830; }
-    .knop-secundair {
-      background: transparent;
-      color: var(--tekst);
-      border: 1.5px solid var(--rand);
-      border-radius: 8px;
-      padding: 11px 22px;
-      font-size: 0.9rem;
-      font-weight: 500;
-      cursor: pointer;
-      font-family: 'Source Sans 3', sans-serif;
-      transition: all 0.2s;
-    }
+    .knop-secundair { background: transparent; color: var(--tekst); border: 1.5px solid var(--rand); border-radius: 8px; padding: 11px 22px; font-size: 0.9rem; font-weight: 500; cursor: pointer; font-family: 'Source Sans 3', sans-serif; transition: all 0.2s; }
     .knop-secundair:hover { border-color: var(--tekst-zacht); }
-
-    /* INFO BOX */
-    .info-box {
-      background: var(--blauw-licht);
-      border-left: 3px solid var(--blauw);
-      border-radius: 0 8px 8px 0;
-      padding: 10px 14px;
-      margin-bottom: 1.2rem;
-      font-size: 0.82rem;
-      color: var(--tekst-zacht);
-      line-height: 1.5;
-    }
-
-    /* DISCLAIMER */
-    .disclaimer {
-      margin-top: 2rem;
-      padding: 1rem 1.2rem;
-      background: var(--wit-warm);
-      border-radius: 10px;
-      font-size: 0.75rem;
-      color: var(--tekst-licht);
-      line-height: 1.6;
-    }
-
-    @media (max-width: 600px) {
-      .header-titel { font-size: 1.7rem; }
-      .alternatief-grid { grid-template-columns: 1fr; }
-      .antwoorden { padding: 1rem 1.2rem 1.2rem; }
-      .vraag-header { padding: 1.2rem 1.2rem 1rem; }
-    }
+    .disclaimer { margin-top: 1.5rem; padding: 1rem 1.2rem; background: var(--wit-warm); border-radius: 10px; font-size: 0.75rem; color: var(--tekst-licht); line-height: 1.6; }
+    @media (max-width: 600px) { .header-titel { font-size: 1.7rem; } .alternatief-grid { grid-template-columns: 1fr; } .antwoorden { padding: 1rem 1.2rem 1.2rem; } .vraag-header { padding: 1.2rem 1.2rem 1rem; } .resultaat-body { padding: 1.2rem 1.2rem 1.5rem; } }
   </style>
 </head>
 <body>
-
-<!-- NAV -->
 <nav>
   <a href="index.html" class="nav-logo">
     <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
@@ -441,8 +111,6 @@
   </a>
   <a href="index.html" class="nav-terug">← Alle tools</a>
 </nav>
-
-<!-- HEADER -->
 <div class="pagina-header">
   <div class="header-inhoud">
     <div class="header-badge">🇳🇱 Naturalisatie Checker</div>
@@ -453,17 +121,9 @@
     <div class="voortgang-balk-vulling" id="voortgang" style="width:0%"></div>
   </div>
 </div>
-
-<!-- HOOFD -->
-<div class="hoofd" id="hoofd">
-  <!-- Dynamisch gevuld door JavaScript -->
-</div>
+<div class="hoofd" id="hoofd"></div>
 
 <script>
-// ─── BESLISBOOM ────────────────────────────────────────────────────────────────
-// Elke vraag heeft: id, stap, tekst, uitleg, antwoorden[]
-// Elk antwoord heeft: tekst, sub (optioneel), klasse, volgende (id of resultaat)
-
 const vragen = {
   v1: {
     stap: 'Stap 1 van 8',
@@ -476,46 +136,68 @@ const vragen = {
   },
   v2: {
     stap: 'Stap 2 van 8',
-    tekst: 'Ben je op dit moment legaal in Nederland?',
-    uitleg: 'Je hebt een geldige verblijfsvergunning nodig. Een asielstatus (verblijfsvergunning asiel bepaalde duur of onbepaalde duur) telt ook mee.',
+    tekst: 'Heb je een geldige verblijfsvergunning?',
+    uitleg: 'Je hebt een geldige verblijfsvergunning nodig. Een asielstatus (verblijfsvergunning asiel bepaalde of onbepaalde duur) telt ook mee.',
     antwoorden: [
-      { tekst: 'Ja, ik heb een geldige verblijfsvergunning', sub: 'Of een asielstatus, of permanent verblijf', icoon: '✓', klasse: 'ja', volgende: 'v3' },
+      { tekst: 'Ja, ik heb een geldige verblijfsvergunning', sub: 'Of een asielstatus (IND type III, IV of V)', icoon: '✓', klasse: 'ja', volgende: 'v3' },
       { tekst: 'Nee, ik heb geen geldige verblijfsvergunning', icoon: '✗', klasse: 'nee', volgende: 'r_geen_vergunning' },
     ]
   },
   v3: {
     stap: 'Stap 3 van 8',
     tekst: 'Hoe lang woon je ononderbroken in Nederland?',
-    uitleg: 'Je moet normaal gesproken minimaal 5 jaar aaneengesloten in Nederland wonen. Voor statushouders (asiel) geldt soms een kortere termijn.',
+    uitleg: 'Je moet normaal gesproken minimaal 5 jaar aaneengesloten in Nederland wonen. Korte reizen naar het buitenland breken dit niet.',
     antwoorden: [
       { tekst: 'Minder dan 5 jaar', icoon: '⏳', klasse: 'nee', volgende: 'r_te_kort' },
-      { tekst: '5 jaar of langer', sub: 'Ononderbroken in Nederland gewoond', icoon: '✓', klasse: 'ja', volgende: 'v4' },
+      { tekst: '5 jaar of langer', sub: 'Ononderbroken in Nederland gewoond', icoon: '✓', klasse: 'ja', volgende: 'v4a' },
     ]
   },
-  v4: {
-    stap: 'Stap 4 van 8',
-    tekst: 'Heb je het inburgeringsexamen gehaald (of ben je ervan vrijgesteld)?',
-    uitleg: 'Je moet aantonen dat je Nederlands spreekt op niveau A2 en de samenleving kent. Uitzonderingen zijn er voor mensen boven 65 jaar of met een medische beperking.',
+  v4a: {
+    stap: 'Stap 4 van 8 — Inburgering',
+    tekst: 'Hoe staat het met jouw inburgering?',
+    uitleg: 'Voor naturalisatie moet je aantonen dat je bent ingeburgerd. Er zijn meerdere manieren.',
     antwoorden: [
-      { tekst: 'Ja, ik heb het inburgeringsexamen gehaald', icoon: '✓', klasse: 'ja', volgende: 'v5' },
-      { tekst: 'Ja, ik ben vrijgesteld van inburgering', sub: 'Bijvoorbeeld vanwege leeftijd of medische reden', icoon: '✓', klasse: 'ja', volgende: 'v5' },
-      { tekst: 'Nee, ik heb het examen nog niet gehaald', icoon: '✗', klasse: 'nee', volgende: 'r_geen_inburgering' },
+      { tekst: 'Ik heb het inburgeringsexamen gehaald (B1- of onderwijsroute)', sub: 'DUO-diploma inburgering aanwezig', icoon: '✓', klasse: 'ja', volgende: 'v5' },
+      { tekst: 'Ik heb een Nederlandstalig mbo 2, 3 of 4 diploma — of hbo / wo diploma', sub: 'Dit geeft blijvende vrijstelling van de inburgeringsplicht', icoon: '🎓', klasse: 'ja', volgende: 'v5' },
+      { tekst: 'Ik ben vrijgesteld of ontheven van inburgering', sub: 'Bijv. door leeftijd (65+), medische reden of aantoonbare inspanning', icoon: '✓', klasse: 'ja', volgende: 'v5' },
+      { tekst: 'Ik heb de Z-route afgerond (eindgesprek + certificaat)', sub: 'Let op: dit geeft niet automatisch recht op naturalisatie — bekijk je opties', icoon: '🌱', klasse: 'anders', volgende: 'r_z_afgerond' },
+      { tekst: 'Ik ben nog bezig met inburgering', sub: 'Ik heb nog geen diploma of vrijstelling', icoon: '⏳', klasse: 'anders', volgende: 'v4b' },
+    ]
+  },
+  v4b: {
+    stap: 'Stap 4 van 8 — Leerroute',
+    tekst: 'Welke inburgeringsroute volg je?',
+    uitleg: 'De gemeente bepaalt jouw leerroute op basis van je leerbaarheid. Er zijn drie routes: B1, Onderwijsroute en Z-route.',
+    antwoorden: [
+      { tekst: 'B1-route', sub: 'Taalexamen op niveau B1 + KNM-examen', icoon: '📖', klasse: 'info', volgende: 'r_bezig_b1' },
+      { tekst: 'Onderwijsroute', sub: 'Taalschakeltraject 1,5–2 jaar — voorbereiding op mbo/hbo/wo instroom', icoon: '🏫', klasse: 'info', volgende: 'r_bezig_onderwijs' },
+      { tekst: 'Z-route (Zelfredzaamheidsroute)', sub: 'Voor mensen voor wie B1 niet haalbaar is', icoon: '🌱', klasse: 'anders', volgende: 'v4b_z' },
+      { tekst: 'Ik weet het niet / ik heb nog geen route', icoon: '❓', klasse: 'anders', volgende: 'r_geen_inburgering' },
+    ]
+  },
+  v4b_z: {
+    stap: 'Stap 4 van 8 — Z-route',
+    tekst: 'Hoe ver ben je in de Z-route?',
+    uitleg: 'De Z-route sluit af met een eindgesprek bij de gemeente en een positief DUO-advies. Dit is vereist voor naturalisatie.',
+    antwoorden: [
+      { tekst: 'Ik ben klaar met de Z-route (DUO-positief advies ontvangen)', sub: 'Eindgesprek met gemeente afgerond', icoon: '✓', klasse: 'ja', volgende: 'v5' },
+      { tekst: 'Ik ben nog bezig met de Z-route', sub: 'Nog niet klaar met de 800 uur taalles / participatie', icoon: '⏳', klasse: 'anders', volgende: 'r_bezig_z' },
     ]
   },
   v5: {
     stap: 'Stap 5 van 8',
     tekst: 'Ben je in de afgelopen 5 jaar veroordeeld voor een misdrijf?',
-    uitleg: 'Een strafrechtelijke veroordeling kan naturalisatie blokkeren. Boetes en kleine overtredingen tellen meestal niet mee.',
+    uitleg: 'Een strafrechtelijke veroordeling kan naturalisatie blokkeren. Verkeersboetes en kleine overtredingen tellen meestal niet mee.',
     antwoorden: [
       { tekst: 'Nee, ik heb geen strafblad', icoon: '✓', klasse: 'ja', volgende: 'v6' },
-      { tekst: 'Ja, ik ben veroordeeld', icoon: '✗', klasse: 'nee', volgende: 'r_strafblad' },
-      { tekst: 'Ik weet het niet zeker', icoon: '?', klasse: 'anders', volgende: 'r_strafblad_check' },
+      { tekst: 'Ja, ik ben veroordeeld voor een misdrijf', icoon: '✗', klasse: 'nee', volgende: 'r_strafblad' },
+      { tekst: 'Ik weet het niet zeker', icoon: '❓', klasse: 'anders', volgende: 'r_strafblad_check' },
     ]
   },
   v6: {
     stap: 'Stap 6 van 8',
-    tekst: 'Heb je op dit moment een vast verblijf in Nederland?',
-    uitleg: 'Je moet je hoofdverblijf in Nederland hebben. Als je een groot deel van het jaar in het buitenland woont, kan dit een probleem zijn.',
+    tekst: 'Heb je op dit moment je hoofdverblijf in Nederland?',
+    uitleg: 'Je moet je hoofdverblijf in Nederland hebben. Af en toe op reis gaan is geen probleem.',
     antwoorden: [
       { tekst: 'Ja, ik woon vast in Nederland', icoon: '✓', klasse: 'ja', volgende: 'v7' },
       { tekst: 'Nee, ik woon grotendeels in het buitenland', icoon: '✗', klasse: 'nee', volgende: 'r_geen_verblijf' },
@@ -524,342 +206,303 @@ const vragen = {
   v7: {
     stap: 'Stap 7 van 8',
     tekst: 'Ben je bereid afstand te doen van je huidige nationaliteit?',
-    uitleg: 'Nederland staat in principe geen dubbele nationaliteit toe. Er zijn uitzonderingen: statushouders (erkende vluchtelingen) mogen soms BEIDE nationaliteiten houden.',
+    uitleg: 'Nederland staat in principe geen dubbele nationaliteit toe. Uitzondering: erkende vluchtelingen (statushouders) mogen beide nationaliteiten houden.',
     antwoorden: [
-      { tekst: 'Ja, of ik ben erkend vluchteling (statushouder)', sub: 'Statushouders mogen dubbele nationaliteit houden', icoon: '✓', klasse: 'ja', volgende: 'v8' },
-      { tekst: 'Nee, ik wil mijn huidige nationaliteit houden', icoon: '✗', klasse: 'nee', volgende: 'r_nationaliteit' },
+      { tekst: 'Ja, ik doe afstand van mijn nationaliteit', icoon: '✓', klasse: 'ja', volgende: 'v8' },
+      { tekst: 'Ik ben erkend vluchteling (statushouder)', sub: 'Statushouders mogen dubbele nationaliteit houden', icoon: '✓', klasse: 'ja', volgende: 'v8' },
+      { tekst: 'Nee, ik wil mijn nationaliteit houden', icoon: '✗', klasse: 'nee', volgende: 'r_nationaliteit' },
     ]
   },
   v8: {
     stap: 'Stap 8 van 8',
     tekst: 'Ben je op de hoogte van de kosten van naturalisatie?',
-    uitleg: 'De aanvraag kost €1.044 (2025). Sommige gemeenten bieden bijdragen voor statushouders. De procedure duurt gemiddeld 6–12 maanden.',
+    uitleg: 'De aanvraag kost €1.044 (2025). De procedure duurt gemiddeld 6–12 maanden.',
     antwoorden: [
       { tekst: 'Ja, ik weet dit en wil doorgaan', icoon: '✓', klasse: 'ja', volgende: 'r_positief' },
-      { tekst: 'Nee, dat is te duur voor mij', sub: 'Meer informatie over vergoedingen', icoon: '💡', klasse: 'anders', volgende: 'r_kosten' },
+      { tekst: 'Dat is te duur — zijn er vergoedingen?', icoon: '💡', klasse: 'anders', volgende: 'r_kosten' },
     ]
   },
 };
 
-// ─── RESULTATEN ───────────────────────────────────────────────────────────────
-
 const resultaten = {
   r_positief: {
-    type: 'positief',
-    icoon: '🎉',
-    titel: 'Je komt waarschijnlijk in aanmerking voor naturalisatie!',
-    sub: 'Op basis van jouw antwoorden voldoe je aan de belangrijkste voorwaarden. De volgende stap is een officiële aanvraag bij de gemeente.',
+    type: 'positief', icoon: '🎉',
+    titel: 'Je komt waarschijnlijk in aanmerking!',
+    sub: 'Op basis van jouw antwoorden voldoe je aan de belangrijkste voorwaarden voor naturalisatie. De volgende stap is een officiële aanvraag bij jouw gemeente.',
+    info: '💡 Statushouders (erkende vluchtelingen) hoeven in de meeste gevallen geen afstand te doen van hun oorspronkelijke nationaliteit.',
     stappen: [
       { nr: 1, tekst: '<strong>Maak een afspraak bij jouw gemeente</strong> — afdeling burgerzaken. Zeg dat je naturalisatie wilt aanvragen.' },
       { nr: 2, tekst: '<strong>Verzamel documenten:</strong> geldig paspoort, verblijfsvergunning, bewijs van inburgering, geboorteakte (zo nodig gelegaliseerd).' },
-      { nr: 3, tekst: '<strong>Betaal de leges:</strong> €1.044 bij indiening van de aanvraag.' },
+      { nr: 3, tekst: '<strong>Betaal de leges:</strong> €1.044 bij indiening (2025). Vraag bij de gemeente of er een bijdrageregeling is.' },
       { nr: 4, tekst: '<strong>Wacht op de beslissing</strong> van de IND. Dit duurt gemiddeld 6–12 maanden.' },
-      { nr: 5, tekst: '<strong>Naturalisatieceremonie:</strong> als je wordt goedgekeurd, ontvang je een uitnodiging voor de ceremonie bij de gemeente.' },
+      { nr: 5, tekst: '<strong>Naturalisatieceremonie:</strong> na goedkeuring ontvang je een uitnodiging voor de ceremonie bij de gemeente.' },
     ],
-    info: '💡 Statushouders (erkende vluchtelingen) hoeven in de meeste gevallen geen afstand te doen van hun oorspronkelijke nationaliteit.',
-    link: 'https://ind.nl/nl/nederlander-worden/naturalisatie',
-    linkTekst: '→ Meer informatie op ind.nl',
+    link: 'https://ind.nl/nl/nederlander-worden/naturalisatie', linkTekst: '→ Meer informatie op ind.nl',
   },
   r_minderjarig: {
-    type: 'wacht',
-    icoon: '👶',
+    type: 'wacht', icoon: '👶',
     titel: 'Naturalisatie voor kinderen gaat via de ouders',
     sub: 'Minderjarige kinderen kunnen meenaturaliseren als een ouder de Nederlandse nationaliteit aanvraagt of al heeft.',
     alternatieven: [
       { naam: 'Meenaturaliseren', tekst: 'Als jouw ouder naturaliseert, kun jij automatisch meenaturaliseren.' },
       { naam: 'Via de rechter', tekst: 'In sommige gevallen is aparte naturalisatie voor minderjarigen mogelijk.' },
       { naam: 'Wachten op 18', tekst: 'Op je 18e kun je zelfstandig een aanvraag indienen.' },
-      { naam: 'Optie', tekst: 'Als je in Nederland geboren bent, kun je via "optie" Nederlander worden.' },
+      { naam: 'Optie', tekst: 'Als je in Nederland geboren bent, kun je soms via "optie" Nederlander worden.' },
     ],
-    link: 'https://ind.nl/nl/nederlander-worden',
-    linkTekst: '→ Meer informatie op ind.nl',
+    link: 'https://ind.nl/nl/nederlander-worden', linkTekst: '→ Meer informatie op ind.nl',
   },
   r_geen_vergunning: {
-    type: 'negatief',
-    icoon: '📋',
+    type: 'negatief', icoon: '📋',
     titel: 'Je hebt eerst een verblijfsvergunning nodig',
     sub: 'Naturalisatie is alleen mogelijk als je legaal in Nederland verblijft. Zorg eerst voor een geldige verblijfsvergunning.',
     alternatieven: [
       { naam: 'Asielaanvraag', tekst: 'Als je bescherming nodig hebt, kun je een asielaanvraag indienen bij de IND.' },
-      { naam: 'Reguliere verblijfsvergunning', tekst: 'Voor werk, studie of gezinshereniging zijn er reguliere vergunningen.' },
+      { naam: 'Reguliere vergunning', tekst: 'Voor werk, studie of gezinshereniging zijn er reguliere vergunningen.' },
       { naam: 'Juridische hulp', tekst: 'Neem contact op met een vluchtelingenorganisatie of advocaat.' },
       { naam: 'VluchtelingenWerk', tekst: 'Gratis juridische ondersteuning voor asielzoekers en statushouders.' },
     ],
-    link: 'https://www.vluchtelingenwerk.nl',
-    linkTekst: '→ Neem contact op met VluchtelingenWerk',
+    link: 'https://www.vluchtelingenwerk.nl', linkTekst: '→ Neem contact op met VluchtelingenWerk',
   },
   r_te_kort: {
-    type: 'wacht',
-    icoon: '⏳',
+    type: 'wacht', icoon: '⏳',
     titel: 'Nog niet lang genoeg in Nederland',
-    sub: 'Je moet minimaal 5 jaar aaneengesloten in Nederland wonen voordat je naturalisatie kunt aanvragen. Je kunt dit moment al wel voorbereiden.',
+    sub: 'Je moet minimaal 5 jaar aaneengesloten in Nederland wonen. Je kunt de wachttijd goed benutten.',
     alternatieven: [
       { naam: 'Inburgering afronden', tekst: 'Gebruik de wachttijd om je inburgeringsexamen te halen.' },
       { naam: 'Documenten verzamelen', tekst: 'Vraag alvast officiële documenten op uit je land van herkomst.' },
-      { naam: 'NT2 leren', tekst: 'Verbeter je Nederlands — dit helpt bij het examen en in het dagelijks leven.' },
-      { naam: 'Optie mogelijk?', tekst: 'In sommige gevallen is de wachttijd korter. Vraag dit na bij je gemeente.' },
+      { naam: 'NT2 leren', tekst: 'Verbeter je Nederlands — ook gratis via Solidari NT2-cursus.' },
+      { naam: 'Kortere wachttijd?', tekst: 'Met een Nederlandse partner kan de termijn korter zijn. Vraag dit na bij de gemeente.' },
     ],
-    link: 'https://ind.nl/nl/nederlander-worden/naturalisatie',
-    linkTekst: '→ Controleer de exacte voorwaarden op ind.nl',
+    link: 'https://ind.nl/nl/nederlander-worden/naturalisatie', linkTekst: '→ Controleer de voorwaarden op ind.nl',
+  },
+  r_bezig_b1: {
+    type: 'route', icoon: '📖',
+    titel: 'Je kunt je naturalisatie alvast voorbereiden',
+    sub: 'Je volgt de B1-route maar hebt het examen nog niet afgerond. Je kunt de naturalisatieprocedure al opstarten — het diploma moet klaar zijn vóór de IND een beslissing neemt.',
+    infoBoxen: [
+      { type: 'blauw', tekst: '💡 <strong>Tip:</strong> Vraag bij jouw gemeente of je de naturalisatieaanvraag alvast kunt indienen terwijl je de B1-route nog afrondt.' },
+    ],
+    stappen: [
+      { nr: 1, tekst: '<strong>Ga door met de B1-route:</strong> haal het taalexamen (B1, of A2 na aantoonbare inspanning) én het KNM-examen.' },
+      { nr: 2, tekst: '<strong>Vraag alvast documenten op:</strong> paspoort, geboorteakte, verblijfsvergunning.' },
+      { nr: 3, tekst: '<strong>Informeer bij jouw gemeente</strong> of je de aanvraag al kunt indienen terwijl je nog bezig bent.' },
+      { nr: 4, tekst: '<strong>Na behalen diploma:</strong> stuur het bewijs door naar de gemeente/IND — dan kan de beslissing worden genomen.' },
+    ],
+    link: 'https://ind.nl/nl/nederlander-worden/naturalisatie', linkTekst: '→ Meer informatie op ind.nl',
+  },
+  r_bezig_onderwijs: {
+    type: 'route', icoon: '🏫',
+    titel: 'Je kunt je naturalisatie alvast voorbereiden',
+    sub: 'Je volgt de Onderwijsroute — een intensief taalschakeltraject van 1,5 tot 2 jaar gericht op instroom in mbo, hbo of wo.',
+    infoBoxen: [
+      { type: 'amber', tekst: '⚠️ <strong>Let op:</strong> De Onderwijsroute is géén mbo- of hbo-diploma en geeft geen vrijstelling van inburgering. Je moet het centrale inburgeringsexamen (B1 taalexamen + KNM) halen om aan je inburgeringsplicht te voldoen.' },
+      { type: 'blauw', tekst: '💡 <strong>Tip:</strong> Je kunt de naturalisatieprocedure alvast opstarten. Het inburgeringsdiploma moet klaar zijn vóór de IND een beslissing neemt.' },
+    ],
+    stappen: [
+      { nr: 1, tekst: '<strong>Rond de Onderwijsroute af:</strong> haal het taalexamen (B1 op lezen, luisteren, schrijven en spreken) én het KNM-examen.' },
+      { nr: 2, tekst: '<strong>Vraag alvast documenten op:</strong> paspoort, geboorteakte, verblijfsvergunning.' },
+      { nr: 3, tekst: '<strong>Informeer bij jouw gemeente</strong> of je de aanvraag al kunt indienen terwijl je nog bezig bent.' },
+      { nr: 4, tekst: '<strong>Na behalen diploma:</strong> stuur het bewijs door naar de gemeente/IND.' },
+    ],
+    link: 'https://ind.nl/nl/nederlander-worden/naturalisatie', linkTekst: '→ Meer informatie op ind.nl',
+  },
+  r_z_afgerond: {
+    type: 'route', icoon: '🌱',
+    titel: 'Z-route afgerond — nog één stap nodig voor naturalisatie',
+    sub: 'Goed nieuws: je hebt de Z-route afgerond. Maar afronden van de Z-route betekent helaas niet automatisch dat je kunt naturaliseren. Voor naturalisatie moet je ook voldoen aan het inburgeringsvereiste (taaleis A2). Er zijn drie paden.',
+    infoBoxen: [
+      { type: 'amber', tekst: '⚠️ <strong>Belangrijk verschil:</strong> De Z-route sluit af met een eindgesprek en certificaat, geen diploma. Voor naturalisatie gelden aanvullende eisen vanuit de IND — je hebt een geslaagd A2-examen <em>of</em> een DUO-ontheffingsadvies nodig.' },
+      { type: 'blauw', tekst: '💡 <strong>Tip:</strong> Als je de Z-route nog niet hebt afgerond, zijn 2 examenpogingen per onderdeel op A2-niveau nog kosteloos. Zodra de Z-route is afgerond, betaal je zelf voor extra examenpogingen.' },
+    ],
+    paden: [
+      { nr: 'A', titel: 'Alsnog het inburgeringsexamen halen op A2-niveau', tekst: 'Haal alle taalexamens op A2-niveau (lezen, luisteren, schrijven, spreken) én het KNM-examen. Na een geslaagd examen heb je een DUO-diploma en voldoe je aan het inburgeringsvereiste. Let op: nu de Z-route is afgerond zijn examenpogingen niet langer kosteloos — je meldt je aan via duo.nl.' },
+      { nr: 'B', titel: '600 uur taalles (A2) + minimaal 3 pogingen per examenonderdeel', tekst: 'Heb je minstens 600 uur taalles op A2-niveau gevolgd bij een instelling met het Blik op Werk keurmerk, én per examenonderdeel minimaal 3 keer geprobeerd (waarvan minstens 1 keer een A2-examen)? Dan kan DUO een ontheffingsadvies afgeven — ook zonder geslaagd examen. Alfabetiseringsuren tellen mee tot maximaal 400 van de 600 uur.' },
+      { nr: 'C', titel: '600 uur alfabetisering of taalles + DUO-toets (geen leervermogen) — €150', tekst: 'Heb je minstens 600 uur alfabetisering gevolgd, of 600 uur taalles waarvan 300 uur alfabetisering, bij een instelling met Blik op Werk keurmerk? En blijkt uit een DUO-toets dat je taalniveau A2 niet kunt bereiken? Dan volgt een ontheffing. De DUO-toets kost €150 en moet worden aangevraagd via duo.nl.' },
+    ],
+    info: '📞 <strong>Advies:</strong> Overleg met jouw gemeente of VluchtelingenWerk welk pad het beste past. Vraag ook of de kosten voor examens of de DUO-toets vergoed kunnen worden via bijzondere bijstand.',
+    link: 'https://www.vluchtelingenwerk.nl', linkTekst: '→ Hulp via VluchtelingenWerk',
+  },
+  r_bezig_z: {
+    type: 'route', icoon: '🌱',
+    titel: 'Naturaliseren vanuit de Z-route — belangrijk verschil',
+    sub: 'Let op: afronden van de Z-route betekent niet automatisch dat je aan het inburgeringsvereiste voor naturalisatie voldoet. De Z-route sluit af met een eindgesprek en certificaat, maar voor naturalisatie moet je ook voldoen aan de taaleis (A2 of hoger). Er zijn drie paden via DUO.',
+    infoBoxen: [
+      { type: 'amber', tekst: '⚠️ <strong>Belangrijk:</strong> De Z-route heeft geen examenverplichting maar een inspanningsverplichting (800 uur taalles + eindgesprek). Afronden van de Z-route geeft dus <em>geen</em> automatisch recht op naturalisatie. Je hebt aanvullend een DUO-ontheffingsadvies of een geslaagd A2-examen nodig.' },
+    ],
+    paden: [
+      { nr: 'A', titel: 'Alsnog het inburgeringsexamen halen op A2-niveau', tekst: 'Haal alle taalexamens op A2-niveau (lezen, luisteren, schrijven, spreken) én het KNM-examen. Na een geslaagd examen heb je een DUO-diploma en voldoe je aan het inburgeringsvereiste voor naturalisatie. Zolang je nog in de Z-route zit, zijn 2 examenpogingen per onderdeel kosteloos.' },
+      { nr: 'B', titel: '600 uur taalles (A2) + minimaal 3 pogingen per examenonderdeel', tekst: 'Heb je minstens 600 uur taalles op A2-niveau of hoger gevolgd bij een instelling met het Blik op Werk keurmerk, én per examenonderdeel minimaal 3 keer geprobeerd (waarvan minstens 1 keer een A2-examen)? Dan kan DUO een ontheffingsadvies afgeven — ook zonder geslaagd examen. Alfabetiseringsuren tellen mee tot maximaal 400 van de 600 uur.' },
+      { nr: 'C', titel: '600 uur alfabetisering of taalles + DUO-toets (geen leervermogen) — €150', tekst: 'Heb je minstens 600 uur alfabetisering gevolgd (pad C1), of minstens 600 uur taalles waarvan 300 uur alfabetisering (pad C2), bij een instelling met Blik op Werk keurmerk? En blijkt uit een toets van DUO dat je het taalniveau A2 niet kunt bereiken? Dan volgt een ontheffing. Deze DUO-toets kost €150.' },
+    ],
+    info: '📞 <strong>Advies:</strong> Overleg met jouw gemeente of VluchtelingenWerk welk pad het beste bij jouw situatie past.',
+    link: 'https://www.vluchtelingenwerk.nl', linkTekst: '→ Hulp via VluchtelingenWerk',
   },
   r_geen_inburgering: {
-    type: 'wacht',
-    icoon: '📚',
-    titel: 'Je hebt het inburgeringsexamen nog niet gehaald',
-    sub: 'Zonder inburgeringsdiploma of vrijstelling kun je geen naturalisatie aanvragen. Maar je kunt hier nu al aan werken!',
+    type: 'wacht', icoon: '📚',
+    titel: 'Je hebt inburgering nodig voor naturalisatie',
+    sub: 'Zonder inburgeringsdiploma of vrijstelling kun je geen naturalisatie aanvragen. Begin nu — dan ben je over 1 tot 3 jaar klaar.',
     alternatieven: [
-      { naam: 'NT2 cursus', tekst: 'Volg een Nederlandse taalcursus — ook via Solidari beschikbaar.' },
-      { naam: 'Cursus bij DUO', tekst: 'DUO biedt inburgeringscursussen aan via het Basispad of Z-route.' },
-      { naam: 'Examen aanvragen', tekst: 'Als je al voldoende Nederlands spreekt, kun je direct het examen aanvragen.' },
-      { naam: 'Vrijstelling?', tekst: 'Vraag na of jij in aanmerking komt voor vrijstelling (leeftijd, gezondheid).' },
+      { naam: 'Vraag je leerroute op', tekst: 'Ga naar je gemeente om te weten welke route bij jou past (B1, Onderwijsroute of Z-route).' },
+      { naam: 'NT2-cursus via Solidari', tekst: 'Leer gratis Nederlands via de NT2-cursus op deze website (bij zon beschikbaar).' },
+      { naam: 'Examen aanvragen', tekst: 'Als je al voldoende Nederlands spreekt, kun je direct het examen aanvragen via DUO.' },
+      { naam: 'Vrijstelling mogelijk?', tekst: 'Vraag na of jij in aanmerking komt voor vrijstelling (65+, medische reden, of een vrijstellend diploma).' },
     ],
-    link: 'https://ind.nl/nl/nederlander-worden/naturalisatie',
-    linkTekst: '→ Meer over inburgering op ind.nl',
+    link: 'https://www.inburgeren.nl', linkTekst: '→ Meer over inburgering op inburgeren.nl',
   },
   r_strafblad: {
-    type: 'negatief',
-    icoon: '⚖️',
+    type: 'negatief', icoon: '⚖️',
     titel: 'Een strafblad kan naturalisatie blokkeren',
-    sub: 'Afhankelijk van het type veroordeling en hoe lang geleden, kan dit een belemmering zijn. Laat dit controleren door een specialist.',
+    sub: 'Afhankelijk van het type veroordeling en hoe lang geleden, kan dit een belemmering zijn. Laat dit beoordelen door een specialist.',
     alternatieven: [
-      { naam: 'Juridisch advies', tekst: 'Vraag een juridisch adviseur om te beoordelen of jouw situatie een bezwaar is.' },
+      { naam: 'Juridisch advies', tekst: 'Vraag een juridisch adviseur of jouw situatie een bezwaar vormt voor naturalisatie.' },
       { naam: 'VluchtelingenWerk', tekst: 'Gratis juridische hulp voor statushouders.' },
-      { naam: 'Wachttijd', tekst: 'Na de wachttijd (afhankelijk van vonnis) kun je opnieuw aanvragen.' },
-      { naam: 'Gemeentelijke balie', tekst: 'Vraag bij de gemeente naar jouw specifieke situatie.' },
+      { naam: 'Wachttijd', tekst: 'Na een bepaalde wachttijd (afhankelijk van het vonnis) kun je opnieuw aanvragen.' },
+      { naam: 'Kleine boetes', tekst: 'Verkeersboetes en kleine overtredingen tellen in de meeste gevallen NIET mee.' },
     ],
-    link: 'https://www.vluchtelingenwerk.nl',
-    linkTekst: '→ Neem contact op met VluchtelingenWerk',
+    link: 'https://www.vluchtelingenwerk.nl', linkTekst: '→ Neem contact op met VluchtelingenWerk',
   },
   r_strafblad_check: {
-    type: 'wacht',
-    icoon: '🔍',
+    type: 'wacht', icoon: '🔍',
     titel: 'Controleer of je een strafblad hebt',
     sub: 'Je kunt een Verklaring Omtrent Gedrag (VOG) aanvragen om te zien wat er geregistreerd staat.',
     alternatieven: [
       { naam: 'VOG aanvragen', tekst: 'Vraag een Verklaring Omtrent Gedrag aan via justis.nl.' },
       { naam: 'Gratis voor bijstandsgerechtigden', tekst: 'Als je een uitkering hebt, kan de VOG gratis zijn.' },
-      { naam: 'Juridisch advies', tekst: 'Als je twijfelt, raadpleeg dan een juridisch adviseur.' },
-      { naam: 'Kleine boetes', tekst: 'Verkeersboetes en kleine overtredingen tellen meestal NIET mee.' },
+      { naam: 'Kleine boetes tellen niet', tekst: 'Verkeersboetes en kleine overtredingen tellen meestal NIET mee.' },
+      { naam: 'Juridisch advies', tekst: 'Bij twijfel: raadpleeg een juridisch adviseur of VluchtelingenWerk.' },
     ],
-    link: 'https://www.justis.nl/producten/vog',
-    linkTekst: '→ VOG aanvragen op justis.nl',
+    link: 'https://www.justis.nl/producten/vog', linkTekst: '→ VOG aanvragen op justis.nl',
   },
   r_geen_verblijf: {
-    type: 'negatief',
-    icoon: '🏠',
+    type: 'negatief', icoon: '🏠',
     titel: 'Je hoofdverblijf moet in Nederland zijn',
     sub: 'Als je grotendeels in het buitenland woont, voldoe je niet aan de wooneis voor naturalisatie.',
     alternatieven: [
       { naam: 'Hoofdverblijf verplaatsen', tekst: 'Verplaats je officiële hoofdverblijf naar Nederland.' },
-      { naam: 'Inschrijving controleren', tekst: 'Zorg dat je ingeschreven staat in de BRP bij je gemeente.' },
-      { naam: 'Reizen OK', tekst: 'Af en toe reizen naar het buitenland is geen probleem, als je Nederland als basis hebt.' },
+      { naam: 'BRP-inschrijving', tekst: 'Zorg dat je ingeschreven staat in de BRP bij je gemeente.' },
+      { naam: 'Reizen is OK', tekst: 'Af en toe naar het buitenland reizen is geen probleem, als je Nederland als basis hebt.' },
       { naam: 'Meer informatie', tekst: 'Vraag bij je gemeente naar de exacte eisen voor de woonplaats.' },
     ],
-    link: 'https://ind.nl/nl/nederlander-worden/naturalisatie',
-    linkTekst: '→ Meer informatie op ind.nl',
+    link: 'https://ind.nl/nl/nederlander-worden/naturalisatie', linkTekst: '→ Meer informatie op ind.nl',
   },
   r_nationaliteit: {
-    type: 'wacht',
-    icoon: '🌍',
+    type: 'wacht', icoon: '🌍',
     titel: 'Afstand doen van nationaliteit is een grote stap',
     sub: 'Nederland staat meestal geen dubbele nationaliteit toe. Er zijn wel uitzonderingen — lees dit goed door voordat je beslist.',
     alternatieven: [
       { naam: 'Uitzondering statushouders', tekst: 'Als erkend vluchteling hoef je GEEN afstand te doen van je nationaliteit.' },
-      { naam: 'Uitzondering onmogelijk', tekst: 'Als het onmogelijk of gevaarlijk is om afstand te doen, is er een uitzondering.' },
-      { naam: 'Uitzondering NL partner', tekst: 'Ben je getrouwd met een Nederlander? Dan zijn er speciale regels.' },
-      { naam: 'Juridisch advies', tekst: 'Laat je situatie beoordelen — soms is er meer mogelijk dan je denkt.' },
+      { naam: 'Uitzondering: onmogelijk', tekst: 'Als afstand doen onmogelijk of gevaarlijk is, kan er een uitzondering zijn.' },
+      { naam: 'Uitzondering: NL partner', tekst: 'Ben je getrouwd met een Nederlander? Dan gelden speciale regels.' },
+      { naam: 'Juridisch advies', tekst: 'Laat jouw situatie beoordelen — soms is er meer mogelijk dan je denkt.' },
     ],
-    link: 'https://ind.nl/nl/nederlander-worden/naturalisatie',
-    linkTekst: '→ Alle uitzonderingen op ind.nl',
+    link: 'https://ind.nl/nl/nederlander-worden/naturalisatie', linkTekst: '→ Alle uitzonderingen op ind.nl',
   },
   r_kosten: {
-    type: 'wacht',
-    icoon: '💶',
+    type: 'wacht', icoon: '💶',
     titel: 'Er zijn mogelijkheden om de kosten te verlagen',
-    sub: 'De naturalisatiekosten zijn €1.044 — maar er zijn manieren om dit betaalbaar te maken.',
+    sub: 'De naturalisatiekosten zijn €1.044 (2025) — maar er zijn manieren om dit betaalbaar te maken.',
     alternatieven: [
-      { naam: 'Gemeentelijk fonds', tekst: 'Sommige gemeenten hebben fondsen die de kosten (deels) vergoeden.' },
+      { naam: 'Gemeentelijk fonds', tekst: 'Sommige gemeenten vergoeden de kosten (deels) voor statushouders.' },
       { naam: 'Bijzondere bijstand', tekst: 'Vraag bijzondere bijstand aan bij je gemeente voor de legeskosten.' },
       { naam: 'VluchtelingenWerk', tekst: 'Zij weten welke fondsen beschikbaar zijn in jouw gemeente.' },
-      { naam: 'Spreiden', tekst: 'Zorg dat je het bedrag spaart terwijl je de overige documenten verzamelt.' },
+      { naam: 'Sparen', tekst: 'Spaar het bedrag terwijl je de overige documenten verzamelt.' },
     ],
-    link: 'https://www.vluchtelingenwerk.nl',
-    linkTekst: '→ Hulp bij kosten via VluchtelingenWerk',
+    link: 'https://www.vluchtelingenwerk.nl', linkTekst: '→ Hulp bij kosten via VluchtelingenWerk',
   },
 };
 
-// ─── APP STATE ────────────────────────────────────────────────────────────────
-
-let geschiedenis = []; // [{vraagId, antwoordTekst, klasse}]
+let geschiedenis = [];
 let huidigVraagId = 'v1';
-let totaalStappen = 8;
-
-// ─── RENDER ───────────────────────────────────────────────────────────────────
+const totaalStappen = 8;
 
 function render() {
   const hoofd = document.getElementById('hoofd');
   hoofd.innerHTML = '';
-
-  // Geschiedenis tonen
   geschiedenis.forEach(item => {
     const el = document.createElement('div');
     el.className = 'geschiedenis-item';
-    const klasse = item.klasse === 'ja' ? 'ga-ja' : item.klasse === 'nee' ? 'ga-nee' : 'ga-anders';
-    el.innerHTML = `
-      <span class="geschiedenis-vraag">${item.vraagTekst}</span>
-      <span class="geschiedenis-antwoord ${klasse}">${item.antwoordTekst}</span>
-    `;
+    const kl = item.klasse === 'ja' ? 'ga-ja' : item.klasse === 'nee' ? 'ga-nee' : item.klasse === 'info' ? 'ga-info' : 'ga-anders';
+    el.innerHTML = `<span class="geschiedenis-vraag">${item.vraagTekst}</span><span class="geschiedenis-antwoord ${kl}">${item.antwoordTekst}</span>`;
     hoofd.appendChild(el);
   });
-
-  // Huidige vraag of resultaat
-  if (huidigVraagId.startsWith('r_')) {
-    toonResultaat(huidigVraagId);
-  } else {
-    toonVraag(huidigVraagId);
-  }
-
-  // Scroll naar nieuwe content
-  if (geschiedenis.length > 0) {
-    setTimeout(() => {
-      const nieuweEl = hoofd.lastElementChild;
-      if (nieuweEl) nieuweEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }, 100);
-  }
+  if (huidigVraagId.startsWith('r_')) toonResultaat(huidigVraagId);
+  else toonVraag(huidigVraagId);
+  if (geschiedenis.length > 0) setTimeout(() => hoofd.lastElementChild?.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
 }
 
 function toonVraag(id) {
-  const vraag = vragen[id];
-  if (!vraag) return;
-
-  const stap = parseInt(vraag.stap.split(' ')[1]) || 1;
-  const voortgang = (stap / totaalStappen) * 100;
-  document.getElementById('voortgang').style.width = voortgang + '%';
-
+  const v = vragen[id]; if (!v) return;
+  const stapNr = parseInt(v.stap.match(/\d+/)?.[0]) || 1;
+  document.getElementById('voortgang').style.width = ((stapNr / totaalStappen) * 100) + '%';
   const kaart = document.createElement('div');
   kaart.className = 'vraag-kaart';
   kaart.innerHTML = `
     <div class="vraag-header">
-      <div class="vraag-stap">${vraag.stap}</div>
-      <div class="vraag-tekst">${vraag.tekst}</div>
-      ${vraag.uitleg ? `<div class="vraag-uitleg">${vraag.uitleg}</div>` : ''}
+      <div class="vraag-stap">${v.stap}</div>
+      <div class="vraag-tekst">${v.tekst}</div>
+      ${v.uitleg ? `<div class="vraag-uitleg">${v.uitleg}</div>` : ''}
     </div>
     <div class="antwoorden">
-      ${vraag.antwoorden.map((a, i) => `
-        <button class="antwoord-knop ${a.klasse}" onclick="kiesAntwoord('${id}', ${i})">
-          <div class="antwoord-icoon" style="background:${a.klasse === 'ja' ? 'var(--groen-licht)' : a.klasse === 'nee' ? 'var(--rood-licht)' : 'var(--amber-licht)'}">
+      ${v.antwoorden.map((a, i) => `
+        <button class="antwoord-knop ${a.klasse||''}" onclick="kiesAntwoord('${id}',${i})">
+          <div class="antwoord-icoon" style="background:${a.klasse==='ja'?'var(--groen-licht)':a.klasse==='nee'?'var(--rood-licht)':a.klasse==='info'?'var(--blauw-licht)':'var(--amber-licht)'}">
             ${a.icoon}
           </div>
           <div>
             <div class="antwoord-tekst">${a.tekst}</div>
-            ${a.sub ? `<div class="antwoord-sub">${a.sub}</div>` : ''}
+            ${a.sub?`<div class="antwoord-sub">${a.sub}</div>`:''}
           </div>
-        </button>
-      `).join('')}
-    </div>
-  `;
-
+        </button>`).join('')}
+    </div>`;
   document.getElementById('hoofd').appendChild(kaart);
-
-  // Opnieuw beginnen knop als er al antwoorden zijn
   if (geschiedenis.length > 0) {
     const opnieuw = document.createElement('div');
-    opnieuw.style.cssText = 'text-align:center; margin-top:1rem;';
-    opnieuw.innerHTML = `<button class="knop-secundair" onclick="opnieuwBeginnen()" style="font-size:0.8rem; padding:7px 16px;">↺ Opnieuw beginnen</button>`;
+    opnieuw.style.cssText = 'text-align:center;margin-top:0.5rem;';
+    opnieuw.innerHTML = `<button class="knop-secundair" onclick="opnieuwBeginnen()" style="font-size:0.8rem;padding:7px 16px;">↺ Opnieuw beginnen</button>`;
     document.getElementById('hoofd').appendChild(opnieuw);
   }
 }
 
 function toonResultaat(id) {
-  const res = resultaten[id];
-  if (!res) return;
-
+  const res = resultaten[id]; if (!res) return;
   document.getElementById('voortgang').style.width = '100%';
-
   const kaart = document.createElement('div');
   kaart.className = `resultaat-kaart resultaat-${res.type}`;
-
-  let bodyHTML = '';
-
+  const disclaimer = `<div class="disclaimer">⚠️ Deze checker geeft een indicatie op basis van de IND-voorwaarden 2025. Er zijn altijd uitzonderingen en persoonlijke omstandigheden. Raadpleeg altijd een medewerker van de gemeente of VluchtelingenWerk voor persoonlijk advies.</div>`;
+  const knoppen = `<div class="actie-knoppen"><a href="${res.link}" target="_blank" class="knop-primair">${res.linkTekst}</a><button class="knop-secundair" onclick="opnieuwBeginnen()">↺ Opnieuw beginnen</button></div>`;
+  let body = '';
   if (res.type === 'positief') {
-    bodyHTML = `
-      <div class="resultaat-body">
-        ${res.info ? `<div class="info-box">${res.info}</div>` : ''}
-        <p style="font-size:0.85rem; color:var(--tekst-zacht); margin-bottom:1rem; font-weight:600;">Volgende stappen:</p>
-        <ul class="stap-lijst">
-          ${res.stappen.map(s => `
-            <li class="stap-item-res">
-              <span class="stap-nr-res">${s.nr}</span>
-              <span class="stap-tekst-res">${s.tekst}</span>
-            </li>
-          `).join('')}
-        </ul>
-        <div class="actie-knoppen">
-          <a href="${res.link}" target="_blank" class="knop-primair">${res.linkTekst}</a>
-          <button class="knop-secundair" onclick="opnieuwBeginnen()">↺ Opnieuw beginnen</button>
-        </div>
-      </div>
-    `;
+    body = `<div class="resultaat-body">
+      ${res.info?`<div class="info-box">${res.info}</div>`:''}
+      <div class="sectie-label">Volgende stappen</div>
+      <ul class="stap-lijst">${res.stappen.map(s=>`<li class="stap-item-res"><span class="stap-nr-res">${s.nr}</span><span class="stap-tekst-res">${s.tekst}</span></li>`).join('')}</ul>
+      ${knoppen}${disclaimer}</div>`;
+  } else if (res.type === 'route') {
+    let infoH = (res.infoBoxen||[]).map(b=>`<div class="${b.type==='amber'?'amber-box':'info-box'}">${b.tekst}</div>`).join('');
+    if (res.info) infoH += `<div class="info-box">${res.info}</div>`;
+    let padenH = res.paden ? `<div class="sectie-label">De drie paden voor naturalisatie vanuit de Z-route</div><div class="route-paden">${res.paden.map(p=>`<div class="route-pad"><div class="route-pad-header"><div class="route-pad-nr">${p.nr}</div><div class="route-pad-titel">${p.titel}</div></div><div class="route-pad-tekst">${p.tekst}</div></div>`).join('')}</div>` : '';
+    let stappenH = res.stappen ? `<div class="sectie-label" style="margin-top:1rem;">Wat kun je nu doen?</div><ul class="stap-lijst">${res.stappen.map(s=>`<li class="stap-item-res"><span class="stap-nr-res">${s.nr}</span><span class="stap-tekst-res">${s.tekst}</span></li>`).join('')}</ul>` : '';
+    body = `<div class="resultaat-body">${infoH}${padenH}${stappenH}${knoppen}${disclaimer}</div>`;
   } else {
-    bodyHTML = `
-      <div class="resultaat-body">
-        <div class="alternatief-grid">
-          ${res.alternatieven.map(a => `
-            <div class="alternatief-item">
-              <div class="alternatief-naam">${a.naam}</div>
-              <div class="alternatief-tekst">${a.tekst}</div>
-            </div>
-          `).join('')}
-        </div>
-        <div class="actie-knoppen">
-          <a href="${res.link}" target="_blank" class="knop-primair">${res.linkTekst}</a>
-          <button class="knop-secundair" onclick="opnieuwBeginnen()">↺ Opnieuw beginnen</button>
-        </div>
-        <div class="disclaimer">
-          ⚠️ Deze checker geeft een indicatie op basis van de IND-voorwaarden 2025. Er zijn altijd uitzonderingen en persoonlijke omstandigheden die meespelen. Raadpleeg altijd een medewerker van de gemeente of VluchtelingenWerk voor persoonlijk advies.
-        </div>
-      </div>
-    `;
+    body = `<div class="resultaat-body"><div class="alternatief-grid">${res.alternatieven.map(a=>`<div class="alternatief-item"><div class="alternatief-naam">${a.naam}</div><div class="alternatief-tekst">${a.tekst}</div></div>`).join('')}</div>${knoppen}${disclaimer}</div>`;
   }
-
-  kaart.innerHTML = `
-    <div class="resultaat-header">
-      <div class="resultaat-icoon-groot">${res.icoon}</div>
-      <div class="resultaat-titel">${res.titel}</div>
-      <div class="resultaat-sub">${res.sub}</div>
-    </div>
-    ${bodyHTML}
-  `;
-
+  kaart.innerHTML = `<div class="resultaat-header"><div class="resultaat-icoon-groot">${res.icoon}</div><div class="resultaat-titel">${res.titel}</div><div class="resultaat-sub">${res.sub}</div></div>${body}`;
   document.getElementById('hoofd').appendChild(kaart);
 }
 
-// ─── INTERACTIE ───────────────────────────────────────────────────────────────
-
-function kiesAntwoord(vraagId, antwoordIndex) {
-  const vraag = vragen[vraagId];
-  const antwoord = vraag.antwoorden[antwoordIndex];
-
-  geschiedenis.push({
-    vraagId,
-    vraagTekst: vraag.tekst,
-    antwoordTekst: antwoord.tekst,
-    klasse: antwoord.klasse,
-  });
-
-  huidigVraagId = antwoord.volgende;
+function kiesAntwoord(vraagId, i) {
+  const v = vragen[vraagId], a = v.antwoorden[i];
+  geschiedenis.push({ vraagId, vraagTekst: v.tekst, antwoordTekst: a.tekst, klasse: a.klasse });
+  huidigVraagId = a.volgende;
   render();
 }
 
 function opnieuwBeginnen() {
-  geschiedenis = [];
-  huidigVraagId = 'v1';
+  geschiedenis = []; huidigVraagId = 'v1';
   document.getElementById('voortgang').style.width = '0%';
-  render();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  render(); window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Start
 render();
 </script>
 </body>
