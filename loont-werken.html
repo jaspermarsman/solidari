@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loont Werken? — Solidari</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --wit: #FAFAF7; --wit-warm: #F5F2EC;
+      --amber: #E8A020; --amber-licht: #FDF3E0; --amber-diep: #C47F10;
+      --groen: #2D5A3D; --groen-licht: #EBF3EE;
+      --tekst: #1A1A18; --tekst-zacht: #5C5C58; --tekst-licht: #9C9C98;
+      --rand: #E8E5DE; --rood-licht: #FEF2F2; --rood: #DC2626;
+      --blauw-licht: #EFF6FF; --blauw: #2563EB;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--wit); color: var(--tekst); font-family: 'Source Sans 3', sans-serif; font-weight: 400; line-height: 1.6; }
+
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(250,250,247,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--rand); padding: 0 2rem; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .logo-naam { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--tekst); }
+    .logo-naam span { color: var(--amber); }
+    .nav-terug { display: flex; align-items: center; gap: 6px; text-decoration: none; color: var(--tekst-zacht); font-size: 0.88rem; font-weight: 500; border: 1px solid var(--rand); border-radius: 8px; padding: 6px 14px; transition: all 0.2s; }
+    .nav-terug:hover { border-color: var(--tekst-zacht); color: var(--tekst); }
+
+    /* HEADER */
+    .pagina-header { padding-top: 64px; background: var(--groen); color: white; position: relative; overflow: hidden; }
+    .pagina-header::before { content: '💶'; position: absolute; right: 8%; top: 50%; transform: translateY(-50%); font-size: 7rem; opacity: 0.07; pointer-events: none; }
+    .pagina-header::after { content: ''; position: absolute; right: -80px; top: -80px; width: 320px; height: 320px; border-radius: 50%; background: rgba(232,160,32,0.08); }
+    .header-inhoud { max-width: 900px; margin: 0 auto; padding: 3rem 2rem 2.5rem; position: relative; z-index: 1; }
+    .header-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.12); border-radius: 20px; padding: 4px 12px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem; opacity: 0.85; }
+    .header-titel { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 700; line-height: 1.2; margin-bottom: 0.6rem; }
+    .header-sub { font-size: 1rem; opacity: 0.75; font-weight: 300; max-width: 520px; line-height: 1.7; }
+
+    /* HOOFD LAYOUT */
+    .hoofd { max-width: 900px; margin: 0 auto; padding: 2.5rem 2rem 5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start; }
+    @media (max-width: 700px) { .hoofd { grid-template-columns: 1fr; } }
+
+    /* INVOER PANEEL */
+    .paneel { background: white; border: 1px solid var(--rand); border-radius: 20px; overflow: hidden; }
+    .paneel-header { padding: 1.2rem 1.6rem; border-bottom: 1px solid var(--rand); background: var(--wit-warm); }
+    .paneel-titel { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 600; color: var(--tekst); }
+    .paneel-sub { font-size: 0.78rem; color: var(--tekst-licht); margin-top: 2px; }
+    .paneel-body { padding: 1.4rem 1.6rem; display: flex; flex-direction: column; gap: 1.1rem; }
+
+    /* FORM ELEMENTEN */
+    .veld { display: flex; flex-direction: column; gap: 5px; }
+    .veld-label { font-size: 0.8rem; font-weight: 600; color: var(--tekst-zacht); }
+    .veld-label span { font-weight: 300; color: var(--tekst-licht); margin-left: 4px; }
+    .veld-input { border: 1.5px solid var(--rand); border-radius: 10px; padding: 10px 14px; font-size: 0.9rem; font-family: 'Source Sans 3', sans-serif; color: var(--tekst); background: var(--wit); transition: border-color 0.2s; outline: none; width: 100%; }
+    .veld-input:focus { border-color: var(--groen); }
+    .veld-prefix { position: relative; }
+    .veld-prefix .veld-input { padding-left: 28px; }
+    .veld-prefix::before { content: '€'; position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--tekst-licht); font-size: 0.88rem; pointer-events: none; }
+
+    .veld-select { border: 1.5px solid var(--rand); border-radius: 10px; padding: 10px 14px; font-size: 0.9rem; font-family: 'Source Sans 3', sans-serif; color: var(--tekst); background: var(--wit); transition: border-color 0.2s; outline: none; width: 100%; appearance: none; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239C9C98' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; }
+    .veld-select:focus { border-color: var(--groen); }
+
+    .toggle-rij { display: flex; gap: 8px; }
+    .toggle-knop { flex: 1; padding: 9px 8px; border: 1.5px solid var(--rand); border-radius: 9px; background: var(--wit); font-family: 'Source Sans 3', sans-serif; font-size: 0.82rem; font-weight: 600; color: var(--tekst-zacht); cursor: pointer; transition: all 0.2s; text-align: center; }
+    .toggle-knop:hover { border-color: var(--groen); color: var(--groen); }
+    .toggle-knop.actief { background: var(--groen); border-color: var(--groen); color: white; }
+
+    .scheidslijn { height: 1px; background: var(--rand); margin: 0.2rem 0; }
+
+    /* RESULTAAT PANEEL */
+    .resultaat-paneel { display: flex; flex-direction: column; gap: 1.2rem; }
+
+    /* VERGELIJKING KAARTEN */
+    .vergelijk-rij { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .vergelijk-kaart { border-radius: 16px; padding: 1.2rem; border: 1.5px solid var(--rand); }
+    .vergelijk-kaart.huidig { background: var(--wit-warm); border-color: var(--rand); }
+    .vergelijk-kaart.werk { background: var(--groen-licht); border-color: rgba(45,90,61,0.2); }
+    .vergelijk-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--tekst-licht); margin-bottom: 0.5rem; }
+    .vergelijk-kaart.werk .vergelijk-label { color: var(--groen); }
+    .vergelijk-totaal { font-family: 'Playfair Display', serif; font-size: 1.9rem; font-weight: 700; color: var(--tekst); line-height: 1; }
+    .vergelijk-kaart.werk .vergelijk-totaal { color: var(--groen); }
+    .vergelijk-sub { font-size: 0.75rem; color: var(--tekst-licht); margin-top: 4px; }
+
+    /* VERSCHIL BANNER */
+    .verschil-banner { border-radius: 14px; padding: 1rem 1.4rem; display: flex; align-items: center; gap: 12px; }
+    .verschil-banner.positief { background: var(--groen); color: white; }
+    .verschil-banner.negatief { background: var(--rood-licht); border: 1px solid rgba(220,38,38,0.2); }
+    .verschil-banner.neutraal { background: var(--amber-licht); border: 1px solid rgba(232,160,32,0.3); }
+    .verschil-icoon { font-size: 1.5rem; flex-shrink: 0; }
+    .verschil-tekst strong { display: block; font-size: 0.95rem; font-weight: 700; }
+    .verschil-tekst span { font-size: 0.8rem; opacity: 0.85; }
+    .verschil-banner.positief .verschil-tekst span { opacity: 0.8; }
+
+    /* UITSPLITSING */
+    .uitsplitsing { background: white; border: 1px solid var(--rand); border-radius: 16px; overflow: hidden; }
+    .uitsplitsing-header { padding: 1rem 1.4rem; border-bottom: 1px solid var(--rand); background: var(--wit-warm); }
+    .uitsplitsing-titel { font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 600; }
+    .uitsplitsing-body { padding: 0.8rem 1.4rem 1rem; }
+    .uitsp-rij { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--rand); font-size: 0.82rem; }
+    .uitsp-rij:last-child { border-bottom: none; }
+    .uitsp-naam { color: var(--tekst-zacht); display: flex; align-items: center; gap: 6px; }
+    .uitsp-naam .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .uitsp-bedragen { display: flex; gap: 20px; }
+    .uitsp-huidig { color: var(--tekst-licht); font-size: 0.8rem; width: 70px; text-align: right; }
+    .uitsp-werk { font-weight: 600; color: var(--tekst); width: 70px; text-align: right; }
+    .uitsp-rij.totaal { font-weight: 700; }
+    .uitsp-rij.totaal .uitsp-naam { color: var(--tekst); font-weight: 700; }
+    .uitsp-rij.totaal .uitsp-werk { color: var(--groen); }
+    .uitsp-header-rij { display: flex; justify-content: space-between; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--tekst-licht); padding: 0 0 6px; border-bottom: 1px solid var(--rand); margin-bottom: 2px; }
+    .uitsp-header-rij .uitsp-bedragen { gap: 20px; }
+
+    /* VISUELE BALK */
+    .balk-vergelijk { background: white; border: 1px solid var(--rand); border-radius: 16px; padding: 1.2rem 1.4rem; }
+    .balk-rij { margin-bottom: 0.9rem; }
+    .balk-rij:last-child { margin-bottom: 0; }
+    .balk-label-rij { display: flex; justify-content: space-between; font-size: 0.78rem; margin-bottom: 5px; }
+    .balk-naam { color: var(--tekst-zacht); font-weight: 500; }
+    .balk-waarde { font-weight: 700; color: var(--tekst); }
+    .balk-track { background: var(--wit-warm); border-radius: 6px; height: 10px; overflow: hidden; }
+    .balk-vulling { height: 100%; border-radius: 6px; transition: width 0.6s ease; }
+    .balk-vulling.huidig { background: var(--rand); }
+    .balk-vulling.werk { background: linear-gradient(90deg, var(--groen), #4CAF50); }
+
+    /* ARMOEDEVAL WAARSCHUWING */
+    .motivatie-box {
+      border: 1.5px solid var(--groen);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .motivatie-titel {
+      background: var(--groen);
+      color: white;
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 12px 20px;
+    }
+    .motivatie-tekst {
+      padding: 14px 20px 0;
+      font-size: 0.85rem;
+      color: var(--tekst-zacht);
+      line-height: 1.7;
+    }
+    .motivatie-getal-rij {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      margin: 14px 20px;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--rand);
+    }
+    .motivatie-getal-blok {
+      padding: 14px;
+      background: var(--wit-warm);
+      text-align: center;
+      border-right: 1px solid var(--rand);
+    }
+    .motivatie-getal-blok:last-child { border-right: none; }
+    .motivatie-getal {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--groen);
+      line-height: 1.1;
+      margin-bottom: 4px;
+    }
+    .motivatie-getal-label {
+      font-size: 0.72rem;
+      color: var(--tekst-licht);
+      line-height: 1.4;
+    }
+
+    .armoedeval-box { background: var(--amber-licht); border: 1.5px solid rgba(232,160,32,0.4); border-radius: 14px; padding: 1.1rem 1.4rem; }
+    .armoedeval-titel { font-weight: 700; font-size: 0.88rem; color: var(--amber-diep); margin-bottom: 4px; }
+    .armoedeval-tekst { font-size: 0.8rem; color: var(--tekst-zacht); line-height: 1.55; }
+
+    /* INFO BOX */
+    .info-box { background: var(--blauw-licht); border-left: 3px solid var(--blauw); border-radius: 0 10px 10px 0; padding: 10px 14px; font-size: 0.8rem; color: var(--tekst-zacht); line-height: 1.5; }
+
+    /* DISCLAIMER */
+    .disclaimer { font-size: 0.73rem; color: var(--tekst-licht); line-height: 1.6; padding: 0.8rem 1rem; background: var(--wit-warm); border-radius: 10px; }
+
+    /* LEGE STAAT */
+    .leeg-staat { text-align: center; padding: 2.5rem 1.5rem; color: var(--tekst-licht); }
+    .leeg-icoon { font-size: 2.5rem; margin-bottom: 0.8rem; }
+    .leeg-tekst { font-size: 0.88rem; line-height: 1.6; }
+
+    @keyframes inschuiven { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .animeer { animation: inschuiven 0.35s ease both; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
+      <circle cx="18" cy="18" r="8" fill="#E8A020"/>
+      <line x1="18" y1="2" x2="18" y2="7" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="18" y1="29" x2="18" y2="34" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="2" y1="18" x2="7" y2="18" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="29" y1="18" x2="34" y2="18" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="6.1" y1="6.1" x2="9.6" y2="9.6" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="26.4" y1="26.4" x2="29.9" y2="29.9" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="29.9" y1="6.1" x2="26.4" y2="9.6" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="9.6" y1="26.4" x2="6.1" y2="29.9" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>
+    <span class="logo-naam">Solid<span>a</span>ri</span>
+  </a>
+  <a href="index.html" class="nav-terug">← Alle tools</a>
+</nav>
+
+<div class="pagina-header">
+  <div class="header-inhoud">
+    <div class="header-badge">💶 Loont Werken?</div>
+    <h1 class="header-titel">Ga ik er op vooruit als ik ga werken?</h1>
+    <p class="header-sub">Vul in wat je nu ontvangt en wat je zou gaan verdienen. Je ziet direct of werken loont — inclusief effect op toeslagen en uitkering.</p>
+  </div>
+</div>
+
+<div class="hoofd">
+
+  <!-- INVOER -->
+  <div class="paneel">
+    <div class="paneel-header">
+      <div class="paneel-titel">⚙️ Jouw situatie</div>
+      <div class="paneel-sub">Vul in wat voor jou van toepassing is</div>
+    </div>
+    <div class="paneel-body">
+
+      <div class="veld">
+        <div class="veld-label">Mijn bijstandssituatie</div>
+        <div class="toggle-rij" id="situatie-knoppen">
+          <button class="toggle-knop actief" onclick="setSituatie(this,'alleenstaand')">Alleenstaand</button>
+          <button class="toggle-knop" onclick="setSituatie(this,'gehuwd')">Gehuwd / samenwonend</button>
+          <button class="toggle-knop" onclick="setSituatie(this,'kostendeler')">Kostendelersnorm</button>
+        </div>
+      </div>
+
+      <div class="veld">
+        <div class="veld-label">Leeftijd</div>
+        <div class="toggle-rij" id="leeftijd-knoppen">
+          <button class="toggle-knop" onclick="setLeeftijd(this,'18_20')">18–20 jaar</button>
+          <button class="toggle-knop actief" onclick="setLeeftijd(this,'21_aow')">21 jaar t/m AOW-leeftijd</button>
+          <button class="toggle-knop" onclick="setLeeftijd(this,'aow')">Vanaf AOW-leeftijd</button>
+        </div>
+      </div>
+
+      <div class="veld" id="veld-norm-info">
+        <div style="background:var(--groen-licht);border-radius:8px;padding:8px 12px;font-size:0.78rem;color:var(--tekst-zacht);">
+          <span id="norm-info-tekst">Bijstandsnorm alleenstaanden: <strong>€ 1.401,50/mnd</strong> (incl. vakantiegeld, per 1-1-2026)</span>
+        </div>
+      </div>
+
+      <div id="veld-jongeren-uitleg" style="display:none;">
+        <div style="background:#EFF6FF;border-left:3px solid #2563EB;border-radius:0 8px 8px 0;padding:12px 16px;font-size:0.8rem;color:var(--tekst-zacht);line-height:1.6;" id="jongeren-uitleg">
+          <strong style="color:#1d4ed8;">ℹ️ Bijstand 18–20 jaar werkt anders</strong><br>
+          Jouw ouders hebben een <strong>onderhoudsplicht</strong> — de gemeente vraagt eerst of zij kunnen bijdragen. De basisnorm is laag (€&nbsp;345,99). Als ouders <em>niet</em> kunnen bijdragen, kan de gemeente aanvullen tot maximaal €&nbsp;1.092,44/mnd. Dit is maatwerk: bespreek het met je gemeente of <a href="https://www.vluchtelingenwerk.nl" target="_blank" style="color:#2563EB;">VluchtelingenWerk</a>.
+        </div>
+      </div>
+
+      <div class="veld" id="veld-kostendelers" style="display:none;flex-direction:column;">
+        <div class="veld-label">Aantal personen van 27+ in huis <span>(inclusief jezelf)</span></div>
+        <div class="toggle-rij" id="kostendeler-knoppen">
+          <button class="toggle-knop actief" onclick="setKostendelers(this,2)">2</button>
+          <button class="toggle-knop" onclick="setKostendelers(this,3)">3</button>
+          <button class="toggle-knop" onclick="setKostendelers(this,4)">4</button>
+          <button class="toggle-knop" onclick="setKostendelers(this,5)">5+</button>
+        </div>
+        <div style="font-size:0.72rem;color:var(--tekst-licht);margin-top:3px;">Jongeren onder 27, studenten en commerciële huurders tellen niet mee.</div>
+      </div>
+
+      <div class="veld">
+        <div class="veld-label">Kinderen jonger dan 18 <span>(thuis wonend)</span></div>
+        <div class="toggle-rij">
+          <button class="toggle-knop actief" onclick="setKinderen(this, 0)">Geen</button>
+          <button class="toggle-knop" onclick="setKinderen(this, 1)">1</button>
+          <button class="toggle-knop" onclick="setKinderen(this, 2)">2</button>
+          <button class="toggle-knop" onclick="setKinderen(this, 3)">3+</button>
+        </div>
+      </div>
+
+      <div class="veld" id="veld-huur-wrap">
+        <div class="veld-label">Maandhuur <span>(kale huur)</span></div>
+        <div class="veld-prefix">
+          <input type="number" class="veld-input" id="huur" value="650" min="0" max="900" oninput="bereken()">
+        </div>
+      </div>
+
+      <div class="scheidslijn"></div>
+
+      <div class="veld">
+        <div class="veld-label">Bruto maandsalaris bij nieuw werk</div>
+        <div class="veld-prefix">
+          <input type="number" class="veld-input" id="bruto" value="1800" min="0" max="10000" oninput="bereken()">
+        </div>
+        <div style="font-size:0.72rem;color:var(--tekst-licht);margin-top:2px;">Minimumloon 2026: €1.995 bruto/mnd (voltijd) · Parttime mogelijk</div>
+      </div>
+
+      <div class="veld">
+        <div class="veld-label">Aantal uur per week <span>(bij parttime)</span></div>
+        <div class="toggle-rij">
+          <button class="toggle-knop" onclick="setUren(this, 12)">12u</button>
+          <button class="toggle-knop" onclick="setUren(this, 20)">20u</button>
+          <button class="toggle-knop" onclick="setUren(this, 32)">32u</button>
+          <button class="toggle-knop actief" onclick="setUren(this, 40)">Voltijd</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RESULTAAT -->
+  <div class="resultaat-paneel" id="resultaat">
+    <div class="paneel">
+      <div class="leeg-staat">
+        <div class="leeg-icoon">💶</div>
+        <div class="leeg-tekst">Vul je gegevens in aan de linkerkant<br>om de berekening te zien.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── NORMEN 2026 ──────────────────────────────────────────────
+const NORMEN = {
+  zorgtoeslag: {
+    drempel_alleenstaand: 40857,
+    drempel_partner: 51407,
+    max_alleenstaand: 154,
+    max_partner: 296,
+  },
+
+  // Huurtoeslag 2026
+  huurtoeslag: {
+    huurgrens: 880.66,
+    kwaliteitskorting_grens: 454.47,
+    aftoppingsgrens_1_2: 650.43,
+    aftoppingsgrens_3plus: 697.46,
+    // Inkomensgrenzen
+    normhuur_alleenstaand: 242,
+    normhuur_meerpersoonshuishouden: 260,
+    max_inkomen_alleenstaand: 31875,
+    max_inkomen_partners: 43675,
+  },
+
+  // Kindgebonden budget 2026
+  kgb: {
+    basisbedrag_1e_kind: 1530,   // per jaar
+    basisbedrag_2e_kind: 1019,
+    basisbedrag_3e_plus: 376,
+    inkomensgrens: 24557,        // tot hier volledig
+    afbouwpercentage: 0.0683,    // 6,83% boven grens
+    max_inkomen: 130000,
+  },
+
+  // Arbeidskorting + algemene heffingskorting (globaal, 2026)
+  loonheffing: {
+    // Tarief box 1 schijven
+    schijf1_grens: 38441,
+    schijf1_tarief: 0.3597,
+    schijf2_tarief: 0.4950,
+    // Algemene heffingskorting (max bij laag inkomen)
+    ahk_max: 3099,
+    ahk_afbouw_start: 24813,
+    ahk_afbouw_eind: 75518,
+    // Arbeidskorting (max bij middeninkomen)
+    ak_max: 5052,
+    ak_opbouw_eind: 24813,
+    ak_afbouw_start: 43071,
+    ak_afbouw_eind: 124935,
+  },
+};
+
+let aantalKinderen = 0;
+let aantalUren = 40;
+let bijstandSituatie = 'alleenstaand';
+let bijstandLeeftijd = '21_aow';
+let aantalKostendelers = 2;
+
+// Bijstandsnormen per 1 januari 2026 (incl. vakantiegeld, bron: rijksoverheid.nl)
+const BIJSTAND_NORMEN = {
+  alleenstaand_21_aow: 1401.50,
+  gehuwd_21_aow: 2002.13,
+  alleenstaand_aow: 1564.69,
+  gehuwd_aow: 2144.16,
+  // Jongerennorm 18-20 jaar (bron: gemeenten, Leidschendam-Voorburg jan 2026)
+  jonger_alleenstaand: 345.99,     // thuiswonend, basis
+  jonger_gehuwd: 691.98,           // beiden 18-20, samen
+};
+// Aanvulling bij geen/ontoereikende oudersbijdrage (geharmoniseerd per 1-1-2026, VNG)
+const JONGER_AANVULLING = 746.45;
+
+// Minimumuurlonen per 1 januari 2026 (bron: UWV / Rijksoverheid)
+const MINIMUMLOON = {
+  '18_20': 7.36,   // 18 jaar als laagste; we tonen range 18-20
+  21: 14.71,
+};
+// Per leeftijd voor de toelichting
+const JEUGDLOON = { 18: 7.36, 19: 8.83, 20: 11.77 };
+// Bron: rijksoverheid.nl/kostendelersnorm
+const KOSTENDELER_PCT = { 2: 0.50, 3: 0.4333, 4: 0.40, 5: 0.38 };
+const KOSTENDELER_BASIS = 2002.13;
+
+function getBijstandsNorm() {
+  if (bijstandLeeftijd === '18_20') {
+    if (bijstandSituatie === 'gehuwd') return BIJSTAND_NORMEN.jonger_gehuwd;
+    return BIJSTAND_NORMEN.jonger_alleenstaand;
+  }
+  if (bijstandSituatie === 'kostendeler') {
+    const pct = KOSTENDELER_PCT[Math.min(aantalKostendelers, 5)] || 0.38;
+    return Math.round(KOSTENDELER_BASIS * pct * 100) / 100;
+  }
+  const key = `${bijstandSituatie === 'gehuwd' ? 'gehuwd' : 'alleenstaand'}_${bijstandLeeftijd}`;
+  return BIJSTAND_NORMEN[key];
+}
+
+function fmtNorm(n) {
+  return '€\u202f' + n.toFixed(2).replace('.', ',');
+}
+
+function getNormInfoTekst() {
+  const norm = getBijstandsNorm();
+  if (bijstandLeeftijd === '18_20') {
+    const totaal = norm + JONGER_AANVULLING;
+    return `Jongerennorm 18–20 jaar: <strong>${fmtNorm(norm)}/mnd</strong> basis. Als ouders niet kunnen bijdragen: aanvulling tot max. <strong>${fmtNorm(totaal)}/mnd</strong> (gemeente beslist). <a href="#jongeren-uitleg" style="color:var(--blauw);font-size:0.75rem;">Lees meer ↓</a>`;
+  }
+  if (bijstandSituatie === 'alleenstaand') return `Bijstandsnorm alleenstaanden: <strong>${fmtNorm(norm)}/mnd</strong> (incl. vakantiegeld, per 1-1-2026)`;
+  if (bijstandSituatie === 'gehuwd') return `Bijstandsnorm gehuwden/samenwonenden: <strong>${fmtNorm(norm)}/mnd</strong> (incl. vakantiegeld, per 1-1-2026)`;
+  const pct = KOSTENDELER_PCT[Math.min(aantalKostendelers, 5)] || 0.38;
+  return `Kostendelersnorm (${aantalKostendelers >= 5 ? '5+' : aantalKostendelers} personen van 27+): <strong>${fmtNorm(norm)}/mnd</strong> per persoon (${Math.round(pct * 100)}% van gehuwdennorm)`;
+}
+
+function setSituatie(el, situatie) {
+  bijstandSituatie = situatie;
+  document.querySelectorAll('#situatie-knoppen .toggle-knop').forEach(b => b.classList.remove('actief'));
+  el.classList.add('actief');
+  document.getElementById('veld-kostendelers').style.display = situatie === 'kostendeler' ? 'flex' : 'none';
+  document.getElementById('norm-info-tekst').innerHTML = getNormInfoTekst();
+  bereken();
+}
+
+function setLeeftijd(el, leeftijd) {
+  bijstandLeeftijd = leeftijd;
+  document.querySelectorAll('#leeftijd-knoppen .toggle-knop').forEach(b => b.classList.remove('actief'));
+  el.classList.add('actief');
+  // Jongerennorm: situatie-knop "kostendeler" verbergen (niet van toepassing)
+  const kostBtn = document.querySelector('#situatie-knoppen .toggle-knop:last-child');
+  if (leeftijd === '18_20') {
+    kostBtn.style.display = 'none';
+    if (bijstandSituatie === 'kostendeler') {
+      bijstandSituatie = 'alleenstaand';
+      document.querySelectorAll('#situatie-knoppen .toggle-knop').forEach(b => b.classList.remove('actief'));
+      document.querySelector('#situatie-knoppen .toggle-knop:first-child').classList.add('actief');
+      document.getElementById('veld-kostendelers').style.display = 'none';
+    }
+    document.getElementById('veld-jongeren-uitleg').style.display = 'block';
+  } else {
+    kostBtn.style.display = '';
+    document.getElementById('veld-jongeren-uitleg').style.display = 'none';
+  }
+  document.getElementById('norm-info-tekst').innerHTML = getNormInfoTekst();
+  bereken();
+}
+
+function setKostendelers(el, n) {
+  aantalKostendelers = n;
+  document.querySelectorAll('#kostendeler-knoppen .toggle-knop').forEach(b => b.classList.remove('actief'));
+  el.classList.add('actief');
+  document.getElementById('norm-info-tekst').innerHTML = getNormInfoTekst();
+  bereken();
+}
+
+function setKinderen(el, n) {
+  aantalKinderen = n;
+  el.closest('.toggle-rij').querySelectorAll('.toggle-knop').forEach(b => b.classList.remove('actief'));
+  el.classList.add('actief');
+  bereken();
+}
+
+function setUren(el, u) {
+  aantalUren = u;
+  el.closest('.toggle-rij').querySelectorAll('.toggle-knop').forEach(b => b.classList.remove('actief'));
+  el.classList.add('actief');
+  bereken();
+}
+
+// ── BEREKENINGEN ──────────────────────────────────────────────
+
+function berekenNettoSalaris(bruto) {
+  if (bruto <= 0) return 0;
+  const brutoJaar = bruto * 12;
+  const L = NORMEN.loonheffing;
+
+  // Belasting
+  let belasting = 0;
+  if (brutoJaar <= L.schijf1_grens) {
+    belasting = brutoJaar * L.schijf1_tarief;
+  } else {
+    belasting = L.schijf1_grens * L.schijf1_tarief + (brutoJaar - L.schijf1_grens) * L.schijf2_tarief;
+  }
+
+  // Algemene heffingskorting
+  let ahk = L.ahk_max;
+  if (brutoJaar > L.ahk_afbouw_start) {
+    const afbouw = Math.min(brutoJaar - L.ahk_afbouw_start, L.ahk_afbouw_eind - L.ahk_afbouw_start);
+    ahk = Math.max(0, L.ahk_max - (afbouw / (L.ahk_afbouw_eind - L.ahk_afbouw_start)) * L.ahk_max);
+  }
+
+  // Arbeidskorting
+  let ak = 0;
+  if (brutoJaar <= L.ak_opbouw_eind) {
+    ak = (brutoJaar / L.ak_opbouw_eind) * L.ak_max;
+  } else if (brutoJaar <= L.ak_afbouw_start) {
+    ak = L.ak_max;
+  } else if (brutoJaar <= L.ak_afbouw_eind) {
+    const afbouw = (brutoJaar - L.ak_afbouw_start) / (L.ak_afbouw_eind - L.ak_afbouw_start);
+    ak = Math.max(0, L.ak_max * (1 - afbouw));
+  }
+
+  const nettoJaar = Math.min(brutoJaar, brutoJaar - belasting + ahk + ak);
+  return Math.round(nettoJaar / 12);
+}
+
+function berekenZorgtoeslag(jaarinkomen, situatie) {
+  const Z = NORMEN.zorgtoeslag;
+  const drempel = situatie === 'alleenstaand' ? Z.drempel_alleenstaand : Z.drempel_partner;
+  const max = situatie === 'alleenstaand' ? Z.max_alleenstaand : Z.max_partner;
+  if (jaarinkomen >= drempel) return 0;
+  const factor = 1 - (jaarinkomen / drempel);
+  return Math.round(max * factor);
+}
+
+function berekenHuurtoeslag(jaarinkomen, huur, situatie, kinderen) {
+  const H = NORMEN.huurtoeslag;
+  if (huur > H.huurgrens || huur < H.kwaliteitskorting_grens) return 0;
+
+  const maxInkomen = situatie === 'alleenstaand' ? H.max_inkomen_alleenstaand : H.max_inkomen_partners;
+  if (jaarinkomen > maxInkomen) return 0;
+
+  // Aftoppingsgrens
+  const aftop = kinderen >= 3 ? H.aftoppingsgrens_3plus : H.aftoppingsgrens_1_2;
+  const rekenhuur = Math.min(huur, aftop);
+
+  // Normhuur op basis van inkomen (vereenvoudigd)
+  const normhuur = situatie === 'alleenstaand' ? H.normhuur_alleenstaand : H.normhuur_meerpersoonshuishouden;
+  const toeslag = Math.max(0, rekenhuur - normhuur);
+
+  // Afbouw boven inkomensgrens (lineair vereenvoudigd)
+  const afbouwFactor = Math.max(0, 1 - Math.max(0, jaarinkomen - 15000) / (maxInkomen - 15000));
+  return Math.round(toeslag * afbouwFactor);
+}
+
+function berekenKgb(jaarinkomen, kinderen) {
+  if (kinderen === 0) return 0;
+  const K = NORMEN.kgb;
+
+  let basisbedragJaar = 0;
+  if (kinderen >= 1) basisbedragJaar += K.basisbedrag_1e_kind;
+  if (kinderen >= 2) basisbedragJaar += K.basisbedrag_2e_kind;
+  if (kinderen >= 3) basisbedragJaar += K.basisbedrag_3e_plus;
+
+  let kgbJaar = basisbedragJaar;
+  if (jaarinkomen > K.inkomensgrens) {
+    const afbouw = (jaarinkomen - K.inkomensgrens) * K.afbouwpercentage;
+    kgbJaar = Math.max(0, basisbedragJaar - afbouw);
+  }
+
+  return Math.round(kgbJaar / 12);
+}
+
+function berekenOmslagpunt(bijstandsnorm, huur, kinderen, situatieLabel) {
+  const uurloon = bijstandLeeftijd === '18_20' ? JEUGDLOON[19] : MINIMUMLOON[21];
+
+  // Bereken eerst het totaal bij puur bijstand (geen werk)
+  const bijstandJaar = bijstandsnorm * 12;
+  const zt0  = berekenZorgtoeslag(bijstandJaar, situatieLabel);
+  const ht0  = berekenHuurtoeslag(bijstandJaar, huur, situatieLabel, kinderen);
+  const kgb0 = berekenKgb(bijstandJaar, kinderen);
+  const totaalBijstand = bijstandsnorm + zt0 + ht0 + kgb0;
+
+  // Zoek het eerste aantal uren waarbij totaalWerk > totaalBijstand + 50
+  // én netto salaris >= bijstandsnorm (aanvulling is nul of vrijwel nul)
+  for (let uren = 1; uren <= 40; uren++) {
+    const brutoMnd  = uurloon * uren * (52 / 12);
+    const nettoMnd  = berekenNettoSalaris(brutoMnd);
+    const brutoJaar = brutoMnd * 12;
+
+    // Bijstandsaanvulling: daalt euro voor euro met netto salaris
+    const aanvulling = Math.max(0, bijstandsnorm - nettoMnd);
+
+    const zt  = berekenZorgtoeslag(brutoJaar, situatieLabel);
+    const ht  = berekenHuurtoeslag(brutoJaar, huur, situatieLabel, kinderen);
+    const kgb = berekenKgb(brutoJaar, kinderen);
+
+    const totaalWerk = nettoMnd + aanvulling + zt + ht + kgb;
+
+    // Loont pas echt als totaalWerk minstens €50 boven totaalBijstand ligt
+    // én de aanvulling nul is (salaris dekt de norm, toeslagenafbouw is de variabele)
+    if (aanvulling === 0 && totaalWerk >= totaalBijstand + 50) {
+      return {
+        uren,
+        brutoMnd: Math.round(brutoMnd),
+        nettoMnd,
+        totaalWerk: Math.round(totaalWerk),
+        totaalBijstand: Math.round(totaalBijstand),
+        uurloon
+      };
+    }
+  }
+  return null; // Zelfs fulltime loont niet genoeg (armoedeval)
+}
+function bereken() {
+  const isSingle = bijstandSituatie === 'alleenstaand';
+  const situatieLabel = isSingle ? 'alleenstaand' : 'partner';
+  const huur = parseFloat(document.getElementById('huur').value) || 0;
+  const bruto = parseFloat(document.getElementById('bruto').value) || 0;
+  const kinderen = parseInt(aantalKinderen) || 0;
+
+  // ── HUIDIG (bijstand) ──
+  const bijstand = getBijstandsNorm();
+  const bijstandJaar = bijstand * 12;
+
+  const zt_huidig = berekenZorgtoeslag(bijstandJaar, situatieLabel);
+  const ht_huidig = berekenHuurtoeslag(bijstandJaar, huur, situatieLabel, kinderen);
+  const kgb_huidig = berekenKgb(bijstandJaar, kinderen);
+
+  const totaal_huidig = bijstand + zt_huidig + ht_huidig + kgb_huidig;
+
+  // ── MET WERK ──
+  const netto = berekenNettoSalaris(bruto);
+  const brutoJaar = bruto * 12;
+
+  const zt_werk = berekenZorgtoeslag(brutoJaar, situatieLabel);
+  const ht_werk = berekenHuurtoeslag(brutoJaar, huur, situatieLabel, kinderen);
+  const kgb_werk = berekenKgb(brutoJaar, kinderen);
+
+  // Bijstand wordt aangevuld tot de bijstandsnorm:
+  // elke euro netto salaris verlaagt de bijstand met 1 euro.
+  const bijstand_werk = Math.max(0, bijstand - netto);
+
+  const totaal_werk = netto + bijstand_werk + zt_werk + ht_werk + kgb_werk;
+
+  // Verschil
+  const verschil = totaal_werk - totaal_huidig;
+  const verschilPct = totaal_huidig > 0 ? ((verschil / totaal_huidig) * 100).toFixed(1) : 0;
+
+  // Max voor balkberekening
+  const maxBedrag = Math.max(totaal_huidig, totaal_werk, 1);
+
+  toonResultaat({
+    bruto, netto, bijstand, bijstand_werk,
+    zt_huidig, zt_werk, ht_huidig, ht_werk, kgb_huidig, kgb_werk,
+    totaal_huidig, totaal_werk, verschil, verschilPct, maxBedrag,
+    kinderen, huur, situatieLabel
+  });
+}
+
+function fmt(n) {
+  return '€' + Math.round(n).toLocaleString('nl-NL');
+}
+
+function toonResultaat(d) {
+  const resultaat = document.getElementById('resultaat');
+
+  // Verschil banner
+  let bannerKlasse, bannerIcoon, bannerTitel, bannerSub;
+  if (d.verschil > 50) {
+    bannerKlasse = 'positief';
+    bannerIcoon = '🎉';
+    bannerTitel = `Je houdt ${fmt(d.verschil)} meer over per maand`;
+    bannerSub = `+${d.verschilPct}% ten opzichte van je huidige situatie — werken loont!`;
+  } else if (d.verschil < -50) {
+    bannerKlasse = 'negatief';
+    bannerIcoon = '⚠️';
+    bannerTitel = `Je houdt ${fmt(Math.abs(d.verschil))} minder over per maand`;
+    bannerSub = 'Dit is de armoedeval. Informeer bij de gemeente naar regelingen.';
+  } else {
+    bannerKlasse = 'neutraal';
+    bannerIcoon = '↔️';
+    bannerTitel = 'Je houdt ongeveer evenveel over';
+    bannerSub = 'Werken geeft je wel werkervaring, taalvaardigheid en netwerk.';
+  }
+
+  // Armoedeval tip
+  const toonArmoedeval = d.verschil < 100 && d.bruto > 0;
+
+  const html = `
+    <div class="vergelijk-rij animeer">
+      <div class="vergelijk-kaart huidig">
+        <div class="vergelijk-label">Nu (bijstand)</div>
+        <div class="vergelijk-totaal">${fmt(d.totaal_huidig)}</div>
+        <div class="vergelijk-sub">per maand netto</div>
+      </div>
+      <div class="vergelijk-kaart werk">
+        <div class="vergelijk-label">Met werk</div>
+        <div class="vergelijk-totaal">${fmt(d.totaal_werk)}</div>
+        <div class="vergelijk-sub">per maand netto</div>
+      </div>
+    </div>
+
+    <div class="verschil-banner ${bannerKlasse} animeer">
+      <div class="verschil-icoon">${bannerIcoon}</div>
+      <div class="verschil-tekst">
+        <strong>${bannerTitel}</strong>
+        <span>${bannerSub}</span>
+      </div>
+    </div>
+
+    <div class="balk-vergelijk animeer">
+      <div class="balk-rij">
+        <div class="balk-label-rij">
+          <span class="balk-naam">Nu (bijstand + toeslagen)</span>
+          <span class="balk-waarde">${fmt(d.totaal_huidig)}/mnd</span>
+        </div>
+        <div class="balk-track">
+          <div class="balk-vulling huidig" style="width:${Math.round((d.totaal_huidig / d.maxBedrag) * 100)}%"></div>
+        </div>
+      </div>
+      <div class="balk-rij">
+        <div class="balk-label-rij">
+          <span class="balk-naam">Met werk (salaris + toeslagen)</span>
+          <span class="balk-waarde" style="color:var(--groen)">${fmt(d.totaal_werk)}/mnd</span>
+        </div>
+        <div class="balk-track">
+          <div class="balk-vulling werk" style="width:${Math.round((d.totaal_werk / d.maxBedrag) * 100)}%"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="uitsplitsing animeer">
+      <div class="uitsplitsing-header">
+        <div class="uitsplitsing-titel">📊 Uitsplitsing per inkomstenbron</div>
+      </div>
+      <div class="uitsplitsing-body">
+        <div class="uitsp-header-rij">
+          <span>Inkomstenbron</span>
+          <div class="uitsp-bedragen">
+            <span class="uitsp-huidig">Nu</span>
+            <span class="uitsp-werk">Met werk</span>
+          </div>
+        </div>
+        ${d.bruto > 0 ? rij('💰', '#EBF3EE', 'Netto salaris', 0, d.netto) : ''}
+        ${rij('🏛️', '#F5F2EC', 'Bijstandsuitkering', d.bijstand, d.bijstand_werk)}
+        ${rij('🏥', '#FDF3E0', 'Zorgtoeslag', d.zt_huidig, d.zt_werk)}
+        ${rij('🏠', '#EFF6FF', 'Huurtoeslag', d.ht_huidig, d.ht_werk, d.huur < 454 || d.huur > 880 ? '(huur buiten bereik)' : '')}
+        ${d.kinderen > 0 ? rij('👶', '#F5F3FF', 'Kindgebonden budget', d.kgb_huidig, d.kgb_werk) : ''}
+        <div class="uitsp-rij totaal">
+          <div class="uitsp-naam"><strong>Totaal per maand</strong></div>
+          <div class="uitsp-bedragen">
+            <div class="uitsp-huidig"><strong>${fmt(d.totaal_huidig)}</strong></div>
+            <div class="uitsp-werk">${fmt(d.totaal_werk)}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    ${toonArmoedeval ? `
+    <div class="armoedeval-box animeer">
+      <div class="armoedeval-titel">⚠️ Wat is de armoedeval?</div>
+      <div class="armoedeval-tekst">De armoedeval is het fenomeen waarbij werken financieel weinig of niets oplevert — omdat toeslagen stoppen en de uitkering wegvalt. Dit is een bekend probleem in Nederland.<br><br>
+      <strong>Mogelijk relevant voor jouw situatie:</strong> de Participatietoeslag, de Individuele Studietoeslag, en gemeentelijke regelingen voor werkende minima. Ook bestaat er een <strong>vrijlating van arbeidsinkomen</strong>: de eerste 6 maanden mag je een deel van je inkomsten houden bovenop de bijstandsaanvulling. Neem contact op met een <strong>Sociaal Wijkteam of bijvoorbeeld VluchtelingenWerk</strong> voor persoonlijk advies over wat in jouw situatie van toepassing is.</div>
+    </div>` : ''}
+
+    <div class="info-box animeer">
+      💡 <strong>Let op:</strong> Dit is een indicatieve berekening. Jouw situatie kan afwijken door premies, vakantiegeld, kinderbijslag, WMO-vergoedingen of specifieke gemeenteregelingen. Neem contact op met een <strong>Sociaal Wijkteam of bijvoorbeeld VluchtelingenWerk</strong> voor persoonlijk advies.
+    </div>
+
+    ${(() => {
+      const omslagpunt = berekenOmslagpunt(d.bijstand, d.huur, d.kinderen, d.situatieLabel);
+      const uurloon = bijstandLeeftijd === '18_20'
+        ? `jeugdminimumloon (${Object.entries(JEUGDLOON).map(([l,u]) => `${l}j: €${u.toFixed(2).replace('.',',')} `).join('/ ')})`
+        : `minimumloon €${MINIMUMLOON[21].toFixed(2).replace('.',',')}`;
+
+      if (!omslagpunt) return `
+        <div class="motivatie-box animeer">
+          <div class="motivatie-titel">💪 Werken loont — ook bij de armoedeval</div>
+          <div class="motivatie-tekst">
+            Zelfs als je netto weinig extra overhoudt, bouw je werkervaring, taalvaardigheid en netwerk op.
+            Dat maakt de volgende stap — meer uren, hogere functie, betere kansen — makkelijker.
+            <br><br>Vraag bij je gemeente naar de <strong>vrijlating van arbeidsinkomen</strong>: de eerste 6 maanden
+            mag je een deel van je verdiensten houden bovenop de bijstandsaanvulling.
+          </div>
+        </div>`;
+
+      const extraPerMaand = omslagpunt.totaalWerk - omslagpunt.totaalBijstand;
+      const isJongere = bijstandLeeftijd === '18_20';
+
+      return `
+        <div class="motivatie-box animeer">
+          <div class="motivatie-titel">💡 Wanneer loont werken?</div>
+          <div class="motivatie-tekst">
+            Op basis van het ${uurloon} per uur:<br><br>
+          </div>
+          <div class="motivatie-getal-rij">
+            <div class="motivatie-getal-blok">
+              <div class="motivatie-getal">${omslagpunt.uren} uur</div>
+              <div class="motivatie-getal-label">per week nodig om €50+/mnd meer over te houden</div>
+            </div>
+            <div class="motivatie-getal-blok">
+              <div class="motivatie-getal">${fmt(omslagpunt.brutoMnd)}</div>
+              <div class="motivatie-getal-label">bruto per maand bij ${omslagpunt.uren} uur/week</div>
+            </div>
+            <div class="motivatie-getal-blok" style="background:var(--groen);color:white;">
+              <div class="motivatie-getal" style="color:var(--amber)">+${fmt(extraPerMaand)}</div>
+              <div class="motivatie-getal-label" style="color:rgba(255,255,255,0.8)">per maand meer dan alleen bijstand</div>
+            </div>
+          </div>
+          <div class="motivatie-tekst" style="margin-top:12px;">
+            ${isJongere ? `<strong>Let op (18–20 jaar):</strong> het jeugdminimumloon loopt op met je leeftijd —
+            als 18-jarige verdien je €7,36/uur, als 20-jarige al €11,77/uur. Hoe ouder je wordt, hoe sneller
+            werken loont. ` : ''}
+            Meer uren werken levert meer op. Bovendien bouw je <strong>werkervaring, Nederlands en netwerk</strong>
+            op — waardoor je kansen op een beter betaalde baan groeien.
+            ${d.huur > 0 ? ' Bij een hogere bijdrage aan huur kan werken nóg meer lonen door behoud van huurtoeslag.' : ''}
+          </div>
+        </div>`;
+    })()}
+
+    <div class="disclaimer animeer">
+      Berekend op basis van normen 2026: bijstandsnorm per 1 januari 2026, toeslagbedragen Belastingdienst 2026. Arbeidskorting en heffingskortingen zijn een benadering. Netto salaris is een schatting — de werkelijke inhouding hangt af van uw persoonlijke situatie en werkgever.
+    </div>
+  `;
+
+  resultaat.innerHTML = html;
+}
+
+function rij(icoon, kleur, naam, huidig, werk, opmerking = '') {
+  const werkKleur = werk > huidig ? 'color:var(--groen)' : werk < huidig ? 'color:var(--rood)' : '';
+  return `<div class="uitsp-rij">
+    <div class="uitsp-naam">
+      <div class="dot" style="background:${kleur};border:1px solid var(--rand)"></div>
+      ${naam}${opmerking ? `<span style="font-size:0.7rem;color:var(--tekst-licht);margin-left:4px">${opmerking}</span>` : ''}
+    </div>
+    <div class="uitsp-bedragen">
+      <div class="uitsp-huidig">${huidig > 0 ? fmt(huidig) : '—'}</div>
+      <div class="uitsp-werk" style="${werkKleur}">${werk > 0 ? fmt(werk) : '—'}</div>
+    </div>
+  </div>`;
+}
+
+// Start berekening direct
+bereken();
+</script>
+</body>
+</html>

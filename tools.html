@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alle tools — Solidari</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --wit: #FAFAF7;
+      --wit-warm: #F5F2EC;
+      --amber: #E8A020;
+      --amber-licht: #FDF3E0;
+      --amber-diep: #C47F10;
+      --groen: #2D5A3D;
+      --groen-licht: #EBF3EE;
+      --tekst: #1A1A18;
+      --tekst-zacht: #5C5C58;
+      --tekst-licht: #9C9C98;
+      --rand: #E8E5DE;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--wit);
+      color: var(--tekst);
+      font-family: 'Source Sans 3', sans-serif;
+      font-weight: 400;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(250,250,247,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--rand);
+      padding: 0 2rem;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .logo-naam { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--tekst); }
+    .logo-naam span { color: var(--amber); }
+    .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+    .nav-links a { text-decoration: none; color: var(--tekst-zacht); font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--tekst); }
+    .nav-links a.actief { color: var(--groen); font-weight: 600; }
+    .nav-taal { display: flex; gap: 0.5rem; }
+    .taal-btn { background: none; border: 1px solid var(--rand); border-radius: 4px; padding: 3px 8px; font-size: 0.75rem; cursor: pointer; color: var(--tekst-zacht); transition: all 0.2s; }
+    .taal-btn:hover, .taal-btn.actief { background: var(--amber); border-color: var(--amber); color: white; }
+
+    /* ── HEADER ── */
+    .pagina-header {
+      padding-top: 64px;
+      background: var(--groen);
+      color: white;
+      padding-bottom: 3rem;
+    }
+    .pagina-header-inhoud {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 3rem 2rem 0;
+    }
+    .terug-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: rgba(255,255,255,0.65);
+      text-decoration: none;
+      font-size: 0.85rem;
+      margin-bottom: 1.5rem;
+      transition: color 0.2s;
+    }
+    .terug-link:hover { color: white; }
+    .pagina-titel {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.6rem;
+    }
+    .pagina-subtitel {
+      font-size: 1rem;
+      opacity: 0.75;
+      font-weight: 300;
+      max-width: 520px;
+    }
+
+    /* ── FILTER BALK ── */
+    .filter-balk {
+      background: white;
+      border-bottom: 1px solid var(--rand);
+      position: sticky;
+      top: 64px;
+      z-index: 50;
+    }
+    .filter-inhoud {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0.8rem 2rem;
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .filter-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--tekst-licht);
+      margin-right: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .filter-knop {
+      background: none;
+      border: 1.5px solid var(--rand);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      color: var(--tekst-zacht);
+      font-family: 'Source Sans 3', sans-serif;
+      transition: all 0.2s;
+    }
+    .filter-knop:hover { border-color: var(--groen); color: var(--groen); }
+    .filter-knop.actief { background: var(--groen); border-color: var(--groen); color: white; }
+
+    /* ── TOOLS GRID ── */
+    .tools-sectie {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 5rem;
+    }
+
+    .tools-categorie { margin-bottom: 3rem; }
+    .tools-categorie-titel {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--tekst);
+      margin-bottom: 1rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 2px solid var(--amber-licht);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .cat-badge {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-family: 'Source Sans 3', sans-serif;
+    }
+    .cat-badge-live { background: var(--groen-licht); color: var(--groen); }
+    .cat-badge-binnenkort { background: var(--amber-licht); color: var(--amber-diep); }
+
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.2rem;
+    }
+    .tool-kaart {
+      background: white;
+      border: 1px solid var(--rand);
+      border-radius: 16px;
+      padding: 1.6rem;
+      cursor: pointer;
+      transition: all 0.25s;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      position: relative;
+      overflow: hidden;
+      animation: opkomen 0.5s ease both;
+    }
+    .tool-kaart:hover {
+      border-color: var(--amber);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+    }
+    .tool-kaart.komt-binnenkort {
+      opacity: 0.6;
+      cursor: default;
+    }
+    .tool-kaart.komt-binnenkort::after {
+      content: 'Binnenkort';
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: var(--wit-warm);
+      border: 1px solid var(--rand);
+      border-radius: 4px;
+      font-size: 0.65rem;
+      font-weight: 600;
+      padding: 2px 7px;
+      color: var(--tekst-licht);
+      letter-spacing: 0.03em;
+    }
+    .tool-kaart.komt-binnenkort:hover {
+      transform: none;
+      box-shadow: none;
+      border-color: var(--rand);
+    }
+    .tool-kaart-header { display: flex; align-items: flex-start; justify-content: space-between; }
+    .tool-emoji { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; }
+    .tool-badge { font-size: 0.7rem; font-weight: 600; padding: 3px 8px; border-radius: 4px; letter-spacing: 0.03em; }
+    .badge-browser { background: var(--groen-licht); color: var(--groen); }
+    .badge-zon { background: var(--amber-licht); color: var(--amber-diep); }
+    .tool-naam { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 600; color: var(--tekst); line-height: 1.3; }
+    .tool-omschrijving { font-size: 0.85rem; color: var(--tekst-zacht); line-height: 1.5; font-weight: 300; }
+    .tool-talen { display: flex; gap: 4px; flex-wrap: wrap; margin-top: auto; padding-top: 0.5rem; border-top: 1px solid var(--rand); }
+    .tool-taal { font-size: 0.75rem; background: var(--wit-warm); padding: 2px 7px; border-radius: 4px; color: var(--tekst-zacht); }
+
+    /* ── FOOTER ── */
+    footer { border-top: 1px solid var(--rand); padding: 2.5rem 2rem; }
+    .footer-inhoud { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+    .footer-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .footer-naam { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--tekst); }
+    .footer-naam span { color: var(--amber); }
+    .footer-midden { font-size: 0.8rem; color: var(--tekst-licht); text-align: center; }
+    .footer-midden a { color: var(--tekst-zacht); text-decoration: none; }
+    .footer-midden a:hover { color: var(--tekst); }
+    .footer-doneer { background: var(--amber-licht); border: 1px solid rgba(232,160,32,0.3); color: var(--amber-diep); border-radius: 8px; padding: 8px 18px; font-size: 0.85rem; font-weight: 600; cursor: pointer; text-decoration: none; transition: all 0.2s; font-family: 'Source Sans 3', sans-serif; }
+    .footer-doneer:hover { background: var(--amber); color: white; border-color: var(--amber); }
+
+    @keyframes opkomen { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 768px) { .nav-links { display: none; } }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+      <circle cx="18" cy="18" r="8" fill="#E8A020"/>
+      <line x1="18" y1="2" x2="18" y2="7" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="18" y1="29" x2="18" y2="34" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="2" y1="18" x2="7" y2="18" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="29" y1="18" x2="34" y2="18" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="6.1" y1="6.1" x2="9.6" y2="9.6" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="26.4" y1="26.4" x2="29.9" y2="29.9" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="29.9" y1="6.1" x2="26.4" y2="9.6" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="9.6" y1="26.4" x2="6.1" y2="29.9" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>
+    <span class="logo-naam">Solid<span>a</span>ri</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="tools.html" class="actief">Tools</a></li>
+    <li><a href="index.html#missie">Over ons</a></li>
+    <li><a href="index.html#missie">Privacy</a></li>
+    <li><a href="index.html#doneer" style="color:var(--amber-diep); font-weight:600;">💛 Doneer</a></li>
+  </ul>
+  <div class="nav-taal">
+    <button class="taal-btn actief">NL</button>
+    <button class="taal-btn">EN</button>
+    <button class="taal-btn">AR</button>
+    <button class="taal-btn">TR</button>
+  </div>
+</nav>
+
+<!-- PAGINA HEADER -->
+<div class="pagina-header">
+  <div class="pagina-header-inhoud">
+    <a href="index.html" class="terug-link">
+      ← Terug naar home
+    </a>
+    <h1 class="pagina-titel">Alle tools</h1>
+    <p class="pagina-subtitel">10 gratis tools voor statushouders in Nederland. Meertalig, zonder opslag van persoonsgegevens.</p>
+  </div>
+</div>
+
+<!-- FILTER BALK -->
+<div class="filter-balk">
+  <div class="filter-inhoud">
+    <span class="filter-label">Filter</span>
+    <button class="filter-knop actief" onclick="filter(this,'alles')">Alles</button>
+    <button class="filter-knop" onclick="filter(this,'beschikbaar')">✓ Nu beschikbaar</button>
+    <button class="filter-knop" onclick="filter(this,'zon')">☀️ Bij zon</button>
+    <button class="filter-knop" onclick="filter(this,'binnenkort')">Binnenkort</button>
+  </div>
+</div>
+
+<!-- TOOLS -->
+<div class="tools-sectie">
+
+  <!-- Categorie: Nu beschikbaar -->
+  <div class="tools-categorie" id="cat-beschikbaar">
+    <div class="tools-categorie-titel">
+      Nu beschikbaar
+      <span class="cat-badge cat-badge-live">5 tools</span>
+    </div>
+    <div class="tools-grid">
+
+      <a href="brief.html" class="tool-kaart komt-binnenkort" data-filter="zon binnenkort">
+        <div class="tool-kaart-header">
+          <div class="tool-emoji" style="background:#FDF3E0;">📬</div>
+          <span class="tool-badge badge-zon">☀️ Bij zon</span>
+        </div>
+        <div class="tool-naam">Brief Begrijper</div>
+        <div class="tool-omschrijving">Maak een foto van je brief. Wij leggen uit wat er staat, wat je moet doen en wanneer.</div>
+        <div class="tool-talen">
+          <span class="tool-taal">🇳🇱</span><span class="tool-taal">🇸🇦</span><span class="tool-taal">🇪🇹</span><span class="tool-taal">🇹🇷</span><span class="tool-taal">🇺🇦</span><span class="tool-taal">🇦🇫</span>
+        </div>
+      </a>
+
+      <a href="loont-werken.html" class="tool-kaart" data-filter="beschikbaar">
+        <div class="tool-kaart-header">
+          <div class="tool-emoji" style="background:#EBF3EE;">💶</div>
+          <span class="tool-badge badge-browser">✓ Altijd beschikbaar</span>
+        </div>
+        <div class="tool-naam">Loont Werken?</div>
+        <div class="tool-omschrijving">Bereken hoeveel je netto overhoudt als je gaat werken, vergeleken met je uitkering en toeslagen.</div>
+        <div class="tool-talen">
+          <span class="tool-taal">🇳🇱</span><span class="tool-taal">🇸🇦</span><span class="tool-taal">🇪🇹</span><span class="tool-taal">🇹🇷</span><span class="tool-taal">🇺🇦</span>
+        </div>
+      </a>
+
+      <a href="toeslagen.html" class="tool-kaart" data-filter="beschikbaar">
+        <div class="tool-kaart-header">
+          <div class="tool-emoji" style="background:#EBF3EE;">💰</div>
+          <span class="tool-badge badge-browser">✓ Altijd beschikbaar</span>
+        </div>
+        <div class="tool-naam">Toeslagen Calculator</div>
+        <div class="tool-omschrijving">Alle toeslagen in één overzicht: huurtoeslag, zorgtoeslag, kindgebonden budget en kinderopvangtoeslag.</div>
+        <div class="tool-talen">
+          <span class="tool-taal">🇳🇱</span><span class="tool-taal">🇸🇦</span><span class="tool-taal">🇪🇹</span><span class="tool-taal">🇹🇷</span><span class="tool-taal">🇺🇦</span><span class="tool-taal">🇦🇫</span>
+        </div>
+      </a>
+
+      <a href="18jaar.html" class="tool-kaart" data-filter="beschikbaar">
+        <div class="tool-kaart-header">
+          <div class="tool-emoji" style="background:#EBF3EE;">🎂</div>
+          <span class="tool-badge badge-browser">✓ Altijd beschikbaar</span>
+        </div>
+        <div class="tool-naam">18 Jaar Worden</div>
+        <div class="tool-omschrijving">Wat verandert er als jouw kind 18 wordt? Uitkering, toeslagen, rechten — alles uitgelegd.</div>
+        <div class="tool-talen">
+          <span class="tool-taal">🇳🇱</span><span class="tool-taal">🇸🇦</span><span class="tool-taal">🇪🇹</span><span class="tool-taal">🇺🇦</span>
+        </div>
+      </a>
+
+      <a href="naturalisatie.html" class="tool-kaart" data-filter="beschikbaar">
+        <div class="tool-kaart-header">
+          <div class="tool-emoji" style="background:#EBF3EE;">🇳🇱</div>
+          <span class="tool-badge badge-browser">✓ Altijd beschikbaar</span>
+        </div>
+        <div class="tool-naam">Naturalisatie Checker</div>
+        <div class="tool-omschrijving">Kom ik in aanmerking voor een Nederlands paspoort? Controleer de voorwaarden stap voor stap.</div>
+        <div class="tool-talen">
+          <span class="tool-taal">🇳🇱</span><span class="tool-taal">🇸🇦</span><span class="tool-taal">🇪🇹</span><span class="tool-taal">🇹🇷</span><span class="tool-taal">🇺🇦</span><span class="tool-taal">🇦🇫</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- Categorie: Binnenkort -->
+  <div class="tools-categorie" id="cat-binnenkort">
+    <div class="tools-categorie-titel">
+      Binnenkort beschikbaar
+      <span class="cat-badge cat-badge-binnenkort">5 tools</span>
+    </div>
+    <div class="tools-grid">
+
+      <a href="#" class="tool-kaart komt-binnenkort" data-filter="zon binnenkort">
+        <div class="tool-kaart-header">
+          <div class="tool-emoji" style="background:#FDF3E0;">🏥</div>
+          <span class="tool-badge badge-zon">☀️ Bij zon</span>
+        </div>
+        <div class="tool-naam">Zorgverzekering Wegwijzer</div>
+        <div class="tool-omschrijving">Wat is eigen risico? Wat vergoedt het basispakket? Welke verzekering past bij jouw situatie?</div>
+        <div class="tool-talen">
+          <span class="tool-taal">🇳🇱</span><span class="tool-taal">🇸🇦</span><span class="tool-taal">🇪🇹</span><span class="tool-taal">🇹🇷</span><span class="tool-taal">🇺🇦</span><span class="tool-taal">🇦🇫</span>
+        </div>
+      </a>
+
+      <a href="#" class="tool-kaart komt-binnenkort" data-filter="zon binnenkort">
+        <div class="tool-kaart-header">
+          <div class="tool-emoji" style="background:#FDF3E0;">💊</div>
+          <span class="tool-badge badge-zon">☀️ Bij zon</span>
+        </div>
+        <div class="tool-naam">Medicijnen Vergoeding</div>
+        <div class="tool-omschrijving">Wordt dit medicijn vergoed door mijn zorgverzekering? Zoek het snel op.</div>
+        <div class="tool-talen">
+          <span class="tool-taal">🇳🇱</span><span class="tool-taal">🇸🇦</span><span class="tool-taal">🇹🇷</span><span class="tool-taal">🇦🇫</span>
+        </div>
+      </a>
+
+      <a href="#" class="tool-kaart komt-binnenkort" data-filter="zon binnenkort">
+        <div class="tool-kaart-header">
+          <div class="tool-emoji" style="background:#FDF3E0;">⚖️</div>
+          <span class="tool-badge badge-zon">☀️ Bij zon</span>
+        </div>
+        <div class="tool-naam">Rechten & Plichten Uitlegger</div>
+        <div class="tool-omschrijving">Wat zegt de Participatiewet, Inburgeringswet en WMO over jouw situatie? Uitgelegd in gewone taal.</div>
+        <div class="tool-talen">
+          <span class="tool-taal">🇳🇱</span><span class="tool-taal">🇸🇦</span><span class="tool-taal">🇪🇹</span><span class="tool-taal">🇹🇷</span><span class="tool-taal">🇺🇦</span><span class="tool-taal">🇦🇫</span>
+        </div>
+      </a>
+
+      <a href="#" class="tool-kaart komt-binnenkort" data-filter="zon binnenkort">
+        <div class="tool-kaart-header">
+          <div class="tool-emoji" style="background:#FDF3E0;">📚</div>
+          <span class="tool-badge badge-zon">☀️ Bij zon</span>
+        </div>
+        <div class="tool-naam">Leer Nederlands — NT2</div>
+        <div class="tool-omschrijving">Gepersonaliseerde Nederlandse les in jouw eigen taal. Van A1 tot B2, met dagelijkse situaties als context.</div>
+        <div class="tool-talen">
+          <span class="tool-taal">🇸🇦</span><span class="tool-taal">🇪🇹</span><span class="tool-taal">🇹🇷</span><span class="tool-taal">🇺🇦</span><span class="tool-taal">🇦🇫</span><span class="tool-taal">🇬🇧</span>
+        </div>
+      </a>
+
+      <a href="#" class="tool-kaart komt-binnenkort" data-filter="zon binnenkort" style="border-color:#7C3AED20;">
+        <div class="tool-kaart-header">
+          <div class="tool-emoji" style="background:#F5F3FF;">👁️</div>
+          <span class="tool-badge" style="background:#F5F3FF; color:#7C3AED;">♿ Toegankelijk</span>
+        </div>
+        <div class="tool-naam">NT2 voor Blinde Gebruikers</div>
+        <div class="tool-omschrijving">Volledig auditieve NT2-cursus. Geen scherm nodig — alles via spraak, schermlezer en braille-toetsenbord.</div>
+        <div class="tool-talen">
+          <span class="tool-taal">🇸🇦</span><span class="tool-taal">🇪🇹</span><span class="tool-taal">🇹🇷</span><span class="tool-taal">🇺🇦</span><span class="tool-taal">🇦🇫</span><span class="tool-taal">🇬🇧</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inhoud">
+    <a href="index.html" class="footer-logo">
+      <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
+        <circle cx="18" cy="18" r="8" fill="#E8A020"/>
+        <line x1="18" y1="2" x2="18" y2="7" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="18" y1="29" x2="18" y2="34" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="2" y1="18" x2="7" y2="18" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="29" y1="18" x2="34" y2="18" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="6.1" y1="6.1" x2="9.6" y2="9.6" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="26.4" y1="26.4" x2="29.9" y2="29.9" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="29.9" y1="6.1" x2="26.4" y2="9.6" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="9.6" y1="26.4" x2="6.1" y2="29.9" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      </svg>
+      <span class="footer-naam">Solid<span>a</span>ri</span>
+    </a>
+    <div class="footer-midden">
+      <a href="#">Privacy</a> · <a href="#">Disclaimer</a> · <a href="#">Contact</a><br>
+      <span style="font-size:0.75rem; margin-top:4px; display:block;">Geen cookies · Geen opslag · Geen advertenties</span>
+    </div>
+    <a href="index.html#doneer" class="footer-doneer">💛 Doneer</a>
+  </div>
+</footer>
+
+<script>
+  function filter(el, type) {
+    document.querySelectorAll('.filter-knop').forEach(b => b.classList.remove('actief'));
+    el.classList.add('actief');
+
+    const kaarten = document.querySelectorAll('.tool-kaart');
+    const catBeschikbaar = document.getElementById('cat-beschikbaar');
+    const catBinnenkort = document.getElementById('cat-binnenkort');
+
+    if (type === 'alles') {
+      kaarten.forEach(k => k.style.display = '');
+      catBeschikbaar.style.display = '';
+      catBinnenkort.style.display = '';
+    } else if (type === 'beschikbaar') {
+      catBeschikbaar.style.display = '';
+      catBinnenkort.style.display = 'none';
+      kaarten.forEach(k => {
+        k.style.display = (k.dataset.filter || '').includes('binnenkort') ? 'none' : '';
+      });
+    } else if (type === 'zon') {
+      catBeschikbaar.style.display = '';
+      catBinnenkort.style.display = '';
+      kaarten.forEach(k => {
+        k.style.display = (k.dataset.filter || '').includes('zon') ? '' : 'none';
+      });
+    } else if (type === 'binnenkort') {
+      catBeschikbaar.style.display = 'none';
+      catBinnenkort.style.display = '';
+      kaarten.forEach(k => {
+        k.style.display = (k.dataset.filter || '').includes('binnenkort') ? '' : 'none';
+      });
+    }
+  }
+
+  document.querySelectorAll('.taal-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.taal-btn').forEach(b => b.classList.remove('actief'));
+      btn.classList.add('actief');
+    });
+  });
+</script>
+</body>
+</html>

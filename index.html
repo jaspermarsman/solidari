@@ -577,6 +577,27 @@
       color: var(--tekst-zacht);
     }
 
+    .knop-alle-tools {
+      display: inline-flex;
+      align-items: center;
+      background: white;
+      color: var(--groen);
+      border: 2px solid var(--groen);
+      border-radius: 10px;
+      padding: 13px 28px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+      font-family: 'Source Sans 3', sans-serif;
+    }
+    .knop-alle-tools:hover {
+      background: var(--groen);
+      color: white;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(45,90,61,0.2);
+    }
+
     /* ── MISSIE SECTIE ── */
     .missie-sectie {
       background: var(--wit-warm);
@@ -1063,7 +1084,7 @@
     <span class="logo-naam">Solid<span>a</span>ri</span>
   </a>
   <ul class="nav-links">
-    <li><a href="#tools">Tools</a></li>
+    <li><a href="tools.html">Tools</a></li>
     <li><a href="#missie">Over ons</a></li>
     <li><a href="#missie">Privacy</a></li>
     <li><a href="#doneer" style="color:var(--amber-diep); font-weight:600;">💛 Doneer</a></li>
@@ -1157,7 +1178,7 @@
 <!-- TOOLS -->
 <section id="tools" class="sectie">
   <div class="sectie-header">
-    <div class="sectie-label">Alle tools</div>
+    <div class="sectie-label">Beschikbare tools</div>
     <h2 class="sectie-titel">Wat kan Solidari voor je doen?</h2>
     <p class="sectie-subtitel">Alle tools zijn gratis, meertalig en slaan geen persoonlijke gegevens op.</p>
   </div>
@@ -1176,7 +1197,7 @@
       </div>
     </a>
 
-    <a href="loont-werken.html" class="tool-kaart komt-binnenkort">
+    <a href="loont-werken.html" class="tool-kaart">
       <div class="tool-kaart-header">
         <div class="tool-emoji" style="background:#EBF3EE;">💶</div>
         <span class="tool-badge badge-browser">✓ Altijd beschikbaar</span>
@@ -1197,30 +1218,6 @@
       <div class="tool-omschrijving">Alle toeslagen in één overzicht: huurtoeslag, zorgtoeslag, kindgebonden budget en kinderopvangtoeslag.</div>
       <div class="tool-talen">
         <span class="tool-taal">🇳🇱</span><span class="tool-taal">🇸🇦</span><span class="tool-taal">🇪🇹</span><span class="tool-taal">🇹🇷</span><span class="tool-taal">🇺🇦</span><span class="tool-taal">🇦🇫</span>
-      </div>
-    </a>
-
-    <a href="zorgverzekering.html" class="tool-kaart komt-binnenkort">
-      <div class="tool-kaart-header">
-        <div class="tool-emoji" style="background:#FDF3E0;">🏥</div>
-        <span class="tool-badge badge-zon">☀️ Bij zon</span>
-      </div>
-      <div class="tool-naam">Zorgverzekering Wegwijzer</div>
-      <div class="tool-omschrijving">Wat is eigen risico? Wat vergoedt het basispakket? Welke verzekering past bij jouw situatie?</div>
-      <div class="tool-talen">
-        <span class="tool-taal">🇳🇱</span><span class="tool-taal">🇸🇦</span><span class="tool-taal">🇪🇹</span><span class="tool-taal">🇹🇷</span><span class="tool-taal">🇺🇦</span><span class="tool-taal">🇦🇫</span>
-      </div>
-    </a>
-
-    <a href="medicijnen.html" class="tool-kaart komt-binnenkort">
-      <div class="tool-kaart-header">
-        <div class="tool-emoji" style="background:#FDF3E0;">💊</div>
-        <span class="tool-badge badge-zon">☀️ Bij zon</span>
-      </div>
-      <div class="tool-naam">Medicijnen Vergoeding</div>
-      <div class="tool-omschrijving">Wordt dit medicijn vergoed door mijn zorgverzekering? Zoek het snel op.</div>
-      <div class="tool-talen">
-        <span class="tool-taal">🇳🇱</span><span class="tool-taal">🇸🇦</span><span class="tool-taal">🇹🇷</span><span class="tool-taal">🇦🇫</span>
       </div>
     </a>
 
@@ -1248,43 +1245,19 @@
       </div>
     </a>
 
-    <a href="rechten.html" class="tool-kaart komt-binnenkort">
-      <div class="tool-kaart-header">
-        <div class="tool-emoji" style="background:#FDF3E0;">⚖️</div>
-        <span class="tool-badge badge-zon">☀️ Bij zon</span>
-      </div>
-      <div class="tool-naam">Rechten & Plichten Uitlegger</div>
-      <div class="tool-omschrijving">Wat zegt de Participatiewet, Inburgeringswet en WMO over jouw situatie? Uitgelegd in gewone taal.</div>
-      <div class="tool-talen">
-        <span class="tool-taal">🇳🇱</span><span class="tool-taal">🇸🇦</span><span class="tool-taal">🇪🇹</span><span class="tool-taal">🇹🇷</span><span class="tool-taal">🇺🇦</span><span class="tool-taal">🇦🇫</span>
-      </div>
-    </a>
-
-    <a href="nt2.html" class="tool-kaart komt-binnenkort">
-      <div class="tool-kaart-header">
-        <div class="tool-emoji" style="background:#FDF3E0;">📚</div>
-        <span class="tool-badge badge-zon">☀️ Bij zon</span>
-      </div>
-      <div class="tool-naam">Leer Nederlands — NT2</div>
-      <div class="tool-omschrijving">Gepersonaliseerde Nederlandse les in jouw eigen taal. Van A1 tot B2, met dagelijkse situaties als context.</div>
-      <div class="tool-talen">
-        <span class="tool-taal">🇸🇦</span><span class="tool-taal">🇪🇹</span><span class="tool-taal">🇹🇷</span><span class="tool-taal">🇺🇦</span><span class="tool-taal">🇦🇫</span><span class="tool-taal">🇬🇧</span>
-      </div>
-    </a>
-
-    <a href="blind.html"  class="tool-kaart" style="border-color: #7C3AED20;">
-      <div class="tool-kaart-header">
-        <div class="tool-emoji" style="background:#F5F3FF;">👁️</div>
-        <span class="tool-badge" style="background:#F5F3FF; color:#7C3AED;">♿ Toegankelijk</span>
-      </div>
-      <div class="tool-naam">NT2 voor Blinde Gebruikers</div>
-      <div class="tool-omschrijving">Volledig auditieve NT2-cursus. Geen scherm nodig — alles via spraak, schermlezer en braille-toetsenbord.</div>
-      <div class="tool-talen">
-        <span class="tool-taal">🇸🇦</span><span class="tool-taal">🇪🇹</span><span class="tool-taal">🇹🇷</span><span class="tool-taal">🇺🇦</span><span class="tool-taal">🇦🇫</span><span class="tool-taal">🇬🇧</span>
-      </div>
-    </a>
-
   </div>
+
+  <!-- Bekijk alle tools knop -->
+  <div style="text-align:center; margin-top:2.5rem;">
+    <a href="tools.html" class="knop-alle-tools">
+      Bekijk alle 10 tools
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="margin-left:6px;vertical-align:-2px;">
+        <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+    <div style="margin-top:10px;font-size:0.78rem;color:var(--tekst-licht);">Inclusief Zorgverzekering, Medicijnen, Rechten & Plichten en NT2 Cursus</div>
+  </div>
+
 </section>
 
 <!-- MISSIE -->
