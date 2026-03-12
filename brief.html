@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brief Begrijper — Solidari</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --wit: #FAFAF7;
+      --wit-warm: #F5F2EC;
+      --amber: #E8A020;
+      --amber-licht: #FDF3E0;
+      --amber-diep: #C47F10;
+      --groen: #2D5A3D;
+      --groen-licht: #EBF3EE;
+      --tekst: #1A1A18;
+      --tekst-zacht: #5C5C58;
+      --tekst-licht: #9C9C98;
+      --rand: #E8E5DE;
+      --rood: #DC2626;
+      --rood-licht: #FEF2F2;
+      --blauw: #2563EB;
+      --blauw-licht: #EFF6FF;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--wit);
+      color: var(--tekst);
+      font-family: 'Source Sans 3', sans-serif;
+      font-weight: 400;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(250,250,247,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--rand);
+      padding: 0 2rem;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .logo-naam { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--tekst); }
+    .logo-naam span { color: var(--amber); }
+    .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+    .nav-links a { text-decoration: none; color: var(--tekst-zacht); font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--tekst); }
+    .nav-taal { display: flex; gap: 0.5rem; }
+    .taal-btn { background: none; border: 1px solid var(--rand); border-radius: 4px; padding: 3px 8px; font-size: 0.75rem; cursor: pointer; color: var(--tekst-zacht); transition: all 0.2s; font-family: 'Source Sans 3', sans-serif; }
+    .taal-btn:hover, .taal-btn.actief { background: var(--amber); border-color: var(--amber); color: white; }
+
+    /* ── PAGINA HEADER ── */
+    .pagina-header {
+      padding-top: 64px;
+      background: var(--groen);
+      color: white;
+    }
+    .pagina-header-inhoud {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 3rem;
+    }
+    .terug-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: rgba(255,255,255,0.65);
+      text-decoration: none;
+      font-size: 0.85rem;
+      margin-bottom: 1.5rem;
+      transition: color 0.2s;
+    }
+    .terug-link:hover { color: white; }
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(232,160,32,0.2);
+      border: 1px solid rgba(232,160,32,0.4);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--amber);
+      margin-bottom: 1rem;
+      letter-spacing: 0.03em;
+    }
+    .header-badge.offline {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.5);
+    }
+    .pagina-titel {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.6rem;
+      line-height: 1.15;
+    }
+    .pagina-subtitel {
+      font-size: 1rem;
+      opacity: 0.75;
+      font-weight: 300;
+      max-width: 480px;
+      line-height: 1.6;
+    }
+
+    /* ── TALEN BALK ── */
+    .talen-balk {
+      background: rgba(0,0,0,0.15);
+      padding: 0.6rem 2rem;
+    }
+    .talen-inhoud {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .talen-label { color: rgba(255,255,255,0.5); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+    .taal-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      color: rgba(255,255,255,0.75);
+      font-size: 0.8rem;
+      cursor: pointer;
+      padding: 3px 10px;
+      border-radius: 20px;
+      border: 1px solid transparent;
+      transition: all 0.2s;
+    }
+    .taal-item.actief { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.2); color: white; }
+    .taal-item:hover { color: white; }
+
+    /* ── OFFLINE BANNER ── */
+    .offline-banner {
+      background: #1a1a18;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 1rem 2rem;
+      display: none; /* toon via JS wanneer backend offline is */
+    }
+    .offline-banner.zichtbaar { display: block; }
+    .offline-inhoud {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .offline-icoon { font-size: 1.3rem; flex-shrink: 0; }
+    .offline-tekst { font-size: 0.85rem; color: rgba(255,255,255,0.6); }
+    .offline-tekst strong { color: rgba(255,255,255,0.85); font-weight: 600; }
+
+    /* ── HOOFDINHOUD ── */
+    .hoofd {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 3rem 2rem 5rem;
+    }
+
+    /* ── STAP INDICATOR ── */
+    .stappen {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 2.5rem;
+      background: var(--wit-warm);
+      border: 1px solid var(--rand);
+      border-radius: 12px;
+      padding: 0.6rem 1rem;
+    }
+    .stap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      font-size: 0.82rem;
+      color: var(--tekst-licht);
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    .stap.actief { color: var(--groen); }
+    .stap.klaar { color: var(--tekst-zacht); }
+    .stap-nr {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--rand);
+      color: var(--tekst-licht);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      font-weight: 700;
+      flex-shrink: 0;
+      transition: all 0.3s;
+    }
+    .stap.actief .stap-nr { background: var(--groen); color: white; }
+    .stap.klaar .stap-nr { background: #4CAF50; color: white; }
+    .stap-verbinder { flex: 0; width: 28px; height: 1px; background: var(--rand); margin: 0 6px; }
+
+    /* ── UPLOAD ZONE ── */
+    #stap-upload { animation: opkomen 0.5s ease both; }
+    #stap-verwerken { display: none; }
+    #stap-resultaat { display: none; }
+    #stap-fout { display: none; }
+
+    .upload-zone {
+      border: 2px dashed var(--rand);
+      border-radius: 20px;
+      padding: 3rem 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s;
+      background: white;
+      position: relative;
+    }
+    .upload-zone:hover, .upload-zone.drag-over {
+      border-color: var(--amber);
+      background: var(--amber-licht);
+    }
+    .upload-zone input[type=file] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+    .upload-icoon {
+      width: 72px;
+      height: 72px;
+      background: var(--amber-licht);
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin: 0 auto 1.2rem;
+      transition: transform 0.2s;
+    }
+    .upload-zone:hover .upload-icoon { transform: scale(1.08); }
+    .upload-titel {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--tekst);
+      margin-bottom: 0.4rem;
+    }
+    .upload-sub {
+      font-size: 0.85rem;
+      color: var(--tekst-licht);
+      margin-bottom: 1.5rem;
+    }
+    .upload-knop {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--groen);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 11px 24px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Source Sans 3', sans-serif;
+      transition: all 0.2s;
+    }
+    .upload-knop:hover { background: #234830; }
+    .upload-formaten {
+      margin-top: 1rem;
+      font-size: 0.75rem;
+      color: var(--tekst-licht);
+    }
+
+    /* Preview van geselecteerd bestand */
+    .bestand-preview {
+      display: none;
+      margin-top: 1.5rem;
+      border-top: 1px solid var(--rand);
+      padding-top: 1.5rem;
+    }
+    .bestand-preview.zichtbaar { display: block; }
+    .bestand-preview img {
+      max-width: 100%;
+      max-height: 300px;
+      border-radius: 10px;
+      border: 1px solid var(--rand);
+      object-fit: contain;
+    }
+    .bestand-naam {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 1rem;
+      font-size: 0.85rem;
+      color: var(--tekst-zacht);
+      background: var(--wit-warm);
+      border-radius: 8px;
+      padding: 8px 12px;
+    }
+
+    /* ── EXTRA CONTEXT ── */
+    .context-blok {
+      margin-top: 1.5rem;
+      background: white;
+      border: 1px solid var(--rand);
+      border-radius: 16px;
+      padding: 1.4rem;
+    }
+    .context-titel {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--tekst);
+      margin-bottom: 0.3rem;
+    }
+    .context-sub {
+      font-size: 0.8rem;
+      color: var(--tekst-licht);
+      margin-bottom: 0.8rem;
+    }
+    .context-textarea {
+      width: 100%;
+      border: 1.5px solid var(--rand);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 0.88rem;
+      font-family: 'Source Sans 3', sans-serif;
+      color: var(--tekst);
+      resize: vertical;
+      min-height: 70px;
+      outline: none;
+      transition: border-color 0.2s;
+      background: var(--wit);
+    }
+    .context-textarea:focus { border-color: var(--groen); }
+    .context-textarea::placeholder { color: var(--tekst-licht); }
+
+    /* ── ANALYSEER KNOP ── */
+    .analyseer-wrap {
+      margin-top: 1.5rem;
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+    .analyseer-knop {
+      flex: 1;
+      background: var(--groen);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 16px 28px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Source Sans 3', sans-serif;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .analyseer-knop:hover { background: #234830; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(45,90,61,0.25); }
+    .analyseer-knop:disabled { background: var(--rand); color: var(--tekst-licht); cursor: not-allowed; transform: none; box-shadow: none; }
+
+    /* ── VERWERKEN STATE ── */
+    #stap-verwerken {
+      text-align: center;
+      padding: 3rem 1rem;
+    }
+    .verwerken-cirkel {
+      width: 80px;
+      height: 80px;
+      border: 3px solid var(--rand);
+      border-top-color: var(--groen);
+      border-radius: 50%;
+      animation: draaien 1s linear infinite;
+      margin: 0 auto 1.5rem;
+    }
+    @keyframes draaien { to { transform: rotate(360deg); } }
+    .verwerken-titel {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--tekst);
+      margin-bottom: 0.4rem;
+    }
+    .verwerken-sub { font-size: 0.88rem; color: var(--tekst-licht); }
+    .verwerken-stap {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 1.5rem;
+      background: var(--wit-warm);
+      border-radius: 20px;
+      padding: 6px 16px;
+      font-size: 0.82rem;
+      color: var(--tekst-zacht);
+    }
+    .verwerken-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--amber);
+      animation: puls 1.2s ease infinite;
+    }
+    @keyframes puls { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(1.3)} }
+
+    /* ── RESULTAAT ── */
+    #stap-resultaat { animation: opkomen 0.5s ease both; }
+
+    .resultaat-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .resultaat-titel {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--tekst);
+    }
+    .resultaat-acties { display: flex; gap: 0.6rem; }
+    .actie-knop {
+      background: none;
+      border: 1.5px solid var(--rand);
+      border-radius: 8px;
+      padding: 7px 14px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--tekst-zacht);
+      font-family: 'Source Sans 3', sans-serif;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .actie-knop:hover { border-color: var(--groen); color: var(--groen); }
+
+    /* Urgentie banner */
+    .urgentie-banner {
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .urgentie-banner.hoog { background: var(--rood-licht); border: 1px solid rgba(220,38,38,0.2); }
+    .urgentie-banner.midden { background: var(--amber-licht); border: 1px solid rgba(232,160,32,0.25); }
+    .urgentie-banner.laag { background: var(--groen-licht); border: 1px solid rgba(45,90,61,0.15); }
+    .urgentie-icoon { font-size: 1.3rem; flex-shrink: 0; margin-top: 1px; }
+    .urgentie-tekst { font-size: 0.88rem; line-height: 1.5; }
+    .urgentie-tekst strong { display: block; font-weight: 700; font-size: 0.92rem; margin-bottom: 2px; }
+    .urgentie-banner.hoog .urgentie-tekst strong { color: var(--rood); }
+    .urgentie-banner.midden .urgentie-tekst strong { color: var(--amber-diep); }
+    .urgentie-banner.laag .urgentie-tekst strong { color: var(--groen); }
+
+    /* Resultaat kaarten */
+    .resultaat-kaarten {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .resultaat-kaart {
+      background: white;
+      border: 1px solid var(--rand);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .rk-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--rand);
+      background: var(--wit-warm);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .rk-header:hover { background: #EEE9E0; }
+    .rk-icoon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .rk-naam {
+      flex: 1;
+      font-weight: 600;
+      font-size: 0.92rem;
+      color: var(--tekst);
+    }
+    .rk-chevron {
+      color: var(--tekst-licht);
+      transition: transform 0.25s;
+      font-size: 0.8rem;
+    }
+    .rk-header.open .rk-chevron { transform: rotate(180deg); }
+    .rk-body {
+      padding: 18px 18px;
+      font-size: 0.9rem;
+      color: var(--tekst-zacht);
+      line-height: 1.7;
+      display: none;
+    }
+    .rk-body.open { display: block; }
+    .rk-body p { margin-bottom: 8px; }
+    .rk-body p:last-child { margin-bottom: 0; }
+    .rk-body ul { padding-left: 1.2rem; margin: 6px 0; }
+    .rk-body ul li { margin-bottom: 4px; }
+    .rk-body .deadline {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--rood-licht);
+      border: 1px solid rgba(220,38,38,0.15);
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--rood);
+      margin: 4px 0;
+    }
+    .rk-body .tip {
+      background: var(--blauw-licht);
+      border-left: 3px solid var(--blauw);
+      border-radius: 0 8px 8px 0;
+      padding: 10px 14px;
+      margin: 10px 0;
+      font-size: 0.85rem;
+    }
+
+    /* Actiepunten */
+    .actiepunten {
+      background: var(--groen-licht);
+      border: 1px solid rgba(45,90,61,0.15);
+      border-radius: 14px;
+      padding: 18px;
+      margin-top: 1rem;
+    }
+    .actiepunten-titel {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--groen);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .actiepunt {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(45,90,61,0.1);
+      font-size: 0.88rem;
+      color: var(--tekst-zacht);
+    }
+    .actiepunt:last-child { border-bottom: none; padding-bottom: 0; }
+    .ap-vinkje {
+      width: 20px; height: 20px;
+      border-radius: 5px;
+      border: 2px solid rgba(45,90,61,0.3);
+      flex-shrink: 0;
+      margin-top: 1px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .ap-vinkje:hover { border-color: var(--groen); }
+    .ap-vinkje.gedaan { background: var(--groen); border-color: var(--groen); display: flex; align-items: center; justify-content: center; }
+    .ap-vinkje.gedaan::after { content: '✓'; color: white; font-size: 0.65rem; font-weight: 700; }
+    .actiepunt.gedaan .ap-tekst { text-decoration: line-through; opacity: 0.5; }
+
+    /* Disclaimer */
+    .disclaimer {
+      margin-top: 1.5rem;
+      padding: 12px 16px;
+      background: var(--wit-warm);
+      border: 1px solid var(--rand);
+      border-radius: 10px;
+      font-size: 0.78rem;
+      color: var(--tekst-licht);
+      line-height: 1.5;
+    }
+    .disclaimer a { color: var(--tekst-zacht); }
+
+    /* Nieuwe brief knop */
+    .nieuwe-brief-wrap {
+      margin-top: 1.5rem;
+      text-align: center;
+    }
+    .nieuwe-brief-knop {
+      background: none;
+      border: 2px solid var(--groen);
+      color: var(--groen);
+      border-radius: 10px;
+      padding: 12px 24px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Source Sans 3', sans-serif;
+      transition: all 0.2s;
+    }
+    .nieuwe-brief-knop:hover { background: var(--groen); color: white; }
+
+    /* ── FOUT STATE ── */
+    #stap-fout {
+      text-align: center;
+      padding: 3rem 1rem;
+    }
+    .fout-icoon { font-size: 3rem; margin-bottom: 1rem; }
+    .fout-titel { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .fout-tekst { font-size: 0.88rem; color: var(--tekst-zacht); margin-bottom: 1.5rem; }
+
+    /* ── TIPS BLOK ── */
+    .tips-blok {
+      background: var(--wit-warm);
+      border: 1px solid var(--rand);
+      border-radius: 16px;
+      padding: 1.4rem;
+      margin-top: 1.5rem;
+    }
+    .tips-titel {
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--tekst-zacht);
+      margin-bottom: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .tip-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--tekst-zacht);
+      margin-bottom: 6px;
+    }
+    .tip-item:last-child { margin-bottom: 0; }
+    .tip-item::before { content: '✓'; color: var(--groen); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+
+    /* ── FOOTER ── */
+    footer { border-top: 1px solid var(--rand); padding: 2rem 2rem; }
+    .footer-inhoud { max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+    .footer-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .footer-naam { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--tekst); }
+    .footer-naam span { color: var(--amber); }
+    .footer-midden { font-size: 0.8rem; color: var(--tekst-licht); text-align: center; }
+    .footer-midden a { color: var(--tekst-zacht); text-decoration: none; }
+    .footer-doneer { background: var(--amber-licht); border: 1px solid rgba(232,160,32,0.3); color: var(--amber-diep); border-radius: 8px; padding: 8px 18px; font-size: 0.85rem; font-weight: 600; cursor: pointer; text-decoration: none; transition: all 0.2s; font-family: 'Source Sans 3', sans-serif; }
+    .footer-doneer:hover { background: var(--amber); color: white; border-color: var(--amber); }
+
+    @keyframes opkomen { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 768px) { .nav-links { display: none; } .stap-tekst { display: none; } }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+      <circle cx="18" cy="18" r="8" fill="#E8A020"/>
+      <line x1="18" y1="2" x2="18" y2="7" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="18" y1="29" x2="18" y2="34" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="2" y1="18" x2="7" y2="18" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="29" y1="18" x2="34" y2="18" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="6.1" y1="6.1" x2="9.6" y2="9.6" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="26.4" y1="26.4" x2="29.9" y2="29.9" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="29.9" y1="6.1" x2="26.4" y2="9.6" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="9.6" y1="26.4" x2="6.1" y2="29.9" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>
+    <span class="logo-naam">Solid<span>a</span>ri</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="tools.html">Tools</a></li>
+    <li><a href="index.html#missie">Over ons</a></li>
+    <li><a href="index.html#missie">Privacy</a></li>
+    <li><a href="index.html#doneer" style="color:var(--amber-diep); font-weight:600;">💛 Doneer</a></li>
+  </ul>
+  <div class="nav-taal">
+    <button class="taal-btn actief" data-taal="nl">NL</button>
+    <button class="taal-btn" data-taal="en">EN</button>
+    <button class="taal-btn" data-taal="ar">AR</button>
+    <button class="taal-btn" data-taal="tr">TR</button>
+  </div>
+</nav>
+
+<!-- PAGINA HEADER -->
+<div class="pagina-header">
+  <div class="pagina-header-inhoud">
+    <a href="tools.html" class="terug-link">← Terug naar alle tools</a>
+    <div id="zon-badge" class="header-badge">☀️ Tool actief — verwerking mogelijk</div>
+    <h1 class="pagina-titel">📬 Brief Begrijper</h1>
+    <p class="pagina-subtitel" id="header-sub">Maak een foto van je brief. Wij leggen uit wat er staat, wat je moet doen, en wanneer.</p>
+  </div>
+  <!-- TALEN -->
+  <div class="talen-balk">
+    <div class="talen-inhoud">
+      <span class="talen-label">Taal uitleg</span>
+      <span class="taal-item actief" data-taal="nl">🇳🇱 Nederlands</span>
+      <span class="taal-item" data-taal="en">🇬🇧 English</span>
+      <span class="taal-item" data-taal="ar">🇸🇦 العربية</span>
+      <span class="taal-item" data-taal="ti">🇪🇹 ትግርኛ</span>
+      <span class="taal-item" data-taal="tr">🇹🇷 Türkçe</span>
+      <span class="taal-item" data-taal="uk">🇺🇦 Українська</span>
+      <span class="taal-item" data-taal="fa">🇦🇫 دری</span>
+    </div>
+  </div>
+</div>
+
+<!-- OFFLINE BANNER (verborgen; toon bij backend-offline) -->
+<div class="offline-banner" id="offline-banner">
+  <div class="offline-inhoud">
+    <span class="offline-icoon">🌙</span>
+    <span class="offline-tekst">
+      <strong>De Brief Begrijper slaapt nu.</strong>
+      De AI draait op zonne-energie en is momenteel niet beschikbaar. Kom overdag terug, of <a href="index.html#doneer" style="color:rgba(255,255,255,0.7);">doneer voor nachtdekking</a>.
+    </span>
+  </div>
+</div>
+
+<!-- HOOFDINHOUD -->
+<div class="hoofd">
+
+  <!-- STAP INDICATOR -->
+  <div class="stappen">
+    <div class="stap actief" id="stap-ind-1">
+      <div class="stap-nr">1</div>
+      <span class="stap-tekst">Brief uploaden</span>
+    </div>
+    <div class="stap-verbinder"></div>
+    <div class="stap" id="stap-ind-2">
+      <div class="stap-nr">2</div>
+      <span class="stap-tekst">Analyseren</span>
+    </div>
+    <div class="stap-verbinder"></div>
+    <div class="stap" id="stap-ind-3">
+      <div class="stap-nr">3</div>
+      <span class="stap-tekst">Uitleg lezen</span>
+    </div>
+  </div>
+
+  <!-- STAP 1: UPLOAD -->
+  <div id="stap-upload">
+    <div class="upload-zone" id="dropzone">
+      <input type="file" id="bestand-input" accept="image/*,application/pdf" aria-label="Kies een bestand">
+      <div class="upload-icoon">📸</div>
+      <div class="upload-titel" data-nl="Foto of scan van je brief" data-en="Photo or scan of your letter" data-ar="صورة أو مسح ضوئي لرسالتك" data-tr="Mektubunuzun fotoğrafı veya taraması">
+        Foto of scan van je brief
+      </div>
+      <div class="upload-sub" data-nl="Sleep het bestand hier naartoe, of klik om te bladeren" data-en="Drag the file here, or click to browse" data-ar="اسحب الملف هنا أو انقر للتصفح" data-tr="Dosyayı buraya sürükleyin veya tıklayın">
+        Sleep het bestand hier naartoe, of klik om te bladeren
+      </div>
+      <button class="upload-knop" onclick="document.getElementById('bestand-input').click(); event.stopPropagation();">
+        📂 Kies bestand
+      </button>
+      <div class="upload-formaten">JPG, PNG, HEIC of PDF · Maximaal 10 MB</div>
+      <div class="bestand-preview" id="bestand-preview">
+        <img id="preview-img" src="" alt="Voorbeeld van je brief">
+        <div class="bestand-naam" id="bestand-naam-tekst">
+          📄 <span id="bestandsnaam"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="context-blok">
+      <div class="context-titel" data-nl="Weet jij al iets over deze brief?" data-en="Do you know anything about this letter?" data-ar="هل تعرف شيئاً عن هذه الرسالة؟" data-tr="Bu mektup hakkında bir şey biliyor musunuz?">
+        Weet jij al iets over deze brief?
+      </div>
+      <div class="context-sub" data-nl="Optioneel — maar helpt ons een betere uitleg te geven" data-en="Optional — but helps us give a better explanation" data-ar="اختياري — لكنه يساعدنا في تقديم شرح أفضل" data-tr="İsteğe bağlı — ancak daha iyi açıklama yapmamıza yardımcı olur">
+        Optioneel — maar helpt ons een betere uitleg te geven
+      </div>
+      <textarea class="context-textarea" id="extra-context" placeholder="Bijv. 'dit is van de gemeente' of 'ik heb een betalingsherinnering verwacht'" rows="2"></textarea>
+    </div>
+
+    <div class="analyseer-wrap">
+      <button class="analyseer-knop" id="analyseer-knop" onclick="startAnalyse()" disabled>
+        🔍 Analyseer mijn brief
+      </button>
+    </div>
+
+    <div class="tips-blok">
+      <div class="tips-titel">Tips voor de beste uitleg</div>
+      <div class="tip-item">Zorg dat de hele brief op de foto staat, inclusief de kop</div>
+      <div class="tip-item">Goede belichting — vermijd schaduwen op de tekst</div>
+      <div class="tip-item">Houd de camera recht — niet schuin</div>
+      <div class="tip-item">Foto hoeft niet perfect te zijn, de AI leest ook onscherpe tekst</div>
+    </div>
+  </div>
+
+  <!-- STAP 2: VERWERKEN -->
+  <div id="stap-verwerken">
+    <div class="verwerken-cirkel"></div>
+    <div class="verwerken-titel" data-nl="Bezig met analyseren…" data-en="Analyzing…" data-ar="جارٍ التحليل…" data-tr="Analiz ediliyor…">
+      Bezig met analyseren…
+    </div>
+    <div class="verwerken-sub" data-nl="Dit duurt meestal 10–30 seconden" data-en="This usually takes 10–30 seconds" data-ar="عادةً ما يستغرق هذا 10-30 ثانية" data-tr="Bu genellikle 10-30 saniye sürer">
+      Dit duurt meestal 10–30 seconden
+    </div>
+    <div class="verwerken-stap">
+      <div class="verwerken-dot"></div>
+      <span id="verwerken-fase">Tekst lezen uit de brief…</span>
+    </div>
+  </div>
+
+  <!-- STAP 3: RESULTAAT -->
+  <div id="stap-resultaat">
+    <div class="resultaat-header">
+      <div class="resultaat-titel">📄 Uitleg van je brief</div>
+      <div class="resultaat-acties">
+        <button class="actie-knop" onclick="afdrukken()">🖨️ Afdrukken</button>
+        <button class="actie-knop" onclick="kopieerTekst()">📋 Kopiëren</button>
+      </div>
+    </div>
+
+    <!-- Urgentie banner (dynamisch gevuld) -->
+    <div id="urgentie-banner"></div>
+
+    <!-- Resultaat kaarten (dynamisch gevuld) -->
+    <div class="resultaat-kaarten" id="resultaat-kaarten"></div>
+
+    <!-- Actiepunten -->
+    <div class="actiepunten" id="actiepunten-blok" style="display:none;">
+      <div class="actiepunten-titel">✅ Wat moet je doen?</div>
+      <div id="actiepunten-lijst"></div>
+    </div>
+
+    <div class="disclaimer">
+      ⚠️ <strong>Let op:</strong> Dit is een automatische uitleg en kan fouten bevatten. Twijfel je? Neem contact op met het 
+      <a href="https://www.juridischloket.nl" target="_blank">Juridisch Loket</a>, 
+      <a href="https://www.vluchtelingenwerk.nl" target="_blank">VluchtelingenWerk</a> of je Sociaal Wijkteam.
+    </div>
+
+    <div class="nieuwe-brief-wrap">
+      <button class="nieuwe-brief-knop" onclick="nieuweBrief()">← Nieuwe brief analyseren</button>
+    </div>
+  </div>
+
+  <!-- STAP 4: FOUT -->
+  <div id="stap-fout">
+    <div class="fout-icoon">😔</div>
+    <div class="fout-titel">Er ging iets mis</div>
+    <div class="fout-tekst" id="fout-bericht">De brief kon niet worden gelezen. Probeer het opnieuw met een duidelijkere foto.</div>
+    <button class="analyseer-knop" onclick="nieuweBrief()" style="max-width:300px; margin:0 auto;">
+      Opnieuw proberen
+    </button>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inhoud">
+    <a href="index.html" class="footer-logo">
+      <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
+        <circle cx="18" cy="18" r="8" fill="#E8A020"/>
+        <line x1="18" y1="2" x2="18" y2="7" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="18" y1="29" x2="18" y2="34" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="2" y1="18" x2="7" y2="18" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="29" y1="18" x2="34" y2="18" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="6.1" y1="6.1" x2="9.6" y2="9.6" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="26.4" y1="26.4" x2="29.9" y2="29.9" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="29.9" y1="6.1" x2="26.4" y2="9.6" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="9.6" y1="26.4" x2="6.1" y2="29.9" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      </svg>
+      <span class="footer-naam">Solid<span>a</span>ri</span>
+    </a>
+    <div class="footer-midden">
+      <a href="#">Privacy</a> · <a href="#">Disclaimer</a> · <a href="#">Contact</a><br>
+      <span style="font-size:0.75rem; margin-top:4px; display:block;">Geen cookies · Geen opslag · Geen advertenties</span>
+    </div>
+    <a href="index.html#doneer" class="footer-doneer">💛 Doneer</a>
+  </div>
+</footer>
+
+<script>
+// ─── CONFIGURATIE ───────────────────────────────────────────────
+const CONFIG = {
+  // Zet op de echte backend URL zodra Flask draait
+  // bijv. 'https://solidari.nl/api/analyseer'
+  // Als leeg of backend niet bereikbaar: gebruik demo-modus
+  BACKEND_URL: 'https://api.solidari.nl/api/analyseer',
+  DEMO_MODUS: false, // false zodra backend klaar is
+  MAX_BESTAND_MB: 10
+};
+
+// ─── TALEN ───────────────────────────────────────────────────────
+let huidigeTaal = 'nl';
+const TALEN = {
+  nl: {
+    uploadTitel: 'Foto of scan van je brief',
+    uploadSub: 'Sleep het bestand hier naartoe, of klik om te bladeren',
+    contextTitel: 'Weet jij al iets over deze brief?',
+    contextSub: 'Optioneel — maar helpt ons een betere uitleg te geven',
+    verwerkFase1: 'Tekst lezen uit de brief…',
+    verwerkFase2: 'Brief begrijpen…',
+    verwerkFase3: 'Uitleg schrijven in het Nederlands…',
+    headerSub: 'Maak een foto van je brief. Wij leggen uit wat er staat, wat je moet doen, en wanneer.',
+  },
+  en: {
+    uploadTitel: 'Photo or scan of your letter',
+    uploadSub: 'Drag the file here, or click to browse',
+    contextTitel: 'Do you know anything about this letter?',
+    contextSub: 'Optional — but helps us give a better explanation',
+    verwerkFase1: 'Reading text from the letter…',
+    verwerkFase2: 'Understanding the letter…',
+    verwerkFase3: 'Writing explanation in English…',
+    headerSub: 'Take a photo of your letter. We explain what it says, what you need to do, and when.',
+  },
+  ar: {
+    uploadTitel: 'صورة أو مسح ضوئي لرسالتك',
+    uploadSub: 'اسحب الملف هنا أو انقر للتصفح',
+    contextTitel: 'هل تعرف شيئاً عن هذه الرسالة؟',
+    contextSub: 'اختياري — لكنه يساعدنا في تقديم شرح أفضل',
+    verwerkFase1: 'قراءة النص من الرسالة…',
+    verwerkFase2: 'فهم الرسالة…',
+    verwerkFase3: 'كتابة الشرح بالعربية…',
+    headerSub: 'التقط صورة لرسالتك. سنشرح ما تقوله، وما يجب عليك فعله، ومتى.',
+  },
+  ti: {
+    uploadTitel: 'ፎቶ ወይ ስካን ናይ ደብዳቤኻ',
+    uploadSub: 'ፋይል ናብዚ ስሓቦ ወይ ጠውቕ',
+    contextTitel: 'ብዛዕባ እዚ ደብዳቤ ዝኾነ ትፈልጥ ዲኻ?',
+    contextSub: 'ኣማራጺ — ግን ዝሓሸ ምብርሃን ክንህብ ይሕግዘና',
+    verwerkFase1: 'ካብ ደብዳቤ ጽሑፍ ምንባብ…',
+    verwerkFase2: 'ደብዳቤ ምርዳእ…',
+    verwerkFase3: 'ምብርሃን ብትግርኛ ምጽሓፍ…',
+    headerSub: 'ናይ ደብዳቤኻ ፎቶ ውሰድ። ዝብሎ፡ እንታይ ክትገብር ከምዘለካ፡ መዓስ ከም ዘለካ ነብርህ።',
+  },
+  tr: {
+    uploadTitel: 'Mektubunuzun fotoğrafı veya taraması',
+    uploadSub: 'Dosyayı buraya sürükleyin veya tıklayın',
+    contextTitel: 'Bu mektup hakkında bir şey biliyor musunuz?',
+    contextSub: 'İsteğe bağlı — ancak daha iyi açıklama yapmamıza yardımcı olur',
+    verwerkFase1: 'Mektuptan metin okunuyor…',
+    verwerkFase2: 'Mektup anlaşılıyor…',
+    verwerkFase3: 'Türkçe açıklama yazılıyor…',
+    headerSub: 'Mektubunuzun bir fotoğrafını çekin. Ne yazdığını, ne yapmanız gerektiğini ve ne zaman açıklıyoruz.',
+  },
+  uk: {
+    uploadTitel: 'Фото або скан вашого листа',
+    uploadSub: 'Перетягніть файл сюди або натисніть',
+    contextTitel: 'Чи знаєте ви щось про цей лист?',
+    contextSub: 'Необов\'язково — але допомагає дати краще пояснення',
+    verwerkFase1: 'Читання тексту з листа…',
+    verwerkFase2: 'Розуміння листа…',
+    verwerkFase3: 'Написання пояснення українською…',
+    headerSub: 'Сфотографуйте свій лист. Ми пояснимо, що там написано, що потрібно зробити і коли.',
+  },
+  fa: {
+    uploadTitel: 'عکس یا اسکن نامه‌تان',
+    uploadSub: 'فایل را اینجا بکشید یا کلیک کنید',
+    contextTitel: 'آیا چیزی درباره این نامه می‌دانید؟',
+    contextSub: 'اختیاری — اما به ما کمک می‌کند توضیح بهتری بدهیم',
+    verwerkFase1: 'خواندن متن از نامه…',
+    verwerkFase2: 'درک نامه…',
+    verwerkFase3: 'نوشتن توضیح به دری…',
+    headerSub: 'از نامه‌تان عکس بگیرید. ما توضیح می‌دهیم که چه می‌گوید، چه باید انجام دهید و چه وقت.',
+  },
+};
+
+// ─── TAAL WISSELEN ───────────────────────────────────────────────
+function wisselTaal(taal) {
+  huidigeTaal = taal;
+  const t = TALEN[taal] || TALEN['nl'];
+
+  // Header
+  document.getElementById('header-sub').textContent = t.headerSub;
+
+  // Upload teksten
+  document.querySelector('.upload-titel').textContent = t.uploadTitel;
+  document.querySelector('.upload-sub').textContent = t.uploadSub;
+  document.querySelector('.context-titel').textContent = t.contextTitel;
+  document.querySelector('.context-sub').textContent = t.contextSub;
+
+  // Richting voor Arabisch/Dari
+  const rtlTalen = ['ar', 'fa'];
+  document.body.dir = rtlTalen.includes(taal) ? 'rtl' : 'ltr';
+
+  // Actief markeren
+  document.querySelectorAll('.taal-item').forEach(item => {
+    item.classList.toggle('actief', item.dataset.taal === taal);
+  });
+  document.querySelectorAll('.taal-btn').forEach(btn => {
+    const map = { nl: 'nl', en: 'en', ar: 'ar', tr: 'tr' };
+    btn.classList.toggle('actief', btn.dataset.taal === taal);
+  });
+}
+
+document.querySelectorAll('.taal-item').forEach(item => {
+  item.addEventListener('click', () => wisselTaal(item.dataset.taal));
+});
+document.querySelectorAll('.taal-btn').forEach(btn => {
+  btn.addEventListener('click', () => wisselTaal(btn.dataset.taal));
+});
+
+// ─── BESTAND KIEZEN ──────────────────────────────────────────────
+let gekozenBestand = null;
+
+document.getElementById('bestand-input').addEventListener('change', function(e) {
+  const bestand = e.target.files[0];
+  if (bestand) verwerkBestand(bestand);
+});
+
+// Drag & drop
+const dropzone = document.getElementById('dropzone');
+dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('drag-over'); });
+dropzone.addEventListener('dragleave', () => dropzone.classList.remove('drag-over'));
+dropzone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropzone.classList.remove('drag-over');
+  const bestand = e.dataTransfer.files[0];
+  if (bestand) verwerkBestand(bestand);
+});
+
+function verwerkBestand(bestand) {
+  const maxBytes = CONFIG.MAX_BESTAND_MB * 1024 * 1024;
+  if (bestand.size > maxBytes) {
+    alert(`Het bestand is te groot. Maximaal ${CONFIG.MAX_BESTAND_MB} MB.`);
+    return;
+  }
+
+  gekozenBestand = bestand;
+  document.getElementById('bestandsnaam').textContent = bestand.name;
+  document.getElementById('bestand-preview').classList.add('zichtbaar');
+  document.getElementById('analyseer-knop').disabled = false;
+
+  // Toon preview als het een afbeelding is
+  const previewImg = document.getElementById('preview-img');
+  if (bestand.type.startsWith('image/')) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      previewImg.src = e.target.result;
+      previewImg.style.display = 'block';
+    };
+    reader.readAsDataURL(bestand);
+  } else {
+    previewImg.style.display = 'none';
+  }
+}
+
+// ─── STAP NAVIGATIE ──────────────────────────────────────────────
+function toonStap(stap) {
+  ['upload', 'verwerken', 'resultaat', 'fout'].forEach(s => {
+    document.getElementById('stap-' + s).style.display = 'none';
+  });
+  document.getElementById('stap-' + stap).style.display = (stap === 'verwerken') ? 'block' : 'block';
+  document.getElementById('stap-' + stap).style.animation = 'none';
+  void document.getElementById('stap-' + stap).offsetWidth;
+  document.getElementById('stap-' + stap).style.animation = '';
+
+  // Stap indicator
+  const nrs = { upload: 1, verwerken: 2, resultaat: 3, fout: 1 };
+  const nr = nrs[stap] || 1;
+  [1, 2, 3].forEach(i => {
+    const el = document.getElementById('stap-ind-' + i);
+    el.classList.remove('actief', 'klaar');
+    if (i < nr) el.classList.add('klaar');
+    if (i === nr) el.classList.add('actief');
+  });
+}
+
+// ─── ANALYSE STARTEN ─────────────────────────────────────────────
+function startAnalyse() {
+  if (!gekozenBestand) return;
+  toonStap('verwerken');
+
+  if (CONFIG.DEMO_MODUS || !CONFIG.BACKEND_URL) {
+    // DEMO: simuleer verwerking en toon voorbeeldresultaat
+    simuleerVerwerking();
+  } else {
+    // PRODUCTIE: stuur naar Flask-backend
+    stuurNaarBackend();
+  }
+}
+
+function simuleerVerwerking() {
+  const t = TALEN[huidigeTaal] || TALEN['nl'];
+  const fases = [t.verwerkFase1, t.verwerkFase2, t.verwerkFase3];
+  let i = 0;
+  const interval = setInterval(() => {
+    document.getElementById('verwerken-fase').textContent = fases[i % fases.length];
+    i++;
+  }, 1800);
+
+  // Na ~6 seconden: toon demoResultaat
+  setTimeout(() => {
+    clearInterval(interval);
+    toonResultaat(DEMO_RESULTAAT);
+  }, 6000);
+}
+
+async function stuurNaarBackend() {
+  const t = TALEN[huidigeTaal] || TALEN['nl'];
+  const fases = [t.verwerkFase1, t.verwerkFase2, t.verwerkFase3];
+  let fase = 0;
+  const interval = setInterval(() => {
+    document.getElementById('verwerken-fase').textContent = fases[fase % fases.length];
+    fase++;
+  }, 2000);
+
+  try {
+    const formData = new FormData();
+    formData.append('brief', gekozenBestand);
+    formData.append('taal', huidigeTaal);
+    const context = document.getElementById('extra-context').value.trim();
+    if (context) formData.append('context', context);
+
+    const response = await fetch(CONFIG.BACKEND_URL, {
+      method: 'POST',
+      body: formData
+    });
+
+    clearInterval(interval);
+
+    if (!response.ok) throw new Error('Server fout: ' + response.status);
+
+    const data = await response.json();
+    toonResultaat(data);
+  } catch (err) {
+    clearInterval(interval);
+    document.getElementById('fout-bericht').textContent = 
+      'Kon de server niet bereiken. Controleer je internetverbinding of probeer het later opnieuw.';
+    toonStap('fout');
+  }
+}
+
+// ─── RESULTAAT TONEN ─────────────────────────────────────────────
+function toonResultaat(data) {
+  toonStap('resultaat');
+
+  // Urgentie banner
+  const urgContainer = document.getElementById('urgentie-banner');
+  if (data.urgentie) {
+    const u = data.urgentie;
+    urgContainer.innerHTML = `
+      <div class="urgentie-banner ${u.niveau}">
+        <span class="urgentie-icoon">${u.niveau === 'hoog' ? '⚠️' : u.niveau === 'midden' ? '📅' : 'ℹ️'}</span>
+        <div class="urgentie-tekst">
+          <strong>${u.titel}</strong>
+          ${u.tekst}
+        </div>
+      </div>`;
+  } else {
+    urgContainer.innerHTML = '';
+  }
+
+  // Resultaatkaarten
+  const kaarten = document.getElementById('resultaat-kaarten');
+  kaarten.innerHTML = '';
+  (data.secties || []).forEach((sectie, idx) => {
+    const kaart = document.createElement('div');
+    kaart.className = 'resultaat-kaart';
+    kaart.innerHTML = `
+      <div class="rk-header ${idx === 0 ? 'open' : ''}" onclick="toggleKaart(this)">
+        <div class="rk-icoon" style="background:${sectie.achtergrond || '#F5F2EC'}">${sectie.icoon}</div>
+        <div class="rk-naam">${sectie.titel}</div>
+        <span class="rk-chevron">▼</span>
+      </div>
+      <div class="rk-body ${idx === 0 ? 'open' : ''}">
+        ${sectie.inhoud}
+      </div>`;
+    kaarten.appendChild(kaart);
+  });
+
+  // Actiepunten
+  const apBlok = document.getElementById('actiepunten-blok');
+  const apLijst = document.getElementById('actiepunten-lijst');
+  if (data.actiepunten && data.actiepunten.length > 0) {
+    apBlok.style.display = 'block';
+    apLijst.innerHTML = data.actiepunten.map((ap, i) => `
+      <div class="actiepunt" id="ap-${i}">
+        <div class="ap-vinkje" onclick="vinkAf(${i})"></div>
+        <span class="ap-tekst">${ap}</span>
+      </div>`).join('');
+  } else {
+    apBlok.style.display = 'none';
+  }
+}
+
+function toggleKaart(header) {
+  header.classList.toggle('open');
+  header.nextElementSibling.classList.toggle('open');
+}
+
+function vinkAf(i) {
+  const ap = document.getElementById('ap-' + i);
+  const vinkje = ap.querySelector('.ap-vinkje');
+  ap.classList.toggle('gedaan');
+  vinkje.classList.toggle('gedaan');
+}
+
+function nieuweBrief() {
+  gekozenBestand = null;
+  document.getElementById('bestand-input').value = '';
+  document.getElementById('bestand-preview').classList.remove('zichtbaar');
+  document.getElementById('preview-img').src = '';
+  document.getElementById('bestandsnaam').textContent = '';
+  document.getElementById('extra-context').value = '';
+  document.getElementById('analyseer-knop').disabled = true;
+  toonStap('upload');
+}
+
+function afdrukken() { window.print(); }
+
+function kopieerTekst() {
+  const kaarten = document.querySelectorAll('.rk-naam, .rk-body');
+  let tekst = 'Brief Begrijper — Solidari.nl\n\n';
+  document.querySelectorAll('.resultaat-kaart').forEach(kaart => {
+    const naam = kaart.querySelector('.rk-naam').textContent;
+    const body = kaart.querySelector('.rk-body').innerText.trim();
+    tekst += `${naam}\n${body}\n\n`;
+  });
+  navigator.clipboard.writeText(tekst).then(() => {
+    alert('Tekst gekopieerd!');
+  });
+}
+
+// ─── DEMO RESULTAAT ──────────────────────────────────────────────
+const DEMO_RESULTAAT = {
+  urgentie: {
+    niveau: 'midden',
+    titel: '📅 Reageer vóór 28 maart 2026',
+    tekst: 'Je hebt nog 16 dagen om te reageren op dit besluit. Doe dat op tijd om problemen te voorkomen.'
+  },
+  secties: [
+    {
+      icoon: '📋',
+      titel: 'Wat staat er in deze brief?',
+      achtergrond: '#EBF3EE',
+      inhoud: `<p>Dit is een brief van de <strong>gemeente</strong> over je uitkering.</p>
+               <p>De gemeente schrijft dat ze je uitkering gaan <strong>verlagen</strong> omdat je meer uren bent gaan werken.</p>
+               <p>Vanaf 1 april 2026 ontvang je <strong>€ 280 minder</strong> per maand.</p>`
+    },
+    {
+      icoon: '❓',
+      titel: 'Waarom krijg ik deze brief?',
+      achtergrond: '#FDF3E0',
+      inhoud: `<p>Je hebt de gemeente laten weten dat je meer bent gaan werken. Dat is goed nieuws!</p>
+               <p>Maar als je meer verdient, heb je recht op minder bijstand. Dat heet <em>inkomensverrekening</em> — de gemeente trekt je salaris gedeeltelijk af van je uitkering.</p>
+               <div class="tip">💡 Dit is <strong>normaal</strong>. Het betekent niet dat je iets fout hebt gedaan.</div>`
+    },
+    {
+      icoon: '⚖️',
+      titel: 'Ben je het niet eens met dit besluit?',
+      achtergrond: '#EFF6FF',
+      inhoud: `<p>Je kunt <strong>bezwaar maken</strong> als je denkt dat de gemeente iets fout berekend heeft.</p>
+               <p>Je hebt hiervoor <strong>6 weken</strong> de tijd, vanaf de datum op de brief.</p>
+               <ul>
+                 <li>Schrijf een brief aan de gemeente</li>
+                 <li>Leg uit waarom je het er niet mee eens bent</li>
+                 <li>Stuur kopieën van bewijsstukken mee</li>
+               </ul>
+               <div class="deadline">⏰ Deadline bezwaar: uiterlijk 14 april 2026</div>
+               <p>Hulp nodig? <a href="https://www.juridischloket.nl" target="_blank">Juridisch Loket</a> helpt gratis.</p>`
+    },
+    {
+      icoon: '📞',
+      titel: 'Vragen? Neem contact op',
+      achtergrond: '#F5F2EC',
+      inhoud: `<p>Op de brief staat een <strong>telefoonnummer</strong> en een <strong>referentienummer</strong> (zaaknummer).</p>
+               <p>Heb je hulp nodig bij het begrijpen van deze brief of het schrijven van een bezwaar?</p>
+               <ul>
+                 <li>🏢 <strong>Sociaal Wijkteam</strong> van jouw gemeente</li>
+                 <li>🤝 <strong>VluchtelingenWerk Nederland</strong> — gratis hulp voor statushouders</li>
+                 <li>⚖️ <strong>Juridisch Loket</strong> — gratis juridisch advies</li>
+               </ul>`
+    }
+  ],
+  actiepunten: [
+    'Lees de brief nog een keer goed door',
+    'Controleer of het bedrag klopt op basis van je loonstrook',
+    'Ben je het niet eens? Maak bezwaar vóór 14 april 2026',
+    'Neem bij vragen contact op met je Sociaal Wijkteam'
+  ]
+};
+
+// ─── INITIALISATIE ───────────────────────────────────────────────
+toonStap('upload');
+
+// Controleer of backend online is (optioneel)
+if (CONFIG.BACKEND_URL) {
+  fetch(CONFIG.BACKEND_URL.replace('/analyseer', '/status'))
+    .then(r => r.ok ? null : Promise.reject())
+    .catch(() => {
+      // Backend offline — toon banner
+      document.getElementById('offline-banner').classList.add('zichtbaar');
+      const badge = document.getElementById('zon-badge');
+      badge.textContent = '🌙 Tool tijdelijk offline';
+      badge.classList.add('offline');
+    });
+}
+</script>
+
+</body>
+</html>
