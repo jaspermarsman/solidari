@@ -1305,14 +1305,29 @@ toonStap('upload');
 
 // Controleer of backend online is (optioneel)
 if (CONFIG.BACKEND_URL) {
-  fetch(CONFIG.BACKEND_URL.replace('/analyseer', '/status'))
-    .then(r => r.ok ? null : Promise.reject())
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 5000);
+
+  fetch(CONFIG.BACKEND_URL.replace('/analyseer', '/status'), {
+    signal: controller.signal
+  })
+    .then(r => {
+      clearTimeout(timeout);
+      if (!r.ok) throw new Error();
+      // Backend online — analyseer-knop blijft beschikbaar
+    })
     .catch(() => {
-      // Backend offline — toon banner
+      clearTimeout(timeout);
+      // Backend offline — toon banner EN blokkeer de upload
       document.getElementById('offline-banner').classList.add('zichtbaar');
       const badge = document.getElementById('zon-badge');
       badge.textContent = '🌙 Tool tijdelijk offline';
       badge.classList.add('offline');
+      // Grijze upload-zone en knop uitschakelen
+      document.getElementById('dropzone').style.opacity = '0.4';
+      document.getElementById('dropzone').style.pointerEvents = 'none';
+      document.getElementById('analyseer-knop').disabled = true;
+      document.getElementById('analyseer-knop').textContent = '🌙 Tool is offline';
     });
 }
 </script>
