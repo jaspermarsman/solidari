@@ -1115,6 +1115,16 @@ function simuleerVerwerking() {
 }
 
 async function stuurNaarBackend() {
+  // Voorkom dat scherm uitgaat tijdens verwerking
+  let wakeLock = null;
+  try {
+    if ('wakeLock' in navigator) {
+      wakeLock = await navigator.wakeLock.request('screen');
+    }
+  } catch (e) {
+    // Wake Lock niet ondersteund — gewoon doorgaan
+  }
+
   const t = TALEN[huidigeTaal] || TALEN['nl'];
   const fases = [t.verwerkFase1, t.verwerkFase2, t.verwerkFase3];
   let fase = 0;
@@ -1133,22 +1143,22 @@ async function stuurNaarBackend() {
     const response = await fetch(CONFIG.BACKEND_URL, {
       method: 'POST',
       body: formData,
-      signal: AbortSignal.timeout(180000)  // 3 minuten
+      signal: AbortSignal.timeout(180000)
     });
 
     clearInterval(interval);
+    if (wakeLock) wakeLock.release();
 
     if (!response.ok) throw new Error('Server fout: ' + response.status);
 
     const data = await response.json();
     toonResultaat(data);
+
   } catch (err) {
     clearInterval(interval);
-    document.getElementById('fout-bericht').textContent = 
-      'Kon de server niet bereiken. Controleer je internetverbinding of probeer het later opnieuw.';
-    toonStap('fout');
-  }
-}
+    if (wakeLock) wakeLock.release();
+    document.getElementById('fout-bericht').textContent =
+      'Kon de server niet be
 
 // ─── RESULTAAT TONEN ─────────────────────────────────────────────
 function toonResultaat(data) {
