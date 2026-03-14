@@ -1132,7 +1132,7 @@ async function stuurNaarBackend() {
 
     const response = await fetch(CONFIG.BACKEND_URL, {
       method: 'POST',
-      body: formData
+      body: formData,
       signal: AbortSignal.timeout(180000)  // 3 minuten
     });
 
