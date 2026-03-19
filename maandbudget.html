@@ -1,0 +1,1443 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maandbudget — Solidari</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --wit:#FAFAF7;--wit-warm:#F5F2EC;
+      --amber:#E8A020;--amber-licht:#FDF3E0;--amber-diep:#C47F10;
+      --groen:#2D5A3D;--groen-licht:#EBF3EE;
+      --tekst:#1A1A18;--tekst-zacht:#5C5C58;--tekst-licht:#9C9C98;
+      --rand:#E8E5DE;--rood:#DC2626;--rood-licht:#FEF2F2;
+      --blauw:#2563EB;--blauw-licht:#EFF6FF;
+      --chat-bg:#EFECE6;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html,body{height:100%;}
+    body{background:var(--chat-bg);color:var(--tekst);font-family:'Source Sans 3',sans-serif;font-weight:400;display:flex;flex-direction:column;}
+
+    nav{background:var(--groen);padding:0 1.5rem;height:56px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;position:sticky;top:0;z-index:100;}
+    .nav-logo{display:flex;align-items:center;gap:8px;text-decoration:none;}
+    .logo-naam{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:white;}
+    .logo-naam span{color:var(--amber);}
+    .nav-midden{font-size:0.85rem;color:rgba(255,255,255,0.75);font-weight:500;}
+    .nav-taal{display:flex;gap:0.3rem;}
+    .taal-btn{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:4px;padding:3px 8px;font-size:0.72rem;cursor:pointer;color:rgba(255,255,255,0.8);font-family:'Source Sans 3',sans-serif;font-weight:500;transition:all 0.2s;}
+    .taal-btn:hover,.taal-btn.actief{background:var(--amber);border-color:var(--amber);color:white;}
+
+    .chat-wrap{flex:1;display:flex;flex-direction:column;max-width:680px;margin:0 auto;width:100%;padding:0 1rem;min-height:0;}
+    .berichten{flex:1;overflow-y:auto;padding:1.2rem 0 0.5rem;display:flex;flex-direction:column;gap:0.6rem;scroll-behavior:smooth;}
+    .berichten::-webkit-scrollbar{width:4px;}
+    .berichten::-webkit-scrollbar-thumb{background:var(--rand);border-radius:4px;}
+
+    .bericht-sol{display:flex;align-items:flex-end;gap:8px;max-width:88%;align-self:flex-start;animation:inSchuiven 0.25s ease both;}
+    .sol-avatar{width:32px;height:32px;background:var(--groen);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px;}
+    .bel-sol{background:white;border-radius:18px 18px 18px 4px;padding:10px 14px;font-size:0.92rem;line-height:1.55;color:var(--tekst);box-shadow:0 1px 2px rgba(0,0,0,0.06);}
+    .bel-sol.reactie{background:var(--groen-licht);border:1px solid rgba(45,90,61,0.12);font-size:0.85rem;color:var(--tekst-zacht);}
+    .bel-sol.nibud{background:var(--amber-licht);border:1px solid rgba(232,160,32,0.2);font-size:0.82rem;color:var(--amber-diep);}
+    .bel-sol.toeslag{background:var(--blauw-licht);border:1px solid rgba(37,99,235,0.15);font-size:0.82rem;color:var(--blauw);}
+    .bel-sol.waarschuwing{background:var(--rood-licht);border:1px solid rgba(220,38,38,0.15);font-size:0.82rem;color:var(--rood);}
+
+    .bericht-user{align-self:flex-end;max-width:78%;animation:inSchuiven 0.2s ease both;}
+    .bel-user{background:var(--groen);border-radius:18px 18px 4px 18px;padding:10px 14px;font-size:0.92rem;color:white;line-height:1.5;box-shadow:0 1px 2px rgba(0,0,0,0.1);}
+
+    .typing{display:flex;align-items:flex-end;gap:8px;align-self:flex-start;}
+    .typing-dots{background:white;border-radius:18px;padding:12px 16px;display:flex;gap:4px;align-items:center;}
+    .typing-dots span{width:6px;height:6px;background:var(--tekst-licht);border-radius:50%;animation:tikken 1.2s infinite;}
+    .typing-dots span:nth-child(2){animation-delay:0.2s;}
+    .typing-dots span:nth-child(3){animation-delay:0.4s;}
+    @keyframes tikken{0%,60%,100%{transform:translateY(0);opacity:0.4;}30%{transform:translateY(-5px);opacity:1;}}
+    @keyframes inSchuiven{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+    .invoer-zone{padding:0.8rem 0 1rem;flex-shrink:0;}
+
+    .keuze-rij{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px;}
+    .keuze-btn{background:white;border:1.5px solid var(--rand);border-radius:20px;padding:8px 16px;font-size:0.88rem;font-weight:500;cursor:pointer;color:var(--tekst);font-family:'Source Sans 3',sans-serif;transition:all 0.18s;display:flex;align-items:center;gap:6px;}
+    .keuze-btn:hover{border-color:var(--groen);background:var(--groen-licht);color:var(--groen);}
+
+    .janee-rij{display:flex;gap:10px;margin-bottom:8px;}
+    .ja-btn,.nee-btn{flex:1;padding:12px;border-radius:14px;font-size:1rem;font-weight:600;cursor:pointer;font-family:'Source Sans 3',sans-serif;border:2px solid var(--rand);background:white;transition:all 0.18s;display:flex;align-items:center;justify-content:center;gap:8px;}
+    .ja-btn:hover{border-color:var(--groen);background:var(--groen-licht);}
+    .nee-btn:hover{border-color:var(--rood);background:var(--rood-licht);}
+
+    /* Bedrag invoer */
+    .bedrag-rij{display:flex;gap:8px;align-items:stretch;}
+    .bedrag-wrap{flex:1;display:flex;align-items:center;background:white;border:2px solid var(--rand);border-radius:14px;overflow:hidden;transition:border-color 0.2s;}
+    .bedrag-wrap:focus-within{border-color:var(--amber);}
+    .bedrag-euro{padding:0 14px;font-size:1.3rem;font-weight:600;color:var(--tekst-licht);background:var(--wit-warm);align-self:stretch;display:flex;align-items:center;border-right:1px solid var(--rand);}
+    .bedrag-input{flex:1;padding:14px 12px;font-size:1.3rem;border:none;background:transparent;color:var(--tekst);outline:none;font-family:'Source Sans 3',sans-serif;font-weight:500;width:80px;}
+    .bedrag-input::placeholder{color:var(--tekst-licht);font-weight:300;}
+    .stuur-btn{padding:0 20px;background:var(--groen);border:none;border-radius:14px;cursor:pointer;color:white;font-size:1.2rem;transition:all 0.18s;display:flex;align-items:center;}
+    .stuur-btn:hover{background:#234830;}
+
+    /* Naam + bedrag combo */
+    .naam-bedrag-wrap{display:flex;gap:8px;align-items:stretch;background:white;border:2px solid var(--rand);border-radius:14px;overflow:hidden;transition:border-color 0.2s;}
+    .naam-bedrag-wrap:focus-within{border-color:var(--amber);}
+    .naam-input{flex:2;padding:14px 12px;font-size:1rem;border:none;background:transparent;color:var(--tekst);outline:none;font-family:'Source Sans 3',sans-serif;}
+    .naam-input::placeholder{color:var(--tekst-licht);}
+    .naam-sep{width:1px;background:var(--rand);align-self:stretch;}
+    .naam-euro{padding:0 10px;font-size:1.1rem;font-weight:600;color:var(--tekst-licht);background:var(--wit-warm);align-self:stretch;display:flex;align-items:center;}
+    .naam-bedrag-input{flex:1;padding:14px 8px;font-size:1.1rem;border:none;background:transparent;color:var(--tekst);outline:none;font-family:'Source Sans 3',sans-serif;font-weight:500;min-width:60px;}
+    .naam-bedrag-input::placeholder{color:var(--tekst-licht);font-weight:300;}
+
+    .overslaan-link{text-align:center;font-size:0.78rem;color:var(--tekst-licht);margin-top:6px;cursor:pointer;background:none;border:none;font-family:'Source Sans 3',sans-serif;width:100%;display:block;transition:color 0.2s;}
+    .overslaan-link:hover{color:var(--tekst-zacht);}
+
+    /* Resultaatkaart */
+    .resultaat-kaart{background:white;border-radius:18px 18px 18px 4px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.08);width:100%;}
+    .res-header{background:var(--groen);padding:1rem 1.2rem;color:white;}
+    .res-header-titel{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;margin-bottom:2px;}
+    .res-header-sub{font-size:0.75rem;opacity:0.7;}
+    .res-saldo{padding:1rem 1.2rem;text-align:center;border-bottom:1px solid var(--rand);}
+    .res-saldo-getal{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;line-height:1;margin-bottom:4px;}
+    .res-saldo.pos .res-saldo-getal{color:var(--groen);}
+    .res-saldo.neg .res-saldo-getal{color:var(--rood);}
+    .res-saldo-omschr{font-size:0.8rem;color:var(--tekst-licht);}
+    .res-pills{display:flex;gap:8px;padding:0.7rem 1.2rem;border-bottom:1px solid var(--rand);flex-wrap:wrap;}
+    .res-pill{flex:1;min-width:70px;background:var(--wit-warm);border-radius:10px;padding:8px 10px;text-align:center;}
+    .res-pill-label{font-size:0.65rem;color:var(--tekst-licht);text-transform:uppercase;letter-spacing:0.05em;}
+    .res-pill-getal{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--tekst);}
+    .res-posten{padding:0.6rem 1.2rem;}
+    .res-post-rij{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--rand);font-size:0.84rem;}
+    .res-post-rij:last-child{border-bottom:none;}
+    .res-post-icon{font-size:15px;width:20px;text-align:center;flex-shrink:0;}
+    .res-post-naam{flex:1;color:var(--tekst-zacht);}
+    .res-post-sub{font-size:0.68rem;color:var(--groen);display:block;}
+    .res-post-bedrag{font-weight:600;color:var(--tekst);text-align:right;}
+    .res-badge{font-size:0.65rem;font-weight:600;padding:2px 5px;border-radius:4px;margin-left:4px;}
+    .res-badge.hoog{background:var(--rood-licht);color:var(--rood);}
+    .res-badge.ok{background:var(--groen-licht);color:var(--groen);}
+    .res-totaal{display:flex;justify-content:space-between;padding:8px 1.2rem;background:var(--wit-warm);font-weight:600;font-size:0.88rem;border-top:1px solid var(--rand);}
+
+    /* Weekbudget kaart */
+    .week-kaart{background:white;border-radius:18px 18px 18px 4px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.08);width:100%;margin-top:0;}
+    .week-header{background:var(--amber-diep);padding:1rem 1.2rem;color:white;}
+    .week-header-titel{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:2px;}
+    .week-header-sub{font-size:0.75rem;opacity:0.75;}
+    .week-dag-blok{padding:0.8rem 1.2rem;background:var(--amber-licht);border-bottom:1px solid rgba(232,160,32,0.2);display:flex;align-items:center;justify-content:space-between;}
+    .week-dag-label{font-size:0.8rem;color:var(--amber-diep);font-weight:500;}
+    .week-dag-bedrag{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--amber-diep);}
+    .week-categorieen{padding:0.6rem 1.2rem;}
+    .week-cat-rij{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--rand);}
+    .week-cat-rij:last-child{border-bottom:none;}
+    .week-cat-icon{font-size:20px;width:26px;text-align:center;flex-shrink:0;}
+    .week-cat-info{flex:1;}
+    .week-cat-naam{font-size:0.88rem;color:var(--tekst);font-weight:500;}
+    .week-cat-sub{font-size:0.72rem;color:var(--tekst-licht);}
+    .week-cat-bedrag{text-align:right;}
+    .week-cat-week{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--tekst);}
+    .week-cat-dag{font-size:0.72rem;color:var(--tekst-licht);}
+    .week-uitleg{padding:0.6rem 1.2rem;font-size:0.75rem;color:var(--tekst-licht);line-height:1.5;border-top:1px solid var(--rand);font-style:italic;}
+
+    .res-acties{padding:0.8rem 1.2rem;display:flex;gap:8px;border-top:1px solid var(--rand);}
+    .res-excel-btn{flex:1;padding:10px;background:var(--groen);color:white;border:none;border-radius:10px;font-size:0.85rem;font-weight:600;cursor:pointer;font-family:'Source Sans 3',sans-serif;transition:all 0.2s;}
+    .res-excel-btn:hover{background:#234830;}
+    .res-excel-btn:disabled{opacity:0.5;cursor:not-allowed;}
+    .res-pdf-btn{flex:1;padding:10px;background:white;color:var(--groen);border:1.5px solid var(--groen);border-radius:10px;font-size:0.85rem;font-weight:600;cursor:pointer;font-family:'Source Sans 3',sans-serif;transition:all 0.2s;}
+    .res-pdf-btn:hover{background:var(--groen-licht);}
+    .res-pdf-btn:disabled{opacity:0.5;cursor:not-allowed;}
+    .res-print-btn{flex:1;padding:10px;background:white;color:var(--groen);border:1.5px solid var(--groen);border-radius:10px;font-size:0.85rem;font-weight:600;cursor:pointer;font-family:'Source Sans 3',sans-serif;transition:all 0.2s;}
+    .res-print-btn:hover{background:var(--groen-licht);}
+    .res-opnieuw-btn{width:100%;padding:10px;background:none;color:var(--tekst-licht);border:1px solid var(--rand);border-radius:10px;font-size:0.82rem;cursor:pointer;font-family:'Source Sans 3',sans-serif;margin-top:6px;transition:all 0.2s;}
+    .res-opnieuw-btn:hover{color:var(--tekst-zacht);border-color:var(--tekst-licht);}
+    .res-disclaimer{padding:0.6rem 1.2rem;font-size:0.72rem;color:var(--tekst-licht);line-height:1.5;border-top:1px solid var(--rand);}
+
+    .voortgang-strip{height:3px;background:var(--rand);flex-shrink:0;}
+    .voortgang-vul{height:100%;background:var(--amber);transition:width 0.4s ease;}
+
+    @media(max-width:480px){.nav-midden{display:none;}.chat-wrap{padding:0 0.6rem;}}
+    @media print{nav,.invoer-zone,.res-acties{display:none;}}
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
+      <circle cx="18" cy="18" r="8" fill="#E8A020"/>
+      <line x1="18" y1="2" x2="18" y2="7" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="18" y1="29" x2="18" y2="34" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="2" y1="18" x2="7" y2="18" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="29" y1="18" x2="34" y2="18" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="6.1" y1="6.1" x2="9.6" y2="9.6" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="26.4" y1="26.4" x2="29.9" y2="29.9" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="29.9" y1="6.1" x2="26.4" y2="9.6" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="9.6" y1="26.4" x2="6.1" y2="29.9" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>
+    <span class="logo-naam">Solid<span>a</span>ri</span>
+  </a>
+  <span class="nav-midden" id="nav-titel">💰 Maandbudget</span>
+  <div class="nav-taal">
+    <button class="taal-btn actief" onclick="setTaal('nl',this)">NL</button>
+    <button class="taal-btn" onclick="setTaal('en',this)">EN</button>
+    <button class="taal-btn" onclick="setTaal('ar',this)">AR</button>
+    <button class="taal-btn" onclick="setTaal('tr',this)">TR</button>
+    <button class="taal-btn" onclick="setTaal('uk',this)">UA</button>
+  </div>
+</nav>
+<div class="voortgang-strip"><div class="voortgang-vul" id="voortgang" style="width:0%"></div></div>
+
+<div class="chat-wrap">
+  <div class="berichten" id="berichten"></div>
+  <div class="invoer-zone" id="invoer-zone"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+// ══════════════════════════════════════════════════════
+// NIBUD MINIMUMVOORBEELDBEGROTINGEN JULI 2025
+// ══════════════════════════════════════════════════════
+const NIBUD = {
+  alleen:   {huur:636,energie:143,telefoon:64,zorgverzekering:179,overige_verzek:26,begrafenis:10,vervoer:22,voeding:272,kleding:62,reservering:219},
+  stel:     {huur:670,energie:163,telefoon:74,zorgverzekering:358,overige_verzek:42,begrafenis:18,vervoer:43,voeding:495,kleding:123,reservering:328},
+  eenouder: {huur:676,energie:190,telefoon:64,zorgverzekering:179,overige_verzek:33,begrafenis:10,vervoer:36,voeding:381,kleding:101,reservering:269},
+  gezin:    {huur:685,energie:202,telefoon:74,zorgverzekering:358,overige_verzek:47,begrafenis:18,vervoer:57,voeding:534,kleding:162,reservering:377},
+};
+
+// ══════════════════════════════════════════════════════
+// TEKSTEN (NL volledig — andere talen identiek qua structuur)
+// ══════════════════════════════════════════════════════
+const T = {
+  nl:{
+    welkom:'Hallo! Ik help je om jouw maandbudget in kaart te brengen.\nIk stel je vragen — één voor één. Zo zien we samen hoeveel geld je elke maand overhoudt.',
+    start:'Laten we beginnen 👇',
+    sit_v:'Wie woont er bij jou thuis?',
+    sit_opties:[
+      {id:'alleen',   l:'👤 Ik alleen'},
+      {id:'stel',     l:'👫 Ik en mijn partner'},
+      {id:'eenouder', l:'👩‍👧 Ik en mijn kind(eren)'},
+      {id:'gezin',    l:'👨‍👩‍👧‍👦 Wij met kinderen'},
+    ],
+    inkomen_v:'Hoeveel geld ontvang je per maand?',
+    inkomen_u:'Dit is je nettoloon of uitkering — het bedrag dat je echt op je rekening krijgt. Dus ná belasting.',
+    huur_v:'Hoeveel betaal je per maand voor je huur of hypotheek?',
+    huur_u:'',
+    huur_hoog:(p)=>`Dat is ${p}% van je inkomen. Nibud adviseert maximaal 35–40%. Heb je al gecontroleerd of je recht hebt op huurtoeslag?`,
+    huur_ok:(p)=>`Dat is ${p}% van je inkomen. Prima verhouding.`,
+    huurtsl_v:'Ontvang je huurtoeslag?',
+    huurtsl_u:'Huurtoeslag is een vergoeding van de overheid als je huur hoog is ten opzichte van je inkomen.',
+    huurtsl_ja_v:'Hoeveel huurtoeslag ontvang je per maand?',
+    huurtsl_ja_u:'Kijk op belastingdienst.nl of in de Belastingdienst-app.',
+    huurtsl_ja_r:'Goed! Je echte woonkosten zijn dan minder dan je huur.',
+    huurtsl_nee_tip:'Misschien heb je er toch recht op. Controleer het op belastingdienst.nl — het kan honderden euro\'s per jaar schelen.',
+    energie_v:'Hoeveel betaal je per maand voor gas, stroom en water samen?',
+    energie_u:'Vul het totale bedrag in van je maandelijkse voorschot of vaste bedrag.',
+    energie_hoog:'Dat is meer dan gemiddeld. Is je voorschot onlangs verhoogd?',
+    energie_laag:'Dat lijkt laag. Tel je gas, stroom én water allemaal mee?',
+    telefoon_v:'Hoeveel betaal je per maand voor telefoon en internet thuis?',
+    telefoon_u:'Vul hier je telefoonabonnement en je internet thuis samen in.',
+    telefoon_hoog:'Dat is relatief hoog. Kijk of er goedkopere abonnementen beschikbaar zijn.',
+    zorgverzek_v:'Hoeveel betaal je per maand voor je zorgverzekering?',
+    zorgverzek_u:'Dit is je maandpremie voor de basisverzekering, plus aanvullende verzekering als je die hebt.',
+    zorgverzek_laag:'Dat lijkt laag voor een zorgverzekering. De gemiddelde premie is zo\'n €130–150 per maand.',
+    zorgverzek_hoog:'Dat is meer dan gemiddeld. Heb je ook een aanvullende verzekering?',
+    zorgtsl_v:'Ontvang je zorgtoeslag?',
+    zorgtsl_u:'Zorgtoeslag is een bijdrage van de overheid aan je zorgverzekering, voor mensen met een lager inkomen.',
+    zorgtsl_ja_v:'Hoeveel zorgtoeslag ontvang je per maand?',
+    zorgtsl_ja_u:'Je kunt dit terugvinden op belastingdienst.nl of in de app.',
+    zorgtsl_nee_tip:'Met een lager inkomen heb je mogelijk recht op zorgtoeslag. Check belastingdienst.nl.',
+    auto_v:'Heb je een auto?',
+    autoverzek_v:'Hoeveel betaal je per maand voor je autoverzekering?',
+    autoverzek_u:'Vul het maandbedrag in. Betaal je per jaar? Deel dan door 12.',
+    inboedel_v:'Hoeveel betaal je per maand voor inboedel- en aansprakelijkheidsverzekering?',
+    inboedel_u:'Dit zijn je verzekeringen voor spullen thuis en als je per ongeluk schade veroorzaakt.',
+    inboedel_laag:'Weet je zeker dat je een inboedelverzekering hebt? Die is belangrijk bij brand of diefstal.',
+    begrafenis_v:'Heb je een begrafenis- of uitvaartverzekering?',
+    begrafenis_ja_v:'Hoeveel betaal je per maand voor je uitvaartverzekering?',
+    begrafenis_ja_u:'Betaal je per jaar of per kwartaal? Deel dan door 12 of 3.',
+    vervoer_v:'Hoeveel betaal je per maand aan vervoer?',
+    vervoer_u:'Denk aan een OV-abonnement, brandstof, parkeren of fietsreparaties. Geen auto? Dan alleen OV en fiets.',
+    vervoer_nul:'Geen vervoerkosten? Denk ook aan een los buskaartje of fietsreparatie af en toe.',
+    schulden_v:'Heb je leningen of afbetalingen?',
+    schulden_u:'Denk aan een persoonlijke lening, roodstand, of een afbetalingsregeling met een verzekeraar, telecomprovider of gemeente.',
+    schulden_ja_v:'Hoeveel betaal je per maand aan aflossingen of leningen?',
+    schulden_ja_u:'Vul het totale maandbedrag in van alle afbetalingen samen.',
+    schulden_r:'Schulden hebben impact op je budget. Hulp nodig? Een schuldhulpverlener, budgetcoach of de Vrijwillige Schuldhulp Brigade kan helpen — vaak gratis.',
+    abonnem_v:'Heb je abonnementen zoals Netflix, Spotify of een sportschool?',
+    abonnem_u:'Voeg je abonnementen één voor één toe. Zo zie je precies waar je geld naartoe gaat.',
+    abonnem_hoog:'Dat is vrij veel voor abonnementen. Welke gebruik je echt elke maand?',
+    abonnem_nog:'Nog een abonnement toevoegen?',
+    boodschappen_v:'Hoeveel geef je per maand uit aan boodschappen?',
+    boodschappen_u:'Denk aan eten en drinken. Doe je boodschappen elke week? Vermenigvuldig dan met 4.',
+    boodschappen_week:'💡 Een week boodschappen × 4 ≈ je maandbedrag.',
+    boodschappen_laag:'Dat lijkt weinig. Reken ook schoonmaakspullen, shampoo en zeep mee. En haal je soms eten weg of laat je bezorgen?',
+    boodschappen_hoog:'Dat is meer dan gemiddeld voor jouw situatie. Koop je ook kant-en-klaarmaaltijden of eet je regelmatig buiten de deur?',
+    overig_v:'Heb je nog andere vaste kosten per maand?',
+    overig_u:'Typ de naam van de kostenpost en het bedrag. Denk aan kleding, kapper, kinderspeelgoed of schoolkosten.',
+    overig_nul:'Geen andere kosten? Denk ook aan kleine vaste kosten: kapper, schoolactiviteiten of contributies.',
+    sparen_v:'Hoeveel wil je elke maand sparen?',
+    sparen_u:'Sparen is een bewuste keuze in je budget. Zelfs een klein bedrag helpt.',
+    sparen_jaar:(n)=>`Dat is €${Math.round(n*12).toLocaleString('nl-NL')} per jaar. Goed bezig!`,
+    sparen_tip:'Je hebt ruimte in je budget. Zelfs €25 per maand opzijzetten geeft financiële zekerheid.',
+    ja:'✅ Ja', nee:'❌ Nee',
+    stuur:'→', overslaan:'Weet ik niet — overslaan',
+    naam_placeholder:'Wat voor kosten?',
+    bedrag_placeholder:'Bedrag',
+    res_titel:'Jouw maandbudget',
+    res_sub:'Nibud minimumrichtlijnen juli 2025',
+    overschot:'Overschot per maand',
+    tekort:'Tekort per maand',
+    per_week:'Per week',
+    per_dag:'Per dag',
+    inkomen_lbl:'Totaal inkomen',
+    netto_woon:'netto na toeslag',
+    totaal_uit:'Totaal uitgaven',
+    excel_btn:'Excel downloaden', pdf_btn:'PDF voor begeleider', print_btn:'🖨 Afdrukken', opnieuw_btn:'Opnieuw beginnen', excel_bezig:'Excel maken...', pdf_bezig:'PDF maken...',
+    nibud_bron:'Bron: Nibud minimumvoorbeeldbegrotingen juli 2025',
+    disclaimer:'Indicatief overzicht. Bedragen gebaseerd op Nibud-richtlijnen (bijstandsniveau). Neem bij vragen contact op met Sociaal Wijkteam of VluchtelingenWerk Nederland.',
+    badge_hoog:'hoog', badge_ok:'goed',
+    // Excel labels
+    kolom_post:'Post', kolom_maand:'Per maand (€)', kolom_nibud:'Nibud richtlijn (€)',
+    kolom_categorie:'Categorie', kolom_week:'Per week (€)', kolom_dag:'Per dag (€)',
+    tab_budget:'Mijn budget', tab_week:'Weekbudget',
+    sectie_inkomsten:'INKOMSTEN', sectie_uitgaven:'UITGAVEN',
+    sparen_lbl:'Sparen',
+    adv_pos:(n)=>`Je houdt ${fmt(n)} per maand over.`,
+    adv_neg:(n)=>`Je geeft ${fmt(Math.abs(n))} meer uit dan je verdient. Praat met een budgetcoach — die helpt gratis.`,
+    adv_spaar:(n)=>`Je spaart ${fmt(n)} per maand (${fmt(n*12)} per jaar).`,
+    adv_toeslag:'Controleer altijd of je recht hebt op toeslagen via belastingdienst.nl.',
+    // Weekbudget
+    week_titel:'Jouw weekbudget',
+    week_sub:'Zo ziet jouw vrije ruimte er wekelijks uit',
+    week_dag_label:'Vrij besteedbaar per dag',
+    week_boodschappen:'🛒 Boodschappen',
+    week_boodschappen_sub:'Je maandbudget gedeeld door 4,3',
+    week_vrij:'🎉 Uitjes en vrije tijd',
+    week_vrij_sub:'Voor bioscoopje, uiteten of activiteiten',
+    week_overig:'🎁 Overig (cadeautjes, snacks, spontaan)',
+    week_overig_sub:'Voor alles wat niet gepland is',
+    week_uitleg:'Dit weekbudget is een indicatie. Sommige weken geef je meer uit, andere minder. Het gaat om het gemiddelde over de maand.',
+  },
+  en:{
+    welkom:'Hello! I will help you map out your monthly budget.\nI will ask questions — one at a time. Together we will see how much money you have left each month.',
+    start:'Let\'s get started 👇',
+    sit_v:'Who lives in your home?',
+    sit_opties:[
+      {id:'alleen',   l:'👤 Just me'},
+      {id:'stel',     l:'👫 Me and my partner'},
+      {id:'eenouder', l:'👩‍👧 Me and my child(ren)'},
+      {id:'gezin',    l:'👨‍👩‍👧‍👦 Us with children'},
+    ],
+    inkomen_v:'How much money do you receive per month?',
+    inkomen_u:'This is your net salary or benefit — the amount that actually arrives in your account. After tax.',
+    huur_v:'How much do you pay per month for rent or mortgage?',
+    huur_u:'',
+    huur_hoog:(p)=>`That is ${p}% of your income. Nibud advises a maximum of 35–40%. Have you checked if you qualify for housing allowance?`,
+    huur_ok:(p)=>`That is ${p}% of your income. Good ratio.`,
+    huurtsl_v:'Do you receive housing allowance?',
+    huurtsl_u:'Housing allowance is a government contribution when your rent is high relative to your income.',
+    huurtsl_ja_v:'How much housing allowance do you receive per month?',
+    huurtsl_ja_u:'Check at belastingdienst.nl or in the Belastingdienst app.',
+    huurtsl_ja_r:'Great! Your real housing costs are then less than your rent.',
+    huurtsl_nee_tip:'You might still qualify. Check at belastingdienst.nl — it can save hundreds of euros per year.',
+    energie_v:'How much do you pay per month for gas, electricity and water combined?',
+    energie_u:'Enter the total of your monthly advance payment or fixed amount.',
+    energie_hoog:'That is above average. Was your advance payment recently increased?',
+    energie_laag:'That seems low. Are gas, electricity and water all included?',
+    telefoon_v:'How much do you pay per month for phone and home internet?',
+    telefoon_u:'Enter your phone subscription and home internet together.',
+    telefoon_hoog:'That is relatively high. Check if cheaper subscriptions are available.',
+    zorgverzek_v:'How much do you pay per month for your health insurance?',
+    zorgverzek_u:'This is your monthly premium for basic insurance, plus supplementary if you have it.',
+    zorgverzek_laag:'That seems low for health insurance. The average premium is about €130–150 per month.',
+    zorgverzek_hoog:'That is above average. Do you also have supplementary insurance?',
+    zorgtsl_v:'Do you receive healthcare allowance?',
+    zorgtsl_u:'Healthcare allowance is a government contribution towards your health insurance for lower incomes.',
+    zorgtsl_ja_v:'How much healthcare allowance do you receive per month?',
+    zorgtsl_ja_u:'You can find this at belastingdienst.nl or in the app.',
+    zorgtsl_nee_tip:'With a lower income you may qualify. Check belastingdienst.nl.',
+    auto_v:'Do you have a car?',
+    autoverzek_v:'How much do you pay per month for car insurance?',
+    autoverzek_u:'Enter the monthly amount. If you pay yearly, divide by 12.',
+    inboedel_v:'How much do you pay per month for contents and liability insurance?',
+    inboedel_u:'These cover your belongings at home and accidental damage you cause.',
+    inboedel_laag:'Are you sure you have contents insurance? It is important in case of fire or theft.',
+    begrafenis_v:'Do you have funeral insurance?',
+    begrafenis_ja_v:'How much do you pay per month for funeral insurance?',
+    begrafenis_ja_u:'Do you pay yearly or quarterly? Divide by 12 or 3.',
+    vervoer_v:'How much do you pay per month for transport?',
+    vervoer_u:'Think of a public transport subscription, fuel, parking or bicycle repairs. No car? Then just public transport and bicycle.',
+    vervoer_nul:'No transport costs? Think of occasional bus tickets or bicycle repairs.',
+    schulden_v:'Do you have loans or repayments?',
+    schulden_u:'Think of a personal loan, overdraft, or repayment plan with an insurer, telecom provider or municipality.',
+    schulden_ja_v:'How much do you pay per month in repayments or loans?',
+    schulden_ja_u:'Enter the total monthly amount of all repayments combined.',
+    schulden_r:'Debt has an impact on your budget. Need help? A debt counsellor, budget coach or voluntary debt support service can help — often for free.',
+    abonnem_v:'Do you have subscriptions like Netflix, Spotify or a gym?',
+    abonnem_u:'Add your subscriptions one by one. That way you can see exactly where your money goes.',
+    abonnem_hoog:'That is quite a lot for subscriptions. Which ones do you actually use every month?',
+    abonnem_nog:'Add another subscription?',
+    boodschappen_v:'How much do you spend per month on groceries?',
+    boodschappen_u:'Think of food and drink. Do you shop weekly? Multiply by 4.',
+    boodschappen_week:'💡 One week of groceries × 4 ≈ your monthly amount.',
+    boodschappen_laag:'That seems low. Include cleaning products, shampoo and soap too. Do you sometimes get takeaway or delivery?',
+    boodschappen_hoog:'That is above average for your situation. Do you also buy ready-made meals or eat out regularly?',
+    overig_v:'Do you have any other fixed costs per month?',
+    overig_u:'Type the name of the cost and the amount. Think of clothing, hairdresser, toys or school costs.',
+    overig_nul:'No other costs? Think of small fixed costs: hairdresser, school activities or memberships.',
+    sparen_v:'How much do you want to save each month?',
+    sparen_u:'Saving is a deliberate choice in your budget. Even a small amount helps.',
+    sparen_jaar:(n)=>`That is €${Math.round(n*12).toLocaleString('nl-NL')} per year. Well done!`,
+    sparen_tip:'You have room in your budget. Even €25 per month provides financial security.',
+    ja:'✅ Yes', nee:'❌ No',
+    stuur:'→', overslaan:'Don\'t know — skip',
+    naam_placeholder:'What type of cost?',
+    bedrag_placeholder:'Amount',
+    res_titel:'Your monthly budget',
+    res_sub:'Nibud minimum guidelines July 2025',
+    overschot:'Surplus per month',
+    tekort:'Deficit per month',
+    per_week:'Per week',
+    per_dag:'Per day',
+    inkomen_lbl:'Total income',
+    netto_woon:'net after allowance',
+    totaal_uit:'Total expenses',
+    excel_btn:'Download Excel', pdf_btn:'PDF for counsellor', print_btn:'🖨 Print', opnieuw_btn:'Start over', excel_bezig:'Creating Excel...', pdf_bezig:'Creating PDF...',
+    nibud_bron:'Source: Nibud minimum example budgets July 2025',
+    disclaimer:'Indicative overview. Based on Nibud guidelines (benefit level). Contact Social Support Team or VluchtelingenWerk Netherlands.',
+    badge_hoog:'high', badge_ok:'good',
+    kolom_post:'Item', kolom_maand:'Per month (€)', kolom_nibud:'Nibud guideline (€)',
+    kolom_categorie:'Category', kolom_week:'Per week (€)', kolom_dag:'Per day (€)',
+    tab_budget:'My budget', tab_week:'Weekly budget',
+    sectie_inkomsten:'INCOME', sectie_uitgaven:'EXPENSES',
+    sparen_lbl:'Savings',
+    adv_pos:(n)=>`You have ${fmt(n)} left per month.`,
+    adv_neg:(n)=>`You spend ${fmt(Math.abs(n))} more than you earn. Talk to a budget coach — it is free.`,
+    adv_spaar:(n)=>`You save ${fmt(n)} per month (${fmt(n*12)} per year).`,
+    adv_toeslag:'Always check if you qualify for allowances at belastingdienst.nl.',
+    week_titel:'Your weekly budget',
+    week_sub:'This is what your free spending looks like each week',
+    week_dag_label:'Free to spend per day',
+    week_boodschappen:'🛒 Groceries',
+    week_boodschappen_sub:'Your monthly budget divided by 4.3',
+    week_vrij:'🎉 Outings and leisure',
+    week_vrij_sub:'For cinema, eating out or activities',
+    week_overig:'🎁 Other (gifts, snacks, spontaneous)',
+    week_overig_sub:'For everything unplanned',
+    week_uitleg:'This weekly budget is an indication. Some weeks you spend more, others less. It is about the monthly average.',
+  },
+  ar:{
+    welkom:'مرحباً! سأساعدك في وضع ميزانيتك الشهرية.\nسأطرح عليك أسئلة — واحداً في كل مرة. معاً سنرى كم يتبقى لك كل شهر.',
+    start:'لنبدأ 👇',
+    sit_v:'من يسكن معك في المنزل؟',
+    sit_opties:[
+      {id:'alleen',   l:'👤 أنا وحدي'},
+      {id:'stel',     l:'👫 أنا وشريكي'},
+      {id:'eenouder', l:'👩‍👧 أنا وأطفالي'},
+      {id:'gezin',    l:'👨‍👩‍👧‍👦 نحن مع الأطفال'},
+    ],
+    inkomen_v:'كم تحصل على المال شهرياً؟',
+    inkomen_u:'هذا راتبك الصافي أو مساعدتك — المبلغ الذي يصل إلى حسابك فعلاً. بعد الضرائب.',
+    huur_v:'كم تدفع شهرياً للإيجار أو القرض العقاري؟',
+    huur_u:'',
+    huur_hoog:(p)=>`هذا ${p}٪ من دخلك. ينصح Nibud بـ 35–40٪ كحد أقصى. هل تحققت من حقك في إعانة الإيجار؟`,
+    huur_ok:(p)=>`هذا ${p}٪ من دخلك. نسبة جيدة.`,
+    huurtsl_v:'هل تحصل على إعانة إيجار؟',
+    huurtsl_u:'إعانة الإيجار مساهمة حكومية عندما يكون إيجارك مرتفعاً مقارنة بدخلك.',
+    huurtsl_ja_v:'كم مبلغ إعانة الإيجار التي تحصل عليها شهرياً؟',
+    huurtsl_ja_u:'تحقق على belastingdienst.nl أو في التطبيق.',
+    huurtsl_ja_r:'ممتاز! تكاليف سكنك الحقيقية إذن أقل من إيجارك.',
+    huurtsl_nee_tip:'قد تكون مؤهلاً لها. تحقق على belastingdienst.nl — يمكن أن يوفر مئات اليوروهات سنوياً.',
+    energie_v:'كم تدفع شهرياً للغاز والكهرباء والماء مجتمعةً؟',
+    energie_u:'أدخل إجمالي دفعتك الشهرية المسبقة أو المبلغ الثابت.',
+    energie_hoog:'هذا أعلى من المتوسط. هل زادت دفعتك المسبقة مؤخراً؟',
+    energie_laag:'يبدو هذا منخفضاً. هل تشمل الغاز والكهرباء والماء جميعها؟',
+    telefoon_v:'كم تدفع شهرياً للهاتف والإنترنت المنزلي؟',
+    telefoon_u:'أدخل اشتراك هاتفك والإنترنت المنزلي معاً.',
+    telefoon_hoog:'هذا مرتفع نسبياً. تحقق إذا كانت هناك اشتراكات أرخص.',
+    zorgverzek_v:'كم تدفع شهرياً للتأمين الصحي؟',
+    zorgverzek_u:'هذه قسطك الشهري للتأمين الأساسي، بالإضافة إلى التكميلي إذا كان لديك.',
+    zorgverzek_laag:'يبدو هذا منخفضاً للتأمين الصحي. متوسط القسط حوالي €130–150 شهرياً.',
+    zorgverzek_hoog:'هذا أعلى من المتوسط. هل لديك تأمين تكميلي أيضاً؟',
+    zorgtsl_v:'هل تحصل على إعانة الرعاية الصحية؟',
+    zorgtsl_u:'إعانة حكومية تساعد في دفع تأمينك الصحي، للأشخاص ذوي الدخل المنخفض.',
+    zorgtsl_ja_v:'كم مبلغ إعانة الرعاية الصحية التي تحصل عليها شهرياً؟',
+    zorgtsl_ja_u:'يمكنك العثور على هذا على belastingdienst.nl أو في التطبيق.',
+    zorgtsl_nee_tip:'بدخل منخفض قد تكون مؤهلاً. تحقق على belastingdienst.nl.',
+    auto_v:'هل لديك سيارة؟',
+    autoverzek_v:'كم تدفع شهرياً لتأمين السيارة؟',
+    autoverzek_u:'أدخل المبلغ الشهري. إذا دفعت سنوياً، قسّم على 12.',
+    inboedel_v:'كم تدفع شهرياً لتأمين الأثاث والمسؤولية؟',
+    inboedel_u:'هذه تغطي محتويات منزلك والأضرار التي قد تسببها عن طريق الخطأ.',
+    inboedel_laag:'هل أنت متأكد أن لديك تأمين أثاث؟ إنه مهم في حالة الحريق أو السرقة.',
+    begrafenis_v:'هل لديك تأمين جنائزي/وفاة؟',
+    begrafenis_ja_v:'كم تدفع شهرياً للتأمين الجنائزي؟',
+    begrafenis_ja_u:'هل تدفع سنوياً أو ربع سنوياً؟ قسّم على 12 أو 3.',
+    vervoer_v:'كم تدفع شهرياً للمواصلات؟',
+    vervoer_u:'فكر في اشتراك المواصلات العامة، الوقود، أو صيانة الدراجة. لا سيارة؟ إذن فقط المواصلات والدراجة.',
+    vervoer_nul:'لا تكاليف مواصلات؟ فكر في تذاكر الحافلة الفردية أو إصلاح الدراجة.',
+    schulden_v:'هل لديك قروض أو أقساط؟',
+    schulden_u:'فكر في قرض شخصي، السحب على المكشوف، أو خطة سداد مع مزود التأمين أو الاتصالات أو البلدية.',
+    schulden_ja_v:'كم تدفع شهرياً في الأقساط أو القروض؟',
+    schulden_ja_u:'أدخل إجمالي المبلغ الشهري لجميع الأقساط معاً.',
+    schulden_r:'الديون لها تأثير على ميزانيتك. تحتاج مساعدة؟ مستشار الديون أو مدرب الميزانية أو خدمة دعم الديون التطوعية يمكن أن يساعد — غالباً مجاناً.',
+    abonnem_v:'هل لديك اشتراكات مثل Netflix أو Spotify أو صالة رياضة؟',
+    abonnem_u:'أضف اشتراكاتك واحداً تلو الآخر. هكذا ترى بالضبط أين يذهب مالك.',
+    abonnem_hoog:'هذا كثير للاشتراكات. أيها تستخدم فعلاً كل شهر؟',
+    abonnem_nog:'إضافة اشتراك آخر؟',
+    boodschappen_v:'كم تنفق شهرياً على البقالة؟',
+    boodschappen_u:'فكر في الطعام والشراب. تتسوق أسبوعياً؟ اضرب في 4.',
+    boodschappen_week:'💡 أسبوع من التسوق × 4 ≈ مبلغك الشهري.',
+    boodschappen_laag:'يبدو هذا قليلاً. أضف أيضاً مواد التنظيف والشامبو. هل تطلب أحياناً توصيل الطعام؟',
+    boodschappen_hoog:'هذا أعلى من المتوسط لوضعك. هل تشتري وجبات جاهزة أو تأكل خارجاً بانتظام؟',
+    overig_v:'هل لديك مصاريف ثابتة أخرى شهرياً؟',
+    overig_u:'اكتب اسم المصروف والمبلغ. فكر في الملابس، الحلاق، ألعاب الأطفال أو تكاليف المدرسة.',
+    overig_nul:'لا مصاريف أخرى؟ فكر في تكاليف صغيرة: حلاق، أنشطة مدرسية أو عضويات.',
+    sparen_v:'كم تريد أن تدخر كل شهر؟',
+    sparen_u:'الادخار اختيار واعٍ في ميزانيتك. حتى مبلغ صغير يساعد.',
+    sparen_jaar:(n)=>`هذا €${Math.round(n*12).toLocaleString('nl-NL')} في السنة. أحسنت!`,
+    sparen_tip:'لديك مساحة في ميزانيتك. حتى €25 شهرياً يوفر أماناً مالياً.',
+    ja:'✅ نعم', nee:'❌ لا',
+    stuur:'←', overslaan:'لا أعرف — تخطي',
+    naam_placeholder:'ما نوع المصروف؟',
+    bedrag_placeholder:'المبلغ',
+    res_titel:'ميزانيتك الشهرية', res_sub:'إرشادات Nibud الأدنى يوليو 2025',
+    overschot:'فائض شهري', tekort:'عجز شهري',
+    per_week:'أسبوعياً', per_dag:'يومياً',
+    inkomen_lbl:'إجمالي الدخل', netto_woon:'صافٍ بعد الإعانة', totaal_uit:'إجمالي المصروفات',
+    excel_btn:'تحميل Excel', pdf_btn:'PDF للمرشد', print_btn:'🖨 طباعة', opnieuw_btn:'ابدأ من جديد', excel_bezig:'جارٍ إنشاء Excel...', pdf_bezig:'جارٍ الإنشاء...',
+    nibud_bron:'المصدر: Nibud يوليو 2025',
+    disclaimer:'إرشادي. اتصل بـ VluchtelingenWerk للمساعدة.',
+    badge_hoog:'مرتفع', badge_ok:'جيد',
+    kolom_post:'البند', kolom_maand:'شهرياً (€)', kolom_nibud:'معيار Nibud (€)',
+    kolom_categorie:'الفئة', kolom_week:'أسبوعياً (€)', kolom_dag:'يومياً (€)',
+    tab_budget:'ميزانيتي', tab_week:'الميزانية الأسبوعية',
+    sectie_inkomsten:'الدخل', sectie_uitgaven:'المصروفات',
+    sparen_lbl:'ادخار',
+    adv_pos:(n)=>`لديك ${fmt(n)} متبقياً شهرياً.`,
+    adv_neg:(n)=>`تنفق ${fmt(Math.abs(n))} أكثر مما تكسب. تحدث مع مستشار ميزانية — مجاناً.`,
+    adv_spaar:(n)=>`تدخر ${fmt(n)} شهرياً (${fmt(n*12)} سنوياً).`,
+    adv_toeslag:'تحقق دائماً من حقك في الإعانات على belastingdienst.nl.',
+    week_titel:'ميزانيتك الأسبوعية', week_sub:'هكذا تبدو مساحتك الحرة كل أسبوع',
+    week_dag_label:'حر للإنفاق يومياً',
+    week_boodschappen:'🛒 البقالة', week_boodschappen_sub:'ميزانيتك الشهرية مقسومة على 4.3',
+    week_vrij:'🎉 الخروج والترفيه', week_vrij_sub:'للسينما أو الأكل خارجاً أو الأنشطة',
+    week_overig:'🎁 أخرى (هدايا، وجبات خفيفة، عفوي)', week_overig_sub:'لكل ما هو غير مخطط',
+    week_uitleg:'هذه الميزانية الأسبوعية تقريبية. بعض الأسابيع تنفق أكثر وأحياناً أقل. المهم هو المتوسط الشهري.',
+  },
+  tr:{
+    welkom:'Merhaba! Aylık bütçeni çıkarmana yardımcı olacağım.\nSana sorular soracağım — birer birer. Birlikte her ay ne kadar paranın kaldığını göreceğiz.',
+    start:'Başlayalım 👇',
+    sit_v:'Evinde kimler yaşıyor?',
+    sit_opties:[
+      {id:'alleen',   l:'👤 Yalnız ben'},
+      {id:'stel',     l:'👫 Ben ve eşim'},
+      {id:'eenouder', l:'👩‍👧 Ben ve çocuklarım'},
+      {id:'gezin',    l:'👨‍👩‍👧‍👦 Biz ve çocuklar'},
+    ],
+    inkomen_v:'Ayda ne kadar para alıyorsunuz?',
+    inkomen_u:'Bu net maaşınız veya yardımınız — hesabınıza gerçekten gelen tutar. Vergi sonrası.',
+    huur_v:'Kira veya ipotek için ayda ne kadar ödüyorsunuz?',
+    huur_u:'',
+    huur_hoog:(p)=>`Bu gelirinizin %${p}'i. Nibud en fazla %35–40 tavsiye ediyor. Kira yardımı hakkınız olup olmadığını kontrol ettiniz mi?`,
+    huur_ok:(p)=>`Bu gelirinizin %${p}'i. İyi bir oran.`,
+    huurtsl_v:'Kira yardımı alıyor musunuz?',
+    huurtsl_u:'Kira yardımı, kiranız gelirinize göre yüksekse devletin bir katkısıdır.',
+    huurtsl_ja_v:'Aylık ne kadar kira yardımı alıyorsunuz?',
+    huurtsl_ja_u:'belastingdienst.nl\'de veya uygulamada kontrol edin.',
+    huurtsl_ja_r:'Harika! Gerçek konut maliyetiniz o zaman kiranızdan daha az.',
+    huurtsl_nee_tip:'Yine de hak kazanıyor olabilirsiniz. belastingdienst.nl\'de kontrol edin — yılda yüzlerce euro tasarruf edebilir.',
+    energie_v:'Gaz, elektrik ve su için ayda toplam ne kadar ödüyorsunuz?',
+    energie_u:'Aylık avans ödemenizin veya sabit tutarınızın toplamını girin.',
+    energie_hoog:'Bu ortalamanın üzerinde. Avans ödemeniz son zamanlarda arttı mı?',
+    energie_laag:'Bu düşük görünüyor. Gaz, elektrik ve su hepsi dahil mi?',
+    telefoon_v:'Telefon ve ev interneti için ayda ne kadar ödüyorsunuz?',
+    telefoon_u:'Telefon aboneliği ve ev internetini birlikte girin.',
+    telefoon_hoog:'Bu nispeten yüksek. Daha ucuz abonelik var mı kontrol edin.',
+    zorgverzek_v:'Sağlık sigortası için ayda ne kadar ödüyorsunuz?',
+    zorgverzek_u:'Bu temel sigorta için aylık priminiz, varsa ek sigortayla birlikte.',
+    zorgverzek_laag:'Bu sağlık sigortası için düşük görünüyor. Ortalama prim yaklaşık aylık €130–150.',
+    zorgverzek_hoog:'Bu ortalamanın üzerinde. Ek sigortanız da var mı?',
+    zorgtsl_v:'Sağlık yardımı alıyor musunuz?',
+    zorgtsl_u:'Sağlık yardımı, düşük gelirli kişiler için sağlık sigortasına devlet katkısıdır.',
+    zorgtsl_ja_v:'Aylık ne kadar sağlık yardımı alıyorsunuz?',
+    zorgtsl_ja_u:'belastingdienst.nl\'de veya uygulamada bulabilirsiniz.',
+    zorgtsl_nee_tip:'Daha düşük gelirle hak kazanıyor olabilirsiniz. belastingdienst.nl\'i kontrol edin.',
+    auto_v:'Arabanız var mı?',
+    autoverzek_v:'Araç sigortası için ayda ne kadar ödüyorsunuz?',
+    autoverzek_u:'Aylık tutarı girin. Yıllık ödüyorsanız 12\'ye bölün.',
+    inboedel_v:'Eşya ve sorumluluk sigortası için ayda ne kadar ödüyorsunuz?',
+    inboedel_u:'Bu evdeki eşyalarınızı ve yanlışlıkla verdiğiniz zararları kapsar.',
+    inboedel_laag:'Eşya sigortanız olduğundan emin misiniz? Yangın veya hırsızlıkta önemli.',
+    begrafenis_v:'Cenaze sigortanız var mı?',
+    begrafenis_ja_v:'Cenaze sigortası için ayda ne kadar ödüyorsunuz?',
+    begrafenis_ja_u:'Yıllık veya üç aylık ödüyorsanız 12\'ye veya 3\'e bölün.',
+    vervoer_v:'Ulaşım için ayda ne kadar ödüyorsunuz?',
+    vervoer_u:'Toplu taşıma aboneliği, yakıt, park ücreti veya bisiklet tamiri. Araba yok mu? Sadece toplu taşıma ve bisiklet.',
+    vervoer_nul:'Hiç ulaşım masrafı yok mu? Ara sıra otobüs bileti veya bisiklet tamirini de düşünün.',
+    schulden_v:'Kredi veya taksit ödemeniz var mı?',
+    schulden_u:'Bireysel kredi, eksi bakiye veya bir sigorta şirketi, telekom sağlayıcısı ya da belediyeyle taksit anlaşması.',
+    schulden_ja_v:'Tüm geri ödemeler için ayda toplam ne kadar ödüyorsunuz?',
+    schulden_ja_u:'Tüm geri ödemelerin toplam aylık tutarını girin.',
+    schulden_r:'Borç bütçenizi etkiler. Yardıma mı ihtiyacınız var? Borç danışmanı, bütçe koçu veya gönüllü borç destek hizmeti yardımcı olabilir — genellikle ücretsiz.',
+    abonnem_v:'Netflix, Spotify veya spor salonu gibi abonelikleriniz var mı?',
+    abonnem_u:'Aboneliklerinizi tek tek ekleyin. Böylece paranızın tam olarak nereye gittiğini görürsünüz.',
+    abonnem_hoog:'Abonelikler için bu oldukça fazla. Hangilerini gerçekten her ay kullanıyorsunuz?',
+    abonnem_nog:'Başka abonelik eklensin mi?',
+    boodschappen_v:'Market alışverişine ayda ne kadar harcıyorsunuz?',
+    boodschappen_u:'Yiyecek ve içeceği düşünün. Haftalık mı alışveriş yapıyorsunuz? 4 ile çarpın.',
+    boodschappen_week:'💡 Bir haftalık alışveriş × 4 ≈ aylık tutarınız.',
+    boodschappen_laag:'Bu az görünüyor. Temizlik malzemeleri, şampuan ve sabunu da dahil edin. Bazen paket servis alıyor musunuz?',
+    boodschappen_hoog:'Bu durumunuz için ortalamanın üzerinde. Hazır yemek alıyor veya düzenli dışarıda yiyor musunuz?',
+    overig_v:'Aylık başka sabit giderleriniz var mı?',
+    overig_u:'Masrafın adını ve tutarı yazın. Giyim, berber, oyuncak veya okul masrafları.',
+    overig_nul:'Başka gider yok mu? Küçük sabit masraflar: berber, okul etkinlikleri veya üyelikler.',
+    sparen_v:'Her ay ne kadar birikim yapmak istiyorsunuz?',
+    sparen_u:'Birikim de bütçenizdeki bilinçli bir seçimdir. Küçük miktar bile yardımcı olur.',
+    sparen_jaar:(n)=>`Bu yılda €${Math.round(n*12).toLocaleString('nl-NL')}. Aferin!`,
+    sparen_tip:'Bütçenizde alan var. Ayda sadece €25 bile finansal güvenlik sağlar.',
+    ja:'✅ Evet', nee:'❌ Hayır',
+    stuur:'→', overslaan:'Bilmiyorum — atla',
+    naam_placeholder:'Ne tür masraf?',
+    bedrag_placeholder:'Tutar',
+    res_titel:'Aylık bütçen', res_sub:'Nibud asgari kılavuzları Temmuz 2025',
+    overschot:'Aylık fazla', tekort:'Aylık açık',
+    per_week:'Haftalık', per_dag:'Günlük',
+    inkomen_lbl:'Toplam gelir', netto_woon:'yardım sonrası net', totaal_uit:'Toplam harcama',
+    excel_btn:'Excel İndir', pdf_btn:'Danışman için PDF', print_btn:'🖨 Yazdır', opnieuw_btn:'Yeniden başla', excel_bezig:'Excel oluşturuluyor...', pdf_bezig:'PDF oluşturuluyor...',
+    nibud_bron:'Kaynak: Nibud Temmuz 2025',
+    disclaimer:'Gösterge niteliğindedir. VluchtelingenWerk ile iletişime geçin.',
+    badge_hoog:'yüksek', badge_ok:'iyi',
+    kolom_post:'Kalem', kolom_maand:'Aylık (€)', kolom_nibud:'Nibud kılavuzu (€)',
+    kolom_categorie:'Kategori', kolom_week:'Haftalık (€)', kolom_dag:'Günlük (€)',
+    tab_budget:'Bütçem', tab_week:'Haftalık bütçe',
+    sectie_inkomsten:'GELİR', sectie_uitgaven:'GİDERLER',
+    sparen_lbl:'Birikim',
+    adv_pos:(n)=>`Ayda ${fmt(n)} artıyor.`,
+    adv_neg:(n)=>`Kazandığınızdan ${fmt(Math.abs(n))} fazla harcıyorsunuz. Bütçe danışmanıyla konuşun — ücretsiz.`,
+    adv_spaar:(n)=>`Ayda ${fmt(n)} biriktiriyorsunuz (yılda ${fmt(n*12)}).`,
+    adv_toeslag:'belastingdienst.nl\'de yardım hakkınız olup olmadığını kontrol edin.',
+    week_titel:'Haftalık bütçen', week_sub:'Serbest harcama alanın her hafta böyle görünüyor',
+    week_dag_label:'Günlük serbest harcama',
+    week_boodschappen:'🛒 Market', week_boodschappen_sub:'Aylık bütçenizi 4,3\'e bölün',
+    week_vrij:'🎉 Geziler ve boş vakit', week_vrij_sub:'Sinema, dışarıda yemek veya aktiviteler',
+    week_overig:'🎁 Diğer (hediyeler, atıştırmalıklar, anlık)', week_overig_sub:'Planlanmamış her şey için',
+    week_uitleg:'Bu haftalık bütçe bir göstergedir. Bazı haftalar daha fazla, bazıları daha az harcarsınız. Önemli olan aylık ortalama.',
+  },
+  uk:{
+    welkom:'Привіт! Я допоможу тобі скласти місячний бюджет.\nЯ задам питання — по одному. Разом побачимо, скільки залишається щомісяця.',
+    start:'Почнімо 👇',
+    sit_v:'Хто живе у твоєму домі?',
+    sit_opties:[
+      {id:'alleen',   l:'👤 Тільки я'},
+      {id:'stel',     l:'👫 Я та мій партнер'},
+      {id:'eenouder', l:'👩‍👧 Я та мої діти'},
+      {id:'gezin',    l:'👨‍👩‍👧‍👦 Ми з дітьми'},
+    ],
+    inkomen_v:'Скільки грошей ти отримуєш на місяць?',
+    inkomen_u:'Це твоя чиста зарплата або допомога — сума, що фактично надходить на рахунок. Після податків.',
+    huur_v:'Скільки ти платиш на місяць за оренду або іпотеку?',
+    huur_u:'',
+    huur_hoog:(p)=>`Це ${p}% твого доходу. Nibud радить максимум 35–40%. Чи перевіряв ти право на субсидію оренди?`,
+    huur_ok:(p)=>`Це ${p}% твого доходу. Хороше співвідношення.`,
+    huurtsl_v:'Чи отримуєш ти субсидію на оренду?',
+    huurtsl_u:'Субсидія на оренду — державна допомога, коли твоя оренда висока відносно доходу.',
+    huurtsl_ja_v:'Яку суму субсидії на оренду ти отримуєш на місяць?',
+    huurtsl_ja_u:'Перевір на belastingdienst.nl або в додатку.',
+    huurtsl_ja_r:'Добре! Твої реальні витрати на житло тоді менші за оренду.',
+    huurtsl_nee_tip:'Можливо, ти маєш на неї право. Перевір на belastingdienst.nl — це може заощадити сотні євро на рік.',
+    energie_v:'Скільки ти платиш на місяць за газ, електрику та воду разом?',
+    energie_u:'Введи загальну суму щомісячного авансу або фіксованого платежу.',
+    energie_hoog:'Це вище середнього. Чи нещодавно збільшився твій аванс?',
+    energie_laag:'Здається мало. Чи включені газ, електрика та вода?',
+    telefoon_v:'Скільки ти платиш на місяць за телефон та домашній інтернет?',
+    telefoon_u:'Введи мобільний абонемент та домашній інтернет разом.',
+    telefoon_hoog:'Це відносно багато. Перевір, чи є дешевші абонементи.',
+    zorgverzek_v:'Скільки ти платиш на місяць за медичну страховку?',
+    zorgverzek_u:'Це щомісячний внесок за базову страховку, плюс додаткова якщо є.',
+    zorgverzek_laag:'Здається мало для медичної страховки. Середній внесок близько €130–150 на місяць.',
+    zorgverzek_hoog:'Це вище середнього. Чи є у тебе також додаткова страховка?',
+    zorgtsl_v:'Чи отримуєш ти субсидію на охорону здоров\'я?',
+    zorgtsl_u:'Державна допомога для оплати медичної страховки для людей з нижчим доходом.',
+    zorgtsl_ja_v:'Яку суму субсидії на охорону здоров\'я ти отримуєш на місяць?',
+    zorgtsl_ja_u:'Можна знайти на belastingdienst.nl або в додатку.',
+    zorgtsl_nee_tip:'З нижчим доходом ти, можливо, маєш право. Перевір на belastingdienst.nl.',
+    auto_v:'Чи є у тебе автомобіль?',
+    autoverzek_v:'Скільки ти платиш на місяць за автострахування?',
+    autoverzek_u:'Введи місячну суму. Платиш щорічно? Розділи на 12.',
+    inboedel_v:'Скільки ти платиш на місяць за страховку майна та відповідальності?',
+    inboedel_u:'Це покриває речі вдома та випадкову шкоду, яку ти можеш завдати.',
+    inboedel_laag:'Ти впевнений, що маєш страховку майна? Вона важлива при пожежі або крадіжці.',
+    begrafenis_v:'Чи є у тебе страховка похорону?',
+    begrafenis_ja_v:'Скільки ти платиш на місяць за страховку похорону?',
+    begrafenis_ja_u:'Платиш щорічно або поквартально? Розділи на 12 або 3.',
+    vervoer_v:'Скільки ти платиш на місяць за транспорт?',
+    vervoer_u:'Абонемент на транспорт, пальне, паркування або ремонт велосипеда. Немає авто? Тоді лише транспорт і велосипед.',
+    vervoer_nul:'Жодних транспортних витрат? Подумай про разові квитки або ремонт велосипеда.',
+    schulden_v:'Чи є у тебе позики або виплати?',
+    schulden_u:'Особиста позика, мінус на рахунку або план виплат зі страховиком, телеком-провайдером або муніципалітетом.',
+    schulden_ja_v:'Скільки ти платиш на місяць за всі виплати разом?',
+    schulden_ja_u:'Введи загальну місячну суму всіх виплат.',
+    schulden_r:'Борги впливають на бюджет. Потрібна допомога? Консультант з боргів, бюджетний коуч або служба добровольчої допомоги з боргами — часто безкоштовно.',
+    abonnem_v:'Чи є у тебе підписки як Netflix, Spotify або спортзал?',
+    abonnem_u:'Додавай підписки по одній. Так побачиш, куди саме йдуть гроші.',
+    abonnem_hoog:'Це досить багато для підписок. Якими ти дійсно користуєшся щомісяця?',
+    abonnem_nog:'Додати ще одну підписку?',
+    boodschappen_v:'Скільки ти витрачаєш на місяць на продукти?',
+    boodschappen_u:'Думай про їжу та напої. Ходиш щотижня? Помнож на 4.',
+    boodschappen_week:'💡 Тижневий кошик × 4 ≈ твоя місячна сума.',
+    boodschappen_laag:'Здається мало. Включи також засоби прибирання, шампунь та мило. Чи замовляєш іноді доставку їжі?',
+    boodschappen_hoog:'Це більше середнього для твоєї ситуації. Чи купуєш готові страви або регулярно їси поза домом?',
+    overig_v:'Є ще якісь фіксовані витрати на місяць?',
+    overig_u:'Введи назву витрати та суму. Подумай про одяг, перукаря, іграшки або шкільні витрати.',
+    overig_nul:'Жодних інших витрат? Подумай про невеликі фіксовані: перукар, шкільні заходи або членські внески.',
+    sparen_v:'Скільки ти хочеш відкладати щомісяця?',
+    sparen_u:'Заощадження — свідомий вибір у бюджеті. Навіть невелика сума допомагає.',
+    sparen_jaar:(n)=>`Це €${Math.round(n*12).toLocaleString('nl-NL')} на рік. Молодець!`,
+    sparen_tip:'У тебе є простір у бюджеті. Навіть €25 на місяць дає фінансову безпеку.',
+    ja:'✅ Так', nee:'❌ Ні',
+    stuur:'→', overslaan:'Не знаю — пропустити',
+    naam_placeholder:'Який тип витрати?',
+    bedrag_placeholder:'Сума',
+    res_titel:'Твій місячний бюджет', res_sub:'Мінімальні норми Nibud липень 2025',
+    overschot:'Надлишок на місяць', tekort:'Дефіцит на місяць',
+    per_week:'На тиждень', per_dag:'На день',
+    inkomen_lbl:'Загальний дохід', netto_woon:'нетто після субсидії', totaal_uit:'Всього витрат',
+    excel_btn:'Завантажити Excel', pdf_btn:'PDF для куратора', print_btn:'🖨 Друк', opnieuw_btn:'Почати знову', excel_bezig:'Створення Excel...', pdf_bezig:'Створення PDF...',
+    nibud_bron:'Джерело: Nibud липень 2025',
+    disclaimer:'Орієнтовно. Зверніться до VluchtelingenWerk.',
+    badge_hoog:'занадто', badge_ok:'добре',
+    kolom_post:'Стаття', kolom_maand:'На місяць (€)', kolom_nibud:'Норма Nibud (€)',
+    kolom_categorie:'Категорія', kolom_week:'На тиждень (€)', kolom_dag:'На день (€)',
+    tab_budget:'Мій бюджет', tab_week:'Тижневий бюджет',
+    sectie_inkomsten:'ДОХОДИ', sectie_uitgaven:'ВИТРАТИ',
+    sparen_lbl:'Заощадження',
+    adv_pos:(n)=>`Залишається ${fmt(n)} на місяць.`,
+    adv_neg:(n)=>`Витрачаєш на ${fmt(Math.abs(n))} більше, ніж заробляєш. Зверніться до бюджетного консультанта — безкоштовно.`,
+    adv_spaar:(n)=>`Відкладаєш ${fmt(n)} на місяць (${fmt(n*12)} на рік).`,
+    adv_toeslag:'Завжди перевіряй право на субсидії на belastingdienst.nl.',
+    week_titel:'Твій тижневий бюджет', week_sub:'Ось як виглядає твій вільний простір щотижня',
+    week_dag_label:'Вільні кошти на день',
+    week_boodschappen:'🛒 Продукти', week_boodschappen_sub:'Місячний бюджет поділений на 4,3',
+    week_vrij:'🎉 Прогулянки та дозвілля', week_vrij_sub:'Для кіно, їжі поза домом або активностей',
+    week_overig:'🎁 Інше (подарунки, снеки, спонтанне)', week_overig_sub:'Для всього незапланованого',
+    week_uitleg:'Цей тижневий бюджет орієнтовний. Деякі тижні витрачаєш більше, інші менше. Важливо — місячний середній.',
+  },
+};
+
+// ══════════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════════
+let taal = 'nl';
+const A = {};
+const TOTAAL_STAPPEN = 17;
+let stap = 0;
+
+function fmt(n){ return '€\u00a0'+Math.round(n).toLocaleString('nl-NL'); }
+function pct(a,b){ return b>0 ? Math.round((a/b)*100) : 0; }
+
+function scrollNaar(){
+  const b=document.getElementById('berichten');
+  setTimeout(()=>b.scrollTo({top:b.scrollHeight,behavior:'smooth'}),50);
+}
+function verbergInvoer(){ document.getElementById('invoer-zone').innerHTML=''; }
+
+// ── Bericht tonen met typingindicator
+function sol(tekst, type='', ms=0){
+  return new Promise(r=>{
+    const b=document.getElementById('berichten');
+    const t=document.createElement('div');
+    t.className='typing';
+    t.innerHTML='<div class="sol-avatar">☀️</div><div class="typing-dots"><span></span><span></span><span></span></div>';
+    b.appendChild(t); scrollNaar();
+    setTimeout(()=>{
+      t.remove();
+      const w=document.createElement('div');
+      w.className='bericht-sol';
+      const nl=tekst.replace(/\n/g,'<br>');
+      w.innerHTML=`<div class="sol-avatar">☀️</div><div class="bel-sol ${type}">${nl}</div>`;
+      b.appendChild(w); scrollNaar(); r();
+    }, 550+ms);
+  });
+}
+function user(tekst){
+  const b=document.getElementById('berichten');
+  const w=document.createElement('div');
+  w.className='bericht-user';
+  w.innerHTML=`<div class="bel-user">${tekst}</div>`;
+  b.appendChild(w); scrollNaar();
+}
+function setVoortgang(n){ document.getElementById('voortgang').style.width=Math.round((n/TOTAAL_STAPPEN)*100)+'%'; }
+
+// ── Keuze knoppen
+function toonKeuze(opties, cb){
+  const z=document.getElementById('invoer-zone');
+  const r=document.createElement('div'); r.className='keuze-rij';
+  opties.forEach(o=>{
+    const btn=document.createElement('button'); btn.className='keuze-btn'; btn.textContent=o.l;
+    btn.onclick=()=>{ verbergInvoer(); user(o.l); cb(o.id,o.l); };
+    r.appendChild(btn);
+  });
+  z.appendChild(r); scrollNaar();
+}
+
+// ── Ja / Nee
+function toonJaNee(jaCb, neeCb, optioneel){
+  const t=T[taal];
+  const z=document.getElementById('invoer-zone');
+  const r=document.createElement('div'); r.className='janee-rij';
+  const ja=document.createElement('button'); ja.className='ja-btn'; ja.textContent=t.ja;
+  ja.onclick=()=>{ verbergInvoer(); user(t.ja); jaCb(); };
+  const nee=document.createElement('button'); nee.className='nee-btn'; nee.textContent=t.nee;
+  nee.onclick=()=>{ verbergInvoer(); user(t.nee); neeCb(); };
+  r.appendChild(ja); r.appendChild(nee); z.appendChild(r);
+  if(optioneel){
+    const sk=document.createElement('button'); sk.className='overslaan-link'; sk.textContent=t.overslaan;
+    sk.onclick=()=>{ verbergInvoer(); neeCb(); }; z.appendChild(sk);
+  }
+  scrollNaar();
+}
+
+// ── Bedrag invoer
+function toonBedrag(id, optioneel, cb){
+  const t=T[taal];
+  const z=document.getElementById('invoer-zone');
+  const r=document.createElement('div'); r.className='bedrag-rij';
+  const w=document.createElement('div'); w.className='bedrag-wrap';
+  w.innerHTML=`<span class="bedrag-euro">€</span><input type="number" id="inp-${id}" class="bedrag-input" min="0" placeholder="0" inputmode="decimal">`;
+  const btn=document.createElement('button'); btn.className='stuur-btn'; btn.textContent=t.stuur;
+  const go=()=>{
+    const v=parseFloat(document.getElementById(`inp-${id}`)?.value)||0;
+    verbergInvoer(); user(fmt(v)); cb(v);
+  };
+  btn.onclick=go;
+  w.querySelector('input').addEventListener('keydown',e=>{ if(e.key==='Enter') go(); });
+  r.appendChild(w); r.appendChild(btn); z.appendChild(r);
+  if(optioneel){
+    const sk=document.createElement('button'); sk.className='overslaan-link'; sk.textContent=t.overslaan;
+    sk.onclick=()=>{ verbergInvoer(); user('—'); cb(0); }; z.appendChild(sk);
+  }
+  setTimeout(()=>document.getElementById(`inp-${id}`)?.focus(),60);
+  scrollNaar();
+}
+
+// ── Naam + bedrag invoer (voor "overige kosten")
+function toonNaamBedrag(id, optioneel, cb){
+  const t=T[taal];
+  const z=document.getElementById('invoer-zone');
+  const r=document.createElement('div'); r.className='bedrag-rij';
+  const w=document.createElement('div'); w.className='naam-bedrag-wrap';
+  w.innerHTML=`<input type="text" id="naam-${id}" class="naam-input" placeholder="${t.naam_placeholder}">
+    <div class="naam-sep"></div>
+    <span class="naam-euro">€</span>
+    <input type="number" id="bedrag-${id}" class="naam-bedrag-input" min="0" placeholder="${t.bedrag_placeholder}" inputmode="decimal">`;
+  const btn=document.createElement('button'); btn.className='stuur-btn'; btn.textContent=t.stuur;
+  const go=()=>{
+    const naam=document.getElementById(`naam-${id}`)?.value.trim()||'Overige kosten';
+    const v=parseFloat(document.getElementById(`bedrag-${id}`)?.value)||0;
+    verbergInvoer(); user(`${naam}: ${fmt(v)}`); cb(naam,v);
+  };
+  btn.onclick=go;
+  w.querySelector('.naam-bedrag-input').addEventListener('keydown',e=>{ if(e.key==='Enter') go(); });
+  r.appendChild(w); r.appendChild(btn); z.appendChild(r);
+  if(optioneel){
+    const sk=document.createElement('button'); sk.className='overslaan-link'; sk.textContent=t.overslaan;
+    sk.onclick=()=>{ verbergInvoer(); user('—'); cb('',0); }; z.appendChild(sk);
+  }
+  setTimeout(()=>document.getElementById(`naam-${id}`)?.focus(),60);
+  scrollNaar();
+}
+
+// ══════════════════════════════════════════════════════
+// GESPREKSSTROOM
+// ══════════════════════════════════════════════════════
+async function start(){
+  const t=T[taal];
+  document.body.style.direction=taal==='ar'?'rtl':'ltr';
+  document.getElementById('berichten').innerHTML='';
+  verbergInvoer(); stap=0; setVoortgang(0);
+  Object.keys(A).forEach(k=>delete A[k]);
+  await sol(t.welkom); await sol(t.start);
+  await stap_situatie();
+}
+
+async function stap_situatie(){
+  const t=T[taal]; setVoortgang(++stap);
+  await sol(t.sit_v);
+  toonKeuze(t.sit_opties, async(id)=>{ A.sit=id; await stap_inkomen(); });
+}
+
+async function stap_inkomen(){
+  const t=T[taal]; setVoortgang(++stap);
+  await sol(t.inkomen_v); await sol(t.inkomen_u,'reactie');
+  toonBedrag('inkomen',false,async(v)=>{ A.inkomen=v; await stap_huur(); });
+}
+
+async function stap_huur(){
+  const t=T[taal]; setVoortgang(++stap);
+  await sol(t.huur_v);
+  if(t.huur_u) await sol(t.huur_u,'reactie');
+  toonBedrag('huur',false,async(v)=>{
+    A.huur=v;
+    if(A.inkomen>0){
+      const p=pct(v,A.inkomen);
+      if(p>40) await sol(t.huur_hoog(p),'waarschuwing');
+      else if(p>0) await sol(t.huur_ok(p),'reactie');
+    }
+    await stap_huurtoeslag();
+  });
+}
+
+async function stap_huurtoeslag(){
+  const t=T[taal]; setVoortgang(++stap);
+  await sol(t.huurtsl_v); await sol(t.huurtsl_u,'reactie');
+  toonJaNee(
+    async()=>{
+      A.huurtoeslag_ja=true;
+      await sol(t.huurtsl_ja_v); await sol(t.huurtsl_ja_u,'reactie');
+      toonBedrag('huurtoeslag',false,async(v)=>{ A.huurtoeslag=v; await sol(t.huurtsl_ja_r,'reactie'); await stap_energie(); });
+    },
+    async()=>{
+      A.huurtoeslag_ja=false; A.huurtoeslag=0;
+      if(A.huur>500&&A.inkomen<2500) await sol(t.huurtsl_nee_tip,'toeslag');
+      await stap_energie();
+    }
+  );
+}
+
+async function stap_energie(){
+  const t=T[taal]; const ref=NIBUD[A.sit]; setVoortgang(++stap);
+  await sol(t.energie_v); await sol(t.energie_u,'reactie');
+  toonBedrag('energie',false,async(v)=>{
+    A.energie=v;
+    if(v>ref.energie*1.35) await sol(t.energie_hoog,'nibud');
+    else if(v<ref.energie*0.55&&v>0) await sol(t.energie_laag,'reactie');
+    await stap_telefoon();
+  });
+}
+
+async function stap_telefoon(){
+  const t=T[taal]; const ref=NIBUD[A.sit]; setVoortgang(++stap);
+  await sol(t.telefoon_v); await sol(t.telefoon_u,'reactie');
+  toonBedrag('telefoon',false,async(v)=>{
+    A.telefoon=v;
+    if(v>ref.telefoon*1.6) await sol(t.telefoon_hoog,'nibud');
+    await stap_zorgverzek();
+  });
+}
+
+async function stap_zorgverzek(){
+  const t=T[taal]; const ref=NIBUD[A.sit]; setVoortgang(++stap);
+  await sol(t.zorgverzek_v); await sol(t.zorgverzek_u,'reactie');
+  toonBedrag('zorgverzek',false,async(v)=>{
+    A.zorgverzek=v;
+    if(v<100&&v>0) await sol(t.zorgverzek_laag,'waarschuwing');
+    else if(v>ref.zorgverzekering*1.4) await sol(t.zorgverzek_hoog,'nibud');
+    await stap_zorgtoeslag();
+  });
+}
+
+async function stap_zorgtoeslag(){
+  const t=T[taal]; setVoortgang(++stap);
+  await sol(t.zorgtsl_v); await sol(t.zorgtsl_u,'reactie');
+  toonJaNee(
+    async()=>{
+      await sol(t.zorgtsl_ja_v); await sol(t.zorgtsl_ja_u,'reactie');
+      toonBedrag('zorgtoeslag',false,async(v)=>{ A.zorgtoeslag=v; await stap_auto(); });
+    },
+    async()=>{
+      A.zorgtoeslag=0;
+      if(A.inkomen<2200) await sol(t.zorgtsl_nee_tip,'toeslag');
+      await stap_auto();
+    }
+  );
+}
+
+async function stap_auto(){
+  const t=T[taal]; setVoortgang(++stap);
+  await sol(t.auto_v);
+  toonJaNee(
+    async()=>{ A.heeft_auto=true; await stap_autoverzek(); },
+    async()=>{ A.heeft_auto=false; A.autoverzek=0; await stap_inboedel(); }
+  );
+}
+
+async function stap_autoverzek(){
+  const t=T[taal];
+  await sol(t.autoverzek_v); await sol(t.autoverzek_u,'reactie');
+  toonBedrag('autoverzek',false,async(v)=>{ A.autoverzek=v; await stap_inboedel(); });
+}
+
+async function stap_inboedel(){
+  const t=T[taal]; setVoortgang(++stap);
+  await sol(t.inboedel_v); await sol(t.inboedel_u,'reactie');
+  toonBedrag('inboedel',true,async(v)=>{
+    A.inboedel=v;
+    if(v<10&&v>0) await sol(t.inboedel_laag,'waarschuwing');
+    await stap_begrafenis();
+  });
+}
+
+async function stap_begrafenis(){
+  const t=T[taal]; setVoortgang(++stap);
+  await sol(t.begrafenis_v);
+  toonJaNee(
+    async()=>{
+      await sol(t.begrafenis_ja_v); await sol(t.begrafenis_ja_u,'reactie');
+      toonBedrag('begrafenis',false,async(v)=>{ A.begrafenis=v; await stap_vervoer(); });
+    },
+    async()=>{ A.begrafenis=0; await stap_vervoer(); },
+    true
+  );
+}
+
+async function stap_vervoer(){
+  const t=T[taal]; const ref=NIBUD[A.sit]; setVoortgang(++stap);
+  await sol(t.vervoer_v); await sol(t.vervoer_u,'reactie');
+  toonBedrag('vervoer',false,async(v)=>{
+    A.vervoer=v;
+    if(v===0) await sol(t.vervoer_nul,'reactie');
+    await stap_schulden();
+  });
+}
+
+async function stap_schulden(){
+  const t=T[taal]; setVoortgang(++stap);
+  await sol(t.schulden_v); await sol(t.schulden_u,'reactie');
+  toonJaNee(
+    async()=>{
+      await sol(t.schulden_ja_v); await sol(t.schulden_ja_u,'reactie');
+      toonBedrag('schulden',false,async(v)=>{ A.schulden=v; await sol(t.schulden_r,'waarschuwing'); await stap_abonnem(); });
+    },
+    async()=>{ A.schulden=0; await stap_abonnem(); }
+  );
+}
+
+async function stap_abonnem(){
+  const t=T[taal]; setVoortgang(++stap);
+  await sol(t.abonnem_v); await sol(t.abonnem_u,'reactie');
+  A.abonnementen = [];
+  toonAbonnementenInvoer();
+}
+
+function toonAbonnementenInvoer(){
+  const t=T[taal];
+  const z=document.getElementById('invoer-zone');
+  z.innerHTML='';
+
+  // Bestaande items tonen
+  const lijstDiv=document.createElement('div');
+  lijstDiv.style.cssText='display:flex;flex-direction:column;gap:6px;margin-bottom:8px;';
+  (A.abonnementen||[]).forEach((ab,i)=>{
+    const item=document.createElement('div');
+    item.style.cssText='display:flex;align-items:center;gap:8px;background:var(--groen-licht);border-radius:10px;padding:6px 12px;font-size:0.85rem;';
+    item.innerHTML=`<span style="flex:1;color:var(--tekst);">${ab.naam}</span><span style="font-weight:600;color:var(--groen);">${fmt(ab.bedrag)}</span>
+      <button onclick="verwijderAbonnem(${i})" style="background:none;border:none;cursor:pointer;color:var(--tekst-licht);font-size:1rem;padding:0 4px;">✕</button>`;
+    lijstDiv.appendChild(item);
+  });
+  if((A.abonnementen||[]).length>0) z.appendChild(lijstDiv);
+
+  // Nieuw invoerveld
+  const r=document.createElement('div'); r.className='bedrag-rij';
+  const w=document.createElement('div'); w.className='naam-bedrag-wrap';
+  w.innerHTML=`<input type="text" id="abn-naam" class="naam-input" placeholder="${t.naam_placeholder}">
+    <div class="naam-sep"></div><span class="naam-euro">€</span>
+    <input type="number" id="abn-bedrag" class="naam-bedrag-input" min="0" placeholder="0" inputmode="decimal">`;
+  const addBtn=document.createElement('button'); addBtn.className='stuur-btn'; addBtn.textContent='+';
+  addBtn.onclick=()=>{
+    const naam=document.getElementById('abn-naam')?.value.trim();
+    const v=parseFloat(document.getElementById('abn-bedrag')?.value)||0;
+    if(!naam||v===0) return;
+    A.abonnementen.push({naam,bedrag:v});
+    toonAbonnementenInvoer();
+  };
+  w.querySelector('.naam-bedrag-input').addEventListener('keydown',e=>{ if(e.key==='Enter') addBtn.click(); });
+  r.appendChild(w); r.appendChild(addBtn); z.appendChild(r);
+
+  // Klaar-knop
+  const klaarRij=document.createElement('div'); klaarRij.style.cssText='display:flex;gap:8px;margin-top:6px;';
+  const klaarBtn=document.createElement('button');
+  klaarBtn.className='stuur-btn'; klaarBtn.style.cssText='flex:1;justify-content:center;padding:12px;font-size:0.9rem;';
+  klaarBtn.textContent=t.stuur+' Klaar';
+  klaarBtn.onclick=async()=>{
+    verbergInvoer();
+    const tot=(A.abonnementen||[]).reduce((s,ab)=>s+ab.bedrag,0);
+    A.abonnem=tot;
+    if(tot>0) user((A.abonnementen||[]).map(ab=>`${ab.naam}: ${fmt(ab.bedrag)}`).join(' · '));
+    else user('—');
+    if(tot>80) await sol(t.abonnem_hoog,'nibud');
+    await stap_boodschappen();
+  };
+  const skipBtn=document.createElement('button'); skipBtn.className='overslaan-link';
+  skipBtn.textContent=t.overslaan;
+  skipBtn.onclick=async()=>{ verbergInvoer(); A.abonnem=0; A.abonnementen=[]; user('—'); await stap_boodschappen(); };
+  klaarRij.appendChild(klaarBtn); z.appendChild(klaarRij); z.appendChild(skipBtn);
+  setTimeout(()=>document.getElementById('abn-naam')?.focus(),60);
+  scrollNaar();
+}
+
+function verwijderAbonnem(i){
+  A.abonnementen.splice(i,1);
+  toonAbonnementenInvoer();
+}
+
+async function stap_boodschappen(){
+  const t=T[taal]; const ref=NIBUD[A.sit]; setVoortgang(++stap);
+  await sol(t.boodschappen_v); await sol(t.boodschappen_u,'reactie');
+  await sol(t.boodschappen_week,'nibud');
+  toonBedrag('boodschappen',false,async(v)=>{
+    A.boodschappen=v;
+    if(v<ref.voeding*0.65&&v>0) await sol(t.boodschappen_laag,'reactie');
+    else if(v>ref.voeding*1.35) await sol(t.boodschappen_hoog,'nibud');
+    await stap_overig();
+  });
+}
+
+async function stap_overig(){
+  const t=T[taal]; setVoortgang(++stap);
+  await sol(t.overig_v); await sol(t.overig_u,'reactie');
+  toonNaamBedrag('overig',true,async(naam,v)=>{
+    A.overig=v; A.overig_naam=naam||'Overige kosten';
+    if(v===0) await sol(t.overig_nul,'reactie');
+    await stap_sparen();
+  });
+}
+
+async function stap_sparen(){
+  const t=T[taal]; setVoortgang(++stap);
+  await sol(t.sparen_v); await sol(t.sparen_u,'reactie');
+  toonBedrag('sparen',true,async(v)=>{
+    A.sparen=v;
+    if(v>0) await sol(t.sparen_jaar(v),'reactie');
+    else{
+      const s=berekenSaldo();
+      if(s>50) await sol(t.sparen_tip,'toeslag');
+    }
+    setVoortgang(TOTAAL_STAPPEN);
+    await toonResultaat();
+  });
+}
+
+// ══════════════════════════════════════════════════════
+// BEREKENING
+// ══════════════════════════════════════════════════════
+function berekenSaldo(){
+  const ink=(A.inkomen||0)+(A.huurtoeslag||0)+(A.zorgtoeslag||0);
+  const uit=(A.huur||0)+(A.energie||0)+(A.telefoon||0)+(A.zorgverzek||0)+(A.autoverzek||0)+(A.inboedel||0)+(A.begrafenis||0)+(A.vervoer||0)+(A.schulden||0)+(A.abonnem||0)+(A.boodschappen||0)+(A.overig||0)+(A.sparen||0);
+  return ink-uit;
+}
+
+// ══════════════════════════════════════════════════════
+// RESULTAAT
+// ══════════════════════════════════════════════════════
+async function toonResultaat(){
+  const t=T[taal]; const ref=NIBUD[A.sit||'alleen'];
+  const ink=(A.inkomen||0)+(A.huurtoeslag||0)+(A.zorgtoeslag||0);
+  const huurB=A.huur||0, nettoW=Math.max(0,huurB-(A.huurtoeslag||0));
+  const energie=A.energie||0, tel=A.telefoon||0, zorgv=A.zorgverzek||0;
+  const autov=A.autoverzek||0, inboed=A.inboedel||0, begraf=A.begrafenis||0;
+  const verv=A.vervoer||0, schuld=A.schulden||0, abonnem=A.abonnem||0;
+  const bood=A.boodschappen||0, overig=A.overig||0, spaar=A.sparen||0;
+  const totUit=huurB+energie+tel+zorgv+autov+inboed+begraf+verv+schuld+abonnem+bood+overig+spaar;
+  const saldo=ink-totUit, pos=saldo>=-5;
+  const wSaldo=saldo/(52/12), dSaldo=saldo/30;
+
+  function badge(v,r){
+    if(!r||!v) return '';
+    return v>r*1.2 ? `<span class="res-badge hoog">${t.badge_hoog}</span>` : `<span class="res-badge ok">${t.badge_ok}</span>`;
+  }
+  function rij(icon,naam,v,r,sub){
+    if(!v) return '';
+    return `<div class="res-post-rij">
+      <span class="res-post-icon">${icon}</span>
+      <span class="res-post-naam">${naam}${sub?`<span class="res-post-sub">↳ ${t.netto_woon}: ${fmt(sub)}</span>`:''}</span>
+      <span class="res-post-bedrag">${fmt(v)}${badge(v,r)}</span>
+    </div>`;
+  }
+
+  const kaart=`<div class="resultaat-kaart" id="res-kaart">
+    <div class="res-header"><div class="res-header-titel">${t.res_titel}</div><div class="res-header-sub">${t.res_sub}</div></div>
+    <div class="res-saldo ${pos?'pos':'neg'}">
+      <div class="res-saldo-getal">${fmt(saldo)}</div>
+      <div class="res-saldo-omschr">${pos?t.overschot:t.tekort} · ${t.inkomen_lbl}: ${fmt(ink)}</div>
+    </div>
+    <div class="res-pills">
+      <div class="res-pill"><div class="res-pill-label">${t.per_week}</div><div class="res-pill-getal">${fmt(wSaldo)}</div></div>
+      <div class="res-pill"><div class="res-pill-label">${t.per_dag}</div><div class="res-pill-getal">${fmt(dSaldo)}</div></div>
+    </div>
+    <div class="res-posten">
+      ${rij('🏠','Huur / hypotheek',huurB,ref.huur,(A.huurtoeslag||0)>0?nettoW:null)}
+      ${rij('⚡','Energie',energie,ref.energie)}
+      ${rij('📱','Telefoon & internet',tel,ref.telefoon)}
+      ${rij('🏥','Zorgverzekering',zorgv,ref.zorgverzekering)}
+      ${autov?rij('🚗','Autoverzekering',autov,0):''} 
+      ${inboed?rij('🏠','Inboedel & aansprakelijkheid',inboed,ref.overige_verzek):''}
+      ${begraf?rij('⚰️','Begrafenisverzekering',begraf,ref.begrafenis):''}
+      ${rij('🚌','Vervoer',verv,ref.vervoer)}
+      ${schuld?rij('📋','Leningen / afbetalingen',schuld,0):''}
+      ${(A.abonnementen||[]).map(ab=>rij('📺',ab.naam,ab.bedrag,0)).join('')}
+      ${rij('🛒','Boodschappen',bood,ref.voeding)}
+      ${overig?rij('📦',A.overig_naam||'Overige kosten',overig,0):''}
+      ${spaar?rij('🐷','Sparen',spaar,0):''}
+    </div>
+    <div class="res-totaal"><span>${t.totaal_uit}</span><span>${fmt(totUit)}</span></div>
+    <div style="padding:0.3rem 1.2rem;font-size:0.68rem;color:var(--tekst-licht);font-style:italic;">${t.nibud_bron}</div>
+    <div class="res-acties">
+      <button class="res-excel-btn" id="res-excel" onclick="downloadExcel()">📊 ${t.excel_btn}</button>
+      <button class="res-pdf-btn" id="res-pdf" onclick="downloadPDF()">📄 ${t.pdf_btn}</button>
+    </div>
+    <div class="res-acties" style="padding-top:0;border-top:none;">
+      <button class="res-print-btn" style="flex:1;" onclick="window.print()">${t.print_btn}</button>
+    </div>
+    <div style="padding:0 1.2rem 0.4rem;">
+      <button class="res-opnieuw-btn" onclick="start()">${t.opnieuw_btn}</button>
+    </div>
+    <div class="res-disclaimer">${t.disclaimer}</div>
+  </div>`;
+
+  const b=document.getElementById('berichten');
+  const w=document.createElement('div');
+  w.className='bericht-sol'; w.style.cssText='max-width:100%;width:100%;';
+  w.innerHTML=kaart; b.appendChild(w); scrollNaar();
+
+  // Weekbudget kaart
+  // Vrij besteedbaar = saldo. Verdelen over categorieën.
+  const vrijeRuimte=Math.max(0,saldo);
+  // Suggestie: boodschappen 40%, vrij 35%, overig 25%
+  const wBood=bood/(52/12); // maand → week
+  const wVrij=vrijeRuimte/(52/12)*0.5;
+  const wOverig=vrijeRuimte/(52/12)*0.3;
+  const wDag=vrijeRuimte/30;
+
+  await new Promise(r=>setTimeout(r,300));
+  const weekKaart=`<div class="week-kaart">
+    <div class="week-header"><div class="week-header-titel">📅 ${t.week_titel}</div><div class="week-header-sub">${t.week_sub}</div></div>
+    <div class="week-dag-blok">
+      <span class="week-dag-label">${t.week_dag_label}</span>
+      <span class="week-dag-bedrag">${fmt(wDag)}</span>
+    </div>
+    <div class="week-categorieen">
+      <div class="week-cat-rij">
+        <span class="week-cat-icon">🛒</span>
+        <div class="week-cat-info"><div class="week-cat-naam">${t.week_boodschappen.replace(/^🛒\s*/,'')}</div><div class="week-cat-sub">${t.week_boodschappen_sub}</div></div>
+        <div class="week-cat-bedrag"><div class="week-cat-week">${fmt(wBood)}</div><div class="week-cat-dag">${fmt(wBood/7)} /dag</div></div>
+      </div>
+      <div class="week-cat-rij">
+        <span class="week-cat-icon">🎭</span>
+        <div class="week-cat-info"><div class="week-cat-naam">${t.week_vrij.replace(/^🎉\s*/,'')}</div><div class="week-cat-sub">${t.week_vrij_sub}</div></div>
+        <div class="week-cat-bedrag"><div class="week-cat-week">${fmt(wVrij)}</div><div class="week-cat-dag">${fmt(wVrij/7)} /dag</div></div>
+      </div>
+      <div class="week-cat-rij">
+        <span class="week-cat-icon">🎁</span>
+        <div class="week-cat-info"><div class="week-cat-naam">${t.week_overig.replace(/^🎁\s*/,'')}</div><div class="week-cat-sub">${t.week_overig_sub}</div></div>
+        <div class="week-cat-bedrag"><div class="week-cat-week">${fmt(wOverig)}</div><div class="week-cat-dag">${fmt(wOverig/7)} /dag</div></div>
+      </div>
+    </div>
+    <div class="week-uitleg">${t.week_uitleg}</div>
+  </div>`;
+
+  const ww=document.createElement('div');
+  ww.className='bericht-sol'; ww.style.cssText='max-width:100%;width:100%;';
+  ww.innerHTML=weekKaart; b.appendChild(ww); scrollNaar();
+
+  // PDF data opslaan
+  window._pdf={saldo,pos,ink,wSaldo,dSaldo,totUit,huurB,nettoW,energie,tel,zorgv,autov,inboed,begraf,verv,schuld,abonnem,abonnementen:A.abonnementen||[],bood,overig,overig_naam:A.overig_naam||'Overige kosten',spaar,sit:A.sit||'alleen',huurtoesl:A.huurtoeslag||0,zorgtoesl:A.zorgtoeslag||0,wBood,wVrij,wOverig,wDag};
+
+  await new Promise(r=>setTimeout(r,300));
+  if(saldo>50)  await sol(t.adv_pos(saldo),'reactie');
+  if(saldo<-50) await sol(t.adv_neg(saldo),'waarschuwing');
+  if(spaar>0)   await sol(t.adv_spaar(spaar),'reactie');
+  await sol(t.adv_toeslag,'toeslag');
+}
+
+// ══════════════════════════════════════════════════════
+// EXCEL — volledig client-side via SheetJS
+// Tabblad 1: Mijn budget | Tabblad 2: Weekbudget
+// ══════════════════════════════════════════════════════
+function downloadExcel(){
+  const t=T[taal], btn=document.getElementById('res-excel');
+  if(!window.XLSX){alert('Excel-bibliotheek nog niet geladen. Probeer opnieuw.'); return;}
+  btn.textContent=t.excel_bezig; btn.disabled=true;
+
+  setTimeout(()=>{
+    try{
+      const d=window._pdf;
+      const ref=NIBUD[d.sit||'alleen'];
+      const WB=XLSX.utils.book_new();
+
+      // ── Hulpfuncties ──────────────────────────────
+      const euro=(n)=>Math.round(n||0);
+      const rij=(label,mnd,nibud_mnd)=>{
+        const r={[t.kolom_post]:label,[t.kolom_maand]:euro(mnd)};
+        if(nibud_mnd) r[t.kolom_nibud]=euro(nibud_mnd);
+        return r;
+      };
+
+      // ── TABBLAD 1: BUDGET ─────────────────────────
+      const budgetData=[];
+
+      // Header inkomsten
+      budgetData.push({[t.kolom_post]:t.sectie_inkomsten,[t.kolom_maand]:''});
+      budgetData.push(rij(t.inkomen_lbl+' (netto)',d.ink));
+      if(d.huurtoesl>0) budgetData.push(rij('↳ '+t.netto_woon+' (huurtoeslag)',d.huurtoesl));
+      if(d.zorgtoesl>0) budgetData.push(rij('↳ Zorgtoeslag',d.zorgtoesl));
+      budgetData.push({[t.kolom_post]:'',[t.kolom_maand]:''}); // lege rij
+
+      // Header uitgaven
+      budgetData.push({[t.kolom_post]:t.sectie_uitgaven,[t.kolom_maand]:''});
+      budgetData.push(rij('🏠 Huur / hypotheek (bruto)',d.huurB,ref.huur));
+      if(d.huurtoesl>0) budgetData.push(rij('   ↳ '+t.netto_woon,d.nettoW));
+      budgetData.push(rij('⚡ Energie',d.energie,ref.energie));
+      budgetData.push(rij('📱 Telefoon & internet',d.tel,ref.telefoon));
+      budgetData.push(rij('🏥 Zorgverzekering',d.zorgv,ref.zorgverzekering));
+      if(d.autov>0) budgetData.push(rij('🚗 Autoverzekering',d.autov));
+      if(d.inboed>0) budgetData.push(rij('🏠 Inboedel & aansprakelijkheid',d.inboed,ref.overige_verzek));
+      if(d.begraf>0) budgetData.push(rij('⚰️ Begrafenisverzekering',d.begraf,ref.begrafenis));
+      budgetData.push(rij('🚌 Vervoer',d.verv,ref.vervoer));
+      if(d.schuld>0) budgetData.push(rij('📋 Leningen / afbetalingen',d.schuld));
+      (d.abonnementen||[]).forEach(ab=>budgetData.push(rij('📺 '+ab.naam,ab.bedrag)));
+      budgetData.push(rij('🛒 Boodschappen',d.bood,ref.voeding));
+      if(d.overig>0) budgetData.push(rij('📦 '+d.overig_naam,d.overig));
+      if(d.spaar>0) budgetData.push(rij('🐷 '+t.sparen_lbl,d.spaar));
+      budgetData.push({[t.kolom_post]:'',[t.kolom_maand]:''}); // lege rij
+
+      // Totaalrij
+      budgetData.push({[t.kolom_post]:t.totaal_uit,[t.kolom_maand]:euro(d.totUit)});
+      budgetData.push({[t.kolom_post]:(d.pos?t.overschot:t.tekort),[t.kolom_maand]:euro(d.saldo)});
+
+      const ws1=XLSX.utils.json_to_sheet(budgetData);
+
+      // Kolombreedtes
+      ws1['!cols']=[{wch:38},{wch:16},{wch:18}];
+
+      XLSX.utils.book_append_sheet(WB,ws1,t.tab_budget);
+
+      // ── TABBLAD 2: WEEKBUDGET ─────────────────────
+      const weekData=[
+        {[t.kolom_categorie]:t.week_boodschappen.replace(/^🛒\s*/,''),[t.kolom_week]:euro(d.wBood),[t.kolom_dag]:euro(d.wBood/7)},
+        {[t.kolom_categorie]:t.week_vrij.replace(/^🎉\s*/,'').replace(/^🎭\s*/,''),[t.kolom_week]:euro(d.wVrij),[t.kolom_dag]:euro(d.wVrij/7)},
+        {[t.kolom_categorie]:t.week_overig.replace(/^🎁\s*/,''),[t.kolom_week]:euro(d.wOverig),[t.kolom_dag]:euro(d.wOverig/7)},
+        {[t.kolom_categorie]:'',[t.kolom_week]:'',[t.kolom_dag]:''},
+        {[t.kolom_categorie]:t.week_dag_label,[t.kolom_week]:'',[t.kolom_dag]:euro(d.wDag)},
+      ];
+      const ws2=XLSX.utils.json_to_sheet(weekData);
+      ws2['!cols']=[{wch:38},{wch:14},{wch:12}];
+      XLSX.utils.book_append_sheet(WB,ws2,t.tab_week);
+
+      XLSX.writeFile(WB,'solidari-maandbudget.xlsx');
+    }catch(e){
+      console.error(e);
+      alert('Excel maken mislukt. Probeer de printknop.');
+    }finally{
+      btn.textContent='📊 '+T[taal].excel_btn;
+      btn.disabled=false;
+    }
+  },80);
+}
+
+// ══════════════════════════════════════════════════════
+// PDF voor begeleider — volledig client-side
+// ══════════════════════════════════════════════════════
+function downloadPDF(){
+  const t=T[taal], btn=document.getElementById('res-pdf');
+  if(!window.jspdf){alert('PDF-bibliotheek niet beschikbaar. Gebruik afdrukken.'); return;}
+  btn.textContent=t.pdf_bezig; btn.disabled=true;
+  setTimeout(()=>{
+    try{
+      const {jsPDF}=window.jspdf;
+      const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+      const W=210,M=18,CW=W-M*2; let y=20;
+      const G=[45,90,61],Am=[196,127,16],Li=[156,156,152],Za=[92,92,88],Te=[26,26,24],Ro=[220,38,38];
+      const d=window._pdf, ref=NIBUD[d.sit];
+
+      // Header
+      doc.setFillColor(...G); doc.rect(0,0,W,36,'F');
+      doc.setTextColor(255,255,255);
+      doc.setFontSize(7); doc.setFont('helvetica','normal'); doc.text('solidari.nl · Geen opslag van persoonsgegevens',M,11);
+      doc.setFontSize(16); doc.setFont('helvetica','bold'); doc.text(t.res_titel,M,24);
+      doc.setFontSize(7); doc.setFont('helvetica','normal');
+      doc.text(new Date().toLocaleDateString('nl-NL',{day:'numeric',month:'long',year:'numeric'})+'  ·  '+t.res_sub,M,32);
+      y=46;
+
+      // Saldo
+      doc.setFillColor(...(d.pos?[235,243,238]:[254,242,242]));
+      doc.setDrawColor(...(d.pos?G:Ro));
+      doc.roundedRect(M,y,CW,20,3,3,'FD');
+      doc.setTextColor(...(d.pos?G:Ro));
+      doc.setFontSize(14); doc.setFont('helvetica','bold'); doc.text(fmt(d.saldo),W/2,y+9,{align:'center'});
+      doc.setFontSize(7); doc.setFont('helvetica','normal'); doc.text(`${d.pos?t.overschot:t.tekort}  ·  ${t.inkomen_lbl}: ${fmt(d.ink)}`,W/2,y+16,{align:'center'});
+      y+=26;
+
+      // Week/dag pills
+      const hw=(CW-4)/2;
+      doc.setFillColor(253,243,224); doc.rect(M,y,hw,11,'F');
+      doc.setTextColor(...Am); doc.setFontSize(6); doc.setFont('helvetica','bold'); doc.text(t.per_week.toUpperCase(),M+3,y+4.5);
+      doc.setFontSize(10); doc.text(fmt(d.wSaldo),M+3,y+9.5);
+      doc.setFillColor(245,242,236); doc.rect(M+hw+4,y,hw,11,'F');
+      doc.setTextColor(...Za); doc.setFontSize(6); doc.text(t.per_dag.toUpperCase(),M+hw+7,y+4.5);
+      doc.setFontSize(10); doc.text(fmt(d.dSaldo),M+hw+7,y+9.5);
+      y+=17;
+
+      // Uitgaven
+      doc.setTextColor(...Te); doc.setFontSize(7); doc.setFont('helvetica','bold'); doc.text(t.totaal_uit.toUpperCase(),M,y+5); y+=8;
+      const posten=[
+        {n:'Huur / hypotheek',v:d.huurB,r:ref.huur,sub:d.huurtoesl>0?`${t.netto_woon}: ${fmt(d.nettoW)}`:null},
+        {n:'Energie',v:d.energie,r:ref.energie},
+        {n:'Telefoon & internet',v:d.tel,r:ref.telefoon},
+        {n:'Zorgverzekering',v:d.zorgv,r:ref.zorgverzekering},
+        ...(d.autov>0?[{n:'Autoverzekering',v:d.autov,r:0}]:[]),
+        ...(d.inboed>0?[{n:'Inboedel & aansprakelijkheid',v:d.inboed,r:ref.overige_verzek}]:[]),
+        ...(d.begraf>0?[{n:'Begrafenisverzekering',v:d.begraf,r:ref.begrafenis}]:[]),
+        {n:'Vervoer',v:d.verv,r:ref.vervoer},
+        ...(d.schuld>0?[{n:'Leningen / afbetalingen',v:d.schuld,r:0}]:[]),
+        ...(d.abonnementen||[]).map(ab=>({n:ab.naam,v:ab.bedrag,r:0})),
+        {n:'Boodschappen',v:d.bood,r:ref.voeding},
+        ...(d.overig>0?[{n:d.overig_naam,v:d.overig,r:0}]:[]),
+        ...(d.spaar>0?[{n:'Sparen',v:d.spaar,r:0}]:[]),
+      ].filter(p=>p.v>0);
+
+      posten.forEach((p,i)=>{
+        const h=p.sub?10:8;
+        if(i%2===0){doc.setFillColor(248,248,246);doc.rect(M,y,CW,h,'F');}
+        doc.setTextColor(...Za); doc.setFontSize(7); doc.setFont('helvetica','normal'); doc.text(p.n,M+3,y+5.5);
+        if(p.sub){doc.setTextColor(...G);doc.setFontSize(6);doc.text(p.sub,M+3,y+9);}
+        if(p.r>0){const hg=p.v>p.r*1.2; doc.setTextColor(...(hg?Ro:G));doc.setFontSize(6);doc.setFont('helvetica','bold');doc.text(hg?t.badge_hoog:t.badge_ok,W-M-22,y+5.5,{align:'right'});}
+        doc.setTextColor(...Te);doc.setFontSize(8);doc.setFont('helvetica','bold');doc.text(fmt(p.v),W-M-2,y+5.5,{align:'right'});
+        y+=h;
+      });
+
+      doc.setDrawColor(...Li); doc.line(M,y,W-M,y); y+=4;
+      doc.setTextColor(...Te); doc.setFontSize(8); doc.setFont('helvetica','bold');
+      doc.text(t.totaal_uit,M+3,y+4); doc.text(fmt(d.totUit),W-M-2,y+4,{align:'right'}); y+=12;
+
+      // Weekbudget sectie
+      doc.setFillColor(196,127,16); doc.rect(M,y,CW,10,'F');
+      doc.setTextColor(255,255,255); doc.setFontSize(9); doc.setFont('helvetica','bold');
+      doc.text(`📅 ${t.week_titel}`,M+4,y+6.5); y+=14;
+      const wcats=[
+        {icon:'🛒',naam:t.week_boodschappen,week:d.wBood},
+        {icon:'🎉',naam:t.week_vrij,week:d.wVrij},
+        {icon:'🎁',naam:t.week_overig,week:d.wOverig},
+      ];
+      wcats.forEach((c,i)=>{
+        if(i%2===0){doc.setFillColor(253,243,224);doc.rect(M,y,CW,8,'F');}
+        doc.setTextColor(...Za); doc.setFontSize(7); doc.setFont('helvetica','normal'); doc.text(c.naam,M+3,y+5.5);
+        doc.setTextColor(...Am); doc.setFontSize(8); doc.setFont('helvetica','bold'); doc.text(fmt(c.week),W-M-2,y+5.5,{align:'right'});
+        y+=8;
+      });
+      y+=4;
+      doc.setTextColor(...Li); doc.setFontSize(6.5); doc.setFont('helvetica','italic'); doc.text(t.nibud_bron,W/2,y,{align:'center'}); y+=8;
+      doc.setTextColor(...Li); doc.setFontSize(6); doc.text('solidari.nl  ·  '+t.disclaimer.replace(/<[^>]*>/g,''),W/2,285,{align:'center',maxWidth:CW});
+
+      doc.save('solidari-maandbudget.pdf');
+    }catch(e){console.error(e);alert('PDF mislukt. Gebruik de printknop.');}
+    finally{btn.textContent='📄 '+T[taal].pdf_btn;btn.disabled=false;}
+  },80);
+}
+
+function setTaal(code,btn){
+  taal=code;
+  document.querySelectorAll('.taal-btn').forEach(b=>b.classList.remove('actief'));
+  btn.classList.add('actief');
+  start();
+}
+
+start();
+</script>
+</body>
+</html>
