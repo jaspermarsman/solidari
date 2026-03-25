@@ -1081,7 +1081,7 @@
       <line x1="29.9" y1="6.1" x2="26.4" y2="9.6" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
       <line x1="9.6" y1="26.4" x2="6.1" y2="29.9" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
     </svg>
-    <span class="logo-naam">Solid<span>a</span>ri</span>
+    <span class="logo-naam">Solid<span>a</span>r<span>i</span></span>
   </a>
   <ul class="nav-links">
     <li><a href="tools.html">Tools</a></li>
@@ -1094,6 +1094,9 @@
     <button class="taal-btn">EN</button>
     <button class="taal-btn">AR</button>
     <button class="taal-btn">TR</button>
+    <button class="taal-btn">TI</button>
+    <button class="taal-btn">UK</button>
+    <button class="taal-btn">FA</button>
   </div>
 </nav>
 
@@ -1102,18 +1105,18 @@
   <div class="hero-achtergrond"></div>
   <div class="hero-inhoud">
     <div class="hero-tekst">
-      <div class="hero-badge">☀️ Tools actief — de zon schijnt</div>
-      <h1 class="hero-titel">
+      <div class="hero-badge" data-i18n="hero-badge">☀️ Tools actief — de zon schijnt</div>
+      <h1 class="hero-titel" data-i18n="hero-titel">
         Gratis hulp,<br>
         aangedreven door<br>
         <em>de zon</em>
       </h1>
-      <p class="hero-subtitel">
-        Solidari biedt gratis digitale tools voor statushouders in Nederland. Begrijp je post, bereken je rechten, leer Nederlands. Allemaal op zonne-energie.
+      <p class="hero-subtitel" data-i18n="hero-subtitel">
+        Officiële brieven, toeslagen, rechten — uitgelegd in gewone taal. Gratis, voor iedereen.
       </p>
       <div class="hero-knoppen">
-        <a href="#tools" class="knop-primair">Bekijk de tools</a>
-        <a href="#missie" class="knop-secundair">Ons verhaal</a>
+        <a href="#tools" class="knop-primair" data-i18n="knop-tools">Bekijk de tools</a>
+        <a href="#missie" class="knop-secundair" data-i18n="knop-verhaal">Ons verhaal</a>
       </div>
     </div>
     <div class="hero-kaart">
@@ -1139,19 +1142,23 @@
           </li>
           <li class="zon-tool-item">
             <span class="zon-tool-status status-aan"></span>
+            💬 Maandbudget — actief
+          </li>
+          <li class="zon-tool-item">
+            <span class="zon-tool-status status-aan"></span>
+            💰 Toeslagen Calculator — actief
+          </li>
+          <li class="zon-tool-item">
+            <span class="zon-tool-status status-aan"></span>
+            🎂 18 Jaar Worden — actief
+          </li>
+          <li class="zon-tool-item">
+            <span class="zon-tool-status status-aan"></span>
+            🇳🇱 Naturalisatie Checker — actief
+          </li>
+          <li class="zon-tool-item">
+            <span class="zon-tool-status status-aan"></span>
             💶 Loont Werken — actief
-          </li>
-          <li class="zon-tool-item">
-            <span class="zon-tool-status status-aan"></span>
-            📚 NT2 Cursus — actief
-          </li>
-          <li class="zon-tool-item">
-            <span class="zon-tool-status status-aan"></span>
-            🏠 Huurtoeslag — actief
-          </li>
-          <li class="zon-tool-item">
-            <span class="zon-tool-status status-aan"></span>
-            🇳🇱 Naturalisatie checker — actief
           </li>
         </ul>
       </div>
@@ -1178,9 +1185,9 @@
 <!-- TOOLS -->
 <section id="tools" class="sectie">
   <div class="sectie-header">
-    <div class="sectie-label">Beschikbare tools</div>
-    <h2 class="sectie-titel">Wat kan Solidari voor je doen?</h2>
-    <p class="sectie-subtitel">Alle tools zijn gratis, meertalig en slaan geen persoonlijke gegevens op.</p>
+    <div class="sectie-label" data-i18n="tools-label">Beschikbare tools</div>
+    <h2 class="sectie-titel" data-i18n="tools-titel">Wat kan Solidari voor je doen?</h2>
+    <p class="sectie-subtitel" data-i18n="tools-subtitel">Officiële brieven, toeslagen, rechten — uitgelegd in gewone taal. Gratis, voor iedereen.</p>
   </div>
 
   <div class="tools-grid">
@@ -1190,58 +1197,22 @@
         <div class="tool-emoji" style="background:#FDF3E0;">📬</div>
         <span class="tool-badge badge-zon">☀️ Bij zon</span>
       </div>
-      <div class="tool-naam">Brief Begrijper</div>
-      <div class="tool-omschrijving">Maak een foto van je brief. Wij leggen uit wat er staat, wat je moet doen en wanneer.</div>
+      <div class="tool-naam" data-i18n="tool-brief-naam">Brief Begrijper</div>
+      <div class="tool-omschrijving" data-i18n="tool-brief-omschrijving">Maak een foto van je brief. Wij leggen uit wat er staat, wat je moet doen en wanneer.</div>
       <div class="tool-talen">
         <span class="tool-taal">🇳🇱</span><span class="tool-taal">🇸🇦</span><span class="tool-taal">🇪🇹</span><span class="tool-taal">🇹🇷</span><span class="tool-taal">🇺🇦</span><span class="tool-taal">🇦🇫</span>
       </div>
     </a>
 
-    <a href="loont-werken.html" class="tool-kaart">
+    <a href="maandbudget.html" class="tool-kaart">
       <div class="tool-kaart-header">
-        <div class="tool-emoji" style="background:#EBF3EE;">💶</div>
+        <div class="tool-emoji" style="background:#EBF3EE;">💬</div>
         <span class="tool-badge badge-browser">✓ Altijd beschikbaar</span>
       </div>
-      <div class="tool-naam">Loont Werken?</div>
-      <div class="tool-omschrijving">Bereken hoeveel je netto overhoudt als je gaat werken, vergeleken met je uitkering en toeslagen.</div>
+      <div class="tool-naam" data-i18n="tool-budget-naam">Maandbudget</div>
+      <div class="tool-omschrijving" data-i18n="tool-budget-omschrijving">Zet je inkomsten en uitgaven op een rij. Stap voor stap, in gewone taal. Download daarna een overzicht als PDF.</div>
       <div class="tool-talen">
         <span class="tool-taal">🇳🇱</span><span class="tool-taal">🇸🇦</span><span class="tool-taal">🇪🇹</span><span class="tool-taal">🇹🇷</span><span class="tool-taal">🇺🇦</span>
-      </div>
-    </a>
-
-    <a href="toeslagen.html" class="tool-kaart">
-      <div class="tool-kaart-header">
-        <div class="tool-emoji" style="background:#EBF3EE;">💰</div>
-        <span class="tool-badge badge-browser">✓ Altijd beschikbaar</span>
-      </div>
-      <div class="tool-naam">Toeslagen Calculator</div>
-      <div class="tool-omschrijving">Alle toeslagen in één overzicht: huurtoeslag, zorgtoeslag, kindgebonden budget en kinderopvangtoeslag.</div>
-      <div class="tool-talen">
-        <span class="tool-taal">🇳🇱</span><span class="tool-taal">🇸🇦</span><span class="tool-taal">🇪🇹</span><span class="tool-taal">🇹🇷</span><span class="tool-taal">🇺🇦</span><span class="tool-taal">🇦🇫</span>
-      </div>
-    </a>
-
-    <a href="18jaar.html" class="tool-kaart">
-      <div class="tool-kaart-header">
-        <div class="tool-emoji" style="background:#EBF3EE;">🎂</div>
-        <span class="tool-badge badge-browser">✓ Altijd beschikbaar</span>
-      </div>
-      <div class="tool-naam">18 Jaar Worden</div>
-      <div class="tool-omschrijving">Wat verandert er als jouw kind 18 wordt? Uitkering, toeslagen, rechten — alles uitgelegd.</div>
-      <div class="tool-talen">
-        <span class="tool-taal">🇳🇱</span><span class="tool-taal">🇸🇦</span><span class="tool-taal">🇪🇹</span><span class="tool-taal">🇺🇦</span>
-      </div>
-    </a>
-
-    <a href="naturalisatie.html" class="tool-kaart">
-      <div class="tool-kaart-header">
-        <div class="tool-emoji" style="background:#EBF3EE;">🇳🇱</div>
-        <span class="tool-badge badge-browser">✓ Altijd beschikbaar</span>
-      </div>
-      <div class="tool-naam">Naturalisatie Checker</div>
-      <div class="tool-omschrijving">Kom ik in aanmerking voor een Nederlands paspoort? Controleer de voorwaarden stap voor stap.</div>
-      <div class="tool-talen">
-        <span class="tool-taal">🇳🇱</span><span class="tool-taal">🇸🇦</span><span class="tool-taal">🇪🇹</span><span class="tool-taal">🇹🇷</span><span class="tool-taal">🇺🇦</span><span class="tool-taal">🇦🇫</span>
       </div>
     </a>
 
@@ -1250,12 +1221,11 @@
   <!-- Bekijk alle tools knop -->
   <div style="text-align:center; margin-top:2.5rem;">
     <a href="tools.html" class="knop-alle-tools">
-      Bekijk alle 10 tools
+      Bekijk alle tools
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="margin-left:6px;vertical-align:-2px;">
         <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </a>
-    <div style="margin-top:10px;font-size:0.78rem;color:var(--tekst-licht);">Inclusief Zorgverzekering, Medicijnen, Rechten & Plichten en NT2 Cursus</div>
   </div>
 
 </section>
@@ -1265,12 +1235,12 @@
   <div class="missie-inhoud">
     <div class="missie-tekst">
       <div class="sectie-label">Ons verhaal</div>
-      <h2 class="missie-titel">Gratis omdat de zon gratis is</h2>
-      <p class="missie-body">
+      <h2 class="missie-titel" data-i18n="missie-titel">Gratis omdat de zon gratis is</h2>
+      <p class="missie-body" data-i18n="missie-body1">
         Solidari draait op zonne-energie van zonnepanelen thuis. Als de zon schijnt, draaien de tools. Geen advertenties, geen abonnementen, geen data die we verkopen. Alleen eerlijke hulp, aangedreven door het licht van de zon.
       </p>
-      <p class="missie-body">
-        Statushouders staan voor een berg aan bureaucratie. Brieven die ze niet begrijpen, rechten die ze niet kennen, een taal die ze nog leren. Solidari helpt — een kleine bijdrage aan een eerlijker Nederland.
+      <p class="missie-body" data-i18n="missie-body2">
+        Brieven van de gemeente, de Belastingdienst of het UWV zijn voor veel mensen moeilijk te begrijpen. Niet omdat zij het niet zouden kunnen — maar omdat die brieven nu eenmaal ingewikkeld zijn. Solidari vertaalt die taal naar gewone mensen: duidelijk, gratis en zonder oordeel.
       </p>
       <a href="#" class="knop-primair" style="display:inline-block; margin-top:0.5rem;">Lees meer over ons</a>
     </div>
@@ -1316,20 +1286,20 @@
       <div class="sectie-label">Steun Solidari</div>
       <h2 class="donatie-titel">Als de zon niet<br>schijnt, <em>jij wel</em></h2>
       <p class="donatie-body">
-        Overdag draaien de AI-tools gratis op zonne-energie. Maar 's avonds, in de winter, op bewolkte dagen — dan stoppen ze. Met een donatie betalen we de cloudkosten zodat Solidari ook in het donker beschikbaar blijft.
+        Op zonnige dagen werken sommige tools op duurzame zonne-energie. Trekt er een wolk voor de zon? Dan nemen we even de cloud — want ook op grijze dagen heeft iedereen recht op een helder antwoord. Een donatie zorgt dat het licht aanblijft, wat voor weer het ook is.
       </p>
       <div class="donatie-uitleg">
         <div class="donatie-stap">
           <div class="donatie-stap-icoon" style="background:rgba(232,160,32,0.15);">☀️</div>
-          <span>Overdag: gratis op zonnepanelen thuis</span>
+          <span>Brief Begrijper &amp; Rechten: gratis op zonnepanelen</span>
         </div>
         <div class="donatie-stap">
           <div class="donatie-stap-icoon" style="background:rgba(255,255,255,0.08);">🌙</div>
-          <span>'s Avonds &amp; winter: cloud via donaties</span>
+          <span>Bewolkt of 's avonds: cloud via donaties</span>
         </div>
         <div class="donatie-stap">
-          <div class="donatie-stap-icoon" style="background:rgba(45,90,61,0.3);">💚</div>
-          <span>100% van donaties gaat naar serverkosten</span>
+          <div class="donatie-stap-icoon" style="background:rgba(45,90,61,0.3);">💛</div>
+          <span>Elke donatie gaat rechtstreeks naar de kosten van Solidari</span>
         </div>
       </div>
       <div class="donatie-meter-wrap">
@@ -1387,7 +1357,7 @@
         <line x1="29.9" y1="6.1" x2="26.4" y2="9.6" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
         <line x1="9.6" y1="26.4" x2="6.1" y2="29.9" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
       </svg>
-      <span class="footer-naam">Solid<span>a</span>ri</span>
+      <span class="footer-naam">Solid<span>a</span>r<span>i</span></span>
     </a>
     <div class="footer-midden">
       <a href="#">Privacy</a> · <a href="#">Disclaimer</a> · <a href="#">Contact</a><br>
@@ -1398,7 +1368,150 @@
 </footer>
 
 <script>
-  // Donatie bedrag kiezen
+  // ── VERTALINGEN ──
+  const vertalingen = {
+    NL: {
+      'hero-badge': '☀️ Tools actief — de zon schijnt',
+      'hero-titel': 'Gratis hulp,<br>aangedreven door<br><em>de zon</em>',
+      'hero-subtitel': 'Officiële brieven, toeslagen, rechten — uitgelegd in gewone taal. Gratis, voor iedereen.',
+      'knop-tools': 'Bekijk de tools',
+      'knop-verhaal': 'Ons verhaal',
+      'tools-label': 'Beschikbare tools',
+      'tools-titel': 'Wat kan Solidari voor je doen?',
+      'tools-subtitel': 'Officiële brieven, toeslagen, rechten — uitgelegd in gewone taal. Gratis, voor iedereen.',
+      'tool-brief-naam': 'Brief Begrijper',
+      'tool-brief-omschrijving': 'Maak een foto van je brief. Wij leggen uit wat er staat, wat je moet doen en wanneer.',
+      'tool-budget-naam': 'Maandbudget',
+      'tool-budget-omschrijving': 'Zet je inkomsten en uitgaven op een rij. Stap voor stap, in gewone taal. Download daarna een overzicht als PDF.',
+      'missie-titel': 'Gratis omdat de zon gratis is',
+      'missie-body1': 'Solidari draait op zonne-energie van zonnepanelen thuis. Als de zon schijnt, draaien de tools. Geen advertenties, geen abonnementen, geen data die we verkopen. Alleen eerlijke hulp, aangedreven door het licht van de zon.',
+      'missie-body2': 'Brieven van de gemeente, de Belastingdienst of het UWV zijn voor veel mensen moeilijk te begrijpen. Niet omdat zij het niet zouden kunnen — maar omdat die brieven nu eenmaal ingewikkeld zijn. Solidari vertaalt die taal naar gewone mensen: duidelijk, gratis en zonder oordeel.',
+    },
+    EN: {
+      'hero-badge': '☀️ Tools active — the sun is shining',
+      'hero-titel': 'Free help,<br>powered by<br><em>the sun</em>',
+      'hero-subtitel': 'Official letters, benefits, rights — explained in plain language. Free, for everyone.',
+      'knop-tools': 'View the tools',
+      'knop-verhaal': 'Our story',
+      'tools-label': 'Available tools',
+      'tools-titel': 'What can Solidari do for you?',
+      'tools-subtitel': 'Official letters, benefits, rights — explained in plain language. Free, for everyone.',
+      'tool-brief-naam': 'Letter Explainer',
+      'tool-brief-omschrijving': 'Take a photo of your letter. We explain what it says, what you need to do and when.',
+      'tool-budget-naam': 'Monthly Budget',
+      'tool-budget-omschrijving': 'Map out your income and expenses. Step by step, in plain language. Download a summary as PDF.',
+      'missie-titel': 'Free because the sun is free',
+      'missie-body1': 'Solidari runs on solar energy from home solar panels. When the sun shines, the tools run. No ads, no subscriptions, no data sold. Just honest help, powered by sunlight.',
+      'missie-body2': 'Official letters from government agencies can be hard to understand. Not because people can\'t — but because those letters are simply complicated. Solidari translates that language into plain words: clear, free and without judgment.',
+    },
+    AR: {
+      'hero-badge': '☀️ الأدوات نشطة — الشمس تشرق',
+      'hero-titel': 'مساعدة مجانية،<br>تعمل بالطاقة<br><em>الشمسية</em>',
+      'hero-subtitel': 'الرسائل الرسمية والمزايا والحقوق — موضحة بلغة بسيطة. مجانًا، للجميع.',
+      'knop-tools': 'اعرض الأدوات',
+      'knop-verhaal': 'قصتنا',
+      'tools-label': 'الأدوات المتاحة',
+      'tools-titel': 'ماذا يمكن لـ Solidari أن يفعل لك؟',
+      'tools-subtitel': 'الرسائل الرسمية والمزايا والحقوق — موضحة بلغة بسيطة. مجانًا، للجميع.',
+      'tool-brief-naam': 'فاهم الرسائل',
+      'tool-brief-omschrijving': 'التقط صورة لرسالتك. نشرح لك ما تعنيه، وما يجب فعله ومتى.',
+      'tool-budget-naam': 'الميزانية الشهرية',
+      'tool-budget-omschrijving': 'رتّب دخلك ونفقاتك خطوة بخطوة بلغة بسيطة. ثم حمّل ملخصًا كـ PDF.',
+      'missie-titel': 'مجاني لأن الشمس مجانية',
+      'missie-body1': 'يعمل Solidari بالطاقة الشمسية من الألواح الشمسية المنزلية. عندما تشرق الشمس، تعمل الأدوات. بلا إعلانات، بلا اشتراكات، بلا بيع للبيانات.',
+      'missie-body2': 'الرسائل الرسمية من الجهات الحكومية قد تكون صعبة الفهم — ليس لأن الناس لا يستطيعون، بل لأن تلك الرسائل معقدة. يترجم Solidari تلك اللغة إلى كلمات بسيطة: واضحة، مجانية، وبدون حكم.',
+    },
+    TR: {
+      'hero-badge': '☀️ Araçlar aktif — güneş parlıyor',
+      'hero-titel': 'Ücretsiz yardım,<br>güneş enerjisiyle<br><em>çalışıyor</em>',
+      'hero-subtitel': 'Resmi mektuplar, yardımlar, haklar — sade bir dilde anlatıldı. Ücretsiz, herkes için.',
+      'knop-tools': 'Araçlara bak',
+      'knop-verhaal': 'Hikayemiz',
+      'tools-label': 'Mevcut araçlar',
+      'tools-titel': 'Solidari sizin için ne yapabilir?',
+      'tools-subtitel': 'Resmi mektuplar, yardımlar, haklar — sade bir dilde anlatıldı. Ücretsiz, herkes için.',
+      'tool-brief-naam': 'Mektup Açıklayıcı',
+      'tool-brief-omschrijving': 'Mektubunuzun fotoğrafını çekin. Ne anlama geldiğini, ne yapmanız gerektiğini ve ne zaman yapmanız gerektiğini açıklıyoruz.',
+      'tool-budget-naam': 'Aylık Bütçe',
+      'tool-budget-omschrijving': 'Gelir ve giderlerinizi adım adım, sade bir dilde listeleyin. Ardından özeti PDF olarak indirin.',
+      'missie-titel': 'Güneş ücretsiz olduğu için ücretsiz',
+      'missie-body1': 'Solidari evdeki güneş panellerinden gelen güneş enerjisiyle çalışır. Güneş parlarken araçlar çalışır. Reklam yok, abonelik yok, veri satışı yok.',
+      'missie-body2': 'Resmi kurumlardan gelen mektuplar anlaması güç olabilir — insanların yetersizliğinden değil, mektupların karmaşık olduğundan. Solidari o dili sade kelimelere çevirir: açık, ücretsiz ve yargılamadan.',
+    },
+    TI: {
+      'hero-badge': '☀️ መሳርሒታት ንጡፋት — ጸሓይ ትበርህ ኣላ',
+      'hero-titel': 'ናጻ ሓገዝ,<br>ብሓይሊ<br><em>ፀሓይ</em>',
+      'hero-subtitel': 'ወግዓዊ ደብዳቤታት፣ ሓጋዚ ኣበርክቶ፣ መሰላት — ብቅልል ዝበለ ቋንቋ ይብርህ። ናጻ፣ ንኩሉ።',
+      'knop-tools': 'መሳርሒታት ርኣ',
+      'knop-verhaal': 'ዛንታና',
+      'tools-label': 'ዝርከቡ መሳርሒታት',
+      'tools-titel': 'Solidari ንዓኻ እንታይ ክገብር ይኽእል?',
+      'tools-subtitel': 'ወግዓዊ ደብዳቤታት፣ ሓጋዚ ኣበርክቶ፣ መሰላት — ብቅልል ዝበለ ቋንቋ ይብርህ። ናጻ፣ ንኩሉ።',
+      'tool-brief-naam': 'ደብዳቤ ኣብርሃዮ',
+      'tool-brief-omschrijving': 'ናይ ደብዳቤኻ ስእሊ ውሰድ። እንታይ ዝብል፣ እንታይ ክትገብር ከምዘለካን መዓዝን ነብርህ።',
+      'tool-budget-naam': 'ወርሓዊ ባጀት',
+      'tool-budget-omschrijving': 'ኣታዊኻን ወጻኢኻን ስርዕ። ስጉምቲ ብስጉምቲ፣ ብቅልል ዝበለ ቋንቋ። ድሕሪኡ ድምርካ ከም PDF ኣውርዶ።',
+      'missie-titel': 'ፀሓይ ናጻ ስለዝኾነት ናጻ ኢና',
+      'missie-body1': 'Solidari ብናይ ገዛ ጸሓያዊ ፓነላት ዝምዝዘ ሓይሊ ፀሓይ ይሰርሕ። ፀሓይ ምስ ትበርህ፣ መሳርሒታት ይሰርሑ። ዋላ ሓደ ወዛ፣ ዋጋ ምምዝጋብ፣ ወይ ናይ ዳታ ሽያጥ የለን።',
+      'missie-body2': 'ወግዓዊ ደብዳቤታት ናብ ምርዳእ ኣጸጋሚ ክኾኑ ይኽእሉ — ሰባት ብቕዓት ስለዘይብሎም ዘይኮነ፣ እቶም ደብዳቤታት ነኣሽቱ ስለዝኾኑ ደኣ። Solidari እቲ ቋንቋ ናብ ቅልል ዝበሉ ቃላት ይትርጉሞ።',
+    },
+    UK: {
+      'hero-badge': '☀️ Інструменти активні — сонце світить',
+      'hero-titel': 'Безкоштовна допомога,<br>що працює від<br><em>сонця</em>',
+      'hero-subtitel': 'Офіційні листи, пільги, права — пояснені простою мовою. Безкоштовно, для всіх.',
+      'knop-tools': 'Переглянути інструменти',
+      'knop-verhaal': 'Наша історія',
+      'tools-label': 'Доступні інструменти',
+      'tools-titel': 'Що Solidari може зробити для вас?',
+      'tools-subtitel': 'Офіційні листи, пільги, права — пояснені простою мовою. Безкоштовно, для всіх.',
+      'tool-brief-naam': 'Пояснення листів',
+      'tool-brief-omschrijving': 'Сфотографуйте свого листа. Ми пояснимо, що там написано, що потрібно зробити і коли.',
+      'tool-budget-naam': 'Місячний бюджет',
+      'tool-budget-omschrijving': 'Занесіть свої доходи та витрати крок за кроком, простою мовою. Завантажте зведення у форматі PDF.',
+      'missie-titel': 'Безкоштовно, бо сонце безкоштовне',
+      'missie-body1': 'Solidari працює від сонячної енергії домашніх панелей. Коли сонце світить — інструменти працюють. Без реклами, без підписок, без продажу даних.',
+      'missie-body2': 'Офіційні листи від державних установ можуть бути важкими для розуміння — не тому що люди не здатні, а тому що ці листи просто складні. Solidari перекладає цю мову на прості слова: зрозуміло, безкоштовно і без осуду.',
+    },
+    FA: {
+      'hero-badge': '☀️ ابزارها فعال هستند — آفتاب می‌تابد',
+      'hero-titel': 'کمک رایگان،<br>با انرژی<br><em>خورشید</em>',
+      'hero-subtitel': 'نامه‌های رسمی، کمک‌هزینه‌ها، حقوق — به زبان ساده توضیح داده شده. رایگان، برای همه.',
+      'knop-tools': 'مشاهده ابزارها',
+      'knop-verhaal': 'داستان ما',
+      'tools-label': 'ابزارهای موجود',
+      'tools-titel': 'Solidari چه کاری برای شما می‌تواند انجام دهد؟',
+      'tools-subtitel': 'نامه‌های رسمی، کمک‌هزینه‌ها، حقوق — به زبان ساده توضیح داده شده. رایگان، برای همه.',
+      'tool-brief-naam': 'توضیح نامه',
+      'tool-brief-omschrijving': 'از نامه‌تان عکس بگیرید. ما توضیح می‌دهیم چه می‌گوید، چه باید بکنید و چه زمانی.',
+      'tool-budget-naam': 'بودجه ماهانه',
+      'tool-budget-omschrijving': 'درآمد و هزینه‌هایتان را گام به گام، به زبان ساده وارد کنید. سپس خلاصه را به صورت PDF دانلود کنید.',
+      'missie-titel': 'رایگان چون خورشید رایگان است',
+      'missie-body1': 'Solidari با انرژی خورشیدی از پنل‌های خانگی کار می‌کند. وقتی آفتاب می‌تابد، ابزارها کار می‌کنند. بدون تبلیغات، بدون اشتراک، بدون فروش داده.',
+      'missie-body2': 'نامه‌های رسمی از سازمان‌های دولتی ممکن است سخت‌فهم باشند — نه به خاطر ناتوانی مردم، بلکه چون این نامه‌ها پیچیده‌اند. Solidari آن زبان را به کلمات ساده ترجمه می‌کند: روشن، رایگان و بدون قضاوت.',
+    },
+  };
+
+  // RTL talen
+  const rtlTalen = ['AR', 'FA'];
+
+  function passTaalToe(taal) {
+    const t = vertalingen[taal];
+    if (!t) return;
+
+    // RTL instellen
+    document.documentElement.dir = rtlTalen.includes(taal) ? 'rtl' : 'ltr';
+    document.documentElement.lang = taal.toLowerCase();
+
+    // Alle data-i18n elementen vertalen
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const sleutel = el.getAttribute('data-i18n');
+      if (t[sleutel] !== undefined) {
+        el.innerHTML = t[sleutel];
+      }
+    });
+  }
+
+  // ── DONATIE ──
   let gekozenBedrag = '5';
   function kiesBedrag(el, bedrag) {
     document.querySelectorAll('.donatie-bedrag').forEach(b => b.classList.remove('actief'));
@@ -1413,15 +1526,16 @@
     alert(`Bedankt! Je doneert €${bedrag}.\n\nIn de echte versie wordt je doorgestuurd naar iDEAL.`);
   }
 
-  // Taal knoppen
+  // ── TAAL KNOPPEN ──
   document.querySelectorAll('.taal-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.taal-btn').forEach(b => b.classList.remove('actief'));
       btn.classList.add('actief');
+      passTaalToe(btn.textContent.trim());
     });
   });
 
-  // Smooth scroll voor nav links
+  // ── SMOOTH SCROLL ──
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
       const href = a.getAttribute('href');
