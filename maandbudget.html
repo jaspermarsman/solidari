@@ -149,6 +149,31 @@
     .voortgang-strip{height:3px;background:var(--rand);flex-shrink:0;}
     .voortgang-vul{height:100%;background:var(--amber);transition:width 0.4s ease;}
 
+    /* ── AI ANALYSE KAART ── */
+    .ai-uitnodiging{background:linear-gradient(135deg,#0F2318 0%,#1B3D2A 100%);border-radius:18px 18px 18px 4px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.15);width:100%;}
+    .ai-header{padding:1rem 1.2rem;display:flex;align-items:center;gap:10px;}
+    .ai-zon{font-size:24px;flex-shrink:0;}
+    .ai-header-tekst{flex:1;}
+    .ai-titel{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:white;margin-bottom:2px;}
+    .ai-sub{font-size:0.75rem;color:rgba(255,255,255,0.55);}
+    .ai-privacy{background:rgba(255,255,255,0.06);border-top:1px solid rgba(255,255,255,0.08);padding:0.7rem 1.2rem;font-size:0.75rem;color:rgba(255,255,255,0.5);line-height:1.5;}
+    .ai-knoppen{padding:0.8rem 1.2rem;display:flex;gap:8px;}
+    .ai-ja-btn{flex:2;padding:11px;background:var(--amber);border:none;border-radius:10px;font-size:0.9rem;font-weight:600;cursor:pointer;color:white;font-family:'Source Sans 3',sans-serif;transition:all 0.2s;}
+    .ai-ja-btn:hover{background:var(--amber-diep);}
+    .ai-nee-btn{flex:1;padding:11px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:10px;font-size:0.88rem;cursor:pointer;color:rgba(255,255,255,0.7);font-family:'Source Sans 3',sans-serif;transition:all 0.2s;}
+    .ai-nee-btn:hover{background:rgba(255,255,255,0.12);}
+    .gemeente-wrap{display:flex;gap:8px;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.15);border-radius:14px;overflow:hidden;padding:0 12px;transition:border-color 0.2s;}
+    .gemeente-wrap:focus-within{border-color:var(--amber);}
+    .gemeente-input{flex:1;padding:14px 0;font-size:1.1rem;border:none;background:transparent;color:white;outline:none;font-family:'Source Sans 3',sans-serif;font-weight:500;}
+    .gemeente-input::placeholder{color:rgba(255,255,255,0.35);font-weight:300;}
+    .bel-sol.ai-analyse{background:#0F2318;border:1px solid rgba(232,160,32,0.2);color:rgba(255,255,255,0.85);font-size:0.88rem;line-height:1.65;}
+    .bel-sol.ai-analyse a{color:var(--amber);text-decoration:none;}
+    .bel-sol.ai-analyse strong{color:white;}
+    .ai-laden{display:flex;align-items:center;gap:8px;font-size:0.82rem;color:rgba(255,255,255,0.5);padding:4px 0;}
+    .ai-laden-dots span{animation:tikken 1.2s infinite;display:inline-block;width:5px;height:5px;background:var(--amber);border-radius:50%;margin:0 1px;}
+    .ai-laden-dots span:nth-child(2){animation-delay:0.2s;}
+    .ai-laden-dots span:nth-child(3){animation-delay:0.4s;}
+
     @media(max-width:480px){.nav-midden{display:none;}.chat-wrap{padding:0 0.6rem;}}
     @media print{nav,.invoer-zone,.res-acties{display:none;}}
   </style>
@@ -301,6 +326,18 @@ const T = {
     adv_neg:(n)=>`Je geeft ${fmt(Math.abs(n))} meer uit dan je verdient. Praat met een budgetcoach — die helpt gratis.`,
     adv_spaar:(n)=>`Je spaart ${fmt(n)} per maand (${fmt(n*12)} per jaar).`,
     adv_toeslag:'Controleer altijd of je recht hebt op toeslagen via belastingdienst.nl.',
+    ai_uitnodiging_titel:'Wil je persoonlijk advies?',
+    ai_uitnodiging_sub:'☀️ Aangedreven door Claude AI',
+    ai_uitnodiging_tekst:'Ik kan je budget analyseren en uitzoeken welke hulp er in jouw gemeente beschikbaar is.',
+    ai_privacy:'Je budgetbedragen en gemeente worden doorgestuurd naar een beveiligde AI-dienst. Geen namen, geen rekeningnummers. De gegevens worden niet opgeslagen.',
+    ai_ja:'Ja, analyseer mijn budget →',
+    ai_nee:'Nee, dank je',
+    ai_gemeente_v:'In welke gemeente woon je?',
+    ai_gemeente_placeholder:'Bijv. Utrecht, Lelystad, Amsterdam...',
+    ai_laden:'Ik analyseer je budget en zoek hulp in jouw gemeente op...',
+    ai_tab_hulp:'Hulp in',
+    ai_kolom_regeling:'Regeling',
+    ai_kolom_contact:'Contact / Website',
     // Weekbudget
     week_titel:'Jouw weekbudget',
     week_sub:'Zo ziet jouw vrije ruimte er wekelijks uit',
@@ -410,6 +447,18 @@ const T = {
     adv_neg:(n)=>`You spend ${fmt(Math.abs(n))} more than you earn. Talk to a budget coach — it is free.`,
     adv_spaar:(n)=>`You save ${fmt(n)} per month (${fmt(n*12)} per year).`,
     adv_toeslag:'Always check if you qualify for allowances at belastingdienst.nl.',
+    ai_uitnodiging_titel:'Would you like personal advice?',
+    ai_uitnodiging_sub:'☀️ Powered by Claude AI',
+    ai_uitnodiging_tekst:'I can analyse your budget and find out what help is available in your municipality.',
+    ai_privacy:'Your budget amounts and municipality will be sent to a secure AI service. No names, no account numbers. The data is not stored.',
+    ai_ja:'Yes, analyse my budget →',
+    ai_nee:'No thanks',
+    ai_gemeente_v:'In which municipality do you live?',
+    ai_gemeente_placeholder:'E.g. Utrecht, Lelystad, Amsterdam...',
+    ai_laden:'Analysing your budget and searching for help in your municipality...',
+    ai_tab_hulp:'Help in',
+    ai_kolom_regeling:'Scheme',
+    ai_kolom_contact:'Contact / Website',
     week_titel:'Your weekly budget',
     week_sub:'This is what your free spending looks like each week',
     week_dag_label:'Free to spend per day',
@@ -513,6 +562,18 @@ const T = {
     adv_neg:(n)=>`تنفق ${fmt(Math.abs(n))} أكثر مما تكسب. تحدث مع مستشار ميزانية — مجاناً.`,
     adv_spaar:(n)=>`تدخر ${fmt(n)} شهرياً (${fmt(n*12)} سنوياً).`,
     adv_toeslag:'تحقق دائماً من حقك في الإعانات على belastingdienst.nl.',
+    ai_uitnodiging_titel:'هل تريد نصيحة شخصية؟',
+    ai_uitnodiging_sub:'☀️ مدعوم بـ Claude AI',
+    ai_uitnodiging_tekst:'يمكنني تحليل ميزانيتك ومعرفة المساعدة المتاحة في بلديتك.',
+    ai_privacy:'سيتم إرسال مبالغ ميزانيتك وبلديتك إلى خدمة AI آمنة. لا أسماء، لا أرقام حسابات. البيانات لا تُخزَّن.',
+    ai_ja:'نعم، حلل ميزانيتي ←',
+    ai_nee:'لا، شكراً',
+    ai_gemeente_v:'في أي بلدية تعيش؟',
+    ai_gemeente_placeholder:'مثلاً أوتريخت، ليلستاد، أمستردام...',
+    ai_laden:'أحلل ميزانيتك وأبحث عن المساعدة في بلديتك...',
+    ai_tab_hulp:'مساعدة في',
+    ai_kolom_regeling:'البرنامج',
+    ai_kolom_contact:'الاتصال / الموقع',
     week_titel:'ميزانيتك الأسبوعية', week_sub:'هكذا تبدو مساحتك الحرة كل أسبوع',
     week_dag_label:'حر للإنفاق يومياً',
     week_boodschappen:'🛒 البقالة', week_boodschappen_sub:'ميزانيتك الشهرية مقسومة على 4.3',
@@ -612,6 +673,18 @@ const T = {
     adv_neg:(n)=>`Kazandığınızdan ${fmt(Math.abs(n))} fazla harcıyorsunuz. Bütçe danışmanıyla konuşun — ücretsiz.`,
     adv_spaar:(n)=>`Ayda ${fmt(n)} biriktiriyorsunuz (yılda ${fmt(n*12)}).`,
     adv_toeslag:'belastingdienst.nl\'de yardım hakkınız olup olmadığını kontrol edin.',
+    ai_uitnodiging_titel:'Kişisel tavsiye ister misiniz?',
+    ai_uitnodiging_sub:'☀️ Claude AI destekli',
+    ai_uitnodiging_tekst:'Bütçenizi analiz edebilir ve belediyenizde mevcut yardımları bulabilirim.',
+    ai_privacy:'Bütçe tutarlarınız ve belediyeniz güvenli bir AI hizmetine gönderilecek. İsim yok, hesap numarası yok. Veriler saklanmaz.',
+    ai_ja:'Evet, bütçemi analiz et →',
+    ai_nee:'Hayır, teşekkürler',
+    ai_gemeente_v:'Hangi belediyede yaşıyorsunuz?',
+    ai_gemeente_placeholder:'Örn. Utrecht, Lelystad, Amsterdam...',
+    ai_laden:'Bütçenizi analiz ediyor ve belediyenizdeki yardımları arıyorum...',
+    ai_tab_hulp:'Yardım -',
+    ai_kolom_regeling:'Program',
+    ai_kolom_contact:'İletişim / Web sitesi',
     week_titel:'Haftalık bütçen', week_sub:'Serbest harcama alanın her hafta böyle görünüyor',
     week_dag_label:'Günlük serbest harcama',
     week_boodschappen:'🛒 Market', week_boodschappen_sub:'Aylık bütçenizi 4,3\'e bölün',
@@ -711,12 +784,237 @@ const T = {
     adv_neg:(n)=>`Витрачаєш на ${fmt(Math.abs(n))} більше, ніж заробляєш. Зверніться до бюджетного консультанта — безкоштовно.`,
     adv_spaar:(n)=>`Відкладаєш ${fmt(n)} на місяць (${fmt(n*12)} на рік).`,
     adv_toeslag:'Завжди перевіряй право на субсидії на belastingdienst.nl.',
+    ai_uitnodiging_titel:'Хочеш особисту пораду?',
+    ai_uitnodiging_sub:'☀️ На основі Claude AI',
+    ai_uitnodiging_tekst:'Я можу проаналізувати твій бюджет і знайти допомогу в твоєму муніципалітеті.',
+    ai_privacy:'Суми твого бюджету та муніципалітет будуть надіслані до захищеного AI-сервісу. Без імен, без номерів рахунків. Дані не зберігаються.',
+    ai_ja:'Так, проаналізуй мій бюджет →',
+    ai_nee:'Ні, дякую',
+    ai_gemeente_v:'У якому муніципалітеті ти живеш?',
+    ai_gemeente_placeholder:'Напр. Utrecht, Lelystad, Amsterdam...',
+    ai_laden:'Аналізую бюджет і шукаю допомогу в твоєму муніципалітеті...',
+    ai_tab_hulp:'Допомога в',
+    ai_kolom_regeling:'Програма',
+    ai_kolom_contact:'Контакт / Веб-сайт',
     week_titel:'Твій тижневий бюджет', week_sub:'Ось як виглядає твій вільний простір щотижня',
     week_dag_label:'Вільні кошти на день',
     week_boodschappen:'🛒 Продукти', week_boodschappen_sub:'Місячний бюджет поділений на 4,3',
     week_vrij:'🎉 Прогулянки та дозвілля', week_vrij_sub:'Для кіно, їжі поза домом або активностей',
     week_overig:'🎁 Інше (подарунки, снеки, спонтанне)', week_overig_sub:'Для всього незапланованого',
     week_uitleg:'Цей тижневий бюджет орієнтовний. Деякі тижні витрачаєш більше, інші менше. Важливо — місячний середній.',
+  },
+  ti:{
+    welkom:'ሰላም! ወርሓዊ ቍጠባኻ/ኺ ንምድላዋ ክሕግዘካ/ኪ እዩ።\nሓደ ሓደ ሕቶ ክሓተካ/ኪ እዩ። ብሓባር ክንርኢ ኢና ክንደይ ገንዘብ ይተርፈካ/ኪ።',
+    start:'ንጀምር 👇',
+    sit_v:'ኣብ ቤትካ/ኪ መን ይቕመጥ?',
+    sit_opties:[
+      {id:'alleen',   l:'👤 ኣነ ጥራይ'},
+      {id:'stel',     l:'👫 ኣነን ኣጋርን'},
+      {id:'eenouder', l:'👩‍👧 ኣነን ቆልዑተይን'},
+      {id:'gezin',    l:'👨‍👩‍👧‍👦 ንሕና ምስ ቆልዑ'},
+    ],
+    inkomen_v:'ኣብ ወርሒ ክንደይ ገንዘብ ትቕበል/ትቕበሊ?',
+    inkomen_u:'እዚ ናይ ወርሒ ደሞዝካ/ኪ ወይ ሓገዝካ/ኪ እዩ — ናብ ሕሳብካ/ኪ ዝኣቱ ሓቀኛ ሕቶ።',
+    huur_v:'ኣብ ወርሒ ንቤትካ/ኪ ክንደይ ትኸፍል/ትኸፍሊ?',
+    huur_u:'',
+    huur_hoog:(p)=>`እዚ ${p}% ናይ ኣታዊኻ/ኪ እዩ። Nibud ዝበዝሕ 35–40% ይምዕዶ።`,
+    huur_ok:(p)=>`እዚ ${p}% ናይ ኣታዊኻ/ኪ እዩ። ጽቡቕ ዝምድና።`,
+    huurtsl_v:'ናይ ኣከራይ ሓገዝ ትቕበል/ትቕበሊ ዲኻ/ዲኺ?',
+    huurtsl_u:'ናይ ኣከራይ ሓገዝ ናይ መንግስቲ ኣበርክቶ እዩ።',
+    huurtsl_ja_v:'ኣብ ወርሒ ክንደይ ናይ ኣከራይ ሓገዝ ትቕበል/ትቕበሊ?',
+    huurtsl_ja_u:'ኣብ belastingdienst.nl ወይ ኣብ app ርኣዮ።',
+    huurtsl_ja_r:'ጽቡቕ! ሓቀኛ ናይ ምንባር ወጻኢኻ/ኪ ካብ ኣከራይካ/ኪ ዝነኣሰ እዩ።',
+    huurtsl_nee_tip:'ኣብ belastingdienst.nl ፈትሾ — ዓ/ዓ ናይ ሚዳቦ ምስቀልዕ ዕድል ኣሎ።',
+    energie_v:'ኣብ ወርሒ ንጋዝ ሃዲ ጠዐምቲ ክንደይ ትኸፍል/ትኸፍሊ?',
+    energie_u:'ሓቢርካ/ኪ ናይ ወርሒ ዝኸፍሎ ሕሰብ።',
+    energie_hoog:'እዚ ካብ ሰርዓዊ ዝዛይድ እዩ።',
+    energie_laag:'እዚ ትሑት ይመስሎ — ጋዝ ሃዲ ማይ ኩሉ ሓቢርካ/ኪ ዲኻ/ዲኺ?',
+    telefoon_v:'ኣብ ወርሒ ንተሌፎንን ኢንተርነትን ክንደይ ትኸፍል/ትኸፍሊ?',
+    telefoon_u:'ናይ ተሌፎን ኣቦነትን ናይ ቤት ኢንተርነትን ሓቢርካ/ኪ።',
+    telefoon_hoog:'እዚ ዝዛይድ እዩ — ርካሽ ኣቦነት ርኸብ/ርኸቢ።',
+    zorgverzek_v:'ኣብ ወርሒ ንናይ ጥዕና ዋሕስ ክንደይ ትኸፍል/ትኸፍሊ?',
+    zorgverzek_u:'ናይ ወርሒ ፕሪምዩምካ/ኪ ንናይ ጥዕና ዋሕስ።',
+    zorgverzek_laag:'እዚ ንናይ ጥዕና ዋሕስ ትሑት ይመስሎ — ዝሰርዕ €130–150 ኣብ ወርሒ እዩ።',
+    zorgverzek_hoog:'እዚ ካብ ሰርዓዊ ዝዛይድ እዩ።',
+    zorgtsl_v:'ናይ ጥዕና ሓገዝ ትቕበል/ትቕበሊ ዲኻ/ዲኺ?',
+    zorgtsl_u:'ናይ ጥዕና ሓገዝ ናይ ዋሕስ ወጻኢ ይሕግዞ።',
+    zorgtsl_ja_v:'ኣብ ወርሒ ክንደይ ናይ ጥዕና ሓገዝ ትቕበል/ትቕበሊ?',
+    zorgtsl_ja_u:'ኣብ belastingdienst.nl ርኣዮ።',
+    zorgtsl_nee_tip:'ምናልባት ዕድል ኣሎካ/ኪ — ኣብ belastingdienst.nl ፈትሾ።',
+    auto_v:'መኪና ኣሎካ/ኪ ዲዩ?',
+    autoverzek_v:'ናይ መኪና ዋሕስ ኣብ ወርሒ ክንደይ ትኸፍል/ትኸፍሊ?',
+    autoverzek_u:'ናይ ወርሒ ዋጋ። ዓ/ዓ ብ12 ዳርጋ።',
+    inboedel_v:'ናይ ዕቃ ዋሕስ ኣብ ወርሒ ክንደይ ትኸፍል/ትኸፍሊ?',
+    inboedel_u:'ናይ ቤት ዕቃ ዋሕስ።',
+    inboedel_laag:'ናይ ዕቃ ዋሕስ ኣሎካ/ኪ ዲዩ? ኣብ ሓዊ ወይ ስርቂ ኣገዳሲ እዩ።',
+    begrafenis_v:'ናይ ቀብሪ ዋሕስ ኣሎካ/ኪ ዲዩ?',
+    begrafenis_ja_v:'ናይ ቀብሪ ዋሕስ ኣብ ወርሒ ክንደይ ትኸፍል/ትኸፍሊ?',
+    begrafenis_ja_u:'ብ12 ወይ 3 ዳርጋ።',
+    vervoer_v:'ኣብ ወርሒ ንመጓዓዝያ ክንደይ ትኸፍል/ትኸፍሊ?',
+    vervoer_u:'OV ኣቦነት ነዳዲ ወይ ብሽክለታ ዕቃ።',
+    vervoer_nul:'ዋሕስ ናይ መጓዓዝያ ወጻኢ የለን?',
+    schulden_v:'ልቓሕ ወይ ናይ ምኽፋል ስምምዕ ኣሎካ/ኪ ዲዩ?',
+    schulden_u:'ናይ ወርሒ ክፍሊት ሓሳብ።',
+    schulden_ja_v:'ኣብ ወርሒ ናብ ልቓሕ ክንደይ ትኸፍል/ትኸፍሊ?',
+    schulden_ja_u:'ሓቢርካ/ኪ ናይ ወርሒ ጠቕላሊ ሕሰብ።',
+    schulden_r:'ልቓሕ ናብ ቍጠባኻ/ኪ ይጸሉ — ሓጋዚ ነፃ ክሕግዘካ/ኪ ይኽእሉ።',
+    abonnem_v:'Netflix Spotify ወይ gym ኣቦነት ኣሎካ/ኪ ዲዩ?',
+    abonnem_u:'ሓደ ሓደ ወስኽ/ወስኺ — ናይ ወርሒ ዋጋ ናይ ነፍሲ ወከፍ።',
+    abonnem_hoog:'ብዙሕ ኣቦነት ኣሎካ/ኪ — ኩሉ ትጥቀምሉ/ትጥቀምሉዶ?',
+    boodschappen_v:'ኣብ ወርሒ ንዕዳጋ ክንደይ ትኸፍል/ትኸፍሊ?',
+    boodschappen_u:'መጋቢ — ናይ ሰሙን × 4 = ወርሒ።',
+    boodschappen_week:'💡 ናይ ሰሙን ዕዳጋ × 4 ≈ ናይ ወርሒ ዋጋ።',
+    boodschappen_laag:'ትሑት ይመስሎ — ናይ ምጽራይ ሳሙና ወዘተ ሓቢርካ/ኪ ዲኻ/ዲኺ?',
+    boodschappen_hoog:'ካብ Nibud ሰርዓዊ ዝዛይድ እዩ።',
+    overig_v:'ካልእ ቀሰን ወጻኢ ኣሎካ/ኪ ዲዩ?',
+    overig_u:'ስም ናይ ወጻኢ ምስ ዋጋ ጸሓፍ/ጸሓፊ።',
+    overig_nul:'ካልእ ቀሰን ወጻኢ ዘይብልካ/ኪ ዲዩ?',
+    sparen_v:'ኣብ ወርሒ ክንደይ ምቍጣብ ትደሊ/ትደልዪ?',
+    sparen_u:'ምቍጣብ ሓደ ኣፍ ንምሃብ ኣገዳሲ እዩ። ንኡስ ዋጋ ይሕግዝ።',
+    sparen_jaar:(n)=>`ኣብ ዓ/ዓ €${Math.round(n*12).toLocaleString('nl-NL')} ይኸውን።`,
+    sparen_tip:'ቦታ ኣሎካ/ኪ — €25 ኣብ ወርሒ ውን ሓቂ ይሕግዝ።',
+    ja:'✅ እወ', nee:'❌ ኣይፋልን',
+    stuur:'→', overslaan:'ኣይፈልጥን — ሓሊፍ/ሓሊፊ',
+    naam_placeholder:'ናይ ወጻኢ ዓይነት?',
+    bedrag_placeholder:'ዋጋ',
+    res_titel:'ናይ ወርሒ ቍጠባኻ/ኪ', res_sub:'Nibud ሓሙሽተ 2025',
+    overschot:'ናይ ወርሒ ዝተረፈ', tekort:'ናይ ወርሒ ጉድለት',
+    per_week:'ናይ ሰሙን', per_dag:'ናይ ዕለት',
+    inkomen_lbl:'ጠቕላሊ ኣታዊ', netto_woon:'ድሕሪ ሓገዝ', totaal_uit:'ጠቕላሊ ወጻኢ',
+    excel_btn:'Excel ምውራድ', pdf_btn:'PDF ንምሓዝ', print_btn:'🖨 ምሕታም', opnieuw_btn:'ካብ ጀምር', excel_bezig:'Excel...', pdf_bezig:'PDF...',
+    nibud_bron:'Nibud July 2025',
+    disclaimer:'ምልክታ ጥራይ። VluchtelingenWerk ርኸቦ/ርኸቢ።',
+    badge_hoog:'ዝዛይድ', badge_ok:'ጽቡቕ',
+    kolom_post:'ኣፍ', kolom_maand:'ወርሒ (€)', kolom_nibud:'Nibud (€)',
+    kolom_categorie:'ዓይነት', kolom_week:'ሰሙን (€)', kolom_dag:'ዕለት (€)',
+    tab_budget:'ቍጠባ', tab_week:'ናይ ሰሙን',
+    sectie_inkomsten:'ኣታዊ', sectie_uitgaven:'ወጻኢ', sparen_lbl:'ምቍጣብ',
+    adv_pos:(n)=>`€${Math.round(n)} ናይ ወርሒ ይተርፈካ/ኪ።`,
+    adv_neg:(n)=>`€${Math.round(Math.abs(n))} ዝዛይድ ትኸፍል/ትኸፍሊ — ሓጋዚ ርኸብ/ርኸቢ።`,
+    adv_spaar:(n)=>`€${Math.round(n)} ኣብ ወርሒ ትቍጥብ/ትቍጥቢ።`,
+    adv_toeslag:'ኣብ belastingdienst.nl ናይ ሓገዝ ዕድሎት ፈትሾ።',
+    ai_uitnodiging_titel:'ናይ ውልቂ ምኽሪ ትደሊ/ትደልዪ ዲኻ/ዲኺ?',
+    ai_uitnodiging_sub:'☀️ Claude AI',
+    ai_uitnodiging_tekst:'ቍጠባኻ/ኪ ኣጽናዕ/ኣጽናዒ — ናይ ዓዲ ሓገዝ ንደሊ።',
+    ai_privacy:'ዋጋታት ጥራይ ናብ AI ይልኣኹ — ስም ወይ ሕሳብ ቁጽሪ ኣይልኣኩን።',
+    ai_ja:'እወ ↗', ai_nee:'ኣይፋልን',
+    ai_gemeente_v:'ኣብ ዓዲ ትቕመጥ/ትቕምጢ?',
+    ai_gemeente_placeholder:'Utrecht Lelystad Amsterdam...',
+    ai_laden:'ቍጠባኻ/ኪ ኣጽናዕ/ኣጽናዒ...',
+    ai_tab_hulp:'ሓገዝ ኣብ', ai_kolom_regeling:'ፕሮግራም', ai_kolom_contact:'ርክብ',
+    week_titel:'ናይ ሰሙን ቍጠባ', week_sub:'ናይ ሰሙን ናፍቖ',
+    week_dag_label:'ናይ ዕለት ናፍቖ',
+    week_boodschappen:'🛒 ዕዳጋ', week_boodschappen_sub:'÷ 4.3',
+    week_vrij:'🎭 መዘናግዒ', week_vrij_sub:'ፊልምን ወጻኢን',
+    week_overig:'🎁 ካልእ', week_overig_sub:'ሓበሬታ ዘይብሉ ወጻኢ',
+    week_uitleg:'ምልክታ ጥራይ።',
+  },
+  fa:{
+    welkom:'سلام! من به شما کمک می‌کنم بودجه ماهانه‌تان را بررسی کنید.\nیک سوال در یک وقت می‌پرسم. با هم می‌بینیم چقدر پول می‌ماند.',
+    start:'بیایید شروع کنیم 👇',
+    sit_v:'در خانه‌تان چه کسانی زندگی می‌کنند؟',
+    sit_opties:[
+      {id:'alleen',   l:'👤 تنها خودم'},
+      {id:'stel',     l:'👫 من و همسرم'},
+      {id:'eenouder', l:'👩‍👧 من و فرزندانم'},
+      {id:'gezin',    l:'👨‍👩‍👧‍👦 ما با فرزندان'},
+    ],
+    inkomen_v:'در ماه چقدر پول دریافت می‌کنید؟',
+    inkomen_u:'این حقوق خالص یا کمک شماست — مبلغی که واقعاً به حسابتان می‌رسد.',
+    huur_v:'در ماه چقدر برای اجاره یا رهن می‌پردازید؟',
+    huur_u:'',
+    huur_hoog:(p)=>`این ${p}٪ درآمد شماست. Nibud حداکثر ۳۵–۴۰٪ توصیه می‌کند.`,
+    huur_ok:(p)=>`این ${p}٪ درآمد شماست. نسبت خوبی است.`,
+    huurtsl_v:'آیا کمک اجاره دریافت می‌کنید؟',
+    huurtsl_u:'کمک اجاره یک کمک دولتی است وقتی اجاره نسبت به درآمد زیاد است.',
+    huurtsl_ja_v:'در ماه چقدر کمک اجاره دریافت می‌کنید؟',
+    huurtsl_ja_u:'در belastingdienst.nl یا اپ ببینید.',
+    huurtsl_ja_r:'عالی! هزینه واقعی مسکن شما کمتر از اجاره است.',
+    huurtsl_nee_tip:'شاید حق داشته باشید. در belastingdienst.nl بررسی کنید.',
+    energie_v:'در ماه چقدر برای گاز، برق و آب می‌پردازید؟',
+    energie_u:'مجموع پیش‌پرداخت ماهانه یا مبلغ ثابت.',
+    energie_hoog:'این بالاتر از میانگین است.',
+    energie_laag:'این کم به نظر می‌رسد — گاز، برق و آب همه با هم؟',
+    telefoon_v:'در ماه چقدر برای تلفن و اینترنت می‌پردازید؟',
+    telefoon_u:'اشتراک تلفن و اینترنت خانه با هم.',
+    telefoon_hoog:'این نسبتاً زیاد است — اشتراک ارزان‌تر پیدا کنید.',
+    zorgverzek_v:'در ماه چقدر بیمه درمانی می‌پردازید؟',
+    zorgverzek_u:'حق بیمه ماهانه برای بیمه پایه و تکمیلی.',
+    zorgverzek_laag:'برای بیمه درمانی کم به نظر می‌رسد — میانگین €۱۳۰–۱۵۰ در ماه است.',
+    zorgverzek_hoog:'این بالاتر از میانگین است.',
+    zorgtsl_v:'آیا کمک درمانی دریافت می‌کنید؟',
+    zorgtsl_u:'کمک درمانی به پرداخت بیمه کمک می‌کند.',
+    zorgtsl_ja_v:'در ماه چقدر کمک درمانی دریافت می‌کنید؟',
+    zorgtsl_ja_u:'در belastingdienst.nl ببینید.',
+    zorgtsl_nee_tip:'شاید حق داشته باشید. در belastingdienst.nl بررسی کنید.',
+    auto_v:'آیا ماشین دارید؟',
+    autoverzek_v:'در ماه چقدر بیمه ماشین می‌پردازید؟',
+    autoverzek_u:'مبلغ ماهانه. سالانه است؟ بر ۱۲ تقسیم کنید.',
+    inboedel_v:'در ماه چقدر بیمه وسایل خانه می‌پردازید؟',
+    inboedel_u:'بیمه وسایل خانه و مسئولیت مدنی.',
+    inboedel_laag:'آیا بیمه وسایل دارید؟ در آتش‌سوزی یا دزدی مهم است.',
+    begrafenis_v:'آیا بیمه جنازه دارید؟',
+    begrafenis_ja_v:'در ماه چقدر بیمه جنازه می‌پردازید؟',
+    begrafenis_ja_u:'سالانه یا فصلی؟ بر ۱۲ یا ۳ تقسیم کنید.',
+    vervoer_v:'در ماه چقدر حمل‌ونقل می‌پردازید؟',
+    vervoer_u:'اشتراک حمل‌ونقل عمومی، سوخت، پارکینگ یا تعمیر دوچرخه.',
+    vervoer_nul:'هیچ هزینه حمل‌ونقلی ندارید؟',
+    schulden_v:'وام یا اقساطی دارید؟',
+    schulden_u:'وام شخصی، اضافه برداشت یا توافق اقساط.',
+    schulden_ja_v:'در ماه چقدر قسط می‌پردازید؟',
+    schulden_ja_u:'مجموع ماهانه همه اقساط.',
+    schulden_r:'بدهی روی بودجه تأثیر دارد — مشاور رایگان می‌تواند کمک کند.',
+    abonnem_v:'اشتراک Netflix، Spotify یا باشگاه دارید؟',
+    abonnem_u:'هر اشتراک را جداگانه اضافه کنید.',
+    abonnem_hoog:'این زیاد است — کدام را واقعاً استفاده می‌کنید؟',
+    boodschappen_v:'در ماه چقدر خرید می‌کنید؟',
+    boodschappen_u:'غذا و نوشیدنی. هفتگی خرید می‌کنید؟ در ۴ ضرب کنید.',
+    boodschappen_week:'💡 خرید هفتگی × ۴ ≈ مبلغ ماهانه.',
+    boodschappen_laag:'کم به نظر می‌رسد — مواد تمیزکاری هم هست؟',
+    boodschappen_hoog:'بیشتر از میانگین Nibud است.',
+    overig_v:'هزینه ثابت دیگری دارید؟',
+    overig_u:'نام هزینه و مبلغ را بنویسید.',
+    overig_nul:'هزینه دیگری ندارید؟',
+    sparen_v:'در ماه چقدر می‌خواهید پس‌انداز کنید؟',
+    sparen_u:'پس‌انداز یک انتخاب آگاهانه است. حتی مبلغ کم کمک می‌کند.',
+    sparen_jaar:(n)=>`این €${Math.round(n*12).toLocaleString('nl-NL')} در سال است. آفرین!`,
+    sparen_tip:'فضا دارید — حتی €۲۵ در ماه امنیت مالی می‌دهد.',
+    ja:'✅ بله', nee:'❌ نه',
+    stuur:'→', overslaan:'نمی‌دانم — رد شو',
+    naam_placeholder:'چه نوع هزینه‌ای؟',
+    bedrag_placeholder:'مبلغ',
+    res_titel:'بودجه ماهانه شما', res_sub:'راهنمای Nibud جولای ۲۰۲۵',
+    overschot:'مازاد ماهانه', tekort:'کمبود ماهانه',
+    per_week:'هفتگی', per_dag:'روزانه',
+    inkomen_lbl:'کل درآمد', netto_woon:'خالص پس از کمک', totaal_uit:'کل هزینه‌ها',
+    excel_btn:'دانلود Excel', pdf_btn:'PDF برای مشاور', print_btn:'🖨 چاپ', opnieuw_btn:'شروع دوباره', excel_bezig:'Excel...', pdf_bezig:'PDF...',
+    nibud_bron:'منبع: Nibud جولای ۲۰۲۵',
+    disclaimer:'تقریبی. با VluchtelingenWerk تماس بگیرید.',
+    badge_hoog:'زیاد', badge_ok:'خوب',
+    kolom_post:'ردیف', kolom_maand:'ماهانه (€)', kolom_nibud:'Nibud (€)',
+    kolom_categorie:'دسته‌بندی', kolom_week:'هفتگی (€)', kolom_dag:'روزانه (€)',
+    tab_budget:'بودجه من', tab_week:'بودجه هفتگی',
+    sectie_inkomsten:'درآمد', sectie_uitgaven:'هزینه‌ها', sparen_lbl:'پس‌انداز',
+    adv_pos:(n)=>`${fmt(n)} در ماه باقی می‌ماند. عالی!`,
+    adv_neg:(n)=>`${fmt(Math.abs(n))} بیشتر از درآمد خرج می‌کنید.`,
+    adv_spaar:(n)=>`${fmt(n)} در ماه پس‌انداز می‌کنید. آفرین!`,
+    adv_toeslag:'در belastingdienst.nl کمک‌های دولتی را بررسی کنید.',
+    ai_uitnodiging_titel:'مشاوره شخصی می‌خواهید؟',
+    ai_uitnodiging_sub:'☀️ Claude AI',
+    ai_uitnodiging_tekst:'بودجه شما را تحلیل می‌کنم و کمک‌های شهرداری را پیدا می‌کنم.',
+    ai_privacy:'فقط مبالغ و شهرداری ارسال می‌شود — بدون نام یا شماره حساب.',
+    ai_ja:'بله، بودجه‌ام را تحلیل کن ←',
+    ai_nee:'نه، ممنون',
+    ai_gemeente_v:'در کدام شهرداری زندگی می‌کنید؟',
+    ai_gemeente_placeholder:'مثلاً Utrecht یا Amsterdam...',
+    ai_laden:'بودجه را تحلیل می‌کنم...',
+    ai_tab_hulp:'کمک در', ai_kolom_regeling:'برنامه', ai_kolom_contact:'تماس',
+    week_titel:'بودجه هفتگی', week_sub:'فضای آزاد هفتگی شما',
+    week_dag_label:'آزاد روزانه',
+    week_boodschappen:'🛒 خرید', week_boodschappen_sub:'÷ ۴٫۳',
+    week_vrij:'🎭 تفریح و اوقات فراغت', week_vrij_sub:'سینما، رستوران یا فعالیت',
+    week_overig:'🎁 سایر (هدیه، میان‌وعده، خودجوش)', week_overig_sub:'برای هر چیز برنامه‌ریزی‌نشده',
+    week_uitleg:'این بودجه هفتگی تقریبی است.',
   },
 };
 
@@ -1181,9 +1479,6 @@ async function toonResultaat(){
       <button class="res-excel-btn" id="res-excel" onclick="downloadExcel()">📊 ${t.excel_btn}</button>
       <button class="res-pdf-btn" id="res-pdf" onclick="downloadPDF()">📄 ${t.pdf_btn}</button>
     </div>
-    <div class="res-acties" style="padding-top:0;border-top:none;">
-      <button class="res-print-btn" style="flex:1;" onclick="window.print()">${t.print_btn}</button>
-    </div>
     <div style="padding:0 1.2rem 0.4rem;">
       <button class="res-opnieuw-btn" onclick="start()">${t.opnieuw_btn}</button>
     </div>
@@ -1243,6 +1538,29 @@ async function toonResultaat(){
   if(saldo<-50) await sol(t.adv_neg(saldo),'waarschuwing');
   if(spaar>0)   await sol(t.adv_spaar(spaar),'reactie');
   await sol(t.adv_toeslag,'toeslag');
+
+  // AI uitnodigingskaart
+  await new Promise(r=>setTimeout(r,400));
+  const aiKaart=document.createElement('div');
+  aiKaart.className='bericht-sol';
+  aiKaart.style.cssText='max-width:100%;width:100%;';
+  aiKaart.innerHTML=`<div class="ai-uitnodiging" id="ai-uitnodiging">
+    <div class="ai-header">
+      <span class="ai-zon">☀️</span>
+      <div class="ai-header-tekst">
+        <div class="ai-titel">${t.ai_uitnodiging_titel}</div>
+        <div class="ai-sub">${t.ai_uitnodiging_sub}</div>
+      </div>
+    </div>
+    <div style="padding:0 1.2rem 0.8rem;font-size:0.88rem;color:rgba(255,255,255,0.75);line-height:1.55;">${t.ai_uitnodiging_tekst}</div>
+    <div class="ai-privacy">🔒 ${t.ai_privacy}</div>
+    <div class="ai-knoppen">
+      <button class="ai-ja-btn" onclick="startAiAnalyse()">${t.ai_ja}</button>
+      <button class="ai-nee-btn" onclick="this.closest('.ai-uitnodiging').style.opacity='0.4';this.disabled=true;this.previousElementSibling.disabled=true;">${t.ai_nee}</button>
+    </div>
+  </div>`;
+  document.getElementById('berichten').appendChild(aiKaart);
+  scrollNaar();
 }
 
 // ══════════════════════════════════════════════════════
@@ -1251,13 +1569,14 @@ async function toonResultaat(){
 // ══════════════════════════════════════════════════════
 function downloadExcel(){
   const t=T[taal], btn=document.getElementById('res-excel');
-  if(!window.XLSX){alert('Excel-bibliotheek nog niet geladen. Probeer opnieuw.'); return;}
+  if(!btn||!window.XLSX){alert('Excel-bibliotheek nog niet geladen. Probeer opnieuw.'); return;}
   btn.textContent=t.excel_bezig; btn.disabled=true;
 
   setTimeout(()=>{
     try{
+      if(!window._pdf){alert('Vul eerst het budget in.'); btn.disabled=false; btn.textContent='📊 '+T[taal].excel_btn; return;}
       const d=window._pdf;
-      const ref=NIBUD[d.sit||'alleen'];
+      const ref=NIBUD[d.sit||'alleen']||NIBUD.alleen;
       const WB=XLSX.utils.book_new();
 
       // ── Hulpfuncties ──────────────────────────────
@@ -1319,10 +1638,17 @@ function downloadExcel(){
       ws2['!cols']=[{wch:38},{wch:14},{wch:12}];
       XLSX.utils.book_append_sheet(WB,ws2,t.tab_week);
 
-      XLSX.writeFile(WB,'solidari-maandbudget.xlsx');
+      const wbout = XLSX.write(WB, {bookType:'xlsx', type:'base64'});
+      const a = document.createElement('a');
+      a.href = 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,' + wbout;
+      a.download = 'solidari-maandbudget.xlsx';
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => document.body.removeChild(a), 100);
     }catch(e){
-      console.error(e);
-      alert('Excel maken mislukt. Probeer de printknop.');
+      console.error('Excel fout:', e);
+      alert('Download geblokkeerd door browserbeveiliging.\nOp solidari.nl (GitHub Pages) werkt dit wel.\nFout: ' + e.message);
     }finally{
       btn.textContent='📊 '+T[taal].excel_btn;
       btn.disabled=false;
@@ -1335,7 +1661,7 @@ function downloadExcel(){
 // ══════════════════════════════════════════════════════
 function downloadPDF(){
   const t=T[taal], btn=document.getElementById('res-pdf');
-  if(!window.jspdf){alert('PDF-bibliotheek niet beschikbaar. Gebruik afdrukken.'); return;}
+  if(!btn||!window.jspdf){alert('PDF-bibliotheek niet beschikbaar. Gebruik afdrukken.'); return;}
   btn.textContent=t.pdf_bezig; btn.disabled=true;
   setTimeout(()=>{
     try{
@@ -1343,7 +1669,8 @@ function downloadPDF(){
       const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
       const W=210,M=18,CW=W-M*2; let y=20;
       const G=[45,90,61],Am=[196,127,16],Li=[156,156,152],Za=[92,92,88],Te=[26,26,24],Ro=[220,38,38];
-      const d=window._pdf, ref=NIBUD[d.sit];
+      if(!window._pdf){alert('Vul eerst het budget in.'); btn.disabled=false; btn.textContent='📄 '+T[taal].pdf_btn; return;}
+      const d=window._pdf, ref=NIBUD[d.sit||'alleen']||NIBUD.alleen;
 
       // Header
       doc.setFillColor(...G); doc.rect(0,0,W,36,'F');
@@ -1424,10 +1751,341 @@ function downloadPDF(){
       doc.setTextColor(...Li); doc.setFontSize(6.5); doc.setFont('helvetica','italic'); doc.text(t.nibud_bron,W/2,y,{align:'center'}); y+=8;
       doc.setTextColor(...Li); doc.setFontSize(6); doc.text('solidari.nl  ·  '+t.disclaimer.replace(/<[^>]*>/g,''),W/2,285,{align:'center',maxWidth:CW});
 
-      doc.save('solidari-maandbudget.pdf');
-    }catch(e){console.error(e);alert('PDF mislukt. Gebruik de printknop.');}
+      const pdfData = doc.output('datauristring');
+      const ap = document.createElement('a');
+      ap.href = pdfData;
+      ap.download = 'solidari-maandbudget-begeleider.pdf';
+      ap.style.display = 'none';
+      document.body.appendChild(ap);
+      ap.click();
+      setTimeout(() => document.body.removeChild(ap), 100);
+    }catch(e){console.error('PDF fout:', e);alert('Download geblokkeerd door browserbeveiliging.\nOp solidari.nl (GitHub Pages) werkt dit wel.\nFout: ' + e.message);}
     finally{btn.textContent='📄 '+T[taal].pdf_btn;btn.disabled=false;}
   },80);
+}
+
+// ══════════════════════════════════════════════════════
+// AI ANALYSE — Claude API met web search
+// Budgetdata: alleen bedragen en gemeente, geen persoonsgegevens
+// ══════════════════════════════════════════════════════
+let aiGemeente = '';
+
+async function startAiAnalyse() {
+  const t = T[taal];
+  // Verberg uitnodigingskaart knoppen
+  const kaart = document.getElementById('ai-uitnodiging');
+  if (kaart) {
+    kaart.querySelector('.ai-knoppen').innerHTML = '';
+    kaart.querySelector('.ai-privacy').style.display = 'none';
+  }
+  await sol(t.ai_gemeente_v, 'ai-analyse');
+  toonGemeenteInvoer();
+}
+
+function toonGemeenteInvoer() {
+  const t = T[taal];
+  const z = document.getElementById('invoer-zone');
+  z.innerHTML = '';
+  const wrap = document.createElement('div');
+  wrap.style.cssText = 'background:#0F2318;border-radius:14px;padding:0.8rem;';
+  wrap.innerHTML = `<div class="gemeente-wrap">
+    <input type="text" id="gemeente-inp" class="gemeente-input" placeholder="${t.ai_gemeente_placeholder}" autocomplete="off">
+    <button class="stuur-btn" onclick="verwerkGemeente()" style="background:var(--amber);">→</button>
+  </div>`;
+  z.appendChild(wrap);
+  const inp = document.getElementById('gemeente-inp');
+  if (inp) {
+    inp.focus();
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter') verwerkGemeente(); });
+  }
+  scrollNaar();
+}
+
+async function verwerkGemeente() {
+  const inp = document.getElementById('gemeente-inp');
+  const gemeente = inp ? inp.value.trim() : '';
+  if (!gemeente) return;
+  aiGemeente = gemeente;
+  verbergInvoer();
+  user(gemeente);
+  await roepAiAan(gemeente);
+}
+
+function bouwBudgetContext(gemeente) {
+  const d = window._pdf;
+  if (!d) return '';
+  const ref = NIBUD[d.sit || 'alleen'];
+  const sit_labels = { alleen: 'alleenstaand', stel: 'samenwonend stel', eenouder: 'eenoudergezin', gezin: 'gezin met kinderen' };
+  const woonquote = d.ink > 0 ? Math.round((d.huurB / d.ink) * 100) : 0;
+  const nettoWoon = d.huurtoesl > 0 ? d.nettoW : d.huurB;
+
+  const knelpunten = [];
+  if (woonquote > 40) knelpunten.push(`Woonquote hoog: ${woonquote}% (advies max 40%)`);
+  if (!d.huurtoesl || d.huurtoesl === 0) knelpunten.push('Geen huurtoeslag (mogelijk gemist)');
+  if (!d.zorgtoesl || d.zorgtoesl === 0) knelpunten.push('Geen zorgtoeslag (mogelijk gemist)');
+  if (d.schuld > 0) knelpunten.push(`Leningen/afbetalingen: €${Math.round(d.schuld)}/mnd`);
+  if (d.saldo < -50) knelpunten.push(`Maandelijks tekort: €${Math.round(Math.abs(d.saldo))}`);
+  if (d.bood < ref.voeding * 0.65 && d.bood > 0) knelpunten.push('Boodschappenbudget mogelijk onderschat');
+
+  const abonnementenTxt = (d.abonnementen || []).map(ab => `${ab.naam}: €${Math.round(ab.bedrag)}`).join(', ');
+
+  return `BUDGETOVERZICHT VOOR AI-ANALYSE
+Situatie: ${sit_labels[d.sit] || d.sit}
+Gemeente: ${gemeente}
+
+INKOMSTEN (per maand):
+- Totaal inkomen: €${Math.round(d.ink)}
+- Netto loon/uitkering: €${Math.round(d.ink - (d.huurtoesl || 0) - (d.zorgtoesl || 0))}
+${d.huurtoesl > 0 ? `- Huurtoeslag: €${Math.round(d.huurtoesl)}` : '- Geen huurtoeslag ontvangen'}
+${d.zorgtoesl > 0 ? `- Zorgtoeslag: €${Math.round(d.zorgtoesl)}` : '- Geen zorgtoeslag ontvangen'}
+
+UITGAVEN (per maand):
+- Huur/hypotheek (bruto): €${Math.round(d.huurB)} | netto woonlast: €${Math.round(nettoWoon)} | woonquote: ${woonquote}%
+- Energie: €${Math.round(d.energie)}
+- Telefoon & internet: €${Math.round(d.tel)}
+- Zorgverzekering: €${Math.round(d.zorgv)}
+${d.autov > 0 ? `- Autoverzekering: €${Math.round(d.autov)}` : ''}
+${d.inboed > 0 ? `- Inboedel & aansprakelijkheid: €${Math.round(d.inboed)}` : ''}
+${d.begraf > 0 ? `- Begrafenisverzekering: €${Math.round(d.begraf)}` : ''}
+- Vervoer: €${Math.round(d.verv)}
+${d.schuld > 0 ? `- Leningen/afbetalingen: €${Math.round(d.schuld)}` : ''}
+${abonnementenTxt ? `- Abonnementen: ${abonnementenTxt}` : ''}
+- Boodschappen: €${Math.round(d.bood)}
+${d.overig > 0 ? `- ${d.overig_naam}: €${Math.round(d.overig)}` : ''}
+${d.spaar > 0 ? `- Sparen: €${Math.round(d.spaar)}` : ''}
+- TOTAAL UITGAVEN: €${Math.round(d.totUit)}
+
+SALDO: €${Math.round(d.saldo)} per maand (${d.pos ? 'overschot' : 'TEKORT'})
+
+GESIGNALEERDE KNELPUNTEN:
+${knelpunten.length > 0 ? knelpunten.map(k => `- ${k}`).join('\n') : '- Geen directe knelpunten'}
+
+Nibud-referentie voor deze situatie:
+- Huur richtlijn: €${ref.huur} | Voeding richtlijn: €${ref.voeding} | Energie richtlijn: €${ref.energie}`;
+}
+
+async function roepAiAan(gemeente) {
+  const t = T[taal];
+  const taalNamen = { nl: 'Nederlands', en: 'English', ar: 'Arabic', tr: 'Turkish', uk: 'Ukrainian', ti: 'Tigrinya', fa: 'Dari (Farsi)' };
+  const antwoordTaal = taalNamen[taal] || 'Nederlands';
+  const budgetContext = bouwBudgetContext(gemeente);
+
+  const b = document.getElementById('berichten');
+  const laadDiv = document.createElement('div');
+  laadDiv.className = 'bericht-sol';
+  laadDiv.innerHTML = `<div class="sol-avatar">☀️</div><div class="bel-sol ai-analyse">
+    <div class="ai-laden">${t.ai_laden} <div class="ai-laden-dots"><span></span><span></span><span></span></div></div>
+  </div>`;
+  b.appendChild(laadDiv);
+  scrollNaar();
+
+  // Gerichte prompt — max 3 web searches om timeout te vermijden
+  // Knelpunten bepalen welke searches het meest relevant zijn
+  const d = window._pdf || {};
+  const knelpunten = [];
+  if (d.saldo < -50 || d.schuld > 0) knelpunten.push('schuldhulpverlening');
+  if (!d.huurtoesl || d.huurtoesl === 0) knelpunten.push('bijzondere bijstand');
+  if (d.bood < 150) knelpunten.push('voedselbank');
+
+  const zoekFocus = knelpunten.length > 0
+    ? knelpunten.join(', ')
+    : 'bijzondere bijstand, voedselbank, minimaregelingen';
+
+  const systeemprompt = `Je bent een vriendelijke budgetcoach voor Solidari.
+TAAL: Antwoord uitsluitend in het ${antwoordTaal}. Geen uitzonderingen.
+
+TAAK in 3 stappen:
+
+1. BUDGETANALYSE (max 3 zinnen): Bespreek de situatie eerlijk maar respectvol. Benoem het belangrijkste knelpunt.
+
+2. HULP IN ${gemeente.toUpperCase()}: Doe maximaal 2 web searches. Zoek specifiek naar: ${zoekFocus} in gemeente ${gemeente}.
+   Voeg ook altijd toe: Stichting Leergeld ${gemeente}, kledingbank ${gemeente}.
+   Per gevonden organisatie: naam + wat ze doen (1 zin) + website of telefoonnummer.
+   Als iets niet gevonden wordt, schrijf dat eerlijk op.
+
+3. TOP 3 ACTIES: Drie concrete stappen, genummerd.
+
+Sluit af met: "Neem de Excel of PDF mee naar je begeleider."
+Totaal max 300 woorden.`;
+
+  // Timeout via Promise.race (AbortController werkt niet in sandboxed iframe)
+  const fetchPromise = fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1500,
+        tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+        system: systeemprompt,
+        messages: [{ role: 'user', content: budgetContext }]
+      })
+    });
+  const timeoutPromise = new Promise((_, reject) =>
+    setTimeout(() => reject(new Error('TIMEOUT')), 45000)
+  );
+
+  try {
+    const response = await Promise.race([fetchPromise, timeoutPromise]);
+    const data = await response.json();
+    laadDiv.remove();
+
+    if (data.error) {
+      const msg = data.error.type === 'overloaded_error'
+        ? 'De AI-dienst is even druk. Probeer het over een minuut opnieuw.'
+        : 'Fout bij AI-analyse: ' + (data.error.message || 'onbekend');
+      await sol(msg, 'waarschuwing');
+      return;
+    }
+
+    const tekst = (data.content || [])
+      .filter(blok => blok.type === 'text')
+      .map(blok => blok.text)
+      .join('\n').trim();
+
+    if (!tekst) {
+      await sol('De analyse gaf geen resultaat. Probeer het opnieuw.', 'waarschuwing');
+      return;
+    }
+
+    // Toon alinea voor alinea
+    const alineas = tekst.split(/\n\n+/).filter(a => a.trim());
+    for (const alinea of alineas) {
+      const wrap = document.createElement('div');
+      wrap.className = 'bericht-sol';
+      const html = alinea
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/(https?:\/\/[^\s\]<]+)/g, '<a href="$1" target="_blank" rel="noopener">🔗 $1</a>')
+        .replace(/\n/g, '<br>');
+      wrap.innerHTML = `<div class="sol-avatar">☀️</div><div class="bel-sol ai-analyse">${html}</div>`;
+      b.appendChild(wrap);
+      await new Promise(r => setTimeout(r, 100));
+    }
+    scrollNaar();
+
+    window._pdf.gemeente = gemeente;
+    window._pdf.ai_tekst = tekst;
+
+    // Excel knop met data-attribuut (geen string-escape issues)
+    const updateWrap = document.createElement('div');
+    updateWrap.className = 'bericht-sol';
+    updateWrap.style.cssText = 'max-width:100%;width:100%;';
+    const excelBtn = document.createElement('button');
+    excelBtn.className = 'ai-ja-btn';
+    excelBtn.style.cssText = 'width:100%;margin-top:4px;';
+    excelBtn.textContent = '📊 Excel downloaden met hulp in ' + gemeente;
+    excelBtn.addEventListener('click', () => downloadExcelMetGemeente(gemeente));
+    const inner = document.createElement('div');
+    inner.style.cssText = 'background:#0F2318;border-radius:14px;padding:0.8rem 1.2rem;';
+    inner.innerHTML = `<p style="font-size:0.82rem;color:rgba(255,255,255,0.65);margin-bottom:8px;">📊 Hulp in ${gemeente} is toegevoegd als tabblad aan je Excel.</p>`;
+    inner.appendChild(excelBtn);
+    updateWrap.appendChild(inner);
+    b.appendChild(updateWrap);
+    scrollNaar();
+
+  } catch (err) {
+    if (laadDiv.parentNode) laadDiv.remove();
+    console.error('AI fout:', err);
+    if (err.message === 'TIMEOUT') {
+      await sol('De analyse duurde te lang (45 sec). Probeer opnieuw.', 'waarschuwing');
+    } else {
+      // Failed to fetch = CORS/netwerk blokkering (werkt wel op GitHub Pages)
+      await sol('AI-analyse kon geen verbinding maken. Op solidari.nl werkt dit wel — hier is de verbinding beperkt.', 'waarschuwing');
+    }
+  }
+}
+
+function downloadExcelMetGemeente(gemeente) {
+  const d = window._pdf;
+  if (!d || !d.ai_tekst) { downloadExcel(); return; }
+  const t = T[taal];
+  if (!window.XLSX) { alert('Excel niet beschikbaar.'); return; }
+
+  // Zelfde als downloadExcel maar met extra tabblad
+  const btn = event.target;
+  btn.textContent = t.excel_bezig; btn.disabled = true;
+
+  setTimeout(() => {
+    try {
+      const ref = NIBUD[d.sit || 'alleen'];
+      const WB = XLSX.utils.book_new();
+      const euro = n => Math.round(n || 0);
+      const rij = (label, mnd, nibud_mnd) => {
+        const r = { [t.kolom_post]: label, [t.kolom_maand]: euro(mnd) };
+        if (nibud_mnd) r[t.kolom_nibud] = euro(nibud_mnd);
+        return r;
+      };
+
+      // Tabblad 1: Budget (zelfde opbouw als downloadExcel)
+      const budgetData = [];
+      budgetData.push({ [t.kolom_post]: t.sectie_inkomsten, [t.kolom_maand]: '' });
+      budgetData.push(rij(t.inkomen_lbl + ' (netto)', d.ink));
+      if (d.huurtoesl > 0) budgetData.push(rij('  Huurtoeslag', d.huurtoesl));
+      if (d.zorgtoesl > 0) budgetData.push(rij('  Zorgtoeslag', d.zorgtoesl));
+      budgetData.push({ [t.kolom_post]: '', [t.kolom_maand]: '' });
+      budgetData.push({ [t.kolom_post]: t.sectie_uitgaven, [t.kolom_maand]: '' });
+      budgetData.push(rij('Huur / hypotheek (bruto)', d.huurB, ref.huur));
+      if (d.huurtoesl > 0) budgetData.push(rij('  ' + t.netto_woon, d.nettoW));
+      budgetData.push(rij('Energie', d.energie, ref.energie));
+      budgetData.push(rij('Telefoon & internet', d.tel, ref.telefoon));
+      budgetData.push(rij('Zorgverzekering', d.zorgv, ref.zorgverzekering));
+      if (d.autov > 0) budgetData.push(rij('Autoverzekering', d.autov));
+      if (d.inboed > 0) budgetData.push(rij('Inboedel & aansprakelijkheid', d.inboed, ref.overige_verzek));
+      if (d.begraf > 0) budgetData.push(rij('Begrafenisverzekering', d.begraf, ref.begrafenis));
+      budgetData.push(rij('Vervoer', d.verv, ref.vervoer));
+      if (d.schuld > 0) budgetData.push(rij('Leningen / afbetalingen', d.schuld));
+      (d.abonnementen || []).forEach(ab => budgetData.push(rij(ab.naam, ab.bedrag)));
+      budgetData.push(rij('Boodschappen', d.bood, ref.voeding));
+      if (d.overig > 0) budgetData.push(rij(d.overig_naam, d.overig));
+      if (d.spaar > 0) budgetData.push(rij(t.sparen_lbl, d.spaar));
+      budgetData.push({ [t.kolom_post]: '', [t.kolom_maand]: '' });
+      budgetData.push({ [t.kolom_post]: t.totaal_uit, [t.kolom_maand]: euro(d.totUit) });
+      budgetData.push({ [t.kolom_post]: d.pos ? t.overschot : t.tekort, [t.kolom_maand]: euro(d.saldo) });
+      const ws1 = XLSX.utils.json_to_sheet(budgetData);
+      ws1['!cols'] = [{ wch: 38 }, { wch: 16 }, { wch: 18 }];
+      XLSX.utils.book_append_sheet(WB, ws1, t.tab_budget);
+
+      // Tabblad 2: Weekbudget
+      const weekData = [
+        { [t.kolom_categorie]: t.week_boodschappen.replace(/^🛒\s*/, ''), [t.kolom_week]: euro(d.wBood), [t.kolom_dag]: euro(d.wBood / 7) },
+        { [t.kolom_categorie]: t.week_vrij.replace(/^🎉\s*|^🎭\s*/, ''), [t.kolom_week]: euro(d.wVrij), [t.kolom_dag]: euro(d.wVrij / 7) },
+        { [t.kolom_categorie]: t.week_overig.replace(/^🎁\s*/, ''), [t.kolom_week]: euro(d.wOverig), [t.kolom_dag]: euro(d.wOverig / 7) },
+        { [t.kolom_categorie]: '', [t.kolom_week]: '', [t.kolom_dag]: '' },
+        { [t.kolom_categorie]: t.week_dag_label, [t.kolom_week]: '', [t.kolom_dag]: euro(d.wDag) },
+      ];
+      const ws2 = XLSX.utils.json_to_sheet(weekData);
+      ws2['!cols'] = [{ wch: 38 }, { wch: 14 }, { wch: 12 }];
+      XLSX.utils.book_append_sheet(WB, ws2, t.tab_week);
+
+      // Tabblad 3: Hulp in gemeente — parse AI tekst in regels
+      const hulpData = [];
+      const regels = (d.ai_tekst || '').split('\n').filter(r => r.trim());
+      regels.forEach(r => {
+        const schoon = r.replace(/\*\*/g, '').replace(/\[bron:.*?\]/g, '').trim();
+        if (schoon.length > 5) hulpData.push({ [t.ai_kolom_regeling]: schoon, [t.ai_kolom_contact]: '' });
+      });
+      if (hulpData.length > 0) {
+        const ws3 = XLSX.utils.json_to_sheet(hulpData);
+        ws3['!cols'] = [{ wch: 55 }, { wch: 30 }];
+        const tabNaam = (t.ai_tab_hulp + ' ' + gemeente).substring(0, 31);
+        XLSX.utils.book_append_sheet(WB, ws3, tabNaam);
+      }
+
+      const wbout2 = XLSX.write(WB, {bookType:'xlsx', type:'base64'});
+      const a2 = document.createElement('a');
+      a2.href = 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,' + wbout2;
+      a2.download = 'solidari-maandbudget-' + gemeente.toLowerCase().replace(/\s+/g, '-') + '.xlsx';
+      a2.style.display = 'none';
+      document.body.appendChild(a2);
+      a2.click();
+      setTimeout(() => document.body.removeChild(a2), 100);
+    } catch (e) {
+      console.error(e);
+      alert('Excel maken mislukt.');
+    } finally {
+      btn.textContent = '📊 ' + T[taal].excel_btn;
+      btn.disabled = false;
+    }
+  }, 80);
 }
 
 function setTaal(code,btn){
