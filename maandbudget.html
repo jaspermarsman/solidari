@@ -1910,8 +1910,7 @@ Totaal max 300 woorden.`;
 
   // Timeout via Promise.race (AbortController werkt niet in sandboxed iframe)
   // ── Cloudflare Worker URL
-  // Pas dit aan naar jouw worker-adres na het aanmaken in Cloudflare Dashboard
-  const WORKER_URL = 'https://solidari-analyse.jounaam.workers.dev';
+  const WORKER_URL = 'https://solidari-analyse-budget.jaspermarsman.workers.dev';
 
   const fetchPromise = fetch(WORKER_URL, {
       method: 'POST',
