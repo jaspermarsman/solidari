@@ -1909,15 +1909,16 @@ Sluit af met: "Neem de Excel of PDF mee naar je begeleider."
 Totaal max 300 woorden.`;
 
   // Timeout via Promise.race (AbortController werkt niet in sandboxed iframe)
-  const fetchPromise = fetch('https://api.anthropic.com/v1/messages', {
+  // ── Cloudflare Worker URL
+  // Pas dit aan naar jouw worker-adres na het aanmaken in Cloudflare Dashboard
+  const WORKER_URL = 'https://solidari-analyse.jounaam.workers.dev';
+
+  const fetchPromise = fetch(WORKER_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1500,
-        tools: [{ type: 'web_search_20250305', name: 'web_search' }],
-        system: systeemprompt,
-        messages: [{ role: 'user', content: budgetContext }]
+        systeem: systeemprompt,
+        bericht: budgetContext
       })
     });
   const timeoutPromise = new Promise((_, reject) =>
@@ -1937,10 +1938,9 @@ Totaal max 300 woorden.`;
       return;
     }
 
-    const tekst = (data.content || [])
-      .filter(blok => blok.type === 'text')
-      .map(blok => blok.text)
-      .join('\n').trim();
+    // Proxy geeft { tekst: "..." } terug, of Anthropic-formaat als directe call
+    const tekst = data.tekst ||
+      (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('\n').trim();
 
     if (!tekst) {
       await sol('De analyse gaf geen resultaat. Probeer het opnieuw.', 'waarschuwing');
