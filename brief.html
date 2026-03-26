@@ -6,25 +6,8 @@
   <title>Brief Begrijper — Solidari</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="components.css">
   <style>
-    :root {
-      --wit: #FAFAF7;
-      --wit-warm: #F5F2EC;
-      --amber: #E8A020;
-      --amber-licht: #FDF3E0;
-      --amber-diep: #C47F10;
-      --groen: #2D5A3D;
-      --groen-licht: #EBF3EE;
-      --tekst: #1A1A18;
-      --tekst-zacht: #5C5C58;
-      --tekst-licht: #9C9C98;
-      --rand: #E8E5DE;
-      --rood: #DC2626;
-      --rood-licht: #FEF2F2;
-      --blauw: #2563EB;
-      --blauw-licht: #EFF6FF;
-    }
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
@@ -35,30 +18,6 @@
       line-height: 1.6;
       overflow-x: hidden;
     }
-
-    /* ── NAV ── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      background: rgba(250,250,247,0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--rand);
-      padding: 0 2rem;
-      height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .logo-naam { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--tekst); }
-    .logo-naam span { color: var(--amber); }
-    .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
-    .nav-links a { text-decoration: none; color: var(--tekst-zacht); font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
-    .nav-links a:hover { color: var(--tekst); }
-    .nav-taal { display: flex; gap: 0.5rem; }
-    .taal-btn { background: none; border: 1px solid var(--rand); border-radius: 4px; padding: 3px 8px; font-size: 0.75rem; cursor: pointer; color: var(--tekst-zacht); transition: all 0.2s; font-family: 'Source Sans 3', sans-serif; }
-    .taal-btn:hover, .taal-btn.actief { background: var(--amber); border-color: var(--amber); color: white; }
 
     /* ── PAGINA HEADER ── */
     .pagina-header {
@@ -662,17 +621,6 @@
     .tip-item:last-child { margin-bottom: 0; }
     .tip-item::before { content: '✓'; color: var(--groen); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
 
-    /* ── FOOTER ── */
-    footer { border-top: 1px solid var(--rand); padding: 2rem 2rem; }
-    .footer-inhoud { max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
-    .footer-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
-    .footer-naam { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--tekst); }
-    .footer-naam span { color: var(--amber); }
-    .footer-midden { font-size: 0.8rem; color: var(--tekst-licht); text-align: center; }
-    .footer-midden a { color: var(--tekst-zacht); text-decoration: none; }
-    .footer-doneer { background: var(--amber-licht); border: 1px solid rgba(232,160,32,0.3); color: var(--amber-diep); border-radius: 8px; padding: 8px 18px; font-size: 0.85rem; font-weight: 600; cursor: pointer; text-decoration: none; transition: all 0.2s; font-family: 'Source Sans 3', sans-serif; }
-    .footer-doneer:hover { background: var(--amber); color: white; border-color: var(--amber); }
-
     @keyframes opkomen { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
     @media (max-width: 768px) { .nav-links { display: none; } .stap-tekst { display: none; } }
   </style>
@@ -680,34 +628,7 @@
 <body>
 
 <!-- NAV -->
-<nav>
-  <a href="index.html" class="nav-logo">
-    <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
-      <circle cx="18" cy="18" r="8" fill="#E8A020"/>
-      <line x1="18" y1="2" x2="18" y2="7" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
-      <line x1="18" y1="29" x2="18" y2="34" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
-      <line x1="2" y1="18" x2="7" y2="18" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
-      <line x1="29" y1="18" x2="34" y2="18" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
-      <line x1="6.1" y1="6.1" x2="9.6" y2="9.6" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
-      <line x1="26.4" y1="26.4" x2="29.9" y2="29.9" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
-      <line x1="29.9" y1="6.1" x2="26.4" y2="9.6" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
-      <line x1="9.6" y1="26.4" x2="6.1" y2="29.9" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
-    </svg>
-    <span class="logo-naam">Solid<span>a</span>ri</span>
-  </a>
-  <ul class="nav-links">
-    <li><a href="tools.html">Tools</a></li>
-    <li><a href="index.html#missie">Over ons</a></li>
-    <li><a href="index.html#missie">Privacy</a></li>
-    <li><a href="index.html#doneer" style="color:var(--amber-diep); font-weight:600;">💛 Doneer</a></li>
-  </ul>
-  <div class="nav-taal">
-    <button class="taal-btn actief" data-taal="nl">NL</button>
-    <button class="taal-btn" data-taal="en">EN</button>
-    <button class="taal-btn" data-taal="ar">AR</button>
-    <button class="taal-btn" data-taal="tr">TR</button>
-  </div>
-</nav>
+<div id="solidari-nav"></div>
 
 <!-- PAGINA HEADER -->
 <div class="pagina-header">
@@ -873,29 +794,7 @@
 </div>
 
 <!-- FOOTER -->
-<footer>
-  <div class="footer-inhoud">
-    <a href="index.html" class="footer-logo">
-      <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
-        <circle cx="18" cy="18" r="8" fill="#E8A020"/>
-        <line x1="18" y1="2" x2="18" y2="7" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
-        <line x1="18" y1="29" x2="18" y2="34" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
-        <line x1="2" y1="18" x2="7" y2="18" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
-        <line x1="29" y1="18" x2="34" y2="18" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
-        <line x1="6.1" y1="6.1" x2="9.6" y2="9.6" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
-        <line x1="26.4" y1="26.4" x2="29.9" y2="29.9" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
-        <line x1="29.9" y1="6.1" x2="26.4" y2="9.6" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
-        <line x1="9.6" y1="26.4" x2="6.1" y2="29.9" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
-      </svg>
-      <span class="footer-naam">Solid<span>a</span>ri</span>
-    </a>
-    <div class="footer-midden">
-      <a href="#">Privacy</a> · <a href="#">Disclaimer</a> · <a href="#">Contact</a><br>
-      <span style="font-size:0.75rem; margin-top:4px; display:block;">Geen cookies · Geen opslag · Geen advertenties</span>
-    </div>
-    <a href="index.html#doneer" class="footer-doneer">💛 Doneer</a>
-  </div>
-</footer>
+<div id="solidari-footer"></div>
 
 <script>
 // ─── CONFIGURATIE ───────────────────────────────────────────────
@@ -1341,6 +1240,7 @@ if (CONFIG.BACKEND_URL) {
     });
 }
 </script>
-
+<script src="i18n.js"></script>
+<script src="components.js"></script>
 </body>
 </html>
