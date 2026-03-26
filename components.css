@@ -1,0 +1,191 @@
+/**
+ * Solidari — Gedeelde stijlen voor nav en footer
+ * Laad dit in elke pagina via <link rel="stylesheet" href="components.css">
+ */
+
+/* ── CSS VARIABELEN (gedeeld) ─────────────────────────────────────────── */
+:root {
+  --wit: #FAFAF7;
+  --wit-warm: #F5F2EC;
+  --amber: #E8A020;
+  --amber-licht: #FDF3E0;
+  --amber-diep: #C47F10;
+  --groen: #2D5A3D;
+  --groen-licht: #EBF3EE;
+  --tekst: #1A1A18;
+  --tekst-zacht: #5C5C58;
+  --tekst-licht: #9C9C98;
+  --rand: #E8E5DE;
+}
+
+/* ── RESET ────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+/* ── NAV ──────────────────────────────────────────────────────────────── */
+nav#solidari-nav-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(250, 250, 247, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--rand);
+  padding: 0 2rem;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.logo-icon { width: 36px; height: 36px; }
+
+.logo-naam {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--tekst);
+  letter-spacing: -0.02em;
+}
+
+.logo-naam span { color: var(--amber); }
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  list-style: none;
+  margin: 0; padding: 0;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--tekst-zacht);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.2s;
+  font-family: 'Source Sans 3', sans-serif;
+}
+
+.nav-links a:hover, .nav-links a.actief { color: var(--tekst); }
+
+.nav-links a.nav-doneer {
+  color: var(--amber-diep);
+  font-weight: 600;
+}
+
+.nav-taal {
+  display: flex;
+  gap: 0.3rem;
+  flex-shrink: 0;
+}
+
+.taal-btn {
+  background: none;
+  border: 1px solid var(--rand);
+  border-radius: 4px;
+  padding: 3px 7px;
+  font-size: 0.72rem;
+  cursor: pointer;
+  color: var(--tekst-zacht);
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 500;
+  transition: all 0.2s;
+  line-height: 1.4;
+}
+
+.taal-btn:hover, .taal-btn.actief {
+  background: var(--amber);
+  border-color: var(--amber);
+  color: white;
+}
+
+/* ── FOOTER ───────────────────────────────────────────────────────────── */
+footer#solidari-footer-bar {
+  border-top: 1px solid var(--rand);
+  padding: 2.5rem 2rem;
+  background: var(--wit);
+}
+
+.footer-inhoud {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.footer-naam {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--tekst);
+}
+
+.footer-naam span { color: var(--amber); }
+
+.footer-midden {
+  font-size: 0.8rem;
+  color: var(--tekst-licht);
+  text-align: center;
+  line-height: 1.7;
+}
+
+.footer-midden a {
+  color: var(--tekst-zacht);
+  text-decoration: none;
+}
+
+.footer-midden a:hover { color: var(--tekst); }
+
+.footer-cookies {
+  font-size: 0.75rem;
+  margin-top: 4px;
+  display: block;
+}
+
+.footer-doneer {
+  background: var(--amber-licht);
+  border: 1px solid rgba(232, 160, 32, 0.3);
+  color: var(--amber-diep);
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+  font-family: 'Source Sans 3', sans-serif;
+}
+
+.footer-doneer:hover {
+  background: var(--amber);
+  color: white;
+  border-color: var(--amber);
+}
+
+/* ── RESPONSIVE ───────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  nav#solidari-nav-bar { padding: 0 1rem; }
+}
+
+@media (max-width: 480px) {
+  .taal-btn { padding: 2px 5px; font-size: 0.68rem; }
+}

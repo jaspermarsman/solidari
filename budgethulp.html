@@ -22,6 +22,7 @@
 
     nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,250,247,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--rand);padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
     .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+    .logo-icon{width:36px;height:36px;}
     .logo-naam{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--tekst);letter-spacing:-0.02em;}
     .logo-naam span{color:var(--amber);}
     .nav-links{display:flex;align-items:center;gap:2rem;list-style:none;}
@@ -184,7 +185,7 @@
 
 <nav>
   <a href="index.html" class="nav-logo">
-    <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
+    <svg class="logo-icon" viewBox="0 0 36 36" fill="none">
       <circle cx="18" cy="18" r="8" fill="#E8A020"/>
       <line x1="18" y1="2" x2="18" y2="7" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
       <line x1="18" y1="29" x2="18" y2="34" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
@@ -198,10 +199,10 @@
     <span class="logo-naam">Solid<span>a</span>r<span>i</span></span>
   </a>
   <ul class="nav-links">
-    <li><a href="tools.html">Tools</a></li>
-    <li><a href="index.html#missie">Over ons</a></li>
-    <li><a href="index.html#missie">Privacy</a></li>
-    <li><a href="index.html#doneer" style="color:var(--amber-diep);font-weight:600;">💛 Doneer</a></li>
+    <li><a href="tools.html" data-i18n="nav-tools">Tools</a></li>
+    <li><a href="index.html#missie" data-i18n="nav-over">Over ons</a></li>
+    <li><a href="index.html#missie" data-i18n="nav-privacy">Privacy</a></li>
+    <li><a href="index.html#doneer" data-i18n="nav-doneer" style="color:var(--amber-diep);font-weight:600;">💛 Doneer</a></li>
   </ul>
   <div class="nav-taal">
     <button class="taal-btn actief" onclick="setTaal('nl',this)">NL</button>
@@ -220,6 +221,7 @@
   <div class="invoer-zone" id="invoer-zone"></div>
 </div>
 
+<script src="i18n.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
@@ -1940,7 +1942,8 @@ Totaal max 300 woorden.`;
 
   // Timeout via Promise.race (AbortController werkt niet in sandboxed iframe)
   // ── Cloudflare Worker URL
-  const WORKER_URL = 'https://solidari-analyse-budget.jaspermarsman.workers.dev';
+  // Pas dit aan naar jouw worker-adres na het aanmaken in Cloudflare Dashboard
+  const WORKER_URL = 'https://solidari-analyse.jounaam.workers.dev';
 
   const fetchPromise = fetch(WORKER_URL, {
       method: 'POST',
@@ -2121,10 +2124,19 @@ function setTaal(code,btn){
   taal=code;
   document.querySelectorAll('.taal-btn').forEach(b=>b.classList.remove('actief'));
   btn.classList.add('actief');
+  // Centrale i18n voor nav-links en gedeelde strings
+  if(window.Solidari && Solidari.i18n) Solidari.i18n.passToe(code);
+  // Tool-specifieke strings via eigen T{}
   start();
 }
 
+// Init centrale i18n bij laden
+document.addEventListener('DOMContentLoaded', () => {
+  if(window.Solidari && Solidari.i18n) Solidari.i18n.init();
+});
+
 start();
 </script>
+  <script src="components.js"></script>
 </body>
 </html>
