@@ -19,7 +19,7 @@
     *{margin:0;padding:0;box-sizing:border-box;}
     html,body{height:100%;}
     body{background:var(--chat-bg);color:var(--tekst);font-family:'Source Sans 3',sans-serif;font-weight:400;display:flex;flex-direction:column;}
-
+ 
     nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,250,247,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--rand);padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
     .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
     .logo-icon{width:36px;height:36px;}
@@ -31,12 +31,12 @@
     .nav-taal{display:flex;gap:0.4rem;}
     .taal-btn{background:none;border:1px solid var(--rand);border-radius:4px;padding:3px 8px;font-size:0.75rem;cursor:pointer;color:var(--tekst-zacht);font-family:'Source Sans 3',sans-serif;transition:all 0.2s;}
     .taal-btn:hover,.taal-btn.actief{background:var(--amber);border-color:var(--amber);color:white;}
-
+ 
     .chat-wrap{flex:1;display:flex;flex-direction:column;max-width:680px;margin:0 auto;width:100%;padding:0 1rem;min-height:0;padding-top:64px;}
     .berichten{flex:1;overflow-y:auto;padding:1.2rem 0 0.5rem;display:flex;flex-direction:column;gap:0.6rem;scroll-behavior:smooth;}
     .berichten::-webkit-scrollbar{width:4px;}
     .berichten::-webkit-scrollbar-thumb{background:var(--rand);border-radius:4px;}
-
+ 
     .bericht-sol{display:flex;align-items:flex-end;gap:8px;max-width:88%;align-self:flex-start;animation:inSchuiven 0.25s ease both;}
     .sol-avatar{width:32px;height:32px;background:var(--groen);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px;}
     .bel-sol{background:white;border-radius:18px 18px 18px 4px;padding:10px 14px;font-size:0.92rem;line-height:1.55;color:var(--tekst);box-shadow:0 1px 2px rgba(0,0,0,0.06);}
@@ -44,10 +44,10 @@
     .bel-sol.nibud{background:var(--amber-licht);border:1px solid rgba(232,160,32,0.2);font-size:0.82rem;color:var(--amber-diep);}
     .bel-sol.toeslag{background:var(--blauw-licht);border:1px solid rgba(37,99,235,0.15);font-size:0.82rem;color:var(--blauw);}
     .bel-sol.waarschuwing{background:var(--rood-licht);border:1px solid rgba(220,38,38,0.15);font-size:0.82rem;color:var(--rood);}
-
+ 
     .bericht-user{align-self:flex-end;max-width:78%;animation:inSchuiven 0.2s ease both;}
     .bel-user{background:var(--groen);border-radius:18px 18px 4px 18px;padding:10px 14px;font-size:0.92rem;color:white;line-height:1.5;box-shadow:0 1px 2px rgba(0,0,0,0.1);}
-
+ 
     .typing{display:flex;align-items:flex-end;gap:8px;align-self:flex-start;}
     .typing-dots{background:white;border-radius:18px;padding:12px 16px;display:flex;gap:4px;align-items:center;}
     .typing-dots span{width:6px;height:6px;background:var(--tekst-licht);border-radius:50%;animation:tikken 1.2s infinite;}
@@ -55,18 +55,18 @@
     .typing-dots span:nth-child(3){animation-delay:0.4s;}
     @keyframes tikken{0%,60%,100%{transform:translateY(0);opacity:0.4;}30%{transform:translateY(-5px);opacity:1;}}
     @keyframes inSchuiven{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
-
+ 
     .invoer-zone{padding:0.8rem 0 1rem;flex-shrink:0;}
-
+ 
     .keuze-rij{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px;}
     .keuze-btn{background:white;border:1.5px solid var(--rand);border-radius:20px;padding:8px 16px;font-size:0.88rem;font-weight:500;cursor:pointer;color:var(--tekst);font-family:'Source Sans 3',sans-serif;transition:all 0.18s;display:flex;align-items:center;gap:6px;}
     .keuze-btn:hover{border-color:var(--groen);background:var(--groen-licht);color:var(--groen);}
-
+ 
     .janee-rij{display:flex;gap:10px;margin-bottom:8px;}
     .ja-btn,.nee-btn{flex:1;padding:12px;border-radius:14px;font-size:1rem;font-weight:600;cursor:pointer;font-family:'Source Sans 3',sans-serif;border:2px solid var(--rand);background:white;transition:all 0.18s;display:flex;align-items:center;justify-content:center;gap:8px;}
     .ja-btn:hover{border-color:var(--groen);background:var(--groen-licht);}
     .nee-btn:hover{border-color:var(--rood);background:var(--rood-licht);}
-
+ 
     /* Bedrag invoer */
     .bedrag-rij{display:flex;gap:8px;align-items:stretch;}
     .bedrag-wrap{flex:1;display:flex;align-items:center;background:white;border:2px solid var(--rand);border-radius:14px;overflow:hidden;transition:border-color 0.2s;}
@@ -76,7 +76,7 @@
     .bedrag-input::placeholder{color:var(--tekst-licht);font-weight:300;}
     .stuur-btn{padding:0 20px;background:var(--groen);border:none;border-radius:14px;cursor:pointer;color:white;font-size:1.2rem;transition:all 0.18s;display:flex;align-items:center;}
     .stuur-btn:hover{background:#234830;}
-
+ 
     /* Naam + bedrag combo */
     .naam-bedrag-wrap{display:flex;gap:8px;align-items:stretch;background:white;border:2px solid var(--rand);border-radius:14px;overflow:hidden;transition:border-color 0.2s;}
     .naam-bedrag-wrap:focus-within{border-color:var(--amber);}
@@ -86,10 +86,10 @@
     .naam-euro{padding:0 10px;font-size:1.1rem;font-weight:600;color:var(--tekst-licht);background:var(--wit-warm);align-self:stretch;display:flex;align-items:center;}
     .naam-bedrag-input{flex:1;padding:14px 8px;font-size:1.1rem;border:none;background:transparent;color:var(--tekst);outline:none;font-family:'Source Sans 3',sans-serif;font-weight:500;min-width:60px;}
     .naam-bedrag-input::placeholder{color:var(--tekst-licht);font-weight:300;}
-
+ 
     .overslaan-link{text-align:center;font-size:0.78rem;color:var(--tekst-licht);margin-top:6px;cursor:pointer;background:none;border:none;font-family:'Source Sans 3',sans-serif;width:100%;display:block;transition:color 0.2s;}
     .overslaan-link:hover{color:var(--tekst-zacht);}
-
+ 
     /* Resultaatkaart */
     .resultaat-kaart{background:white;border-radius:18px 18px 18px 4px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.08);width:100%;}
     .res-header{background:var(--groen);padding:1rem 1.2rem;color:white;}
@@ -115,7 +115,7 @@
     .res-badge.hoog{background:var(--rood-licht);color:var(--rood);}
     .res-badge.ok{background:var(--groen-licht);color:var(--groen);}
     .res-totaal{display:flex;justify-content:space-between;padding:8px 1.2rem;background:var(--wit-warm);font-weight:600;font-size:0.88rem;border-top:1px solid var(--rand);}
-
+ 
     /* Weekbudget kaart */
     .week-kaart{background:white;border-radius:18px 18px 18px 4px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.08);width:100%;margin-top:0;}
     .week-header{background:var(--amber-diep);padding:1rem 1.2rem;color:white;}
@@ -135,7 +135,7 @@
     .week-cat-week{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--tekst);}
     .week-cat-dag{font-size:0.72rem;color:var(--tekst-licht);}
     .week-uitleg{padding:0.6rem 1.2rem;font-size:0.75rem;color:var(--tekst-licht);line-height:1.5;border-top:1px solid var(--rand);font-style:italic;}
-
+ 
     .res-acties{padding:0.8rem 1.2rem;display:flex;gap:8px;border-top:1px solid var(--rand);}
     .res-excel-btn{flex:1;padding:10px;background:var(--groen);color:white;border:none;border-radius:10px;font-size:0.85rem;font-weight:600;cursor:pointer;font-family:'Source Sans 3',sans-serif;transition:all 0.2s;}
     .res-excel-btn:hover{background:#234830;}
@@ -148,10 +148,10 @@
     .res-opnieuw-btn{width:100%;padding:10px;background:none;color:var(--tekst-licht);border:1px solid var(--rand);border-radius:10px;font-size:0.82rem;cursor:pointer;font-family:'Source Sans 3',sans-serif;margin-top:6px;transition:all 0.2s;}
     .res-opnieuw-btn:hover{color:var(--tekst-zacht);border-color:var(--tekst-licht);}
     .res-disclaimer{padding:0.6rem 1.2rem;font-size:0.72rem;color:var(--tekst-licht);line-height:1.5;border-top:1px solid var(--rand);}
-
+ 
     .voortgang-strip{height:3px;background:var(--rand);flex-shrink:0;}
     .voortgang-vul{height:100%;background:var(--amber);transition:width 0.4s ease;}
-
+ 
     /* ── AI ANALYSE KAART ── */
     .ai-uitnodiging{background:linear-gradient(135deg,#0F2318 0%,#1B3D2A 100%);border-radius:18px 18px 18px 4px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.15);width:100%;}
     .ai-header{padding:1rem 1.2rem;display:flex;align-items:center;gap:10px;}
@@ -176,13 +176,13 @@
     .ai-laden-dots span{animation:tikken 1.2s infinite;display:inline-block;width:5px;height:5px;background:var(--amber);border-radius:50%;margin:0 1px;}
     .ai-laden-dots span:nth-child(2){animation-delay:0.2s;}
     .ai-laden-dots span:nth-child(3){animation-delay:0.4s;}
-
+ 
     @media(max-width:480px){.nav-midden{display:none;}.chat-wrap{padding:0 0.6rem;}}
     @media print{nav,.invoer-zone,.res-acties{display:none;}}
   </style>
 </head>
 <body>
-
+ 
 <nav>
   <a href="index.html" class="nav-logo">
     <svg class="logo-icon" viewBox="0 0 36 36" fill="none">
@@ -215,12 +215,12 @@
   </div>
 </nav>
 <div class="voortgang-strip"><div class="voortgang-vul" id="voortgang" style="width:0%"></div></div>
-
+ 
 <div class="chat-wrap">
   <div class="berichten" id="berichten"></div>
   <div class="invoer-zone" id="invoer-zone"></div>
 </div>
-
+ 
 <script src="i18n.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -234,7 +234,7 @@ const NIBUD = {
   eenouder: {huur:676,energie:190,telefoon:64,zorgverzekering:179,overige_verzek:33,begrafenis:10,vervoer:36,voeding:381,kleding:101,reservering:269},
   gezin:    {huur:685,energie:202,telefoon:74,zorgverzekering:358,overige_verzek:47,begrafenis:18,vervoer:57,voeding:534,kleding:162,reservering:377},
 };
-
+ 
 // ══════════════════════════════════════════════════════
 // TEKSTEN (NL volledig — andere talen identiek qua structuur)
 // ══════════════════════════════════════════════════════
@@ -349,6 +349,12 @@ const T = {
     ai_tab_hulp:'Hulp in',
     ai_kolom_regeling:'Regeling',
     ai_kolom_contact:'Contact / Website',
+    ai_offline_titel:'Not available right now',
+    ai_offline_sub:'The analysis feature works on sunny days',
+    ai_offline_tekst:'The AI analysis is currently inactive — the server runs on solar energy and is off right now. You can search on <strong style="color:white;">gemeente.nl</strong> or call the <strong style="color:white;">Social Support Team</strong> in your municipality.',
+    ai_offline_titel:'Nu niet beschikbaar',
+    ai_offline_sub:'De analyse-functie werkt op zonnige dagen',
+    ai_offline_tekst:'De AI-analyse is momenteel niet actief — de server draait op zonne-energie en staat nu uit. Je kunt zelf zoeken op <strong style="color:white;">gemeente.nl</strong> of bel het <strong style="color:white;">Sociaal Wijkteam</strong> in jouw gemeente voor hulp bij geldzaken.',
     // Weekbudget
     week_titel:'Jouw weekbudget',
     week_sub:'Zo ziet jouw vrije ruimte er wekelijks uit',
@@ -470,6 +476,9 @@ const T = {
     ai_tab_hulp:'Help in',
     ai_kolom_regeling:'Scheme',
     ai_kolom_contact:'Contact / Website',
+    ai_offline_titel:'Nu niet beschikbaar',
+    ai_offline_sub:'De analyse-functie werkt op zonnige dagen',
+    ai_offline_tekst:'De AI-analyse is momenteel niet actief — de server draait op zonne-energie en staat nu uit. Je kunt zelf zoeken op <strong style="color:white;">gemeente.nl</strong> of bel het <strong style="color:white;">Sociaal Wijkteam</strong> in jouw gemeente voor hulp bij geldzaken.',
     week_titel:'Your weekly budget',
     week_sub:'This is what your free spending looks like each week',
     week_dag_label:'Free to spend per day',
@@ -585,6 +594,9 @@ const T = {
     ai_tab_hulp:'مساعدة في',
     ai_kolom_regeling:'البرنامج',
     ai_kolom_contact:'الاتصال / الموقع',
+    ai_offline_titel:'غير متوفر الآن',
+    ai_offline_sub:'تعمل ميزة التحليل في الأيام المشمسة',
+    ai_offline_tekst:'التحليل بالذكاء الاصطناعي غير نشط حالياً — الخادم يعمل بالطاقة الشمسية وهو متوقف الآن. يمكنك البحث على <strong style="color:white;">gemeente.nl</strong> أو الاتصال بـ <strong style="color:white;">Sociaal Wijkteam</strong>.',
     week_titel:'ميزانيتك الأسبوعية', week_sub:'هكذا تبدو مساحتك الحرة كل أسبوع',
     week_dag_label:'حر للإنفاق يومياً',
     week_boodschappen:'🛒 البقالة', week_boodschappen_sub:'ميزانيتك الشهرية مقسومة على 4.3',
@@ -696,6 +708,9 @@ const T = {
     ai_tab_hulp:'Yardım -',
     ai_kolom_regeling:'Program',
     ai_kolom_contact:'İletişim / Web sitesi',
+    ai_offline_titel:'Şu an mevcut değil',
+    ai_offline_sub:'Analiz özelliği güneşli günlerde çalışır',
+    ai_offline_tekst:'Yapay zeka analizi şu an aktif değil — sunucu güneş enerjisiyle çalışır ve şu an kapalı. <strong style="color:white;">gemeente.nl</strong> adresinde arayabilir veya <strong style="color:white;">Sociaal Wijkteam</strong> ile iletişime geçebilirsiniz.',
     week_titel:'Haftalık bütçen', week_sub:'Serbest harcama alanın her hafta böyle görünüyor',
     week_dag_label:'Günlük serbest harcama',
     week_boodschappen:'🛒 Market', week_boodschappen_sub:'Aylık bütçenizi 4,3\'e bölün',
@@ -807,6 +822,9 @@ const T = {
     ai_tab_hulp:'Допомога в',
     ai_kolom_regeling:'Програма',
     ai_kolom_contact:'Контакт / Веб-сайт',
+    ai_offline_titel:'Зараз недоступно',
+    ai_offline_sub:'Функція аналізу працює в сонячні дні',
+    ai_offline_tekst:'AI-аналіз зараз неактивний — сервер працює на сонячній енергії і зараз вимкнений. Шукайте на <strong style="color:white;">gemeente.nl</strong> або зателефонуйте до <strong style="color:white;">Sociaal Wijkteam</strong>.',
     week_titel:'Твій тижневий бюджет', week_sub:'Ось як виглядає твій вільний простір щотижня',
     week_dag_label:'Вільні кошти на день',
     week_boodschappen:'🛒 Продукти', week_boodschappen_sub:'Місячний бюджет поділений на 4,3',
@@ -1028,7 +1046,7 @@ const T = {
     week_uitleg:'این بودجه هفتگی تقریبی است.',
   },
 };
-
+ 
 // ══════════════════════════════════════════════════════
 // STATE
 // ══════════════════════════════════════════════════════
@@ -1036,16 +1054,16 @@ let taal = 'nl';
 const A = {};
 const TOTAAL_STAPPEN = 17;
 let stap = 0;
-
+ 
 function fmt(n){ return '€\u00a0'+Math.round(n).toLocaleString('nl-NL'); }
 function pct(a,b){ return b>0 ? Math.round((a/b)*100) : 0; }
-
+ 
 function scrollNaar(){
   const b=document.getElementById('berichten');
   setTimeout(()=>b.scrollTo({top:b.scrollHeight,behavior:'smooth'}),50);
 }
 function verbergInvoer(){ document.getElementById('invoer-zone').innerHTML=''; }
-
+ 
 // ── Bericht tonen met typingindicator
 function sol(tekst, type='', ms=0){
   return new Promise(r=>{
@@ -1072,7 +1090,7 @@ function user(tekst){
   b.appendChild(w); scrollNaar();
 }
 function setVoortgang(n){ document.getElementById('voortgang').style.width=Math.round((n/TOTAAL_STAPPEN)*100)+'%'; }
-
+ 
 // ── Keuze knoppen
 function toonKeuze(opties, cb){
   const z=document.getElementById('invoer-zone');
@@ -1084,7 +1102,7 @@ function toonKeuze(opties, cb){
   });
   z.appendChild(r); scrollNaar();
 }
-
+ 
 // ── Ja / Nee
 function toonJaNee(jaCb, neeCb, optioneel){
   const t=T[taal];
@@ -1101,7 +1119,7 @@ function toonJaNee(jaCb, neeCb, optioneel){
   }
   scrollNaar();
 }
-
+ 
 // ── Bedrag invoer
 function toonBedrag(id, optioneel, cb){
   const t=T[taal];
@@ -1124,7 +1142,7 @@ function toonBedrag(id, optioneel, cb){
   setTimeout(()=>document.getElementById(`inp-${id}`)?.focus(),60);
   scrollNaar();
 }
-
+ 
 // ── Naam + bedrag invoer (voor "overige kosten")
 function toonNaamBedrag(id, optioneel, cb){
   const t=T[taal];
@@ -1151,7 +1169,7 @@ function toonNaamBedrag(id, optioneel, cb){
   setTimeout(()=>document.getElementById(`naam-${id}`)?.focus(),60);
   scrollNaar();
 }
-
+ 
 // ══════════════════════════════════════════════════════
 // GESPREKSSTROOM
 // ══════════════════════════════════════════════════════
@@ -1164,19 +1182,19 @@ async function start(){
   await sol(t.welkom); await sol(t.start);
   await stap_situatie();
 }
-
+ 
 async function stap_situatie(){
   const t=T[taal]; setVoortgang(++stap);
   await sol(t.sit_v);
   toonKeuze(t.sit_opties, async(id)=>{ A.sit=id; await stap_inkomen(); });
 }
-
+ 
 async function stap_inkomen(){
   const t=T[taal]; setVoortgang(++stap);
   await sol(t.inkomen_v); await sol(t.inkomen_u,'reactie');
   toonBedrag('inkomen',false,async(v)=>{ A.inkomen=v; await stap_huur(); });
 }
-
+ 
 async function stap_huur(){
   const t=T[taal]; setVoortgang(++stap);
   await sol(t.huur_v);
@@ -1191,7 +1209,7 @@ async function stap_huur(){
     await stap_huurtoeslag();
   });
 }
-
+ 
 async function stap_huurtoeslag(){
   const t=T[taal]; setVoortgang(++stap);
   await sol(t.huurtsl_v); await sol(t.huurtsl_u,'reactie');
@@ -1208,7 +1226,7 @@ async function stap_huurtoeslag(){
     }
   );
 }
-
+ 
 async function stap_energie(){
   const t=T[taal]; const ref=NIBUD[A.sit]; setVoortgang(++stap);
   await sol(t.energie_v); await sol(t.energie_u,'reactie');
@@ -1219,7 +1237,7 @@ async function stap_energie(){
     await stap_telefoon();
   });
 }
-
+ 
 async function stap_telefoon(){
   const t=T[taal]; const ref=NIBUD[A.sit]; setVoortgang(++stap);
   await sol(t.telefoon_v); await sol(t.telefoon_u,'reactie');
@@ -1229,7 +1247,7 @@ async function stap_telefoon(){
     await stap_zorgverzek();
   });
 }
-
+ 
 async function stap_zorgverzek(){
   const t=T[taal]; const ref=NIBUD[A.sit]; setVoortgang(++stap);
   await sol(t.zorgverzek_v); await sol(t.zorgverzek_u,'reactie');
@@ -1240,7 +1258,7 @@ async function stap_zorgverzek(){
     await stap_zorgtoeslag();
   });
 }
-
+ 
 async function stap_zorgtoeslag(){
   const t=T[taal]; setVoortgang(++stap);
   await sol(t.zorgtsl_v); await sol(t.zorgtsl_u,'reactie');
@@ -1256,7 +1274,7 @@ async function stap_zorgtoeslag(){
     }
   );
 }
-
+ 
 async function stap_auto(){
   const t=T[taal]; setVoortgang(++stap);
   await sol(t.auto_v);
@@ -1265,13 +1283,13 @@ async function stap_auto(){
     async()=>{ A.heeft_auto=false; A.autoverzek=0; await stap_inboedel(); }
   );
 }
-
+ 
 async function stap_autoverzek(){
   const t=T[taal];
   await sol(t.autoverzek_v); await sol(t.autoverzek_u,'reactie');
   toonBedrag('autoverzek',false,async(v)=>{ A.autoverzek=v; await stap_inboedel(); });
 }
-
+ 
 async function stap_inboedel(){
   const t=T[taal]; setVoortgang(++stap);
   await sol(t.inboedel_v); await sol(t.inboedel_u,'reactie');
@@ -1281,7 +1299,7 @@ async function stap_inboedel(){
     await stap_begrafenis();
   });
 }
-
+ 
 async function stap_begrafenis(){
   const t=T[taal]; setVoortgang(++stap);
   await sol(t.begrafenis_v);
@@ -1294,7 +1312,7 @@ async function stap_begrafenis(){
     true
   );
 }
-
+ 
 async function stap_vervoer(){
   const t=T[taal]; const ref=NIBUD[A.sit]; setVoortgang(++stap);
   await sol(t.vervoer_v); await sol(t.vervoer_u,'reactie');
@@ -1304,7 +1322,7 @@ async function stap_vervoer(){
     await stap_schulden();
   });
 }
-
+ 
 async function stap_schulden(){
   const t=T[taal]; setVoortgang(++stap);
   await sol(t.schulden_v); await sol(t.schulden_u,'reactie');
@@ -1316,19 +1334,19 @@ async function stap_schulden(){
     async()=>{ A.schulden=0; await stap_abonnem(); }
   );
 }
-
+ 
 async function stap_abonnem(){
   const t=T[taal]; setVoortgang(++stap);
   await sol(t.abonnem_v); await sol(t.abonnem_u,'reactie');
   A.abonnementen = [];
   toonAbonnementenInvoer();
 }
-
+ 
 function toonAbonnementenInvoer(){
   const t=T[taal];
   const z=document.getElementById('invoer-zone');
   z.innerHTML='';
-
+ 
   // Bestaande items tonen
   const lijstDiv=document.createElement('div');
   lijstDiv.style.cssText='display:flex;flex-direction:column;gap:6px;margin-bottom:8px;';
@@ -1340,7 +1358,7 @@ function toonAbonnementenInvoer(){
     lijstDiv.appendChild(item);
   });
   if((A.abonnementen||[]).length>0) z.appendChild(lijstDiv);
-
+ 
   // Nieuw invoerveld
   const r=document.createElement('div'); r.className='bedrag-rij';
   const w=document.createElement('div'); w.className='naam-bedrag-wrap';
@@ -1357,7 +1375,7 @@ function toonAbonnementenInvoer(){
   };
   w.querySelector('.naam-bedrag-input').addEventListener('keydown',e=>{ if(e.key==='Enter') addBtn.click(); });
   r.appendChild(w); r.appendChild(addBtn); z.appendChild(r);
-
+ 
   // Klaar-knop
   const klaarRij=document.createElement('div'); klaarRij.style.cssText='display:flex;gap:8px;margin-top:6px;';
   const klaarBtn=document.createElement('button');
@@ -1379,12 +1397,12 @@ function toonAbonnementenInvoer(){
   setTimeout(()=>document.getElementById('abn-naam')?.focus(),60);
   scrollNaar();
 }
-
+ 
 function verwijderAbonnem(i){
   A.abonnementen.splice(i,1);
   toonAbonnementenInvoer();
 }
-
+ 
 async function stap_boodschappen(){
   const t=T[taal]; const ref=NIBUD[A.sit]; setVoortgang(++stap);
   await sol(t.boodschappen_v); await sol(t.boodschappen_u,'reactie');
@@ -1396,7 +1414,7 @@ async function stap_boodschappen(){
     await stap_overig();
   });
 }
-
+ 
 async function stap_overig(){
   const t=T[taal]; setVoortgang(++stap);
   await sol(t.overig_v); await sol(t.overig_u,'reactie');
@@ -1406,7 +1424,7 @@ async function stap_overig(){
     await stap_sparen();
   });
 }
-
+ 
 async function stap_sparen(){
   const t=T[taal]; setVoortgang(++stap);
   await sol(t.sparen_v); await sol(t.sparen_u,'reactie');
@@ -1421,7 +1439,7 @@ async function stap_sparen(){
     await toonResultaat();
   });
 }
-
+ 
 // ══════════════════════════════════════════════════════
 // BEREKENING
 // ══════════════════════════════════════════════════════
@@ -1430,7 +1448,7 @@ function berekenSaldo(){
   const uit=(A.huur||0)+(A.energie||0)+(A.telefoon||0)+(A.zorgverzek||0)+(A.autoverzek||0)+(A.inboedel||0)+(A.begrafenis||0)+(A.vervoer||0)+(A.schulden||0)+(A.abonnem||0)+(A.boodschappen||0)+(A.overig||0)+(A.sparen||0);
   return ink-uit;
 }
-
+ 
 // ══════════════════════════════════════════════════════
 // RESULTAAT
 // ══════════════════════════════════════════════════════
@@ -1445,7 +1463,7 @@ async function toonResultaat(){
   const totUit=huurB+energie+tel+zorgv+autov+inboed+begraf+verv+schuld+abonnem+bood+overig+spaar;
   const saldo=ink-totUit, pos=saldo>=-5;
   const wSaldo=saldo/(52/12), dSaldo=saldo/30;
-
+ 
   function badge(v,r){
     if(!r||!v) return '';
     return v>r*1.2 ? `<span class="res-badge hoog">${t.badge_hoog}</span>` : `<span class="res-badge ok">${t.badge_ok}</span>`;
@@ -1458,7 +1476,7 @@ async function toonResultaat(){
       <span class="res-post-bedrag">${fmt(v)}${badge(v,r)}</span>
     </div>`;
   }
-
+ 
   const kaart=`<div class="resultaat-kaart" id="res-kaart">
     <div class="res-header"><div class="res-header-titel">${t.res_titel}</div><div class="res-header-sub">${t.res_sub}</div></div>
     <div class="res-saldo ${pos?'pos':'neg'}">
@@ -1491,12 +1509,12 @@ async function toonResultaat(){
     </div>
     <div class="res-disclaimer">${t.disclaimer}</div>
   </div>`;
-
+ 
   const b=document.getElementById('berichten');
   const w=document.createElement('div');
   w.className='bericht-sol'; w.style.cssText='max-width:100%;width:100%;';
   w.innerHTML=kaart; b.appendChild(w); scrollNaar();
-
+ 
   // Weekbudget kaart
   // Vrij besteedbaar = saldo. Verdelen over categorieën.
   const vrijeRuimte=Math.max(0,saldo);
@@ -1505,7 +1523,7 @@ async function toonResultaat(){
   const wVrij=vrijeRuimte/(52/12)*0.5;
   const wOverig=vrijeRuimte/(52/12)*0.3;
   const wDag=vrijeRuimte/30;
-
+ 
   await new Promise(r=>setTimeout(r,300));
   const weekKaart=`<div class="week-kaart">
     <div class="week-header"><div class="week-header-titel">📅 ${t.week_titel}</div><div class="week-header-sub">${t.week_sub}</div></div>
@@ -1532,11 +1550,11 @@ async function toonResultaat(){
     </div>
     <div class="week-uitleg">${t.week_uitleg}</div>
   </div>`;
-
+ 
   const ww=document.createElement('div');
   ww.className='bericht-sol'; ww.style.cssText='max-width:100%;width:100%;';
   ww.innerHTML=weekKaart; b.appendChild(ww); scrollNaar();
-
+ 
   // Download knoppen onder weekbudget
   await new Promise(r=>setTimeout(r,200));
   const dlWrap=document.createElement('div');
@@ -1548,40 +1566,80 @@ async function toonResultaat(){
     </div>
   </div>`;
   b.appendChild(dlWrap); scrollNaar();
-
+ 
   // PDF data opslaan
   window._pdf={saldo,pos,ink,wSaldo,dSaldo,totUit,huurB,nettoW,energie,tel,zorgv,autov,inboed,begraf,verv,schuld,abonnem,abonnementen:A.abonnementen||[],bood,overig,overig_naam:A.overig_naam||'Overige kosten',spaar,sit:A.sit||'alleen',huurtoesl:A.huurtoeslag||0,zorgtoesl:A.zorgtoeslag||0,wBood,wVrij,wOverig,wDag};
-
+ 
   await new Promise(r=>setTimeout(r,300));
   if(saldo>50)  await sol(t.adv_pos(saldo),'reactie');
   if(saldo<-50) await sol(t.adv_neg(saldo),'waarschuwing');
   if(spaar>0)   await sol(t.adv_spaar(spaar),'reactie');
   await sol(t.adv_toeslag,'toeslag');
-
-  // AI uitnodigingskaart
+ 
+  // ── AI uitnodigingskaart — check eerst of PC online is
   await new Promise(r=>setTimeout(r,400));
-  const aiKaart=document.createElement('div');
-  aiKaart.className='bericht-sol';
-  aiKaart.style.cssText='max-width:100%;width:100%;';
-  aiKaart.innerHTML=`<div class="ai-uitnodiging" id="ai-uitnodiging">
-    <div class="ai-header">
-      <span class="ai-zon">☀️</span>
-      <div class="ai-header-tekst">
-        <div class="ai-titel">${t.ai_uitnodiging_titel}</div>
-        <div class="ai-sub">${t.ai_uitnodiging_sub}</div>
+  await toonAiKaart(t);
+}
+ 
+async function toonAiKaart(t) {
+  const b = document.getElementById('berichten');
+ 
+  // Ping Flask-backend — is de PC aan?
+  let pcOnline = false;
+  try {
+    const ping = await Promise.race([
+      fetch(STATUS_URL, {method:'GET', cache:'no-cache'}),
+      new Promise((_, r) => setTimeout(() => r(new Error('timeout')), 4000))
+    ]);
+    if (ping.ok) {
+      const status = await ping.json();
+      pcOnline = status.online === true;
+      // status geeft zon_actief terug (zie routes/status.py)
+      const zonActief = status.zon_actief === true;
+    }
+  } catch(e) { pcOnline = false; }
+ 
+  const aiKaart = document.createElement('div');
+  aiKaart.className = 'bericht-sol';
+  aiKaart.style.cssText = 'max-width:100%;width:100%;';
+ 
+  if (pcOnline) {
+    // ☀️ Online — toon uitnodiging
+    aiKaart.innerHTML = `<div class="ai-uitnodiging" id="ai-uitnodiging">
+      <div class="ai-header">
+        <span class="ai-zon">☀️</span>
+        <div class="ai-header-tekst">
+          <div class="ai-titel">${t.ai_uitnodiging_titel}</div>
+          <div class="ai-sub">${t.ai_uitnodiging_sub}</div>
+        </div>
       </div>
-    </div>
-    <div style="padding:0 1.2rem 0.8rem;font-size:0.88rem;color:rgba(255,255,255,0.75);line-height:1.55;">${t.ai_uitnodiging_tekst}</div>
-    <div class="ai-privacy">🔒 ${t.ai_privacy}</div>
-    <div class="ai-knoppen">
-      <button class="ai-ja-btn" onclick="startAiAnalyse()">${t.ai_ja}</button>
-      <button class="ai-nee-btn" onclick="this.closest('.ai-uitnodiging').style.opacity='0.4';this.disabled=true;this.previousElementSibling.disabled=true;">${t.ai_nee}</button>
-    </div>
-  </div>`;
-  document.getElementById('berichten').appendChild(aiKaart);
+      <div style="padding:0 1.2rem 0.8rem;font-size:0.88rem;color:rgba(255,255,255,0.75);line-height:1.55;">${t.ai_uitnodiging_tekst}</div>
+      <div class="ai-privacy">\u{1F512} ${t.ai_privacy}</div>
+      <div class="ai-knoppen">
+        <button class="ai-ja-btn" onclick="startAiAnalyse()">${t.ai_ja}</button>
+        <button class="ai-nee-btn" onclick="this.closest('.ai-uitnodiging').style.opacity='0.4';this.disabled=true;this.previousElementSibling.disabled=true;">${t.ai_nee}</button>
+      </div>
+    </div>`;
+  } else {
+    // 🌙 Offline — vriendelijke melding
+    aiKaart.innerHTML = `<div class="ai-uitnodiging" id="ai-uitnodiging" style="opacity:0.8;">
+      <div class="ai-header">
+        <span class="ai-zon">🌙</span>
+        <div class="ai-header-tekst">
+          <div class="ai-titel">${t.ai_offline_titel}</div>
+          <div class="ai-sub">${t.ai_offline_sub}</div>
+        </div>
+      </div>
+      <div style="padding:0 1.2rem 1rem;font-size:0.88rem;color:rgba(255,255,255,0.7);line-height:1.6;">
+        ${t.ai_offline_tekst}
+      </div>
+    </div>`;
+  }
+  b.appendChild(aiKaart);
   scrollNaar();
 }
-
+ 
+ 
 // ══════════════════════════════════════════════════════
 // EXCEL — volledig client-side via SheetJS
 // Tabblad 1: Mijn budget | Tabblad 2: Weekbudget
@@ -1590,14 +1648,14 @@ function downloadExcel(){
   const t=T[taal], btn=document.getElementById('res-excel');
   if(!btn||!window.XLSX){alert('Excel-bibliotheek nog niet geladen. Probeer opnieuw.'); return;}
   btn.textContent=t.excel_bezig; btn.disabled=true;
-
+ 
   setTimeout(()=>{
     try{
       if(!window._pdf){alert('Vul eerst het budget in.'); btn.disabled=false; btn.textContent='📊 '+T[taal].excel_btn; return;}
       const d=window._pdf;
       const ref=NIBUD[d.sit||'alleen']||NIBUD.alleen;
       const WB=XLSX.utils.book_new();
-
+ 
       // ── Hulpfuncties ──────────────────────────────
       const euro=(n)=>Math.round(n||0);
       const rij=(label,mnd,nibud_mnd)=>{
@@ -1605,17 +1663,17 @@ function downloadExcel(){
         if(nibud_mnd) r[t.kolom_nibud]=euro(nibud_mnd);
         return r;
       };
-
+ 
       // ── TABBLAD 1: BUDGET ─────────────────────────
       const budgetData=[];
-
+ 
       // Header inkomsten
       budgetData.push({[t.kolom_post]:t.sectie_inkomsten,[t.kolom_maand]:''});
       budgetData.push(rij(t.inkomen_lbl+' (netto)',d.ink));
       if(d.huurtoesl>0) budgetData.push(rij('↳ '+t.netto_woon+' (huurtoeslag)',d.huurtoesl));
       if(d.zorgtoesl>0) budgetData.push(rij('↳ Zorgtoeslag',d.zorgtoesl));
       budgetData.push({[t.kolom_post]:'',[t.kolom_maand]:''}); // lege rij
-
+ 
       // Header uitgaven
       budgetData.push({[t.kolom_post]:t.sectie_uitgaven,[t.kolom_maand]:''});
       budgetData.push(rij('🏠 Huur / hypotheek (bruto)',d.huurB,ref.huur));
@@ -1633,15 +1691,15 @@ function downloadExcel(){
       if(d.overig>0) budgetData.push(rij('📦 '+d.overig_naam,d.overig));
       if(d.spaar>0) budgetData.push(rij('🐷 '+t.sparen_lbl,d.spaar));
       budgetData.push({[t.kolom_post]:'',[t.kolom_maand]:''}); // lege rij
-
+ 
       // Totaalrij met formule
       const uitgavenStartRij = 4; // rij na header + inkomen + lege rij + sectie-header
       const uitgavenAantalRijen = budgetData.length - 3; // schatting voor formule
       budgetData.push({[t.kolom_post]:t.totaal_uit,[t.kolom_maand]:euro(d.totUit)});
       budgetData.push({[t.kolom_post]:(d.pos?t.overschot:t.tekort),[t.kolom_maand]:euro(d.saldo)});
-
+ 
       const ws1=XLSX.utils.json_to_sheet(budgetData);
-
+ 
       // SUM-formule op totaalveld (kolom B, rij = laatste - 1)
       const totalRow = budgetData.length; // 1-indexed voor Excel
       const sumStart = uitgavenStartRij + 1;
@@ -1649,12 +1707,12 @@ function downloadExcel(){
       if(ws1['B'+totalRow]) {
         ws1['B'+totalRow] = { t:'n', v:euro(d.totUit), f:`SUM(B${sumStart}:B${sumEnd})` };
       }
-
+ 
       // Kolombreedtes
       ws1['!cols']=[{wch:38},{wch:16},{wch:18}];
-
+ 
       XLSX.utils.book_append_sheet(WB,ws1,t.tab_budget);
-
+ 
       // ── TABBLAD 2: WEEKBUDGET ─────────────────────
       const weekData=[
         {[t.kolom_categorie]:t.week_boodschappen.replace(/^🛒\s*/,''),[t.kolom_week]:euro(d.wBood),[t.kolom_dag]:euro(d.wBood/7)},
@@ -1666,7 +1724,7 @@ function downloadExcel(){
       const ws2=XLSX.utils.json_to_sheet(weekData);
       ws2['!cols']=[{wch:38},{wch:14},{wch:12}];
       XLSX.utils.book_append_sheet(WB,ws2,t.tab_week);
-
+ 
       const wbout = XLSX.write(WB, {bookType:'xlsx', type:'base64'});
       const a = document.createElement('a');
       a.href = 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,' + wbout;
@@ -1684,10 +1742,10 @@ function downloadExcel(){
     }
   },80);
 }
-
+ 
 // Verwijder emoji/unicode symbolen die jsPDF niet kan renderen
 function pdfTekst(s){ return (s||'').replace(/[^\x00-\xFF]/g,'').replace(/\s+/g,' ').trim(); }
-
+ 
 // ══════════════════════════════════════════════════════
 // PDF voor begeleider — volledig client-side
 // ══════════════════════════════════════════════════════
@@ -1703,7 +1761,7 @@ function downloadPDF(){
       const G=[45,90,61],Am=[196,127,16],Li=[156,156,152],Za=[92,92,88],Te=[26,26,24],Ro=[220,38,38];
       if(!window._pdf){alert('Vul eerst het budget in.'); btn.disabled=false; btn.textContent='📄 '+T[taal].pdf_btn; return;}
       const d=window._pdf, ref=NIBUD[d.sit||'alleen']||NIBUD.alleen;
-
+ 
       // Header
       doc.setFillColor(...G); doc.rect(0,0,W,36,'F');
       doc.setTextColor(255,255,255);
@@ -1712,7 +1770,7 @@ function downloadPDF(){
       doc.setFontSize(7); doc.setFont('helvetica','normal');
       doc.text(new Date().toLocaleDateString('nl-NL',{day:'numeric',month:'long',year:'numeric'})+'  ·  '+t.res_sub,M,32);
       y=46;
-
+ 
       // Saldo
       doc.setFillColor(...(d.pos?[235,243,238]:[254,242,242]));
       doc.setDrawColor(...(d.pos?G:Ro));
@@ -1721,7 +1779,7 @@ function downloadPDF(){
       doc.setFontSize(14); doc.setFont('helvetica','bold'); doc.text(fmt(d.saldo),W/2,y+9,{align:'center'});
       doc.setFontSize(7); doc.setFont('helvetica','normal'); doc.text(`${d.pos?t.overschot:t.tekort}  ·  ${t.inkomen_lbl}: ${fmt(d.ink)}`,W/2,y+16,{align:'center'});
       y+=26;
-
+ 
       // Week/dag pills
       const hw=(CW-4)/2;
       doc.setFillColor(253,243,224); doc.rect(M,y,hw,11,'F');
@@ -1731,7 +1789,7 @@ function downloadPDF(){
       doc.setTextColor(...Za); doc.setFontSize(6); doc.text(t.per_dag.toUpperCase(),M+hw+7,y+4.5);
       doc.setFontSize(10); doc.text(fmt(d.dSaldo),M+hw+7,y+9.5);
       y+=17;
-
+ 
       // Uitgaven
       doc.setTextColor(...Te); doc.setFontSize(7); doc.setFont('helvetica','bold'); doc.text(t.totaal_uit.toUpperCase(),M,y+5); y+=8;
       const posten=[
@@ -1749,7 +1807,7 @@ function downloadPDF(){
         ...(d.overig>0?[{n:d.overig_naam,v:d.overig,r:0}]:[]),
         ...(d.spaar>0?[{n:'Sparen',v:d.spaar,r:0}]:[]),
       ].filter(p=>p.v>0);
-
+ 
       posten.forEach((p,i)=>{
         const h=p.sub?10:8;
         if(i%2===0){doc.setFillColor(248,248,246);doc.rect(M,y,CW,h,'F');}
@@ -1759,11 +1817,11 @@ function downloadPDF(){
         doc.setTextColor(...Te);doc.setFontSize(8);doc.setFont('helvetica','bold');doc.text(fmt(p.v),W-M-2,y+5.5,{align:'right'});
         y+=h;
       });
-
+ 
       doc.setDrawColor(...Li); doc.line(M,y,W-M,y); y+=4;
       doc.setTextColor(...Te); doc.setFontSize(8); doc.setFont('helvetica','bold');
       doc.text(t.totaal_uit,M+3,y+4); doc.text(fmt(d.totUit),W-M-2,y+4,{align:'right'}); y+=12;
-
+ 
       // Weekbudget sectie
       doc.setFillColor(196,127,16); doc.rect(M,y,CW,10,'F');
       doc.setTextColor(255,255,255); doc.setFontSize(9); doc.setFont('helvetica','bold');
@@ -1782,7 +1840,7 @@ function downloadPDF(){
       y+=4;
       doc.setTextColor(...Li); doc.setFontSize(6.5); doc.setFont('helvetica','italic'); doc.text(t.nibud_bron,W/2,y,{align:'center'}); y+=8;
       doc.setTextColor(...Li); doc.setFontSize(6); doc.text('solidari.nl  ·  '+t.disclaimer.replace(/<[^>]*>/g,''),W/2,285,{align:'center',maxWidth:CW});
-
+ 
       const pdfData = doc.output('datauristring');
       const ap = document.createElement('a');
       ap.href = pdfData;
@@ -1795,13 +1853,13 @@ function downloadPDF(){
     finally{btn.textContent='📄 '+T[taal].pdf_btn;btn.disabled=false;}
   },80);
 }
-
+ 
 // ══════════════════════════════════════════════════════
 // AI ANALYSE — Claude API met web search
 // Budgetdata: alleen bedragen en gemeente, geen persoonsgegevens
 // ══════════════════════════════════════════════════════
 let aiGemeente = '';
-
+ 
 async function startAiAnalyse() {
   const t = T[taal];
   // Verberg uitnodigingskaart knoppen
@@ -1813,7 +1871,7 @@ async function startAiAnalyse() {
   await sol(t.ai_gemeente_v, 'ai-analyse');
   toonGemeenteInvoer();
 }
-
+ 
 function toonGemeenteInvoer() {
   const t = T[taal];
   const z = document.getElementById('invoer-zone');
@@ -1832,7 +1890,7 @@ function toonGemeenteInvoer() {
   }
   scrollNaar();
 }
-
+ 
 async function verwerkGemeente() {
   const inp = document.getElementById('gemeente-inp');
   const gemeente = inp ? inp.value.trim() : '';
@@ -1842,7 +1900,7 @@ async function verwerkGemeente() {
   user(gemeente);
   await roepAiAan(gemeente);
 }
-
+ 
 function bouwBudgetContext(gemeente) {
   const d = window._pdf;
   if (!d) return '';
@@ -1850,7 +1908,7 @@ function bouwBudgetContext(gemeente) {
   const sit_labels = { alleen: 'alleenstaand', stel: 'samenwonend stel', eenouder: 'eenoudergezin', gezin: 'gezin met kinderen' };
   const woonquote = d.ink > 0 ? Math.round((d.huurB / d.ink) * 100) : 0;
   const nettoWoon = d.huurtoesl > 0 ? d.nettoW : d.huurB;
-
+ 
   const knelpunten = [];
   if (woonquote > 40) knelpunten.push(`Woonquote hoog: ${woonquote}% (advies max 40%)`);
   if (!d.huurtoesl || d.huurtoesl === 0) knelpunten.push('Geen huurtoeslag (mogelijk gemist)');
@@ -1858,19 +1916,19 @@ function bouwBudgetContext(gemeente) {
   if (d.schuld > 0) knelpunten.push(`Leningen/afbetalingen: €${Math.round(d.schuld)}/mnd`);
   if (d.saldo < -50) knelpunten.push(`Maandelijks tekort: €${Math.round(Math.abs(d.saldo))}`);
   if (d.bood < ref.voeding * 0.65 && d.bood > 0) knelpunten.push('Boodschappenbudget mogelijk onderschat');
-
+ 
   const abonnementenTxt = (d.abonnementen || []).map(ab => `${ab.naam}: €${Math.round(ab.bedrag)}`).join(', ');
-
+ 
   return `BUDGETOVERZICHT VOOR AI-ANALYSE
 Situatie: ${sit_labels[d.sit] || d.sit}
 Gemeente: ${gemeente}
-
+ 
 INKOMSTEN (per maand):
 - Totaal inkomen: €${Math.round(d.ink)}
 - Netto loon/uitkering: €${Math.round(d.ink - (d.huurtoesl || 0) - (d.zorgtoesl || 0))}
 ${d.huurtoesl > 0 ? `- Huurtoeslag: €${Math.round(d.huurtoesl)}` : '- Geen huurtoeslag ontvangen'}
 ${d.zorgtoesl > 0 ? `- Zorgtoeslag: €${Math.round(d.zorgtoesl)}` : '- Geen zorgtoeslag ontvangen'}
-
+ 
 UITGAVEN (per maand):
 - Huur/hypotheek (bruto): €${Math.round(d.huurB)} | netto woonlast: €${Math.round(nettoWoon)} | woonquote: ${woonquote}%
 - Energie: €${Math.round(d.energie)}
@@ -1886,22 +1944,22 @@ ${abonnementenTxt ? `- Abonnementen: ${abonnementenTxt}` : ''}
 ${d.overig > 0 ? `- ${d.overig_naam}: €${Math.round(d.overig)}` : ''}
 ${d.spaar > 0 ? `- Sparen: €${Math.round(d.spaar)}` : ''}
 - TOTAAL UITGAVEN: €${Math.round(d.totUit)}
-
+ 
 SALDO: €${Math.round(d.saldo)} per maand (${d.pos ? 'overschot' : 'TEKORT'})
-
+ 
 GESIGNALEERDE KNELPUNTEN:
 ${knelpunten.length > 0 ? knelpunten.map(k => `- ${k}`).join('\n') : '- Geen directe knelpunten'}
-
+ 
 Nibud-referentie voor deze situatie:
 - Huur richtlijn: €${ref.huur} | Voeding richtlijn: €${ref.voeding} | Energie richtlijn: €${ref.energie}`;
 }
-
+ 
 async function roepAiAan(gemeente) {
   const t = T[taal];
   const taalNamen = { nl: 'Nederlands', en: 'English', ar: 'Arabic', tr: 'Turkish', uk: 'Ukrainian', ti: 'Tigrinya', fa: 'Dari (Farsi)' };
   const antwoordTaal = taalNamen[taal] || 'Nederlands';
   const budgetContext = bouwBudgetContext(gemeente);
-
+ 
   const b = document.getElementById('berichten');
   const laadDiv = document.createElement('div');
   laadDiv.className = 'bericht-sol';
@@ -1910,7 +1968,7 @@ async function roepAiAan(gemeente) {
   </div>`;
   b.appendChild(laadDiv);
   scrollNaar();
-
+ 
   // Gerichte prompt — max 3 web searches om timeout te vermijden
   // Knelpunten bepalen welke searches het meest relevant zijn
   const d = window._pdf || {};
@@ -1918,34 +1976,42 @@ async function roepAiAan(gemeente) {
   if (d.saldo < -50 || d.schuld > 0) knelpunten.push('schuldhulpverlening');
   if (!d.huurtoesl || d.huurtoesl === 0) knelpunten.push('bijzondere bijstand');
   if (d.bood < 150) knelpunten.push('voedselbank');
-
+ 
   const zoekFocus = knelpunten.length > 0
     ? knelpunten.join(', ')
     : 'bijzondere bijstand, voedselbank, minimaregelingen';
-
+ 
   const systeemprompt = `Je bent een vriendelijke budgetcoach voor Solidari.
-TAAL: Antwoord uitsluitend in het ${antwoordTaal}. Geen uitzonderingen.
-
-TAAK in 3 stappen:
-
-1. BUDGETANALYSE (max 3 zinnen): Bespreek de situatie eerlijk maar respectvol. Benoem het belangrijkste knelpunt.
-
-2. HULP IN ${gemeente.toUpperCase()}: Doe maximaal 2 web searches. Zoek specifiek naar: ${zoekFocus} in gemeente ${gemeente}.
-   Voeg ook altijd toe: Stichting Leergeld ${gemeente}, kledingbank ${gemeente}.
-   Per gevonden organisatie: naam + wat ze doen (1 zin) + website of telefoonnummer.
-   Als iets niet gevonden wordt, schrijf dat eerlijk op.
-
-3. TOP 3 ACTIES: Drie concrete stappen, genummerd.
-
-Sluit af met: "Neem de Excel of PDF mee naar je begeleider."
-Totaal max 300 woorden.`;
-
+TAAL: Antwoord UITSLUITEND in het ${antwoordTaal}. Geen uitzonderingen.
+ 
+Geef advies in 3 delen:
+ 
+1. BUDGETANALYSE (max 3 zinnen): Bespreek de financiele situatie eerlijk maar respectvol. Benoem het belangrijkste knelpunt.
+ 
+2. HULP IN ${gemeente.toUpperCase()}: Geef voor elke relevante categorie specifieke informatie voor gemeente ${gemeente}:
+- Bijzondere bijstand: hoe aanvragen
+- Collectieve zorgverzekering gemeente ${gemeente}
+- Kwijtschelding gemeentebelastingen: hoe aanvragen
+- Voedselbank: locatie als je die kent
+- Schuldhulpverlening gemeente ${gemeente}: contactgegevens
+- Sociaal Wijkteam of VluchtelingenWerk in ${gemeente}
+- Stichting Leergeld ${gemeente}: voor kinderen
+- Kledingbank in de regio
+Als je iets niet zeker weet, zeg dat eerlijk en verwijs naar de gemeente-website of het Sociaal Wijkteam.
+ 
+3. TOP 3 ACTIES: Drie concrete stappen die nu gezet kunnen worden.
+ 
+Sluit af met: Neem de Excel of PDF mee naar je begeleider.
+Maximaal 400 woorden.`
+ 
   // Timeout via Promise.race (AbortController werkt niet in sandboxed iframe)
-  // ── Cloudflare Worker URL
-  // Pas dit aan naar jouw worker-adres na het aanmaken in Cloudflare Dashboard
-  const WORKER_URL = 'https://solidari-analyse.jounaam.workers.dev';
-
-  const fetchPromise = fetch(WORKER_URL, {
+  // ── Backend configuratie ──────────────────────────────────────────────
+  // Flask-backend op jouw Lenovo PC (actief bij zon via Home Assistant)
+  const API_BASE = 'https://api.solidari.nl';
+  const ANALYSE_URL = API_BASE + '/api/analyse';
+  const STATUS_URL  = API_BASE + '/api/status';
+ 
+  const fetchPromise = fetch(ANALYSE_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -1956,12 +2022,12 @@ Totaal max 300 woorden.`;
   const timeoutPromise = new Promise((_, reject) =>
     setTimeout(() => reject(new Error('TIMEOUT')), 45000)
   );
-
+ 
   try {
     const response = await Promise.race([fetchPromise, timeoutPromise]);
     const data = await response.json();
     laadDiv.remove();
-
+ 
     if (data.error) {
       const msg = data.error.type === 'overloaded_error'
         ? 'De AI-dienst is even druk. Probeer het over een minuut opnieuw.'
@@ -1969,16 +2035,16 @@ Totaal max 300 woorden.`;
       await sol(msg, 'waarschuwing');
       return;
     }
-
+ 
     // Proxy geeft { tekst: "..." } terug, of Anthropic-formaat als directe call
     const tekst = data.tekst ||
       (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('\n').trim();
-
+ 
     if (!tekst) {
       await sol('De analyse gaf geen resultaat. Probeer het opnieuw.', 'waarschuwing');
       return;
     }
-
+ 
     // Toon alinea voor alinea
     const alineas = tekst.split(/\n\n+/).filter(a => a.trim());
     for (const alinea of alineas) {
@@ -1993,10 +2059,10 @@ Totaal max 300 woorden.`;
       await new Promise(r => setTimeout(r, 100));
     }
     scrollNaar();
-
+ 
     window._pdf.gemeente = gemeente;
     window._pdf.ai_tekst = tekst;
-
+ 
     // Excel knop met data-attribuut (geen string-escape issues)
     const updateWrap = document.createElement('div');
     updateWrap.className = 'bericht-sol';
@@ -2013,29 +2079,33 @@ Totaal max 300 woorden.`;
     updateWrap.appendChild(inner);
     b.appendChild(updateWrap);
     scrollNaar();
-
+ 
   } catch (err) {
     if (laadDiv.parentNode) laadDiv.remove();
     console.error('AI fout:', err);
     if (err.message === 'TIMEOUT') {
       await sol('De analyse duurde te lang (45 sec). Probeer opnieuw.', 'waarschuwing');
     } else {
-      // Failed to fetch = CORS/netwerk blokkering (werkt wel op GitHub Pages)
-      await sol('AI-analyse kon geen verbinding maken. Op solidari.nl werkt dit wel — hier is de verbinding beperkt.', 'waarschuwing');
+      // Controleer of de Worker URL correct is ingesteld
+      const isPlaceholder = WORKER_URL.includes('jounaam') || WORKER_URL.includes('jaspermarsman');
+      const msg = isPlaceholder
+        ? 'De Worker URL is nog niet ingesteld. Stel WORKER_URL in budgethulp.html in op jouw Cloudflare Worker-adres.'
+        : 'Verbinding met AI-analyse mislukt. Controleer of de Cloudflare Worker actief is en de API-key is ingesteld.';
+      await sol(msg, 'waarschuwing');
     }
   }
 }
-
+ 
 function downloadExcelMetGemeente(gemeente) {
   const d = window._pdf;
   if (!d || !d.ai_tekst) { downloadExcel(); return; }
   const t = T[taal];
   if (!window.XLSX) { alert('Excel niet beschikbaar.'); return; }
-
+ 
   // Zelfde als downloadExcel maar met extra tabblad
   const btn = event.target;
   btn.textContent = t.excel_bezig; btn.disabled = true;
-
+ 
   setTimeout(() => {
     try {
       const ref = NIBUD[d.sit || 'alleen'];
@@ -2046,7 +2116,7 @@ function downloadExcelMetGemeente(gemeente) {
         if (nibud_mnd) r[t.kolom_nibud] = euro(nibud_mnd);
         return r;
       };
-
+ 
       // Tabblad 1: Budget (zelfde opbouw als downloadExcel)
       const budgetData = [];
       budgetData.push({ [t.kolom_post]: t.sectie_inkomsten, [t.kolom_maand]: '' });
@@ -2075,7 +2145,7 @@ function downloadExcelMetGemeente(gemeente) {
       const ws1 = XLSX.utils.json_to_sheet(budgetData);
       ws1['!cols'] = [{ wch: 38 }, { wch: 16 }, { wch: 18 }];
       XLSX.utils.book_append_sheet(WB, ws1, t.tab_budget);
-
+ 
       // Tabblad 2: Weekbudget
       const weekData = [
         { [t.kolom_categorie]: t.week_boodschappen.replace(/^🛒\s*/, ''), [t.kolom_week]: euro(d.wBood), [t.kolom_dag]: euro(d.wBood / 7) },
@@ -2087,7 +2157,7 @@ function downloadExcelMetGemeente(gemeente) {
       const ws2 = XLSX.utils.json_to_sheet(weekData);
       ws2['!cols'] = [{ wch: 38 }, { wch: 14 }, { wch: 12 }];
       XLSX.utils.book_append_sheet(WB, ws2, t.tab_week);
-
+ 
       // Tabblad 3: Hulp in gemeente — parse AI tekst in regels
       const hulpData = [];
       const regels = (d.ai_tekst || '').split('\n').filter(r => r.trim());
@@ -2101,7 +2171,7 @@ function downloadExcelMetGemeente(gemeente) {
         const tabNaam = (t.ai_tab_hulp + ' ' + gemeente).substring(0, 31);
         XLSX.utils.book_append_sheet(WB, ws3, tabNaam);
       }
-
+ 
       const wbout2 = XLSX.write(WB, {bookType:'xlsx', type:'base64'});
       const a2 = document.createElement('a');
       a2.href = 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,' + wbout2;
@@ -2119,7 +2189,7 @@ function downloadExcelMetGemeente(gemeente) {
     }
   }, 80);
 }
-
+ 
 function setTaal(code,btn){
   taal=code;
   document.querySelectorAll('.taal-btn').forEach(b=>b.classList.remove('actief'));
@@ -2129,14 +2199,14 @@ function setTaal(code,btn){
   // Tool-specifieke strings via eigen T{}
   start();
 }
-
+ 
 // Init centrale i18n bij laden
 document.addEventListener('DOMContentLoaded', () => {
   if(window.Solidari && Solidari.i18n) Solidari.i18n.init();
 });
-
+ 
 start();
 </script>
   <script src="components.js"></script>
 </body>
-</html>
+</html
