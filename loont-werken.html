@@ -197,6 +197,18 @@ const T = {
     q_situatie: 'Wat is je situatie op dit moment?',
     sit: ['Ik heb een bijstandsuitkering','Ik werk al en overweeg meer uren','Ik heb een andere uitkering (WW, ziektewet, …)','Ik heb (bijna) geen inkomen'],
     q_partner: 'Woon je samen met een partner?',
+    q_huisgenoten: 'Wonen er naast jij (en je partner) nog andere mensen bij jou in huis?',
+    hg_ja: 'Ja',
+    hg_nee: 'Nee',
+    q_huisgenoot_leeftijd: 'Hoe oud is huisgenoot {n}?',
+    huisgenoot_hint: 'Leeftijd in jaren — dit bepaalt of de kostendelersnorm geldt',
+    q_nog_iemand: 'Woont er nog iemand anders bij jou?',
+    hg_kind: 'kind',
+    hg_jongvolw: 'jongvolwassene (18–26)',
+    hg_volwassene: 'volwassene (27+)',
+    hg_kd_melding: 'Met {n} personen van 27+ in huis geldt de kostendelersnorm. Je bijstandsnorm is dan ongeveer <strong>{norm}/mnd</strong>.',
+    hg_kind_melding: 'Ik tel {n} kind(eren) jonger dan 18 mee voor toeslagen.',
+    leeftijd_fout: 'Vul een leeftijd in tussen 0 en 100 jaar.',
     partner: ['Nee, ik woon alleen','Ja, ik woon samen met een partner'],
     q_kinderen: 'Heb je kinderen jonger dan 18 jaar die bij jou wonen?',
     kind: ['Geen kinderen','1 kind','2 kinderen','3 of meer kinderen'],
@@ -267,6 +279,18 @@ const T = {
     q_situatie: 'What is your current situation?',
     sit: ['I receive social assistance (bijstand)','I already work and am considering more hours','I receive another benefit (unemployment, sick leave, …)','I have little or no income'],
     q_partner: 'Do you live together with a partner?',
+    q_huisgenoten: 'Besides yourself (and your partner), do other people live in your home?',
+    hg_ja: 'Yes',
+    hg_nee: 'No',
+    q_huisgenoot_leeftijd: 'How old is housemate {n}?',
+    huisgenoot_hint: 'Age in years — this determines whether the cost-sharing norm applies',
+    q_nog_iemand: 'Does anyone else live with you?',
+    hg_kind: 'child',
+    hg_jongvolw: 'young adult (18–26)',
+    hg_volwassene: 'adult (27+)',
+    hg_kd_melding: 'With {n} people aged 27+ in the household, the cost-sharing norm applies. Your benefit norm is approximately <strong>{norm}/month</strong>.',
+    hg_kind_melding: 'I count {n} child(ren) under 18 for allowances.',
+    leeftijd_fout: 'Please enter an age between 0 and 100.',
     partner: ['No, I live alone','Yes, I live with a partner'],
     q_kinderen: 'Do you have children under 18 living with you?',
     kind: ['No children','1 child','2 children','3 or more children'],
@@ -336,6 +360,18 @@ const T = {
     q_situatie: 'ما هو وضعك الحالي؟',
     sit: ['أتلقى إعانة اجتماعية (bijstand)','أعمل بالفعل وأفكر في ساعات أكثر','أتلقى إعانة أخرى (بطالة، إجازة مرضية…)','ليس لدي دخل يذكر'],
     q_partner: 'هل تعيش مع شريك؟',
+    q_huisgenoten: 'هل يعيش معك أشخاص آخرون في المنزل غيرك (وشريكك)؟',
+    hg_ja: 'نعم',
+    hg_nee: 'لا',
+    q_huisgenoot_leeftijd: 'كم عمر الساكن {n}؟',
+    huisgenoot_hint: 'العمر بالسنوات — هذا يحدد ما إذا كانت قاعدة تقاسم التكاليف تنطبق',
+    q_nog_iemand: 'هل يعيش معك شخص آخر؟',
+    hg_kind: 'طفل',
+    hg_jongvolw: 'شاب (18–26)',
+    hg_volwassene: 'بالغ (27+)',
+    hg_kd_melding: 'مع {n} أشخاص فوق 27 في المنزل تنطبق قاعدة تقاسم التكاليف. معدل إعانتك تقريباً <strong>{norm}/شهر</strong>.',
+    hg_kind_melding: 'أحسب {n} طفل/أطفال دون 18 للإعانات.',
+    leeftijd_fout: 'أدخل عمراً بين 0 و100.',
     partner: ['لا، أعيش وحدي','نعم، أعيش مع شريك'],
     q_kinderen: 'هل لديك أطفال دون 18 عاماً يعيشون معك؟',
     kind: ['لا أطفال','طفل واحد','طفلان','3 أطفال أو أكثر'],
@@ -405,6 +441,18 @@ const T = {
     q_situatie: 'Şu anki durumunuz nedir?',
     sit: ['Sosyal yardım (bijstand) alıyorum','Zaten çalışıyorum, daha fazla saat düşünüyorum','Başka bir yardım alıyorum (işsizlik, hastalık…)','Gelirim yok ya da çok az'],
     q_partner: 'Bir partnerle birlikte mi yaşıyorsunuz?',
+    q_huisgenoten: 'Sizin (ve partnerinizin) dışında evde başka kişiler de yaşıyor mu?',
+    hg_ja: 'Evet',
+    hg_nee: 'Hayır',
+    q_huisgenoot_leeftijd: '{n}. ev arkadaşı kaç yaşında?',
+    huisgenoot_hint: 'Yaşı yıl olarak girin — maliyet paylaşım normunun geçerli olup olmadığını belirler',
+    q_nog_iemand: 'Evde başka biri daha var mı?',
+    hg_kind: 'çocuk',
+    hg_jongvolw: 'genç yetişkin (18–26)',
+    hg_volwassene: 'yetişkin (27+)',
+    hg_kd_melding: 'Evde 27 yaş üstü {n} kişiyle maliyet paylaşım normu geçerlidir. Yardım normunuz yaklaşık <strong>{norm}/ay</strong>.',
+    hg_kind_melding: 'Yardımlar için 18 yaş altı {n} çocuğu hesaba katıyorum.',
+    leeftijd_fout: '0 ile 100 arasında bir yaş girin.',
     partner: ['Hayır, yalnız yaşıyorum','Evet, partnerimle yaşıyorum'],
     q_kinderen: 'Sizinle yaşayan 18 yaşından küçük çocuğunuz var mı?',
     kind: ['Çocuk yok','1 çocuk','2 çocuk','3 veya daha fazla çocuk'],
@@ -474,6 +522,18 @@ const T = {
     q_situatie: 'ናይ ሕጂ ኩነታትካ እንታይ እዩ?',
     sit: ['ናይ ሕብረተሰብ ሓገዝ (bijstand) ይቅበል','ሰሪሐ ኣለኹ — ዝያዳ ሰዓት ክሰርሕ ይሓስብ','ካልእ ሓገዝ ይቅበል','ኣይረክብን ወይ ቁሩብ ጥራሕ'],
     q_partner: 'ምስ ሓዳር ትነብር ዲኻ?',
+    q_huisgenoten: 'ካብኻ (ካብ ሓዳርካ) ወጻኢ ካልኦት ሰባት ኣብ ገዛ ይነብሩ ዶ?',
+    hg_ja: 'እወ',
+    hg_nee: 'ኣይፋል',
+    q_huisgenoot_leeftijd: 'ናይ {n}ይ ናይ ገዛ ብጻይ ክንደይ ዕድሚ ኣለዎ?',
+    huisgenoot_hint: 'ዕድሚ ብዓመት',
+    q_nog_iemand: 'ካልእ ሰብ ምሳኻ ይነብር ዶ?',
+    hg_kind: 'ቆልዓ',
+    hg_jongvolw: 'መንእሰይ (18–26)',
+    hg_volwassene: 'ዓቢ (27+)',
+    hg_kd_melding: '{n} ሰባት 27+ ኣብ ገዛ ምስ ዘለዉ ናይ ሓባር ወጻኢ ሕጊ ይምልከት። ናይ ሓገዝ ደረጃ ብምምሳል <strong>{norm}/ወርሒ</strong>.',
+    hg_kind_melding: '{n} ቆልዑ ትሕቲ 18 ን ሓገዝ ይሕሰቡ።',
+    leeftijd_fout: 'ካብ 0 ክሳብ 100 ዕድሚ ኣእቱ።',
     partner: ['ኣይፋል፣ ወልቀ ይነብር','እወ፣ ምስ ሓዳር ይነብር'],
     q_kinderen: 'ትሕቲ 18 ዕድሜ ቆልዑ ምሳኻ ይነብሩ ዶ?',
     kind: ['ቆልዑ የለውን','1 ቆልዓ','2 ቆልዑ','3 ወይ ዝያዳ'],
@@ -543,6 +603,18 @@ const T = {
     q_situatie: 'Яка ваша поточна ситуація?',
     sit: ['Я отримую соціальну допомогу (bijstand)','Я вже працюю і розглядаю більше годин','Я отримую іншу допомогу (безробіття, лікарняний…)','У мене майже немає доходу'],
     q_partner: 'Ви живете разом з партнером?',
+    q_huisgenoten: 'Чи живуть у вашому будинку інші люди, крім вас (і вашого партнера)?',
+    hg_ja: 'Так',
+    hg_nee: 'Ні',
+    q_huisgenoot_leeftijd: 'Скільки років співмешканцю {n}?',
+    huisgenoot_hint: 'Вік у роках — це визначає чи застосовується норма спільних витрат',
+    q_nog_iemand: 'Чи живе з вами ще хтось?',
+    hg_kind: 'дитина',
+    hg_jongvolw: 'молодий дорослий (18–26)',
+    hg_volwassene: 'дорослий (27+)',
+    hg_kd_melding: 'З {n} особами віком 27+ у домогосподарстві застосовується норма спільних витрат. Ваша норма допомоги приблизно <strong>{norm}/міс</strong>.',
+    hg_kind_melding: 'Я враховую {n} дитину/дітей до 18 років для субсидій.',
+    leeftijd_fout: 'Введіть вік від 0 до 100 років.',
     partner: ['Ні, я живу сам/сама','Так, я живу з партнером'],
     q_kinderen: 'У вас є діти до 18 років, які живуть з вами?',
     kind: ['Немає дітей','1 дитина','2 дітей','3 або більше дітей'],
@@ -612,6 +684,18 @@ const T = {
     q_situatie: 'وضعیت فعلی شما چیست؟',
     sit: ['کمک معیشتی (bijstand) دریافت می‌کنم','الان کار می‌کنم و ساعات بیشتر را در نظر دارم','کمک دیگری دریافت می‌کنم (بیکاری، مرخصی استعلاجی…)','درآمدم خیلی کم است یا ندارم'],
     q_partner: 'با شریک زندگی می‌کنید؟',
+    q_huisgenoten: 'آیا افراد دیگری غیر از شما (و شریکتان) در خانه زندگی می‌کنند؟',
+    hg_ja: 'بله',
+    hg_nee: 'خیر',
+    q_huisgenoot_leeftijd: 'هم‌خانه {n} چند سال دارد؟',
+    huisgenoot_hint: 'سن به سال — این تعیین می‌کند آیا نرم تقسیم هزینه اعمال می‌شود',
+    q_nog_iemand: 'آیا کس دیگری هم با شما زندگی می‌کند؟',
+    hg_kind: 'فرزند',
+    hg_jongvolw: 'جوان (18–26)',
+    hg_volwassene: 'بزرگسال (27+)',
+    hg_kd_melding: 'با {n} نفر بالای 27 سال در خانه، نرم تقسیم هزینه اعمال می‌شود. نرم کمک معیشتی شما تقریباً <strong>{norm}/ماه</strong> است.',
+    hg_kind_melding: 'برای کمک‌هزینه‌ها {n} فرزند زیر 18 سال را حساب می‌کنم.',
+    leeftijd_fout: 'لطفاً سنی بین 0 تا 100 وارد کنید.',
     partner: ['نه، تنها زندگی می‌کنم','بله، با شریک زندگی می‌کنم'],
     q_kinderen: 'فرزند زیر 18 سال دارید که با شما زندگی می‌کند؟',
     kind: ['بدون فرزند','1 فرزند','2 فرزند','3 فرزند یا بیشتر'],
@@ -714,8 +798,14 @@ const N = {
 
 // ─── STAAT ────────────────────────────────────────────────────────────────────
 let taal = 'nl';
-const S = { situatie:null, partner:false, kinderen:0, leeftijd:null,
+const S = { situatie:null, partner:false, huisgenoten:[], leeftijd:null,
             huur:0, huidigNetto:0, nieuwBruto:0, uren:40 };
+
+// Afgeleide groepen uit S.huisgenoten
+function kinderenOnder18()   { return S.huisgenoten.filter(l => l < 18).length; }
+function volwassenen27plus()  { return S.huisgenoten.filter(l => l >= 27).length; }
+// Kostendelers: gebruiker zelf (1) + huisgenoten van 27+. Partner telt niet apart mee.
+function aantalKostendelers() { return 1 + volwassenen27plus(); }
 
 // ─── HELPERS ──────────────────────────────────────────────────────────────────
 const s = k => (T[taal]||T.nl)[k] ?? T.nl[k] ?? k;
@@ -787,6 +877,13 @@ function toonGetalInvoer({prefix='€', placeholder='', hint='', skipLabel='', p
 function bijstandNorm() {
   const l = S.leeftijd, p = S.partner;
   if (l < 21) return p ? N.bijstand.p18 : N.bijstand.s18;
+  // Kostendelersnorm: alleen bij bijstand, alleen als er 27+-huisgenoten zijn
+  const kd = aantalKostendelers();
+  if (!p && kd >= 2) {
+    // Kostendelersnorm per persoon = percentage van gehuwdennorm
+    const pct = N.bijstand.kd_pct[Math.min(kd, 5)] || N.bijstand.kd_pct[5];
+    return Math.round(N.bijstand.p21 * pct * 100) / 100;
+  }
   return p ? N.bijstand.p21 : N.bijstand.s21;
 }
 function berekenNetto(bruto) {
@@ -828,7 +925,7 @@ function berekenHt(ji) {
 
   // Rekenhuur = kale huur, maar maximaal begrensd per tier
   const rekenhuur = isJong ? Math.min(huur, H.kwal_grens) : huur;
-  const aftop = S.kinderen >= 3 ? H.aftop_3plus : H.aftop_12;
+  const aftop = kinderenOnder18() >= 3 ? H.aftop_3plus : H.aftop_12;
 
   // Drietraps vergoeding (100% / 65% / 40%)
   // Deel A: basishuur → kwaliteitskortingsgrens: 100% vergoed
@@ -846,22 +943,23 @@ function berekenHt(ji) {
   return Math.round(Math.max(0, maxToeslag - afbouw));
 }
 function berekenKgb(ji) {
-  if (S.kinderen === 0) return 0;
+  const kind = kinderenOnder18();
+  if (kind === 0) return 0;
   const K = N.kgb;
   let b = 0;
-  if (S.kinderen >= 1) b += K.k1;
-  if (S.kinderen >= 2) b += K.k2;
-  if (S.kinderen >= 3) b += K.k3;
+  if (kind >= 1) b += K.k1;
+  if (kind >= 2) b += K.k2;
+  if (kind >= 3) b += K.k3;
   return Math.round(Math.max(0, b - (ji>K.grens ? (ji-K.grens)*K.afbouw : 0)) / 12);
 }
 function berekenTotaal(jaarinkomen, nettoMnd, bijstandAanv) {
-  return nettoMnd + bijstandAanv + berekenZt(jaarinkomen) + berekenHt(jaarinkomen) + berekenKgb(jaarinkomen) + (S.kinderen>0 ? S.kinderen*N.akw : 0);
+  return nettoMnd + bijstandAanv + berekenZt(jaarinkomen) + berekenHt(jaarinkomen) + berekenKgb(jaarinkomen) + (kinderenOnder18()>0 ? kinderenOnder18()*N.akw : 0);
 }
 
 // ─── STAPPEN ──────────────────────────────────────────────────────────────────
 async function start() {
   B().innerHTML = ''; IZ().innerHTML = ''; vrtg(0);
-  Object.assign(S, {situatie:null,partner:false,kinderen:0,leeftijd:null,huur:0,huidigNetto:0,nieuwBruto:0,uren:40});
+  Object.assign(S, {situatie:null,partner:false,huisgenoten:[],leeftijd:null,huur:0,huidigNetto:0,nieuwBruto:0,uren:40});
   await sol(s('welkom'), 200);
   stap_situatie();
 }
@@ -875,23 +973,74 @@ async function stap_situatie() {
 }
 
 async function stap_partner() {
-  vrtg(22);
+  vrtg(18);
   await sol(s('q_partner'), 300);
   toonKeuzes(s('partner').map((l,i) => ({label:l, val:i===1})), async o => {
-    S.partner = o.val; userBericht(o.label); stap_kinderen();
+    S.partner = o.val; userBericht(o.label); stap_huisgenoten_intro();
   });
 }
 
-async function stap_kinderen() {
-  vrtg(34);
-  await sol(s('q_kinderen'), 300);
-  toonKeuzes(s('kind').map((l,i) => ({label:l, val:i})), async o => {
-    S.kinderen = o.val; userBericht(o.label); stap_leeftijd();
+async function stap_huisgenoten_intro() {
+  vrtg(28);
+  await sol(s('q_huisgenoten'), 300);
+  toonKeuzes([
+    {label: s('hg_nee'), val: false},
+    {label: s('hg_ja'),  val: true},
+  ], async o => {
+    userBericht(o.label);
+    if (!o.val) {
+      stap_leeftijd();
+    } else {
+      stap_huisgenoot_leeftijd();
+    }
+  });
+}
+
+async function stap_huisgenoot_leeftijd() {
+  const nr = S.huisgenoten.length + 1;
+  const vraag = s('q_huisgenoot_leeftijd').replace('{n}', nr);
+  await sol(vraag, 250);
+  toonGetalInvoer({
+    prefix: '🎂',
+    placeholder: s('leeftijd_placeholder'),
+    hint: s('huisgenoot_hint'),
+    onKlik: async (v) => {
+      if (v < 0 || v > 100) {
+        await sol(s('leeftijd_fout'), 200, 'waarschuwing');
+        stap_huisgenoot_leeftijd(); return;
+      }
+      S.huisgenoten.push(v);
+      // Bevestigingsbericht met samenvatting
+      const omschr = v < 18 ? s('hg_kind') : v < 27 ? s('hg_jongvolw') : s('hg_volwassene');
+      userBericht(`${v} jaar — ${omschr}`);
+      // Nog iemand?
+      await sol(s('q_nog_iemand'), 250);
+      toonKeuzes([
+        {label: s('hg_ja'),  val: true},
+        {label: s('hg_nee'), val: false},
+      ], async o => {
+        userBericht(o.label);
+        if (o.val) {
+          stap_huisgenoot_leeftijd();
+        } else {
+          // Geef samenvatting als er huisgenoten zijn
+          const kd = aantalKostendelers();
+          const k18 = kinderenOnder18();
+          const v27 = volwassenen27plus();
+          if (S.situatie === 0 && kd >= 2) {
+            await sol(s('hg_kd_melding').replace('{n}', kd).replace('{norm}', fmt(bijstandNorm())), 350, 'reactie');
+          } else if (k18 > 0) {
+            await sol(s('hg_kind_melding').replace('{n}', k18), 300, 'reactie');
+          }
+          stap_leeftijd();
+        }
+      });
+    }
   });
 }
 
 async function stap_leeftijd() {
-  vrtg(46);
+  vrtg(42);
   await sol(s('q_leeftijd'), 300);
   toonGetalInvoer({
     prefix: '🎂',
@@ -899,7 +1048,7 @@ async function stap_leeftijd() {
     hint: s('leeftijd_hint'),
     onKlik: async (v) => {
       if (v < 16 || v > 110) {
-        await sol('Vul een leeftijd in tussen 16 en 110 jaar.', 200, 'waarschuwing');
+        await sol(s('leeftijd_fout'), 200, 'waarschuwing');
         stap_leeftijd(); return;
       }
       S.leeftijd = v;
@@ -916,7 +1065,7 @@ async function stap_leeftijd() {
 }
 
 async function stap_huur() {
-  vrtg(58);
+  vrtg(54);
   await sol(s('q_huur'), 300);
   toonGetalInvoer({
     placeholder: s('huur_placeholder'),
@@ -931,7 +1080,7 @@ async function stap_huur() {
 }
 
 async function stap_huidig() {
-  vrtg(68);
+  vrtg(66);
   // Als bijstand: geef bijstandsnorm als suggestie
   const norm = bijstandNorm();
   const prefill = S.situatie === 0 ? Math.round(norm) : '';
@@ -1002,7 +1151,7 @@ function toonResultaat(extra=0) {
     + berekenZt(brutoNwJaar)
     + berekenHt(brutoNwJaar)
     + berekenKgb(brutoNwJaar)
-    + (S.kinderen > 0 ? S.kinderen * N.akw : 0);
+    + (kinderenOnder18()>0 ? kinderenOnder18()*N.akw : 0);
 
   // Toeslagen huidig (op basis van opgegeven netto, terugrekenen naar jaarinkomen)
   // We benaderen huidig jaarinkomen als netto * 12 / 1.08 (excl. VG) voor toeslagenberekening
@@ -1010,7 +1159,7 @@ function toonResultaat(extra=0) {
   const ztOud = berekenZt(huidigJaar);
   const htOud = berekenHt(huidigJaar);
   const kgbOud = berekenKgb(huidigJaar);
-  const akw = S.kinderen > 0 ? S.kinderen * N.akw : 0;
+  const akw = kinderenOnder18()>0 ? kinderenOnder18()*N.akw : 0;
 
   const ztNw = berekenZt(brutoNwJaar);
   const htNw = berekenHt(brutoNwJaar);
@@ -1120,8 +1269,8 @@ function toonResultaat(extra=0) {
       ${S.situatie===0 ? rij('#F5F2EC', s('bijstand_lbl'), Math.max(0,norm-S.huidigNetto), bijstandAanv) : ''}
       ${rij('#FDF3E0', s('zt_lbl'), ztOud, ztNw)}
       ${S.huur>0 ? rij('#EFF6FF', s('ht_lbl'), htOud, htNw, huurNoot) : ''}
-      ${S.kinderen>0 ? rij('#F5F3FF', s('kgb_lbl'), kgbOud, kgbNw) : ''}
-      ${S.kinderen>0 ? rijVast('#FFE4F0', s('akw_lbl'), akw) : ''}
+      ${kinderenOnder18()>0 ? rij('#F5F3FF', s('kgb_lbl'), kgbOud, kgbNw) : ''}
+      ${kinderenOnder18()>0 ? rijVast('#FFE4F0', s('akw_lbl'), akw) : ''}
       <div class="uitsp-rij totaal">
         <div class="uitsp-naam"><strong>Totaal</strong></div>
         <div class="uitsp-bed">
