@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rechten & Plichten Uitlegger — Solidari</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="components.css">
+  <style>
+    :root {
+      --wit:#FAFAF7;--wit-warm:#F5F2EC;
+      --amber:#E8A020;--amber-licht:#FDF3E0;--amber-diep:#C47F10;
+      --groen:#2D5A3D;--groen-licht:#EBF3EE;
+      --tekst:#1A1A18;--tekst-zacht:#5C5C58;--tekst-licht:#9C9C98;
+      --rand:#E8E5DE;--rood:#DC2626;--rood-licht:#FEF2F2;
+      --chat-bg:#EFECE6;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html,body{height:100%;}
+    body{background:var(--chat-bg);color:var(--tekst);font-family:'Source Sans 3',sans-serif;font-weight:400;display:flex;flex-direction:column;}
+
+    /* ── Nav (via components.js) ── */
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,250,247,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--rand);padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+    .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+    .logo-icon{width:36px;height:36px;}
+    .logo-naam{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--tekst);letter-spacing:-0.02em;}
+    .logo-naam span{color:var(--amber);}
+    .nav-links{display:flex;align-items:center;gap:2rem;list-style:none;}
+    .nav-links a{text-decoration:none;color:var(--tekst-zacht);font-size:0.9rem;font-weight:500;transition:color 0.2s;}
+    .nav-links a:hover{color:var(--tekst);}
+    .nav-taal{display:flex;gap:0.4rem;}
+    .taal-btn{background:none;border:1px solid var(--rand);border-radius:4px;padding:3px 8px;font-size:0.75rem;cursor:pointer;color:var(--tekst-zacht);font-family:'Source Sans 3',sans-serif;transition:all 0.2s;}
+    .taal-btn:hover,.taal-btn.actief{background:var(--amber);border-color:var(--amber);color:white;}
+
+    /* ── Chat layout ── */
+    .chat-wrap{flex:1;display:flex;flex-direction:column;max-width:680px;margin:0 auto;width:100%;padding:0 1rem;min-height:0;padding-top:64px;}
+    .berichten{flex:1;overflow-y:auto;padding:1.2rem 0 0.5rem;display:flex;flex-direction:column;gap:0.6rem;scroll-behavior:smooth;}
+    .berichten::-webkit-scrollbar{width:4px;}
+    .berichten::-webkit-scrollbar-thumb{background:var(--rand);border-radius:4px;}
+
+    /* ── Berichten ── */
+    .bericht-sol{display:flex;align-items:flex-end;gap:8px;max-width:88%;align-self:flex-start;animation:inSchuiven 0.25s ease both;}
+    .sol-avatar{width:32px;height:32px;background:var(--groen);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px;}
+    .bel-sol{background:white;border-radius:18px 18px 18px 4px;padding:10px 14px;font-size:0.92rem;line-height:1.6;color:var(--tekst);box-shadow:0 1px 2px rgba(0,0,0,0.06);white-space:pre-wrap;}
+    .bel-sol.disclaimer{background:var(--amber-licht);border:1px solid rgba(232,160,32,0.3);font-size:0.82rem;color:var(--amber-diep);}
+    .bel-sol.waarschuwing{background:var(--rood-licht);border:1px solid rgba(220,38,38,0.15);font-size:0.82rem;color:var(--rood);}
+    .bel-sol.doorverwijzing{background:var(--groen-licht);border:1px solid rgba(45,90,61,0.15);font-size:0.85rem;color:var(--tekst-zacht);}
+
+    .bericht-user{align-self:flex-end;max-width:78%;animation:inSchuiven 0.2s ease both;}
+    .bel-user{background:var(--groen);border-radius:18px 18px 4px 18px;padding:10px 14px;font-size:0.92rem;color:white;line-height:1.5;box-shadow:0 1px 2px rgba(0,0,0,0.1);}
+
+    /* ── Typing indicator ── */
+    .typing{display:flex;align-items:flex-end;gap:8px;align-self:flex-start;}
+    .typing-dots{background:white;border-radius:18px;padding:12px 16px;display:flex;gap:4px;align-items:center;box-shadow:0 1px 2px rgba(0,0,0,0.06);}
+    .typing-dots span{width:6px;height:6px;background:var(--tekst-licht);border-radius:50%;animation:tikken 1.2s infinite;}
+    .typing-dots span:nth-child(2){animation-delay:0.2s;}
+    .typing-dots span:nth-child(3){animation-delay:0.4s;}
+    @keyframes tikken{0%,60%,100%{transform:translateY(0);opacity:0.4;}30%{transform:translateY(-5px);opacity:1;}}
+    @keyframes inSchuiven{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+    /* ── Situatiekaartjes ── */
+    .kaartjes-rij{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;margin-bottom:4px;}
+    .situatie-btn{background:white;border:1.5px solid var(--rand);border-radius:20px;padding:8px 16px;font-size:0.88rem;font-weight:500;cursor:pointer;color:var(--tekst);font-family:'Source Sans 3',sans-serif;transition:all 0.18s;display:flex;align-items:center;gap:6px;}
+    .situatie-btn:hover{border-color:var(--groen);background:var(--groen-licht);color:var(--groen);}
+
+    /* ── Invoer zone ── */
+    .invoer-zone{padding:0.8rem 0 1rem;flex-shrink:0;}
+    .invoer-rij{display:flex;gap:8px;align-items:flex-end;}
+    .tekst-wrap{flex:1;display:flex;align-items:flex-end;background:white;border:2px solid var(--rand);border-radius:20px;overflow:hidden;transition:border-color 0.2s;padding:4px 4px 4px 16px;}
+    .tekst-wrap:focus-within{border-color:var(--groen);}
+    .tekst-invoer{flex:1;border:none;background:transparent;color:var(--tekst);outline:none;font-family:'Source Sans 3',sans-serif;font-size:0.95rem;resize:none;max-height:120px;line-height:1.5;padding:8px 0;overflow-y:auto;}
+    .tekst-invoer::placeholder{color:var(--tekst-licht);}
+    .stuur-btn{width:40px;height:40px;background:var(--groen);border:none;border-radius:50%;cursor:pointer;color:white;font-size:1.1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.18s;}
+    .stuur-btn:hover{background:#234830;}
+    .stuur-btn:disabled{background:var(--tekst-licht);cursor:default;}
+
+    /* ── Nieuw gesprek knop ── */
+    .nieuw-btn{display:block;width:100%;background:none;border:none;font-family:'Source Sans 3',sans-serif;font-size:0.78rem;color:var(--tekst-licht);cursor:pointer;padding:4px;text-align:center;transition:color 0.2s;}
+    .nieuw-btn:hover{color:var(--tekst-zacht);}
+
+    /* ── RTL support ── */
+    [dir="rtl"] .bericht-sol{align-self:flex-end;flex-direction:row-reverse;}
+    [dir="rtl"] .bel-sol{border-radius:18px 18px 4px 18px;}
+    [dir="rtl"] .bericht-user{align-self:flex-start;}
+    [dir="rtl"] .bel-user{border-radius:18px 18px 18px 4px;}
+    [dir="rtl"] .tekst-invoer{text-align:right;}
+
+    /* ── Voortgangsbalk ── */
+    .voortgang-strip{height:3px;background:var(--rand);position:fixed;top:64px;left:0;right:0;z-index:99;}
+    .voortgang-balk{height:100%;background:var(--amber);width:0%;transition:width 0.4s ease;}
+  </style>
+</head>
+<body>
+
+<div id="solidari-nav"></div>
+<div class="voortgang-strip"><div class="voortgang-balk" id="voortgang"></div></div>
+
+<div class="chat-wrap">
+  <div class="berichten" id="berichten"></div>
+  <div class="invoer-zone">
+    <div class="invoer-rij">
+      <div class="tekst-wrap">
+        <textarea class="tekst-invoer" id="invoer" rows="1" placeholder="Stel je vraag..."></textarea>
+      </div>
+      <button class="stuur-btn" id="stuur-btn" onclick="stuur()" title="Verstuur">↑</button>
+    </div>
+    <button class="nieuw-btn" onclick="nieuwGesprek()">↺ Nieuw gesprek</button>
+  </div>
+</div>
+
+<div id="solidari-footer"></div>
+
+<script src="i18n.js"></script>
+<script>
+
+// ── Configuratie ───────────────────────────────────────────────────────────
+const WORKER_URL = 'https://solidari-rechten.JOUNAAM.workers.dev'; // ← aanpassen
+
+// ── Vertalingen ───────────────────────────────────────────────────────────
+const T = {
+  NL: {
+    placeholder: 'Stel je vraag...',
+    nieuw: '↺ Nieuw gesprek',
+    disclaimer: '🤖 Deze tool gebruikt AI. De antwoorden zijn informatief — geen officieel advies. Deel geen namen, BSN-nummers of andere persoonlijke gegevens.',
+    welkom: 'Hallo! Ik leg uit wat de wet zegt over jouw situatie — over bijstand, inburgering of hulp van de gemeente.\n\nWaar gaat jouw vraag over?',
+    fout: 'Er ging iets mis. Probeer het opnieuw.',
+    kaartjes: [
+      { emoji: '🏛️', tekst: 'Ik krijg bijstand' },
+      { emoji: '📚', tekst: 'Ik moet inburgeren' },
+      { emoji: '💼', tekst: 'Ik ga werken' },
+      { emoji: '♿', tekst: 'Ik heb hulp nodig (WMO)' },
+      { emoji: '❓', tekst: 'Andere vraag' },
+    ],
+    rtl: false,
+  },
+  EN: {
+    placeholder: 'Ask your question...',
+    nieuw: '↺ New conversation',
+    disclaimer: '🤖 This tool uses AI. Answers are informational — not official advice. Do not share names, BSN numbers or other personal data.',
+    welkom: 'Hello! I explain what the law says about your situation — about benefits, integration or support from the municipality.\n\nWhat is your question about?',
+    fout: 'Something went wrong. Please try again.',
+    kaartjes: [
+      { emoji: '🏛️', tekst: 'I receive benefits (bijstand)' },
+      { emoji: '📚', tekst: 'I need to integrate (inburgering)' },
+      { emoji: '💼', tekst: 'I am going to work' },
+      { emoji: '♿', tekst: 'I need support (WMO)' },
+      { emoji: '❓', tekst: 'Other question' },
+    ],
+    rtl: false,
+  },
+  AR: {
+    placeholder: 'اطرح سؤالك...',
+    nieuw: '↺ محادثة جديدة',
+    disclaimer: '🤖 هذه الأداة تستخدم الذكاء الاصطناعي. الإجابات للمعلومات فقط — وليست نصيحة رسمية. لا تشارك الأسماء أو أرقام BSN أو بيانات شخصية أخرى.',
+    welkom: 'مرحباً! أشرح لك ما يقوله القانون بشأن وضعك — حول الإعانات أو الاندماج أو الدعم من البلدية.\n\nما الذي تريد معرفته؟',
+    fout: 'حدث خطأ ما. يرجى المحاولة مرة أخرى.',
+    kaartjes: [
+      { emoji: '🏛️', tekst: 'أتلقى إعانة اجتماعية' },
+      { emoji: '📚', tekst: 'يجب عليّ الاندماج' },
+      { emoji: '💼', tekst: 'سأبدأ العمل' },
+      { emoji: '♿', tekst: 'أحتاج مساعدة (WMO)' },
+      { emoji: '❓', tekst: 'سؤال آخر' },
+    ],
+    rtl: true,
+  },
+  TI: {
+    placeholder: 'ሕቶኻ ሕተት...',
+    nieuw: '↺ ሓዲሽ ዝርርብ',
+    disclaimer: '🤖 እዚ መሳርሒ AI ይጥቀም። መልስታት ሓበሬታዊ እዮም — ወግዓዊ ምኽሪ ኣይኮኑን። ስም፡ BSN ቁጽሪ ወይ ካልእ ውልቃዊ ሓበሬታ ኣይካፍሉ።',
+    welkom: 'ሰላም! ሕጊ ብዛዕባ ኩነታትካ እንታይ ከምዝብል ኣብርህ — ብዛዕባ ሓገዝ ወይ ናብ ምሕዋይ ወይ ደገፍ ካብ ምምሕዳር ከተማ።\n\nሕቶኻ ብዛዕባ እንታይ እዩ?',
+    fout: 'ሓደ ነገር ጌጋ ኮይኑ። ደጊምካ ፈትን።',
+    kaartjes: [
+      { emoji: '🏛️', tekst: 'ሓገዝ እቕበል ኣለኹ' },
+      { emoji: '📚', tekst: 'ክሓዊ ኣለኒ' },
+      { emoji: '💼', tekst: 'ክሰርሕ እየ' },
+      { emoji: '♿', tekst: 'ደገፍ የድልየኒ (WMO)' },
+      { emoji: '❓', tekst: 'ካልእ ሕቶ' },
+    ],
+    rtl: false,
+  },
+  TR: {
+    placeholder: 'Sorunuzu yazın...',
+    nieuw: '↺ Yeni konuşma',
+    disclaimer: '🤖 Bu araç yapay zeka kullanmaktadır. Yanıtlar bilgi amaçlıdır — resmi tavsiye değildir. Ad, BSN numarası veya diğer kişisel verileri paylaşmayın.',
+    welkom: 'Merhaba! Durumunuz hakkında yasanın ne söylediğini açıklıyorum — sosyal yardım, entegrasyon veya belediye desteği konularında.\n\nSorunuz ne hakkında?',
+    fout: 'Bir şeyler yanlış gitti. Lütfen tekrar deneyin.',
+    kaartjes: [
+      { emoji: '🏛️', tekst: 'Sosyal yardım alıyorum' },
+      { emoji: '📚', tekst: 'Entegrasyon yükümlülüğüm var' },
+      { emoji: '💼', tekst: 'Çalışmaya başlayacağım' },
+      { emoji: '♿', tekst: 'Desteğe ihtiyacım var (WMO)' },
+      { emoji: '❓', tekst: 'Başka soru' },
+    ],
+    rtl: false,
+  },
+  UK: {
+    placeholder: 'Задайте питання...',
+    nieuw: '↺ Нова розмова',
+    disclaimer: '🤖 Цей інструмент використовує ШІ. Відповіді є інформаційними — не офіційною порадою. Не вказуйте імена, номери BSN або інші особисті дані.',
+    welkom: 'Привіт! Я пояснюю, що закон говорить про вашу ситуацію — щодо допомоги, інтеграції або підтримки від муніципалітету.\n\nПро що ваше запитання?',
+    fout: 'Щось пішло не так. Будь ласка, спробуйте ще раз.',
+    kaartjes: [
+      { emoji: '🏛️', tekst: 'Я отримую соціальну допомогу' },
+      { emoji: '📚', tekst: 'Я зобов\'язаний інтегруватися' },
+      { emoji: '💼', tekst: 'Я йду на роботу' },
+      { emoji: '♿', tekst: 'Мені потрібна підтримка (WMO)' },
+      { emoji: '❓', tekst: 'Інше питання' },
+    ],
+    rtl: false,
+  },
+  FA: {
+    placeholder: 'سوال خود را بنویسید...',
+    nieuw: '↺ گفتگوی جدید',
+    disclaimer: '🤖 این ابزار از هوش مصنوعی استفاده می‌کند. پاسخ‌ها اطلاعاتی هستند — مشاوره رسمی نیستند. نام، شماره BSN یا اطلاعات شخصی دیگری به اشتراک نگذارید.',
+    welkom: 'سلام! من توضیح می‌دهم که قانون درباره وضعیت شما چه می‌گوید — در مورد کمک هزینه، ادغام یا حمایت از شهرداری.\n\nسوال شما درباره چیست؟',
+    fout: 'مشکلی پیش آمد. لطفاً دوباره امتحان کنید.',
+    kaartjes: [
+      { emoji: '🏛️', tekst: 'کمک هزینه اجتماعی دریافت می‌کنم' },
+      { emoji: '📚', tekst: 'باید ادغام شوم' },
+      { emoji: '💼', tekst: 'می‌خواهم کار کنم' },
+      { emoji: '♿', tekst: 'به حمایت نیاز دارم (WMO)' },
+      { emoji: '❓', tekst: 'سوال دیگر' },
+    ],
+    rtl: true,
+  },
+};
+
+// ── System prompt ─────────────────────────────────────────────────────────
+const SYSTEM_PROMPT = `Je bent de Rechten & Plichten Uitlegger van Solidari — een gratis platform voor mensen die hulp nodig hebben bij het begrijpen van Nederlandse regels en wetten.
+
+## Jouw rol
+
+Je legt uit wat de wet zegt over iemands situatie. Je geeft informatie, geen juridisch advies. Je vertelt wat de regels zijn, waarom die regels bestaan, wat iemand moet doen, en wat praktische opties zijn om in gesprek te gaan met de gemeente of uitvoeringsorganisatie. Je beslist nooit voor de gebruiker.
+
+## Toon
+
+Rustig, neutraal en activerend. Korte zinnen. Geen juridisch jargon — leg termen altijd uit. Behandel de gebruiker als een intelligent persoon die de taal of het systeem nog niet goed kent.
+
+Neem nooit automatisch de kant van de gebruiker. Leg ook uit waarom regels en verplichtingen bestaan — niet als oordeel, maar als context. De gemeente en uitvoeringsorganisaties zijn geen tegenstanders. Samenwerking is bijna altijd de beste eerste stap.
+
+Begin een antwoord nooit met "Dat begrijp ik" of andere bevestigingen van weerstand of onvrede. Ga direct naar de informatie.
+
+## Werkwijze
+
+1. Luister naar wat de gebruiker vertelt.
+2. Stel gerichte vervolgvragen om de situatie goed te begrijpen — één vraag per keer, alleen als het antwoord echt verschil maakt voor de uitleg.
+3. Geef een helder informatief antwoord zodra je genoeg weet.
+4. Stimuleer waar mogelijk actieve deelname en samenwerking met de gemeente of uitvoeringsorganisatie.
+5. Sluit altijd af met een passende doorverwijzing.
+
+## Bezwaar maken
+
+Noem bezwaar maken alleen als:
+- De gebruiker aangeeft dat er al een formele schriftelijke beslissing (beschikking) is genomen, én
+- De gebruiker aangeeft het daar niet mee eens te zijn, of er zelf naar vraagt.
+
+Noem bezwaar niet als iemand nog in gesprek is met de gemeente, een verplichting liever niet wil nakomen, of een situatie beschrijft die nog geen formele beslissing heeft opgeleverd.
+
+## Kennisgebied
+
+Je beantwoordt vragen over:
+
+**Participatiewet (bijstand)**
+- Rechten en plichten bij een bijstandsuitkering
+- Wat de gemeente mag eisen (re-integratie, sollicitatieplicht, tegenprestatie)
+- Wat er gebeurt bij niet nakomen van verplichtingen (maatregel, korting, stopzetting)
+- Inkomsten verrekenen met uitkering
+- Kostendelersnorm
+- Bijzondere bijstand
+- Bezwaar tegen een formele beschikking (alleen als dit aan de orde is)
+
+**Inburgeringswet 2022**
+- Inburgeringsplicht: wie moet inburgeren, wie niet
+- De drie leerroutes (B1, Z-route, Onderwijsroute)
+- Termijnen: 3 jaar standaard, verlenging mogelijk
+- DUO: lening, leerrechten, examen
+- Gevolgen van niet op tijd inburgeren (boete, geen verblijfsvergunning verlenging)
+- Vrijstellingen en ontheffingen
+
+**WMO (Wet maatschappelijke ondersteuning)**
+- Waar de WMO over gaat: hulp bij het huishouden, begeleiding, hulpmiddelen, woningaanpassing
+- Hoe je een WMO-aanvraag doet bij de gemeente
+- Het keukentafelgesprek
+- Eigen bijdrage (CAK)
+
+## Grenzen
+
+- Je geeft informatie, geen persoonlijk juridisch advies.
+- Bij complexe juridische situaties (rechtszaken, detentie, asielaanvragen) verwijs je door.
+- Je doet geen uitspraken over kansen of over wie er gelijk heeft.
+- Als je twijfelt over een specifiek detail, zeg je dat eerlijk en verwijs je door.
+
+## Doorverwijzingen (situatieafhankelijk)
+
+- **Bijstand / gemeente:** Sociaal Wijkteam of VluchtelingenWerk
+- **Inburgering:** DUO (duo.nl), VluchtelingenWerk, of de gemeente (contactpersoon inburgering)
+- **WMO:** gemeenteloket, of het CAK voor vragen over eigen bijdrage (hetcak.nl)
+- **Bezwaar / juridisch:** Juridisch Loket (juridischloket.nl) — gratis rechtshulp
+- **Altijd als aanvulling:** VluchtelingenWerk (vluchtelingenwerk.nl)
+
+Formuleer doorverwijzingen concreet: "Voor meer informatie of persoonlijke hulp kun je terecht bij..."
+
+## Taal
+
+Antwoord altijd in de taal waarin de gebruiker schrijft. Als de gebruiker van taal wisselt, wissel jij mee. Ondersteunde talen: Nederlands, Engels, Arabisch, Tigrinya, Turks, Oekraïens, Dari/Farsi.
+
+## Wat je nooit doet
+
+- Geen lange opsommingen zonder uitleg
+- Geen wetsartikelnummers zonder uitleg wat ze betekenen
+- Niet de gemeente of uitvoeringsorganisaties negatief framen
+- Niet dramatiseren of angst aanwakkeren — rustig en feitelijk blijven
+- Niet zeggen "ik ben een AI dus ik kan dit niet" — wel eerlijk zijn over wat je niet weet`;
+
+// ── State ─────────────────────────────────────────────────────────────────
+let taal = 'NL';
+let geschiedenis = [];
+let bezig = false;
+
+// ── Helpers ───────────────────────────────────────────────────────────────
+function voortgang(pct) {
+  document.getElementById('voortgang').style.width = pct + '%';
+}
+
+function scrollOnder() {
+  const b = document.getElementById('berichten');
+  b.scrollTop = b.scrollHeight;
+}
+
+function maakAvatar() {
+  const av = document.createElement('div');
+  av.className = 'sol-avatar';
+  av.textContent = '⚖️';
+  return av;
+}
+
+function voegSolBericht(tekst, klasse = '') {
+  const rij = document.createElement('div');
+  rij.className = 'bericht-sol';
+  const av = maakAvatar();
+  const bel = document.createElement('div');
+  bel.className = 'bel-sol' + (klasse ? ' ' + klasse : '');
+  bel.textContent = tekst;
+  const t = T[taal];
+  if (t.rtl) { rij.setAttribute('dir','rtl'); document.body.setAttribute('dir','rtl'); }
+  rij.appendChild(av);
+  rij.appendChild(bel);
+  document.getElementById('berichten').appendChild(rij);
+  scrollOnder();
+  return bel;
+}
+
+function voegGebruikerBericht(tekst) {
+  const rij = document.createElement('div');
+  rij.className = 'bericht-user';
+  const bel = document.createElement('div');
+  bel.className = 'bel-user';
+  bel.textContent = tekst;
+  document.getElementById('berichten').appendChild(rij);
+  rij.appendChild(bel);
+  scrollOnder();
+}
+
+function toonTyping() {
+  const rij = document.createElement('div');
+  rij.className = 'typing';
+  rij.id = 'typing-indicator';
+  const av = maakAvatar();
+  const dots = document.createElement('div');
+  dots.className = 'typing-dots';
+  dots.innerHTML = '<span></span><span></span><span></span>';
+  rij.appendChild(av);
+  rij.appendChild(dots);
+  document.getElementById('berichten').appendChild(rij);
+  scrollOnder();
+}
+
+function verwijderTyping() {
+  const el = document.getElementById('typing-indicator');
+  if (el) el.remove();
+}
+
+function voegKaartjesToe(kaartjes) {
+  const rij = document.createElement('div');
+  rij.className = 'kaartjes-rij';
+  rij.id = 'situatie-kaartjes';
+  kaartjes.forEach(k => {
+    const btn = document.createElement('button');
+    btn.className = 'situatie-btn';
+    btn.textContent = k.emoji + ' ' + k.tekst;
+    btn.onclick = () => {
+      document.getElementById('situatie-kaartjes')?.remove();
+      stuurBericht(k.tekst);
+    };
+    rij.appendChild(btn);
+  });
+  document.getElementById('berichten').appendChild(rij);
+  scrollOnder();
+}
+
+// ── API aanroep ───────────────────────────────────────────────────────────
+async function vraagAI(berichten) {
+  const resp = await fetch(WORKER_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      systeem: SYSTEM_PROMPT,
+      berichten: berichten
+    })
+  });
+  if (!resp.ok) throw new Error('Worker fout: ' + resp.status);
+  const data = await resp.json();
+  if (data.error) throw new Error(data.error);
+  return data.tekst;
+}
+
+// ── Stuur bericht ─────────────────────────────────────────────────────────
+async function stuurBericht(tekst) {
+  if (bezig || !tekst.trim()) return;
+  bezig = true;
+  document.getElementById('stuur-btn').disabled = true;
+  document.getElementById('situatie-kaartjes')?.remove();
+
+  voegGebruikerBericht(tekst);
+  geschiedenis.push({ role: 'user', content: tekst });
+
+  toonTyping();
+  voortgang(40);
+
+  try {
+    const antwoord = await vraagAI(geschiedenis);
+    verwijderTyping();
+    voortgang(100);
+    voegSolBericht(antwoord);
+    geschiedenis.push({ role: 'assistant', content: antwoord });
+  } catch (e) {
+    verwijderTyping();
+    voegSolBericht(T[taal].fout, 'waarschuwing');
+    console.error(e);
+  }
+
+  setTimeout(() => voortgang(0), 600);
+  bezig = false;
+  document.getElementById('stuur-btn').disabled = false;
+  document.getElementById('invoer').focus();
+}
+
+function stuur() {
+  const invoer = document.getElementById('invoer');
+  const tekst = invoer.value.trim();
+  if (!tekst) return;
+  invoer.value = '';
+  invoer.style.height = 'auto';
+  stuurBericht(tekst);
+}
+
+// ── Start / reset ─────────────────────────────────────────────────────────
+function start() {
+  const t = T[taal];
+  document.getElementById('berichten').innerHTML = '';
+  document.getElementById('invoer').placeholder = t.placeholder;
+  document.querySelector('.nieuw-btn').textContent = t.nieuw;
+  geschiedenis = [];
+  bezig = false;
+
+  // RTL
+  document.body.setAttribute('dir', t.rtl ? 'rtl' : 'ltr');
+
+  // Disclaimer
+  voegSolBericht(t.disclaimer, 'disclaimer');
+
+  // Welkomstbericht
+  voegSolBericht(t.welkom);
+
+  // Situatiekaartjes
+  voegKaartjesToe(t.kaartjes);
+}
+
+function nieuwGesprek() {
+  start();
+}
+
+function setTaal(code, btn) {
+  taal = code;
+  document.querySelectorAll('.taal-btn').forEach(b => b.classList.remove('actief'));
+  btn.classList.add('actief');
+  if (window.Solidari && Solidari.i18n) Solidari.i18n.passToe(code);
+  start();
+}
+
+// ── Invoer auto-resize + enter ────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  if (window.Solidari && Solidari.i18n) Solidari.i18n.init();
+
+  const invoer = document.getElementById('invoer');
+
+  invoer.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      stuur();
+    }
+  });
+
+  invoer.addEventListener('input', function () {
+    this.style.height = 'auto';
+    this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+  });
+
+  start();
+});
+</script>
+<script src="components.js"></script>
+</body>
+</html>
