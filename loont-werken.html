@@ -105,7 +105,7 @@
     .res-opnieuw{width:100%;padding:10px;background:none;border:1px solid var(--rand);border-radius:10px;font-size:.82rem;cursor:pointer;font-family:'Source Sans 3',sans-serif;color:var(--tekst-licht);margin:.8rem 1.2rem;width:calc(100% - 2.4rem);transition:all .2s;}
     .res-opnieuw:hover{color:var(--tekst-zacht);border-color:var(--tekst-licht);}
 
-    @media(max-width:480px){.chat-wrap{padding:0 .6rem;}}
+    @media(max-width:480px){.chat-wrap{padding:0 .6rem;padding-top:64px;}}
   </style>
 </head>
 <body>
@@ -312,7 +312,7 @@ const T = {
     omsl_titel:'💡 Çalışmak ne zaman kazandırır?',
     omsl_basis:'Asgari ücret €{u}/saat baz alınarak:',
     omsl_uren_lbl:'haftalık saat, ayda €50+ fazla kazanmak için',
-    omsl_bruto_lbl':'{n} saat/hafta için aylık brüt',
+    omsl_bruto_lbl:'{n} saat/hafta için aylık brüt',
     omsl_extra_lbl:'sadece yardımdan fazla, aylık',
     val_titel:'💪 Çalışmak kazandırır — yoksulluk tuzağında bile',
     val_txt:'Az ekstra kazansanız bile iş deneyimi, dil becerisi ve ağ kazanırsınız. Belediyenizden <strong>gelir muafiyeti</strong> hakkında bilgi alın.',
@@ -871,9 +871,10 @@ function setTaal(code,btn){
 // ══════════════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded',()=>{
   if(window.Solidari&&Solidari.i18n)Solidari.i18n.init();
-  try{const op=localStorage.getItem('solidari-taal');if(op){taal=op.toLowerCase();}}catch(e){}
-  start();
 });
+
+try{const op=localStorage.getItem('solidari-taal');if(op){taal=op.toLowerCase();}}catch(e){}
+start();
 </script>
 <script src="components.js"></script>
 </body>
