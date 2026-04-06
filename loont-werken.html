@@ -681,8 +681,22 @@ const T = {
 // ─── NORMEN 2026 ──────────────────────────────────────────────────────────────
 const N = {
   zt: { dr_s:40857, dr_p:51407, mx_s:128, mx_p:244 },
-  ht: { max:880.66, min:454.47, aftop12:650.43, aftop3:697.46,
-        norm_s:242, norm_p:260, maxI_s:31875, maxI_p:43675 },
+  // Huurtoeslag 2026 — nieuw stelsel per 1-1-2026 (lineaire afbouw)
+  // Bron: Volkshuisvesting NL / Dienst Toeslagen / huurgeschil.nl
+  ht: {
+    kwal_grens:  498.20,   // kwaliteitskortingsgrens (ook jongerengrens)
+    aftop_12:    713.02,   // aftoppingsgrens 1–2 personen
+    aftop_3plus: 764.14,   // aftoppingsgrens 3+ personen
+    max_huur:    932.32,   // maximale huurgrens
+    basishuur_s: 202.52,   // vaste eigen bijdrage alleenstaand
+    basishuur_p: 200.71,   // vaste eigen bijdrage meerpersoonshuishouden
+    min_ink_s:   23425,    // minimuminkomen alleenstaand (onder = volle toeslag)
+    min_ink_p:   31500,    // minimuminkomen meerpersoonshuishouden
+    max_ink_s:   31875,    // maximuminkomen alleenstaand (boven = geen toeslag)
+    max_ink_p:   43675,    // maximuminkomen meerpersoonshuishouden
+    afbouw_s:    0.27,     // €0,27 toeslag minder per euro boven minimuminkomen
+    afbouw_p:    0.22,     // €0,22 toeslag minder per euro boven minimuminkomen
+  },
   kgb: { k1:1530, k2:1019, k3:376, grens:24557, afbouw:0.0683 },
   lh: { s1g:38441, s1t:.3597, s2t:.4950,
         ahk:3099, ahk_s:24813, ahk_e:75518,
@@ -794,12 +808,42 @@ function berekenZt(ji) {
 }
 function berekenHt(ji) {
   const H = N.ht, huur = S.huur;
-  if (huur > H.max || huur < H.min) return 0;
-  const mI = S.partner ? H.maxI_p : H.maxI_s;
-  if (ji > mI) return 0;
-  const aftop = S.kinderen >= 3 ? H.aftop3 : H.aftop12;
-  const nh = S.partner ? H.norm_p : H.norm_s;
-  return Math.round(Math.max(0, Math.min(huur,aftop)-nh) * Math.max(0, 1 - Math.max(0,ji-15000)/(mI-15000)));
+  if (huur <= 0) return 0;
+
+  // Jongeren (<21) krijgen toeslag alleen over deel tot kwaliteitskortingsgrens
+  const isJong = S.leeftijd !== null && S.leeftijd < 21;
+  const maxHuurVoorRecht = isJong ? H.kwal_grens : H.max_huur;
+  if (huur > maxHuurVoorRecht) {
+    // Boven jongerengrens: alleen recht over deel t/m kwal_grens, maar alleen als huur <= max_huur
+    // (vanaf 2026 vervalt huurgrens als voorwaarde, maar berekening stopt bij max_huur)
+    if (!isJong) return 0; // huur boven 932,32 → geen toeslag
+  }
+
+  const minInk = S.partner ? H.min_ink_p : H.min_ink_s;
+  const maxInk = S.partner ? H.max_ink_p : H.max_ink_s;
+  if (ji > maxInk) return 0;
+
+  // Basishuur (vaste eigen bijdrage)
+  const basishuur = S.partner ? H.basishuur_p : H.basishuur_s;
+
+  // Rekenhuur = kale huur, maar maximaal begrensd per tier
+  const rekenhuur = isJong ? Math.min(huur, H.kwal_grens) : huur;
+  const aftop = S.kinderen >= 3 ? H.aftop_3plus : H.aftop_12;
+
+  // Drietraps vergoeding (100% / 65% / 40%)
+  // Deel A: basishuur → kwaliteitskortingsgrens: 100% vergoed
+  const deelA = Math.max(0, Math.min(rekenhuur, H.kwal_grens) - basishuur);
+  // Deel B: kwaliteitskortingsgrens → aftoppingsgrens: 65% vergoed
+  const deelB = Math.max(0, Math.min(rekenhuur, aftop) - H.kwal_grens) * 0.65;
+  // Deel C: aftoppingsgrens → max_huur: 40% vergoed (niet voor jongeren)
+  const deelC = isJong ? 0 : Math.max(0, Math.min(rekenhuur, H.max_huur) - aftop) * 0.40;
+
+  const maxToeslag = Math.max(0, deelA + deelB + deelC);
+
+  // Lineaire inkomensafbouw boven minimuminkomen
+  if (ji <= minInk) return Math.round(maxToeslag);
+  const afbouw = (S.partner ? H.afbouw_p : H.afbouw_s) * (ji - minInk) / 12; // per maand
+  return Math.round(Math.max(0, maxToeslag - afbouw));
 }
 function berekenKgb(ji) {
   if (S.kinderen === 0) return 0;
@@ -973,6 +1017,14 @@ function toonResultaat(extra=0) {
   const kgbNw = berekenKgb(brutoNwJaar);
 
   const verschil = totNw - totOud;
+
+  // Bandbreedte: ±10% marge wegens benaderingsfouten in toeslagen en belasting
+  // Breedte groter als huur in het gevoelige aftoppingsgebied zit
+  const htGevoelig = S.huur > 0 && S.huur > N.ht.kwal_grens && S.huur < N.ht.aftop_12 + 100;
+  const marge = htGevoelig ? 0.12 : 0.08;
+  const bandLaag = Math.round(totNw * (1 - marge));
+  const bandHoog = Math.round(totNw * (1 + marge));
+
   let vKls, vTxt;
   if (verschil > 30) { vKls='pos'; vTxt=s('verschil_pos').replace('{x}', fmt(verschil)); }
   else if (verschil < -30) { vKls='neg'; vTxt=s('verschil_neg').replace('{x}', fmt(Math.abs(verschil))); }
@@ -997,7 +1049,7 @@ function toonResultaat(extra=0) {
     </div>`;
   }
 
-  const huurNoot = S.huur<454||S.huur>880 ? s('huur_buiten') : '';
+  const huurNoot = S.huur > N.ht.max_huur ? s('huur_buiten') : '';
 
   // Vier blokken (inklapbaar)
   function blok(id, titel, inhoud) {
@@ -1056,6 +1108,9 @@ function toonResultaat(extra=0) {
       </div>
     </div>
     <div class="res-verschil-rij ${vKls}">${vTxt}</div>
+    <div style="text-align:center;padding:6px 1.2rem 10px;font-size:0.75rem;color:var(--tekst-licht);border-bottom:1px solid var(--rand);">
+      Waarschijnlijk tussen <strong style="color:var(--tekst-zacht)">${fmt(bandLaag)}</strong> en <strong style="color:var(--tekst-zacht)">${fmt(bandHoog)}</strong> per maand — afhankelijk van uw exacte situatie
+    </div>
     <div class="res-uitsp">
       <div class="uitsp-hdr">
         <span>${s('uitsp_bron')}</span>
