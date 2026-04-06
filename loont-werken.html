@@ -271,8 +271,23 @@ const T = {
     blok4_loon: '<strong>Loonsverhoging:</strong> na een jaar werk stijgt je salaris bij veel werkgevers automatisch, of kun je dat bespreekbaar maken.',
     blok4_doorgroei: '<strong>Doorgroeimogelijkheden:</strong> meer uren, een hogere functie of een opleiding — de eerste stap maakt de volgende makkelijker.',
     advies: 'Wil je weten wat dit precies betekent voor jóuw situatie? Neem contact op met je <strong>Sociaal Wijkteam</strong> of <strong>VluchtelingenWerk</strong> — zij kunnen je gratis helpen.',
-    disclaimer: 'Indicatieve berekening op basis van normen 2026. Bijstandsnormen per 1-1-2026, toeslagen Belastingdienst 2026. Zorgtoeslag max €128/mnd (alleenstaand) / €244/mnd (met partner). Kinderbijslag (AKW) is een vaste schatting. Netto salaris en toeslagen zijn benaderingen — jouw situatie kan afwijken.',
+    disclaimer: 'Indicatieve berekening op basis van normen 2026. Bijstandsnormen per 1-1-2026, toeslagen Belastingdienst 2026. Zorgtoeslag max €128/mnd (alleenstaand) / €244/mnd (met partner). Kinderbijslag (AKW) is een vaste schatting. Kinderopvangtoeslag is een benadering — het exacte bedrag hangt af van het uurtarief, aantal uren en of beide ouders werken of een erkend traject volgen. Netto salaris en toeslagen zijn benaderingen — jouw situatie kan afwijken.',
     opnieuw: '↩ Opnieuw beginnen',
+    q_kot: 'Maken je kinderen gebruik van kinderopvang? (dagopvang, BSO of gastouder)',
+    kot_ja: 'Ja, ze gaan naar de opvang',
+    kot_nee: 'Nee, geen kinderopvang',
+    q_kot_soort: 'Welk soort opvang?',
+    kot_dag: '🏠 Dagopvang (0–4 jaar)',
+    kot_bso: '🎒 Buitenschoolse opvang (4–12 jaar)',
+    kot_go: '👩 Gastouderopvang',
+    q_kot_uren: 'Hoeveel uur per maand gaan de kinderen naar de opvang?',
+    kot_uren_placeholder: 'bijv. 100',
+    kot_uren_hint: 'Max 230 uur per kind per maand. Kijk op je contract of factuur.',
+    kot_uren_fout: 'Vul een aantal uren in tussen 1 en 230.',
+    kot_uren_label: 'uur/mnd',
+    kot_bevestiging: 'Bij dit inkomen krijg je waarschijnlijk tot <strong>{max}/mnd</strong> kinderopvangtoeslag. Let op: dit geldt alleen als je (gaat) werken, studeert of een inburgeringstraject volgt.',
+    kot_lbl: 'Kinderopvangtoeslag',
+    kot_noot: 'indicatief',
   },
   en: {
     welkom: 'Hello! 👋 I help you see <strong>what changes when you earn more</strong>. Think about allowances, benefits, and what you keep net. I\'ll ask you a few questions.',
@@ -354,6 +369,21 @@ const T = {
     advies: 'Want to know exactly what this means for your situation? Contact your <strong>Social Neighbourhood Team</strong> or <strong>VluchtelingenWerk</strong> — they can help you for free.',
     disclaimer: 'Indicative calculation based on 2026 norms. Social assistance as of 1-1-2026, Tax Authority allowances 2026. Healthcare allowance max €128/month (single) / €244/month (with partner). Child benefit (AKW) is a fixed estimate. Net salary and allowances are approximations.',
     opnieuw: '↩ Start over',
+    q_kot: 'Do your children use childcare? (daycare, after-school care or childminder)',
+    kot_ja: 'Yes, they go to childcare',
+    kot_nee: 'No childcare',
+    q_kot_soort: 'What type of childcare?',
+    kot_dag: '🏠 Daycare (0–4 years)',
+    kot_bso: '🎒 After-school care (4–12 years)',
+    kot_go: '👩 Childminder',
+    q_kot_uren: 'How many hours per month do the children go to childcare?',
+    kot_uren_placeholder: 'e.g. 100',
+    kot_uren_hint: 'Max 230 hours per child per month. Check your contract or invoice.',
+    kot_uren_fout: 'Enter a number of hours between 1 and 230.',
+    kot_uren_label: 'hrs/month',
+    kot_bevestiging: 'At this income you will probably receive up to <strong>{max}/month</strong> in childcare benefit. Note: this only applies if you (are going to) work, study or follow an integration programme.',
+    kot_lbl: 'Childcare benefit',
+    kot_noot: 'indicative',
   },
   ar: {
     welkom: 'مرحباً! 👋 أساعدك في معرفة <strong>ما الذي يتغير عندما تكسب أكثر</strong>. سأطرح عليك بعض الأسئلة.',
@@ -435,6 +465,21 @@ const T = {
     advies: 'تريد معرفة ما يعنيه هذا لوضعك تحديداً؟ تواصل مع <strong>الفريق الاجتماعي</strong> أو <strong>VluchtelingenWerk</strong> — يمكنهم مساعدتك مجاناً.',
     disclaimer: 'حساب تقريبي وفق معايير 2026. الأرقام تقريبية ووضعك قد يختلف.',
     opnieuw: '↩ البدء من جديد',
+    q_kot: 'هل يستخدم أطفالك رعاية الأطفال؟ (حضانة، رعاية بعد المدرسة أو حاضنة)',
+    kot_ja: 'نعم، يذهبون إلى الحضانة',
+    kot_nee: 'لا، لا توجد رعاية أطفال',
+    q_kot_soort: 'ما نوع الرعاية؟',
+    kot_dag: '🏠 حضانة نهارية (0–4 سنوات)',
+    kot_bso: '🎒 رعاية بعد المدرسة (4–12 سنة)',
+    kot_go: '👩 حاضنة منزلية',
+    q_kot_uren: 'كم ساعة في الشهر يذهب الأطفال إلى الرعاية؟',
+    kot_uren_placeholder: 'مثال: 100',
+    kot_uren_hint: 'الحد الأقصى 230 ساعة لكل طفل في الشهر.',
+    kot_uren_fout: 'أدخل عدد ساعات بين 1 و230.',
+    kot_uren_label: 'ساعة/شهر',
+    kot_bevestiging: 'بهذا الدخل ستحصل على ما يصل إلى <strong>{max}/شهر</strong> من إعانة رعاية الأطفال. ملاحظة: يُشترط أن تعمل أو تتابع دراسة أو برنامج اندماج.',
+    kot_lbl: 'إعانة رعاية الأطفال',
+    kot_noot: 'تقريبي',
   },
   tr: {
     welkom: 'Merhaba! 👋 <strong>Daha fazla kazandığınızda ne değiştiğini</strong> hesaplamanıza yardımcı olacağım. Birkaç soru soracağım.',
@@ -516,6 +561,21 @@ const T = {
     advies: 'Kendi durumunuz için ne anlama geldiğini bilmek ister misiniz? <strong>Sociaal Wijkteam</strong> veya <strong>VluchtelingenWerk</strong> ile ücretsiz iletişime geçin.',
     disclaimer: '2026 normlarına göre gösterge niteliğinde hesaplama. Rakamlar tahminidir.',
     opnieuw: '↩ Yeniden başla',
+    q_kot: 'Çocuklarınız çocuk bakımından yararlanıyor mu? (kreş, okul sonrası bakım veya aile kreşi)',
+    kot_ja: 'Evet, bakıma gidiyorlar',
+    kot_nee: 'Hayır, çocuk bakımı yok',
+    q_kot_soort: 'Bakım türü nedir?',
+    kot_dag: '🏠 Kreş (0–4 yaş)',
+    kot_bso: '🎒 Okul sonrası bakım (4–12 yaş)',
+    kot_go: '👩 Aile kreşi',
+    q_kot_uren: 'Çocuklar ayda kaç saat bakıma gidiyor?',
+    kot_uren_placeholder: 'örn. 100',
+    kot_uren_hint: 'Her çocuk için ayda en fazla 230 saat.',
+    kot_uren_fout: '1 ile 230 arasında bir saat sayısı girin.',
+    kot_uren_label: 'saat/ay',
+    kot_bevestiging: 'Bu gelirle muhtemelen aylık <strong>{max}</strong> çocuk bakım desteği alırsınız. Not: çalışıyorsanız, öğrenciyseniz veya bir entegrasyon programı izliyorsanız geçerlidir.',
+    kot_lbl: 'Çocuk bakım desteği',
+    kot_noot: 'gösterge',
   },
   ti: {
     welkom: 'ሰላም! 👋 <strong>ዝያዳ ምስ እትረክብ እንታይ ይቕየር</strong> ክሕሉ እሕግዘካ። ቁሩብ ሕቶ ክሓተካ እየ።',
@@ -597,6 +657,21 @@ const T = {
     advies: 'ናይ ውልቂ ሓበሬታ ትደሊ ዲኻ? ምስ <strong>Sociaal Wijkteam</strong> ወይ <strong>VluchtelingenWerk</strong> ሓልዮም ይሕግዙካ።',
     disclaimer: 'ብሕጊ 2026 ዝተሓሰበ ዝምልከቶ ሓበሬታ እዩ። ኣሃዛት ዝምልከቱ ኢዮም።',
     opnieuw: '↩ ካብ መጀመሪያ ጀምር',
+    q_kot: 'ቆልዑኻ ናይ ቆልዑ ክንክን ይጥቀሙ ዶ?',
+    kot_ja: 'እወ፣ ናብ ክንክን ይኸዱ',
+    kot_nee: 'ኣይፋል፣ ናይ ቆልዑ ክንክን የለን',
+    q_kot_soort: 'ዓይነት ክንክን እንታይ እዩ?',
+    kot_dag: '🏠 ናይ ቀን ክንክን (0–4 ዓመት)',
+    kot_bso: '🎒 ድሕሪ ቤት-ትምህርቲ (4–12 ዓመት)',
+    kot_go: '👩 ናይ ቤት ክንክን',
+    q_kot_uren: 'ቆልዑ ወርሓዊ ክንደይ ሰዓት ናብ ክንክን ይኸዱ?',
+    kot_uren_placeholder: 'ንኣብነት 100',
+    kot_uren_hint: 'ንነፍሲ ወከፍ ቆልዓ ብዘይበዝሕ 230 ሰዓት ወርሓዊ።',
+    kot_uren_fout: 'ካብ 1 ክሳብ 230 ሰዓት ኣእቱ።',
+    kot_uren_label: 'ሰዓት/ወርሒ',
+    kot_bevestiging: 'ብዙሕ ክሳብ <strong>{max}/ወርሒ</strong> ናይ ቆልዑ ክንክን ሓገዝ ክትረክብ ትኽእል። ናይ ስራሕ ወይ ናይ ትምህርቲ ሰዓታት ዘለዎ ምስ ዝህሉ።',
+    kot_lbl: 'ናይ ቆልዑ ክንክን ሓገዝ',
+    kot_noot: 'ዝምልከቶ',
   },
   uk: {
     welkom: 'Привіт! 👋 Я допоможу вам побачити <strong>що змінюється, коли ви заробляєте більше</strong>. Задам кілька запитань.',
@@ -678,6 +753,21 @@ const T = {
     advies: 'Хочете знати що це означає для вашої ситуації? Зверніться до <strong>Sociaal Wijkteam</strong> або <strong>VluchtelingenWerk</strong> — вони допоможуть безкоштовно.',
     disclaimer: 'Орієнтовний розрахунок на основі норм 2026. Цифри є наближеними.',
     opnieuw: '↩ Почати знову',
+    q_kot: 'Чи користуються ваші діти дитячим садком? (ясла, продовжений день або домашній вихователь)',
+    kot_ja: 'Так, вони ходять до садка',
+    kot_nee: 'Ні, без дитячого садка',
+    q_kot_soort: 'Який тип догляду?',
+    kot_dag: '🏠 Ясла / садок (0–4 роки)',
+    kot_bso: '🎒 Продовжений день (4–12 років)',
+    kot_go: '👩 Домашній вихователь',
+    q_kot_uren: 'Скільки годин на місяць діти проводять у садку?',
+    kot_uren_placeholder: 'напр. 100',
+    kot_uren_hint: 'Макс. 230 годин на дитину на місяць.',
+    kot_uren_fout: 'Введіть кількість годин від 1 до 230.',
+    kot_uren_label: 'год/міс',
+    kot_bevestiging: 'При цьому доході ви, мабуть, отримаєте до <strong>{max}/міс</strong> субсидії на дитячий садок. Примітка: тільки якщо ви працюєте, навчаєтесь або проходите програму інтеграції.',
+    kot_lbl: 'Субсидія на дитячий садок',
+    kot_noot: 'орієнтовно',
   },
   fa: {
     welkom: 'سلام! 👋 به شما کمک می‌کنم ببینید <strong>با درآمد بیشتر چه چیزی تغییر می‌کند</strong>. چند سوال می‌پرسم.',
@@ -759,6 +849,21 @@ const T = {
     advies: 'می‌خواهید بدانید این برای وضعیت شما چه معنایی دارد؟ با <strong>Sociaal Wijkteam</strong> یا <strong>VluchtelingenWerk</strong> تماس بگیرید — رایگان کمک می‌کنند.',
     disclaimer: 'محاسبه تقریبی بر اساس نرم‌های 2026. ارقام تقریبی هستند.',
     opnieuw: '↩ شروع مجدد',
+    q_kot: 'آیا فرزندانتان از مراقبت کودک استفاده می‌کنند؟ (مهدکودک، مراقبت بعد از مدرسه یا پرستار)',
+    kot_ja: 'بله، به مراقبت می‌روند',
+    kot_nee: 'خیر، مراقبت کودک نداریم',
+    q_kot_soort: 'نوع مراقبت چیست؟',
+    kot_dag: '🏠 مهدکودک (0–4 سال)',
+    kot_bso: '🎒 مراقبت بعد از مدرسه (4–12 سال)',
+    kot_go: '👩 پرستار خانگی',
+    q_kot_uren: 'فرزندانتان ماهانه چند ساعت به مراقبت می‌روند؟',
+    kot_uren_placeholder: 'مثال: 100',
+    kot_uren_hint: 'حداکثر 230 ساعت در ماه به ازای هر فرزند.',
+    kot_uren_fout: 'بین 1 تا 230 ساعت وارد کنید.',
+    kot_uren_label: 'ساعت/ماه',
+    kot_bevestiging: 'با این درآمد احتمالاً تا <strong>{max}/ماه</strong> کمک هزینه مراقبت کودک دریافت می‌کنید. توجه: فقط در صورت کار، تحصیل یا دوره یکپارچه‌سازی معتبر است.',
+    kot_lbl: 'کمک هزینه مراقبت کودک',
+    kot_noot: 'تقریبی',
   },
 };
 
@@ -794,15 +899,61 @@ const N = {
   },
   wml: 14.71,  // uurloon per 1-1-2026
   akw: 105,    // ~€315 per kwartaal per kind / 3 maanden
+  // Kinderopvangtoeslag 2026 — bron: Rijksoverheid / Dienst Toeslagen
+  kot: {
+    max_uur_dag:  11.23,  // dagopvang
+    max_uur_bso:   9.98,  // buitenschoolse opvang
+    max_uur_go:    8.49,  // gastouderopvang
+    max_uren_mnd: 230,    // max uren per kind per maand
+    // Opzoektabel: [toetsingsinkomen_t/m, pct_1e_kind, pct_volgend]
+    // Bron: officiële tabel Rijksoverheid 2026
+    tabel: [
+      [56412,  96.0, 96.0],
+      [58184,  95.5, 95.6],
+      [59957,  94.8, 95.6],
+      [61895,  93.9, 95.6],
+      [65695,  92.4, 95.6],
+      [69492,  91.6, 95.2],
+      [73292,  90.5, 94.6],
+      [77094,  88.2, 94.2],
+      [80891,  85.9, 93.9],
+      [84693,  83.7, 93.2],
+      [88491,  81.2, 92.7],
+      [92291,  78.9, 92.2],
+      [96091,  76.7, 91.5],
+      [99889,  74.3, 90.9],
+      [103694, 72.1, 90.5],
+      [107492, 69.6, 90.2],
+      [111290, 67.3, 89.5],
+      [115090, 65.1, 89.1],
+      [118963, 62.7, 88.6],
+      [122857, 60.6, 87.9],
+      [126747, 58.5, 87.4],
+      [130638, 56.4, 87.0],
+      [134527, 54.2, 86.7],
+      [138420, 52.3, 86.0],
+      [142312, 50.4, 85.4],
+      [146205, 48.5, 85.0],
+      [150092, 46.5, 84.4],
+      [153982, 44.5, 84.0],
+      [157877, 42.5, 83.3],
+      [161766, 40.5, 82.7],
+      [165657, 38.5, 81.7],
+      [169547, 36.5, 81.4],
+      [Infinity, 36.5, 68.2],
+    ],
+  },
 };
 
 // ─── STAAT ────────────────────────────────────────────────────────────────────
 let taal = 'nl';
 const S = { situatie:null, partner:false, huisgenoten:[], leeftijd:null,
-            huur:0, huidigNetto:0, nieuwBruto:0, uren:40 };
+            huur:0, huidigNetto:0, nieuwBruto:0, uren:40,
+            kotActief:false, kotSoort:'dag', kotUrenMnd:0, kotKinderen:0 };
 
 // Afgeleide groepen uit S.huisgenoten
 function kinderenOnder18()   { return S.huisgenoten.filter(l => l < 18).length; }
+function kinderenOnder12()   { return S.huisgenoten.filter(l => l < 12).length; }
 function volwassenen27plus()  { return S.huisgenoten.filter(l => l >= 27).length; }
 // Kostendelers: gebruiker zelf (1) + huisgenoten van 27+. Partner telt niet apart mee.
 function aantalKostendelers() { return 1 + volwassenen27plus(); }
@@ -952,14 +1103,30 @@ function berekenKgb(ji) {
   if (kind >= 3) b += K.k3;
   return Math.round(Math.max(0, b - (ji>K.grens ? (ji-K.grens)*K.afbouw : 0)) / 12);
 }
-function berekenTotaal(jaarinkomen, nettoMnd, bijstandAanv) {
-  return nettoMnd + bijstandAanv + berekenZt(jaarinkomen) + berekenHt(jaarinkomen) + berekenKgb(jaarinkomen) + (kinderenOnder18()>0 ? kinderenOnder18()*N.akw : 0);
+function berekenKot(jaarinkomen) {
+  if (!S.kotActief || S.kotKinderen === 0 || S.kotUrenMnd === 0) return 0;
+  const K = N.kot;
+  // Max uurtarief per soort opvang
+  const maxUur = S.kotSoort === 'bso' ? K.max_uur_bso
+               : S.kotSoort === 'go'  ? K.max_uur_go
+               : K.max_uur_dag;
+  // Vergoedingspercentage uit tabel op basis van toetsingsinkomen
+  const pctRij = K.tabel.find(r => jaarinkomen <= r[0]);
+  const pct1 = pctRij ? pctRij[1] / 100 : 0.365;
+  const pct2 = pctRij ? pctRij[2] / 100 : 0.682;
+  // Uren per maand begrenzen op maximum
+  const uren = Math.min(S.kotUrenMnd, K.max_uren_mnd);
+  // Eerste kind: pct1, volgende kinderen: pct2
+  let totaal = uren * maxUur * pct1;
+  if (S.kotKinderen >= 2) totaal += uren * maxUur * pct2 * (S.kotKinderen - 1);
+  return Math.round(totaal);
 }
 
 // ─── STAPPEN ──────────────────────────────────────────────────────────────────
 async function start() {
   B().innerHTML = ''; IZ().innerHTML = ''; vrtg(0);
-  Object.assign(S, {situatie:null,partner:false,huisgenoten:[],leeftijd:null,huur:0,huidigNetto:0,nieuwBruto:0,uren:40});
+  Object.assign(S, {situatie:null,partner:false,huisgenoten:[],leeftijd:null,huur:0,huidigNetto:0,nieuwBruto:0,uren:40,
+                    kotActief:false,kotSoort:'dag',kotUrenMnd:0,kotKinderen:0});
   await sol(s('welkom'), 200);
   stap_situatie();
 }
@@ -1074,6 +1241,64 @@ async function stap_huur() {
     onKlik: async (v, skip) => {
       S.huur = skip ? 0 : v;
       userBericht(skip ? s('huur_skip') : fmt(v));
+      // Kinderopvang vragen als er kinderen onder 12 zijn
+      if (kinderenOnder12() > 0) stap_kinderopvang();
+      else stap_huidig();
+    }
+  });
+}
+
+async function stap_kinderopvang() {
+  vrtg(60);
+  await sol(s('q_kot'), 300);
+  toonKeuzes([
+    { label: s('kot_nee'), val: false },
+    { label: s('kot_ja'),  val: true  },
+  ], async o => {
+    userBericht(o.label);
+    if (!o.val) {
+      S.kotActief = false;
+      stap_huidig();
+    } else {
+      S.kotActief = true;
+      stap_kot_soort();
+    }
+  });
+}
+
+async function stap_kot_soort() {
+  await sol(s('q_kot_soort'), 250);
+  toonKeuzes([
+    { label: s('kot_dag'), val: 'dag' },
+    { label: s('kot_bso'), val: 'bso' },
+    { label: s('kot_go'),  val: 'go'  },
+  ], async o => {
+    S.kotSoort = o.val; userBericht(o.label);
+    stap_kot_uren();
+  });
+}
+
+async function stap_kot_uren() {
+  await sol(s('q_kot_uren'), 250);
+  // Aantal kinderen onder 12 als prefill voor kotKinderen
+  S.kotKinderen = kinderenOnder12();
+  toonGetalInvoer({
+    prefix: '🕐',
+    placeholder: s('kot_uren_placeholder'),
+    hint: s('kot_uren_hint'),
+    onKlik: async (v) => {
+      if (v <= 0 || v > 230) {
+        await sol(s('kot_uren_fout'), 200, 'waarschuwing');
+        stap_kot_uren(); return;
+      }
+      S.kotUrenMnd = v;
+      userBericht(v + ' ' + s('kot_uren_label'));
+      // Korte bevestiging met schatting
+      const maxUur = S.kotSoort === 'bso' ? N.kot.max_uur_bso
+                   : S.kotSoort === 'go'  ? N.kot.max_uur_go
+                   : N.kot.max_uur_dag;
+      const schattingMax = Math.round(v * maxUur * 0.96 * S.kotKinderen);
+      await sol(s('kot_bevestiging').replace('{max}', fmt(schattingMax)), 300, 'reactie');
       stap_huidig();
     }
   });
@@ -1139,8 +1364,10 @@ async function stap_berekenen() {
 }
 
 function toonResultaat(extra=0) {
-  // Huidig totaal = wat de gebruiker opgaf
-  const totOud = S.huidigNetto;
+  // Huidig totaal = wat de gebruiker opgaf + huidige KOT
+  const huidigJaar = S.huidigNetto * 12 / 1.08;
+  const kotOudVal = berekenKot(huidigJaar);
+  const totOud = S.huidigNetto + kotOudVal;
 
   // Nieuw: netto salaris + eventuele bijstandsaanvulling + toeslagen
   const nettoNw = berekenNetto(S.nieuwBruto + extra);
@@ -1151,11 +1378,11 @@ function toonResultaat(extra=0) {
     + berekenZt(brutoNwJaar)
     + berekenHt(brutoNwJaar)
     + berekenKgb(brutoNwJaar)
+    + berekenKot(brutoNwJaar)
     + (kinderenOnder18()>0 ? kinderenOnder18()*N.akw : 0);
 
   // Toeslagen huidig (op basis van opgegeven netto, terugrekenen naar jaarinkomen)
   // We benaderen huidig jaarinkomen als netto * 12 / 1.08 (excl. VG) voor toeslagenberekening
-  const huidigJaar = S.huidigNetto * 12 / 1.08;
   const ztOud = berekenZt(huidigJaar);
   const htOud = berekenHt(huidigJaar);
   const kgbOud = berekenKgb(huidigJaar);
@@ -1164,6 +1391,8 @@ function toonResultaat(extra=0) {
   const ztNw = berekenZt(brutoNwJaar);
   const htNw = berekenHt(brutoNwJaar);
   const kgbNw = berekenKgb(brutoNwJaar);
+  const kotOud = kotOudVal;
+  const kotNw  = berekenKot(brutoNwJaar);
 
   const verschil = totNw - totOud;
 
@@ -1270,6 +1499,7 @@ function toonResultaat(extra=0) {
       ${rij('#FDF3E0', s('zt_lbl'), ztOud, ztNw)}
       ${S.huur>0 ? rij('#EFF6FF', s('ht_lbl'), htOud, htNw, huurNoot) : ''}
       ${kinderenOnder18()>0 ? rij('#F5F3FF', s('kgb_lbl'), kgbOud, kgbNw) : ''}
+      ${S.kotActief ? rij('#E8F5E9', s('kot_lbl'), kotOud, kotNw, s('kot_noot')) : ''}
       ${kinderenOnder18()>0 ? rijVast('#FFE4F0', s('akw_lbl'), akw) : ''}
       <div class="uitsp-rij totaal">
         <div class="uitsp-naam"><strong>Totaal</strong></div>
