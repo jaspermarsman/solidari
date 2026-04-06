@@ -8,558 +8,871 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="components.css">
   <style>
-    :root { --rood:#DC2626; --rood-licht:#FEF2F2; --blauw:#2563EB; --blauw-licht:#EFF6FF; }
-    *{margin:0;padding:0;box-sizing:border-box;} html{scroll-behavior:smooth;}
-    body{background:var(--wit);color:var(--tekst);font-family:'Source Sans 3',sans-serif;line-height:1.6;}
+    :root {
+      --rood:#DC2626;--rood-licht:#FEF2F2;
+      --blauw:#2563EB;--blauw-licht:#EFF6FF;
+      --chat-bg:#EFECE6;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html,body{height:100%;}
+    body{background:var(--chat-bg);color:var(--tekst);font-family:'Source Sans 3',sans-serif;font-weight:400;display:flex;flex-direction:column;}
 
-    /* HEADER */
-    .pagina-header{padding-top:64px;background:var(--groen);color:white;position:relative;overflow:hidden;}
-    .pagina-header::before{content:'💶';position:absolute;right:8%;top:50%;transform:translateY(-50%);font-size:7rem;opacity:.07;pointer-events:none;}
-    .pagina-header::after{content:'';position:absolute;right:-80px;top:-80px;width:320px;height:320px;border-radius:50%;background:rgba(232,160,32,.08);}
-    .header-inhoud{max-width:900px;margin:0 auto;padding:3rem 2rem 2.5rem;position:relative;z-index:1;}
-    .header-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);border-radius:20px;padding:4px 12px;font-size:.75rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;margin-bottom:1rem;opacity:.85;}
-    .header-titel{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:700;line-height:1.2;margin-bottom:.6rem;}
-    .header-sub{font-size:1rem;opacity:.75;font-weight:300;max-width:520px;line-height:1.7;}
-    @media(max-width:700px){.header-titel{font-size:1.6rem;}}
+    /* VOORTGANGSBALK */
+    .voortgang-strip{height:3px;background:var(--rand);flex-shrink:0;}
+    .voortgang-vul{height:100%;background:var(--amber);transition:width 0.4s ease;}
 
-    /* LAYOUT */
-    .hoofd{max-width:900px;margin:0 auto;padding:2.5rem 2rem 5rem;display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;}
-    @media(max-width:700px){.hoofd{grid-template-columns:1fr;}}
+    /* CHAT */
+    .chat-wrap{flex:1;display:flex;flex-direction:column;max-width:680px;margin:0 auto;width:100%;padding:0 1rem;min-height:0;padding-top:64px;}
+    .berichten{flex:1;overflow-y:auto;padding:1.2rem 0 0.5rem;display:flex;flex-direction:column;gap:0.6rem;scroll-behavior:smooth;}
+    .berichten::-webkit-scrollbar{width:4px;}
+    .berichten::-webkit-scrollbar-thumb{background:var(--rand);border-radius:4px;}
 
-    /* PANELEN */
-    .paneel{background:white;border:1px solid var(--rand);border-radius:20px;overflow:hidden;}
-    .paneel-header{padding:1.2rem 1.6rem;border-bottom:1px solid var(--rand);background:var(--wit-warm);}
-    .paneel-titel{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:600;}
-    .paneel-sub{font-size:.78rem;color:var(--tekst-licht);margin-top:2px;}
-    .paneel-body{padding:1.4rem 1.6rem;display:flex;flex-direction:column;gap:1.1rem;}
+    /* BERICHTEN */
+    .bericht-sol{display:flex;align-items:flex-end;gap:8px;max-width:88%;align-self:flex-start;animation:inSchuiven .25s ease both;}
+    .sol-avatar{width:32px;height:32px;background:var(--groen);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px;}
+    .bel-sol{background:white;border-radius:18px 18px 18px 4px;padding:10px 14px;font-size:.92rem;line-height:1.55;color:var(--tekst);box-shadow:0 1px 2px rgba(0,0,0,.06);}
+    .bel-sol.reactie{background:var(--groen-licht);border:1px solid rgba(45,90,61,.12);font-size:.85rem;color:var(--tekst-zacht);}
+    .bel-sol.info{background:var(--blauw-licht);border:1px solid rgba(37,99,235,.15);font-size:.82rem;color:var(--blauw);}
+    .bel-sol.waarschuwing{background:var(--rood-licht);border:1px solid rgba(220,38,38,.15);font-size:.82rem;color:var(--rood);}
+    .bericht-user{align-self:flex-end;max-width:78%;animation:inSchuiven .2s ease both;}
+    .bel-user{background:var(--groen);border-radius:18px 18px 4px 18px;padding:10px 14px;font-size:.92rem;color:white;line-height:1.5;box-shadow:0 1px 2px rgba(0,0,0,.1);}
 
-    /* FORM */
-    .veld{display:flex;flex-direction:column;gap:5px;}
-    .veld-label{font-size:.8rem;font-weight:600;color:var(--tekst-zacht);}
-    .veld-label span{font-weight:300;color:var(--tekst-licht);margin-left:4px;}
-    .veld-input{border:1.5px solid var(--rand);border-radius:10px;padding:10px 14px;font-size:.9rem;font-family:'Source Sans 3',sans-serif;color:var(--tekst);background:var(--wit);transition:border-color .2s;outline:none;width:100%;}
-    .veld-input:focus{border-color:var(--groen);}
-    .veld-prefix{position:relative;}
-    .veld-prefix .veld-input{padding-left:28px;}
-    .veld-prefix::before{content:'€';position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--tekst-licht);font-size:.88rem;pointer-events:none;}
-    .toggle-rij{display:flex;gap:8px;flex-wrap:wrap;}
-    .toggle-knop{flex:1;min-width:56px;padding:9px 8px;border:1.5px solid var(--rand);border-radius:9px;background:var(--wit);font-family:'Source Sans 3',sans-serif;font-size:.82rem;font-weight:600;color:var(--tekst-zacht);cursor:pointer;transition:all .2s;text-align:center;}
-    .toggle-knop:hover{border-color:var(--groen);color:var(--groen);}
-    .toggle-knop.actief{background:var(--groen);border-color:var(--groen);color:white;}
-    .invoer-waarschuwing{font-size:.73rem;color:var(--rood);background:var(--rood-licht);border-radius:6px;padding:5px 10px;display:none;margin-top:2px;}
-    .invoer-waarschuwing.zichtbaar{display:block;}
-    .scheidslijn{height:1px;background:var(--rand);margin:.2rem 0;}
-    .hint{font-size:.72rem;color:var(--tekst-licht);margin-top:3px;}
+    /* TYPING */
+    .typing{display:flex;align-items:flex-end;gap:8px;align-self:flex-start;}
+    .typing-dots{background:white;border-radius:18px;padding:12px 16px;display:flex;gap:4px;align-items:center;}
+    .typing-dots span{width:6px;height:6px;background:var(--tekst-licht);border-radius:50%;animation:tikken 1.2s infinite;}
+    .typing-dots span:nth-child(2){animation-delay:.2s;}
+    .typing-dots span:nth-child(3){animation-delay:.4s;}
+    @keyframes tikken{0%,60%,100%{transform:translateY(0);opacity:.4;}30%{transform:translateY(-5px);opacity:1;}}
+    @keyframes inSchuiven{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
 
-    /* RESULTAAT */
-    .resultaat-paneel{display:flex;flex-direction:column;gap:1.2rem;}
-    .vergelijk-rij{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-    .vergelijk-kaart{border-radius:16px;padding:1.2rem;border:1.5px solid var(--rand);}
-    .vergelijk-kaart.huidig{background:var(--wit-warm);}
-    .vergelijk-kaart.werk{background:var(--groen-licht);border-color:rgba(45,90,61,.2);}
-    .vergelijk-label{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--tekst-licht);margin-bottom:.5rem;}
-    .vergelijk-kaart.werk .vergelijk-label{color:var(--groen);}
-    .vergelijk-totaal{font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:700;line-height:1;}
-    .vergelijk-kaart.werk .vergelijk-totaal{color:var(--groen);}
-    .vergelijk-sub{font-size:.75rem;color:var(--tekst-licht);margin-top:4px;}
-    .verschil-banner{border-radius:14px;padding:1rem 1.4rem;display:flex;align-items:center;gap:12px;}
-    .verschil-banner.positief{background:var(--groen);color:white;}
-    .verschil-banner.negatief{background:var(--rood-licht);border:1px solid rgba(220,38,38,.2);}
-    .verschil-banner.neutraal{background:var(--amber-licht);border:1px solid rgba(232,160,32,.3);}
-    .verschil-icoon{font-size:1.5rem;flex-shrink:0;}
-    .verschil-tekst strong{display:block;font-size:.95rem;font-weight:700;}
-    .verschil-tekst span{font-size:.8rem;opacity:.85;}
-    .verschil-banner.positief .verschil-tekst span{opacity:.8;}
-    .uitsplitsing{background:white;border:1px solid var(--rand);border-radius:16px;overflow:hidden;}
-    .uitsplitsing-header{padding:1rem 1.4rem;border-bottom:1px solid var(--rand);background:var(--wit-warm);}
-    .uitsplitsing-titel{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:600;}
-    .uitsplitsing-body{padding:.8rem 1.4rem 1rem;}
-    .uitsp-rij{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--rand);font-size:.82rem;}
+    /* INVOER */
+    .invoer-zone{padding:.8rem 0 1rem;flex-shrink:0;}
+    .keuze-rij{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px;}
+    .keuze-btn{background:white;border:1.5px solid var(--rand);border-radius:20px;padding:8px 16px;font-size:.88rem;font-weight:500;cursor:pointer;color:var(--tekst);font-family:'Source Sans 3',sans-serif;transition:all .18s;display:flex;align-items:center;gap:6px;}
+    .keuze-btn:hover{border-color:var(--groen);background:var(--groen-licht);color:var(--groen);}
+
+    /* GETAL INVOER */
+    .bedrag-rij{display:flex;gap:8px;align-items:stretch;}
+    .bedrag-wrap{flex:1;display:flex;align-items:center;background:white;border:2px solid var(--rand);border-radius:14px;overflow:hidden;transition:border-color .2s;}
+    .bedrag-wrap:focus-within{border-color:var(--amber);}
+    .bedrag-euro{padding:0 14px;font-size:1.3rem;font-weight:600;color:var(--tekst-licht);background:var(--wit-warm);align-self:stretch;display:flex;align-items:center;border-right:1px solid var(--rand);}
+    .bedrag-input{flex:1;padding:14px 12px;font-size:1.3rem;border:none;background:transparent;color:var(--tekst);outline:none;font-family:'Source Sans 3',sans-serif;font-weight:500;width:80px;}
+    .bedrag-input::placeholder{color:var(--tekst-licht);font-weight:300;}
+    .stuur-btn{padding:0 20px;background:var(--groen);border:none;border-radius:14px;cursor:pointer;color:white;font-size:1.2rem;transition:all .18s;display:flex;align-items:center;}
+    .stuur-btn:hover{background:#234830;}
+    .overslaan-link{text-align:center;font-size:.78rem;color:var(--tekst-licht);margin-top:6px;cursor:pointer;background:none;border:none;font-family:'Source Sans 3',sans-serif;width:100%;display:block;transition:color .2s;}
+    .overslaan-link:hover{color:var(--tekst-zacht);}
+
+    /* RESULTAATKAART */
+    .res-kaart{background:white;border-radius:18px 18px 18px 4px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.08);width:100%;}
+    .res-top{background:var(--groen);padding:1rem 1.2rem;color:white;}
+    .res-top-titel{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;margin-bottom:2px;}
+    .res-top-sub{font-size:.75rem;opacity:.7;}
+    .res-vergelijk{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--rand);}
+    .res-kolom{padding:.9rem 1rem;text-align:center;}
+    .res-kolom+.res-kolom{border-left:1px solid var(--rand);}
+    .res-kolom-lbl{font-size:.68rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--tekst-licht);margin-bottom:4px;}
+    .res-kolom.werk .res-kolom-lbl{color:var(--groen);}
+    .res-kolom-getal{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700;line-height:1;}
+    .res-kolom.werk .res-kolom-getal{color:var(--groen);}
+    .res-banner{padding:.8rem 1.2rem;font-size:.85rem;font-weight:600;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--rand);}
+    .res-banner.positief{background:var(--groen);color:white;}
+    .res-banner.negatief{background:var(--rood-licht);color:var(--rood);}
+    .res-banner.neutraal{background:var(--amber-licht);color:var(--amber-diep);}
+    .res-uitsp{padding:.4rem 1.2rem .8rem;}
+    .uitsp-rij{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--rand);font-size:.82rem;}
     .uitsp-rij:last-child{border-bottom:none;}
     .uitsp-naam{color:var(--tekst-zacht);display:flex;align-items:center;gap:6px;flex:1;}
-    .uitsp-naam .dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
-    .uitsp-bedragen{display:flex;gap:20px;flex-shrink:0;}
-    .uitsp-huidig{color:var(--tekst-licht);font-size:.8rem;width:70px;text-align:right;}
-    .uitsp-werk{font-weight:600;width:70px;text-align:right;}
-    .uitsp-rij.totaal{font-weight:700;}
-    .uitsp-rij.totaal .uitsp-naam{color:var(--tekst);font-weight:700;}
+    .uitsp-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+    .uitsp-bed{display:flex;gap:16px;flex-shrink:0;}
+    .uitsp-nu{color:var(--tekst-licht);font-size:.78rem;width:62px;text-align:right;}
+    .uitsp-werk{font-weight:600;width:62px;text-align:right;}
+    .uitsp-hdr{display:flex;justify-content:space-between;font-size:.65rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--tekst-licht);padding:6px 0 4px;border-bottom:1px solid var(--rand);margin-bottom:2px;}
+    .uitsp-rij.totaal .uitsp-naam{font-weight:700;color:var(--tekst);}
     .uitsp-rij.totaal .uitsp-werk{color:var(--groen);}
-    .uitsp-header-rij{display:flex;justify-content:space-between;font-size:.68rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--tekst-licht);padding:0 0 6px;border-bottom:1px solid var(--rand);margin-bottom:2px;}
-    .balk-vergelijk{background:white;border:1px solid var(--rand);border-radius:16px;padding:1.2rem 1.4rem;}
-    .balk-rij{margin-bottom:.9rem;}
-    .balk-rij:last-child{margin-bottom:0;}
-    .balk-label-rij{display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:5px;}
-    .balk-naam{color:var(--tekst-zacht);font-weight:500;}
-    .balk-waarde{font-weight:700;}
-    .balk-track{background:var(--wit-warm);border-radius:6px;height:10px;overflow:hidden;}
-    .balk-vulling{height:100%;border-radius:6px;transition:width .6s ease;}
-    .balk-vulling.huidig{background:var(--rand);}
-    .balk-vulling.werk{background:linear-gradient(90deg,var(--groen),#4CAF50);}
-    .motivatie-box{border:1.5px solid var(--groen);border-radius:14px;overflow:hidden;}
-    .motivatie-titel{background:var(--groen);color:white;font-family:'Playfair Display',serif;font-size:1rem;font-weight:600;padding:12px 20px;}
-    .motivatie-tekst{padding:14px 20px;font-size:.85rem;color:var(--tekst-zacht);line-height:1.7;}
-    .motivatie-getal-rij{display:grid;grid-template-columns:repeat(3,1fr);margin:0 20px 14px;border-radius:10px;overflow:hidden;border:1px solid var(--rand);}
-    .motivatie-getal-blok{padding:14px;background:var(--wit-warm);text-align:center;border-right:1px solid var(--rand);}
-    .motivatie-getal-blok:last-child{border-right:none;}
-    .motivatie-getal{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--groen);line-height:1.1;margin-bottom:4px;}
-    .motivatie-getal-label{font-size:.72rem;color:var(--tekst-licht);line-height:1.4;}
-    .armoedeval-box{background:var(--amber-licht);border:1.5px solid rgba(232,160,32,.4);border-radius:14px;padding:1.1rem 1.4rem;}
-    .armoedeval-titel{font-weight:700;font-size:.88rem;color:var(--amber-diep);margin-bottom:4px;}
-    .armoedeval-tekst{font-size:.8rem;color:var(--tekst-zacht);line-height:1.55;}
-    .info-box{background:var(--blauw-licht);border-left:3px solid var(--blauw);border-radius:0 10px 10px 0;padding:10px 14px;font-size:.8rem;color:var(--tekst-zacht);line-height:1.5;}
-    .aow-box{background:var(--wit-warm);border:1.5px solid var(--rand);border-radius:16px;padding:2rem 1.6rem;text-align:center;}
-    .aow-box-icoon{font-size:2.5rem;margin-bottom:.6rem;}
-    .aow-box-tekst{font-size:.88rem;color:var(--tekst-zacht);line-height:1.7;margin-bottom:1rem;}
-    .aow-box-link{display:inline-block;background:var(--groen);color:white;border-radius:8px;padding:9px 20px;font-size:.85rem;font-weight:600;text-decoration:none;}
-    .aow-box-link:hover{opacity:.85;}
-    .disclaimer{font-size:.73rem;color:var(--tekst-licht);line-height:1.6;padding:.8rem 1rem;background:var(--wit-warm);border-radius:10px;}
-    .leeg-staat{text-align:center;padding:2.5rem 1.5rem;color:var(--tekst-licht);}
-    .leeg-icoon{font-size:2.5rem;margin-bottom:.8rem;}
-    .leeg-tekst{font-size:.88rem;line-height:1.6;}
-    @keyframes inschuiven{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
-    .animeer{animation:inschuiven .35s ease both;}
+    .res-motivatie{padding:.8rem 1.2rem;background:var(--groen-licht);border-top:1px solid rgba(45,90,61,.12);}
+    .res-motivatie-titel{font-family:'Playfair Display',serif;font-size:.9rem;font-weight:600;color:var(--groen);margin-bottom:4px;}
+    .res-motivatie-txt{font-size:.8rem;color:var(--tekst-zacht);line-height:1.6;}
+    .res-omslag-rij{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-radius:8px;overflow:hidden;border:1px solid rgba(45,90,61,.2);margin:.6rem 0;}
+    .res-omslag-blok{padding:10px;background:white;text-align:center;border-right:1px solid rgba(45,90,61,.12);}
+    .res-omslag-blok:last-child{border-right:none;background:var(--groen);}
+    .res-omslag-getal{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--groen);line-height:1;margin-bottom:3px;}
+    .res-omslag-blok:last-child .res-omslag-getal{color:var(--amber);}
+    .res-omslag-lbl{font-size:.65rem;color:var(--tekst-licht);line-height:1.3;}
+    .res-omslag-blok:last-child .res-omslag-lbl{color:rgba(255,255,255,.75);}
+    .res-disc{padding:.6rem 1.2rem;font-size:.7rem;color:var(--tekst-licht);line-height:1.5;border-top:1px solid var(--rand);}
+    .res-opnieuw{width:100%;padding:10px;background:none;border:1px solid var(--rand);border-radius:10px;font-size:.82rem;cursor:pointer;font-family:'Source Sans 3',sans-serif;color:var(--tekst-licht);margin:.8rem 1.2rem;width:calc(100% - 2.4rem);transition:all .2s;}
+    .res-opnieuw:hover{color:var(--tekst-zacht);border-color:var(--tekst-licht);}
+
+    @media(max-width:480px){.chat-wrap{padding:0 .6rem;}}
   </style>
 </head>
 <body>
 
 <div id="solidari-nav"></div>
+<div class="voortgang-strip"><div class="voortgang-vul" id="voortgang" style="width:0%"></div></div>
 
-<div class="pagina-header">
-  <div class="header-inhoud">
-    <div class="header-badge" data-i18n="lw-badge">💶 Loont Werken?</div>
-    <h1 class="header-titel" data-i18n="lw-titel">Ga ik er op vooruit als ik ga werken?</h1>
-    <p class="header-sub" data-i18n="lw-sub">Vul in wat je nu ontvangt en wat je zou gaan verdienen. Je ziet direct of werken loont — inclusief effect op toeslagen en uitkering.</p>
-  </div>
+<div class="chat-wrap">
+  <div class="berichten" id="berichten"></div>
+  <div class="invoer-zone" id="invoer-zone"></div>
 </div>
-
-<div class="hoofd">
-  <!-- INVOER -->
-  <div class="paneel">
-    <div class="paneel-header">
-      <div class="paneel-titel" data-i18n="lw-paneel-titel">⚙️ Jouw situatie</div>
-      <div class="paneel-sub" data-i18n="lw-paneel-sub">Vul in wat voor jou van toepassing is</div>
-    </div>
-    <div class="paneel-body">
-
-      <div class="veld">
-        <div class="veld-label" data-i18n="lw-situatie-lbl">Mijn bijstandssituatie</div>
-        <div class="toggle-rij" id="situatie-knoppen">
-          <button class="toggle-knop actief" onclick="setSituatie(this,'alleenstaand')" data-i18n="lw-alleenstaand">Alleenstaand</button>
-          <button class="toggle-knop" onclick="setSituatie(this,'gehuwd')" data-i18n="lw-gehuwd">Gehuwd / samenwonend</button>
-          <button class="toggle-knop" onclick="setSituatie(this,'kostendeler')" data-i18n="lw-kostendeler">Kostendelersnorm</button>
-        </div>
-      </div>
-
-      <div class="veld">
-        <div class="veld-label" data-i18n="lw-leeftijd-lbl">Leeftijd</div>
-        <div class="toggle-rij" id="leeftijd-knoppen">
-          <button class="toggle-knop" onclick="setLeeftijd(this,'18_20')" data-i18n="lw-18-20">18–20 jaar</button>
-          <button class="toggle-knop actief" onclick="setLeeftijd(this,'21_aow')" data-i18n="lw-21-aow">21 t/m AOW</button>
-          <button class="toggle-knop" onclick="setLeeftijd(this,'aow')" data-i18n="lw-aow">Vanaf AOW</button>
-        </div>
-      </div>
-
-      <div id="aow-melding" style="display:none;background:var(--amber-licht);border:1.5px solid rgba(232,160,32,.4);border-radius:10px;padding:10px 14px;font-size:.8rem;color:var(--amber-diep);line-height:1.55;" data-i18n="lw-aow-melding">
-        ℹ️ Boven de AOW-leeftijd gelden andere regels. Neem contact op met uw gemeente.
-      </div>
-
-      <div id="veld-norm-info">
-        <div style="background:var(--groen-licht);border-radius:8px;padding:8px 12px;font-size:.78rem;color:var(--tekst-zacht);">
-          <span id="norm-info-tekst"></span>
-        </div>
-      </div>
-
-      <div id="veld-jongeren-uitleg" style="display:none;">
-        <div style="background:#EFF6FF;border-left:3px solid #2563EB;border-radius:0 8px 8px 0;padding:12px 16px;font-size:.8rem;color:var(--tekst-zacht);line-height:1.6;">
-          <strong style="color:#1d4ed8;" data-i18n="lw-jong-kop">ℹ️ Bijstand 18–20 jaar werkt anders</strong><br>
-          <span data-i18n="lw-jong-txt">Jouw ouders hebben een <strong>onderhoudsplicht</strong> — basisnorm is €&nbsp;345,99. Als ouders niet kunnen bijdragen, kan de gemeente aanvullen tot max. €&nbsp;1.092,44/mnd.</span>
-        </div>
-      </div>
-
-      <div class="veld" id="veld-kostendelers" style="display:none;flex-direction:column;">
-        <div class="veld-label" data-i18n="lw-kd-lbl">Aantal personen van 27+ in huis <span data-i18n="lw-incl-jzf">(inclusief jezelf)</span></div>
-        <div class="toggle-rij" id="kostendeler-knoppen">
-          <button class="toggle-knop actief" onclick="setKostendelers(this,2)">2</button>
-          <button class="toggle-knop" onclick="setKostendelers(this,3)">3</button>
-          <button class="toggle-knop" onclick="setKostendelers(this,4)">4</button>
-          <button class="toggle-knop" onclick="setKostendelers(this,5)">5+</button>
-        </div>
-        <div class="hint" data-i18n="lw-kd-hint">Jongeren onder 27, studenten en commerciële huurders tellen niet mee.</div>
-      </div>
-
-      <div class="veld">
-        <div class="veld-label" data-i18n="lw-kind-lbl">Kinderen jonger dan 18 <span data-i18n="lw-thuiswon">(thuis wonend)</span></div>
-        <div class="toggle-rij">
-          <button class="toggle-knop actief" onclick="setKinderen(this,0)" data-i18n="lw-geen">Geen</button>
-          <button class="toggle-knop" onclick="setKinderen(this,1)">1</button>
-          <button class="toggle-knop" onclick="setKinderen(this,2)">2</button>
-          <button class="toggle-knop" onclick="setKinderen(this,3)">3+</button>
-        </div>
-      </div>
-
-      <div class="veld">
-        <div class="veld-label" data-i18n="lw-vg-lbl">Vakantiegeld inbegrepen in salaris?</div>
-        <div class="toggle-rij">
-          <button class="toggle-knop actief" onclick="setVakantiegeld(this,false)" data-i18n="lw-vg-nee">Nee (8% apart)</button>
-          <button class="toggle-knop" onclick="setVakantiegeld(this,true)" data-i18n="lw-vg-ja">Ja (all-in)</button>
-        </div>
-        <div class="hint" data-i18n="lw-vg-hint">Bijstandsnorm is inclusief vakantiegeld. Kies "Nee" als je bruto exclusief 8% vakantiegeld invult.</div>
-      </div>
-
-      <div class="veld">
-        <div class="veld-label" data-i18n="lw-huur-lbl">Maandhuur <span data-i18n="lw-kale-huur">(kale huur)</span></div>
-        <div class="veld-prefix">
-          <input type="number" class="veld-input" id="huur" value="650" min="0" max="900" oninput="debounceBereken()">
-        </div>
-      </div>
-
-      <div class="scheidslijn"></div>
-
-      <div class="veld">
-        <div class="veld-label" data-i18n="lw-bruto-lbl">Bruto maandsalaris bij nieuw werk</div>
-        <div class="veld-prefix">
-          <input type="number" class="veld-input" id="bruto" value="1800" min="0" max="10000" oninput="debounceBereken()">
-        </div>
-        <div class="hint" data-i18n="lw-wml-hint">Wettelijk minimumloon 2026: € 1.995,00/mnd (voltijd)</div>
-        <div class="invoer-waarschuwing" id="bruto-waarschuwing" data-i18n="lw-bruto-laag">⚠️ Dit ligt ver onder het minimumloon voor dit aantal uren.</div>
-      </div>
-
-      <div class="veld">
-        <div class="veld-label" data-i18n="lw-uren-lbl">Aantal uur per week</div>
-        <div class="toggle-rij">
-          <button class="toggle-knop" onclick="setUren(this,12)">12u</button>
-          <button class="toggle-knop" onclick="setUren(this,20)">20u</button>
-          <button class="toggle-knop" onclick="setUren(this,32)">32u</button>
-          <button class="toggle-knop actief" onclick="setUren(this,40)" data-i18n="lw-voltijd">Voltijd</button>
-        </div>
-        <div class="hint" data-i18n="lw-uren-hint">Klikken vult het minimumloon voor dat aantal uren automatisch in</div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- RESULTAAT -->
-  <div class="resultaat-paneel" id="resultaat">
-    <div class="paneel">
-      <div class="leeg-staat">
-        <div class="leeg-icoon">💶</div>
-        <div class="leeg-tekst" data-i18n="lw-leeg">Vul je gegevens in om de berekening te zien.</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div id="solidari-footer"></div>
 
 <script src="i18n.js"></script>
-<script src="lw-i18n.js"></script>
 <script>
-// ── STAAT ─────────────────────────────────────────────
-let aantalKinderen=0, aantalUren=40, bijstandSituatie='alleenstaand';
-let bijstandLeeftijd='21_aow', aantalKostendelers=2;
-let vakantiegeldInbegrepen=false, huidigeTaal='NL';
-let debounceTimer=null;
-
-// ── NORMEN 2026 ───────────────────────────────────────
-const NORMEN={
-  zorgtoeslag:{drempel_alleenstaand:40857,drempel_partner:51407,max_alleenstaand:128,max_partner:244},
-  huurtoeslag:{huurgrens:880.66,kwaliteitskorting_grens:454.47,aftoppingsgrens_1_2:650.43,aftoppingsgrens_3plus:697.46,
-    normhuur_alleenstaand:242,normhuur_meerpersoonshuishouden:260,max_inkomen_alleenstaand:31875,max_inkomen_partners:43675},
-  kgb:{basisbedrag_1e_kind:1530,basisbedrag_2e_kind:1019,basisbedrag_3e_plus:376,inkomensgrens:24557,afbouwpercentage:0.0683},
-  loonheffing:{schijf1_grens:38441,schijf1_tarief:0.3597,schijf2_tarief:0.4950,
-    ahk_max:3099,ahk_afbouw_start:24813,ahk_afbouw_eind:75518,
-    ak_max:5052,ak_opbouw_eind:24813,ak_afbouw_start:43071,ak_afbouw_eind:124935},
+// ══════════════════════════════════════════════════════
+// VERTALINGEN
+// ══════════════════════════════════════════════════════
+const T = {
+  nl:{
+    welkom:'Hallo! 👋 Ik help je uitrekenen of werken financieel loont. Ik stel je een paar vragen over je situatie.',
+    q_situatie:'Wat is je bijstandssituatie?',
+    situatie_keuzes:['Alleenstaand','Gehuwd / samenwonend','Kostendelersnorm'],
+    q_leeftijd:'Hoe oud ben je?',
+    leeftijd_keuzes:['18–20 jaar','21 t/m AOW-leeftijd','Vanaf AOW-leeftijd'],
+    aow_uitleg:'Boven de AOW-leeftijd gelden andere regels (AOW + IOAW/IOAZ). Ik kan die situatie niet goed berekenen. Neem contact op met je gemeente of het Sociaal Wijkteam voor persoonlijk advies.',
+    jong_uitleg:'Let op: bij 18–20 jaar hebben jouw ouders een <strong>onderhoudsplicht</strong>. De basisnorm is laag (€ 345,99/mnd). Als ouders niet kunnen bijdragen, kan de gemeente aanvullen tot max. € 1.092,44/mnd. Bespreek dit met je gemeente.',
+    q_kostendelers:'Hoeveel personen van 27 jaar of ouder wonen er in huis — inclusief jezelf?',
+    kostendeler_keuzes:['2 personen','3 personen','4 personen','5 of meer'],
+    q_kinderen:'Heb je kinderen jonger dan 18 jaar die bij jou wonen?',
+    kind_keuzes:['Geen kinderen','1 kind','2 kinderen','3 of meer'],
+    q_huur:'Hoeveel betaal je aan kale huur per maand?',
+    huur_placeholder:'bijv. 650',
+    huur_hint:'Kale huur zonder servicekosten',
+    huur_skip:'Ik huur niet / weet het niet',
+    q_vakantiegeld:'Is het salaris dat je gaat noemen <em>inclusief</em> of <em>exclusief</em> vakantiegeld (8%)?',
+    vg_keuzes:['Exclusief vakantiegeld (8% apart)','Inclusief vakantiegeld (all-in)'],
+    q_bruto:'Hoeveel ga je bruto per maand verdienen?',
+    bruto_placeholder:'bijv. 1800',
+    bruto_hint:'Het wettelijk minimumloon 2026 is € 1.995/mnd (voltijd). Parttime minder.',
+    q_uren:'Hoeveel uur per week ga je werken?',
+    uren_keuzes:['12 uur/week','20 uur/week','32 uur/week','Voltijd (40u)'],
+    uren_hint:'Klikken vult het minimumloon voor dat aantal uren automatisch in',
+    rekenen:'Even rekenen…',
+    res_nu:'Nu (bijstand)',
+    res_werk:'Met werk',
+    res_mnd:'per maand netto',
+    res_meer:'🎉 Je houdt <strong>{x}</strong> meer over per maand',
+    res_minder:'⚠️ Je houdt <strong>{x}</strong> minder over per maand',
+    res_gelijk:'↔️ Je houdt ongeveer evenveel over',
+    res_meer_sub:'+{p}% t.o.v. je huidige situatie — werken loont!',
+    res_minder_sub:'Dit is de armoedeval. Informeer bij de gemeente naar regelingen.',
+    res_gelijk_sub:'Maar werken geeft je wél werkervaring, taalvaardigheid en netwerk.',
+    res_bron:'Inkomstenbron',
+    netto_sal:'Netto salaris',bijstand_lbl:'Bijstandsuitkering',zt_lbl:'Zorgtoeslag',
+    ht_lbl:'Huurtoeslag',kgb_lbl:'Kindgebonden budget',akw_lbl:'Kinderbijslag (AKW)',
+    ongewijzigd:'(ongewijzigd)',huur_buiten:'(huur buiten bereik)',
+    omsl_titel:'💡 Wanneer loont werken?',
+    omsl_basis:'Op basis van het minimumloon van €{u}/uur:',
+    omsl_uren_lbl:'uren/week voor €50+/mnd meer',
+    omsl_bruto_lbl:'bruto/mnd bij {n} uur/week',
+    omsl_extra_lbl:'per maand meer dan alleen bijstand',
+    val_titel:'💪 Werken loont — ook bij de armoedeval',
+    val_txt:'Zelfs als je netto weinig extra overhoudt, bouw je werkervaring, taalvaardigheid en netwerk op. Vraag bij je gemeente naar de <strong>vrijlating van arbeidsinkomen</strong>: de eerste 6 maanden mag je een deel van je verdiensten houden bovenop de bijstandsaanvulling.',
+    av_titel:'⚠️ Armoedeval',
+    av_txt:'Bij dit salaris stoppen toeslagen en de uitkering, maar het salaris compenseert dat onvoldoende. Dit heet de armoedeval. Vraag bij de gemeente naar <strong>Participatietoeslag</strong>, <strong>vrijlating van arbeidsinkomen</strong> en gemeentelijke regelingen voor werkende minima.',
+    disc:'Indicatieve berekening o.b.v. normen 2026. Bijstandsnorm per 1-1-2026, Belastingdienst toeslagen 2026. Zorgtoeslag max €128/mnd (alleenstaand) / €244/mnd (partners). Netto salaris en toeslagen zijn schattingen. Jouw situatie kan afwijken.',
+    opnieuw:'↩ Opnieuw beginnen',
+    advies:'Wil je persoonlijk advies? Neem contact op met je Sociaal Wijkteam of VluchtelingenWerk.',
+  },
+  en:{
+    welkom:'Hello! 👋 I\'ll help you calculate whether working is financially worthwhile. I\'ll ask you a few questions about your situation.',
+    q_situatie:'What is your benefit situation?',
+    situatie_keuzes:['Single','Married / living together','Cost-sharing norm'],
+    q_leeftijd:'How old are you?',
+    leeftijd_keuzes:['18–20 years','21 to state pension age','From state pension age'],
+    aow_uitleg:'Above state pension age, different rules apply (AOW + IOAW/IOAZ). I cannot calculate that situation well. Please contact your municipality or Social Neighbourhood Team for personal advice.',
+    jong_uitleg:'Note: at 18–20 your parents have a <strong>maintenance obligation</strong>. The basic norm is low (€ 345.99/month). If parents cannot contribute, the municipality may top up to max. € 1,092.44/month. Discuss this with your municipality.',
+    q_kostendelers:'How many people aged 27 or over live in the household — including yourself?',
+    kostendeler_keuzes:['2 people','3 people','4 people','5 or more'],
+    q_kinderen:'Do you have children under 18 living with you?',
+    kind_keuzes:['No children','1 child','2 children','3 or more'],
+    q_huur:'How much bare rent do you pay per month?',
+    huur_placeholder:'e.g. 650',
+    huur_hint:'Bare rent without service costs',
+    huur_skip:'I don\'t rent / don\'t know',
+    q_vakantiegeld:'Is the salary you will mention <em>including</em> or <em>excluding</em> holiday pay (8%)?',
+    vg_keuzes:['Excluding holiday pay (8% separate)','Including holiday pay (all-in)'],
+    q_bruto:'How much will you earn gross per month?',
+    bruto_placeholder:'e.g. 1800',
+    bruto_hint:'The statutory minimum wage 2026 is € 1,995/month (full-time). Less for part-time.',
+    q_uren:'How many hours per week will you work?',
+    uren_keuzes:['12 hours/week','20 hours/week','32 hours/week','Full-time (40h)'],
+    uren_hint:'Clicking auto-fills the minimum wage for that number of hours',
+    rekenen:'Calculating…',
+    res_nu:'Now (benefit)',res_werk:'With work',res_mnd:'per month net',
+    res_meer:'🎉 You keep <strong>{x}</strong> more per month',
+    res_minder:'⚠️ You keep <strong>{x}</strong> less per month',
+    res_gelijk:'↔️ You keep roughly the same amount',
+    res_meer_sub:'+{p}% vs your current situation — work pays!',
+    res_minder_sub:'This is the poverty trap. Ask your municipality about available schemes.',
+    res_gelijk_sub:'But working gives you work experience, language skills and a network.',
+    res_bron:'Income source',
+    netto_sal:'Net salary',bijstand_lbl:'Social assistance',zt_lbl:'Healthcare allowance',
+    ht_lbl:'Rent allowance',kgb_lbl:'Child-related budget',akw_lbl:'Child benefit (AKW)',
+    ongewijzigd:'(unchanged)',huur_buiten:'(rent outside range)',
+    omsl_titel:'💡 When does work pay?',
+    omsl_basis:'Based on the minimum wage of €{u}/hour:',
+    omsl_uren_lbl:'hours/week to keep €50+/month more',
+    omsl_bruto_lbl:'gross/month at {n} hours/week',
+    omsl_extra_lbl:'per month more than benefit alone',
+    val_titel:'💪 Work pays — even in the poverty trap',
+    val_txt:'Even if you keep little extra, you build work experience, language skills and a network. Ask your municipality about the <strong>income exemption</strong>: for the first 6 months you may keep part of your earnings on top of the benefit top-up.',
+    av_titel:'⚠️ Poverty trap',
+    av_txt:'At this salary, allowances stop and the benefit ends, but the salary doesn\'t compensate enough. This is the poverty trap. Ask the municipality about <strong>Participation allowance</strong>, <strong>income exemption</strong> and municipal schemes for working low-income households.',
+    disc:'Indicative calculation based on 2026 norms. Social assistance norm as of 1-1-2026, Tax Authority allowances 2026. Healthcare allowance max €128/month (single) / €244/month (partners). Net salary and allowances are estimates.',
+    opnieuw:'↩ Start over',
+    advies:'Want personal advice? Contact your Social Neighbourhood Team or VluchtelingenWerk.',
+  },
+  ar:{
+    welkom:'مرحباً! 👋 سأساعدك في حساب ما إذا كان العمل يستحق مالياً. سأطرح عليك بعض الأسئلة.',
+    q_situatie:'ما هو وضع إعانتك الاجتماعية؟',
+    situatie_keuzes:['أعزب / عزباء','متزوج / شريك','مشاركة التكاليف'],
+    q_leeftijd:'كم عمرك؟',
+    leeftijd_keuzes:['18–20 سنة','21 حتى سن التقاعد','من سن التقاعد فأكثر'],
+    aow_uitleg:'فوق سن التقاعد تسري قواعد مختلفة. لا أستطيع حساب هذه الحالة بدقة. تواصل مع بلديتك.',
+    jong_uitleg:'تنبيه: في سن 18–20، على والديك <strong>التزام بالإعالة</strong>. المعدل الأساسي منخفض (€ 345.99/شهر). إذا تعذّر على الوالدين المساهمة، يمكن للبلدية التكميل حتى € 1,092.44/شهر.',
+    q_kostendelers:'كم عدد الأشخاص الذين يبلغون 27 عاماً أو أكثر في المنزل — بما فيهم أنت؟',
+    kostendeler_keuzes:['2 أشخاص','3 أشخاص','4 أشخاص','5 أو أكثر'],
+    q_kinderen:'هل لديك أطفال دون 18 سنة يقيمون معك؟',
+    kind_keuzes:['لا أطفال','طفل واحد','طفلان','3 أو أكثر'],
+    q_huur:'كم تدفع إيجاراً شهرياً (الإيجار الأساسي)؟',
+    huur_placeholder:'مثال: 650',
+    huur_hint:'الإيجار الأساسي بدون تكاليف الخدمات',
+    huur_skip:'لا أستأجر / لا أعلم',
+    q_vakantiegeld:'هل الراتب الذي ستذكره <em>يشمل</em> أم <em>لا يشمل</em> بدل الإجازة (8%)؟',
+    vg_keuzes:['لا يشمل بدل الإجازة (8% منفصل)','يشمل بدل الإجازة (شامل)'],
+    q_bruto:'كم ستكسب إجمالياً شهرياً؟',
+    bruto_placeholder:'مثال: 1800',
+    bruto_hint:'الحد الأدنى للأجور 2026 هو € 1,995/شهر (دوام كامل).',
+    q_uren:'كم ساعة في الأسبوع ستعمل؟',
+    uren_keuzes:['12 ساعة/أسبوع','20 ساعة/أسبوع','32 ساعة/أسبوع','دوام كامل (40 ساعة)'],
+    uren_hint:'النقر يملأ الحد الأدنى للأجر تلقائياً',
+    rekenen:'جاري الحساب…',
+    res_nu:'الآن (إعانة)',res_werk:'مع العمل',res_mnd:'شهرياً صافي',
+    res_meer:'🎉 ستحتفظ بـ <strong>{x}</strong> إضافي شهرياً',
+    res_minder:'⚠️ ستحتفظ بـ <strong>{x}</strong> أقل شهرياً',
+    res_gelijk:'↔️ ستحتفظ بتقريباً نفس المبلغ',
+    res_meer_sub:'+{p}% مقارنة بوضعك الحالي — العمل يستحق!',
+    res_minder_sub:'هذا هو فخ الفقر. اسأل بلديتك عن المساعدات.',
+    res_gelijk_sub:'لكن العمل يبني الخبرة ومهارات اللغة والشبكة المهنية.',
+    res_bron:'مصدر الدخل',
+    netto_sal:'الراتب الصافي',bijstand_lbl:'المساعدة الاجتماعية',zt_lbl:'إعانة الرعاية الصحية',
+    ht_lbl:'إعانة الإيجار',kgb_lbl:'ميزانية الأطفال',akw_lbl:'علاوة الأطفال (AKW)',
+    ongewijzigd:'(ثابت)',huur_buiten:'(إيجار خارج النطاق)',
+    omsl_titel:'💡 متى يستحق العمل؟',
+    omsl_basis:'استناداً إلى الحد الأدنى للأجور €{u}/ساعة:',
+    omsl_uren_lbl:'ساعة/أسبوع للاحتفاظ بـ €50+ شهرياً إضافي',
+    omsl_bruto_lbl:'إجمالي/شهر عند {n} ساعة/أسبوع',
+    omsl_extra_lbl:'شهرياً إضافي مقارنة بالإعانة وحدها',
+    val_titel:'💪 العمل يستحق — حتى مع فخ الفقر',
+    val_txt:'حتى لو احتفظت بقليل إضافي، تبني خبرة عمل ومهارات لغوية وشبكة مهنية. اسأل بلديتك عن <strong>إعفاء دخل العمل</strong>.',
+    av_titel:'⚠️ فخ الفقر',
+    av_txt:'عند هذا الراتب تتوقف الإعانات لكن الراتب لا يعوضها بما يكفي. اسأل البلدية عن <strong>تعويض المشاركة</strong> والبرامج المتاحة لمحدودي الدخل.',
+    disc:'حساب تقريبي وفق معايير 2026. الأرقام تقريبية ووضعك قد يختلف.',
+    opnieuw:'↩ البدء من جديد',
+    advies:'هل تريد مشورة شخصية؟ تواصل مع الفريق الاجتماعي أو VluchtelingenWerk.',
+  },
+  tr:{
+    welkom:'Merhaba! 👋 Çalışmanın finansal olarak kazandırıp kazandırmadığını hesaplamanıza yardımcı olacağım.',
+    q_situatie:'Sosyal yardım durumunuz nedir?',
+    situatie_keuzes:['Bekar','Evli / birlikte yaşayan','Maliyet paylaşım normu'],
+    q_leeftijd:'Kaç yaşındasınız?',
+    leeftijd_keuzes:['18–20 yaş','21 – emeklilik yaşı','Emeklilik yaşından itibaren'],
+    aow_uitleg:'Emeklilik yaşı üzerinde farklı kurallar geçerlidir. Bu durumu doğru hesaplayamıyorum. Lütfen belediyenizle iletişime geçin.',
+    jong_uitleg:'Dikkat: 18–20 yaşında ebeveynlerinizin <strong>bakım yükümlülüğü</strong> vardır. Temel norm düşüktür (€ 345,99/ay). Ebeveynler katkı yapamıyorsa belediye en fazla € 1.092,44/ay\'a tamamlayabilir.',
+    q_kostendelers:'Evde 27 yaş ve üzerinde kaç kişi yaşıyor — kendiniz dahil?',
+    kostendeler_keuzes:['2 kişi','3 kişi','4 kişi','5 veya daha fazla'],
+    q_kinderen:'Sizinle yaşayan 18 yaşından küçük çocuğunuz var mı?',
+    kind_keuzes:['Çocuk yok','1 çocuk','2 çocuk','3 veya daha fazla'],
+    q_huur:'Aylık ne kadar kira ödüyorsunuz (çıplak kira)?',
+    huur_placeholder:'örn. 650',
+    huur_hint:'Hizmet bedeli hariç çıplak kira',
+    huur_skip:'Kiracı değilim / bilmiyorum',
+    q_vakantiegeld:'Belirteceğiniz maaş tatil ücretini (%8) <em>içeriyor</em> mu <em>içermiyor</em> mu?',
+    vg_keuzes:['Tatil ücreti hariç (%8 ayrı)','Tatil ücreti dahil (hepsi dahil)'],
+    q_bruto:'Aylık brüt ne kadar kazanacaksınız?',
+    bruto_placeholder:'örn. 1800',
+    bruto_hint:'Yasal asgari ücret 2026: € 1.995/ay (tam zamanlı).',
+    q_uren:'Haftada kaç saat çalışacaksınız?',
+    uren_keuzes:['12 saat/hafta','20 saat/hafta','32 saat/hafta','Tam zamanlı (40 saat)'],
+    uren_hint:'Tıkladığınızda asgari ücret otomatik dolar',
+    rekenen:'Hesaplanıyor…',
+    res_nu:'Şimdi (yardım)',res_werk:'İşle birlikte',res_mnd:'aylık net',
+    res_meer:'🎉 Ayda <strong>{x}</strong> fazla kazanırsınız',
+    res_minder:'⚠️ Ayda <strong>{x}</strong> daha az kalır',
+    res_gelijk:'↔️ Yaklaşık aynı miktarı elde edersiniz',
+    res_meer_sub:'+{p}% mevcut durumunuza göre — çalışmak kazandırır!',
+    res_minder_sub:'Bu bir yoksulluk tuzağıdır. Belediyenizden destek sorun.',
+    res_gelijk_sub:'Ama çalışmak iş deneyimi ve dil becerisi sağlar.',
+    res_bron:'Gelir kaynağı',
+    netto_sal:'Net maaş',bijstand_lbl:'Sosyal yardım',zt_lbl:'Sağlık yardımı',
+    ht_lbl:'Kira yardımı',kgb_lbl:'Çocuğa bağlı bütçe',akw_lbl:'Çocuk parası (AKW)',
+    ongewijzigd:'(değişmez)',huur_buiten:'(kira aralık dışında)',
+    omsl_titel:'💡 Çalışmak ne zaman kazandırır?',
+    omsl_basis:'Asgari ücret €{u}/saat baz alınarak:',
+    omsl_uren_lbl:'haftalık saat, ayda €50+ fazla kazanmak için',
+    omsl_bruto_lbl':'{n} saat/hafta için aylık brüt',
+    omsl_extra_lbl:'sadece yardımdan fazla, aylık',
+    val_titel:'💪 Çalışmak kazandırır — yoksulluk tuzağında bile',
+    val_txt:'Az ekstra kazansanız bile iş deneyimi, dil becerisi ve ağ kazanırsınız. Belediyenizden <strong>gelir muafiyeti</strong> hakkında bilgi alın.',
+    av_titel:'⚠️ Yoksulluk tuzağı',
+    av_txt:'Bu maaşta yardımlar kesilir ama maaş yeterince telafi etmez. Belediyeden <strong>Katılım yardımı</strong> ve mevcut programları sorun.',
+    disc:'2026 normlarına göre gösterge niteliğinde hesaplama. Rakamlar tahminidir.',
+    opnieuw:'↩ Yeniden başla',
+    advies:'Kişisel tavsiye ister misiniz? Sociaal Wijkteam veya VluchtelingenWerk ile iletişime geçin.',
+  },
+  ti:{
+    welkom:'ሰላም! 👋 ስራ ዝጠቅም ድዩ ዘይጠቅምን ክሕሉ እሕግዘካ። ቁሩብ ሕቶ ክሓተካ እየ።',
+    q_situatie:'ኩነታት ሓገዝካ እንታይ እዩ?',
+    situatie_keuzes:['ወልቀ','ምርዑው','ሓባራዊ ወጻኢ'],
+    q_leeftijd:'ክንደይ ዕድሚ ኣለካ?',
+    leeftijd_keuzes:['18–20 ዓመት','21 ክሳብ ጡረታ','ካብ ጡረታ ዕድመ'],
+    aow_uitleg:'ልዕሊ ዕድሜ ጡረታ ካልእ ሕጊ ይምልከት። ምስ ኮምዩን ዘተ።',
+    jong_uitleg:'ኣስተውዕሉ: ወለድኻ <strong>ሓላፍነት ክንክን</strong> ኣለዎም። ናይ መሰረት ደረጃ ትሑት እዩ (€ 345.99/ወርሒ).',
+    q_kostendelers:'ኣብ ገዛ ክንደይ ሰባት 27+ ዕድሜ ኣለዉ — ንስኻ ተኸቲልካ?',
+    kostendeler_keuzes:['2 ሰባት','3 ሰባት','4 ሰባት','5 ወይ ዝያዳ'],
+    q_kinderen:'ትሕቲ 18 ዕድሜ ቆልዑ ምሳኻ ይነብሩ ዶ?',
+    kind_keuzes:['ቆልዑ የለውን','1 ቆልዓ','2 ቆልዑ','3 ወይ ዝያዳ'],
+    q_huur:'ወርሓዊ ክንደይ ካርታ ትኸፍል (ዝሕቆፍ ካርታ)?',
+    huur_placeholder:'ንኣብነት 650',
+    huur_hint:'ዝሕቆፍ ካርታ ብዘይ ናይ ኣገልግሎት ክፍሊት',
+    huur_skip:'ኣይካረይን / ኣይፈልጥን',
+    q_vakantiegeld:'ናይቲ ደሞዝ ናይ ዕረፍቲ ክፍሊት (8%) <em>ሓቚፉ</em> ወይ <em>ብዘይ</em>?',
+    vg_keuzes:['ብዘይ ናይ ዕረፍቲ ክፍሊት (8% ፍሉይ)','ምስ ናይ ዕረፍቲ ክፍሊት (ሓቚፉ)'],
+    q_bruto:'ወርሓዊ ክንደይ ጥሬ ደሞዝ ትረክብ?',
+    bruto_placeholder:'ንኣብነት 1800',
+    bruto_hint:'ዝተሓተ ሕጋዊ ደሞዝ 2026: € 1,995/ወርሒ (ምሉእ ሰዓት).',
+    q_uren:'ሰሙናዊ ክንደይ ሰዓት ትሰርሕ?',
+    uren_keuzes:['12 ሰዓት/ሰሙን','20 ሰዓት/ሰሙን','32 ሰዓት/ሰሙን','ምሉእ ሰዓት (40)'],
+    uren_hint:'ምጥዋቕ ዝተሓተ ደሞዝ ሙሉእ ብሙሉእ ይመልኦ',
+    rekenen:'ይሕሰብ ኣሎ…',
+    res_nu:'ሕጂ (ሓገዝ)',res_werk:'ምስ ስራሕ',res_mnd:'ወርሓዊ ናይ ኢድ',
+    res_meer:'🎉 ወርሓዊ <strong>{x}</strong> ዝያዳ ትሕዝ',
+    res_minder:'⚠️ ወርሓዊ <strong>{x}</strong> ውሑድ ትሕዝ',
+    res_gelijk:'↔️ ብምምሳል ናይ ሕጂ ዝሓርቅ',
+    res_meer_sub:'+{p}% ካብ ሕጂ — ስራሕ ይጠቅም!',
+    res_minder_sub:'ናይ ድኽነት ጠለፋ እዩ። ካብ ኮምዩን ሓበሬታ ሕተት።',
+    res_gelijk_sub:'ስራሕ ተሞክሮን ቛንቛን ማሕበርን ይህብ።',
+    res_bron:'ምንጪ ኣታዊ',
+    netto_sal:'ናይ ኢድ ደሞዝ',bijstand_lbl:'ማሕበራዊ ሓገዝ',zt_lbl:'ሕክምና ሓገዝ',
+    ht_lbl:'ካርታ ሓገዝ',kgb_lbl:'ናይ ቆልዑ ባጀት',akw_lbl:'ናይ ቆልዑ ሓገዝ (AKW)',
+    ongewijzigd:'(ዘይቕየር)',huur_buiten:'(ካርታ ወጻኢ ዶብ)',
+    omsl_titel:'💡 ስራሕ መዓስ ይጠቅም?',
+    omsl_basis:'ብ €{u}/ሰዓት:',
+    omsl_uren_lbl:'ሰሙናዊ ሰዓት ዘድሊ €50+/ወርሒ ዝያዳ',
+    omsl_bruto_lbl:'ጥሬ/ወርሒ ብ {n} ሰዓት/ሰሙን',
+    omsl_extra_lbl:'ካብ ሓገዝ ጥራሕ ዝያዳ ወርሓዊ',
+    val_titel:'💪 ስራሕ ይጠቅም',
+    val_txt:'ዝያዳ ዘይሕዝ ዘለኻ ተሞክሮን ቛንቛን ማሕበርን ትሃኒጽ።',
+    av_titel:'⚠️ ናይ ድኽነት ጠለፋ',
+    av_txt:'ኣብዚ ደሞዝ ሓገዝ ይቋርጽ ሙሉእ ብሙሉእ ኣይካሓስን። ካብ ኮምዩን ሓበሬታ ሕተት።',
+    disc:'ብሕጊ 2026 ዝተሓሰበ. ኣሃዛት ዝምልከቱ ኢዮም.',
+    opnieuw:'↩ ካብ መጀመሪያ ጀምር',
+    advies:'ናይ ውልቂ ምኽሪ ትደሊ ዲኻ? ምስ VluchtelingenWerk ዘተ።',
+  },
+  uk:{
+    welkom:'Привіт! 👋 Я допоможу вам розрахувати, чи вигідно працювати фінансово. Задам вам кілька запитань.',
+    q_situatie:'Який ваш статус соціальної допомоги?',
+    situatie_keuzes:['Самотній/самотня','Одружений / спільне проживання','Норма спільних витрат'],
+    q_leeftijd:'Скільки вам років?',
+    leeftijd_keuzes:['18–20 років','21 до пенсійного віку','Від пенсійного віку'],
+    aow_uitleg:'Після досягнення пенсійного віку діють інші правила. Я не можу правильно розрахувати цю ситуацію. Зверніться до свого муніципалітету.',
+    jong_uitleg:'Увага: у 18–20 років ваші батьки мають <strong>зобов\'язання з утримання</strong>. Базова норма низька (€ 345,99/міс). Якщо батьки не можуть допомогти, муніципалітет може доповнити до макс. € 1 092,44/міс.',
+    q_kostendelers:'Скільки людей віком 27+ живе у вашому домогосподарстві — включаючи вас?',
+    kostendeler_keuzes:['2 особи','3 особи','4 особи','5 або більше'],
+    q_kinderen:'У вас є діти до 18 років, які живуть з вами?',
+    kind_keuzes:['Немає дітей','1 дитина','2 дітей','3 або більше'],
+    q_huur:'Скільки ви платите базової оренди на місяць?',
+    huur_placeholder:'напр. 650',
+    huur_hint:'Базова оренда без сервісних витрат',
+    huur_skip:'Я не орендую / не знаю',
+    q_vakantiegeld:'Зарплата, яку ви вкажете, <em>включає</em> чи <em>не включає</em> відпускні (8%)?',
+    vg_keuzes:['Без відпускних (8% окремо)','З відпускними (все включено)'],
+    q_bruto:'Скільки ви будете заробляти брутто на місяць?',
+    bruto_placeholder:'напр. 1800',
+    bruto_hint:'Мінімальна зарплата 2026: € 1 995/міс (повний робочий день).',
+    q_uren:'Скільки годин на тиждень ви будете працювати?',
+    uren_keuzes:['12 год/тиждень','20 год/тиждень','32 год/тиждень','Повний день (40 год)'],
+    uren_hint:'Натискання автоматично заповнює мінімальну зарплату',
+    rekenen:'Розраховую…',
+    res_nu:'Зараз (допомога)',res_werk:'З роботою',res_mnd:'на місяць нетто',
+    res_meer:'🎉 Ви залишатимете <strong>{x}</strong> більше на місяць',
+    res_minder:'⚠️ Ви залишатимете <strong>{x}</strong> менше на місяць',
+    res_gelijk:'↔️ Ви залишатимете приблизно стільки ж',
+    res_meer_sub:'+{p}% порівняно з поточною ситуацією — працювати вигідно!',
+    res_minder_sub:'Це пастка бідності. Дізнайтеся в муніципалітеті про програми.',
+    res_gelijk_sub:'Але робота дає досвід, мовні навички та контакти.',
+    res_bron:'Джерело доходу',
+    netto_sal:'Нетто зарплата',bijstand_lbl:'Соціальна допомога',zt_lbl:'Медична субсидія',
+    ht_lbl:'Субсидія на оренду',kgb_lbl:'Дитячий бюджет',akw_lbl:'Дитячі виплати (AKW)',
+    ongewijzigd:'(незмінно)',huur_buiten:'(оренда поза діапазоном)',
+    omsl_titel:'💡 Коли робота стає вигідною?',
+    omsl_basis:'На основі мінімальної зарплати €{u}/год:',
+    omsl_uren_lbl:'год/тиж для €50+/міс більше',
+    omsl_bruto_lbl:'брутто/міс при {n} год/тиж',
+    omsl_extra_lbl:'на місяць більше, ніж лише допомога',
+    val_titel:'💪 Працювати вигідно — навіть у пастці бідності',
+    val_txt:'Навіть якщо залишаєте мало зайвого, ви будуєте досвід та мережу. Дізнайтеся про <strong>звільнення від доходу</strong>.',
+    av_titel:'⚠️ Пастка бідності',
+    av_txt:'При цій зарплаті допомоги припиняються, але зарплата не компенсує достатньо. Зверніться до муніципалітету за доступними програмами.',
+    disc:'Орієнтовний розрахунок на основі норм 2026. Цифри є приблизними.',
+    opnieuw:'↩ Почати знову',
+    advies:'Хочете особисту пораду? Зверніться до Sociaal Wijkteam або VluchtelingenWerk.',
+  },
+  fa:{
+    welkom:'سلام! 👋 به شما کمک می‌کنم محاسبه کنید که آیا کار کردن از نظر مالی ارزش دارد. چند سوال می‌پرسم.',
+    q_situatie:'وضعیت کمک معیشتی شما چیست؟',
+    situatie_keuzes:['مجرد','متأهل / زندگی مشترک','تقسیم هزینه'],
+    q_leeftijd:'چند سال دارید؟',
+    leeftijd_keuzes:['18–20 ساله','21 تا سن بازنشستگی','از سن بازنشستگی به بالا'],
+    aow_uitleg:'بالای سن بازنشستگی قوانین دیگری اعمال می‌شود. نمی‌توانم این وضعیت را به درستی محاسبه کنم. با شهرداری تماس بگیرید.',
+    jong_uitleg:'توجه: در سن 18–20 والدین شما <strong>تعهد نفقه</strong> دارند. نرم پایه پایین است (€ 345.99/ماه). اگر والدین نتوانند کمک کنند، شهرداری می‌تواند تا € 1,092.44/ماه تکمیل کند.',
+    q_kostendelers:'چند نفر بالای 27 سال در خانه زندگی می‌کنند — شامل خودتان؟',
+    kostendeler_keuzes:['2 نفر','3 نفر','4 نفر','5 یا بیشتر'],
+    q_kinderen:'آیا فرزند زیر 18 سال دارید که با شما زندگی می‌کند؟',
+    kind_keuzes:['بدون فرزند','1 فرزند','2 فرزند','3 یا بیشتر'],
+    q_huur:'ماهانه چقدر اجاره (خالص) می‌پردازید؟',
+    huur_placeholder:'مثال: 650',
+    huur_hint:'اجاره خالص بدون هزینه‌های خدمات',
+    huur_skip:'اجاره نمی‌دهم / نمی‌دانم',
+    q_vakantiegeld:'حقوقی که ذکر می‌کنید <em>شامل</em> حقوق تعطیلات (8%) هست یا <em>شامل نمی‌شود</em>؟',
+    vg_keuzes:['بدون حقوق تعطیلات (8% جداگانه)','با حقوق تعطیلات (همه در یک)'],
+    q_bruto:'ماهانه چقدر ناخالص درآمد خواهید داشت؟',
+    bruto_placeholder:'مثال: 1800',
+    bruto_hint:'حداقل دستمزد قانونی 2026: € 1,995/ماه (تمام‌وقت).',
+    q_uren:'چند ساعت در هفته کار خواهید کرد؟',
+    uren_keuzes:['12 ساعت/هفته','20 ساعت/هفته','32 ساعت/هفته','تمام‌وقت (40 ساعت)'],
+    uren_hint:'کلیک کردن حداقل دستمزد را خودکار پر می‌کند',
+    rekenen:'در حال محاسبه…',
+    res_nu:'اکنون (کمک)',res_werk:'با کار',res_mnd:'در ماه خالص',
+    res_meer:'🎉 ماهانه <strong>{x}</strong> بیشتر نگه می‌دارید',
+    res_minder:'⚠️ ماهانه <strong>{x}</strong> کمتر نگه می‌دارید',
+    res_gelijk:'↔️ تقریباً همان مقدار نگه می‌دارید',
+    res_meer_sub:'+{p}% نسبت به وضعیت فعلی — کار ارزش دارد!',
+    res_minder_sub:'این تله فقر است. از شهرداری در مورد برنامه‌ها بپرسید.',
+    res_gelijk_sub:'اما کار تجربه، مهارت زبانی و شبکه ارتباطی می‌دهد.',
+    res_bron:'منبع درآمد',
+    netto_sal:'حقوق خالص',bijstand_lbl:'کمک معیشتی',zt_lbl:'یارانه مراقبت بهداشتی',
+    ht_lbl:'یارانه اجاره',kgb_lbl:'بودجه مرتبط با کودک',akw_lbl:'کمک هزینه کودک (AKW)',
+    ongewijzigd:'(ثابت)',huur_buiten:'(اجاره خارج از محدوده)',
+    omsl_titel:'💡 کار کِی ارزش دارد؟',
+    omsl_basis:'بر اساس حداقل دستمزد €{u}/ساعت:',
+    omsl_uren_lbl:'ساعت/هفته برای €50+/ماه بیشتر',
+    omsl_bruto_lbl:'ناخالص/ماه در {n} ساعت/هفته',
+    omsl_extra_lbl:'در ماه بیشتر از تنها کمک معیشتی',
+    val_titel:'💪 کار ارزش دارد — حتی با تله فقر',
+    val_txt:'حتی اگر کم اضافه می‌گیرید، تجربه، مهارت زبانی و شبکه می‌سازید.',
+    av_titel:'⚠️ تله فقر',
+    av_txt:'با این حقوق کمک‌ها قطع می‌شوند اما حقوق کافی جبران نمی‌کند. از شهرداری بپرسید.',
+    disc:'محاسبه تقریبی بر اساس نرم‌های 2026. ارقام تقریبی هستند.',
+    opnieuw:'↩ شروع مجدد',
+    advies:'مشاوره شخصی می‌خواهید؟ با Sociaal Wijkteam یا VluchtelingenWerk تماس بگیرید.',
+  },
 };
-const BIJSTAND={alleenstaand_21_aow:1401.50,gehuwd_21_aow:2002.13,alleenstaand_aow:1564.69,gehuwd_aow:2144.16,jonger_alleenstaand:345.99,jonger_gehuwd:691.98};
-const JONGER_AANVULLING=746.45;
-const WML_UURLOON=14.71;
-const JEUGDLOON={18:7.36,19:8.83,20:11.77};
-const AKW_PER_KIND=105; // ~€315/kwartaal ÷ 3, verandert niet met werk
-const KOSTENDELER_PCT={2:.50,3:.4333,4:.40,5:.38};
 
-// ── HELPERS ───────────────────────────────────────────
-function t(k,vars={}){
-  const T=window.LW_T;if(!T)return k;
-  const tr=T[huidigeTaal]||T.NL;
-  let s=tr[k]||T.NL[k]||k;
-  Object.keys(vars).forEach(v=>{s=s.replace('{'+v+'}',vars[v]);});
-  return s;
-}
+// ══════════════════════════════════════════════════════
+// NORMEN 2026
+// ══════════════════════════════════════════════════════
+const NORMEN={
+  zorgtoeslag:{dr_single:40857,dr_partner:51407,max_single:128,max_partner:244},
+  huurtoeslag:{huurgrens:880.66,kwal_grens:454.47,aftop_12:650.43,aftop_3plus:697.46,
+    norm_single:242,norm_partner:260,max_i_single:31875,max_i_partner:43675},
+  kgb:{k1:1530,k2:1019,k3:376,grens:24557,afbouw:0.0683},
+  lh:{s1g:38441,s1t:.3597,s2t:.4950,ahk:3099,ahk_s:24813,ahk_e:75518,ak:5052,ak_s:24813,ak_oe:24813,ak_as:43071,ak_ae:124935},
+};
+const BIJSTAND={alleenstaand_21_aow:1401.50,gehuwd_21_aow:2002.13,alleenstaand_aow:1564.69,gehuwd_aow:2144.16,jong_single:345.99,jong_gehuwd:691.98};
+const JONG_AANV=746.45, WML=14.71, JEUGD={18:7.36,19:8.83,20:11.77}, AKW=105;
+const KD_PCT={2:.50,3:.4333,4:.40,5:.38};
+
+// ══════════════════════════════════════════════════════
+// STAAT
+// ══════════════════════════════════════════════════════
+let taal='nl';
+const staat={situatie:null,leeftijd:null,kostendelers:null,kinderen:null,huur:0,vakantiegeld:false,bruto:null,uren:null};
+
+// ══════════════════════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════════════════════
+function s(k){return(T[taal]||T.nl)[k]||T.nl[k]||k;}
 function fmt(n){return'€'+Math.round(n).toLocaleString('nl-NL');}
-function fmtNorm(n){return'€\u202f'+n.toFixed(2).replace('.',',');}
+function voortgang(pct){document.getElementById('voortgang').style.width=pct+'%';}
 
-function getBijstandsNorm(){
-  if(bijstandLeeftijd==='18_20')return bijstandSituatie==='gehuwd'?BIJSTAND.jonger_gehuwd:BIJSTAND.jonger_alleenstaand;
-  if(bijstandSituatie==='kostendeler'){
-    const pct=KOSTENDELER_PCT[Math.min(aantalKostendelers,5)]||.38;
-    return Math.round(2002.13*pct*100)/100;
-  }
-  return BIJSTAND[(bijstandSituatie==='gehuwd'?'gehuwd':'alleenstaand')+'_'+bijstandLeeftijd]||BIJSTAND.alleenstaand_21_aow;
+function berekenNorm(){
+  const l=staat.leeftijd,si=staat.situatie;
+  if(l==='jong'){return si==='gehuwd'?BIJSTAND.jong_gehuwd:BIJSTAND.jong_single;}
+  if(si==='kd'){const p=KD_PCT[Math.min(staat.kostendelers,5)]||.38;return Math.round(2002.13*p*100)/100;}
+  return BIJSTAND[(si==='gehuwd'?'gehuwd':'alleenstaand')+'_'+l]||BIJSTAND.alleenstaand_21_aow;
 }
-function getNormInfoTekst(){
-  const n=getBijstandsNorm();
-  if(bijstandLeeftijd==='18_20')return`Jongerennorm: <strong>${fmtNorm(n)}/mnd</strong>. Aanvulling tot max. <strong>${fmtNorm(n+JONGER_AANVULLING)}/mnd</strong> (gemeente beslist).`;
-  if(bijstandSituatie==='alleenstaand')return`Bijstandsnorm alleenstaanden: <strong>${fmtNorm(n)}/mnd</strong> (incl. vakantiegeld, 1-1-2026)`;
-  if(bijstandSituatie==='gehuwd')return`Bijstandsnorm gehuwden: <strong>${fmtNorm(n)}/mnd</strong> (incl. vakantiegeld, 1-1-2026)`;
-  const pct=KOSTENDELER_PCT[Math.min(aantalKostendelers,5)]||.38;
-  return`Kostendelersnorm (${aantalKostendelers>=5?'5+':aantalKostendelers} pers.): <strong>${fmtNorm(n)}/mnd</strong> (${Math.round(pct*100)}%)`;
-}
-
-// ── UI HANDLERS ───────────────────────────────────────
-function setSituatie(el,s){
-  bijstandSituatie=s;
-  document.querySelectorAll('#situatie-knoppen .toggle-knop').forEach(b=>b.classList.remove('actief'));
-  el.classList.add('actief');
-  document.getElementById('veld-kostendelers').style.display=s==='kostendeler'?'flex':'none';
-  document.getElementById('norm-info-tekst').innerHTML=getNormInfoTekst();
-  bereken();
-}
-function setLeeftijd(el,l){
-  bijstandLeeftijd=l;
-  document.querySelectorAll('#leeftijd-knoppen .toggle-knop').forEach(b=>b.classList.remove('actief'));
-  el.classList.add('actief');
-  const kostBtn=document.querySelector('#situatie-knoppen .toggle-knop:last-child');
-  document.getElementById('aow-melding').style.display=l==='aow'?'block':'none';
-  document.getElementById('veld-jongeren-uitleg').style.display=l==='18_20'?'block':'none';
-  if(l==='18_20'){
-    kostBtn.style.display='none';
-    if(bijstandSituatie==='kostendeler'){
-      bijstandSituatie='alleenstaand';
-      document.querySelectorAll('#situatie-knoppen .toggle-knop').forEach(b=>b.classList.remove('actief'));
-      document.querySelector('#situatie-knoppen .toggle-knop:first-child').classList.add('actief');
-      document.getElementById('veld-kostendelers').style.display='none';
-    }
-  }else{kostBtn.style.display='';}
-  document.getElementById('norm-info-tekst').innerHTML=getNormInfoTekst();
-  bereken();
-}
-function setKostendelers(el,n){
-  aantalKostendelers=n;
-  document.querySelectorAll('#kostendeler-knoppen .toggle-knop').forEach(b=>b.classList.remove('actief'));
-  el.classList.add('actief');
-  document.getElementById('norm-info-tekst').innerHTML=getNormInfoTekst();
-  bereken();
-}
-function setKinderen(el,n){
-  aantalKinderen=n;
-  el.closest('.toggle-rij').querySelectorAll('.toggle-knop').forEach(b=>b.classList.remove('actief'));
-  el.classList.add('actief');bereken();
-}
-function setVakantiegeld(el,v){
-  vakantiegeldInbegrepen=v;
-  el.closest('.toggle-rij').querySelectorAll('.toggle-knop').forEach(b=>b.classList.remove('actief'));
-  el.classList.add('actief');bereken();
-}
-function setUren(el,u){
-  aantalUren=u;
-  el.closest('.toggle-rij').querySelectorAll('.toggle-knop').forEach(b=>b.classList.remove('actief'));
-  el.classList.add('actief');
-  // Auto-invullen minimumloon
-  const ul=bijstandLeeftijd==='18_20'?JEUGDLOON[19]:WML_UURLOON;
-  const brutoMnd=Math.round(ul*u*(52/12));
-  document.getElementById('bruto').value=vakantiegeldInbegrepen?Math.round(brutoMnd*1.08):brutoMnd;
-  bereken();
-}
-function debounceBereken(){clearTimeout(debounceTimer);debounceTimer=setTimeout(bereken,150);}
-
-// ── REKENLOGICA ───────────────────────────────────────
 function berekenNetto(bruto){
   if(bruto<=0)return 0;
-  const be=vakantiegeldInbegrepen?bruto/1.08:bruto;
-  const bj=be*12;
-  const L=NORMEN.loonheffing;
-  let bel=bj<=L.schijf1_grens?bj*L.schijf1_tarief:L.schijf1_grens*L.schijf1_tarief+(bj-L.schijf1_grens)*L.schijf2_tarief;
-  let ahk=L.ahk_max;
-  if(bj>L.ahk_afbouw_start)ahk=Math.max(0,L.ahk_max-(Math.min(bj,L.ahk_afbouw_eind)-L.ahk_afbouw_start)/(L.ahk_afbouw_eind-L.ahk_afbouw_start)*L.ahk_max);
+  const be=staat.vakantiegeld?bruto/1.08:bruto, bj=be*12, L=NORMEN.lh;
+  let bel=bj<=L.s1g?bj*L.s1t:L.s1g*L.s1t+(bj-L.s1g)*L.s2t;
+  let ahk=L.ahk; if(bj>L.ahk_s)ahk=Math.max(0,L.ahk-(Math.min(bj,L.ahk_e)-L.ahk_s)/(L.ahk_e-L.ahk_s)*L.ahk);
   let ak=0;
-  if(bj<=L.ak_opbouw_eind)ak=bj/L.ak_opbouw_eind*L.ak_max;
-  else if(bj<=L.ak_afbouw_start)ak=L.ak_max;
-  else if(bj<=L.ak_afbouw_eind)ak=Math.max(0,L.ak_max*(1-(bj-L.ak_afbouw_start)/(L.ak_afbouw_eind-L.ak_afbouw_start)));
-  // netto jaar excl. VG; voeg VG toe als apart (8% bovenop)
-  const nettoJaar=Math.max(0,bj-bel+ahk+ak);
-  return Math.round(nettoJaar*(vakantiegeldInbegrepen?1:1.08)/12);
+  if(bj<=L.ak_oe)ak=bj/L.ak_oe*L.ak;
+  else if(bj<=L.ak_as)ak=L.ak;
+  else if(bj<=L.ak_ae)ak=Math.max(0,L.ak*(1-(bj-L.ak_as)/(L.ak_ae-L.ak_as)));
+  return Math.round(Math.max(0,bj-bel+ahk+ak)*(staat.vakantiegeld?1:1.08)/12);
 }
 function berekenZt(ji,sit){
-  const Z=NORMEN.zorgtoeslag;
-  const dr=sit==='alleenstaand'?Z.drempel_alleenstaand:Z.drempel_partner;
-  const mx=sit==='alleenstaand'?Z.max_alleenstaand:Z.max_partner;
+  const Z=NORMEN.zorgtoeslag,dr=sit==='single'?Z.dr_single:Z.dr_partner,mx=sit==='single'?Z.max_single:Z.max_partner;
   return ji>=dr?0:Math.round(mx*(1-ji/dr));
 }
 function berekenHt(ji,huur,sit,kind){
   const H=NORMEN.huurtoeslag;
-  if(huur>H.huurgrens||huur<H.kwaliteitskorting_grens)return 0;
-  const mI=sit==='alleenstaand'?H.max_inkomen_alleenstaand:H.max_inkomen_partners;
+  if(huur>H.huurgrens||huur<H.kwal_grens)return 0;
+  const mI=sit==='single'?H.max_i_single:H.max_i_partner;
   if(ji>mI)return 0;
-  const aftop=kind>=3?H.aftoppingsgrens_3plus:H.aftoppingsgrens_1_2;
-  const nh=sit==='alleenstaand'?H.normhuur_alleenstaand:H.normhuur_meerpersoonshuishouden;
+  const aftop=kind>=3?H.aftop_3plus:H.aftop_12, nh=sit==='single'?H.norm_single:H.norm_partner;
   return Math.round(Math.max(0,Math.min(huur,aftop)-nh)*Math.max(0,1-Math.max(0,ji-15000)/(mI-15000)));
 }
 function berekenKgb(ji,kind){
   if(kind===0)return 0;
   const K=NORMEN.kgb;
-  let b=0;if(kind>=1)b+=K.basisbedrag_1e_kind;if(kind>=2)b+=K.basisbedrag_2e_kind;if(kind>=3)b+=K.basisbedrag_3e_plus;
-  return Math.round(Math.max(0,b-(ji>K.inkomensgrens?(ji-K.inkomensgrens)*K.afbouwpercentage:0))/12);
+  let b=0;if(kind>=1)b+=K.k1;if(kind>=2)b+=K.k2;if(kind>=3)b+=K.k3;
+  return Math.round(Math.max(0,b-(ji>K.grens?(ji-K.grens)*K.afbouw:0))/12);
 }
-function berekenAkw(kind){return kind>0?kind*AKW_PER_KIND:0;}
-
 function berekenOmslagpunt(bijstand,huur,kind,sit){
-  const ul=bijstandLeeftijd==='18_20'?JEUGDLOON[19]:WML_UURLOON;
-  const bj0=bijstand*12;
-  const totBijstand=bijstand+berekenZt(bj0,sit)+berekenHt(bj0,huur,sit,kind)+berekenKgb(bj0,kind);
+  const ul=staat.leeftijd==='jong'?JEUGD[19]:WML;
+  const bj0=bijstand*12, tot0=bijstand+berekenZt(bj0,sit)+berekenHt(bj0,huur,sit,kind)+berekenKgb(bj0,kind);
   for(let u=1;u<=40;u++){
-    const brMnd=ul*u*(52/12);
-    const ntMnd=berekenNetto(brMnd);
-    const brJ=brMnd*12;
+    const brMnd=ul*u*(52/12),ntMnd=berekenNetto(brMnd),brJ=brMnd*12;
     const aanv=Math.max(0,bijstand-ntMnd);
-    const totWerk=ntMnd+aanv+berekenZt(brJ,sit)+berekenHt(brJ,huur,sit,kind)+berekenKgb(brJ,kind);
-    if(aanv<50&&totWerk>=totBijstand+50)return{uren:u,brutoMnd:Math.round(brMnd),totaalWerk:Math.round(totWerk),totaalBijstand:Math.round(totBijstand),uurloon:ul};
+    const totW=ntMnd+aanv+berekenZt(brJ,sit)+berekenHt(brJ,huur,sit,kind)+berekenKgb(brJ,kind);
+    if(aanv<50&&totW>=tot0+50)return{uren:u,brutoMnd:Math.round(brMnd),totaalWerk:Math.round(totW),totaalBijstand:Math.round(tot0),ul};
   }
   return null;
 }
 
-// ── VALIDATIE ─────────────────────────────────────────
-function valideerBruto(bruto){
-  const ul=bijstandLeeftijd==='18_20'?JEUGDLOON[18]:WML_UURLOON;
-  const minBruto=ul*aantalUren*(52/12)*0.5;
-  const el=document.getElementById('bruto-waarschuwing');
-  if(bruto>0&&bruto<minBruto){el.innerHTML=t('lw-bruto-laag');el.classList.add('zichtbaar');}
-  else el.classList.remove('zichtbaar');
+// ══════════════════════════════════════════════════════
+// CHAT ENGINE
+// ══════════════════════════════════════════════════════
+const B=()=>document.getElementById('berichten');
+const IZ=()=>document.getElementById('invoer-zone');
+
+function scrollNaar(){setTimeout(()=>B().scrollTo({top:B().scrollHeight,behavior:'smooth'}),80);}
+
+function solBericht(tekst,klasse=''){
+  const d=document.createElement('div');d.className='bericht-sol';
+  d.innerHTML=`<div class="sol-avatar">☀️</div><div class="bel-sol ${klasse}">${tekst}</div>`;
+  B().appendChild(d);scrollNaar();return d;
+}
+function userBericht(tekst){
+  const d=document.createElement('div');d.className='bericht-user';
+  d.innerHTML=`<div class="bel-user">${tekst}</div>`;
+  B().appendChild(d);scrollNaar();
+}
+function typingEl(){
+  const d=document.createElement('div');d.className='typing';
+  d.innerHTML=`<div class="sol-avatar">☀️</div><div class="typing-dots"><span></span><span></span><span></span></div>`;
+  B().appendChild(d);scrollNaar();return d;
 }
 
-// ── HOOFDBEREKENING ───────────────────────────────────
-function bereken(){
-  if(bijstandLeeftijd==='aow'){toonAowBox();return;}
-  const sit=bijstandSituatie==='alleenstaand'?'alleenstaand':'partner';
-  const huur=parseFloat(document.getElementById('huur').value)||0;
-  const bruto=parseFloat(document.getElementById('bruto').value)||0;
-  const kind=aantalKinderen;
-  valideerBruto(bruto);
+async function sol(tekst,vertraging=320,klasse=''){
+  const ty=typingEl();
+  await new Promise(r=>setTimeout(r,vertraging));
+  ty.remove();
+  return solBericht(tekst,klasse);
+}
 
-  const bijstand=getBijstandsNorm();
-  const bj=bijstand*12;
-  const zt0=berekenZt(bj,sit),ht0=berekenHt(bj,huur,sit,kind),kgb0=berekenKgb(bj,kind),akw=berekenAkw(kind);
+function toonKeuzes(opties,onKlik){
+  IZ().innerHTML='';
+  const rij=document.createElement('div');rij.className='keuze-rij';
+  opties.forEach(o=>{
+    const b=document.createElement('button');b.className='keuze-btn';b.innerHTML=o.label;
+    b.onclick=()=>{IZ().innerHTML='';onKlik(o);};
+    rij.appendChild(b);
+  });
+  IZ().appendChild(rij);scrollNaar();
+}
+
+function toonGetallnvoer(placeholder,hint,onKlik,skipLabel){
+  IZ().innerHTML='';
+  const wrap=document.createElement('div');
+  wrap.innerHTML=`
+    <div class="bedrag-rij">
+      <div class="bedrag-wrap"><div class="bedrag-euro">€</div><input type="number" class="bedrag-input" id="getaal-inp" placeholder="${placeholder}" min="0" max="5000"></div>
+      <button class="stuur-btn" id="stuur-btn">→</button>
+    </div>
+    ${hint?`<div style="font-size:.75rem;color:var(--tekst-licht);margin-top:5px;">${hint}</div>`:''}
+    ${skipLabel?`<button class="overslaan-link" id="skip-btn">${skipLabel}</button>`:''}`;
+  IZ().appendChild(wrap);
+  const inp=document.getElementById('getaal-inp');
+  const go=()=>{const v=parseFloat(inp.value)||0;IZ().innerHTML='';onKlik(v);};
+  document.getElementById('stuur-btn').onclick=go;
+  inp.onkeydown=e=>{if(e.key==='Enter')go();};
+  if(skipLabel)document.getElementById('skip-btn').onclick=()=>{IZ().innerHTML='';onKlik(0,true);};
+  inp.focus();scrollNaar();
+}
+
+// ══════════════════════════════════════════════════════
+// STAPPEN
+// ══════════════════════════════════════════════════════
+async function start(){
+  B().innerHTML='';IZ().innerHTML='';voortgang(0);
+  Object.keys(staat).forEach(k=>staat[k]=null);staat.huur=0;staat.vakantiegeld=false;
+  await sol(s('welkom'),200);
+  stap_situatie();
+}
+
+async function stap_situatie(){
+  voortgang(10);
+  await sol(s('q_situatie'),300);
+  toonKeuzes(
+    s('situatie_keuzes').map((l,i)=>({label:l,val:['alleenstaand','gehuwd','kd'][i]})),
+    async o=>{
+      staat.situatie=o.val;
+      userBericht(o.label);
+      stap_leeftijd();
+    }
+  );
+}
+
+async function stap_leeftijd(){
+  voortgang(20);
+  await sol(s('q_leeftijd'),300);
+  toonKeuzes(
+    s('leeftijd_keuzes').map((l,i)=>({label:l,val:['jong','21_aow','aow'][i]})),
+    async o=>{
+      staat.leeftijd=o.val;
+      userBericht(o.label);
+      if(o.val==='aow'){
+        await sol(s('aow_uitleg'),400,'info');
+        voortgang(100);IZ().innerHTML='';
+        const h=document.createElement('div');
+        h.innerHTML=`<button class="overslaan-link" style="margin-top:8px" onclick="start()">↩ ${s('opnieuw')}</button>`;
+        IZ().appendChild(h);
+        return;
+      }
+      if(o.val==='jong') await sol(s('jong_uitleg'),400,'reactie');
+      if(staat.situatie==='kd') stap_kostendelers();
+      else stap_kinderen();
+    }
+  );
+}
+
+async function stap_kostendelers(){
+  voortgang(30);
+  await sol(s('q_kostendelers'),300);
+  toonKeuzes(
+    s('kostendeler_keuzes').map((l,i)=>({label:l,val:i+2})),
+    async o=>{
+      staat.kostendelers=o.val;
+      userBericht(o.label);
+      stap_kinderen();
+    }
+  );
+}
+
+async function stap_kinderen(){
+  voortgang(38);
+  await sol(s('q_kinderen'),300);
+  toonKeuzes(
+    s('kind_keuzes').map((l,i)=>({label:l,val:i})),
+    async o=>{
+      staat.kinderen=o.val;
+      userBericht(o.label);
+      stap_huur();
+    }
+  );
+}
+
+async function stap_huur(){
+  voortgang(50);
+  await sol(s('q_huur'),300);
+  toonGetallnvoer(s('huur_placeholder'),s('huur_hint'),
+    async(v,skip)=>{
+      staat.huur=skip?0:v;
+      userBericht(skip?s('huur_skip'):fmt(v));
+      stap_vakantiegeld();
+    },
+    s('huur_skip')
+  );
+}
+
+async function stap_vakantiegeld(){
+  voortgang(60);
+  await sol(s('q_vakantiegeld'),300);
+  toonKeuzes(
+    s('vg_keuzes').map((l,i)=>({label:l,val:i===1})),
+    async o=>{
+      staat.vakantiegeld=o.val;
+      userBericht(o.label);
+      stap_uren();
+    }
+  );
+}
+
+async function stap_uren(){
+  voortgang(70);
+  await sol(s('q_uren'),300);
+  const urenWaarden=[12,20,32,40];
+  // Toon ook hint over auto-invullen
+  await sol(s('uren_hint'),200,'reactie');
+  toonKeuzes(
+    s('uren_keuzes').map((l,i)=>({label:l,val:urenWaarden[i]})),
+    async o=>{
+      staat.uren=o.val;
+      userBericht(o.label);
+      // Auto-invullen bruto op basis van minimumloon
+      const ul=staat.leeftijd==='jong'?JEUGD[19]:WML;
+      const autobruto=Math.round(ul*o.val*(52/12));
+      staat.bruto=staat.vakantiegeld?Math.round(autobruto*1.08):autobruto;
+      stap_bruto();
+    }
+  );
+}
+
+async function stap_bruto(){
+  voortgang(82);
+  await sol(s('q_bruto'),300);
+  // Pre-fill met auto-berekend minimumloon
+  IZ().innerHTML='';
+  const wrap=document.createElement('div');
+  wrap.innerHTML=`
+    <div class="bedrag-rij">
+      <div class="bedrag-wrap"><div class="bedrag-euro">€</div><input type="number" class="bedrag-input" id="bruto-inp" value="${staat.bruto||''}" min="0" max="10000"></div>
+      <button class="stuur-btn" id="stuur-btn">→</button>
+    </div>
+    <div style="font-size:.75rem;color:var(--tekst-licht);margin-top:5px;">${s('bruto_hint')}</div>`;
+  IZ().appendChild(wrap);
+  const inp=document.getElementById('bruto-inp');
+  const go=async()=>{
+    const v=parseFloat(inp.value)||0;
+    if(v<=0){inp.style.borderColor='var(--rood)';return;}
+    staat.bruto=v;
+    IZ().innerHTML='';
+    userBericht(fmt(v));
+    // Validatie: ver onder minimumloon?
+    const ul=staat.leeftijd==='jong'?JEUGD[19]:WML;
+    const minRef=ul*staat.uren*(52/12)*0.5;
+    if(v<minRef) await sol('⚠️ Dat ligt ver onder het minimumloon voor '+staat.uren+' uur per week. Ik reken er wel mee door.',300,'waarschuwing');
+    stap_berekenen();
+  };
+  document.getElementById('stuur-btn').onclick=go;
+  inp.onkeydown=e=>{if(e.key==='Enter')go();};
+  inp.focus();inp.select();scrollNaar();
+}
+
+async function stap_berekenen(){
+  voortgang(95);
+  await sol(s('rekenen'),400);
+
+  // ── BEREKENING ──
+  const sit=staat.situatie==='alleenstaand'?'single':'partner';
+  const bijstand=berekenNorm();
+  const bj0=bijstand*12;
+  const zt0=berekenZt(bj0,sit),ht0=berekenHt(bj0,staat.huur,sit,staat.kinderen),kgb0=berekenKgb(bj0,staat.kinderen),akw=staat.kinderen>0?staat.kinderen*AKW:0;
   const tot0=bijstand+zt0+ht0+kgb0+akw;
 
-  const netto=berekenNetto(bruto);
-  const beExcl=vakantiegeldInbegrepen?bruto/1.08:bruto;
+  const netto=berekenNetto(staat.bruto);
+  const beExcl=staat.vakantiegeld?staat.bruto/1.08:staat.bruto;
   const brJ=beExcl*12;
-  const zt1=berekenZt(brJ,sit),ht1=berekenHt(brJ,huur,sit,kind),kgb1=berekenKgb(brJ,kind);
+  const zt1=berekenZt(brJ,sit),ht1=berekenHt(brJ,staat.huur,sit,staat.kinderen),kgb1=berekenKgb(brJ,staat.kinderen);
   const bijstand1=Math.max(0,bijstand-netto);
   const tot1=netto+bijstand1+zt1+ht1+kgb1+akw;
+  const verschil=tot1-tot0, vPct=tot0>0?((verschil/tot0)*100).toFixed(1):0;
 
-  const verschil=tot1-tot0;
-  const vPct=tot0>0?((verschil/tot0)*100).toFixed(1):0;
-  const maxB=Math.max(tot0,tot1,1);
+  // ── BANNER ──
+  let bannerKls,bannerTxt,bannerSub;
+  if(verschil>50){bannerKls='positief';bannerTxt=s('res_meer').replace('{x}',fmt(verschil));bannerSub=s('res_meer_sub').replace('{p}',vPct);}
+  else if(verschil<-50){bannerKls='negatief';bannerTxt=s('res_minder').replace('{x}',fmt(Math.abs(verschil)));bannerSub=s('res_minder_sub');}
+  else{bannerKls='neutraal';bannerTxt=s('res_gelijk');bannerSub=s('res_gelijk_sub');}
 
-  toonResultaat({bruto,netto,bijstand,bijstand1,zt0,zt1,ht0,ht1,kgb0,kgb1,akw,tot0,tot1,verschil,vPct,maxB,kind,huur,sit});
-}
-
-// ── RESULTAAT ─────────────────────────────────────────
-function toonAowBox(){
-  document.getElementById('resultaat').innerHTML=`
-    <div class="aow-box animeer">
-      <div class="aow-box-icoon">🧓</div>
-      <div class="aow-box-tekst">${t('lw-aow-txt')}</div>
-      <a href="https://www.rijksoverheid.nl/onderwerpen/bijstand/bijstand-boven-aow-leeftijd" target="_blank" class="aow-box-link">${t('lw-aow-link')} →</a>
+  // ── UITSPLITSING ──
+  function uitspRij(kleur,naam,nu,wk,opmerking=''){
+    const wKleur=wk>nu?'color:var(--groen)':wk<nu?'color:var(--rood)':'';
+    return`<div class="uitsp-rij">
+      <div class="uitsp-naam"><div class="uitsp-dot" style="background:${kleur};border:1px solid var(--rand)"></div>${naam}${opmerking?`<span style="font-size:.68rem;color:var(--tekst-licht);margin-left:4px">${opmerking}</span>`:''}</div>
+      <div class="uitsp-bed"><div class="uitsp-nu">${nu>0?fmt(nu):'—'}</div><div class="uitsp-werk" style="${wKleur}">${wk>0?fmt(wk):'—'}</div></div>
     </div>`;
-}
+  }
+  function uitspVast(kleur,naam,bed){
+    return`<div class="uitsp-rij">
+      <div class="uitsp-naam"><div class="uitsp-dot" style="background:${kleur};border:1px solid var(--rand)"></div>${naam}<span style="font-size:.68rem;color:var(--tekst-licht);margin-left:4px">${s('ongewijzigd')}</span></div>
+      <div class="uitsp-bed"><div class="uitsp-nu">${bed>0?fmt(bed):'—'}</div><div class="uitsp-werk">${bed>0?fmt(bed):'—'}</div></div>
+    </div>`;
+  }
+  const huurOpmerking=staat.huur<454||staat.huur>880?s('huur_buiten'):'';
 
-function rij(icoon,kleur,naam,huidig,werk,opmerking=''){
-  const wk=werk>huidig?'color:var(--groen)':werk<huidig?'color:var(--rood)':'';
-  return`<div class="uitsp-rij">
-    <div class="uitsp-naam"><div class="dot" style="background:${kleur};border:1px solid var(--rand)"></div>${naam}${opmerking?`<span style="font-size:.7rem;color:var(--tekst-licht);margin-left:4px">${opmerking}</span>`:''}</div>
-    <div class="uitsp-bedragen"><div class="uitsp-huidig">${huidig>0?fmt(huidig):'—'}</div><div class="uitsp-werk" style="${wk}">${werk>0?fmt(werk):'—'}</div></div>
-  </div>`;
-}
-function rijVast(icoon,kleur,naam,bedrag){
-  return`<div class="uitsp-rij">
-    <div class="uitsp-naam"><div class="dot" style="background:${kleur};border:1px solid var(--rand)"></div>${naam}<span style="font-size:.7rem;color:var(--tekst-licht);margin-left:4px">${t('lw-ongewijz')}</span></div>
-    <div class="uitsp-bedragen"><div class="uitsp-huidig">${bedrag>0?fmt(bedrag):'—'}</div><div class="uitsp-werk">${bedrag>0?fmt(bedrag):'—'}</div></div>
-  </div>`;
-}
-
-function toonResultaat(d){
-  let kls,ico,tit,sub;
-  if(d.verschil>50){kls='positief';ico='🎉';tit=t('lw-meer',{x:fmt(d.verschil)});sub=t('lw-meer-pct',{p:d.vPct});}
-  else if(d.verschil<-50){kls='negatief';ico='⚠️';tit=t('lw-minder',{x:fmt(Math.abs(d.verschil))});sub=t('lw-av-banner');}
-  else{kls='neutraal';ico='↔️';tit=t('lw-gelijk');sub=t('lw-gelijk-sub');}
-
-  const toonAV=d.verschil<100&&d.bruto>0;
-  const ul=bijstandLeeftijd==='18_20'?JEUGDLOON[19]:WML_UURLOON;
-  const wmlMnd=Math.round(ul*aantalUren*(52/12));
-  const beExcl=vakantiegeldInbegrepen?d.bruto/1.08:d.bruto;
-  const toonOmsl=d.bruto===0||Math.abs(beExcl-wmlMnd)/wmlMnd<0.4;
-  const ulLbl=bijstandLeeftijd==='18_20'?`jeugdminimumloon (${Object.entries(JEUGDLOON).map(([l,u])=>`${l}j:€${u.toFixed(2).replace('.',',')}`).join('/')})`:
-    `minimumloon €${WML_UURLOON.toFixed(2).replace('.',',')}`;
-
-  let omslagHtml='';
+  // ── OMSLAGPUNT ──
+  const ul=staat.leeftijd==='jong'?JEUGD[19]:WML;
+  const wmlMnd=Math.round(ul*staat.uren*(52/12));
+  const beExclBruto=staat.vakantiegeld?staat.bruto/1.08:staat.bruto;
+  const toonOmsl=Math.abs(beExclBruto-wmlMnd)/wmlMnd<0.4;
+  let motivatieHtml='';
   if(toonOmsl){
-    const o=berekenOmslagpunt(d.bijstand,d.huur,d.kind,d.sit);
-    if(!o){omslagHtml=`<div class="motivatie-box animeer"><div class="motivatie-titel">${t('lw-mot-val-titel')}</div><div class="motivatie-tekst">${t('lw-mot-val-txt')}</div></div>`;}
-    else{
+    const o=berekenOmslagpunt(bijstand,staat.huur,staat.kinderen,sit);
+    if(!o){
+      motivatieHtml=`<div class="res-motivatie"><div class="res-motivatie-titel">${s('val_titel')}</div><div class="res-motivatie-txt">${s('val_txt')}</div></div>`;
+    } else {
       const extra=o.totaalWerk-o.totaalBijstand;
-      omslagHtml=`<div class="motivatie-box animeer">
-        <div class="motivatie-titel">${t('lw-mot-omsl-titel')}</div>
-        <div class="motivatie-tekst">${t('lw-mot-basis',{u:ulLbl})}</div>
-        <div class="motivatie-getal-rij">
-          <div class="motivatie-getal-blok"><div class="motivatie-getal">${o.uren} uur</div><div class="motivatie-getal-label">${t('lw-mot-uren-lbl')}</div></div>
-          <div class="motivatie-getal-blok"><div class="motivatie-getal">${fmt(o.brutoMnd)}</div><div class="motivatie-getal-label">${t('lw-mot-bruto-lbl',{n:o.uren})}</div></div>
-          <div class="motivatie-getal-blok" style="background:var(--groen);color:white;"><div class="motivatie-getal" style="color:var(--amber)">+${fmt(extra)}</div><div class="motivatie-getal-label" style="color:rgba(255,255,255,.8)">${t('lw-mot-extra-lbl')}</div></div>
+      motivatieHtml=`<div class="res-motivatie">
+        <div class="res-motivatie-titel">${s('omsl_titel')}</div>
+        <div class="res-motivatie-txt">${s('omsl_basis').replace('{u}',o.ul.toFixed(2).replace('.',','))}</div>
+        <div class="res-omslag-rij">
+          <div class="res-omslag-blok"><div class="res-omslag-getal">${o.uren}u</div><div class="res-omslag-lbl">${s('omsl_uren_lbl')}</div></div>
+          <div class="res-omslag-blok"><div class="res-omslag-getal">${fmt(o.brutoMnd)}</div><div class="res-omslag-lbl">${s('omsl_bruto_lbl').replace('{n}',o.uren)}</div></div>
+          <div class="res-omslag-blok"><div class="res-omslag-getal">+${fmt(extra)}</div><div class="res-omslag-lbl">${s('omsl_extra_lbl')}</div></div>
         </div>
-        <div class="motivatie-tekst">${bijstandLeeftijd==='18_20'?t('lw-mot-jong')+' ':''}${t('lw-mot-slot')}${d.huur>0?t('lw-mot-huur'):''}</div>
       </div>`;
     }
   }
+  const toonAV=verschil<100&&staat.bruto>0;
 
-  document.getElementById('resultaat').innerHTML=`
-    <div class="vergelijk-rij animeer">
-      <div class="vergelijk-kaart huidig"><div class="vergelijk-label">${t('lw-nu')}</div><div class="vergelijk-totaal">${fmt(d.tot0)}</div><div class="vergelijk-sub">${t('lw-per-mnd')}</div></div>
-      <div class="vergelijk-kaart werk"><div class="vergelijk-label">${t('lw-met-werk')}</div><div class="vergelijk-totaal">${fmt(d.tot1)}</div><div class="vergelijk-sub">${t('lw-per-mnd')}</div></div>
+  // ── KAART HTML ──
+  const kaartEl=document.createElement('div');kaartEl.className='bericht-sol';kaartEl.style.maxWidth='100%';
+  kaartEl.innerHTML=`<div class="sol-avatar">☀️</div>
+  <div class="res-kaart">
+    <div class="res-top"><div class="res-top-titel">💶 ${s('res_nu')} vs. ${s('res_werk')}</div><div class="res-top-sub">${s('res_mnd')}</div></div>
+    <div class="res-vergelijk">
+      <div class="res-kolom"><div class="res-kolom-lbl">${s('res_nu')}</div><div class="res-kolom-getal">${fmt(tot0)}</div></div>
+      <div class="res-kolom werk"><div class="res-kolom-lbl">${s('res_werk')}</div><div class="res-kolom-getal">${fmt(tot1)}</div></div>
     </div>
-    <div class="verschil-banner ${kls} animeer">
-      <div class="verschil-icoon">${ico}</div>
-      <div class="verschil-tekst"><strong>${tit}</strong><span>${sub}</span></div>
+    <div class="res-banner ${bannerKls}">${bannerTxt}<br><span style="font-weight:400;font-size:.8rem;opacity:.85">${bannerSub}</span></div>
+    <div class="res-uitsp">
+      <div class="uitsp-hdr"><span>${s('res_bron')}</span><div style="display:flex;gap:16px"><span style="width:62px;text-align:right">${s('res_nu')}</span><span style="width:62px;text-align:right">${s('res_werk')}</span></div></div>
+      ${staat.bruto>0?uitspRij('#EBF3EE',s('netto_sal'),0,netto):''}
+      ${uitspRij('#F5F2EC',s('bijstand_lbl'),bijstand,bijstand1)}
+      ${uitspRij('#FDF3E0',s('zt_lbl'),zt0,zt1)}
+      ${uitspRij('#EFF6FF',s('ht_lbl'),ht0,ht1,huurOpmerking)}
+      ${staat.kinderen>0?uitspRij('#F5F3FF',s('kgb_lbl'),kgb0,kgb1):''}
+      ${staat.kinderen>0?uitspVast('#FFE4F0',s('akw_lbl'),akw):''}
+      <div class="uitsp-rij totaal"><div class="uitsp-naam"><strong>Totaal</strong></div><div class="uitsp-bed"><div class="uitsp-nu"><strong>${fmt(tot0)}</strong></div><div class="uitsp-werk">${fmt(tot1)}</div></div></div>
     </div>
-    <div class="balk-vergelijk animeer">
-      <div class="balk-rij"><div class="balk-label-rij"><span class="balk-naam">${t('lw-balk-nu')}</span><span class="balk-waarde">${fmt(d.tot0)}/mnd</span></div><div class="balk-track"><div class="balk-vulling huidig" style="width:${Math.round(d.tot0/d.maxB*100)}%"></div></div></div>
-      <div class="balk-rij"><div class="balk-label-rij"><span class="balk-naam">${t('lw-balk-werk')}</span><span class="balk-waarde" style="color:var(--groen)">${fmt(d.tot1)}/mnd</span></div><div class="balk-track"><div class="balk-vulling werk" style="width:${Math.round(d.tot1/d.maxB*100)}%"></div></div></div>
-    </div>
-    <div class="uitsplitsing animeer">
-      <div class="uitsplitsing-header"><div class="uitsplitsing-titel">${t('lw-uitsp-titel')}</div></div>
-      <div class="uitsplitsing-body">
-        <div class="uitsp-header-rij"><span>${t('lw-bron')}</span><div class="uitsp-bedragen"><span class="uitsp-huidig">${t('lw-uitsp-nu')}</span><span class="uitsp-werk">${t('lw-uitsp-werk')}</span></div></div>
-        ${d.bruto>0?rij('💰','#EBF3EE',t('lw-netto-sal'),0,d.netto):''}
-        ${rij('🏛️','#F5F2EC',t('lw-bijstand'),d.bijstand,d.bijstand1)}
-        ${rij('🏥','#FDF3E0',t('lw-zt'),d.zt0,d.zt1)}
-        ${rij('🏠','#EFF6FF',t('lw-ht'),d.ht0,d.ht1,d.huur<454||d.huur>880?t('lw-huur-buit'):'')}
-        ${d.kind>0?rij('👶','#F5F3FF',t('lw-kgb'),d.kgb0,d.kgb1):''}
-        ${d.kind>0?rijVast('🎀','#FFE4F0',t('lw-akw'),d.akw):''}
-        <div class="uitsp-rij totaal"><div class="uitsp-naam"><strong>${t('lw-uitsp-tot')}</strong></div><div class="uitsp-bedragen"><div class="uitsp-huidig"><strong>${fmt(d.tot0)}</strong></div><div class="uitsp-werk">${fmt(d.tot1)}</div></div></div>
-      </div>
-    </div>
-    ${toonAV?`<div class="armoedeval-box animeer"><div class="armoedeval-titel">${t('lw-av-titel')}</div><div class="armoedeval-tekst">${t('lw-av-txt')}</div></div>`:''}
-    <div class="info-box animeer">${t('lw-info')}</div>
-    ${omslagHtml}
-    <div class="disclaimer animeer">${t('lw-disc')}</div>`;
+    ${motivatieHtml}
+    ${toonAV?`<div style="padding:.8rem 1.2rem;background:var(--amber-licht);border-top:1px solid rgba(232,160,32,.2)"><div style="font-weight:700;font-size:.85rem;color:var(--amber-diep);margin-bottom:3px">${s('av_titel')}</div><div style="font-size:.78rem;color:var(--tekst-zacht);line-height:1.55">${s('av_txt')}</div></div>`:''}
+    <div class="res-disc">${s('disc')}</div>
+    <button class="res-opnieuw" onclick="start()">${s('opnieuw')}</button>
+  </div>`;
+  B().appendChild(kaartEl);
+
+  // Advies
+  await sol(s('advies'),600,'reactie');
+  voortgang(100);
+  IZ().innerHTML=`<div style="text-align:center;padding:.5rem 0"><button class="overslaan-link" onclick="start()">${s('opnieuw')}</button></div>`;
+  scrollNaar();
 }
 
-// ── TAAL ──────────────────────────────────────────────
-function setTaal(code){
-  huidigeTaal=code.toUpperCase();
-  if(window.Solidari&&Solidari.i18n)Solidari.i18n.passToe(huidigeTaal);
-  document.getElementById('norm-info-tekst').innerHTML=getNormInfoTekst();
-  bereken();
+// ══════════════════════════════════════════════════════
+// TAAL
+// ══════════════════════════════════════════════════════
+function setTaal(code,btn){
+  taal=code.toLowerCase();
+  document.querySelectorAll('.taal-btn').forEach(b=>b.classList.remove('actief'));
+  if(btn)btn.classList.add('actief');
+  if(window.Solidari&&Solidari.i18n)Solidari.i18n.passToe(code.toUpperCase());
+  start();
 }
 
-// ── INIT ──────────────────────────────────────────────
+// ══════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded',()=>{
-  if(window.LW_T&&window.Solidari&&Solidari.i18n){
-    Solidari.i18n.extend(window.LW_T);
-    Solidari.i18n.init();
-    try{const op=localStorage.getItem('solidari-taal');if(op)huidigeTaal=op.toUpperCase();}catch(e){}
-  }
-  document.getElementById('norm-info-tekst').innerHTML=getNormInfoTekst();
-  bereken();
+  if(window.Solidari&&Solidari.i18n)Solidari.i18n.init();
+  try{const op=localStorage.getItem('solidari-taal');if(op){taal=op.toLowerCase();}}catch(e){}
+  start();
 });
 </script>
 <script src="components.js"></script>
