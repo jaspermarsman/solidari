@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digi Hulp — Solidari</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="components.css">
+  <style>
+    :root {
+      --wit:#FAFAF7;--wit-warm:#F5F2EC;
+      --amber:#E8A020;--amber-licht:#FDF3E0;--amber-diep:#C47F10;
+      --groen:#2D5A3D;--groen-licht:#EBF3EE;
+      --tekst:#1A1A18;--tekst-zacht:#5C5C58;--tekst-licht:#9C9C98;
+      --rand:#E8E5DE;--rood:#DC2626;--rood-licht:#FEF2F2;
+      --blauw:#1D4ED8;--blauw-licht:#EFF6FF;
+      --chat-bg:#EFECE6;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html,body{height:100%;}
+    body{background:var(--chat-bg);color:var(--tekst);font-family:'Source Sans 3',sans-serif;font-weight:400;display:flex;flex-direction:column;}
+
+    /* ── Chat layout ── */
+    .chat-wrap{flex:1;display:flex;flex-direction:column;max-width:680px;margin:0 auto;width:100%;padding:0 1rem;min-height:0;padding-top:64px;}
+    .berichten{flex:1;overflow-y:auto;padding:1.2rem 0 0.5rem;display:flex;flex-direction:column;gap:0.6rem;scroll-behavior:smooth;}
+    .berichten::-webkit-scrollbar{width:4px;}
+    .berichten::-webkit-scrollbar-thumb{background:var(--rand);border-radius:4px;}
+
+    /* ── Berichten ── */
+    .bericht-sol{display:flex;align-items:flex-end;gap:8px;max-width:88%;align-self:flex-start;animation:inSchuiven 0.25s ease both;}
+    .sol-avatar{width:32px;height:32px;background:var(--groen);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px;}
+    .bel-sol{background:white;border-radius:18px 18px 18px 4px;padding:10px 14px;font-size:0.92rem;line-height:1.6;color:var(--tekst);box-shadow:0 1px 2px rgba(0,0,0,0.06);white-space:pre-wrap;}
+    .bel-sol.disclaimer{background:var(--amber-licht);border:1px solid rgba(232,160,32,0.3);font-size:0.82rem;color:var(--amber-diep);}
+    .bel-sol.waarschuwing{background:var(--rood-licht);border:1px solid rgba(220,38,38,0.15);font-size:0.82rem;color:var(--rood);}
+    .bel-sol.cursusblad-melding{background:var(--blauw-licht);border:1px solid rgba(29,78,216,0.2);font-size:0.85rem;color:var(--blauw);}
+
+    .bericht-user{align-self:flex-end;max-width:78%;animation:inSchuiven 0.2s ease both;}
+    .bel-user{background:var(--groen);border-radius:18px 18px 4px 18px;padding:10px 14px;font-size:0.92rem;color:white;line-height:1.5;box-shadow:0 1px 2px rgba(0,0,0,0.1);}
+
+    /* ── Typing ── */
+    .typing{display:flex;align-items:flex-end;gap:8px;align-self:flex-start;}
+    .typing-dots{background:white;border-radius:18px;padding:12px 16px;display:flex;gap:4px;align-items:center;box-shadow:0 1px 2px rgba(0,0,0,0.06);}
+    .typing-dots span{width:6px;height:6px;background:var(--tekst-licht);border-radius:50%;animation:tikken 1.2s infinite;}
+    .typing-dots span:nth-child(2){animation-delay:0.2s;}
+    .typing-dots span:nth-child(3){animation-delay:0.4s;}
+    @keyframes tikken{0%,60%,100%{transform:translateY(0);opacity:0.4;}30%{transform:translateY(-5px);opacity:1;}}
+    @keyframes inSchuiven{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+    /* ── Voorbeeld hint onder welkomstbericht ── */
+    .voorbeeld-hint{font-size:0.82rem;color:var(--tekst-licht);font-style:italic;padding:2px 0 6px 40px;}
+
+    /* ── Cursusblad knop ── */
+    .cursusblad-rij{display:flex;gap:10px;margin-top:8px;flex-wrap:wrap;}
+    .cursusblad-btn{background:var(--blauw-licht);border:2px solid rgba(29,78,216,0.3);border-radius:12px;padding:12px 18px;font-size:0.88rem;font-weight:600;cursor:pointer;color:var(--blauw);font-family:'Source Sans 3',sans-serif;transition:all 0.18s;display:flex;align-items:center;gap:8px;}
+    .cursusblad-btn:hover{background:#DBEAFE;border-color:var(--blauw);}
+    .cursusblad-btn:disabled{opacity:0.5;cursor:default;}
+    .cursusblad-btn.laden{opacity:0.7;}
+
+    /* ── Invoer zone ── */
+    .invoer-zone{padding:0.8rem 0 1rem;flex-shrink:0;}
+    .invoer-rij{display:flex;gap:8px;align-items:flex-end;}
+    .tekst-wrap{flex:1;display:flex;align-items:flex-end;background:white;border:2px solid var(--rand);border-radius:20px;overflow:hidden;transition:border-color 0.2s;padding:4px 4px 4px 16px;}
+    .tekst-wrap:focus-within{border-color:var(--groen);}
+    .tekst-invoer{flex:1;border:none;background:transparent;color:var(--tekst);outline:none;font-family:'Source Sans 3',sans-serif;font-size:0.95rem;resize:none;max-height:120px;line-height:1.5;padding:8px 0;overflow-y:auto;}
+    .tekst-invoer::placeholder{color:var(--tekst-licht);}
+
+    /* ── Spraakknop ── */
+    .spraak-btn{width:40px;height:40px;background:none;border:2px solid var(--rand);border-radius:50%;cursor:pointer;color:var(--tekst-licht);font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.18s;}
+    .spraak-btn:hover{border-color:var(--groen);color:var(--groen);}
+    .spraak-btn.luistert{border-color:var(--rood);color:var(--rood);background:var(--rood-licht);animation:pulsen 1s infinite;}
+    .spraak-btn.niet-beschikbaar{opacity:0.3;cursor:default;}
+    @keyframes pulsen{0%,100%{transform:scale(1);}50%{transform:scale(1.08);}}
+
+    .stuur-btn{width:40px;height:40px;background:var(--groen);border:none;border-radius:50%;cursor:pointer;color:white;font-size:1.1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.18s;}
+    .stuur-btn:hover{background:#234830;}
+    .stuur-btn:disabled{background:var(--tekst-licht);cursor:default;}
+
+    /* ── Nieuw gesprek ── */
+    .invoer-onderste{display:flex;align-items:center;justify-content:space-between;margin-top:6px;}
+    .nieuw-btn{background:none;border:none;font-family:'Source Sans 3',sans-serif;font-size:0.78rem;color:var(--tekst-licht);cursor:pointer;padding:4px;text-align:left;transition:color 0.2s;}
+    .nieuw-btn:hover{color:var(--tekst-zacht);}
+    .spraak-hint{font-size:0.72rem;color:var(--tekst-licht);padding:4px;}
+
+    /* ── RTL ── */
+    [dir="rtl"] .bericht-sol{align-self:flex-end;flex-direction:row-reverse;}
+    [dir="rtl"] .bel-sol{border-radius:18px 18px 4px 18px;}
+    [dir="rtl"] .bericht-user{align-self:flex-start;}
+    [dir="rtl"] .bel-user{border-radius:18px 18px 18px 4px;}
+    [dir="rtl"] .tekst-invoer{text-align:right;}
+    [dir="rtl"] .situatie-btn .tegel-tekst{text-align:right;}
+
+    /* ── Voortgangsbalk ── */
+    .voortgang-strip{height:3px;background:var(--rand);position:fixed;top:64px;left:0;right:0;z-index:99;}
+    .voortgang-balk{height:100%;background:var(--amber);width:0%;transition:width 0.4s ease;}
+
+    /* ── Mobiel ── */
+    @media (max-width: 600px) {
+      /* Meer ruimte voor chatberichten op kleine schermen */
+      .chat-wrap{padding:0 0.6rem;padding-top:64px;}
+      .bericht-sol{max-width:96%;}
+      .bericht-user{max-width:90%;}
+      /* Invoerzone wat compacter */
+      .invoer-zone{padding:0.5rem 0 0.6rem;}
+      /* Knoppen iets groter voor vingers */
+      .stuur-btn{width:44px;height:44px;font-size:1.2rem;}
+      .spraak-btn{width:44px;height:44px;font-size:1.1rem;}
+      /* Tekstvak lager minimum zodat toetsenbord ruimte heeft */
+      .tekst-invoer{font-size:1rem;} /* 1rem voorkomt iOS auto-zoom */
+      /* Cursusblad knoppen onder elkaar op smal scherm */
+      .cursusblad-rij{flex-direction:column;}
+      .cursusblad-btn{justify-content:center;}
+    }
+
+    /* iOS: voorkom dat de pagina mee-scrollt als toetsenbord opent */
+    @supports (-webkit-touch-callout: none) {
+      body{height: -webkit-fill-available;}
+      .chat-wrap{min-height: -webkit-fill-available;}
+    }
+  </style>
+</head>
+<body>
+
+<div id="solidari-nav"></div>
+<div class="voortgang-strip"><div class="voortgang-balk" id="voortgang"></div></div>
+
+<div class="chat-wrap">
+  <div class="berichten" id="berichten"></div>
+  <div class="invoer-zone">
+    <div class="invoer-rij">
+      <div class="tekst-wrap">
+        <textarea class="tekst-invoer" id="invoer" rows="1" placeholder="Schrijf je vraag..."></textarea>
+      </div>
+      <button class="spraak-btn" id="spraak-btn" onclick="toggleSpeech()" title="Spreek je vraag in">🎙️</button>
+      <button class="stuur-btn" id="stuur-btn" onclick="stuur()" title="Verstuur">↑</button>
+    </div>
+    <div class="invoer-onderste">
+      <button class="nieuw-btn" id="nieuw-btn" onclick="nieuwGesprek()">↺ Nieuw gesprek</button>
+      <span class="spraak-hint" id="spraak-hint"></span>
+    </div>
+  </div>
+</div>
+
+<script src="i18n.js"></script>
+<script>
+
+// ── Configuratie ──────────────────────────────────────────────────────────
+const WORKER_URL     = 'https://solidari-digihulp.JOUNAAM.workers.dev'; // ← aanpassen
+const CURSUSBLAD_URL = 'https://api.solidari.nl/api/cursusblad';         // Flask PC
+
+// ── State ─────────────────────────────────────────────────────────────────
+let taal = 'NL';
+let geschiedenis = [];
+let bezig = false;
+let gesprekTeller = 0; // bijhoudt aantal beurten voor cursusblad-aanbieding
+let spraakHerkenning = null;
+let luistert = false;
+
+// ── Vertalingen ───────────────────────────────────────────────────────────
+const T = {
+  NL: {
+    placeholder: 'Schrijf je vraag...',
+    nieuw: '↺ Nieuw gesprek',
+    spraakHint: '🎙️ Tik op de microfoon om te spreken',
+    spraakStart: 'Luisteren... Spreek nu',
+    spraakStop: 'Tik opnieuw om te stoppen',
+    spraakNiet: 'Spraak niet beschikbaar in deze browser',
+    disclaimer: '🤖 Deze tool gebruikt AI. De antwoorden zijn informatief — geen officieel advies. Deel geen namen, BSN-nummers of andere persoonlijke gegevens.',
+    welkom: 'Hallo! Ik help je als iets digitaal niet lukt.\n\nWaar loop je tegenaan?',
+    fout: 'Er ging iets mis. Probeer het opnieuw.',
+    cursusVraag: '📄 Wil je bewaren wat je hebt geleerd? Ik maak een cursusblad voor je — in jouw taal én in het Nederlands, zodat je het kunt meenemen naar je begeleider.',
+    cursusKnop: '📄 Ja, maak cursusblad',
+    cursusLaden: '⏳ Bezig met maken...',
+    cursusNiet: 'Sla op als tekst',
+    cursusNietBeschikbaar: 'Het cursusblad is nu niet beschikbaar (PC is uit). Je kunt het gesprek kopiëren.',
+    hulplijn: '📞 Kom je er niet uit? Bel de DigiHulplijn: 0800-1508 (gratis, ma-vr 9-17u)',
+    voorbeelden: [
+      'Bijvoorbeeld: mijn DigiD werkt niet meer...',
+      'Bijvoorbeeld: ik weet mijn wachtwoord niet meer...',
+      'Bijvoorbeeld: ik snap de website niet...',
+      'Bijvoorbeeld: de app doet het niet op mijn telefoon...',
+      'Bijvoorbeeld: ik moet iets invullen maar ik weet niet hoe...',
+      'Bijvoorbeeld: ik kan niet inloggen bij Mijn Overheid...',
+    ],
+    rtl: false,
+  },
+  EN: {
+    placeholder: 'Write your question...',
+    nieuw: '↺ New conversation',
+    spraakHint: '🎙️ Tap the microphone to speak',
+    spraakStart: 'Listening... Speak now',
+    spraakStop: 'Tap again to stop',
+    spraakNiet: 'Speech not available in this browser',
+    disclaimer: '🤖 This tool uses AI. Answers are informational — not official advice. Do not share names, BSN numbers or other personal data.',
+    welkom: 'Hello! I help you when something digital is not working.\n\nWhat is the problem?',
+    fout: 'Something went wrong. Please try again.',
+    cursusVraag: '📄 Would you like to save what you have learned? I can make a learning sheet — in your language and in Dutch, so you can take it to your support worker.',
+    cursusKnop: '📄 Yes, make learning sheet',
+    cursusLaden: '⏳ Creating...',
+    cursusNiet: 'Save as text',
+    cursusNietBeschikbaar: 'The learning sheet is not available now (PC is off). You can copy the conversation.',
+    hulplijn: '📞 Still stuck? Call DigiHulplijn: 0800-1508 (free, Mon-Fri 9-17h)',
+    voorbeelden: [
+      'For example: my DigiD is not working...',
+      'For example: I forgot my password...',
+      'For example: I cannot log in to the website...',
+      'For example: the app does not work on my phone...',
+      'For example: I need to fill in a form but I do not know how...',
+    ],
+    rtl: false,
+  },
+  AR: {
+    placeholder: 'اكتب سؤالك...',
+    nieuw: '↺ محادثة جديدة',
+    spraakHint: '🎙️ اضغط على الميكروفون للتحدث',
+    spraakStart: 'جاري الاستماع... تحدث الآن',
+    spraakStop: 'اضغط مرة أخرى للإيقاف',
+    spraakNiet: 'الكلام غير متاح في هذا المتصفح',
+    disclaimer: '🤖 هذه الأداة تستخدم الذكاء الاصطناعي. الإجابات للمعلومات فقط — وليست نصيحة رسمية. لا تشارك الأسماء أو أرقام BSN.',
+    welkom: 'مرحباً! أساعدك عندما لا يعمل شيء رقمي.\n\nما هي مشكلتك؟',
+    fout: 'حدث خطأ. يرجى المحاولة مرة أخرى.',
+    cursusVraag: '📄 هل تريد حفظ ما تعلمته؟ سأصنع لك ورقة تعليمية — بلغتك وبالهولندية، لتأخذها إلى مرشدك.',
+    cursusKnop: '📄 نعم، اصنع الورقة',
+    cursusLaden: '⏳ جاري الإنشاء...',
+    cursusNiet: 'حفظ كنص',
+    cursusNietBeschikbaar: 'الورقة التعليمية غير متاحة الآن. يمكنك نسخ المحادثة.',
+    hulplijn: '📞 ما زلت عالقاً؟ اتصل بـ DigiHulplijn: 0800-1508',
+    voorbeelden: [
+      'مثلاً: رقم DigiD الخاص بي لا يعمل...',
+      'مثلاً: نسيت كلمة المرور...',
+      'مثلاً: لا أستطيع الدخول إلى الموقع...',
+      'مثلاً: التطبيق لا يعمل على هاتفي...',
+      'مثلاً: لا أعرف كيف أملأ النموذج...',
+    ],
+    rtl: true,
+  },
+  TR: {
+    placeholder: 'Sorunuzu yazın...',
+    nieuw: '↺ Yeni konuşma',
+    spraakHint: '🎙️ Konuşmak için mikrofona dokunun',
+    spraakStart: 'Dinleniyor... Şimdi konuşun',
+    spraakStop: 'Durdurmak için tekrar dokunun',
+    spraakNiet: 'Bu tarayıcıda ses tanıma mevcut değil',
+    disclaimer: '🤖 Bu araç yapay zeka kullanır. Yanıtlar bilgi amaçlıdır — resmi tavsiye değildir. Ad, BSN numarası paylaşmayın.',
+    welkom: 'Merhaba! Dijital bir şey işe yaramadığında sana yardım ediyorum.\n\nSorun ne?',
+    fout: 'Bir şeyler yanlış gitti. Lütfen tekrar deneyin.',
+    cursusVraag: '📄 Öğrendiklerini kaydetmek ister misin? Senin dilinde ve Hollandaca bir öğrenme sayfası hazırlıyorum.',
+    cursusKnop: '📄 Evet, sayfa hazırla',
+    cursusLaden: '⏳ Hazırlanıyor...',
+    cursusNiet: 'Metin olarak kaydet',
+    cursusNietBeschikbaar: 'Öğrenme sayfası şu an mevcut değil. Konuşmayı kopyalayabilirsiniz.',
+    hulplijn: '📞 Hâlâ takıldınız mı? DigiHulplijn: 0800-1508',
+    voorbeelden: [
+      'Örneğin: DigiD\'im çalışmıyor...',
+      'Örneğin: şifremi unuttum...',
+      'Örneğin: siteye giriş yapamıyorum...',
+      'Örneğin: uygulama telefonumda çalışmıyor...',
+      'Örneğin: formu nasıl dolduracağımı bilmiyorum...',
+    ],
+    rtl: false,
+  },
+  TI: {
+    placeholder: 'ሕቶኻ ጽሓፍ...',
+    nieuw: '↺ ሓዲሽ ዝርርብ',
+    spraakHint: '🎙️ ንምዝራብ ማይክሮፎን ጠውቕ',
+    spraakStart: 'ይሰምዕ ኣሎ... ሕጂ ተዛረብ',
+    spraakStop: 'ንምዕጻው ደጊምካ ጠውቕ',
+    spraakNiet: 'ኣብዚ ብራውዘር ድምጺ ኣይርከብን',
+    disclaimer: '🤖 እዚ መሳርሒ AI ይጥቀም። መልስታት ሓበሬታዊ እዮም — ወግዓዊ ምኽሪ ኣይኮኑን።',
+    welkom: 'ሰላም! ሓደ ዲጂታላዊ ነገር ምስ ዘይሰርሕ ይሕግዘካ።\n\nጸገምካ እንታይ እዩ?',
+    fout: 'ሓደ ነገር ጌጋ ኮይኑ። ደጊምካ ፈትን።',
+    cursusVraag: '📄 ዝተምሃርካዮ ከተቐምጥ ትደሊ? ናይ ትምህርቲ ወረቐት ክሰርሓልካ — ብቋንቋኻን ብሆላንድኛን።',
+    cursusKnop: '📄 እወ፡ ወረቐት ስርሓልይ',
+    cursusLaden: '⏳ ይሰርሕ ኣሎ...',
+    cursusNiet: 'ከም ጽሑፍ ቐምጦ',
+    cursusNietBeschikbaar: 'ወረቐት ሕጂ ኣይርከብን። ዝርርብካ ቅዳሕ ክትወስድ ትኽእል።',
+    hulplijn: '📞 ገና ዓጊቱካ? ደውል: 0800-1508',
+    voorbeelden: [
+      'ንኣብነት: DigiD ኣይሰርሕን...',
+      'ንኣብነት: ፓስዎርደይ ረሲዔዮ...',
+      'ንኣብነት: ናብ ዌብሳይት ክኣቱ ኣይክእልን...',
+      'ንኣብነት: ኣፕ ኣብ ስልከይ ኣይሰርሕን...',
+    ],
+    rtl: false,
+  },
+  UK: {
+    placeholder: 'Напишіть своє запитання...',
+    nieuw: '↺ Нова розмова',
+    spraakHint: '🎙️ Натисніть мікрофон, щоб говорити',
+    spraakStart: 'Слухаю... Говоріть зараз',
+    spraakStop: 'Натисніть знову, щоб зупинити',
+    spraakNiet: 'Мовлення недоступне в цьому браузері',
+    disclaimer: '🤖 Цей інструмент використовує ШІ. Відповіді є інформаційними — не офіційною порадою. Не вказуйте імена або номери BSN.',
+    welkom: 'Привіт! Я допомагаю, коли щось цифрове не працює.\n\nЯка у вас проблема?',
+    fout: 'Щось пішло не так. Будь ласка, спробуйте ще раз.',
+    cursusVraag: '📄 Хочете зберегти те, що навчилися? Я зроблю навчальний аркуш — вашою мовою та нідерландською.',
+    cursusKnop: '📄 Так, зробіть аркуш',
+    cursusLaden: '⏳ Створюється...',
+    cursusNiet: 'Зберегти як текст',
+    cursusNietBeschikbaar: 'Навчальний аркуш зараз недоступний. Ви можете скопіювати розмову.',
+    hulplijn: '📞 Досі застрягли? Телефонуйте: 0800-1508',
+    voorbeelden: [
+      'Наприклад: мій DigiD не працює...',
+      'Наприклад: я забув(ла) пароль...',
+      'Наприклад: не можу увійти на сайт...',
+      'Наприклад: додаток не працює на телефоні...',
+      'Наприклад: не знаю як заповнити форму...',
+    ],
+    rtl: false,
+  },
+  FA: {
+    placeholder: 'سوال خود را بنویسید...',
+    nieuw: '↺ گفتگوی جدید',
+    spraakHint: '🎙️ برای صحبت کردن روی میکروفون ضربه بزنید',
+    spraakStart: 'در حال گوش دادن... الان صحبت کنید',
+    spraakStop: 'دوباره ضربه بزنید تا متوقف شود',
+    spraakNiet: 'تشخیص گفتار در این مرورگر موجود نیست',
+    disclaimer: '🤖 این ابزار از هوش مصنوعی استفاده می‌کند. پاسخ‌ها اطلاعاتی هستند — مشاوره رسمی نیستند. نام یا شماره BSN به اشتراک نگذارید.',
+    welkom: 'سلام! وقتی چیزی دیجیتال کار نمی‌کند کمک می‌کنم.\n\nمشکل شما چیست؟',
+    fout: 'مشکلی پیش آمد. لطفاً دوباره امتحان کنید.',
+    cursusVraag: '📄 می‌خواهید آنچه یاد گرفتید را ذخیره کنید؟ یک برگه آموزشی می‌سازم — به زبان شما و هلندی.',
+    cursusKnop: '📄 بله، برگه بساز',
+    cursusLaden: '⏳ در حال ساخت...',
+    cursusNiet: 'ذخیره به عنوان متن',
+    cursusNietBeschikbaar: 'برگه آموزشی الان در دسترس نیست. می‌توانید گفتگو را کپی کنید.',
+    hulplijn: '📞 هنوز گیر کردید؟ تماس بگیرید: 0800-1508',
+    voorbeelden: [
+      'مثلاً: DigiD من کار نمی‌کند...',
+      'مثلاً: رمز عبورم را فراموش کرده‌ام...',
+      'مثلاً: نمی‌توانم وارد سایت شوم...',
+      'مثلاً: برنامه روی تلفنم کار نمی‌کند...',
+      'مثلاً: نمی‌دانم چطور فرم را پر کنم...',
+    ],
+    rtl: true,
+  },
+};
+
+// ── System prompt ─────────────────────────────────────────────────────────
+const SYSTEM_PROMPT = `Je bent Digi Hulp van Solidari — een gratis hulptool voor mensen die vastlopen met digitale taken in Nederland.
+
+## Jouw rol
+Je helpt mensen stap voor stap als iets digitaal niet lukt. Denk aan: inloggen met DigiD, Mijn Overheid openen, afspraak maken bij de huisarts, zorgverzekering regelen, online bankieren, of WhatsApp gebruiken.
+
+## Aanpak
+- Stel ALTIJD eerst vast: telefoon of computer? En welk merk/type?
+- Geef NOOIT meer dan 2-3 stappen tegelijk
+- Vraag na elke stap: "Lukt het? Wat zie je?"
+- Als iemand vastloopt: vraag CONCREET wat ze op het scherm zien
+- Gebruik A2-taalniveau: korte zinnen, geen jargon, leg termen altijd uit
+- Reageer in DEZELFDE TAAL als de gebruiker — automatisch
+
+## Grenzen
+- Als het te complex wordt of persoonlijke gegevens nodig zijn: verwijs door naar DigiHulplijn 0800-1508
+- Geef geen financieel of juridisch advies — daarvoor zijn andere Solidari-tools
+- Bij DigiD-problemen: nooit vragen om wachtwoord of sms-code
+
+## Toon
+Rustig, geduldig, bemoedigend. Alsof je naast iemand zit en meekijkt. Nooit neerbuigend. Het systeem is ingewikkeld — niet de gebruiker.`;
+
+// ── Hulpfuncties ──────────────────────────────────────────────────────────
+function voortgang(pct) {
+  document.getElementById('voortgang').style.width = pct + '%';
+}
+
+function scrollOnder() {
+  const b = document.getElementById('berichten');
+  setTimeout(() => b.scrollTop = b.scrollHeight, 50);
+}
+
+function maakAvatar() {
+  const av = document.createElement('div');
+  av.className = 'sol-avatar';
+  av.textContent = '📱';
+  return av;
+}
+
+function voegSolBericht(tekst, klasse = '') {
+  const rij = document.createElement('div');
+  rij.className = 'bericht-sol';
+  const av = maakAvatar();
+  const bel = document.createElement('div');
+  bel.className = 'bel-sol' + (klasse ? ' ' + klasse : '');
+  bel.textContent = tekst;
+  const t = T[taal];
+  if (t.rtl) { rij.setAttribute('dir','rtl'); document.body.setAttribute('dir','rtl'); }
+  rij.appendChild(av);
+  rij.appendChild(bel);
+  document.getElementById('berichten').appendChild(rij);
+  scrollOnder();
+  return bel;
+}
+
+function voegGebruikerBericht(tekst) {
+  const rij = document.createElement('div');
+  rij.className = 'bericht-user';
+  const bel = document.createElement('div');
+  bel.className = 'bel-user';
+  bel.textContent = tekst;
+  rij.appendChild(bel);
+  document.getElementById('berichten').appendChild(rij);
+  scrollOnder();
+}
+
+function toonTyping() {
+  const rij = document.createElement('div');
+  rij.className = 'typing';
+  rij.id = 'typing-indicator';
+  const av = maakAvatar();
+  const dots = document.createElement('div');
+  dots.className = 'typing-dots';
+  dots.innerHTML = '<span></span><span></span><span></span>';
+  rij.appendChild(av);
+  rij.appendChild(dots);
+  document.getElementById('berichten').appendChild(rij);
+  scrollOnder();
+}
+
+function verwijderTyping() {
+  const el = document.getElementById('typing-indicator');
+  if (el) el.remove();
+}
+
+// ── Roterende placeholder ─────────────────────────────────────────────────
+let placeholderInterval = null;
+let placeholderIndex = 0;
+
+function startRoterendePlaceholder(voorbeelden) {
+  if (placeholderInterval) clearInterval(placeholderInterval);
+  const invoer = document.getElementById('invoer');
+  placeholderIndex = 0;
+  invoer.placeholder = voorbeelden[0];
+
+  placeholderInterval = setInterval(() => {
+    // Stop als gebruiker al iets heeft ingetypt
+    if (invoer.value.trim()) {
+      clearInterval(placeholderInterval);
+      return;
+    }
+    placeholderIndex = (placeholderIndex + 1) % voorbeelden.length;
+    invoer.placeholder = voorbeelden[placeholderIndex];
+  }, 3000);
+}
+
+// ── Cursusblad aanbieden (na 4+ beurten) ─────────────────────────────────
+function biedCursusblad() {
+  const t = T[taal];
+  voegSolBericht(t.cursusVraag, 'cursusblad-melding');
+
+  const rij = document.createElement('div');
+  rij.className = 'cursusblad-rij';
+  rij.id = 'cursusblad-knoppen';
+
+  // Hoofdknop: PDF via Flask
+  const pdfBtn = document.createElement('button');
+  pdfBtn.className = 'cursusblad-btn';
+  pdfBtn.id = 'pdf-btn';
+  pdfBtn.textContent = t.cursusKnop;
+  pdfBtn.onclick = () => maakCursusblad(pdfBtn);
+
+  // Fallback: tekst
+  const tekstBtn = document.createElement('button');
+  tekstBtn.className = 'cursusblad-btn';
+  tekstBtn.style.cssText = 'background:var(--groen-licht);border-color:rgba(45,90,61,0.3);color:var(--groen);';
+  tekstBtn.textContent = t.cursusNiet;
+  tekstBtn.onclick = () => slaOpAlsTekst();
+
+  rij.appendChild(pdfBtn);
+  rij.appendChild(tekstBtn);
+  document.getElementById('berichten').appendChild(rij);
+  scrollOnder();
+}
+
+async function maakCursusblad(btn) {
+  const t = T[taal];
+  btn.textContent = t.cursusLaden;
+  btn.disabled = true;
+  btn.classList.add('laden');
+
+  // Bouw gesprekssamenvatting voor de API
+  const gesprekTekst = geschiedenis
+    .map(m => (m.role === 'user' ? 'Gebruiker: ' : 'Digi Hulp: ') + m.content)
+    .join('\n');
+
+  try {
+    const resp = await Promise.race([
+      fetch(CURSUSBLAD_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          gesprek: gesprekTekst,
+          taal: taal,
+          datum: new Date().toLocaleDateString('nl-NL')
+        })
+      }),
+      new Promise((_, rej) => setTimeout(() => rej(new Error('TIMEOUT')), 30000))
+    ]);
+
+    if (!resp.ok) throw new Error('Server ' + resp.status);
+    const blob = await resp.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'solidari-cursusblad.pdf';
+    a.click();
+    URL.revokeObjectURL(url);
+
+    document.getElementById('cursusblad-knoppen')?.remove();
+    voegSolBericht('✅ Je cursusblad is gedownload! Laat het zien aan je begeleider.', 'cursusblad-melding');
+    voegSolBericht(t.hulplijn);
+
+  } catch (e) {
+    console.error('Cursusblad fout:', e);
+    btn.disabled = false;
+    btn.classList.remove('laden');
+    btn.textContent = t.cursusKnop;
+    voegSolBericht(t.cursusNietBeschikbaar, 'waarschuwing');
+    // Automatisch tekstfallback aanbieden
+    setTimeout(() => slaOpAlsTekst(), 500);
+  }
+}
+
+function slaOpAlsTekst() {
+  const t = T[taal];
+  document.getElementById('cursusblad-knoppen')?.remove();
+
+  // Bouw leesbare tekst
+  const regels = [
+    '=== SOLIDARI DIGI HULP ===',
+    'Datum: ' + new Date().toLocaleDateString('nl-NL'),
+    'Taal gesprek: ' + taal,
+    '',
+    '--- Gesprek ---',
+    ...geschiedenis.map(m =>
+      (m.role === 'user' ? '> Jij: ' : '> Digi Hulp: ') + m.content
+    ),
+    '',
+    '--- Hulp nodig? ---',
+    'DigiHulplijn: 0800-1508 (gratis, ma-vr 9-17u)',
+    'solidari.nl'
+  ];
+
+  const tekst = regels.join('\n');
+  const blob = new Blob([tekst], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'solidari-gesprek.txt';
+  a.click();
+  URL.revokeObjectURL(url);
+
+  voegSolBericht('✅ Je gesprek is opgeslagen als tekstbestand.', 'cursusblad-melding');
+  voegSolBericht(t.hulplijn);
+}
+
+// ── Spraakherkenning ──────────────────────────────────────────────────────
+function initialiseerSpraak() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const btn = document.getElementById('spraak-btn');
+  const hint = document.getElementById('spraak-hint');
+  const t = T[taal];
+
+  if (!SpeechRecognition) {
+    btn.classList.add('niet-beschikbaar');
+    btn.title = t.spraakNiet;
+    hint.textContent = '';
+    return;
+  }
+
+  hint.textContent = t.spraakHint;
+
+  // Taalcodes voor Web Speech API
+  const spraakTalen = {
+    NL: 'nl-NL', EN: 'en-US', AR: 'ar-SA',
+    TR: 'tr-TR', UK: 'uk-UA', FA: 'fa-IR',
+    TI: 'ti-ET' // beperkte ondersteuning
+  };
+
+  spraakHerkenning = new SpeechRecognition();
+  spraakHerkenning.continuous = false;
+  spraakHerkenning.interimResults = true;
+  spraakHerkenning.lang = spraakTalen[taal] || 'nl-NL';
+
+  spraakHerkenning.onresult = (e) => {
+    const invoer = document.getElementById('invoer');
+    const resultaat = Array.from(e.results)
+      .map(r => r[0].transcript)
+      .join('');
+    invoer.value = resultaat;
+    invoer.style.height = 'auto';
+    invoer.style.height = Math.min(invoer.scrollHeight, 120) + 'px';
+  };
+
+  spraakHerkenning.onend = () => {
+    luistert = false;
+    btn.classList.remove('luistert');
+    btn.title = t.spraakHint;
+    hint.textContent = t.spraakHint;
+    // Auto-verstuur als er tekst is
+    const invoerWaarde = document.getElementById('invoer').value.trim();
+    if (invoerWaarde) setTimeout(() => stuur(), 300);
+  };
+
+  spraakHerkenning.onerror = (e) => {
+    luistert = false;
+    btn.classList.remove('luistert');
+    console.warn('Spraakfout:', e.error);
+  };
+}
+
+function toggleSpeech() {
+  const btn = document.getElementById('spraak-btn');
+  const hint = document.getElementById('spraak-hint');
+  const t = T[taal];
+
+  if (btn.classList.contains('niet-beschikbaar')) return;
+  if (!spraakHerkenning) return;
+
+  if (luistert) {
+    spraakHerkenning.stop();
+    luistert = false;
+    btn.classList.remove('luistert');
+    hint.textContent = t.spraakHint;
+  } else {
+    spraakHerkenning.lang = {
+      NL:'nl-NL',EN:'en-US',AR:'ar-SA',TR:'tr-TR',
+      UK:'uk-UA',FA:'fa-IR',TI:'ti-ET'
+    }[taal] || 'nl-NL';
+    spraakHerkenning.start();
+    luistert = true;
+    btn.classList.add('luistert');
+    btn.title = t.spraakStop;
+    hint.textContent = t.spraakStart;
+  }
+}
+
+// ── API aanroep ───────────────────────────────────────────────────────────
+async function vraagAI(berichten) {
+  const resp = await fetch(WORKER_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      systeem: SYSTEM_PROMPT,
+      berichten: berichten
+    })
+  });
+  if (!resp.ok) throw new Error('Worker fout: ' + resp.status);
+  const data = await resp.json();
+  if (data.error) throw new Error(data.error);
+  return data.tekst;
+}
+
+// ── Stuur bericht ─────────────────────────────────────────────────────────
+async function stuurBericht(tekst) {
+  if (bezig || !tekst.trim()) return;
+  bezig = true;
+  document.getElementById('stuur-btn').disabled = true;
+  document.getElementById('situatie-kaartjes')?.remove();
+
+  voegGebruikerBericht(tekst);
+  geschiedenis.push({ role: 'user', content: tekst });
+
+  toonTyping();
+  voortgang(40);
+
+  try {
+    const antwoord = await vraagAI(geschiedenis);
+    verwijderTyping();
+    voortgang(100);
+    voegSolBericht(antwoord);
+    geschiedenis.push({ role: 'assistant', content: antwoord });
+    gesprekTeller++;
+
+    // Bied cursusblad aan na 5 beurten
+    if (gesprekTeller === 5) {
+      setTimeout(() => biedCursusblad(), 1200);
+    }
+
+  } catch (e) {
+    verwijderTyping();
+    voegSolBericht(T[taal].fout, 'waarschuwing');
+    console.error(e);
+  }
+
+  setTimeout(() => voortgang(0), 600);
+  bezig = false;
+  document.getElementById('stuur-btn').disabled = false;
+  document.getElementById('invoer').focus();
+}
+
+function stuur() {
+  const invoer = document.getElementById('invoer');
+  const tekst = invoer.value.trim();
+  if (!tekst) return;
+  invoer.value = '';
+  invoer.style.height = 'auto';
+  stuurBericht(tekst);
+}
+
+// ── Start / reset ─────────────────────────────────────────────────────────
+function start() {
+  const t = T[taal];
+  document.getElementById('berichten').innerHTML = '';
+  document.getElementById('invoer').placeholder = t.voorbeelden[0];
+  document.getElementById('nieuw-btn').textContent = t.nieuw;
+  geschiedenis = [];
+  bezig = false;
+  gesprekTeller = 0;
+
+  document.body.setAttribute('dir', t.rtl ? 'rtl' : 'ltr');
+
+  voegSolBericht(t.disclaimer, 'disclaimer');
+  voegSolBericht(t.welkom);
+
+  // Roterende voorbeeldzinnen in het invoerveld
+  startRoterendePlaceholder(t.voorbeelden);
+
+  // Herinitialiseer spraak voor nieuwe taal
+  initialiseerSpraak();
+}
+
+function nieuwGesprek() { start(); }
+
+function setTaal(code, btn) {
+  taal = code;
+  document.querySelectorAll('.taal-btn').forEach(b => b.classList.remove('actief'));
+  btn.classList.add('actief');
+  if (window.Solidari && Solidari.i18n) Solidari.i18n.passToe(code);
+  start();
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  if (window.Solidari && Solidari.i18n) Solidari.i18n.init();
+
+  const invoer = document.getElementById('invoer');
+  invoer.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); stuur(); }
+  });
+  invoer.addEventListener('input', function () {
+    this.style.height = 'auto';
+    this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+  });
+
+  start();
+});
+</script>
+<script src="components.js"></script>
+</body>
+</html>
