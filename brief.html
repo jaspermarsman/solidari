@@ -1056,8 +1056,13 @@ async function stuurNaarBackend() {
   } catch (err) {
     clearInterval(interval);
     if (wakeLock) wakeLock.release();
+    toonStap('fout');
     document.getElementById('fout-bericht').textContent =
-      'Kon de server niet be
+      err.name === 'TimeoutError'
+        ? 'De server reageert niet. Probeer het later opnieuw.'
+        : 'Kon de server niet bereiken. Controleer je internetverbinding.';
+  }
+}
 
 // ─── RESULTAAT TONEN ─────────────────────────────────────────────
 function toonResultaat(data) {
