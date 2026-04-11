@@ -3,16 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Solidari — Gratis tools voor statushouders</title>
+  <title>Solidari — Gratis tools voor iedereen in Nederland</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="components.css">
+  <script src="i18n.js"></script>
   <style>
-    /* CSS-variabelen en nav/footer stijlen komen uit components.css */
     * { margin: 0; padding: 0; }
 
-    html {
-      scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
       background: var(--wit);
@@ -36,9 +35,9 @@
     .hero-achtergrond {
       position: absolute;
       inset: 0;
-      background: 
-        radial-gradient(ellipse 60% 50% at 80% 40%, rgba(232, 160, 32, 0.08) 0%, transparent 60%),
-        radial-gradient(ellipse 40% 60% at 10% 80%, rgba(45, 90, 61, 0.05) 0%, transparent 50%);
+      background:
+        radial-gradient(ellipse 60% 50% at 80% 40%, rgba(232, 160, 32, 0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 60% at 10% 80%, rgba(45, 90, 61, 0.04) 0%, transparent 50%);
     }
 
     .hero-inhoud {
@@ -126,6 +125,7 @@
       text-decoration: none;
       transition: all 0.2s;
       font-family: 'Source Sans 3', sans-serif;
+      display: inline-block;
     }
 
     .knop-primair:hover {
@@ -146,6 +146,7 @@
       text-decoration: none;
       transition: all 0.2s;
       font-family: 'Source Sans 3', sans-serif;
+      display: inline-block;
     }
 
     .knop-secundair:hover {
@@ -153,121 +154,73 @@
       transform: translateY(-1px);
     }
 
-    /* ── ZON STATUS KAART ── */
+    /* ── ZON/CLOUD KAART (hero rechts) ── */
     .hero-kaart {
       animation: opkomen 0.8s 0.2s ease both;
     }
 
-    .zon-status-kaart {
+    .zon-cloud-kaart {
       background: white;
       border: 1px solid var(--rand);
       border-radius: 20px;
-      padding: 2rem;
-      box-shadow: 0 8px 40px rgba(0,0,0,0.06);
-      position: relative;
       overflow: hidden;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.06);
     }
 
-    .zon-status-kaart::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, var(--amber), var(--amber-diep));
+    .zon-cloud-header {
+      background: var(--groen);
+      padding: 1.8rem 2rem;
+      color: white;
     }
 
-    .zon-status-header {
+    .zon-cloud-header-rij {
       display: flex;
       align-items: center;
       gap: 12px;
-      margin-bottom: 1.5rem;
+      margin-bottom: 0.8rem;
     }
 
-    .zon-icoon {
-      width: 48px;
-      height: 48px;
-      background: var(--amber-licht);
-      border-radius: 12px;
+    .zon-cloud-icoon {
+      width: 44px;
+      height: 44px;
+      background: rgba(255,255,255,0.12);
+      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 1.4rem;
-    }
-
-    .zon-status-titel {
-      font-family: 'Playfair Display', serif;
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--tekst);
-    }
-
-    .zon-status-sub {
-      font-size: 0.8rem;
-      color: var(--tekst-licht);
-    }
-
-    .zon-meter {
-      background: var(--wit-warm);
-      border-radius: 8px;
-      height: 8px;
-      margin-bottom: 0.5rem;
-      overflow: hidden;
-    }
-
-    .zon-meter-balk {
-      height: 100%;
-      background: linear-gradient(90deg, var(--amber), #F5C842);
-      border-radius: 8px;
-      width: 73%;
-      animation: laden 1.5s 0.5s ease both;
-    }
-
-    @keyframes laden {
-      from { width: 0%; }
-      to { width: 73%; }
-    }
-
-    .zon-meter-label {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.75rem;
-      color: var(--tekst-licht);
-      margin-bottom: 1.5rem;
-    }
-
-    .zon-tools-lijst {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .zon-tool-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.85rem;
-      color: var(--tekst-zacht);
-      padding: 8px 12px;
-      border-radius: 8px;
-      transition: background 0.2s;
-    }
-
-    .zon-tool-item:hover {
-      background: var(--wit-warm);
-    }
-
-    .zon-tool-status {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
       flex-shrink: 0;
     }
 
-    .status-aan { background: #4CAF50; box-shadow: 0 0 0 2px rgba(76,175,80,0.2); }
-    .status-uit { background: var(--tekst-licht); }
+    .zon-cloud-titel {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .zon-cloud-sub {
+      font-size: 0.8rem;
+      opacity: 0.65;
+    }
+
+    .zon-cloud-citaat {
+      font-size: 0.88rem;
+      line-height: 1.65;
+      opacity: 0.88;
+      font-weight: 300;
+      font-style: italic;
+    }
+
+    .zon-cloud-body {
+      padding: 1.6rem 2rem;
+    }
+
+    .zon-cloud-uitleg {
+      font-size: 0.9rem;
+      color: var(--tekst-zacht);
+      line-height: 1.75;
+      font-weight: 300;
+    }
 
     /* ── TALEN BALK ── */
     .talen-balk {
@@ -287,8 +240,8 @@
     }
 
     .talen-label {
-      color: rgba(255,255,255,0.7);
-      font-size: 0.8rem;
+      color: rgba(255,255,255,0.65);
+      font-size: 0.78rem;
       font-weight: 500;
       letter-spacing: 0.05em;
       text-transform: uppercase;
@@ -298,6 +251,8 @@
       display: flex;
       gap: 0.8rem;
       align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
     }
 
     .vlag-item {
@@ -306,11 +261,8 @@
       gap: 5px;
       color: rgba(255,255,255,0.85);
       font-size: 0.8rem;
-      cursor: pointer;
-      transition: color 0.2s;
     }
 
-    .vlag-item:hover { color: white; }
     .vlag-emoji { font-size: 1rem; }
 
     /* ── TOOLS SECTIE ── */
@@ -377,38 +329,11 @@
 
     .tool-kaart:nth-child(1) { animation-delay: 0.05s; }
     .tool-kaart:nth-child(2) { animation-delay: 0.1s; }
-    .tool-kaart:nth-child(3) { animation-delay: 0.15s; }
-    .tool-kaart:nth-child(4) { animation-delay: 0.2s; }
-    .tool-kaart:nth-child(5) { animation-delay: 0.25s; }
-    .tool-kaart:nth-child(6) { animation-delay: 0.3s; }
-    .tool-kaart:nth-child(7) { animation-delay: 0.35s; }
-    .tool-kaart:nth-child(8) { animation-delay: 0.4s; }
-    .tool-kaart:nth-child(9) { animation-delay: 0.45s; }
-    .tool-kaart:nth-child(10) { animation-delay: 0.5s; }
 
     .tool-kaart:hover {
       border-color: var(--amber);
       transform: translateY(-3px);
       box-shadow: 0 12px 32px rgba(0,0,0,0.08);
-    }
-
-    .tool-kaart.komt-binnenkort {
-      opacity: 0.55;
-      cursor: default;
-      pointer-events: none;
-    }
-    .tool-kaart.komt-binnenkort::after {
-      content: 'Binnenkort';
-      position: absolute;
-      top: 12px; right: 12px;
-      background: var(--wit-warm);
-      border: 1px solid var(--rand);
-      border-radius: 4px;
-      font-size: 0.65rem;
-      font-weight: 600;
-      color: var(--tekst-licht);
-      padding: 2px 7px;
-      letter-spacing: 0.04em;
     }
 
     .tool-kaart-header {
@@ -566,342 +491,84 @@
       font-weight: 400;
     }
 
-    /* ── ZON UITLEG ── */
-    .zon-uitleg {
-      background: var(--groen);
-      border-radius: 20px;
-      padding: 2.5rem;
-      color: white;
+    /* ── OVER DIT PROJECT BLOK ── */
+    .over-sectie {
+      border-top: 1px solid var(--rand);
     }
 
-    .zon-uitleg-titel {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.3rem;
-      font-weight: 600;
-      margin-bottom: 1rem;
-    }
-
-    .zon-uitleg-tekst {
-      font-size: 0.9rem;
-      line-height: 1.7;
-      opacity: 0.85;
-      margin-bottom: 1.5rem;
-    }
-
-    .zon-stappen {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .zon-stap {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.85rem;
-      opacity: 0.9;
-    }
-
-    .zon-stap-nr {
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.15);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.7rem;
-      font-weight: 700;
-      flex-shrink: 0;
-    }
-
-    /* ── DONATIE SECTIE ── */
-    .donatie-sectie {
-      background: #0F1F17;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .donatie-sterren {
-      position: absolute;
-      inset: 0;
-      background-image: 
-        radial-gradient(1px 1px at 15% 25%, rgba(255,255,255,0.6) 0%, transparent 100%),
-        radial-gradient(1px 1px at 35% 60%, rgba(255,255,255,0.4) 0%, transparent 100%),
-        radial-gradient(1px 1px at 55% 15%, rgba(255,255,255,0.5) 0%, transparent 100%),
-        radial-gradient(1px 1px at 70% 45%, rgba(255,255,255,0.3) 0%, transparent 100%),
-        radial-gradient(1px 1px at 85% 70%, rgba(255,255,255,0.6) 0%, transparent 100%),
-        radial-gradient(1px 1px at 25% 80%, rgba(255,255,255,0.4) 0%, transparent 100%),
-        radial-gradient(1px 1px at 45% 35%, rgba(255,255,255,0.5) 0%, transparent 100%),
-        radial-gradient(1px 1px at 90% 20%, rgba(255,255,255,0.3) 0%, transparent 100%),
-        radial-gradient(1px 1px at 10% 55%, rgba(255,255,255,0.4) 0%, transparent 100%),
-        radial-gradient(1px 1px at 60% 85%, rgba(255,255,255,0.5) 0%, transparent 100%),
-        radial-gradient(2px 2px at 75% 30%, rgba(255,255,200,0.4) 0%, transparent 100%),
-        radial-gradient(2px 2px at 20% 40%, rgba(255,255,200,0.3) 0%, transparent 100%);
-    }
-
-    .donatie-maan {
-      position: absolute;
-      top: 2rem;
-      right: 8%;
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #FFF8E0, #F0C040);
-      box-shadow: 0 0 40px rgba(240, 192, 64, 0.3);
-      opacity: 0.7;
-    }
-
-    .donatie-inhoud {
+    .over-inhoud {
       max-width: 1100px;
       margin: 0 auto;
-      padding: 5rem 2rem;
-      position: relative;
-      z-index: 1;
+      padding: 4rem 2rem;
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 4rem;
       align-items: center;
     }
 
-    .donatie-tekst .sectie-label {
-      color: rgba(232,160,32,0.8);
+    .over-tekst .sectie-label {
       text-align: left;
     }
 
-    .donatie-titel {
+    .over-titel {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-size: clamp(1.6rem, 2.5vw, 2.2rem);
       font-weight: 700;
-      color: white;
+      color: var(--tekst);
       letter-spacing: -0.02em;
       margin-bottom: 1rem;
-      line-height: 1.2;
+      line-height: 1.25;
     }
 
-    .donatie-titel em {
-      font-style: normal;
-      color: var(--amber);
-    }
-
-    .donatie-body {
+    .over-body {
       font-size: 0.95rem;
-      color: rgba(255,255,255,0.65);
+      color: var(--tekst-zacht);
       line-height: 1.8;
       font-weight: 300;
       margin-bottom: 1.5rem;
     }
 
-    .donatie-uitleg {
+    .over-kenmerken {
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      margin-bottom: 2rem;
+      gap: 10px;
     }
 
-    .donatie-stap {
+    .over-kenmerk {
       display: flex;
       align-items: center;
-      gap: 12px;
-      color: rgba(255,255,255,0.8);
-      font-size: 0.9rem;
+      gap: 10px;
+      font-size: 0.88rem;
+      color: var(--tekst-zacht);
     }
 
-    .donatie-stap-icoon {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
+    .over-kenmerk-icoon {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: var(--groen-licht);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1rem;
+      font-size: 0.85rem;
       flex-shrink: 0;
-    }
-
-    .donatie-kaart {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 20px;
-      padding: 2rem;
-      backdrop-filter: blur(10px);
-    }
-
-    .donatie-kaart-titel {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: white;
-      margin-bottom: 0.5rem;
-    }
-
-    .donatie-kaart-sub {
-      font-size: 0.8rem;
-      color: rgba(255,255,255,0.45);
-      margin-bottom: 1.5rem;
-    }
-
-    .donatie-bedragen {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-bottom: 1rem;
-    }
-
-    .donatie-bedrag {
-      background: rgba(255,255,255,0.07);
-      border: 1.5px solid rgba(255,255,255,0.1);
-      border-radius: 10px;
-      padding: 10px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .donatie-bedrag:hover, .donatie-bedrag.actief {
-      background: var(--amber);
-      border-color: var(--amber);
-    }
-
-    .donatie-bedrag-getal {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: white;
-      display: block;
-    }
-
-    .donatie-bedrag-label {
-      font-size: 0.65rem;
-      color: rgba(255,255,255,0.6);
-      display: block;
-      margin-top: 2px;
-    }
-
-    .donatie-bedrag.actief .donatie-bedrag-label {
-      color: rgba(255,255,255,0.9);
-    }
-
-    .donatie-eigen {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 1.2rem;
-    }
-
-    .donatie-input {
-      flex: 1;
-      background: rgba(255,255,255,0.07);
-      border: 1.5px solid rgba(255,255,255,0.1);
-      border-radius: 10px;
-      padding: 10px 14px;
-      color: white;
-      font-size: 0.9rem;
-      font-family: 'Source Sans 3', sans-serif;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    .donatie-input::placeholder { color: rgba(255,255,255,0.3); }
-    .donatie-input:focus { border-color: var(--amber); }
-
-    .donatie-knop {
-      width: 100%;
-      background: var(--amber);
-      color: white;
-      border: none;
-      border-radius: 10px;
-      padding: 14px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      font-family: 'Source Sans 3', sans-serif;
-      transition: all 0.2s;
-    }
-
-    .donatie-knop:hover {
-      background: var(--amber-diep);
-      transform: translateY(-1px);
-      box-shadow: 0 6px 20px rgba(232,160,32,0.4);
-    }
-
-    .donatie-transparantie {
-      margin-top: 1rem;
-      padding-top: 1rem;
-      border-top: 1px solid rgba(255,255,255,0.08);
-      font-size: 0.75rem;
-      color: rgba(255,255,255,0.35);
-      text-align: center;
-    }
-
-    .donatie-meter-wrap {
-      margin-top: 1.5rem;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 12px;
-      padding: 1.2rem;
-    }
-
-    .donatie-meter-titel {
-      font-size: 0.8rem;
-      color: rgba(255,255,255,0.5);
-      margin-bottom: 0.8rem;
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .donatie-meter-titel span:last-child {
-      color: var(--amber);
-      font-weight: 600;
-    }
-
-    .donatie-meter {
-      background: rgba(255,255,255,0.08);
-      border-radius: 6px;
-      height: 6px;
-      overflow: hidden;
-      margin-bottom: 0.6rem;
-    }
-
-    .donatie-meter-balk {
-      height: 100%;
-      background: linear-gradient(90deg, var(--amber), #F5C842);
-      border-radius: 6px;
-      width: 42%;
-      animation: laden 1.5s ease both;
-    }
-
-    .donatie-meter-label {
-      font-size: 0.72rem;
-      color: rgba(255,255,255,0.35);
-    }
-
-    @media (max-width: 768px) {
-      .donatie-inhoud { grid-template-columns: 1fr; gap: 2rem; }
-      .donatie-maan { width: 50px; height: 50px; }
     }
 
     /* ── ANIMATIES ── */
     @keyframes opkomen {
-      from {
-        opacity: 0;
-        transform: translateY(16px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
       .hero-inhoud { grid-template-columns: 1fr; gap: 2rem; }
       .missie-inhoud { grid-template-columns: 1fr; gap: 2rem; }
+      .over-inhoud { grid-template-columns: 1fr; gap: 2rem; }
       .nav-links { display: none; }
       .hero-kaart { order: -1; }
     }
   </style>
-  <link rel="stylesheet" href="components.css">
-  <script src="i18n.js"></script>
 </head>
 <body>
 
@@ -912,72 +579,49 @@
 <section class="hero">
   <div class="hero-achtergrond"></div>
   <div class="hero-inhoud">
+
     <div class="hero-tekst">
-      <div class="hero-badge" data-i18n="hero-badge">☀️ Tools actief — de zon schijnt</div>
+      <div class="hero-badge" data-i18n="hero-badge">☀️ Gratis voor iedereen</div>
       <h1 class="hero-titel" data-i18n="hero-titel">
-        Gratis hulp,<br>
-        aangedreven door<br>
-        <em>de zon</em>
+        Begrijp je rechten.<br>
+        <em>Regel je zaken.</em>
       </h1>
       <p class="hero-subtitel" data-i18n="hero-subtitel">
         Officiële brieven, toeslagen, rechten — uitgelegd in gewone taal. Gratis, voor iedereen.
       </p>
       <div class="hero-knoppen">
         <a href="#tools" class="knop-primair" data-i18n="knop-tools">Bekijk de tools</a>
-        <a href="#missie" class="knop-secundair" data-i18n="knop-verhaal">Ons verhaal</a>
+        <a href="#missie" class="knop-secundair" data-i18n="knop-over">Over Solidari</a>
       </div>
     </div>
+
     <div class="hero-kaart">
-      <div class="zon-status-kaart">
-        <div class="zon-status-header">
-          <div class="zon-icoon">☀️</div>
-          <div>
-            <div class="zon-status-titel">Zonne-energie status</div>
-            <div class="zon-status-sub">Vandaag, 13:42</div>
+      <div class="zon-cloud-kaart">
+        <div class="zon-cloud-header">
+          <div class="zon-cloud-header-rij">
+            <div class="zon-cloud-icoon">☀️</div>
+            <div>
+              <div class="zon-cloud-titel" data-i18n="zon-kaart-titel">Hoe werkt dit platform?</div>
+              <div class="zon-cloud-sub" data-i18n="zon-kaart-sub">Zonne-energie en gezond verstand</div>
+            </div>
           </div>
+          <p class="zon-cloud-citaat" data-i18n="zon-kaart-citaat">
+            "Solidari draait op zonnepanelen en gezond verstand."
+          </p>
         </div>
-        <div class="zon-meter">
-          <div class="zon-meter-balk"></div>
+        <div class="zon-cloud-body">
+          <p class="zon-cloud-uitleg" data-i18n="zon-uitleg">Het platform werkt deels op zelf opgewekte zonne-energie. Privacygevoelige tools gaan bewust niet de cloud in — wat het weer ook is.</p>
         </div>
-        <div class="zon-meter-label">
-          <span>Zonne-overschot: 1.840W</span>
-          <span>73%</span>
-        </div>
-        <ul class="zon-tools-lijst">
-          <li class="zon-tool-item">
-            <span class="zon-tool-status status-aan"></span>
-            📬 Brief Begrijper — actief
-          </li>
-          <li class="zon-tool-item">
-            <span class="zon-tool-status status-aan"></span>
-            💬 Maandbudget — actief
-          </li>
-          <li class="zon-tool-item">
-            <span class="zon-tool-status status-aan"></span>
-            💰 Toeslagen Calculator — actief
-          </li>
-          <li class="zon-tool-item">
-            <span class="zon-tool-status status-aan"></span>
-            🎂 18 Jaar Worden — actief
-          </li>
-          <li class="zon-tool-item">
-            <span class="zon-tool-status status-aan"></span>
-            🇳🇱 Naturalisatie Checker — actief
-          </li>
-          <li class="zon-tool-item">
-            <span class="zon-tool-status status-aan"></span>
-            💶 Loont Werken — actief
-          </li>
-        </ul>
       </div>
     </div>
+
   </div>
 </section>
 
 <!-- TALEN BALK -->
 <div class="talen-balk">
   <div class="talen-inhoud">
-    <span class="talen-label">Beschikbaar in</span>
+    <span class="talen-label" data-i18n="talen-label">Beschikbaar in</span>
     <div class="talen-vlaggen">
       <span class="vlag-item"><span class="vlag-emoji">🇳🇱</span> Nederlands</span>
       <span class="vlag-item"><span class="vlag-emoji">🇬🇧</span> English</span>
@@ -995,11 +639,10 @@
   <div class="sectie-header">
     <div class="sectie-label" data-i18n="tools-label">Beschikbare tools</div>
     <h2 class="sectie-titel" data-i18n="tools-titel">Wat kan Solidari voor je doen?</h2>
-    <p class="sectie-subtitel" data-i18n="tools-subtitel">Officiële brieven, toeslagen, rechten — uitgelegd in gewone taal. Gratis, voor iedereen.</p>
+    <p class="sectie-subtitel" data-i18n="tools-subtitel">Kies een tool die past bij jouw situatie.</p>
   </div>
 
   <div class="tools-grid">
-
     <a href="brief.html" class="tool-kaart">
       <div class="tool-kaart-header">
         <div class="tool-emoji" style="background:#FDF3E0;">📬</div>
@@ -1017,134 +660,85 @@
         <div class="tool-emoji" style="background:#EBF3EE;">💬</div>
         <span class="tool-badge badge-browser">✓ Altijd beschikbaar</span>
       </div>
-      <div class="tool-naam" data-i18n="tool-budget-naam">Maandbudget</div>
+      <div class="tool-naam" data-i18n="tool-budget-naam">Budgethulp</div>
       <div class="tool-omschrijving" data-i18n="tool-budget-omschrijving">Zet je inkomsten en uitgaven op een rij. Stap voor stap, in gewone taal. Download daarna een overzicht als PDF.</div>
       <div class="tool-talen">
         <span class="tool-taal">🇳🇱</span><span class="tool-taal">🇸🇦</span><span class="tool-taal">🇪🇹</span><span class="tool-taal">🇹🇷</span><span class="tool-taal">🇺🇦</span>
       </div>
     </a>
-
   </div>
 
-  <!-- Bekijk alle tools knop -->
   <div style="text-align:center; margin-top:2.5rem;">
-    <a href="tools.html" class="knop-alle-tools">
+    <a href="tools.html" class="knop-alle-tools" data-i18n="knop-alle-tools">
       Bekijk alle tools
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="margin-left:6px;vertical-align:-2px;">
         <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </a>
   </div>
-
 </section>
 
 <!-- MISSIE -->
 <section id="missie" class="missie-sectie">
   <div class="missie-inhoud">
     <div class="missie-tekst">
-      <div class="sectie-label">Ons verhaal</div>
-      <h2 class="missie-titel" data-i18n="missie-titel">Gratis omdat de zon gratis is</h2>
+      <div class="sectie-label" data-i18n="missie-label">Onze aanpak</div>
+      <h2 class="missie-titel" data-i18n="missie-titel">Duidelijke informatie in gewone taal.</h2>
       <p class="missie-body" data-i18n="missie-body1">
-        Solidari draait op zonne-energie van zonnepanelen thuis. Als de zon schijnt, draaien de tools. Geen advertenties, geen abonnementen, geen data die we verkopen. Alleen eerlijke hulp, aangedreven door het licht van de zon.
+        Papieren, formulieren, brieven — soms is het gewoon veel. Solidari helpt je begrijpen wat er staat en wat je kunt doen. Gratis, in jouw taal, zonder oordeel.
       </p>
       <p class="missie-body" data-i18n="missie-body2">
-        Brieven van de gemeente, de Belastingdienst of het UWV zijn voor veel mensen moeilijk te begrijpen. Niet omdat zij het niet zouden kunnen — maar omdat die brieven nu eenmaal ingewikkeld zijn. Solidari vertaalt die taal naar gewone mensen: duidelijk, gratis en zonder oordeel.
+        Geen advertenties, geen abonnementen, geen opslag van gegevens. Solidari werkt op zonnepanelen thuis. Gratis omdat de zon gratis is.
       </p>
-      <a href="#" class="knop-primair" style="display:inline-block; margin-top:0.5rem;">Lees meer over ons</a>
+      <a href="over.html" class="knop-primair" data-i18n="knop-over-meer">Meer over Solidari</a>
     </div>
     <div>
       <div class="missie-stats">
         <div class="stat-item">
-          <div class="stat-getal">10</div>
-          <div class="stat-label">Gratis tools</div>
+          <div class="stat-getal">8</div>
+          <div class="stat-label" data-i18n="stat-tools">Gratis tools</div>
         </div>
         <div class="stat-item">
           <div class="stat-getal">7</div>
-          <div class="stat-label">Ondersteunde talen</div>
+          <div class="stat-label" data-i18n="stat-talen">Ondersteunde talen</div>
         </div>
         <div class="stat-item">
           <div class="stat-getal">0</div>
-          <div class="stat-label">Opgeslagen gegevens</div>
+          <div class="stat-label" data-i18n="stat-data">Opgeslagen gegevens</div>
         </div>
         <div class="stat-item">
           <div class="stat-getal">☀️</div>
-          <div class="stat-label">Energiebron</div>
+          <div class="stat-label" data-i18n="stat-energie">Energiebron</div>
         </div>
-      </div>
-      <div class="zon-uitleg" style="margin-top:1.2rem;">
-        <div class="zon-uitleg-titel">☀️ Hoe werkt dat, op zonne-energie?</div>
-        <p class="zon-uitleg-tekst">De AI-tools draaien op een computer thuis, aangestuurd door zonnepanelen. Home Assistant bewaakt het overschot en schakelt de computer automatisch in.</p>
-        <ul class="zon-stappen">
-          <li class="zon-stap"><span class="zon-stap-nr">1</span>Zonnepanelen produceren stroom</li>
-          <li class="zon-stap"><span class="zon-stap-nr">2</span>Overschot schakelt de computer in</li>
-          <li class="zon-stap"><span class="zon-stap-nr">3</span>AI-tools worden actief</li>
-          <li class="zon-stap"><span class="zon-stap-nr">4</span>Geen zon = tools slapen</li>
-        </ul>
       </div>
     </div>
   </div>
 </section>
 
-<!-- DONATIE SECTIE -->
-<section id="doneer" class="donatie-sectie">
-  <div class="donatie-sterren"></div>
-  <div class="donatie-maan"></div>
-  <div class="donatie-inhoud">
-    <div class="donatie-tekst">
-      <div class="sectie-label">Steun Solidari</div>
-      <h2 class="donatie-titel">Als de zon niet<br>schijnt, <em>jij wel</em></h2>
-      <p class="donatie-body">
-        Op zonnige dagen werken sommige tools op duurzame zonne-energie. Trekt er een wolk voor de zon? Dan nemen we even de cloud — want ook op grijze dagen heeft iedereen recht op een helder antwoord. Een donatie zorgt dat het licht aanblijft, wat voor weer het ook is.
+<!-- OVER DIT PROJECT -->
+<section class="over-sectie">
+  <div class="over-inhoud">
+    <div class="over-tekst">
+      <div class="sectie-label" data-i18n="over-label">Over dit project</div>
+      <h2 class="over-titel" data-i18n="over-titel">Gemaakt met open source, aangedreven door zonne-energie</h2>
+      <p class="over-body" data-i18n="over-body">
+        Solidari is een onafhankelijk civic tech project — geen bedrijf, geen subsidie. Gebouwd op de overtuiging dat goede informatie voor iedereen toegankelijk moet zijn. AI wordt bewust ingezet: alleen waar het helpt, en lokaal waar privacy dat vraagt.
       </p>
-      <div class="donatie-uitleg">
-        <div class="donatie-stap">
-          <div class="donatie-stap-icoon" style="background:rgba(232,160,32,0.15);">☀️</div>
-          <span>Brief Begrijper &amp; Rechten: gratis op zonnepanelen</span>
-        </div>
-        <div class="donatie-stap">
-          <div class="donatie-stap-icoon" style="background:rgba(255,255,255,0.08);">🌙</div>
-          <span>Bewolkt of 's avonds: cloud via donaties</span>
-        </div>
-        <div class="donatie-stap">
-          <div class="donatie-stap-icoon" style="background:rgba(45,90,61,0.3);">💛</div>
-          <span>Elke donatie gaat rechtstreeks naar de kosten van Solidari</span>
-        </div>
-      </div>
-      <div class="donatie-meter-wrap">
-        <div class="donatie-meter-titel">
-          <span>🌙 Nachtdekking deze maand</span>
-          <span>€21 / €50</span>
-        </div>
-        <div class="donatie-meter">
-          <div class="donatie-meter-balk"></div>
-        </div>
-        <div class="donatie-meter-label">42% gedekt — nog €29 nodig voor volledige nachtdekking</div>
-      </div>
+      <a href="over.html" class="knop-secundair" data-i18n="knop-over-pagina">Lees meer op de Over-pagina</a>
     </div>
-    <div class="donatie-kaart">
-      <div class="donatie-kaart-titel">🌙 Doneer voor nachtdekking</div>
-      <div class="donatie-kaart-sub">Eenmalig, geen account nodig, via iDEAL of creditcard</div>
-      <div class="donatie-bedragen">
-        <div class="donatie-bedrag" onclick="kiesBedrag(this, '2')">
-          <span class="donatie-bedrag-getal">€2</span>
-          <span class="donatie-bedrag-label">1 avond</span>
-        </div>
-        <div class="donatie-bedrag actief" onclick="kiesBedrag(this, '5')">
-          <span class="donatie-bedrag-getal">€5</span>
-          <span class="donatie-bedrag-label">1 week</span>
-        </div>
-        <div class="donatie-bedrag" onclick="kiesBedrag(this, '10')">
-          <span class="donatie-bedrag-getal">€10</span>
-          <span class="donatie-bedrag-label">1 maand</span>
-        </div>
+    <div class="over-kenmerken">
+      <div class="over-kenmerk">
+        <div class="over-kenmerk-icoon">🔒</div>
+        <span data-i18n="over-k1">Privacy by design — geen account, geen opslag van persoonsgegevens</span>
       </div>
-      <div class="donatie-eigen">
-        <input type="number" class="donatie-input" placeholder="Eigen bedrag (€)" id="eigenBedrag" min="1">
+
+      <div class="over-kenmerk">
+        <div class="over-kenmerk-icoon">☀️</div>
+        <span data-i18n="over-k3">Lokale AI op zonne-energie — privacygevoelige verwerking thuis, niet in de cloud</span>
       </div>
-      <button class="donatie-knop" onclick="doneer()">💛 Doneer nu via iDEAL</button>
-      <div class="donatie-transparantie">
-        Geen winstoogmerk · Geen advertenties · Volledig transparant<br>
-        Overschot gaat naar <a href="#" style="color:rgba(232,160,32,0.7); text-decoration:none;">Vluchtelingenwerk Nederland</a>
+      <div class="over-kenmerk">
+        <div class="over-kenmerk-icoon">💛</div>
+        <span data-i18n="over-k4">Geen advertenties, geen winstoogmerk — transparant over inkomsten en uitgaven</span>
       </div>
     </div>
   </div>
@@ -1154,104 +748,256 @@
 <div id="solidari-footer"></div>
 
 <script>
-  // ── TAAL ──
-  // Pagina-specifieke vertalingen (homepage-eigen strings)
+  // ── VERTALINGEN ──
   Solidari.i18n.extend({
     NL: {
-      'hero-badge': '☀️ Tools actief — de zon schijnt',
-      'hero-titel': 'Gratis hulp,<br>aangedreven door<br><em>de zon</em>',
+      'hero-badge': '☀️ Gratis voor iedereen',
+      'hero-titel': 'Begrijp je rechten.<br><em>Regel je zaken.</em>',
       'hero-subtitel': 'Officiële brieven, toeslagen, rechten — uitgelegd in gewone taal. Gratis, voor iedereen.',
       'knop-tools': 'Bekijk de tools',
-      'knop-verhaal': 'Ons verhaal',
+      'knop-over': 'Over Solidari',
+      'zon-kaart-titel': 'Hoe werkt dit platform?',
+      'zon-kaart-sub': 'Zonne-energie en gezond verstand',
+      'zon-kaart-citaat': '"Solidari draait op zonnepanelen en gezond verstand."',
+      'zon-uitleg': 'Het platform werkt deels op zelf opgewekte zonne-energie. Privacygevoelige tools gaan bewust niet de cloud in — wat het weer ook is.',      'talen-label': 'Beschikbaar in',
       'tools-label': 'Beschikbare tools',
       'tools-titel': 'Wat kan Solidari voor je doen?',
-      'tools-subtitel': 'Officiële brieven, toeslagen, rechten — uitgelegd in gewone taal. Gratis, voor iedereen.',
-      'missie-titel': 'Gratis omdat de zon gratis is',
-      'missie-body1': 'Solidari draait op zonne-energie van zonnepanelen thuis. Als de zon schijnt, draaien de tools. Geen advertenties, geen abonnementen, geen data die we verkopen. Alleen eerlijke hulp, aangedreven door het licht van de zon.',
-      'missie-body2': 'Brieven van de gemeente, de Belastingdienst of het UWV zijn voor veel mensen moeilijk te begrijpen. Niet omdat zij het niet zouden kunnen — maar omdat die brieven nu eenmaal ingewikkeld zijn. Solidari vertaalt die taal naar gewone mensen: duidelijk, gratis en zonder oordeel.',
+      'tools-subtitel': 'Kies een tool die past bij jouw situatie.',
+      'tool-brief-naam': 'Brief Begrijper',
+      'tool-brief-omschrijving': 'Maak een foto van je brief. Wij leggen uit wat er staat, wat je moet doen en wanneer.',
+      'tool-budget-naam': 'Budgethulp',
+      'tool-budget-omschrijving': 'Zet je inkomsten en uitgaven op een rij. Stap voor stap, in gewone taal. Download daarna een overzicht als PDF.',
+      'knop-alle-tools': 'Bekijk alle tools',
+      'missie-label': 'Onze aanpak',
+      'missie-titel': 'Duidelijke informatie in gewone taal.',
+      'missie-body1': 'Solidari combineert slimme technologie met gewone taal. Zo weet je wat er staat, wat je rechten zijn en wat je kunt doen.',
+      'missie-body2': 'Geen advertenties, geen abonnementen, geen opslag van gegevens. Solidari werkt op zonnepanelen thuis. Gratis omdat de zon gratis is.',
+      'knop-over-meer': 'Meer over Solidari',
+      'stat-tools': 'Gratis tools',
+      'stat-talen': 'Ondersteunde talen',
+      'stat-data': 'Opgeslagen gegevens',
+      'stat-energie': 'Energiebron',
+      'over-label': 'Over dit project',
+      'over-titel': 'Gemaakt met open source, aangedreven door zonne-energie',
+      'over-body': 'Solidari is een onafhankelijk civic tech project — geen bedrijf, geen subsidie. Gebouwd op de overtuiging dat goede informatie voor iedereen toegankelijk moet zijn. AI wordt bewust ingezet: alleen waar het helpt, en lokaal waar privacy dat vraagt.',
+      'knop-over-pagina': 'Lees meer op de Over-pagina',
+      'over-k1': 'Privacy by design — geen account, geen opslag van persoonsgegevens',
+      'over-k3': 'Lokale AI op zonne-energie — privacygevoelige verwerking thuis, niet in de cloud',
+      'over-k4': 'Geen advertenties, geen winstoogmerk — transparant over inkomsten en uitgaven',
     },
     EN: {
-      'hero-badge': '☀️ Tools active — the sun is shining',
-      'hero-titel': 'Free help,<br>powered by<br><em>the sun</em>',
+      'hero-badge': '☀️ Free for everyone',
+      'hero-titel': 'Understand your rights.<br><em>Get things done.</em>',
       'hero-subtitel': 'Official letters, benefits, rights — explained in plain language. Free, for everyone.',
       'knop-tools': 'View the tools',
-      'knop-verhaal': 'Our story',
+      'knop-over': 'About Solidari',
+      'zon-kaart-titel': 'How does this platform work?',
+      'zon-kaart-sub': 'Solar energy and common sense',
+      'zon-kaart-citaat': '"Solidari runs on solar panels and common sense."',
+      'zon-uitleg': 'The platform partly runs on self-generated solar energy. Privacy-sensitive tools are deliberately kept out of the cloud — whatever the weather.',      'talen-label': 'Available in',
       'tools-label': 'Available tools',
       'tools-titel': 'What can Solidari do for you?',
-      'tools-subtitel': 'Official letters, benefits, rights — explained in plain language. Free, for everyone.',
-      'missie-titel': 'Free because the sun is free',
-      'missie-body1': 'Solidari runs on solar energy from home solar panels. When the sun shines, the tools run. No ads, no subscriptions, no data sold. Just honest help, powered by sunlight.',
-      'missie-body2': 'Official letters from government agencies can be hard to understand. Not because people can't — but because those letters are simply complicated. Solidari translates that language into plain words: clear, free and without judgment.',
+      'tools-subtitel': 'Choose a tool that fits your situation.',
+      'tool-brief-naam': 'Letter Explainer',
+      'tool-brief-omschrijving': 'Take a photo of your letter. We explain what it says, what you need to do and when.',
+      'tool-budget-naam': 'Budget Help',
+      'tool-budget-omschrijving': 'List your income and expenses step by step, in plain language. Download a summary as PDF.',
+      'knop-alle-tools': 'View all tools',
+      'missie-label': 'Our approach',
+      'missie-titel': 'Clear information in plain language.',
+      'missie-body1': 'Solidari combines smart technology with plain language. So you know what it says, what your rights are and what you can do.',
+      'missie-body2': 'No ads, no subscriptions, no data stored. Solidari runs on home solar panels. Free because the sun is free.',
+      'knop-over-meer': 'More about Solidari',
+      'stat-tools': 'Free tools',
+      'stat-talen': 'Supported languages',
+      'stat-data': 'Stored data',
+      'stat-energie': 'Energy source',
+      'over-label': 'About this project',
+      'over-titel': 'Built with open source, powered by solar energy',
+      'over-body': 'Solidari is an independent civic tech project — no company, no subsidy. Built on the conviction that good information should be accessible to everyone. AI is used deliberately: only where it helps, and locally where privacy requires it.',
+      'knop-over-pagina': 'Read more on the About page',
+      'over-k1': 'Privacy by design — no account, no personal data stored',
+      'over-k3': 'Local AI on solar energy — privacy-sensitive processing at home, not in the cloud',
+      'over-k4': 'No ads, no profit motive — transparent about income and expenses',
     },
     AR: {
-      'hero-badge': '☀️ الأدوات نشطة — الشمس تشرق',
-      'hero-titel': 'مساعدة مجانية،<br>تعمل بالطاقة<br><em>الشمسية</em>',
-      'hero-subtitel': 'الرسائل الرسمية والمزايا والحقوق — موضحة بلغة بسيطة. مجانًا، للجميع.',
+      'hero-badge': '☀️ مجاني للجميع',
+      'hero-titel': 'افهم حقوقك.<br><em>رتّب أمورك.</em>',
+      'hero-subtitel': 'الرسائل الرسمية، الإعانات، الحقوق — موضحة بلغة بسيطة. مجانًا، للجميع.',
       'knop-tools': 'اعرض الأدوات',
-      'knop-verhaal': 'قصتنا',
+      'knop-over': 'عن Solidari',
+      'zon-kaart-titel': 'كيف يعمل هذا المنصة؟',
+      'zon-kaart-sub': 'طاقة شمسية وعقل سليم',
+      'zon-kaart-citaat': '"Solidari يعمل بالألواح الشمسية والعقل السليم."',
+      'zon-uitleg': 'يعمل المنصة جزئيًا بالطاقة الشمسية المنتجة ذاتيًا. الأدوات الحساسة للخصوصية لا ترسل إلى السحابة — مهما كان الطقس.',      'talen-label': 'متاح بـ',
       'tools-label': 'الأدوات المتاحة',
       'tools-titel': 'ماذا يمكن لـ Solidari أن يفعل لك؟',
-      'tools-subtitel': 'الرسائل الرسمية والمزايا والحقوق — موضحة بلغة بسيطة. مجانًا، للجميع.',
-      'missie-titel': 'مجاني لأن الشمس مجانية',
-      'missie-body1': 'يعمل Solidari بالطاقة الشمسية من الألواح الشمسية المنزلية. عندما تشرق الشمس، تعمل الأدوات.',
-      'missie-body2': 'الرسائل الرسمية من الجهات الحكومية قد تكون صعبة الفهم. يترجم Solidari تلك اللغة إلى كلمات بسيطة.',
+      'tools-subtitel': 'اختر الأداة المناسبة لوضعك.',
+      'tool-brief-naam': 'مُفسِّر الرسائل',
+      'tool-brief-omschrijving': 'التقط صورة لرسالتك. سنشرح ما تقوله وما يجب فعله ومتى.',
+      'tool-budget-naam': 'مساعد الميزانية',
+      'tool-budget-omschrijving': 'سجّل دخلك ونفقاتك خطوة بخطوة بلغة بسيطة. حمّل ملخصًا كـ PDF.',
+      'knop-alle-tools': 'اعرض كل الأدوات',
+      'missie-label': 'نهجنا',
+      'missie-titel': 'معلومات واضحة بلغة بسيطة.',
+      'missie-body1': 'Solidari يجمع بين التكنولوجيا الذكية واللغة البسيطة. حتى تعرف ما هو مكتوب وما هي حقوقك وما يمكنك فعله.',
+      'missie-body2': 'لا إعلانات، لا اشتراكات، لا تخزين بيانات. Solidari يعمل على ألواح شمسية منزلية. مجاني لأن الشمس مجانية.',
+      'knop-over-meer': 'المزيد عن Solidari',
+      'stat-tools': 'أدوات مجانية',
+      'stat-talen': 'لغات مدعومة',
+      'stat-data': 'بيانات مخزنة',
+      'stat-energie': 'مصدر الطاقة',
+      'over-label': 'عن هذا المشروع',
+      'over-titel': 'مبني بمصادر مفتوحة، يعمل بالطاقة الشمسية',
+      'over-body': 'Solidari مشروع civic tech مستقل — لا شركة، لا دعم حكومي. مبني على قناعة أن المعلومات الجيدة يجب أن تكون متاحة للجميع. الذكاء الاصطناعي يُستخدم بوعي: فقط حيث يفيد، ومحليًا حيث تستدعي الخصوصية ذلك.',
+      'knop-over-pagina': 'اقرأ المزيد في صفحة "عنا"',
+      'over-k1': 'الخصوصية بالتصميم — لا حساب، لا تخزين بيانات شخصية',
+      'over-k3': 'ذكاء اصطناعي محلي بالطاقة الشمسية — معالجة حساسة في المنزل لا السحابة',
+      'over-k4': 'لا إعلانات، لا هدف ربحي — شفافية في الإيرادات والمصروفات',
     },
     TR: {
-      'hero-badge': '☀️ Araçlar aktif — güneş parlıyor',
-      'hero-titel': 'Ücretsiz yardım,<br>güneş enerjisiyle<br><em>çalışıyor</em>',
+      'hero-badge': '☀️ Herkes için ücretsiz',
+      'hero-titel': 'Haklarını anla.<br><em>İşlerini hallet.</em>',
       'hero-subtitel': 'Resmi mektuplar, yardımlar, haklar — sade bir dilde anlatıldı. Ücretsiz, herkes için.',
       'knop-tools': 'Araçlara bak',
-      'knop-verhaal': 'Hikayemiz',
+      'knop-over': 'Solidari hakkında',
+      'zon-kaart-titel': 'Bu platform nasıl çalışır?',
+      'zon-kaart-sub': 'Güneş enerjisi ve sağduyu',
+      'zon-kaart-citaat': '"Solidari güneş panelleri ve sağduyuyla çalışır."',
+      'zon-uitleg': 'Platform kısmen kendi ürettiği güneş enerjisiyle çalışır. Gizlilik hassas araçlar buluta gönderilmez — hava nasıl olursa olsun.',      'talen-label': 'Şu dillerde mevcut',
       'tools-label': 'Mevcut araçlar',
       'tools-titel': 'Solidari sizin için ne yapabilir?',
-      'tools-subtitel': 'Resmi mektuplar, yardımlar, haklar — sade bir dilde anlatıldı. Ücretsiz, herkes için.',
-      'missie-titel': 'Güneş ücretsiz olduğu için ücretsiz',
-      'missie-body1': 'Solidari evdeki güneş panellerinden gelen güneş enerjisiyle çalışır. Reklam yok, abonelik yok.',
-      'missie-body2': 'Resmi mektuplar anlaması güç olabilir. Solidari o dili sade kelimelere çevirir.',
+      'tools-subtitel': 'Durumunuza uygun bir araç seçin.',
+      'tool-brief-naam': 'Mektup Açıklayıcı',
+      'tool-brief-omschrijving': 'Mektubunuzun fotoğrafını çekin. Ne yazdığını, ne yapmanız gerektiğini ve ne zaman açıklarız.',
+      'tool-budget-naam': 'Bütçe Yardımı',
+      'tool-budget-omschrijving': 'Gelir ve giderlerinizi adım adım, sade bir dille listeleyin. Özeti PDF olarak indirin.',
+      'knop-alle-tools': 'Tüm araçlara bak',
+      'missie-label': 'Yaklaşımımız',
+      'missie-titel': 'Sade bir dilde net bilgi.',
+      'missie-body1': 'Solidari akıllı teknolojiyi sade bir dille birleştirir. Böylece ne yazdığını, haklarını ve neler yapabileceğini bilirsiniz.',
+      'missie-body2': 'Reklam yok, abonelik yok, veri saklanmaz. Solidari evdeki güneş panelleriyle çalışır. Güneş ücretsiz olduğu için ücretsiz.',
+      'knop-over-meer': 'Solidari hakkında daha fazla',
+      'stat-tools': 'Ücretsiz araç',
+      'stat-talen': 'Desteklenen dil',
+      'stat-data': 'Saklanan veri',
+      'stat-energie': 'Enerji kaynağı',
+      'over-label': 'Bu proje hakkında',
+      'over-titel': 'Açık kaynak ile yapıldı, güneş enerjisiyle çalışır',
+      'over-body': 'Solidari bağımsız bir civic tech projesidir — şirket yok, sübvansiyon yok. İyi bilginin herkes için erişilebilir olması gerektiği inancıyla kuruldu. Yapay zeka bilinçli kullanılır: yalnızca yardımcı olduğu yerde ve gizlilik gerektirdiğinde yerel olarak.',
+      'knop-over-pagina': 'Hakkımızda sayfasını oku',
+      'over-k1': 'Tasarımda gizlilik — hesap yok, kişisel veri saklanmaz',
+      'over-k3': 'Güneş enerjisiyle yerel AI — gizlilik hassas işlemler evde, bulutta değil',
+      'over-k4': 'Reklam yok, kâr amacı yok — gelir ve giderlerde şeffaflık',
     },
     TI: {
-      'hero-badge': '☀️ መሳርሒታት ንጡፋት — ጸሓይ ትበርህ ኣላ',
-      'hero-titel': 'ናጻ ሓገዝ,<br>ብሓይሊ<br><em>ፀሓይ</em>',
-      'hero-subtitel': 'ወግዓዊ ደብዳቤታት፣ ሓጋዚ ኣበርክቶ፣ መሰላት — ብቅልል ዝበለ ቋንቋ ይብርህ። ናጻ፣ ንኩሉ።',
+      'hero-badge': '☀️ ናጻ ንኩሉ',
+      'hero-titel': 'መሰላትካ ኣስተውዕሎ.<br><em>ጉዳያትካ ኣዳልዎ.</em>',
+      'hero-subtitel': 'ወግዓዊ ደብዳቤታት፣ ሓጋዚ ኣበርክቶ፣ መሰላት — ብቅልል ዝበለ ቋንቋ። ናጻ፣ ንኩሉ።',
       'knop-tools': 'መሳርሒታት ርኣ',
-      'knop-verhaal': 'ዛንታና',
+      'knop-over': 'ብዛዕባ Solidari',
+      'zon-kaart-titel': 'እዚ ፕላትፎርም ከመይ ይሰርሕ?',
+      'zon-kaart-sub': 'ሓይሊ ፀሓይ ዘለዎ ጥበብ',
+      'zon-kaart-citaat': '"Solidari ብፀሓያዊ ፓነላት ይሰርሕ።"',
+      'zon-uitleg': 'ፕላትፎርም ብናይ ገዛ ሓይሊ ፀሓይ ይሰርሕ። ምስጢራዊ መሳርሒታት ናብ cloud ኣይሃሊፉን — ኩሉ ግዜ።',      'talen-label': 'ዝርከብ ብ',
       'tools-label': 'ዝርከቡ መሳርሒታት',
       'tools-titel': 'Solidari ንዓኻ እንታይ ክገብር ይኽእል?',
-      'tools-subtitel': 'ወግዓዊ ደብዳቤታት፣ ሓጋዚ ኣበርክቶ፣ መሰላት — ብቅልል ዝበለ ቋንቋ። ናጻ፣ ንኩሉ።',
-      'missie-titel': 'ፀሓይ ናጻ ስለዝኾነት ናጻ ኢና',
-      'missie-body1': 'Solidari ብናይ ገዛ ጸሓያዊ ፓነላት ሓይሊ ይሰርሕ። ፀሓይ ምስ ትበርህ መሳርሒታት ይሰርሑ።',
-      'missie-body2': 'ወግዓዊ ደብዳቤታት ናብ ምርዳእ ኣጸጋሚ ክኾኑ ይኽእሉ። Solidari ናብ ቅልል ዝበሉ ቃላት ይትርጉሞ።',
+      'tools-subtitel': 'ዝሓሸ መሳርሒ ንኩነታትካ ምረጽ።',
+      'tool-brief-naam': 'ናይ ደብዳቤ ኣብርሃ',
+      'tool-brief-omschrijving': 'ናይ ደብዳቤኻ ስእሊ ውሰድ። እንታይ ከምዝብል፣ እንታይ ክትገብር ከምዘሎካን መዓዝን ንሕብር።',
+      'tool-budget-naam': 'ሓጋዚ ቀዳሚ',
+      'tool-budget-omschrijving': 'ኣታዊኻን ወጻኢኻን ስጉምቲ ብስጉምቲ ኣስፍሮ። ድሕሪኡ PDF ኣውርድ።',
+      'knop-alle-tools': 'ኩሎም መሳርሒታት ርኣ',
+      'missie-label': 'ኣቀራርባና',
+      'missie-titel': 'ሩጉጽ ሓበሬታ ብቅልል ዝበለ ቋንቋ.',
+      'missie-body1': 'ወግዓዊ ደብዳቤታት ምርዳእ ኣጸጋሚ ክኸውን ይኽእል። Solidari ናብ ቅልል ዝበሉ ቃላት ይትርጉሞ።',
+      'missie-body2': 'ምስትዋጥ የለን፣ ምዝገባ የለን፣ ውሂብ ኣይሕዝን። Solidari ብናይ ገዛ ፀሓያዊ ፓነላት ይሰርሕ።',
+      'knop-over-meer': 'ዝያዳ ብዛዕባ Solidari',
+      'stat-tools': 'ናጻ መሳርሒታት',
+      'stat-talen': 'ዝድገፉ ቋንቋታት',
+      'stat-data': 'ዝተዓቀበ ውሂብ',
+      'stat-energie': 'ምንጪ ሓይሊ',
+      'over-label': 'ብዛዕባ እዚ ፕሮጀክት',
+      'over-titel': 'ብ open source ዝተሰርሐ፣ ብሓይሊ ፀሓይ ዝሰርሕ',
+      'over-body': 'Solidari ናጻ civic tech ፕሮጀክት እዩ — ትካል የለን፣ ሓገዝ-ምምሕዳር የለን። ጽቡቕ ሓበሬታ ንኩሉ ዝርከብ ክኸውን ኣለዎ ብዝብል እምነት ዝተሃነጸ። AI ብጥበብ ይጥቀሙ — ኣብ ዘድሊ ቦታ ጥራሕ።',
+      'knop-over-pagina': 'ኣብ ናይ "ብዛዕባና" ፔጅ ዝያዳ ኣንብብ',
+      'over-k1': 'ሓለዋ-ውልቀ-ሰብ ብምህንድስና — ሕሳብ የለን፣ ውልቃዊ ውሂብ ኣይዕቀብን',
+      'over-k3': 'ናይ ገዛ AI ብሓይሊ ፀሓይ — ምስጢራዊ ሕሳብ ኣብ ገዛ ይካየድ',
+      'over-k4': 'ምስትዋጥ የለን፣ ትርፊ ዕላማ የለን — ብ ኣታዊ ወጻኢ ግሉጽ',
     },
     UK: {
-      'hero-badge': '☀️ Інструменти активні — сонце світить',
-      'hero-titel': 'Безкоштовна допомога,<br>що працює від<br><em>сонця</em>',
+      'hero-badge': '☀️ Безкоштовно для всіх',
+      'hero-titel': 'Розумійте свої права.<br><em>Вирішуйте свої справи.</em>',
       'hero-subtitel': 'Офіційні листи, пільги, права — пояснені простою мовою. Безкоштовно, для всіх.',
       'knop-tools': 'Переглянути інструменти',
-      'knop-verhaal': 'Наша історія',
+      'knop-over': 'Про Solidari',
+      'zon-kaart-titel': 'Як працює ця платформа?',
+      'zon-kaart-sub': 'Сонячна енергія та здоровий глузд',
+      'zon-kaart-citaat': '"Solidari працює на сонячних панелях і здоровому глузді."',
+      'zon-uitleg': 'Платформа частково працює на власній сонячній енергії. Інструменти з конфіденційними даними свідомо не відправляються в хмару — незалежно від погоди.',      'talen-label': 'Доступно мовами',
       'tools-label': 'Доступні інструменти',
       'tools-titel': 'Що Solidari може зробити для вас?',
-      'tools-subtitel': 'Офіційні листи, пільги, права — пояснені простою мовою. Безкоштовно, для всіх.',
-      'missie-titel': 'Безкоштовно, бо сонце безкоштовне',
-      'missie-body1': 'Solidari працює від сонячної енергії домашніх панелей. Без реклами, без підписок.',
-      'missie-body2': 'Офіційні листи можуть бути важкими для розуміння. Solidari перекладає на прості слова.',
+      'tools-subtitel': 'Оберіть інструмент, який підходить для вашої ситуації.',
+      'tool-brief-naam': 'Пояснювач листів',
+      'tool-brief-omschrijving': 'Зробіть фото листа. Ми пояснимо, що там написано, що потрібно зробити і коли.',
+      'tool-budget-naam': 'Допомога з бюджетом',
+      'tool-budget-omschrijving': 'Вкажіть доходи та витрати покроково, простою мовою. Завантажте зведення у форматі PDF.',
+      'knop-alle-tools': 'Переглянути всі інструменти',
+      'missie-label': 'Наш підхід',
+      'missie-titel': 'Зрозуміла інформація простою мовою.',
+      'missie-body1': 'Solidari поєднує розумні технології з простою мовою. Так ви знаєте, що написано, які у вас права і що можна зробити.',
+      'missie-body2': 'Без реклами, без підписок, без збереження даних. Solidari працює на домашніх сонячних панелях. Безкоштовно, бо сонце безкоштовне.',
+      'knop-over-meer': 'Більше про Solidari',
+      'stat-tools': 'Безкоштовних інструментів',
+      'stat-talen': 'Підтримуваних мов',
+      'stat-data': 'Збережених даних',
+      'stat-energie': 'Джерело енергії',
+      'over-label': 'Про цей проект',
+      'over-titel': 'Створено з відкритим кодом, працює на сонячній енергії',
+      'over-body': 'Solidari — незалежний проект civic tech, без компанії та субсидій. Побудований на переконанні, що хороша інформація має бути доступна всім. ШІ використовується свідомо: лише там, де це допомагає, і локально там, де цього вимагає конфіденційність.',
+      'knop-over-pagina': 'Читати більше на сторінці "Про нас"',
+      'over-k1': 'Конфіденційність за замовчуванням — без акаунту, без особистих даних',
+      'over-k3': 'Локальний AI на сонячній енергії — конфіденційна обробка вдома, не в хмарі',
+      'over-k4': 'Без реклами, без прибутку — прозорість щодо доходів і витрат',
     },
     FA: {
-      'hero-badge': '☀️ ابزارها فعال هستند — آفتاب می‌تابد',
-      'hero-titel': 'کمک رایگان،<br>با انرژی<br><em>خورشید</em>',
+      'hero-badge': '☀️ رایگان برای همه',
+      'hero-titel': 'حقوق خود را بشناسید.<br><em>کارهایتان را انجام دهید.</em>',
       'hero-subtitel': 'نامه‌های رسمی، کمک‌هزینه‌ها، حقوق — به زبان ساده توضیح داده شده. رایگان، برای همه.',
       'knop-tools': 'مشاهده ابزارها',
-      'knop-verhaal': 'داستان ما',
+      'knop-over': 'درباره Solidari',
+      'zon-kaart-titel': 'این پلتفرم چگونه کار می‌کند؟',
+      'zon-kaart-sub': 'انرژی خورشیدی و عقل سلیم',
+      'zon-kaart-citaat': '"Solidari با پنل‌های خورشیدی و عقل سلیم کار می‌کند."',
+      'zon-uitleg': 'پلتفرم تا حدی با انرژی خورشیدی خانگی کار می‌کند. ابزارهای حساس به حریم خصوصی عمداً به فضای ابری ارسال نمی‌شوند — در هر آب‌وهوایی.',      'talen-label': 'موجود به زبان‌های',
       'tools-label': 'ابزارهای موجود',
       'tools-titel': 'Solidari چه کاری برای شما می‌تواند انجام دهد؟',
-      'tools-subtitel': 'نامه‌های رسمی، کمک‌هزینه‌ها، حقوق — به زبان ساده. رایگان، برای همه.',
-      'missie-titel': 'رایگان چون خورشید رایگان است',
-      'missie-body1': 'Solidari با انرژی خورشیدی کار می‌کند. بدون تبلیغات، بدون اشتراک.',
-      'missie-body2': 'نامه‌های رسمی ممکن است سخت‌فهم باشند. Solidari آن زبان را به کلمات ساده ترجمه می‌کند.',
+      'tools-subtitel': 'ابزاری که با وضعیت شما مناسب است انتخاب کنید.',
+      'tool-brief-naam': 'توضیح‌دهنده نامه',
+      'tool-brief-omschrijving': 'از نامه‌تان عکس بگیرید. توضیح می‌دهیم چه نوشته، چه باید بکنید و کِی.',
+      'tool-budget-naam': 'کمک بودجه',
+      'tool-budget-omschrijving': 'درآمد و هزینه‌هایتان را گام به گام ثبت کنید. خلاصه را به صورت PDF دانلود کنید.',
+      'knop-alle-tools': 'مشاهده همه ابزارها',
+      'missie-label': 'رویکرد ما',
+      'missie-titel': 'اطلاعات روشن به زبان ساده.',
+      'missie-body1': 'Solidari فناوری هوشمند را با زبان ساده ترکیب می‌کند. تا بدانید چه نوشته، حقوقتان چیست و چه می‌توانید بکنید.',
+      'missie-body2': 'بدون تبلیغات، بدون اشتراک، بدون ذخیره داده. Solidari با پنل‌های خورشیدی خانگی کار می‌کند. رایگان چون خورشید رایگان است.',
+      'knop-over-meer': 'بیشتر درباره Solidari',
+      'stat-tools': 'ابزار رایگان',
+      'stat-talen': 'زبان پشتیبانی‌شده',
+      'stat-data': 'داده ذخیره‌شده',
+      'stat-energie': 'منبع انرژی',
+      'over-label': 'درباره این پروژه',
+      'over-titel': 'ساخته‌شده با متن‌باز، با انرژی خورشیدی',
+      'over-body': 'Solidari یک پروژه مستقل civic tech است — بدون شرکت، بدون یارانه. بر این اساس بنا شده که اطلاعات خوب باید برای همه قابل دسترس باشد. هوش مصنوعی آگاهانه به کار می‌رود: فقط جایی که کمک می‌کند، و به صورت محلی جایی که حریم خصوصی آن را می‌طلبد.',
+      'knop-over-pagina': 'بیشتر بخوانید در صفحه "درباره ما"',
+      'over-k1': 'حریم خصوصی در طراحی — بدون حساب، بدون ذخیره داده شخصی',
+      'over-k3': 'هوش مصنوعی محلی با انرژی خورشیدی — پردازش حساس در خانه، نه در فضای ابری',
+      'over-k4': 'بدون تبلیغات، بدون هدف سود — شفافیت در درآمد و هزینه‌ها',
     },
   });
 
   Solidari.i18n.init();
-
 
   // ── SMOOTH SCROLL ──
   document.querySelectorAll('a[href^="#"]').forEach(a => {
@@ -1265,6 +1011,6 @@
   });
 </script>
 
-  <script src="components.js"></script>
+<script src="components.js"></script>
 </body>
 </html>
