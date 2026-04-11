@@ -491,6 +491,180 @@
       font-weight: 400;
     }
 
+    /* ── TOOLS DONKER BLOK ── */
+    .tools-donker {
+      background: #0F1F17;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tools-donker::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 50% 60% at 90% 20%, rgba(232,160,32,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 50% at 5% 80%, rgba(45,90,61,0.2) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .tools-donker-inhoud {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .tools-donker-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .sectie-label-licht {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(232,160,32,0.8);
+      margin-bottom: 0.8rem;
+    }
+
+    .tools-donker-titel {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 700;
+      color: white;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.6rem;
+    }
+
+    .tools-donker-sub {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.5);
+      font-weight: 300;
+    }
+
+    .tools-compact-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+
+    .tool-compact {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 1.2rem 1.4rem;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    a.tool-compact:hover {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(232,160,32,0.3);
+      transform: translateY(-2px);
+    }
+
+    .tool-binnenkort {
+      opacity: 0.5;
+      cursor: default;
+    }
+
+    .tool-compact-icoon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .tool-compact-tekst {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .tool-compact-naam {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: white;
+      margin-bottom: 4px;
+    }
+
+    .tool-compact-omschrijving {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.5;
+      font-weight: 300;
+    }
+
+    .tool-compact-badge {
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      flex-shrink: 0;
+      align-self: flex-start;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+
+    .badge-zon-donker {
+      background: rgba(232,160,32,0.2);
+      color: var(--amber);
+    }
+
+    .badge-altijd-donker {
+      background: rgba(45,90,61,0.5);
+      color: rgba(255,255,255,0.7);
+    }
+
+    .badge-binnenkort {
+      background: rgba(255,255,255,0.07);
+      color: rgba(255,255,255,0.4);
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .tools-donker-voet {
+      text-align: center;
+    }
+
+    .knop-tools-donker {
+      display: inline-flex;
+      align-items: center;
+      background: transparent;
+      color: white;
+      border: 1.5px solid rgba(255,255,255,0.25);
+      border-radius: 10px;
+      padding: 13px 28px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+      font-family: 'Source Sans 3', sans-serif;
+    }
+
+    .knop-tools-donker:hover {
+      border-color: var(--amber);
+      color: var(--amber);
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 768px) {
+      .tools-compact-grid { grid-template-columns: 1fr; }
+    }
+
     /* ── OVER DIT PROJECT BLOK ── */
     .over-sectie {
       border-top: 1px solid var(--rand);
@@ -634,49 +808,7 @@
   </div>
 </div>
 
-<!-- TOOLS -->
-<section id="tools" class="sectie">
-  <div class="sectie-header">
-    <div class="sectie-label" data-i18n="tools-label">Beschikbare tools</div>
-    <h2 class="sectie-titel" data-i18n="tools-titel">Wat kan Solidari voor je doen?</h2>
-    <p class="sectie-subtitel" data-i18n="tools-subtitel">Kies een tool die past bij jouw situatie.</p>
-  </div>
 
-  <div class="tools-grid">
-    <a href="brief.html" class="tool-kaart">
-      <div class="tool-kaart-header">
-        <div class="tool-emoji" style="background:#FDF3E0;">📬</div>
-        <span class="tool-badge badge-zon">☀️ Bij zon</span>
-      </div>
-      <div class="tool-naam" data-i18n="tool-brief-naam">Brief Begrijper</div>
-      <div class="tool-omschrijving" data-i18n="tool-brief-omschrijving">Maak een foto van je brief. Wij leggen uit wat er staat, wat je moet doen en wanneer.</div>
-      <div class="tool-talen">
-        <span class="tool-taal">🇳🇱</span><span class="tool-taal">🇸🇦</span><span class="tool-taal">🇪🇹</span><span class="tool-taal">🇹🇷</span><span class="tool-taal">🇺🇦</span><span class="tool-taal">🇦🇫</span>
-      </div>
-    </a>
-
-    <a href="budgethulp.html" class="tool-kaart">
-      <div class="tool-kaart-header">
-        <div class="tool-emoji" style="background:#EBF3EE;">💬</div>
-        <span class="tool-badge badge-browser">✓ Altijd beschikbaar</span>
-      </div>
-      <div class="tool-naam" data-i18n="tool-budget-naam">Budgethulp</div>
-      <div class="tool-omschrijving" data-i18n="tool-budget-omschrijving">Zet je inkomsten en uitgaven op een rij. Stap voor stap, in gewone taal. Download daarna een overzicht als PDF.</div>
-      <div class="tool-talen">
-        <span class="tool-taal">🇳🇱</span><span class="tool-taal">🇸🇦</span><span class="tool-taal">🇪🇹</span><span class="tool-taal">🇹🇷</span><span class="tool-taal">🇺🇦</span>
-      </div>
-    </a>
-  </div>
-
-  <div style="text-align:center; margin-top:2.5rem;">
-    <a href="tools.html" class="knop-alle-tools" data-i18n="knop-alle-tools">
-      Bekijk alle tools
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="margin-left:6px;vertical-align:-2px;">
-        <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </a>
-  </div>
-</section>
 
 <!-- MISSIE -->
 <section id="missie" class="missie-sectie">
@@ -695,7 +827,7 @@
     <div>
       <div class="missie-stats">
         <div class="stat-item">
-          <div class="stat-getal">8</div>
+          <div class="stat-getal">7</div>
           <div class="stat-label" data-i18n="stat-tools">Gratis tools</div>
         </div>
         <div class="stat-item">
@@ -744,6 +876,93 @@
   </div>
 </section>
 
+
+<!-- TOOLS DONKER -->
+<section id="tools" class="tools-donker">
+  <div class="tools-donker-inhoud">
+    <div class="tools-donker-header">
+      <div class="sectie-label-licht" data-i18n="tools-label">Beschikbare tools</div>
+      <h2 class="tools-donker-titel" data-i18n="tools-titel">Wat kan Solidari voor je doen?</h2>
+      <p class="tools-donker-sub" data-i18n="tools-subtitel">Kies een tool die past bij jouw situatie.</p>
+    </div>
+    <div class="tools-compact-grid">
+
+      <a href="brief.html" class="tool-compact">
+        <div class="tool-compact-icoon" style="background:rgba(232,160,32,0.15);">📬</div>
+        <div class="tool-compact-tekst">
+          <div class="tool-compact-naam" data-i18n="tool-brief-naam">Brief Begrijper</div>
+          <div class="tool-compact-omschrijving" data-i18n="tool-brief-omschrijving">Maak een foto van je brief. Wij leggen uit wat er staat, wat je moet doen en wanneer.</div>
+        </div>
+        <span class="tool-compact-badge badge-zon-donker">☀️</span>
+      </a>
+
+      <a href="budgethulp.html" class="tool-compact">
+        <div class="tool-compact-icoon" style="background:rgba(45,90,61,0.4);">💬</div>
+        <div class="tool-compact-tekst">
+          <div class="tool-compact-naam" data-i18n="tool-budget-naam">Budgethulp</div>
+          <div class="tool-compact-omschrijving" data-i18n="tool-budget-omschrijving">Zet je inkomsten en uitgaven op een rij. Stap voor stap, in gewone taal.</div>
+        </div>
+        <span class="tool-compact-badge badge-altijd-donker">✓</span>
+      </a>
+
+      <a href="loont-werken.html" class="tool-compact">
+        <div class="tool-compact-icoon" style="background:rgba(45,90,61,0.4);">💶</div>
+        <div class="tool-compact-tekst">
+          <div class="tool-compact-naam" data-i18n="tool-lw-naam">Loont Werken?</div>
+          <div class="tool-compact-omschrijving" data-i18n="tool-lw-omschrijving">Wat verandert er als je meer gaat werken? Bereken je inkomen, toeslagen en uitkeringen in één overzicht.</div>
+        </div>
+        <span class="tool-compact-badge badge-altijd-donker">✓</span>
+      </a>
+
+      <a href="naturalisatie.html" class="tool-compact">
+        <div class="tool-compact-icoon" style="background:rgba(45,90,61,0.4);">🇳🇱</div>
+        <div class="tool-compact-tekst">
+          <div class="tool-compact-naam" data-i18n="tool-naturalisatie-naam">Naturalisatie Checker</div>
+          <div class="tool-compact-omschrijving" data-i18n="tool-naturalisatie-omschrijving">Controleer of je in aanmerking komt voor het Nederlandse staatsburgerschap.</div>
+        </div>
+        <span class="tool-compact-badge badge-altijd-donker">✓</span>
+      </a>
+
+      <a href="18jaar.html" class="tool-compact">
+        <div class="tool-compact-icoon" style="background:rgba(45,90,61,0.4);">🎂</div>
+        <div class="tool-compact-tekst">
+          <div class="tool-compact-naam" data-i18n="tool-18jaar-naam">18 Jaar Worden</div>
+          <div class="tool-compact-omschrijving" data-i18n="tool-18jaar-omschrijving">Wat verandert er als je 18 wordt? Rechten, plichten en praktische stappen.</div>
+        </div>
+        <span class="tool-compact-badge badge-altijd-donker">✓</span>
+      </a>
+
+
+      <div class="tool-compact tool-binnenkort">
+        <div class="tool-compact-icoon" style="background:rgba(255,255,255,0.05);">⚖️</div>
+        <div class="tool-compact-tekst">
+          <div class="tool-compact-naam" data-i18n="tool-rechten-naam">Rechten & Plichten</div>
+          <div class="tool-compact-omschrijving" data-i18n="tool-rechten-omschrijving">Wat zijn jouw rechten en plichten als statushouder in Nederland?</div>
+        </div>
+        <span class="tool-compact-badge badge-binnenkort">verSchijnt binnenkort</span>
+      </div>
+
+      <div class="tool-compact tool-binnenkort">
+        <div class="tool-compact-icoon" style="background:rgba(255,255,255,0.05);">💻</div>
+        <div class="tool-compact-tekst">
+          <div class="tool-compact-naam" data-i18n="tool-digi-naam">Digi Hulp</div>
+          <div class="tool-compact-omschrijving" data-i18n="tool-digi-omschrijving">Hulp bij digitale vaardigheden — DigiD, e-mail, online formulieren.</div>
+        </div>
+        <span class="tool-compact-badge badge-binnenkort">verSchijnt binnenkort</span>
+      </div>
+
+    </div>
+    <div class="tools-donker-voet">
+      <a href="tools.html" class="knop-tools-donker" data-i18n="knop-alle-tools">
+        Bekijk alle tools
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="margin-left:6px;vertical-align:-2px;">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
 <!-- FOOTER -->
 <div id="solidari-footer"></div>
 
@@ -784,6 +1003,15 @@
       'over-k1': 'Privacy by design — geen account, geen opslag van persoonsgegevens',
       'over-k3': 'Lokale AI op zonne-energie — privacygevoelige verwerking thuis, niet in de cloud',
       'over-k4': 'Geen advertenties, geen winstoogmerk — transparant over inkomsten en uitgaven',
+      'tool-lw-naam': 'Loont Werken?',
+      'tool-lw-omschrijving': 'Wat verandert er als je meer gaat werken? Bereken je inkomen, toeslagen en uitkeringen in één overzicht.',
+      'tool-naturalisatie-omschrijving': 'Controleer of je in aanmerking komt voor het Nederlandse staatsburgerschap.',
+      'tool-18jaar-omschrijving': 'Wat verandert er als je 18 wordt? Rechten, plichten en praktische stappen.',
+      'tool-toeslagen-omschrijving': 'Bereken welke toeslagen je kunt aanvragen en hoe hoog ze zijn.',
+      'tool-rechten-naam': 'Rechten & Plichten',
+      'tool-rechten-omschrijving': 'Wat zijn jouw rechten en plichten als statushouder in Nederland?',
+      'tool-digi-naam': 'Digi Hulp',
+      'tool-digi-omschrijving': 'Hulp bij digitale vaardigheden — DigiD, e-mail, online formulieren.',
     },
     EN: {
       'hero-badge': '☀️ Free for everyone',
@@ -819,6 +1047,15 @@
       'over-k1': 'Privacy by design — no account, no personal data stored',
       'over-k3': 'Local AI on solar energy — privacy-sensitive processing at home, not in the cloud',
       'over-k4': 'No ads, no profit motive — transparent about income and expenses',
+      'tool-lw-naam': 'Does Work Pay?',
+      'tool-lw-omschrijving': 'What changes if you work more? Calculate your income, benefits and allowances in one overview.',
+      'tool-naturalisatie-omschrijving': 'Check whether you qualify for Dutch citizenship.',
+      'tool-18jaar-omschrijving': 'What changes when you turn 18? Rights, responsibilities and practical steps.',
+      'tool-toeslagen-omschrijving': 'Calculate which benefits you can apply for and how much they are.',
+      'tool-rechten-naam': 'Rights & Obligations',
+      'tool-rechten-omschrijving': 'What are your rights and obligations as a status holder in the Netherlands?',
+      'tool-digi-naam': 'Digi Help',
+      'tool-digi-omschrijving': 'Help with digital skills — DigiD, email, online forms.',
     },
     AR: {
       'hero-badge': '☀️ مجاني للجميع',
@@ -854,6 +1091,15 @@
       'over-k1': 'الخصوصية بالتصميم — لا حساب، لا تخزين بيانات شخصية',
       'over-k3': 'ذكاء اصطناعي محلي بالطاقة الشمسية — معالجة حساسة في المنزل لا السحابة',
       'over-k4': 'لا إعلانات، لا هدف ربحي — شفافية في الإيرادات والمصروفات',
+      'tool-lw-naam': 'هل يستحق العمل؟',
+      'tool-lw-omschrijving': 'ماذا يتغير إذا عملت أكثر؟ احسب دخلك والإعانات والمزايا في نظرة عامة واحدة.',
+      'tool-naturalisatie-omschrijving': 'تحقق مما إذا كنت مؤهلاً للحصول على الجنسية الهولندية.',
+      'tool-18jaar-omschrijving': 'ماذا يتغير عندما تبلغ 18 عامًا؟ حقوق وواجبات وخطوات عملية.',
+      'tool-toeslagen-omschrijving': 'احسب الإعانات التي يمكنك التقدم لها ومقدارها.',
+      'tool-rechten-naam': 'الحقوق والواجبات',
+      'tool-rechten-omschrijving': 'ما هي حقوقك وواجباتك كحامل وضع في هولندا؟',
+      'tool-digi-naam': 'مساعدة رقمية',
+      'tool-digi-omschrijving': 'مساعدة في المهارات الرقمية — DigiD والبريد الإلكتروني والنماذج الإلكترونية.',
     },
     TR: {
       'hero-badge': '☀️ Herkes için ücretsiz',
@@ -889,6 +1135,15 @@
       'over-k1': 'Tasarımda gizlilik — hesap yok, kişisel veri saklanmaz',
       'over-k3': 'Güneş enerjisiyle yerel AI — gizlilik hassas işlemler evde, bulutta değil',
       'over-k4': 'Reklam yok, kâr amacı yok — gelir ve giderlerde şeffaflık',
+      'tool-lw-naam': 'Çalışmak Kazandırır mı?',
+      'tool-lw-omschrijving': 'Daha fazla çalışırsanız ne değişir? Gelir, yardım ve ödeneklerinizi tek bir genel bakışta hesaplayın.',
+      'tool-naturalisatie-omschrijving': 'Hollanda vatandaşlığına hak kazanıp kazanmadığınızı kontrol edin.',
+      'tool-18jaar-omschrijving': '18 yaşına girince ne değişir? Haklar, yükümlülükler ve pratik adımlar.',
+      'tool-toeslagen-omschrijving': 'Hangi yardımları talep edebileceğinizi ve ne kadar olduklarını hesaplayın.',
+      'tool-rechten-naam': 'Haklar & Yükümlülükler',
+      'tool-rechten-omschrijving': 'Hollanda'da statü sahibi olarak haklarınız ve yükümlülükleriniz nelerdir?',
+      'tool-digi-naam': 'Dijital Yardım',
+      'tool-digi-omschrijving': 'Dijital beceriler için yardım — DigiD, e-posta, çevrimiçi formlar.',
     },
     TI: {
       'hero-badge': '☀️ ናጻ ንኩሉ',
@@ -924,6 +1179,15 @@
       'over-k1': 'ሓለዋ-ውልቀ-ሰብ ብምህንድስና — ሕሳብ የለን፣ ውልቃዊ ውሂብ ኣይዕቀብን',
       'over-k3': 'ናይ ገዛ AI ብሓይሊ ፀሓይ — ምስጢራዊ ሕሳብ ኣብ ገዛ ይካየድ',
       'over-k4': 'ምስትዋጥ የለን፣ ትርፊ ዕላማ የለን — ብ ኣታዊ ወጻኢ ግሉጽ',
+      'tool-lw-naam': 'ምስራሕ ይጠቅም ዶ?',
+      'tool-lw-omschrijving': 'ዝያዳ ምስ ትзарабotا ፋይናንሳዊ ለውጢ ክሓስብ።',
+      'tool-naturalisatie-omschrijving': 'ናይ ሆላንድ ዜጋ ክትከውን ትኽእል ምዃንካ ርአ።',
+      'tool-18jaar-omschrijving': '18 ዓመት ምስ ትኸውን እንታይ ይቀያየር? መሰላት፣ ግዴታታትን ስጉምትታትን።',
+      'tool-toeslagen-omschrijving': 'ክትሓቶ እትኽእሎም ሓጋዚ ኣበርክቶን ክሳዕ ክንደይ ምዃኖምን ሓስብ።',
+      'tool-rechten-naam': 'መሰላት & ግዴታታት',
+      'tool-rechten-omschrijving': 'ኣብ ሆላንድ ከም ሃዳሚ መሰላትካን ግዴታታትካን እንታይ እዩ?',
+      'tool-digi-naam': 'ዲጂ ሓገዝ',
+      'tool-digi-omschrijving': 'ዲጂታዊ ክእለታት ሓገዝ — DigiD፣ ኢ-ሜይል፣ ናይ ኦንላይን ፎርምታት።',
     },
     UK: {
       'hero-badge': '☀️ Безкоштовно для всіх',
@@ -959,6 +1223,15 @@
       'over-k1': 'Конфіденційність за замовчуванням — без акаунту, без особистих даних',
       'over-k3': 'Локальний AI на сонячній енергії — конфіденційна обробка вдома, не в хмарі',
       'over-k4': 'Без реклами, без прибутку — прозорість щодо доходів і витрат',
+      'tool-lw-naam': 'Чи варто працювати?',
+      'tool-lw-omschrijving': 'Що зміниться, якщо ви більше працюватимете? Розрахуйте дохід, пільги та виплати в одному огляді.',
+      'tool-naturalisatie-omschrijving': 'Перевірте, чи маєте ви право на нідерландське громадянство.',
+      'tool-18jaar-omschrijving': 'Що змінюється, коли вам виповнюється 18? Права, обов'язки та практичні кроки.',
+      'tool-toeslagen-omschrijving': 'Розрахуйте, на які пільги ви можете претендувати і в якому розмірі.',
+      'tool-rechten-naam': 'Права та обов'язки',
+      'tool-rechten-omschrijving': 'Які ваші права та обов'язки як власника статусу в Нідерландах?',
+      'tool-digi-naam': 'Цифрова допомога',
+      'tool-digi-omschrijving': 'Допомога з цифровими навичками — DigiD, електронна пошта, онлайн-форми.',
     },
     FA: {
       'hero-badge': '☀️ رایگان برای همه',
@@ -994,6 +1267,15 @@
       'over-k1': 'حریم خصوصی در طراحی — بدون حساب، بدون ذخیره داده شخصی',
       'over-k3': 'هوش مصنوعی محلی با انرژی خورشیدی — پردازش حساس در خانه، نه در فضای ابری',
       'over-k4': 'بدون تبلیغات، بدون هدف سود — شفافیت در درآمد و هزینه‌ها',
+      'tool-lw-naam': 'آیا کار ارزشمند است؟',
+      'tool-lw-omschrijving': 'اگر بیشتر کار کنید چه تغییراتی ایجاد می‌شود؟ درآمد، کمک‌هزینه‌ها و مزایا را در یک نمای کلی محاسبه کنید.',
+      'tool-naturalisatie-omschrijving': 'بررسی کنید آیا واجد شرایط تابعیت هلندی هستید.',
+      'tool-18jaar-omschrijving': 'وقتی ۱۸ ساله می‌شوید چه تغییراتی ایجاد می‌شود؟ حقوق، وظایف و مراحل عملی.',
+      'tool-toeslagen-omschrijving': 'محاسبه کنید چه کمک‌هزینه‌هایی می‌توانید درخواست دهید و چقدر هستند.',
+      'tool-rechten-naam': 'حقوق و تکالیف',
+      'tool-rechten-omschrijving': 'حقوق و تکالیف شما به عنوان دارنده وضعیت در هلند چیست؟',
+      'tool-digi-naam': 'کمک دیجیتال',
+      'tool-digi-omschrijving': 'کمک برای مهارت‌های دیجیتال — DigiD، ایمیل، فرم‌های آنلاین.',
     },
   });
 
