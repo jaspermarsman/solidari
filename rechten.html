@@ -401,7 +401,7 @@ function voegKaartjesToe(kaartjes) {
 
 // ── API aanroep ───────────────────────────────────────────────────────────
 async function vraagAI(berichten) {
-  const resp = await fetch(WORKER_URL, {
+  const resp = await fetch(WORKER_URL + '/api/digi', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
