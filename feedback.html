@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback — Solidari</title>
+  <meta name="description" content="Laat ons weten wat je van Solidari vindt. Jouw feedback helpt ons de tools te verbeteren.">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="components.css">
+  <style>
+    .feedback-hero {
+      background: var(--groen);
+      color: white;
+      padding: 3rem 1.5rem 2.5rem;
+      text-align: center;
+    }
+    .feedback-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 600;
+      margin: 0 0 0.75rem;
+    }
+    .feedback-hero p {
+      font-size: 1.05rem;
+      opacity: 0.85;
+      max-width: 520px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .feedback-wrap {
+      max-width: 620px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+    }
+
+    .veld-groep {
+      margin-bottom: 1.5rem;
+    }
+    .veld-groep label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--tekst);
+      margin-bottom: 0.4rem;
+    }
+    .veld-groep .optioneel {
+      font-weight: 400;
+      color: var(--tekst-licht);
+      font-size: 0.85rem;
+      margin-left: 0.3rem;
+    }
+
+    select, textarea, input[type="email"] {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 0.75rem 1rem;
+      border: 1.5px solid var(--rand);
+      border-radius: 8px;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 1rem;
+      color: var(--tekst);
+      background: white;
+      transition: border-color 0.2s;
+      appearance: none;
+    }
+    select:focus, textarea:focus, input[type="email"]:focus {
+      outline: none;
+      border-color: var(--groen);
+      box-shadow: 0 0 0 3px rgba(45,90,61,0.1);
+    }
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235C5C58' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      padding-right: 2.5rem;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+      line-height: 1.6;
+    }
+
+    .type-knoppen {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.6rem;
+    }
+    .type-knop {
+      padding: 0.65rem 0.75rem;
+      border: 1.5px solid var(--rand);
+      border-radius: 8px;
+      background: white;
+      cursor: pointer;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.9rem;
+      color: var(--tekst-zacht);
+      text-align: center;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+    }
+    .type-knop:hover {
+      border-color: var(--groen);
+      color: var(--groen);
+      background: var(--groen-licht);
+    }
+    .type-knop.actief {
+      border-color: var(--groen);
+      background: var(--groen-licht);
+      color: var(--groen);
+      font-weight: 600;
+    }
+
+    .teller {
+      font-size: 0.8rem;
+      color: var(--tekst-licht);
+      text-align: right;
+      margin-top: 0.3rem;
+    }
+    .teller.bijna-vol { color: var(--amber-diep); }
+
+    .verstuur-knop {
+      width: 100%;
+      padding: 1rem;
+      background: var(--groen);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 0.5rem;
+    }
+    .verstuur-knop:hover { background: #234832; }
+    .verstuur-knop:disabled {
+      background: var(--tekst-licht);
+      cursor: not-allowed;
+    }
+
+    .melding {
+      display: none;
+      padding: 1rem 1.25rem;
+      border-radius: 10px;
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+    .melding.succes {
+      background: var(--groen-licht);
+      color: var(--groen);
+      border: 1px solid #b8d4c0;
+    }
+    .melding.fout {
+      background: #fef2f2;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+    }
+
+    .privacynoot {
+      margin-top: 1.5rem;
+      padding: 1rem 1.25rem;
+      background: var(--wit-warm);
+      border-radius: 8px;
+      font-size: 0.85rem;
+      color: var(--tekst-zacht);
+      line-height: 1.6;
+    }
+    .privacynoot a {
+      color: var(--groen);
+      text-decoration: none;
+    }
+
+    @media (max-width: 480px) {
+      .type-knoppen { grid-template-columns: 1fr; }
+      .feedback-hero h1 { font-size: 1.6rem; }
+    }
+  </style>
+</head>
+<body>
+  <div id="solidari-nav"></div>
+
+  <div class="feedback-hero">
+    <h1 data-i18n="feedback_titel">Jouw feedback</h1>
+    <p data-i18n="feedback_intro">Help ons Solidari beter te maken. Wat werkt goed? Wat kan beter? Elke reactie telt.</p>
+  </div>
+
+  <div class="feedback-wrap">
+
+    <div id="melding" class="melding" role="alert"></div>
+
+    <form id="feedback-form" novalidate>
+
+      <!-- Welke tool? -->
+      <div class="veld-groep">
+        <label for="tool" data-i18n="feedback_welke_tool">Welke tool?</label>
+        <select id="tool" required>
+          <option value="" data-i18n="feedback_kies">— kies een optie —</option>
+          <option value="brief" data-i18n="tool_brief">Brief Begrijper</option>
+          <option value="budgethulp" data-i18n="tool_budget">Budgethulp</option>
+          <option value="loont-werken" data-i18n="tool_loont">Loont Werken?</option>
+          <option value="naturalisatie" data-i18n="tool_nat">Naturalisatie Checker</option>
+          <option value="rechten" data-i18n="tool_rechten">Rechten &amp; Plichten</option>
+          <option value="digihulp" data-i18n="tool_digi">Digi Hulp</option>
+          <option value="18jaar" data-i18n="tool_18">18 Jaar Worden</option>
+          <option value="algemeen" data-i18n="feedback_algemeen">Algemeen / de site</option>
+        </select>
+      </div>
+
+      <!-- Type feedback -->
+      <div class="veld-groep">
+        <label data-i18n="feedback_type">Type feedback</label>
+        <div class="type-knoppen" id="type-knoppen">
+          <button type="button" class="type-knop" data-waarde="fout" data-i18n="feedback_fout">🐛 Fout gevonden</button>
+          <button type="button" class="type-knop" data-waarde="werkt-niet" data-i18n="feedback_werkt_niet">⚠️ Iets werkt niet</button>
+          <button type="button" class="type-knop" data-waarde="suggestie" data-i18n="feedback_suggestie">💡 Suggestie</button>
+          <button type="button" class="type-knop" data-waarde="compliment" data-i18n="feedback_compliment">👍 Compliment</button>
+        </div>
+        <input type="hidden" id="type" required>
+      </div>
+
+      <!-- Omschrijving -->
+      <div class="veld-groep">
+        <label for="omschrijving" data-i18n="feedback_omschrijving">Omschrijving</label>
+        <textarea id="omschrijving" maxlength="2000" placeholder="" required data-i18n-placeholder="feedback_placeholder"></textarea>
+        <div class="teller" id="teller">0 / 2000</div>
+      </div>
+
+      <!-- E-mail (optioneel) -->
+      <div class="veld-groep">
+        <label for="email">
+          <span data-i18n="feedback_email">E-mailadres</span>
+          <span class="optioneel" data-i18n="feedback_optioneel">(optioneel)</span>
+        </label>
+        <input type="email" id="email" autocomplete="email" data-i18n-placeholder="feedback_email_placeholder">
+      </div>
+
+      <button type="submit" class="verstuur-knop" id="verstuur-knop" data-i18n="feedback_verstuur">
+        Verstuur feedback
+      </button>
+    </form>
+
+    <div class="privacynoot">
+      <span data-i18n="feedback_privacy">
+        Je e-mailadres wordt alleen gebruikt om je terug te kunnen bellen en nooit gedeeld.
+        We slaan geen andere persoonsgegevens op. Zie ook onze
+      </span>
+      <a href="over.html#privacy" data-i18n="feedback_privacy_link">privacyverklaring</a>.
+    </div>
+  </div>
+
+  <div id="solidari-footer"></div>
+
+  <script src="i18n.js"></script>
+  <script src="components.js"></script>
+  <script>
+    const WORKER_URL = 'https://solidari-analyse.jmarsman.workers.dev';
+
+    // ── i18n strings ────────────────────────────────────────────────────────
+    Solidari.i18n.extend({
+      feedback_titel:         { nl:'Jouw feedback', en:'Your feedback', ar:'تعليقك', tr:'Geri bildiriminiz', ti:'መልሲኹም', uk:'Ваш відгук', fa:'بازخورد شما' },
+      feedback_intro:         { nl:'Help ons Solidari beter te maken. Wat werkt goed? Wat kan beter? Elke reactie telt.', en:'Help us improve Solidari. What works well? What could be better? Every response counts.', ar:'ساعدنا في تحسين سولاري. ما الذي يعمل بشكل جيد؟ ما الذي يمكن تحسينه؟', tr:'Solidari\'yi geliştirmemize yardım edin. Her geri bildirim önemlidir.', ti:'ሓግዝና ሶሊዳሪ ንምምሕያሽ። ኩሉ ርእይቶ ኣገዳሲ እዩ።', uk:'Допоможіть нам покращити Solidari. Кожен відгук важливий.', fa:'به ما کمک کنید سولیداری را بهتر کنیم. هر بازخوردی مهم است.' },
+      feedback_welke_tool:    { nl:'Welke tool?', en:'Which tool?', ar:'أي أداة؟', tr:'Hangi araç?', ti:'ኣየናይ መሳርሒ?', uk:'Який інструмент?', fa:'کدام ابزار؟' },
+      feedback_kies:          { nl:'— kies een optie —', en:'— choose an option —', ar:'— اختر خياراً —', tr:'— bir seçenek seçin —', ti:'— ምርጫ ምረጽ —', uk:'— оберіть варіант —', fa:'— یک گزینه انتخاب کنید —' },
+      tool_brief:             { nl:'Brief Begrijper', en:'Letter Explainer', ar:'شارح الرسائل', tr:'Mektup Açıklayıcı', ti:'ናይ ደብዳቤ መተርጓሚ', uk:'Пояснювач листів', fa:'توضیح‌دهنده نامه' },
+      tool_budget:            { nl:'Budgethulp', en:'Budget Help', ar:'مساعدة الميزانية', tr:'Bütçe Yardımı', ti:'ሓገዝ ባጀት', uk:'Допомога з бюджетом', fa:'کمک بودجه' },
+      tool_loont:             { nl:'Loont Werken?', en:'Does Work Pay?', ar:'هل يستحق العمل؟', tr:'Çalışmak Kazandırır mı?', ti:'ስራሕ ይከፍል ዶ?', uk:'Чи вигідно працювати?', fa:'آیا کار ارزش دارد؟' },
+      tool_nat:               { nl:'Naturalisatie Checker', en:'Citizenship Checker', ar:'مدقق التجنيس', tr:'Vatandaşlık Denetleyicisi', ti:'መርማሪ ዜግነት', uk:'Перевірка натуралізації', fa:'بررسی تابعیت' },
+      tool_rechten:           { nl:'Rechten & Plichten', en:'Rights & Duties', ar:'الحقوق والواجبات', tr:'Haklar & Yükümlülükler', ti:'መሰላትን ግዴታታትን', uk:'Права та обов\'язки', fa:'حقوق و وظایف' },
+      tool_digi:              { nl:'Digi Hulp', en:'Digital Help', ar:'المساعدة الرقمية', tr:'Dijital Yardım', ti:'ዲጂታላዊ ሓገዝ', uk:'Цифрова допомога', fa:'کمک دیجیتال' },
+      tool_18:                { nl:'18 Jaar Worden', en:'Turning 18', ar:'بلوغ سن 18', tr:'18 Yaşına Girmek', ti:'18 ዓመት ምኻን', uk:'Виповнення 18 років', fa:'رسیدن به ۱۸ سال' },
+      feedback_algemeen:      { nl:'Algemeen / de site', en:'General / the site', ar:'عام / الموقع', tr:'Genel / site', ti:'ሓፈሻዊ / ዌብሳይት', uk:'Загальне / сайт', fa:'عمومی / سایت' },
+      feedback_type:          { nl:'Type feedback', en:'Type of feedback', ar:'نوع التعليق', tr:'Geri bildirim türü', ti:'ዓይነት ርእይቶ', uk:'Тип відгуку', fa:'نوع بازخورد' },
+      feedback_fout:          { nl:'🐛 Fout gevonden', en:'🐛 Found a bug', ar:'🐛 وجدت خطأ', tr:'🐛 Hata buldum', ti:'🐛 ጌጋ ረኺበ', uk:'🐛 Знайшов помилку', fa:'🐛 خطا پیدا کردم' },
+      feedback_werkt_niet:    { nl:'⚠️ Iets werkt niet', en:'⚠️ Something doesn\'t work', ar:'⚠️ شيء لا يعمل', tr:'⚠️ Bir şey çalışmıyor', ti:'⚠️ ሓደ ነገር ኣይሰርሕን', uk:'⚠️ Щось не працює', fa:'⚠️ چیزی کار نمی‌کند' },
+      feedback_suggestie:     { nl:'💡 Suggestie', en:'💡 Suggestion', ar:'💡 اقتراح', tr:'💡 Öneri', ti:'💡 ሓሳብ', uk:'💡 Пропозиція', fa:'💡 پیشنهاد' },
+      feedback_compliment:    { nl:'👍 Compliment', en:'👍 Compliment', ar:'👍 إطراء', tr:'👍 İltifat', ti:'👍 ምስጋና', uk:'👍 Похвала', fa:'👍 تعریف' },
+      feedback_omschrijving:  { nl:'Omschrijving', en:'Description', ar:'الوصف', tr:'Açıklama', ti:'መግለጺ', uk:'Опис', fa:'توضیحات' },
+      feedback_placeholder:   { nl:'Vertel ons wat je hebt meegemaakt of wat je wilt verbeteren...', en:'Tell us what you experienced or what you\'d like to improve...', ar:'أخبرنا بما واجهته أو ما تريد تحسينه...', tr:'Yaşadıklarınızı veya geliştirmek istediklerinizi anlatın...', ti:'እንታይ ከም ዝረኸብካ ወይ ክምሕየሽ ዝደሊ ንገርና...', uk:'Розкажіть, що сталося або що хочете покращити...', fa:'بگویید چه اتفاقی افتاد یا چه چیزی را می‌خواهید بهتر شود...' },
+      feedback_email:         { nl:'E-mailadres', en:'Email address', ar:'البريد الإلكتروني', tr:'E-posta adresi', ti:'ኢ-መይል', uk:'Електронна пошта', fa:'ایمیل' },
+      feedback_optioneel:     { nl:'(optioneel)', en:'(optional)', ar:'(اختياري)', tr:'(isteğe bağlı)', ti:'(ዘይግደድ)', uk:'(необов\'язково)', fa:'(اختیاری)' },
+      feedback_email_placeholder: { nl:'jouw@email.nl', en:'your@email.com', ar:'بريدك@example.com', tr:'senin@email.com', ti:'ናትካ@email.com', uk:'ваш@email.com', fa:'شما@email.com' },
+      feedback_verstuur:      { nl:'Verstuur feedback', en:'Send feedback', ar:'إرسال التعليق', tr:'Geri bildirimi gönder', ti:'ርእይቶ ስደድ', uk:'Надіслати відгук', fa:'ارسال بازخورد' },
+      feedback_privacy:       { nl:'Je e-mailadres wordt alleen gebruikt om je terug te kunnen schrijven en nooit gedeeld. We slaan geen andere persoonsgegevens op. Zie ook onze', en:'Your email is only used to reply to you and is never shared. We store no other personal data. See also our', ar:'يُستخدم بريدك الإلكتروني فقط للرد عليك ولن يُشارك مع أحد. انظر أيضاً', tr:'E-postanız yalnızca yanıt vermek için kullanılır ve paylaşılmaz. Ayrıca bkz:', ti:'ኢ-መይልካ ንምምላስ ጥራይ ክንጥቀሞ ኢና። ርኣዩ:', uk:'Ваш email використовується лише для відповіді і ніколи не передається. Дивіться також:', fa:'ایمیل شما فقط برای پاسخ استفاده می‌شود و هرگز به اشتراک گذاشته نمی‌شود. همچنین ببینید:' },
+      feedback_privacy_link:  { nl:'privacyverklaring', en:'privacy statement', ar:'سياسة الخصوصية', tr:'gizlilik bildirimi', ti:'መግለጺ ውልቃዊነት', uk:'заява про конфіденційність', fa:'بیانیه حریم خصوصی' },
+      feedback_succes:        { nl:'Dank je wel! Je feedback is ontvangen en wordt gebruikt om Solidari te verbeteren.', en:'Thank you! Your feedback has been received and will be used to improve Solidari.', ar:'شكراً جزيلاً! تم استلام تعليقك وسيُستخدم لتحسين سولاري.', tr:'Teşekkürler! Geri bildiriminiz alındı ve Solidari\'yi geliştirmek için kullanılacak.', ti:'የቐንየልና! ርእይቶኹም ተቐቢልናዮ።', uk:'Дякуємо! Ваш відгук отриманий і буде використаний для покращення Solidari.', fa:'ممنون! بازخورد شما دریافت شد و برای بهبود سولیداری استفاده می‌شود.' },
+      feedback_fout_melding:  { nl:'Er ging iets mis. Probeer het opnieuw of stuur een e-mail naar info@solidari.nl.', en:'Something went wrong. Please try again or email info@solidari.nl.', ar:'حدث خطأ. حاول مرة أخرى أو راسلنا على info@solidari.nl', tr:'Bir hata oluştu. Lütfen tekrar deneyin veya info@solidari.nl adresine e-posta gönderin.', ti:'ሓደ ጌጋ ኣጋጢሙ። ደጊምካ ፈትን ወይ info@solidari.nl ጸሓፍ።', uk:'Щось пішло не так. Спробуйте ще раз або напишіть на info@solidari.nl.', fa:'مشکلی پیش آمد. دوباره امتحان کنید یا به info@solidari.nl ایمیل بزنید.' },
+      feedback_verplicht:     { nl:'Vul alle verplichte velden in (tool, type en omschrijving).', en:'Please fill in all required fields (tool, type and description).', ar:'يرجى ملء جميع الحقول المطلوبة.', tr:'Lütfen tüm zorunlu alanları doldurun.', ti:'ኩሎም ዘድልዩ ቦታታት ምልኣዮም።', uk:'Будь ласка, заповніть усі обов\'язкові поля.', fa:'لطفاً همه فیلدهای اجباری را پر کنید.' },
+    });
+
+    // ── Taal ────────────────────────────────────────────────────────────────
+    function setTaal(code) {
+      Solidari.i18n.passToe(code);
+      // Update placeholders handmatig
+      const ta = document.getElementById('omschrijving');
+      const em = document.getElementById('email');
+      if (ta) ta.placeholder = Solidari.i18n.t('feedback_placeholder');
+      if (em) em.placeholder = Solidari.i18n.t('feedback_email_placeholder');
+      // Update type-knoppen tekst
+      document.querySelectorAll('.type-knop').forEach(k => {
+        k.textContent = Solidari.i18n.t(k.dataset.i18n);
+      });
+    }
+
+    // ── Type-knoppen ────────────────────────────────────────────────────────
+    document.querySelectorAll('.type-knop').forEach(knop => {
+      knop.addEventListener('click', () => {
+        document.querySelectorAll('.type-knop').forEach(k => k.classList.remove('actief'));
+        knop.classList.add('actief');
+        document.getElementById('type').value = knop.dataset.waarde;
+      });
+    });
+
+    // ── Tekenteller ─────────────────────────────────────────────────────────
+    const ta = document.getElementById('omschrijving');
+    const teller = document.getElementById('teller');
+    ta.addEventListener('input', () => {
+      const n = ta.value.length;
+      teller.textContent = n + ' / 2000';
+      teller.classList.toggle('bijna-vol', n > 1800);
+    });
+
+    // ── Formulier versturen ──────────────────────────────────────────────────
+    document.getElementById('feedback-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const meldingEl = document.getElementById('melding');
+      const knop = document.getElementById('verstuur-knop');
+
+      const tool = document.getElementById('tool').value;
+      const type = document.getElementById('type').value;
+      const omschrijving = ta.value.trim();
+      const email = document.getElementById('email').value.trim();
+      const taal = document.documentElement.lang || 'nl';
+
+      // Validatie
+      if (!tool || !type || !omschrijving) {
+        meldingEl.className = 'melding fout';
+        meldingEl.textContent = Solidari.i18n.t('feedback_verplicht');
+        meldingEl.style.display = 'block';
+        meldingEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        return;
+      }
+
+      knop.disabled = true;
+      knop.textContent = '⏳ …';
+
+      try {
+        const res = await fetch(WORKER_URL + '/api/feedback', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ tool, type, omschrijving, email: email || null, taal })
+        });
+        const data = await res.json();
+
+        if (res.ok && data.ok) {
+          meldingEl.className = 'melding succes';
+          meldingEl.textContent = Solidari.i18n.t('feedback_succes');
+          meldingEl.style.display = 'block';
+          document.getElementById('feedback-form').reset();
+          document.querySelectorAll('.type-knop').forEach(k => k.classList.remove('actief'));
+          document.getElementById('type').value = '';
+          teller.textContent = '0 / 2000';
+        } else {
+          throw new Error(data.error || 'Onbekende fout');
+        }
+      } catch (err) {
+        meldingEl.className = 'melding fout';
+        meldingEl.textContent = Solidari.i18n.t('feedback_fout_melding');
+        meldingEl.style.display = 'block';
+        console.error('Feedback fout:', err);
+      } finally {
+        knop.disabled = false;
+        knop.textContent = Solidari.i18n.t('feedback_verstuur');
+        meldingEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    });
+
+    // ── Init ────────────────────────────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+      Solidari.i18n.passToe('nl');
+      setTaal('nl');
+    });
+
+    // Maak setTaal globaal zodat components.js taalknopen werken
+    window.setTaal = setTaal;
+  </script>
+</body>
+</html>
