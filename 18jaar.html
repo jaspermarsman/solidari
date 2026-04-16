@@ -160,11 +160,16 @@
 
 </div>
 
+<script src="18jaar-data-1.js"></script>
+<script src="18jaar-data-2.js"></script>
 <script>
 let huidigeFase = 'voor';
 let huidigeDoelgroep = 'ouder';
+let huidigeTaal = 'NL';
 
-const data = {
+// Data wordt geladen via 18jaar-data-1.js en 18jaar-data-2.js (window._D18)
+// Fallback: lege structuur zodat render() niet crasht vóór de scripts geladen zijn
+const _legeData = {
   ouder: {
     voor: {
       intro: { icoon: '⏰', tekst: '<strong>Regel dit vóór de 18e verjaardag.</strong> Sommige toeslagen stoppen automatisch op de dag dat je kind 18 wordt. Als je niets doet, kun je geld mislopen of juist te veel ontvangen. Plan dit op tijd.' },
@@ -487,6 +492,18 @@ const data = {
   },
 };
 
+function getData() {
+  var taal = huidigeTaal;
+  var d18 = window._D18;
+  if (d18 && d18[taal] && d18[taal][huidigeDoelgroep] && d18[taal][huidigeDoelgroep][huidigeFase]) {
+    return d18[taal][huidigeDoelgroep][huidigeFase];
+  }
+  if (d18 && d18['NL'] && d18['NL'][huidigeDoelgroep] && d18['NL'][huidigeDoelgroep][huidigeFase]) {
+    return d18['NL'][huidigeDoelgroep][huidigeFase];
+  }
+  return _legeData[huidigeDoelgroep] && _legeData[huidigeDoelgroep][huidigeFase];
+}
+
 function setDoelgroep(el, dg) {
   document.querySelectorAll('.leeftijd-knop').forEach(b => b.classList.remove('actief'));
   el.classList.add('actief');
@@ -514,7 +531,8 @@ function toggleCheck(el) {
 
 function render() {
   const inhoud = document.getElementById('inhoud');
-  const fase = data[huidigeDoelgroep][huidigeFase];
+  const fase = getData();
+  if (!fase) return;
   let html = '';
 
   // Fase intro
@@ -672,12 +690,12 @@ Solidari.i18n.extend({
 
 // ── setTaal hook voor components.js ──────────────────────────────────────
 window.setTaal = function(code) {
-  // components.js roept dit aan bij taalwissel — i18n.passToe doet de rest
   if (window.Solidari && Solidari.i18n) {
     const upper = code.toUpperCase();
+    huidigeTaal = upper;
     Solidari.i18n.passToe(upper);
-    // RTL voor AR en FA
     document.documentElement.dir = ['AR','FA'].includes(upper) ? 'rtl' : 'ltr';
+    render();
   }
 };
 
