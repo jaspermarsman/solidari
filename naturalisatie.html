@@ -5,25 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Naturalisatie Checker — Solidari</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="components.css">
   <style>
-    :root {
-      --wit: #FAFAF7; --wit-warm: #F5F2EC;
-      --amber: #E8A020; --amber-licht: #FDF3E0; --amber-diep: #C47F10;
-      --groen: #2D5A3D; --groen-licht: #EBF3EE;
-      --tekst: #1A1A18; --tekst-zacht: #5C5C58; --tekst-licht: #9C9C98;
-      --rand: #E8E5DE; --rood-licht: #FEF2F2; --rood: #DC2626;
-      --blauw-licht: #EFF6FF; --blauw: #2563EB;
-      --paars-licht: #F5F3FF; --paars: #7C3AED;
-    }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body { background: var(--wit); color: var(--tekst); font-family: 'Source Sans 3', sans-serif; font-weight: 400; line-height: 1.6; min-height: 100vh; }
-    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(250,250,247,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--rand); padding: 0 2rem; height: 64px; display: flex; align-items: center; justify-content: space-between; }
-    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .logo-naam { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--tekst); }
-    .logo-naam span { color: var(--amber); }
-    .nav-terug { display: flex; align-items: center; gap: 6px; text-decoration: none; color: var(--tekst-zacht); font-size: 0.88rem; font-weight: 500; border: 1px solid var(--rand); border-radius: 8px; padding: 6px 14px; transition: all 0.2s; }
-    .nav-terug:hover { border-color: var(--tekst-zacht); color: var(--tekst); }
     .pagina-header { padding-top: 64px; background: var(--groen); color: white; position: relative; overflow: hidden; }
     .pagina-header::before { content: '🇳🇱'; position: absolute; right: 8%; top: 50%; transform: translateY(-50%); font-size: 7rem; opacity: 0.07; pointer-events: none; }
     .pagina-header::after { content: ''; position: absolute; right: -80px; top: -80px; width: 320px; height: 320px; border-radius: 50%; background: rgba(232,160,32,0.08); }
@@ -66,6 +52,7 @@
     .resultaat-negatief .resultaat-header { background: #374151; }
     .resultaat-wacht .resultaat-header { background: var(--amber-diep); }
     .resultaat-route .resultaat-header { background: var(--paars); }
+    .resultaat-eu .resultaat-header { background: #1e40af; }
     .stap-lijst { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 1.5rem; }
     .stap-item-res { display: flex; gap: 12px; align-items: flex-start; }
     .stap-nr-res { width: 24px; height: 24px; border-radius: 50%; background: var(--groen); color: white; font-size: 0.7rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
@@ -94,23 +81,7 @@
   </style>
 </head>
 <body>
-<nav>
-  <a href="index.html" class="nav-logo">
-    <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
-      <circle cx="18" cy="18" r="8" fill="#E8A020"/>
-      <line x1="18" y1="2" x2="18" y2="7" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
-      <line x1="18" y1="29" x2="18" y2="34" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
-      <line x1="2" y1="18" x2="7" y2="18" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
-      <line x1="29" y1="18" x2="34" y2="18" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
-      <line x1="6.1" y1="6.1" x2="9.6" y2="9.6" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
-      <line x1="26.4" y1="26.4" x2="29.9" y2="29.9" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
-      <line x1="29.9" y1="6.1" x2="26.4" y2="9.6" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
-      <line x1="9.6" y1="26.4" x2="6.1" y2="29.9" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
-    </svg>
-    <span class="logo-naam">Solid<span>a</span>ri</span>
-  </a>
-  <a href="index.html" class="nav-terug">← Alle tools</a>
-</nav>
+<div id="solidari-nav"></div>
 <div class="pagina-header">
   <div class="header-inhoud">
     <div class="header-badge">🇳🇱 Naturalisatie Checker</div>
@@ -126,16 +97,26 @@
 <script>
 const vragen = {
   v1: {
-    stap: 'Stap 1 van 8',
+    stap: 'Stap 1 van 9',
     tekst: 'Ben je 18 jaar of ouder?',
     uitleg: 'Naturalisatie kan alleen worden aangevraagd door meerderjarigen. Voor minderjarige kinderen gelden aparte regels via de ouders.',
     antwoorden: [
-      { tekst: 'Ja, ik ben 18 jaar of ouder', icoon: '✓', klasse: 'ja', volgende: 'v2' },
+      { tekst: 'Ja, ik ben 18 jaar of ouder', icoon: '✓', klasse: 'ja', volgende: 'v1b' },
       { tekst: 'Nee, ik ben jonger dan 18', icoon: '✗', klasse: 'nee', volgende: 'r_minderjarig' },
     ]
   },
+  v1b: {
+    stap: 'Stap 2 van 9',
+    tekst: 'Wat is je huidige verblijfsstatus in Nederland?',
+    uitleg: 'De manier waarop je in Nederland verblijft, bepaalt welke route van toepassing is. EU-burgers verblijven op basis van EU-recht — niet via een Nederlandse verblijfsvergunning.',
+    antwoorden: [
+      { tekst: 'Ik heb een Nederlandse verblijfsvergunning', sub: 'Of een asielstatus (IND type III, IV of V)', icoon: '📄', klasse: 'ja', volgende: 'v2' },
+      { tekst: 'Ik ben EU-burger (bijv. Roemeens of Pools paspoort)', sub: 'Of burger van EER/Zwitserland', icoon: '🇪🇺', klasse: 'anders', volgende: 'r_eu_burger' },
+      { tekst: 'Ik weet het niet zeker', icoon: '❓', klasse: 'anders', volgende: 'v2' },
+    ]
+  },
   v2: {
-    stap: 'Stap 2 van 8',
+    stap: 'Stap 3 van 9',
     tekst: 'Heb je een geldige verblijfsvergunning?',
     uitleg: 'Je hebt een geldige verblijfsvergunning nodig. Een asielstatus (verblijfsvergunning asiel bepaalde of onbepaalde duur) telt ook mee.',
     antwoorden: [
@@ -144,7 +125,7 @@ const vragen = {
     ]
   },
   v3: {
-    stap: 'Stap 3 van 8',
+    stap: 'Stap 4 van 9',
     tekst: 'Hoe lang woon je ononderbroken in Nederland?',
     uitleg: 'Je moet normaal gesproken minimaal 5 jaar aaneengesloten in Nederland wonen. Korte reizen naar het buitenland breken dit niet.',
     antwoorden: [
@@ -153,7 +134,7 @@ const vragen = {
     ]
   },
   v4a: {
-    stap: 'Stap 4 van 8 — Inburgering',
+    stap: 'Stap 5 van 9 — Inburgering',
     tekst: 'Hoe staat het met jouw inburgering?',
     uitleg: 'Voor naturalisatie moet je aantonen dat je bent ingeburgerd. Er zijn meerdere manieren.',
     antwoorden: [
@@ -165,7 +146,7 @@ const vragen = {
     ]
   },
   v4b: {
-    stap: 'Stap 4 van 8 — Leerroute',
+    stap: 'Stap 5 van 9 — Leerroute',
     tekst: 'Welke inburgeringsroute volg je?',
     uitleg: 'De gemeente bepaalt jouw leerroute op basis van je leerbaarheid. Er zijn drie routes: B1, Onderwijsroute en Z-route.',
     antwoorden: [
@@ -176,7 +157,7 @@ const vragen = {
     ]
   },
   v4b_z: {
-    stap: 'Stap 4 van 8 — Z-route',
+    stap: 'Stap 5 van 9 — Z-route',
     tekst: 'Hoe ver ben je in de Z-route?',
     uitleg: 'De Z-route sluit af met een eindgesprek bij de gemeente en een positief DUO-advies. Dit is vereist voor naturalisatie.',
     antwoorden: [
@@ -185,7 +166,7 @@ const vragen = {
     ]
   },
   v5: {
-    stap: 'Stap 5 van 8',
+    stap: 'Stap 6 van 9',
     tekst: 'Ben je in de afgelopen 5 jaar veroordeeld voor een misdrijf?',
     uitleg: 'Een strafrechtelijke veroordeling kan naturalisatie blokkeren. Verkeersboetes en kleine overtredingen tellen meestal niet mee.',
     antwoorden: [
@@ -195,7 +176,7 @@ const vragen = {
     ]
   },
   v6: {
-    stap: 'Stap 6 van 8',
+    stap: 'Stap 7 van 9',
     tekst: 'Heb je op dit moment je hoofdverblijf in Nederland?',
     uitleg: 'Je moet je hoofdverblijf in Nederland hebben. Af en toe op reis gaan is geen probleem.',
     antwoorden: [
@@ -204,7 +185,7 @@ const vragen = {
     ]
   },
   v7: {
-    stap: 'Stap 7 van 8',
+    stap: 'Stap 8 van 9',
     tekst: 'Ben je bereid afstand te doen van je huidige nationaliteit?',
     uitleg: 'Nederland staat in principe geen dubbele nationaliteit toe. Uitzondering: erkende vluchtelingen (statushouders) mogen beide nationaliteiten houden.',
     antwoorden: [
@@ -214,7 +195,7 @@ const vragen = {
     ]
   },
   v8: {
-    stap: 'Stap 8 van 8',
+    stap: 'Stap 9 van 9',
     tekst: 'Ben je op de hoogte van de kosten van naturalisatie?',
     uitleg: 'De aanvraag kost €1.044 (2025). De procedure duurt gemiddeld 6–12 maanden.',
     antwoorden: [
@@ -239,8 +220,22 @@ const resultaten = {
     ],
     link: 'https://ind.nl/nl/nederlander-worden/naturalisatie', linkTekst: '→ Meer informatie op ind.nl',
   },
+  r_eu_burger: {
+    type: 'eu', icoon: '🇪🇺',
+    titel: 'Als EU-burger heb je andere rechten',
+    sub: 'Naturalisatie tot Nederlander is mogelijk, maar je hoeft het Nederlanderschap niet te hebben om hier te wonen en werken. Als EU-burger heb je al vergaande rechten in Nederland.',
+    infoBoxen: [
+      { type: 'info', tekst: '🇪🇺 <strong>EU-burgerrecht:</strong> Als Roemeens of Pools staatsburger heb je het recht om in Nederland te wonen, werken en studeren — zonder verblijfsvergunning. Je registreert je bij de gemeente (BRP), maar een IND-vergunning is niet nodig.' },
+      { type: 'amber', tekst: '⚠️ <strong>Let op dubbele nationaliteit:</strong> Als je naturaliseert tot Nederlander, moet je in principe afstand doen van je Roemeense of Poolse nationaliteit. Roemenië en Polen staan dit in sommige gevallen niet toe. Vraag dit na bij de ambassade voordat je start.' },
+    ],
+    stappen: [
+      { nr: 1, tekst: '<strong>Wil je toch naturaliseren?</strong> De standaardvoorwaarden gelden ook voor EU-burgers: 5 jaar ononderbroken verblijf, inburgering, geen strafblad, afstand van nationaliteit.' },
+      { nr: 2, tekst: '<strong>Dubbele nationaliteit:</strong> Informeer bij de Roemeense of Poolse ambassade of jij je nationaliteit kunt houden na naturalisatie. De regels per land verschillen.' },
+      { nr: 3, tekst: '<strong>Geen haast?</strong> Ga dan door met deze checker om te zien of je voldoet aan de naturalisatievoorwaarden.' },
+    ],
+    link: 'https://ind.nl/nl/nederlander-worden/naturalisatie', linkTekst: '→ Naturalisatie-informatie op ind.nl',
+  },
   r_minderjarig: {
-    type: 'wacht', icoon: '👶',
     titel: 'Naturalisatie voor kinderen gaat via de ouders',
     sub: 'Minderjarige kinderen kunnen meenaturaliseren als een ouder de Nederlandse nationaliteit aanvraagt of al heeft.',
     alternatieven: [
@@ -477,8 +472,11 @@ function toonResultaat(id) {
       <div class="sectie-label">Volgende stappen</div>
       <ul class="stap-lijst">${res.stappen.map(s=>`<li class="stap-item-res"><span class="stap-nr-res">${s.nr}</span><span class="stap-tekst-res">${s.tekst}</span></li>`).join('')}</ul>
       ${knoppen}${disclaimer}</div>`;
-  } else if (res.type === 'route') {
+  } else if (res.type === 'eu') {
     let infoH = (res.infoBoxen||[]).map(b=>`<div class="${b.type==='amber'?'amber-box':'info-box'}">${b.tekst}</div>`).join('');
+    let stappenH = res.stappen ? `<div class="sectie-label">Wat kun je doen?</div><ul class="stap-lijst">${res.stappen.map(s=>`<li class="stap-item-res"><span class="stap-nr-res">${s.nr}</span><span class="stap-tekst-res">${s.tekst}</span></li>`).join('')}</ul>` : '';
+    body = `<div class="resultaat-body">${infoH}${stappenH}${knoppen}${disclaimer}</div>`;
+  } else if (res.type === 'route') {
     if (res.info) infoH += `<div class="info-box">${res.info}</div>`;
     let padenH = res.paden ? `<div class="sectie-label">De drie paden voor naturalisatie vanuit de Z-route</div><div class="route-paden">${res.paden.map(p=>`<div class="route-pad"><div class="route-pad-header"><div class="route-pad-nr">${p.nr}</div><div class="route-pad-titel">${p.titel}</div></div><div class="route-pad-tekst">${p.tekst}</div></div>`).join('')}</div>` : '';
     let stappenH = res.stappen ? `<div class="sectie-label" style="margin-top:1rem;">Wat kun je nu doen?</div><ul class="stap-lijst">${res.stappen.map(s=>`<li class="stap-item-res"><span class="stap-nr-res">${s.nr}</span><span class="stap-tekst-res">${s.tekst}</span></li>`).join('')}</ul>` : '';
@@ -505,5 +503,8 @@ function opnieuwBeginnen() {
 
 render();
 </script>
+<div id="solidari-footer"></div>
+<script src="i18n.js"></script>
+<script src="components.js"></script>
 </body>
 </html>

@@ -6,6 +6,7 @@
   <title>Budgethulp — Solidari</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="components.css">
   <style>
     :root {
       --wit:#FAFAF7;--wit-warm:#F5F2EC;
@@ -20,15 +21,6 @@
     html,body{height:100%;}
     body{background:var(--chat-bg);color:var(--tekst);font-family:'Source Sans 3',sans-serif;font-weight:400;display:flex;flex-direction:column;}
 
-    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,250,247,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--rand);padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
-    .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
-    .logo-icon{width:36px;height:36px;}
-    .logo-naam{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--tekst);letter-spacing:-0.02em;}
-    .logo-naam span{color:var(--amber);}
-    .nav-links{display:flex;align-items:center;gap:2rem;list-style:none;}
-    .nav-links a{text-decoration:none;color:var(--tekst-zacht);font-size:0.9rem;font-weight:500;transition:color 0.2s;}
-    .nav-links a:hover{color:var(--tekst);}
-    .nav-taal{display:flex;gap:0.4rem;}
     .taal-btn{background:none;border:1px solid var(--rand);border-radius:4px;padding:3px 8px;font-size:0.75rem;cursor:pointer;color:var(--tekst-zacht);font-family:'Source Sans 3',sans-serif;transition:all 0.2s;}
     .taal-btn:hover,.taal-btn.actief{background:var(--amber);border-color:var(--amber);color:white;}
 
@@ -201,37 +193,7 @@
 </head>
 <body>
 
-<nav>
-  <a href="index.html" class="nav-logo">
-    <svg class="logo-icon" viewBox="0 0 36 36" fill="none">
-      <circle cx="18" cy="18" r="8" fill="#E8A020"/>
-      <line x1="18" y1="2" x2="18" y2="7" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
-      <line x1="18" y1="29" x2="18" y2="34" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
-      <line x1="2" y1="18" x2="7" y2="18" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
-      <line x1="29" y1="18" x2="34" y2="18" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
-      <line x1="6.1" y1="6.1" x2="9.6" y2="9.6" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
-      <line x1="26.4" y1="26.4" x2="29.9" y2="29.9" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
-      <line x1="29.9" y1="6.1" x2="26.4" y2="9.6" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
-      <line x1="9.6" y1="26.4" x2="6.1" y2="29.9" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
-    </svg>
-    <span class="logo-naam">Solid<span>a</span>r<span>i</span></span>
-  </a>
-  <ul class="nav-links">
-    <li><a href="tools.html" data-i18n="nav-tools">Tools</a></li>
-    <li><a href="index.html#missie" data-i18n="nav-over">Over ons</a></li>
-    <li><a href="index.html#missie" data-i18n="nav-privacy">Privacy</a></li>
-    <li><a href="index.html#doneer" data-i18n="nav-doneer" style="color:var(--amber-diep);font-weight:600;">💛 Doneer</a></li>
-  </ul>
-  <div class="nav-taal">
-    <button class="taal-btn actief" onclick="setTaal('nl',this)">NL</button>
-    <button class="taal-btn" onclick="setTaal('en',this)">EN</button>
-    <button class="taal-btn" onclick="setTaal('ar',this)">AR</button>
-    <button class="taal-btn" onclick="setTaal('tr',this)">TR</button>
-    <button class="taal-btn" onclick="setTaal('ti',this)">TI</button>
-    <button class="taal-btn" onclick="setTaal('uk',this)">UK</button>
-    <button class="taal-btn" onclick="setTaal('fa',this)">FA</button>
-  </div>
-</nav>
+<div id="solidari-nav"></div>
 <div class="voortgang-strip"><div class="voortgang-vul" id="voortgang" style="width:0%"></div></div>
 
 <div class="chat-wrap">
@@ -1155,8 +1117,278 @@ const T = {
     week_cat_buf:'ذخیره و موارد غیرمنتظره',
     week_cat_verv:'حمل‌ونقل',
     week_cat_abon:'اشتراک‌ها',
-    week_nibud_ok:(n)=>`یک خانواده معمولی هفته‌ای €${n} برای این خرج می‌کند.`,
-    week_nibud_hoog:(n)=>`کمی بیشتر از میانگین (€${n} در هفته).`,
+    week_nibud_ok:(n)=>`Un buget obișnuit este de €${n} pe săptămână pentru asta.`,
+    week_nibud_hoog:(n)=>`Puțin peste medie (€${n} pe săptămână).`,
+  },
+  ro:{
+    welkom:'Salut! Te ajut cu bugetul tău lunar.\nÎți pun întrebări — una câte una. Împreună vedem cât bani îți rămân în fiecare lună.',
+    start:'Să începem 👇',
+    sit_v:'Cine locuiește la tine acasă?',
+    sit_opties:[
+      {id:'alleen',   l:'👤 Doar eu'},
+      {id:'stel',     l:'👫 Eu și partenerul/a meu/mea'},
+      {id:'eenouder', l:'👩‍👧 Eu și copilul/copiii mei'},
+      {id:'gezin',    l:'👨‍👩‍👧‍👦 Noi cu copii'},
+      {id:'thuis',    l:'🏠 Locuiesc cu familia sau la un centru'},
+    ],
+    thuis_uitleg:'Deoarece nu ai cheltuieli de locuință proprii, sar peste chirie, energie și asigurări.',
+    inkomen_v:'Câți bani primești pe lună?',
+    inkomen_u:'Acesta este salariul tău net sau ajutorul social — suma care ajunge efectiv în contul tău. Deci după impozit.',
+    huur_v:'Cât plătești pe lună pentru chirie sau ipotecă?',
+    huur_u:'',
+    huur_hoog:(p)=>`Acesta este ${p}% din venitul tău. Nibud recomandă maximum 35–40%. Ai verificat dacă ai drept la alocație de chirie?`,
+    huur_ok:(p)=>`Acesta este ${p}% din venitul tău. Proporție bună.`,
+    huurtsl_v:'Primești alocație de chirie (huurtoeslag)?',
+    huurtsl_u:'Alocația de chirie este un ajutor de stat când chiria este ridicată față de venit.',
+    huurtsl_ja_v:'Câtă alocație de chirie primești pe lună?',
+    huurtsl_ja_u:'Verifică pe belastingdienst.nl sau în aplicația Belastingdienst.',
+    huurtsl_ja_r:'Super! Costurile tale reale de locuință sunt deci mai mici decât chiria.',
+    huurtsl_nee_tip:'Poate ai totuși dreptul la ea. Verifică pe belastingdienst.nl — poate face sute de euro pe an.',
+    energie_v:'Cât plătești pe lună pentru gaz, curent și apă împreună?',
+    energie_u:'Completează suma totală a avansului lunar sau suma fixă.',
+    energie_hoog:'Acesta este mai mult decât media. A crescut avansul tău recent?',
+    energie_laag:'Pare puțin. Incluzi gazul, curentul și apa toate împreună?',
+    telefoon_v:'Cât plătești pe lună pentru telefon și internet acasă?',
+    telefoon_u:'Completează aici abonamentul telefonic și internetul de acasă împreună.',
+    telefoon_hoog:'Acesta este relativ mult. Verifică dacă există abonamenty mai ieftine.',
+    zorgverzek_v:'Cât plătești pe lună pentru asigurarea de sănătate?',
+    zorgverzek_u:'Aceasta este prima lunară pentru asigurarea de bază, plus asigurarea suplimentară dacă o ai.',
+    zorgverzek_laag:'Pare puțin pentru o asigurare de sănătate. Prima medie este de aproximativ €130–150 pe lună.',
+    zorgverzek_hoog:'Acesta este mai mult decât media. Ai și asigurare suplimentară?',
+    zorgtsl_v:'Primești zorgtoeslag (ajutor pentru asigurarea de sănătate)?',
+    zorgtsl_u:'Zorgtoeslag este o contribuție de stat la asigurarea de sănătate, pentru persoanele cu venit mai mic.',
+    zorgtsl_ja_v:'Câtă zorgtoeslag primești pe lună?',
+    zorgtsl_ja_u:'Poți găsi asta pe belastingdienst.nl sau în aplicație.',
+    zorgtsl_nee_tip:'Cu un venit mai mic s-ar putea să ai drept la zorgtoeslag. Verifică pe belastingdienst.nl.',
+    auto_v:'Ai o mașină?',
+    autoverzek_v:'Cât plătești pe lună pentru asigurarea mașinii?',
+    autoverzek_u:'Completează suma lunară. Plătești anual? Împarte la 12.',
+    inboedel_v:'Cât plătești pe lună pentru asigurarea bunurilor și răspundere civilă?',
+    inboedel_u:'Acestea sunt asigurările pentru lucrurile de acasă și dacă provoci accidental daune.',
+    inboedel_laag:'Ești sigur că ai asigurare pentru bunuri? Este importantă în caz de incendiu sau furt.',
+    begrafenis_v:'Ai asigurare de înmormântare?',
+    begrafenis_ja_v:'Cât plătești pe lună pentru asigurarea de înmormântare?',
+    begrafenis_ja_u:'Plătești anual sau trimestrial? Împarte la 12 sau 3.',
+    vervoer_v:'Cât plătești pe lună pentru transport?',
+    vervoer_u:'Gândește-te la abonamentul de transport public, combustibil, parcare sau reparații de bicicletă. Fără mașină? Doar transport public și bicicletă.',
+    vervoer_nul:'Nicio cheltuială de transport? Gândește-te și la un bilet ocazional de autobuz sau reparații de bicicletă.',
+    schulden_v:'Ai împrumuturi sau rate de plătit?',
+    schulden_u:'Gândește-te la un împrumut personal, descoperit de cont, sau un acord de rate cu un asigurator, operator telefonic sau primărie.',
+    schulden_ja_v:'Cât plătești pe lună la rate sau împrumuturi?',
+    schulden_ja_u:'Completează suma lunară totală a tuturor ratelor împreună.',
+    schulden_r:'Datoriile au impact asupra bugetului. Ai nevoie de ajutor? Un consilier de datorii sau Vrijwillige Schuldhulp Brigade poate ajuta — adesea gratuit.',
+    abonnem_v:'Ai abonamente ca Netflix, Spotify sau sala de sport?',
+    abonnem_u:'Adaugă abonamentele unul câte unul. Vei vedea exact unde se duc banii.',
+    abonnem_hoog:'Acesta este destul de mult pentru abonamente. Pe care le folosești cu adevărat în fiecare lună?',
+    abonnem_nog:'Mai adaugi un abonament?',
+    boodschappen_v:'Cât cheltuiești pe lună pentru cumpărături?',
+    boodschappen_u:'Gândește-te la mâncare și băuturi. Faci cumpărături în fiecare săptămână? Înmulțește cu 4.',
+    boodschappen_week:'💡 Cumpărături săptămânale × 4 ≈ suma lunară.',
+    boodschappen_laag:'Pare puțin. Include și produse de curățenie, șampon și săpun. Și uneori comanzi mâncare sau livrezi?',
+    boodschappen_hoog:'Acesta este mai mult decât media pentru situația ta. Cumperi și mese gata preparate sau mănânci regulat afară?',
+    overig_v:'Mai ai alte cheltuieli fixe lunare?',
+    overig_u:'Scrie numele cheltuielii și suma. Gândește-te la haine, coafor, jucării pentru copii sau cheltuieli școlare.',
+    overig_nul:'Nicio altă cheltuială? Gândește-te și la costuri fixe mici: coafor, activități școlare sau cotizații.',
+    sparen_v:'Cât vrei să economisești în fiecare lună?',
+    sparen_u:'Economisirea este o alegere conștientă în buget. Chiar și o sumă mică ajută.',
+    sparen_jaar:(n)=>`Acesta este €${Math.round(n*12).toLocaleString('nl-NL')} pe an. Bravo!`,
+    sparen_tip:'Ai spațiu în buget. Chiar și €25 pe lună pus deoparte oferă siguranță financiară.',
+    ja:'✅ Da', nee:'❌ Nu',
+    stuur:'→', overslaan:'Nu știu — sari peste',
+    naam_placeholder:'Ce fel de cheltuială?',
+    bedrag_placeholder:'Sumă',
+    res_titel:'Bugetul tău lunar',
+    res_sub:'Ghiduri minime Nibud iulie 2025',
+    overschot:'Surplus lunar',
+    tekort:'Deficit lunar',
+    per_week:'Pe săptămână',
+    per_dag:'Pe zi',
+    inkomen_lbl:'Venit total',
+    netto_woon:'net după alocație',
+    totaal_uit:'Cheltuieli totale',
+    excel_btn:'Descarcă Excel', pdf_btn:'PDF pentru consilier', print_btn:'🖨 Tipărește', opnieuw_btn:'Începe din nou', excel_bezig:'Creez Excel...', pdf_bezig:'Creez PDF...',
+    nibud_bron:'Sursă: Ghiduri minime bugetare Nibud iulie 2025',
+    disclaimer:'Prezentare orientativă. Sume bazate pe ghidurile Nibud. Contactează Sociaal Wijkteam pentru sfat personal.',
+    badge_hoog:'ridicat', badge_ok:'bine',
+    kolom_post:'Poziție', kolom_maand:'Lunar (€)', kolom_nibud:'Ghidă Nibud (€)',
+    kolom_categorie:'Categorie', kolom_week:'Săptămânal (€)', kolom_dag:'Zilnic (€)',
+    tab_budget:'Bugetul meu', tab_week:'Buget săptămânal',
+    sectie_inkomsten:'VENITURI', sectie_uitgaven:'CHELTUIELI',
+    sparen_lbl:'Economii',
+    adv_pos:(n)=>`Îți rămân ${fmt(n)} pe lună.`,
+    adv_neg:(n)=>`Cheltuiești ${fmt(Math.abs(n))} mai mult decât câștigi. Vorbește cu un consilier bugetar — ajutorul este adesea gratuit.`,
+    adv_spaar:(n)=>`Economisești ${fmt(n)} pe lună (${fmt(n*12)} pe an).`,
+    adv_toeslag:'Verifică întotdeauna dacă ai drept la alocații pe belastingdienst.nl.',
+    ai_uitnodiging_titel:'Vrei sfat personal?',
+    ai_uitnodiging_sub:'☀️ Alimentat de Claude AI',
+    ai_uitnodiging_tekst:'Pot analiza bugetul tău și căuta ce ajutor este disponibil în orașul tău.',
+    ai_privacy:'Sumele din buget și orașul tău sunt trimise la un serviciu AI securizat. Fără nume, fără numere de cont. Datele nu sunt stocate.',
+    ai_ja:'Da, analizează bugetul meu →',
+    ai_nee:'Nu, mulțumesc',
+    ai_gemeente_v:'În ce municipalitate locuiești?',
+    ai_gemeente_placeholder:'De ex. Utrecht, Lelystad, Amsterdam...',
+    ai_laden:'Analizez bugetul tău și caut ajutor în municipalitatea ta...',
+    ai_tab_hulp:'Ajutor în',
+    ai_kolom_regeling:'Program',
+    ai_kolom_contact:'Contact / Site web',
+    ai_offline_titel:'Indisponibil acum',
+    ai_offline_sub:'Funcția de analiză funcționează în zilele însorite',
+    ai_offline_tekst:'Analiza AI este momentan inactivă — serverul funcționează pe energie solară și este acum oprit. Poți căuta singur pe <strong style="color:white;">gemeente.nl</strong> sau sună la <strong style="color:white;">Sociaal Wijkteam</strong> din municipalitatea ta.',
+    controle_titel:'Este corect?',
+    controle_sub:'Verifică-ți datele — fă clic pe ✏️ pentru a modifica',
+    controle_ok:'✓ Pare bine — arată rezultatul',
+    controle_bewerk:'✏️ Modifică',
+    week_titel:'Bugetul tău săptămânal',
+    week_sub:'Iată cum arată spațiul tău liber săptămânal',
+    week_dag_label:'Disponibil liber zilnic',
+    week_boodschappen:'🛒 Cumpărături',
+    week_boodschappen_sub:'Bugetul tău lunar împărțit la 4,3',
+    week_vrij:'🎉 Ieșiri și timp liber',
+    week_vrij_sub:'Pentru cinema, restaurant sau activități',
+    week_overig:'🎁 Altele (cadouri, gustări, spontan)',
+    week_overig_sub:'Pentru tot ce nu este planificat',
+    week_uitleg:'Acest buget săptămânal este orientativ. Unele săptămâni cheltuiești mai mult, altele mai puțin. Important este media lunară.',
+    week_cat_bood:'Cumpărături și mâncare',
+    week_cat_kled:'Îmbrăcăminte și îngrijire personală',
+    week_cat_buf:'Rezerve și cheltuieli neprevăzute',
+    week_cat_verv:'Transport',
+    week_cat_abon:'Abonamente',
+  },
+  pl:{
+    welkom:'Cześć! Pomogę Ci z budżetem miesięcznym.\nBędę zadawać pytania — jedno po jednym. Razem zobaczymy, ile pieniędzy zostaje co miesiąc.',
+    start:'Zacznijmy 👇',
+    sit_v:'Kto mieszka z tobą w domu?',
+    sit_opties:[
+      {id:'alleen',   l:'👤 Tylko ja'},
+      {id:'stel',     l:'👫 Ja i partner/ka'},
+      {id:'eenouder', l:'👩‍👧 Ja i moje dziecko/dzieci'},
+      {id:'gezin',    l:'👨‍👩‍👧‍👦 My z dziećmi'},
+      {id:'thuis',    l:'🏠 Mieszkam z rodziną lub w ośrodku'},
+    ],
+    thuis_uitleg:'Ponieważ nie masz własnych kosztów mieszkaniowych, pomijam czynsz, energię i ubezpieczenia.',
+    inkomen_v:'Ile pieniędzy otrzymujesz miesięcznie?',
+    inkomen_u:'To twoja pensja netto lub zasiłek — kwota, która faktycznie trafia na twoje konto. Po odliczeniu podatku.',
+    huur_v:'Ile płacisz miesięcznie za czynsz lub kredyt hipoteczny?',
+    huur_u:'',
+    huur_hoog:(p)=>`To ${p}% twojego dochodu. Nibud zaleca maksymalnie 35–40%. Czy sprawdziłeś/aś, czy przysługuje Ci zasiłek czynszowy?`,
+    huur_ok:(p)=>`To ${p}% twojego dochodu. Dobra proporcja.`,
+    huurtsl_v:'Czy otrzymujesz zasiłek czynszowy (huurtoeslag)?',
+    huurtsl_u:'Zasiłek czynszowy to dofinansowanie od rządu, gdy czynsz jest wysoki w stosunku do dochodu.',
+    huurtsl_ja_v:'Ile zasiłku czynszowego otrzymujesz miesięcznie?',
+    huurtsl_ja_u:'Sprawdź na belastingdienst.nl lub w aplikacji Belastingdienst.',
+    huurtsl_ja_r:'Świetnie! Twoje rzeczywiste koszty mieszkaniowe są więc niższe niż czynsz.',
+    huurtsl_nee_tip:'Być może jednak Ci przysługuje. Sprawdź na belastingdienst.nl — może to być kilkaset euro rocznie.',
+    energie_v:'Ile płacisz miesięcznie łącznie za gaz, prąd i wodę?',
+    energie_u:'Wpisz łączną kwotę miesięcznej zaliczki lub stałą opłatę.',
+    energie_hoog:'To więcej niż średnia. Czy twoja zaliczka ostatnio wzrosła?',
+    energie_laag:'To wygląda na mało. Czy uwzględniasz gaz, prąd i wodę razem?',
+    telefoon_v:'Ile płacisz miesięcznie za telefon i internet domowy?',
+    telefoon_u:'Wpisz tutaj łącznie abonament telefoniczny i internet domowy.',
+    telefoon_hoog:'To stosunkowo dużo. Sprawdź, czy są dostępne tańsze abonamenty.',
+    zorgverzek_v:'Ile płacisz miesięcznie za ubezpieczenie zdrowotne?',
+    zorgverzek_u:'To miesięczna składka na ubezpieczenie podstawowe plus dodatkowe, jeśli je masz.',
+    zorgverzek_laag:'To wygląda na mało jak na ubezpieczenie zdrowotne. Średnia składka to około €130–150 miesięcznie.',
+    zorgverzek_hoog:'To więcej niż średnia. Czy masz też ubezpieczenie dodatkowe?',
+    zorgtsl_v:'Czy otrzymujesz zasiłek zdrowotny (zorgtoeslag)?',
+    zorgtsl_u:'Zorgtoeslag to dofinansowanie od rządu do ubezpieczenia zdrowotnego, dla osób z niższym dochodem.',
+    zorgtsl_ja_v:'Ile zasiłku zdrowotnego otrzymujesz miesięcznie?',
+    zorgtsl_ja_u:'Możesz to sprawdzić na belastingdienst.nl lub w aplikacji.',
+    zorgtsl_nee_tip:'Przy niższym dochodzie możesz mieć prawo do zorgtoeslag. Sprawdź na belastingdienst.nl.',
+    auto_v:'Czy masz samochód?',
+    autoverzek_v:'Ile płacisz miesięcznie za ubezpieczenie samochodu?',
+    autoverzek_u:'Wpisz kwotę miesięczną. Płacisz rocznie? Podziel przez 12.',
+    inboedel_v:'Ile płacisz miesięcznie za ubezpieczenie mieszkania i OC?',
+    inboedel_u:'To są twoje ubezpieczenia na rzeczy w domu i na wypadek spowodowania szkody.',
+    inboedel_laag:'Czy na pewno masz ubezpieczenie mieszkania? Jest ważne przy pożarze lub kradzieży.',
+    begrafenis_v:'Czy masz ubezpieczenie pogrzebowe?',
+    begrafenis_ja_v:'Ile płacisz miesięcznie za ubezpieczenie pogrzebowe?',
+    begrafenis_ja_u:'Płacisz rocznie lub kwartalnie? Podziel przez 12 lub 3.',
+    vervoer_v:'Ile płacisz miesięcznie na transport?',
+    vervoer_u:'Myśl o abonamencie komunikacji miejskiej, paliwie, parkowaniu lub naprawach roweru. Bez samochodu? Tylko komunikacja i rower.',
+    vervoer_nul:'Żadnych kosztów transportu? Myśl też o okazjonalnym bilecie autobusowym lub naprawie roweru.',
+    schulden_v:'Czy masz pożyczki lub raty do spłacenia?',
+    schulden_u:'Myśl o kredycie osobistym, debecie lub układzie ratalnym z ubezpieczycielem, operatorem telefonii lub gminą.',
+    schulden_ja_v:'Ile płacisz miesięcznie na spłaty lub pożyczki?',
+    schulden_ja_u:'Wpisz łączną miesięczną kwotę wszystkich spłat razem.',
+    schulden_r:'Długi mają wpływ na budżet. Potrzebujesz pomocy? Doradca ds. zadłużenia lub Vrijwillige Schuldhulp Brigade może pomóc — często bezpłatnie.',
+    abonnem_v:'Czy masz abonamenty jak Netflix, Spotify lub siłownia?',
+    abonnem_u:'Dodawaj abonamenty jeden po jednym. Zobaczysz dokładnie, gdzie idą pieniądze.',
+    abonnem_hoog:'To dość dużo na abonamenty. Które z nich naprawdę używasz co miesiąc?',
+    abonnem_nog:'Dodać jeszcze jeden abonament?',
+    boodschappen_v:'Ile wydajesz miesięcznie na zakupy spożywcze?',
+    boodschappen_u:'Myśl o jedzeniu i napojach. Robisz zakupy co tydzień? Pomnóż przez 4.',
+    boodschappen_week:'💡 Tygodniowe zakupy × 4 ≈ kwota miesięczna.',
+    boodschappen_laag:'To wygląda na mało. Uwzględnij też środki czystości, szampon i mydło. Czy czasem zamawiasz jedzenie na wynos?',
+    boodschappen_hoog:'To więcej niż średnia dla twojej sytuacji. Czy kupujesz też dania gotowe lub często jesz poza domem?',
+    overig_v:'Czy masz inne stałe koszty miesięczne?',
+    overig_u:'Wpisz nazwę wydatku i kwotę. Myśl o ubraniach, fryzjerze, zabawkach dla dzieci lub kosztach szkoły.',
+    overig_nul:'Żadnych innych kosztów? Myśl też o małych stałych wydatkach: fryzjer, zajęcia szkolne lub składki.',
+    sparen_v:'Ile chcesz oszczędzać co miesiąc?',
+    sparen_u:'Oszczędzanie to świadomy wybór w budżecie. Nawet mała kwota pomaga.',
+    sparen_jaar:(n)=>`To €${Math.round(n*12).toLocaleString('nl-NL')} rocznie. Dobra robota!`,
+    sparen_tip:'Masz przestrzeń w budżecie. Nawet €25 miesięcznie daje finansowe bezpieczeństwo.',
+    ja:'✅ Tak', nee:'❌ Nie',
+    stuur:'→', overslaan:'Nie wiem — pomiń',
+    naam_placeholder:'Co to za koszt?',
+    bedrag_placeholder:'Kwota',
+    res_titel:'Twój budżet miesięczny',
+    res_sub:'Wytyczne minimalne Nibud lipiec 2025',
+    overschot:'Nadwyżka miesięczna',
+    tekort:'Niedobór miesięczny',
+    per_week:'Tygodniowo',
+    per_dag:'Dziennie',
+    inkomen_lbl:'Łączny dochód',
+    netto_woon:'netto po zasiłku',
+    totaal_uit:'Łączne wydatki',
+    excel_btn:'Pobierz Excel', pdf_btn:'PDF dla doradcy', print_btn:'🖨 Drukuj', opnieuw_btn:'Zacznij od nowa', excel_bezig:'Tworzę Excel...', pdf_bezig:'Tworzę PDF...',
+    nibud_bron:'Źródło: Nibud minimalne wytyczne budżetowe lipiec 2025',
+    disclaimer:'Orientacyjne zestawienie. Kwoty oparte na wytycznych Nibud. Skontaktuj się z Sociaal Wijkteam po indywidualną poradę.',
+    badge_hoog:'wysoko', badge_ok:'dobrze',
+    kolom_post:'Pozycja', kolom_maand:'Miesięcznie (€)', kolom_nibud:'Wytyczna Nibud (€)',
+    kolom_categorie:'Kategoria', kolom_week:'Tygodniowo (€)', kolom_dag:'Dziennie (€)',
+    tab_budget:'Mój budżet', tab_week:'Budżet tygodniowy',
+    sectie_inkomsten:'DOCHODY', sectie_uitgaven:'WYDATKI',
+    sparen_lbl:'Oszczędności',
+    adv_pos:(n)=>`Zostaje Ci ${fmt(n)} miesięcznie.`,
+    adv_neg:(n)=>`Wydajesz ${fmt(Math.abs(n))} więcej niż zarabiasz. Porozmawiaj z doradcą budżetowym — pomoc jest często bezpłatna.`,
+    adv_spaar:(n)=>`Oszczędzasz ${fmt(n)} miesięcznie (${fmt(n*12)} rocznie).`,
+    adv_toeslag:'Zawsze sprawdź, czy przysługują Ci zasiłki na belastingdienst.nl.',
+    ai_uitnodiging_titel:'Chcesz osobistą poradę?',
+    ai_uitnodiging_sub:'☀️ Napędzany przez Claude AI',
+    ai_uitnodiging_tekst:'Mogę przeanalizować Twój budżet i sprawdzić, jaka pomoc jest dostępna w Twojej gminie.',
+    ai_privacy:'Twoje kwoty budżetowe i gmina są przesyłane do zabezpieczonej usługi AI. Bez nazw, bez numerów kont. Dane nie są przechowywane.',
+    ai_ja:'Tak, przeanalizuj mój budżet →',
+    ai_nee:'Nie, dziękuję',
+    ai_gemeente_v:'W jakiej gminie mieszkasz?',
+    ai_gemeente_placeholder:'Np. Utrecht, Lelystad, Amsterdam...',
+    ai_laden:'Analizuję Twój budżet i szukam pomocy w Twojej gminie...',
+    ai_tab_hulp:'Pomoc w',
+    ai_kolom_regeling:'Program',
+    ai_kolom_contact:'Kontakt / Strona',
+    ai_offline_titel:'Niedostępne teraz',
+    ai_offline_sub:'Funkcja analizy działa w słoneczne dni',
+    ai_offline_tekst:'Analiza AI jest obecnie nieaktywna — serwer działa na energii słonecznej i jest teraz wyłączony. Możesz sam/a szukać na <strong style="color:white;">gemeente.nl</strong> lub zadzwonić do <strong style="color:white;">Sociaal Wijkteam</strong> w swojej gminie.',
+    controle_titel:'Czy to się zgadza?',
+    controle_sub:'Sprawdź swoje dane — kliknij ✏️, żeby zmienić',
+    controle_ok:'✓ Wygląda dobrze — pokaż wynik',
+    controle_bewerk:'✏️ Zmień',
+    week_titel:'Twój budżet tygodniowy',
+    week_sub:'Tak wygląda Twoja wolna przestrzeń co tydzień',
+    week_dag_label:'Swobodnie dostępne dziennie',
+    week_boodschappen:'🛒 Zakupy spożywcze',
+    week_boodschappen_sub:'Twój budżet miesięczny podzielony przez 4,3',
+    week_vrij:'🎉 Wyjścia i czas wolny',
+    week_vrij_sub:'Na kino, restaurację lub aktywności',
+    week_overig:'🎁 Pozostałe (prezenty, przekąski, spontaniczne)',
+    week_overig_sub:'Na wszystko, co nieplanowane',
+    week_uitleg:'Ten budżet tygodniowy jest orientacyjny. W niektórych tygodniach wydajesz więcej, w innych mniej. Chodzi o średnią miesięczną.',
+    week_cat_bood:'Zakupy i jedzenie',
+    week_cat_kled:'Odzież i higiena osobista',
+    week_cat_buf:'Rezerwy i nieprzewidziane wydatki',
+    week_cat_verv:'Transport',
+    week_cat_abon:'Abonamenty',
+    week_nibud_ok:(n)=>`Przeciętna rodzina wydaje tygodniowo €${n} na to.`,
+    week_nibud_hoog:(n)=>`Nieco powyżej średniej (€${n} tygodniowo).`,
   },
 };
 
@@ -2439,6 +2671,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 start();
 </script>
+<div id="solidari-footer"></div>
   <script src="components.js"></script>
 </body>
 </html>

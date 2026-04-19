@@ -224,6 +224,36 @@ const T = {
     ],
     rtl: true,
   },
+  RO: {
+    placeholder: 'Pune-ți întrebarea...',
+    nieuw: '↺ Conversație nouă',
+    disclaimer: '🤖 Acest instrument folosește AI. Răspunsurile sunt informative — nu sfaturi oficiale. Nu împărtăși nume, numere BSN sau alte date personale.',
+    welkom: 'Bună! Explic ce spune legea despre situația ta — despre ajutor social, integrare sau sprijin din partea primăriei.\n\nDespre ce este întrebarea ta?',
+    fout: 'Ceva a mers greșit. Te rugăm să încerci din nou.',
+    kaartjes: [
+      { emoji: '🏛️', tekst: 'Primesc ajutor social (bijstand)' },
+      { emoji: '📚', tekst: 'Trebuie să mă integrez (inburgering)' },
+      { emoji: '💼', tekst: 'Vreau să mă angajez' },
+      { emoji: '♿', tekst: 'Am nevoie de sprijin (WMO)' },
+      { emoji: '❓', tekst: 'Altă întrebare' },
+    ],
+    rtl: false,
+  },
+  PL: {
+    placeholder: 'Zadaj pytanie...',
+    nieuw: '↺ Nowa rozmowa',
+    disclaimer: '🤖 To narzędzie używa AI. Odpowiedzi są informacyjne — nie są oficjalną poradą. Nie udostępniaj nazw, numerów BSN ani innych danych osobowych.',
+    welkom: 'Cześć! Wyjaśniam co mówi prawo o twojej sytuacji — o zasiłkach, integracji lub wsparciu ze strony gminy.\n\nO czym jest twoje pytanie?',
+    fout: 'Coś poszło nie tak. Spróbuj ponownie.',
+    kaartjes: [
+      { emoji: '🏛️', tekst: 'Otrzymuję zasiłek społeczny (bijstand)' },
+      { emoji: '📚', tekst: 'Muszę się integrować (inburgering)' },
+      { emoji: '💼', tekst: 'Chcę podjąć pracę' },
+      { emoji: '♿', tekst: 'Potrzebuję wsparcia (WMO)' },
+      { emoji: '❓', tekst: 'Inne pytanie' },
+    ],
+    rtl: false,
+  },
 };
 
 // ── System prompt ─────────────────────────────────────────────────────────
@@ -303,7 +333,7 @@ Formuleer doorverwijzingen concreet: "Voor meer informatie of persoonlijke hulp 
 
 ## Taal
 
-Antwoord altijd in de taal waarin de gebruiker schrijft. Als de gebruiker van taal wisselt, wissel jij mee. Ondersteunde talen: Nederlands, Engels, Arabisch, Tigrinya, Turks, Oekraïens, Dari/Farsi.
+Antwoord altijd in de taal waarin de gebruiker schrijft. Als de gebruiker van taal wisselt, wissel jij mee. Ondersteunde talen: Nederlands, Engels, Arabisch, Tigrinya, Turks, Oekraïens, Dari/Farsi, Roemeens, Pools.
 
 ## Wat je nooit doet
 

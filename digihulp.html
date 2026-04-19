@@ -333,6 +333,56 @@ const T = {
     ],
     rtl: true,
   },
+  RO: {
+    placeholder: 'Scrie întrebarea ta...',
+    nieuw: '↺ Conversație nouă',
+    spraakHint: '🎙️ Atinge microfonul pentru a vorbi',
+    spraakStart: 'Ascultând... Vorbește acum',
+    spraakStop: 'Atinge din nou pentru a opri',
+    spraakNiet: 'Recunoașterea vocii nu este disponibilă în acest browser',
+    disclaimer: '🤖 Acest instrument folosește AI. Răspunsurile sunt informative — nu sfaturi oficiale. Nu împărtăși nume, numere BSN sau alte date personale.',
+    welkom: 'Bună! Te ajut când ceva digital nu funcționează.\n\nCare este problema?',
+    fout: 'Ceva a mers greșit. Te rugăm să încerci din nou.',
+    cursusVraag: '📄 Vrei să salvezi ce ai învățat? Fac o foaie de învățare — în limba ta și în neerlandeză, ca să o poți lua la consilierul tău.',
+    cursusKnop: '📄 Da, fă foaia',
+    cursusLaden: '⏳ Se creează...',
+    cursusNiet: 'Salvează ca text',
+    cursusNietBeschikbaar: 'Foaia de învățare nu este disponibilă acum (PC-ul este oprit). Poți copia conversația.',
+    hulplijn: '📞 Încă blocat? Sună DigiHulplijn: 0800-1508 (gratuit, Lu-Vi 9-17h)',
+    voorbeelden: [
+      'De exemplu: DigiD-ul meu nu mai funcționează...',
+      'De exemplu: mi-am uitat parola...',
+      'De exemplu: nu înțeleg site-ul...',
+      'De exemplu: aplicația nu funcționează pe telefonul meu...',
+      'De exemplu: trebuie să completez ceva dar nu știu cum...',
+    ],
+    rtl: false,
+  },
+  PL: {
+    placeholder: 'Napisz swoje pytanie...',
+    nieuw: '↺ Nowa rozmowa',
+    spraakHint: '🎙️ Dotknij mikrofon, aby mówić',
+    spraakStart: 'Słucham... Mów teraz',
+    spraakStop: 'Dotknij ponownie, aby zatrzymać',
+    spraakNiet: 'Rozpoznawanie mowy nie jest dostępne w tej przeglądarce',
+    disclaimer: '🤖 To narzędzie używa AI. Odpowiedzi są informacyjne — nie są oficjalnym poradą. Nie udostępniaj nazw, numerów BSN ani innych danych osobowych.',
+    welkom: 'Cześć! Pomagam, gdy coś cyfrowego nie działa.\n\nJaki masz problem?',
+    fout: 'Coś poszło nie tak. Spróbuj ponownie.',
+    cursusVraag: '📄 Chcesz zapisać to, czego się nauczyłeś/aś? Zrobię arkusz nauki — w twoim języku i po niderlandzku, żebyś mógł/mogła zabrać go do opiekuna.',
+    cursusKnop: '📄 Tak, zrób arkusz',
+    cursusLaden: '⏳ Tworzę...',
+    cursusNiet: 'Zapisz jako tekst',
+    cursusNietBeschikbaar: 'Arkusz nauki nie jest teraz dostępny (PC wyłączony). Możesz skopiować rozmowę.',
+    hulplijn: '📞 Nadal masz problem? Zadzwoń na DigiHulplijn: 0800-1508 (bezpłatny, pon-pt 9-17h)',
+    voorbeelden: [
+      'Na przykład: mój DigiD nie działa...',
+      'Na przykład: zapomniałem/am hasła...',
+      'Na przykład: nie rozumiem strony internetowej...',
+      'Na przykład: aplikacja nie działa na moim telefonie...',
+      'Na przykład: muszę coś wypełnić ale nie wiem jak...',
+    ],
+    rtl: false,
+  },
 };
 
 // ── System prompt ─────────────────────────────────────────────────────────
@@ -744,6 +794,7 @@ document.addEventListener('DOMContentLoaded', () => {
   start();
 });
 </script>
+<div id="solidari-footer"></div>
 <script src="components.js"></script>
 </body>
 </html>
