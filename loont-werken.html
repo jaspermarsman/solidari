@@ -1532,7 +1532,6 @@ document.addEventListener('DOMContentLoaded', () => {
 try { const op = localStorage.getItem('solidari-taal'); if(op){ taal=op.toLowerCase(); document.querySelectorAll('.taal-btn').forEach(b=>b.classList.toggle('actief',b.textContent.trim().toLowerCase()===taal)); }} catch(e){}
 start();
 </script>
-<div id="solidari-footer"></div>
 <script src="components.js"></script>
 </body>
 </html>
