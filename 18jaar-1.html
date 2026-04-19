@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>18 Jaar Worden — Solidari</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="components.css">
+  <style>
+    :root {
+      --wit: #FAFAF7; --wit-warm: #F5F2EC;
+      --amber: #E8A020; --amber-licht: #FDF3E0; --amber-diep: #C47F10;
+      --groen: #2D5A3D; --groen-licht: #EBF3EE;
+      --tekst: #1A1A18; --tekst-zacht: #5C5C58; --tekst-licht: #9C9C98;
+      --rand: #E8E5DE; --rood-licht: #FEF2F2; --rood: #DC2626;
+      --blauw-licht: #EFF6FF; --blauw: #2563EB;
+      --paars-licht: #F5F3FF; --paars: #7C3AED;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--wit); color: var(--tekst); font-family: 'Source Sans 3', sans-serif; font-weight: 400; line-height: 1.6; }
+
+    /* ── Nav (via components.js) ── */
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,250,247,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--rand);padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+    .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+    .logo-icon{width:36px;height:36px;}
+    .logo-naam{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--tekst);letter-spacing:-0.02em;}
+    .logo-naam span{color:var(--amber);}
+    .nav-links{display:flex;align-items:center;gap:2rem;list-style:none;}
+    .nav-links a{text-decoration:none;color:var(--tekst-zacht);font-size:0.9rem;font-weight:500;transition:color 0.2s;}
+    .nav-links a:hover{color:var(--tekst);}
+    .nav-taal{display:flex;gap:0.4rem;}
+    .taal-btn{background:none;border:1px solid var(--rand);border-radius:4px;padding:3px 8px;font-size:0.75rem;cursor:pointer;color:var(--tekst-zacht);font-family:'Source Sans 3',sans-serif;transition:all 0.2s;}
+    .taal-btn:hover,.taal-btn.actief{background:var(--amber);border-color:var(--amber);color:white;}
+
+    /* HEADER */
+    .pagina-header { padding-top: 64px; background: var(--groen); color: white; position: relative; overflow: hidden; }
+    .pagina-header::before { content: '🎂'; position: absolute; right: 8%; top: 50%; transform: translateY(-50%); font-size: 7rem; opacity: 0.07; pointer-events: none; }
+    .pagina-header::after { content: ''; position: absolute; right: -80px; top: -80px; width: 320px; height: 320px; border-radius: 50%; background: rgba(232,160,32,0.08); }
+    .header-inhoud { max-width: 780px; margin: 0 auto; padding: 3rem 2rem 2.5rem; position: relative; z-index: 1; }
+    .header-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.12); border-radius: 20px; padding: 4px 12px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem; opacity: 0.85; }
+    .header-titel { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 700; line-height: 1.2; margin-bottom: 0.6rem; }
+    .header-sub { font-size: 1rem; opacity: 0.75; font-weight: 300; max-width: 520px; line-height: 1.7; }
+
+    /* LEEFTIJD INPUT */
+    .leeftijd-balk { background: rgba(255,255,255,0.08); border-top: 1px solid rgba(255,255,255,0.1); padding: 1.2rem 2rem; }
+    .leeftijd-inhoud { max-width: 780px; margin: 0 auto; display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+    .leeftijd-label { font-size: 0.85rem; opacity: 0.8; font-weight: 500; white-space: nowrap; }
+    .leeftijd-knoppen { display: flex; gap: 8px; flex-wrap: wrap; }
+    .leeftijd-knop { background: rgba(255,255,255,0.1); border: 1.5px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 6px 14px; font-size: 0.82rem; font-weight: 600; color: white; cursor: pointer; font-family: 'Source Sans 3', sans-serif; transition: all 0.2s; }
+    .leeftijd-knop:hover { background: rgba(255,255,255,0.2); }
+    .leeftijd-knop.actief { background: var(--amber); border-color: var(--amber); }
+
+    /* HOOFD */
+    .hoofd { max-width: 780px; margin: 0 auto; padding: 2.5rem 2rem 5rem; }
+
+    /* FASE TABS */
+    .fase-tabs { display: flex; gap: 4px; background: var(--wit-warm); border: 1px solid var(--rand); border-radius: 12px; padding: 4px; margin-bottom: 2rem; }
+    .fase-tab { flex: 1; padding: 9px 12px; border-radius: 9px; border: none; background: none; font-family: 'Source Sans 3', sans-serif; font-size: 0.82rem; font-weight: 600; color: var(--tekst-licht); cursor: pointer; transition: all 0.2s; text-align: center; line-height: 1.3; }
+    .fase-tab:hover { color: var(--tekst-zacht); }
+    .fase-tab.actief { background: white; color: var(--tekst); box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+    .fase-tab.actief.voor { color: var(--amber-diep); }
+    .fase-tab.actief.op { color: var(--groen); }
+    .fase-tab.actief.na { color: var(--blauw); }
+
+    /* CATEGORIE KAARTEN */
+    .categorie-kaart { border: 1px solid var(--rand); border-radius: 16px; overflow: hidden; margin-bottom: 1rem; animation: inschuiven 0.35s ease both; }
+    @keyframes inschuiven { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .categorie-header { padding: 1.1rem 1.4rem; display: flex; align-items: center; gap: 12px; cursor: pointer; user-select: none; transition: background 0.2s; }
+    .categorie-header:hover { background: var(--wit-warm); }
+    .categorie-icoon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+    .categorie-info { flex: 1; }
+    .categorie-naam { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 600; color: var(--tekst); }
+    .categorie-samenvatting { font-size: 0.78rem; color: var(--tekst-licht); margin-top: 1px; font-weight: 300; }
+    .categorie-pijl { color: var(--tekst-licht); font-size: 0.8rem; transition: transform 0.2s; }
+    .categorie-kaart.open .categorie-pijl { transform: rotate(180deg); }
+    .categorie-badge { font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; letter-spacing: 0.03em; flex-shrink: 0; }
+
+    .categorie-body { display: none; padding: 0 1.4rem 1.4rem; border-top: 1px solid var(--rand); }
+    .categorie-kaart.open .categorie-body { display: block; }
+
+    .punt-lijst { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-top: 1rem; }
+    .punt { display: flex; gap: 10px; align-items: flex-start; }
+    .punt-icoon { width: 20px; height: 20px; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; flex-shrink: 0; margin-top: 1px; }
+    .punt-tekst { font-size: 0.85rem; color: var(--tekst-zacht); line-height: 1.55; font-weight: 300; }
+    .punt-tekst strong { color: var(--tekst); font-weight: 600; }
+
+    .info-box { background: var(--blauw-licht); border-left: 3px solid var(--blauw); border-radius: 0 8px 8px 0; padding: 10px 14px; margin-top: 1rem; font-size: 0.82rem; color: var(--tekst-zacht); line-height: 1.5; }
+    .amber-box { background: var(--amber-licht); border-left: 3px solid var(--amber); border-radius: 0 8px 8px 0; padding: 10px 14px; margin-top: 1rem; font-size: 0.82rem; color: var(--tekst-zacht); line-height: 1.5; }
+    .groen-box { background: var(--groen-licht); border-left: 3px solid var(--groen); border-radius: 0 8px 8px 0; padding: 10px 14px; margin-top: 1rem; font-size: 0.82rem; color: var(--tekst-zacht); line-height: 1.5; }
+
+    .bedrag-chip { display: inline-block; background: var(--groen); color: white; font-size: 0.75rem; font-weight: 700; padding: 1px 8px; border-radius: 4px; margin-left: 4px; }
+    .stopt-chip { display: inline-block; background: var(--rood-licht); color: var(--rood); font-size: 0.75rem; font-weight: 700; padding: 1px 8px; border-radius: 4px; margin-left: 4px; }
+    .nieuw-chip { display: inline-block; background: var(--groen-licht); color: var(--groen); font-size: 0.75rem; font-weight: 700; padding: 1px 8px; border-radius: 4px; margin-left: 4px; }
+    .let-chip { display: inline-block; background: var(--amber-licht); color: var(--amber-diep); font-size: 0.75rem; font-weight: 700; padding: 1px 8px; border-radius: 4px; margin-left: 4px; }
+
+    .externe-link { display: inline-flex; align-items: center; gap: 5px; color: var(--blauw); text-decoration: none; font-size: 0.82rem; font-weight: 500; margin-top: 0.8rem; transition: opacity 0.2s; }
+    .externe-link:hover { opacity: 0.7; }
+
+    /* FASE INTRO */
+    .fase-intro { background: white; border: 1px solid var(--rand); border-radius: 14px; padding: 1.2rem 1.4rem; margin-bottom: 1.5rem; display: flex; gap: 14px; align-items: flex-start; }
+    .fase-intro-icoon { font-size: 1.6rem; flex-shrink: 0; }
+    .fase-intro-tekst { font-size: 0.88rem; color: var(--tekst-zacht); line-height: 1.65; font-weight: 300; }
+    .fase-intro-tekst strong { color: var(--tekst); }
+
+    /* CHECKLIST */
+    .checklist-wrap { background: var(--wit-warm); border: 1px solid var(--rand); border-radius: 14px; padding: 1.4rem; margin-top: 2rem; }
+    .checklist-titel { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 600; margin-bottom: 1rem; color: var(--tekst); }
+    .checklist { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .checklist-item { display: flex; gap: 10px; align-items: flex-start; }
+    .check-box { width: 18px; height: 18px; border: 2px solid var(--rand); border-radius: 5px; flex-shrink: 0; margin-top: 1px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+    .check-box:hover { border-color: var(--groen); }
+    .check-box.gedaan { background: var(--groen); border-color: var(--groen); color: white; font-size: 0.65rem; }
+    .checklist-item.gedaan .checklist-tekst { text-decoration: line-through; color: var(--tekst-licht); }
+    .checklist-tekst { font-size: 0.85rem; color: var(--tekst-zacht); line-height: 1.5; cursor: pointer; }
+    .checklist-sub { font-size: 0.75rem; color: var(--tekst-licht); font-weight: 300; }
+
+
+    /* DISCLAIMER */
+    .disclaimer { margin-top: 2rem; padding: 1rem 1.2rem; background: var(--wit-warm); border-radius: 10px; font-size: 0.75rem; color: var(--tekst-licht); line-height: 1.6; }
+
+    @media (max-width: 600px) {
+      .header-titel { font-size: 1.7rem; }
+      .fase-tab { font-size: 0.75rem; padding: 8px 8px; }
+      .leeftijd-inhoud { gap: 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="solidari-nav"></div>
+
+<div class="pagina-header">
+  <div class="header-inhoud">
+    <div class="header-badge">🎂 <span data-i18n="18-badge">18 Jaar Worden</span></div>
+    <h1 class="header-titel" data-i18n="18-titel">Wat verandert er als mijn kind 18 wordt?</h1>
+    <p class="header-sub" data-i18n="18-sub">Als je kind 18 jaar wordt, verandert er veel: toeslagen stoppen, nieuwe rechten beginnen, en er zijn dingen die je vóór die datum moet regelen.</p>
+  </div>
+  <div class="leeftijd-balk">
+    <div class="leeftijd-inhoud">
+      <span class="leeftijd-label" data-i18n="18-perspectief-label">Bekijk informatie voor:</span>
+      <div class="leeftijd-knoppen">
+        <button class="leeftijd-knop actief" onclick="setDoelgroep(this, 'ouder')" data-i18n="18-knop-ouder">👨‍👩‍👧 Ik ben de ouder</button>
+        <button class="leeftijd-knop" onclick="setDoelgroep(this, 'kind')" data-i18n="18-knop-kind">🧑 Ik word 18</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="hoofd">
+
+  <div class="fase-tabs">
+    <button class="fase-tab voor actief" onclick="setFase('voor')" data-i18n="18-tab-voor">⏰ Vóór de 18e verjaardag</button>
+    <button class="fase-tab op" onclick="setFase('op')" data-i18n="18-tab-op">🎂 Op de 18e verjaardag</button>
+    <button class="fase-tab na" onclick="setFase('na')" data-i18n="18-tab-na">→ Ná de 18e verjaardag</button>
+  </div>
+
+  <div id="inhoud"></div>
+
+</div>
+
+<script src="18jaar-data-1.js"></script>
+<script src="18jaar-data-2.js"></script>
+<script src="18jaar-data-3.js"></script>
+<script>
+let huidigeFase = 'voor';
+let huidigeDoelgroep = 'ouder';
+let huidigeTaal = 'NL';
+
+// Data wordt geladen via 18jaar-data-1.js, 18jaar-data-2.js en 18jaar-data-3.js (window._D18)
+// Fallback: lege structuur zodat render() niet crasht vóór de scripts geladen zijn
+const _legeData = {
+  ouder: {
+    voor: {
+      intro: { icoon: '⏰', tekst: '<strong>Regel dit vóór de 18e verjaardag.</strong> Sommige toeslagen stoppen automatisch op de dag dat je kind 18 wordt. Als je niets doet, kun je geld mislopen of juist te veel ontvangen. Plan dit op tijd.' },
+      categorieen: [
+        {
+          icoon: '💰', kleur: '#FDF3E0', naam: 'Kinderbijslag',
+          samenvatting: 'Stopt automatisch — niets te doen',
+          badge: 'STOPT', badgeKleur: 'stopt',
+          punten: [
+            { icoon: '✗', kleur: '#FEF2F2', tekst: '<strong>Kinderbijslag stopt automatisch</strong> op de laatste dag van het kwartaal waarin je kind 18 wordt. Je hoeft dit niet zelf op te geven — de SVB regelt dit automatisch.<span class="stopt-chip">STOPT</span>' },
+            { icoon: 'ℹ', kleur: '#EFF6FF', tekst: 'De SVB stuurt je een brief als de kinderbijslag stopt. Controleer of je adresgegevens kloppen bij de SVB.' },
+          ],
+          extern: null,
+        },
+        {
+          icoon: '👶', kleur: '#EBF3EE', naam: 'Kindgebonden budget',
+          samenvatting: 'Stopt op 18e verjaardag — geef wijziging door',
+          badge: 'STOPT', badgeKleur: 'stopt',
+          punten: [
+            { icoon: '✗', kleur: '#FEF2F2', tekst: '<strong>Kindgebonden budget stopt op de dag dat je kind 18 wordt.</strong> Dit is een forse wijziging — het kindgebonden budget kan oplopen tot honderden euro\'s per maand.<span class="stopt-chip">STOPT</span>' },
+            { icoon: '!', kleur: '#FDF3E0', tekst: '<strong>Geef dit door aan de Belastingdienst</strong> via Mijn Toeslagen. Je ontvangt anders te veel toeslag en moet dit later terugbetalen.<span class="let-chip">LET OP</span>' },
+            { icoon: '✓', kleur: '#EBF3EE', tekst: 'Als je nog andere kinderen jonger dan 18 hebt, loopt het kindgebonden budget gewoon door voor die kinderen.' },
+          ],
+          infoBox: { type: 'amber', tekst: '⚠️ Geef de wijziging zo snel mogelijk door via <strong>Mijn Toeslagen</strong> op belastingdienst.nl om terugvordering te voorkomen.' },
+          extern: { url: 'https://www.belastingdienst.nl/wps/wcm/connect/nl/toeslagen/content/hoe-geef-ik-wijzigingen-door', tekst: '→ Wijziging doorgeven via Mijn Toeslagen' },
+        },
+        {
+          icoon: '📋', kleur: '#EFF6FF', naam: 'DigiD voor je kind',
+          samenvatting: 'Vraag dit ruim vóór de 18e aan',
+          badge: 'ACTIE', badgeKleur: 'nieuw',
+          punten: [
+            { icoon: '✓', kleur: '#EBF3EE', tekst: '<strong>Je kind heeft vanaf 18 jaar een eigen DigiD nodig</strong> voor zorgtoeslag, belastingaangifte, DigiD-app en alles met de overheid.<span class="nieuw-chip">ACTIE</span>' },
+            { icoon: 'ℹ', kleur: '#EFF6FF', tekst: 'DigiD aanvragen duurt 5 werkdagen. Vraag het aan via digid.nl. Je kind moet dit zelf doen — het is persoonsgebonden.' },
+            { icoon: '!', kleur: '#FDF3E0', tekst: 'Zorg dat je kind ook een eigen e-mailadres en telefoonnummer heeft voor de DigiD-verificatie.' },
+          ],
+          extern: { url: 'https://www.digid.nl/aanvragen-en-activeren/aanvragen/', tekst: '→ DigiD aanvragen op digid.nl' },
+        },
+        {
+          icoon: '🏥', kleur: '#FDF3E0', naam: 'Zorgverzekering regelen',
+          samenvatting: 'Vóór 18e afsluiten — anders boete',
+          badge: 'DEADLINE', badgeKleur: 'stopt',
+          punten: [
+            { icoon: '!', kleur: '#FEF2F2', tekst: '<strong>Je kind valt niet meer onder jouw zorgverzekering</strong> zodra het 18 wordt. Het moet dan een eigen zorgverzekering hebben.<span class="stopt-chip">DEADLINE</span>' },
+            { icoon: '✓', kleur: '#EBF3EE', tekst: 'Je kind heeft <strong>3 maanden</strong> na de 18e verjaardag om een zorgverzekering af te sluiten zonder boete. Maar het is verstandig dit vóór de 18e te regelen.' },
+            { icoon: '💰', kleur: '#EBF3EE', tekst: 'Vanaf 18 jaar kan je kind <strong>zorgtoeslag</strong> aanvragen. In 2026: maximaal €154 per maand (inkomen tot €40.857). Aanvragen via Mijn Toeslagen.<span class="nieuw-chip">NIEUW</span>' },
+            { icoon: 'ℹ', kleur: '#EFF6FF', tekst: 'Het eigen risico in 2026 is <strong>€165</strong>. Dit betaalt je kind zelf. Wijs je kind hierop zodat ze dit niet als verrassing ervaren.' },
+          ],
+          infoBox: { type: 'groen', tekst: '✅ <strong>Zorgtoeslag aanvragen:</strong> Dit moet je kind zelf doen via Mijn Toeslagen (belastingdienst.nl). Zorg dat de DigiD klaar is.' },
+          extern: { url: 'https://www.belastingdienst.nl/wps/wcm/connect/nl/zorgtoeslag/zorgtoeslag', tekst: '→ Meer over zorgtoeslag op belastingdienst.nl' },
+        },
+      ],
+      checklist: [
+        { tekst: 'DigiD aangevraagd voor je kind', sub: 'Duurt 5 werkdagen — doe dit ruim op tijd' },
+        { tekst: 'Zorgverzekering geregeld voor je kind', sub: 'Vóór of op de 18e verjaardag' },
+        { tekst: 'Zorgtoeslag aangevraagd (via kind\'s DigiD)', sub: 'Kan al aangevraagd worden vóór de 18e, gaat in op de verjaardag' },
+        { tekst: 'Bankrekening op naam van je kind', sub: 'Toeslagen worden uitbetaald op eigen rekening' },
+        { tekst: 'Wijziging kindgebonden budget doorgeven', sub: 'Via Mijn Toeslagen zodra je kind 18 is' },
+      ],
+    },
+    op: {
+      intro: { icoon: '🎂', tekst: '<strong>Op de dag zelf verandert er al het een en ander.</strong> Je kind is nu officieel meerderjarig en heeft eigen rechten en plichten. Een aantal dingen stoppen automatisch, andere dingen moet je zelf regelen.' },
+      categorieen: [
+        {
+          icoon: '⚖️', kleur: '#F5F3FF', naam: 'Meerderjarigheid & rechten',
+          samenvatting: 'Je kind is nu volwassen voor de wet',
+          badge: 'VANDAAG', badgeKleur: 'nieuw',
+          punten: [
+            { icoon: '✓', kleur: '#EBF3EE', tekst: '<strong>Vanaf vandaag is je kind volledig handelingsbekwaam.</strong> Dit betekent dat hij/zij zelfstandig contracten mag afsluiten, stemmen, en zelf aansprakelijk is.' },
+            { icoon: '✓', kleur: '#EBF3EE', tekst: 'Je kind mag zelf naar de dokter, de tandarts of een specialist gaan en geeft zelf toestemming voor medische behandelingen.' },
+            { icoon: 'ℹ', kleur: '#EFF6FF', tekst: 'Je kind kan nu ook zelf een <strong>rijbewijs</strong> aanvragen, alcohol kopen en een huurcontract op eigen naam afsluiten.' },
+          ],
+          extern: null,
+        },
+        {
+          icoon: '💶', kleur: '#EBF3EE', naam: 'Toeslagen: wat stopt, wat begint',
+          samenvatting: 'Kinderbijslag en KGB stoppen — zorgtoeslag begint',
+          badge: 'WIJZIGING', badgeKleur: 'let',
+          punten: [
+            { icoon: '✗', kleur: '#FEF2F2', tekst: '<strong>Kinderbijslag</strong> stopt op de laatste dag van het kwartaal.<span class="stopt-chip">STOPT</span>' },
+            { icoon: '✗', kleur: '#FEF2F2', tekst: '<strong>Kindgebonden budget</strong> stopt op de verjaardag zelf.<span class="stopt-chip">STOPT</span>' },
+            { icoon: '✓', kleur: '#EBF3EE', tekst: '<strong>Zorgtoeslag</strong> gaat in — als je kind dit al heeft aangevraagd. Heb je dat nog niet gedaan? Doe dit vandaag nog.<span class="nieuw-chip">BEGINT</span>' },
+            { icoon: '✓', kleur: '#EBF3EE', tekst: 'Als je kind zelfstandig woont, kan het <strong>huurtoeslag</strong> op eigen naam aanvragen.<span class="nieuw-chip">BEGINT</span>' },
+          ],
+          extern: null,
+        },
+        {
+          icoon: '📝', kleur: '#FDF3E0', naam: 'Inburgering & verblijfsstatus',
+          samenvatting: 'Inburgeringsplicht geldt nu ook voor het kind',
+          badge: 'LET OP', badgeKleur: 'let',
+          punten: [
+            { icoon: '!', kleur: '#FDF3E0', tekst: '<strong>Als je kind ná 1 januari 2022 naar Nederland is gekomen</strong> en nog niet is ingeburgerd, geldt de inburgeringsplicht nu ook voor hem/haar. De gemeente neemt hierover contact op.<span class="let-chip">LET OP</span>' },
+            { icoon: 'ℹ', kleur: '#EFF6FF', tekst: 'Je kind moet zich zelf melden bij de gemeente als het dit nog niet heeft gedaan. De inburgeringstermijn is 3 jaar vanaf het moment van de vergunning.' },
+            { icoon: '✓', kleur: '#EBF3EE', tekst: 'Als je kind al ingeburgerd is of een vrijstelling heeft, verandert er niets op dit punt.' },
+          ],
+          infoBox: { type: 'blauw', tekst: '💡 <strong>Tip:</strong> Gebruik de <a href="naturalisatie.html" style="color:var(--blauw)">Naturalisatie Checker</a> op Solidari om te zien wanneer je kind in aanmerking komt voor een Nederlands paspoort.' },
+          extern: null,
+        },
+      ],
+      checklist: null,
+    },
+    na: {
+      intro: { icoon: '→', tekst: '<strong>In de weken en maanden ná de 18e verjaardag</strong> zijn er een aantal dingen die je kind zelf moet regelen. Jij kunt hierbij helpen, maar de aanvragen staan op naam van je kind.' },
+      categorieen: [
+        {
+          icoon: '🏦', kleur: '#EBF3EE', naam: 'Bijstand — eigen recht',
+          samenvatting: 'Je kind heeft recht op eigen bijstandsuitkering',
+          badge: 'NIEUW RECHT', badgeKleur: 'nieuw',
+          punten: [
+            { icoon: '✓', kleur: '#EBF3EE', tekst: '<strong>Vanaf 18 jaar heeft je kind een eigen recht op bijstand</strong> als het geen inkomen heeft en niet studeert. Dit is een individueel recht — los van jouw uitkering.<span class="nieuw-chip">NIEUW RECHT</span>' },
+            { icoon: 'ℹ', kleur: '#EFF6FF', tekst: 'Woont je kind nog bij jou thuis? Dan wordt er bij de bijstandsberekening rekening gehouden met de woonsituatie. Vraag bij de gemeente na wat dit betekent voor jou.' },
+            { icoon: '!', kleur: '#FDF3E0', tekst: '<strong>Let op:</strong> Als je kind bij jou inwoont en bijstand aanvraagt, kan dit invloed hebben op jouw uitkering. Vraag dit na bij de gemeente vóór je kind een aanvraag doet.<span class="let-chip">CONTROLEER</span>' },
+          ],
+          extern: { url: 'https://www.werk.nl/werkzoekenden/uitkering-aanvragen/', tekst: '→ Bijstand aanvragen via werk.nl' },
+        },
+        {
+          icoon: '🎓', kleur: '#EFF6FF', naam: 'Studiefinanciering & OV',
+          samenvatting: 'Als je kind studeert of naar school gaat',
+          badge: 'MOGELIJK', badgeKleur: 'nieuw',
+          punten: [
+            { icoon: '✓', kleur: '#EBF3EE', tekst: '<strong>Studiefinanciering:</strong> Als je kind naar het mbo, hbo of universiteit gaat, kan het studiefinanciering aanvragen bij DUO. Dit is een lening (basislening) plus eventueel een aanvullende beurs.<span class="nieuw-chip">NIEUW</span>' },
+            { icoon: '✓', kleur: '#EBF3EE', tekst: '<strong>OV-studentenkaart:</strong> Studenten met DUO-inschrijving krijgen een OV-kaart voor gratis reizen in de daluren.' },
+            { icoon: 'ℹ', kleur: '#EFF6FF', tekst: 'Let op: studiefinanciering is een lening die later terugbetaald moet worden. Praat hier goed over met je kind.' },
+          ],
+          extern: { url: 'https://duo.nl/particulier/student-hbo-universiteit/studiefinanciering-aanvragen.jsp', tekst: '→ Studiefinanciering aanvragen via duo.nl' },
+        },
+        {
+          icoon: '🏠', kleur: '#FDF3E0', naam: 'Zelfstandig wonen',
+          samenvatting: 'Huurtoeslag en inschrijving woningcorporatie',
+          badge: 'ADVIES', badgeKleur: 'let',
+          punten: [
+            { icoon: '✓', kleur: '#EBF3EE', tekst: '<strong>Schrijf je kind in bij een woningbouwcorporatie</strong> zodra het 18 wordt. Wachtlijsten voor sociale huurwoningen zijn lang — hoe eerder je inschrijft, hoe beter.' },
+            { icoon: '✓', kleur: '#EBF3EE', tekst: 'Als je kind zelfstandig woont en een laag inkomen heeft, kan het <strong>huurtoeslag aanvragen.</strong> De huurgrens in 2026 is €880,66 per maand.<span class="nieuw-chip">NIEUW</span>' },
+            { icoon: 'ℹ', kleur: '#EFF6FF', tekst: 'Huurtoeslag aanvragen via Mijn Toeslagen. Je kind heeft hiervoor een DigiD nodig.' },
+          ],
+          extern: null,
+        },
+        {
+          icoon: '🗳️', kleur: '#EBF3EE', naam: 'Stemrecht & donorregistratie',
+          samenvatting: 'Twee nieuwe burgerrechten en -plichten',
+          badge: 'NIEUW RECHT', badgeKleur: 'nieuw',
+          punten: [
+            { icoon: '✓', kleur: '#EBF3EE', tekst: '<strong>Stemrecht:</strong> Je kind mag nu stemmen bij gemeentelijke, provinciale en nationale verkiezingen. Dit geldt ook voor statushouders met de Nederlandse nationaliteit.<span class="nieuw-chip">NIEUW RECHT</span>' },
+            { icoon: 'ℹ', kleur: '#EFF6FF', tekst: '<strong>Donorregistratie:</strong> Alle 18-jarigen worden automatisch geregistreerd als donor (tenzij bezwaar gemaakt). Je kind ontvangt hierover een brief en kan de keuze aanpassen via donorregister.nl.' },
+          ],
+          extern: { url: 'https://www.donorregister.nl', tekst: '→ Donorkeuze aanpassen via donorregister.nl' },
+        },
+      ],
+      checklist: [
+        { tekst: 'Zorgverzekering afgesloten en zorgtoeslag aangevraagd', sub: 'Via Mijn Toeslagen' },
+        { tekst: 'Ingeschreven bij woningcorporatie', sub: 'Begin vroeg — wachtlijsten zijn lang' },
+        { tekst: 'Donorkeuze doorgegeven', sub: 'Via donorregister.nl' },
+        { tekst: 'Bijstand of studiefinanciering aangevraagd (indien nodig)', sub: 'Afhankelijk van woonsituatie en studie' },
+        { tekst: 'Inburgeringsplicht gecontroleerd', sub: 'Bij gemeente navragen als nog niet ingeburgerd' },
+      ],
+    },
+  },
+  kind: {
+    voor: {
+      intro: { icoon: '⏰', tekst: '<strong>Nog niet 18? Regel dit alvast vóór je verjaardag.</strong> Als je goed voorbereid bent, hoef je op je 18e niets te regelen. Sommige dingen kun je al vóór je verjaardag aanvragen.' },
+      categorieen: [
+        {
+          icoon: '🔑', kleur: '#EFF6FF', naam: 'DigiD aanvragen',
+          samenvatting: 'Verplicht voor bijna alles met de overheid',
+          badge: 'ACTIE', badgeKleur: 'nieuw',
+          punten: [
+            { icoon: '✓', kleur: '#EBF3EE', tekst: '<strong>DigiD is je digitale identiteitsbewijs</strong> voor de overheid. Je hebt het nodig voor zorgtoeslag, belastingaangifte, inschrijven bij DUO en meer.<span class="nieuw-chip">REGEL DIT</span>' },
+            { icoon: 'ℹ', kleur: '#EFF6FF', tekst: 'Je kunt DigiD al aanvragen vóór je 18e. Vraag het aan op digid.nl — het duurt 5 werkdagen om te activeren.' },
+            { icoon: '!', kleur: '#FDF3E0', tekst: 'Je hebt een eigen e-mailadres en telefoonnummer nodig. Gebruik niet het e-mailadres van je ouders.' },
+          ],
+          extern: { url: 'https://www.digid.nl/aanvragen-en-activeren/aanvragen/', tekst: '→ DigiD aanvragen op digid.nl' },
+        },
+        {
+          icoon: '🏥', kleur: '#FDF3E0', naam: 'Eigen zorgverzekering regelen',
+          samenvatting: 'Je valt niet meer onder de verzekering van je ouders',
+          badge: 'VERPLICHT', badgeKleur: 'stopt',
+          punten: [
+            { icoon: '!', kleur: '#FEF2F2', tekst: '<strong>Op je 18e ben je niet meer meeverzekerd bij je ouders.</strong> Je moet een eigen zorgverzekering afsluiten. Doe dit vóór of op je verjaardag.<span class="stopt-chip">VERPLICHT</span>' },
+            { icoon: '✓', kleur: '#EBF3EE', tekst: 'Je hebt 3 maanden na je verjaardag om een verzekering af te sluiten zonder boete. Maar wacht niet te lang.' },
+            { icoon: '💰', kleur: '#EBF3EE', tekst: '<strong>Zorgtoeslag aanvragen!</strong> Als je een laag inkomen hebt, kun je zorgtoeslag krijgen. In 2026 tot maximaal €154 per maand. Aanvragen via Mijn Toeslagen met jouw DigiD.<span class="nieuw-chip">GELD</span>' },
+          ],
+          infoBox: { type: 'groen', tekst: '✅ Vraag zorgtoeslag aan via <strong>belastingdienst.nl/toeslagen</strong>. Dit kan al vóór je 18e aangevraagd worden, de toeslag gaat in op je verjaardag.' },
+          extern: { url: 'https://www.belastingdienst.nl/wps/wcm/connect/nl/zorgtoeslag/zorgtoeslag', tekst: '→ Meer over zorgtoeslag' },
+        },
+        {
+          icoon: '🏦', kleur: '#EBF3EE', naam: 'Eigen bankrekening & spaarrekening',
+          samenvatting: 'Toeslagen worden uitbetaald op jouw eigen rekening',
+          badge: 'ADVIES', badgeKleur: 'let',
+          punten: [
+            { icoon: '✓', kleur: '#EBF3EE', tekst: '<strong>Zorg voor een bankrekening op jouw eigen naam.</strong> Alle toeslagen die jij aanvraagt (zorgtoeslag, huurtoeslag) worden uitbetaald op jóuw rekening.' },
+            { icoon: 'ℹ', kleur: '#EFF6FF', tekst: 'Je kunt bij de meeste banken al voor je 18e een betaalrekening openen. Vraag dit na bij jouw bank.' },
+            { icoon: '✓', kleur: '#EBF3EE', tekst: '<strong>Open ook een spaarrekening.</strong> Als je nu al een klein bedrag apart zet, heb je een buffer voor onverwachte kosten — zoals het eigen risico van de zorgverzekering (€165 in 2026).' },
+          ],
+          extern: null,
+        },
+      ],
+      checklist: [
+        { tekst: 'DigiD aangevraagd en geactiveerd', sub: 'Vraag dit ruim van tevoren aan' },
+        { tekst: 'Zorgverzekering geregeld', sub: 'Afsluiten vóór of op je 18e verjaardag' },
+        { tekst: 'Zorgtoeslag aangevraagd', sub: 'Via Mijn Toeslagen met je DigiD' },
+        { tekst: 'Bankrekening op eigen naam', sub: 'Nodig voor toeslaguitbetalingen' },
+        { tekst: 'Spaarrekening geopend', sub: 'Buffer voor eigen risico en onverwachte kosten' },
+      ],
+    },
+    op: {
+      intro: { icoon: '🎂', tekst: '<strong>Gefeliciteerd — je bent officieel 18!</strong> Vandaag veranderen er een paar dingen direct. Je bent nu volwassen voor de wet en hebt nieuwe rechten én plichten.' },
+      categorieen: [
+        {
+          icoon: '⚖️', kleur: '#F5F3FF', naam: 'Jij bent nu zelfstandig',
+          samenvatting: 'Volwassen voor de wet — eigen rechten en verantwoordelijkheid',
+          badge: 'VANDAAG', badgeKleur: 'nieuw',
+          punten: [
+            { icoon: '✓', kleur: '#EBF3EE', tekst: '<strong>Je mag alles zelfstandig regelen</strong> — contracten afsluiten, stemmen, medische beslissingen nemen, rijbewijs aanvragen.' },
+            { icoon: '✓', kleur: '#EBF3EE', tekst: 'Je bent nu zelf <strong>aansprakelijk</strong> voor wat je doet. Schulden die je maakt, zijn jóuw schulden.' },
+            { icoon: '!', kleur: '#FDF3E0', tekst: '<strong>Let op schulden:</strong> Nu je 18 bent, kun je makkelijker iets op afbetaling kopen of lenen. Denk hier goed over na — schulden stapelen zich snel op.<span class="let-chip">WEES VOORZICHTIG</span>' },
+          ],
+          extern: null,
+        },
+        {
+          icoon: '🗳️', kleur: '#EBF3EE', naam: 'Stemrecht & donorregistratie',
+          samenvatting: 'Twee nieuwe rechten die vandaag ingaan',
+          badge: 'NIEUW', badgeKleur: 'nieuw',
+          punten: [
+            { icoon: '✓', kleur: '#EBF3EE', tekst: '<strong>Stemrecht:</strong> Je mag nu stemmen! Bij de volgende verkiezing ontvang je automatisch een oproepkaart op je adres.<span class="nieuw-chip">NIEUW RECHT</span>' },
+            { icoon: 'ℹ', kleur: '#EFF6FF', tekst: '<strong>Donorregistratie:</strong> Je krijgt binnenkort een brief over de donorwet. Je staat dan automatisch geregistreerd als donor tenzij je bezwaar maakt. Kies bewust — via donorregister.nl.' },
+          ],
+          extern: { url: 'https://www.donorregister.nl', tekst: '→ Donorkeuze vastleggen via donorregister.nl' },
+        },
+        {
+          icoon: '📋', kleur: '#FDF3E0', naam: 'Inburgering — check dit',
+          samenvatting: 'Geldt de inburgeringsplicht voor jou?',
+          badge: 'CHECK', badgeKleur: 'let',
+          punten: [
+            { icoon: '!', kleur: '#FDF3E0', tekst: '<strong>Als je ná 1 januari 2022 naar Nederland bent gekomen</strong> en nog niet bent ingeburgerd, geldt de inburgeringsplicht nu ook voor jou. De gemeente neemt contact op.<span class="let-chip">CHECK</span>' },
+            { icoon: 'ℹ', kleur: '#EFF6FF', tekst: 'Ben je al bezig met inburgering? Dan loopt dat gewoon door. Je hoeft nu niets extra\'s te doen.' },
+          ],
+          infoBox: { type: 'blauw', tekst: '💡 <strong>Tip:</strong> Gebruik de gratis <a href="naturalisatie.html" style="color:var(--blauw)">Naturalisatie Checker</a> op Solidari om te zien wanneer jij in aanmerking komt voor een Nederlands paspoort.' },
+          extern: null,
+        },
+      ],
+      checklist: null,
+    },
+    na: {
+      intro: { icoon: '→', tekst: '<strong>Nu je 18 bent, heb je nieuwe rechten.</strong> Sommige dingen moet je zelf aanvragen — ze komen niet automatisch. Hier is een overzicht van wat je kunt doen.' },
+      categorieen: [
+        {
+          icoon: '💶', kleur: '#EBF3EE', naam: 'Bijstand aanvragen',
+          samenvatting: 'Als je geen inkomen hebt en niet studeert',
+          badge: 'RECHT', badgeKleur: 'nieuw',
+          punten: [
+            { icoon: '✓', kleur: '#EBF3EE', tekst: '<strong>Je hebt recht op bijstand (Participatiewet)</strong> als je geen inkomen hebt, niet studeert en in Nederland woont. Dit is jóuw eigen recht — los van je ouders.<span class="nieuw-chip">RECHT</span>' },
+            { icoon: 'ℹ', kleur: '#EFF6FF', tekst: 'Woon je nog bij je ouders? Dan wordt bij de berekening van je bijstand gekeken naar jouw woonsituatie. Ga langs bij de gemeente voor meer informatie.' },
+            { icoon: '!', kleur: '#FDF3E0', tekst: '<strong>Inburgering en bijstand:</strong> Als je een inburgeringsplicht hebt, moet je actief meewerken aan inburgering om bijstand te houden.<span class="let-chip">VOORWAARDE</span>' },
+          ],
+          extern: { url: 'https://www.werk.nl/werkzoekenden/uitkering-aanvragen/', tekst: '→ Bijstand aanvragen via werk.nl' },
+        },
+        {
+          icoon: '🎓', kleur: '#EFF6FF', naam: 'Studie & DUO',
+          samenvatting: 'Studiefinanciering en OV-kaart aanvragen',
+          badge: 'MOGELIJK', badgeKleur: 'nieuw',
+          punten: [
+            { icoon: '✓', kleur: '#EBF3EE', tekst: '<strong>Ga je studeren?</strong> Vraag studiefinanciering aan bij DUO. Dit bestaat uit een basislening en een aanvullende beurs (afhankelijk van je inkomen en dat van je ouders).<span class="nieuw-chip">NIEUW</span>' },
+            { icoon: '✓', kleur: '#EBF3EE', tekst: '<strong>OV-studentenkaart</strong> geeft gratis reizen in de daluren.' },
+            { icoon: '!', kleur: '#FDF3E0', tekst: 'Studiefinanciering is een <strong>lening</strong> die je later moet terugbetalen. Leen alleen wat je echt nodig hebt.<span class="let-chip">LENING</span>' },
+          ],
+          extern: { url: 'https://duo.nl/particulier/student-hbo-universiteit/studiefinanciering-aanvragen.jsp', tekst: '→ Studiefinanciering aanvragen via duo.nl' },
+        },
+        {
+          icoon: '🏠', kleur: '#FDF3E0', naam: 'Wonen & huurtoeslag',
+          samenvatting: 'Inschrijven voor sociale huurwoning',
+          badge: 'ADVIES', badgeKleur: 'let',
+          punten: [
+            { icoon: '✓', kleur: '#EBF3EE', tekst: '<strong>Schrijf je nu in bij een woningcorporatie.</strong> Wachtlijsten zijn lang — soms 5 tot 10 jaar. Hoe eerder je inschrijft, hoe eerder je aan de beurt bent.' },
+            { icoon: '✓', kleur: '#EBF3EE', tekst: 'Als je zelfstandig woont met een laag inkomen, kun je <strong>huurtoeslag aanvragen</strong>. Huurgrens 2026: €880,66. Aanvragen via Mijn Toeslagen.<span class="nieuw-chip">GELD</span>' },
+          ],
+          extern: null,
+        },
+        {
+          icoon: '📊', kleur: '#EBF3EE', naam: 'Belastingaangifte',
+          samenvatting: 'Elk jaar in maart/april via de Belastingdienst',
+          badge: 'JAARLIJKS', badgeKleur: 'let',
+          punten: [
+            { icoon: 'ℹ', kleur: '#EFF6FF', tekst: '<strong>Elk jaar doe je belastingaangifte</strong> als je inkomen hebt (werk of uitkering). Dit doe je met jouw DigiD via Mijn Belastingdienst.' },
+            { icoon: '✓', kleur: '#EBF3EE', tekst: 'Als je weinig hebt verdiend, krijg je soms geld terug. Doe dus altijd aangifte — het kan je geld opleveren.' },
+          ],
+          extern: { url: 'https://www.belastingdienst.nl', tekst: '→ Belastingaangifte via belastingdienst.nl' },
+        },
+        {
+          icoon: '🚗', kleur: '#F5F3FF', naam: 'Rijbewijs',
+          samenvatting: 'Mag nu rijles nemen en rijbewijs halen',
+          badge: 'NIEUW RECHT', badgeKleur: 'nieuw',
+          punten: [
+            { icoon: '✓', kleur: '#EBF3EE', tekst: '<strong>Vanaf 18 jaar mag je zelfstandig rijexamen doen</strong> en een rijbewijs halen. Je hebt geen begeleider meer nodig.' },
+            { icoon: 'ℹ', kleur: '#EFF6FF', tekst: 'Had je al een begeleid rijden (2toDrive) rijbewijs? Dan kun je nu gewoon alleen rijden — je hoeft geen nieuw rijbewijs aan te vragen.' },
+            { icoon: '!', kleur: '#FDF3E0', tekst: '<strong>Een rijbewijs halen kost geld</strong> (rijlessen + examen). Plan dit goed — een gemiddelde cursus kost €1.500 tot €2.500.<span class="let-chip">KOSTEN</span>' },
+          ],
+          extern: { url: 'https://www.cbr.nl', tekst: '→ Meer over rijbewijs en examen via cbr.nl' },
+        },
+        {
+          icoon: '🤝', kleur: '#FDF3E0', naam: 'Jeugdhulp stopt — volwassenzorg begint',
+          samenvatting: 'Had je begeleiding of jeugdhulp? Check wat er verandert',
+          badge: 'CHECK', badgeKleur: 'let',
+          punten: [
+            { icoon: '!', kleur: '#FDF3E0', tekst: '<strong>Jeugdhulp (via de gemeente) stopt als je 18 wordt.</strong> Als je begeleiding, jeugdzorg of hulp ontving, verandert dit. Overleg vóór je verjaardag met je begeleider wat er daarna beschikbaar is.<span class="let-chip">BELANGRIJK</span>' },
+            { icoon: '✓', kleur: '#EBF3EE', tekst: 'In sommige gevallen kun je jeugdhulp laten doorlopen tot je 23e (verlengde jeugdhulp). Dit moet je wel tijdig aanvragen bij de gemeente.' },
+            { icoon: 'ℹ', kleur: '#EFF6FF', tekst: 'Hulp voor volwassenen loopt via andere wegen: huisarts, WMO (gemeente), GGZ of maatschappelijk werk. Het JIP (Jongeren Informatie Punt) kan je hierbij helpen.' },
+          ],
+          infoBox: { type: 'amber', tekst: '⚠️ Ga <strong>vóór je 18e</strong> in gesprek met je begeleider of de gemeente. Wacht niet tot je verjaardag — de overgang kan anders abrupt zijn.' },
+          extern: null,
+        },
+      ],
+      checklist: [
+        { tekst: 'Ingeschreven bij woningcorporatie', sub: 'Doe dit zo snel mogelijk — wachtlijsten zijn lang' },
+        { tekst: 'Donorkeuze doorgegeven', sub: 'Via donorregister.nl' },
+        { tekst: 'Bijstand of studiefinanciering aangevraagd (indien nodig)', sub: 'Afhankelijk van woonsituatie en plannen' },
+        { tekst: 'Inburgering gecontroleerd bij gemeente', sub: 'Als je nog niet bent ingeburgerd' },
+        { tekst: 'Belastingaangifte onthouden voor volgend jaar', sub: 'Elk jaar in maart via belastingdienst.nl' },
+        { tekst: 'Jeugdhulp / begeleiding besproken met gemeente', sub: 'Als je hulp ontving — check wat daarna beschikbaar is' },
+      ],
+    },
+  },
+};
+
+function getData() {
+  var taal = huidigeTaal;
+  var d18 = window._D18;
+  if (d18 && d18[taal] && d18[taal][huidigeDoelgroep] && d18[taal][huidigeDoelgroep][huidigeFase]) {
+    return d18[taal][huidigeDoelgroep][huidigeFase];
+  }
+  if (d18 && d18['NL'] && d18['NL'][huidigeDoelgroep] && d18['NL'][huidigeDoelgroep][huidigeFase]) {
+    return d18['NL'][huidigeDoelgroep][huidigeFase];
+  }
+  return _legeData[huidigeDoelgroep] && _legeData[huidigeDoelgroep][huidigeFase];
+}
+
+function setDoelgroep(el, dg) {
+  document.querySelectorAll('.leeftijd-knop').forEach(b => b.classList.remove('actief'));
+  el.classList.add('actief');
+  huidigeDoelgroep = dg;
+  render();
+}
+
+function setFase(fase) {
+  huidigeFase = fase;
+  document.querySelectorAll('.fase-tab').forEach(t => t.classList.remove('actief'));
+  document.querySelector(`.fase-tab.${fase}`).classList.add('actief');
+  render();
+}
+
+function toggleCategorie(el) {
+  el.closest('.categorie-kaart').classList.toggle('open');
+}
+
+function toggleCheck(el) {
+  const item = el.closest('.checklist-item');
+  item.classList.toggle('gedaan');
+  el.classList.toggle('gedaan');
+  el.textContent = el.classList.contains('gedaan') ? '✓' : '';
+}
+
+function render() {
+  const inhoud = document.getElementById('inhoud');
+  const fase = getData();
+  if (!fase) return;
+  let html = '';
+
+  // Fase intro
+  html += `<div class="fase-intro"><div class="fase-intro-icoon">${fase.intro.icoon}</div><div class="fase-intro-tekst">${fase.intro.tekst}</div></div>`;
+
+  // Categorieën
+  fase.categorieen.forEach((cat, i) => {
+    const badgeKlassen = { stopt: 'stopt-chip', nieuw: 'nieuw-chip', let: 'let-chip' };
+    const badgeClass = badgeKlassen[cat.badgeKleur] || 'let-chip';
+    html += `<div class="categorie-kaart${i === 0 ? ' open' : ''}" style="animation-delay:${i * 0.05}s">
+      <div class="categorie-header" onclick="toggleCategorie(this)">
+        <div class="categorie-icoon" style="background:${cat.kleur}">${cat.icoon}</div>
+        <div class="categorie-info">
+          <div class="categorie-naam">${cat.naam}</div>
+          <div class="categorie-samenvatting">${cat.samenvatting}</div>
+        </div>
+        <span class="${badgeClass}" style="font-size:0.65rem;font-weight:700;padding:2px 8px;border-radius:4px;flex-shrink:0">${cat.badge}</span>
+        <span class="categorie-pijl">▼</span>
+      </div>
+      <div class="categorie-body">
+        <ul class="punt-lijst">
+          ${cat.punten.map(p => `<li class="punt">
+            <div class="punt-icoon" style="background:${p.kleur}">${p.icoon}</div>
+            <div class="punt-tekst">${p.tekst}</div>
+          </li>`).join('')}
+        </ul>
+        ${cat.infoBox ? `<div class="${cat.infoBox.type === 'amber' ? 'amber-box' : cat.infoBox.type === 'groen' ? 'groen-box' : 'info-box'}">${cat.infoBox.tekst}</div>` : ''}
+
+        ${cat.extern ? `<a href="${cat.extern.url}" target="_blank" class="externe-link">${cat.extern.tekst} ↗</a>` : ''}
+      </div>
+    </div>`;
+  });
+
+  // Checklist
+  if (fase.checklist) {
+    const checkTitel = (window.Solidari && Solidari.i18n) ? Solidari.i18n.t('18-checklist-titel') : '✅ Checklist — klik aan wat je hebt geregeld';
+    html += `<div class="checklist-wrap">
+      <div class="checklist-titel">${checkTitel}</div>
+      <ul class="checklist">
+        ${fase.checklist.map((item, i) => `<li class="checklist-item" id="check-${huidigeFase}-${i}">
+          <div class="check-box" onclick="toggleCheck(this)"></div>
+          <div onclick="toggleCheck(this.previousElementSibling)">
+            <div class="checklist-tekst">${item.tekst}</div>
+            <div class="checklist-sub">${item.sub}</div>
+          </div>
+        </li>`).join('')}
+      </ul>
+    </div>`;
+  }
+
+
+
+  const disclaimer = (window.Solidari && Solidari.i18n) ? Solidari.i18n.t('18-disclaimer') : '⚠️ De informatie op deze pagina is gebaseerd op de regelgeving en bedragen van 2026. Regels kunnen veranderen. Controleer altijd de officiële bronnen (belastingdienst.nl, duo.nl, ind.nl) voor de meest actuele informatie. Solidari geeft geen juridisch of financieel advies.';
+  html += `<div class="disclaimer">${disclaimer}</div>`;
+
+  inhoud.innerHTML = html;
+}
+
+render();
+
+// ── i18n UI-strings ──────────────────────────────────────────────────────
+Solidari.i18n.extend({
+  NL: {
+    '18-badge': '18 Jaar Worden',
+    '18-titel': 'Wat verandert er als mijn kind 18 wordt?',
+    '18-sub': 'Als je kind 18 jaar wordt, verandert er veel: toeslagen stoppen, nieuwe rechten beginnen, en er zijn dingen die je vóór die datum moet regelen.',
+    '18-perspectief-label': 'Bekijk informatie voor:',
+    '18-knop-ouder': '👨‍👩‍👧 Ik ben de ouder',
+    '18-knop-kind': '🧑 Ik word 18',
+    '18-tab-voor': '⏰ Vóór de 18e verjaardag',
+    '18-tab-op': '🎂 Op de 18e verjaardag',
+    '18-tab-na': '→ Ná de 18e verjaardag',
+    '18-checklist-titel': '✅ Checklist — klik aan wat je hebt geregeld',
+    '18-disclaimer': '⚠️ De informatie op deze pagina is gebaseerd op de regelgeving en bedragen van 2026. Regels kunnen veranderen. Controleer altijd de officiële bronnen (belastingdienst.nl, duo.nl, ind.nl) voor de meest actuele informatie. Solidari geeft geen juridisch of financieel advies.',
+  },
+  EN: {
+    '18-badge': 'Turning 18',
+    '18-titel': 'What changes when my child turns 18?',
+    '18-sub': 'When your child turns 18, a lot changes: benefits stop, new rights begin, and there are things you need to arrange before that date.',
+    '18-perspectief-label': 'View information for:',
+    '18-knop-ouder': '👨‍👩‍👧 I am the parent',
+    '18-knop-kind': '🧑 I am turning 18',
+    '18-tab-voor': '⏰ Before the 18th birthday',
+    '18-tab-op': '🎂 On the 18th birthday',
+    '18-tab-na': '→ After the 18th birthday',
+    '18-checklist-titel': '✅ Checklist — tick off what you have arranged',
+    '18-disclaimer': '⚠️ The information on this page is based on 2026 regulations and amounts. Rules can change. Always check official sources (belastingdienst.nl, duo.nl, ind.nl) for the most current information. Solidari does not provide legal or financial advice.',
+  },
+  AR: {
+    '18-badge': 'بلوغ سن 18',
+    '18-titel': 'ما الذي يتغير عندما يبلغ طفلي 18 عامًا؟',
+    '18-sub': 'عندما يبلغ طفلك 18 عامًا، يتغير الكثير: تتوقف الإعانات، وتبدأ حقوق جديدة، وهناك أمور يجب ترتيبها قبل ذلك التاريخ.',
+    '18-perspectief-label': 'عرض المعلومات لـ:',
+    '18-knop-ouder': '👨‍👩‍👧 أنا أحد الوالدين',
+    '18-knop-kind': '🧑 أنا أبلغ 18 عامًا',
+    '18-tab-voor': '⏰ قبل عيد الميلاد الـ18',
+    '18-tab-op': '🎂 في عيد الميلاد الـ18',
+    '18-tab-na': '→ بعد عيد الميلاد الـ18',
+    '18-checklist-titel': '✅ قائمة مراجعة — ضع علامة على ما تم ترتيبه',
+    '18-disclaimer': '⚠️ المعلومات الواردة في هذه الصفحة مبنية على لوائح وأرقام 2026. القواعد يمكن أن تتغير. تحقق دائمًا من المصادر الرسمية للحصول على أحدث المعلومات.',
+  },
+  TR: {
+    '18-badge': '18 Yaşına Girmek',
+    '18-titel': 'Çocuğum 18 olduğunda ne değişir?',
+    '18-sub': 'Çocuğunuz 18 yaşına girdiğinde pek çok şey değişir: yardımlar durur, yeni haklar başlar ve bu tarihten önce düzenlemeniz gereken şeyler vardır.',
+    '18-perspectief-label': 'Bilgileri şunun için görüntüle:',
+    '18-knop-ouder': '👨‍👩‍👧 Ben ebeveyniyim',
+    '18-knop-kind': '🧑 18 oluyorum',
+    '18-tab-voor': '⏰ 18. doğum gününden önce',
+    '18-tab-op': '🎂 18. doğum gününde',
+    '18-tab-na': '→ 18. doğum gününden sonra',
+    '18-checklist-titel': '✅ Kontrol listesi — tamamladıklarınızı işaretleyin',
+    '18-disclaimer': '⚠️ Bu sayfadaki bilgiler 2026 yönetmelikleri ve tutarlarına dayanmaktadır. Kurallar değişebilir. En güncel bilgi için her zaman resmi kaynakları kontrol edin.',
+  },
+  TI: {
+    '18-badge': '18 ዓመት ምዃን',
+    '18-titel': 'ወደይ 18 ምስ ዀነ እንታይ ይቕየር?',
+    '18-sub': 'ወደይካ/ወደይኪ 18 ዓመት ምስ ዀነ ብዙሕ ይቕየር፡ ሓገዛት ይቋረጽ፡ ሓደሽቲ መሰላት ይጅምር፡ ቅድሚ ሃሊፉ ክትሰርሑ ዘለዉ ነገራት ኣለዉ።',
+    '18-perspectief-label': 'ሓበሬታ ንምርኣይ:',
+    '18-knop-ouder': '👨‍👩‍👧 ኣቦ/ኣደ እየ',
+    '18-knop-kind': '🧑 18 ዓመት ይኸውን ኣለኹ',
+    '18-tab-voor': '⏰ ቅድሚ 18 ዓመት',
+    '18-tab-op': '🎂 ናይ 18 ዓመት ዕለት',
+    '18-tab-na': '→ ድሕሪ 18 ዓመት',
+    '18-checklist-titel': '✅ ቼክሊስት — እዝዝ እዝዝ ዝተሰርሐ',
+    '18-disclaimer': '⚠️ ሓበሬታ ኣብዚ ገጽ ኣብ ሕጊ 2026 ዝተሰረተ እዩ። ሕጊ ክቕየር ይኽእል። ቀዳሞ ወትሩ ወግዓዊ ምንጭታት ርኤ።',
+  },
+  UK: {
+    '18-badge': 'Повноліття',
+    '18-titel': 'Що змінюється, коли дитині виповнюється 18?',
+    '18-sub': 'Коли вашій дитині виповниться 18, багато що зміниться: пільги припиняться, починаються нові права, і є речі, які потрібно вирішити до цієї дати.',
+    '18-perspectief-label': 'Переглянути інформацію для:',
+    '18-knop-ouder': '👨‍👩‍👧 Я батько/мати',
+    '18-knop-kind': '🧑 Мені виповнюється 18',
+    '18-tab-voor': '⏰ До 18-го дня народження',
+    '18-tab-op': '🎂 На 18-й день народження',
+    '18-tab-na': '→ Після 18-го дня народження',
+    '18-checklist-titel': '✅ Контрольний список — відмічайте, що вже зроблено',
+    '18-disclaimer': '⚠️ Інформація на цій сторінці базується на правилах та сумах 2026 року. Правила можуть змінюватися. Завжди перевіряйте офіційні джерела для отримання актуальної інформації.',
+  },
+  FA: {
+    '18-badge': '18 ساله شدن',
+    '18-titel': 'وقتی فرزندم ۱۸ ساله می‌شود چه تغییری رخ می‌دهد؟',
+    '18-sub': 'وقتی فرزندتان ۱۸ ساله می‌شود، چیزهای زیادی تغییر می‌کند: کمک‌هزینه‌ها قطع می‌شود، حقوق جدیدی آغاز می‌شود، و کارهایی هستند که باید قبل از آن تاریخ انجام دهید.',
+    '18-perspectief-label': 'اطلاعات را برای چه کسی ببینید:',
+    '18-knop-ouder': '👨‍👩‍👧 من والدین هستم',
+    '18-knop-kind': '🧑 من ۱۸ ساله می‌شوم',
+    '18-tab-voor': '⏰ قبل از هجدهمین تولد',
+    '18-tab-op': '🎂 در هجدهمین تولد',
+    '18-tab-na': '→ بعد از هجدهمین تولد',
+    '18-checklist-titel': '✅ فهرست — آنچه را که ترتیب داده‌اید تیک بزنید',
+    '18-disclaimer': '⚠️ اطلاعات این صفحه بر اساس مقررات و مبالغ ۲۰۲۶ است. قوانین ممکن است تغییر کنند. همیشه منابع رسمی را برای به‌روزترین اطلاعات بررسی کنید.',
+  },
+});
+
+// ── setTaal hook voor components.js ──────────────────────────────────────
+window.setTaal = function(code) {
+  if (window.Solidari && Solidari.i18n) {
+    const upper = code.toUpperCase();
+    huidigeTaal = upper;
+    Solidari.i18n.passToe(upper);
+    document.documentElement.dir = ['AR','FA'].includes(upper) ? 'rtl' : 'ltr';
+    render();
+  }
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (window.Solidari && Solidari.i18n) Solidari.i18n.init();
+});
+</script>
+
+<div id="solidari-footer"></div>
+<script src="i18n.js"></script>
+<script src="components.js"></script>
+</body>
+</html>
