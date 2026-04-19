@@ -54,6 +54,8 @@
     { code: 'TI', vlag: '🇪🇷', label: 'TI' },
     { code: 'UK', vlag: '🇺🇦', label: 'UK' },
     { code: 'FA', vlag: '🇦🇫', label: 'FA' },
+    { code: 'RO', vlag: '🇷🇴', label: 'RO' },
+    { code: 'PL', vlag: '🇵🇱', label: 'PL' },
   ];
 
   // ── NAV HTML ───────────────────────────────────────────────────────────
