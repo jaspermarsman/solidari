@@ -474,10 +474,10 @@ footer#solidari-footer-bar {
   display: block;
 }
 
-.footer-doneer {
-  background: var(--amber-licht);
-  border: 1px solid rgba(232, 160, 32, 0.3);
-  color: var(--amber-diep);
+.footer-feedback {
+  background: var(--groen-licht);
+  border: 1px solid rgba(45, 90, 61, 0.2);
+  color: var(--groen);
   border-radius: 8px;
   padding: 8px 18px;
   font-size: 0.85rem;
@@ -488,10 +488,10 @@ footer#solidari-footer-bar {
   font-family: 'Source Sans 3', sans-serif;
 }
 
-.footer-doneer:hover {
-  background: var(--amber);
+.footer-feedback:hover {
+  background: var(--groen);
   color: white;
-  border-color: var(--amber);
+  border-color: var(--groen);
 }
 
 /* ── RESPONSIVE ───────────────────────────────────────────────────────── */

@@ -105,6 +105,7 @@
       </ul>
     </li>
     <li><a href="${ROOT}over.html" data-i18n="nav-over"${pagina === 'over.html' ? ' class="actief"' : ''}>Over dit project</a></li>
+    <li><a href="${ROOT}feedback.html" data-i18n="nav-feedback"${pagina === 'feedback.html' ? ' class="actief"' : ''}>Feedback</a></li>
     <li><a href="${ROOT}over.html#privacy" data-i18n="nav-privacy">Privacy</a></li>
   </ul>
 
@@ -135,6 +136,7 @@
   </div>
   <div class="mob-menu-sectie">
     <a href="${ROOT}over.html" class="mob-link"${pagina === 'over.html' ? ' data-actief' : ''}>Over dit project</a>
+    <a href="${ROOT}feedback.html" class="mob-link"${pagina === 'feedback.html' ? ' data-actief' : ''}>Feedback</a>
     <a href="${ROOT}over.html#privacy" class="mob-link">Privacy</a>
   </div>
   <div class="mob-menu-sectie mob-talen">
@@ -161,7 +163,7 @@
       <a href="#">Contact</a><br>
       <span class="footer-cookies" data-i18n="footer-cookies">Geen cookies · Geen opslag · Geen advertenties</span>
     </div>
-    <a href="${ROOT}index.html#doneer" class="footer-doneer" data-i18n="nav-doneer">💛 Doneer</a>
+    <a href="${ROOT}feedback.html" class="footer-feedback" data-i18n="nav-feedback">💬 Feedback</a>
   </div>
 </footer>`;
   }
