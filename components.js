@@ -160,7 +160,7 @@
     <div class="footer-midden">
       <a href="${ROOT}over.html">Over dit project</a> ·
       <a href="${ROOT}over.html#privacy">Privacy</a> ·
-      <a href="#">Contact</a><br>
+      <a href="${ROOT}feedback.html">Contact</a><br>
       <span class="footer-cookies" data-i18n="footer-cookies">Geen cookies · Geen opslag · Geen advertenties</span>
     </div>
     <a href="${ROOT}feedback.html" class="footer-feedback" data-i18n="nav-feedback">💬 Feedback</a>

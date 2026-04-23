@@ -254,8 +254,8 @@ const T = {
     energie_u:'Vul het totale bedrag in van je maandelijkse voorschot of vaste bedrag.',
     energie_hoog:'Dat is meer dan gemiddeld. Is je voorschot onlangs verhoogd?',
     energie_laag:'Dat lijkt laag. Tel je gas, stroom én water allemaal mee?',
-    telefoon_v:'Hoeveel betaal je per maand voor telefoon en internet thuis?',
-    telefoon_u:'Vul hier je telefoonabonnement en je internet thuis samen in.',
+    telefoon_v:'Hoeveel betaal je per maand voor TV en internet thuis?',
+    telefoon_u:'Vul hier je TV-abonnement en je internet thuis samen in.',
     telefoon_hoog:'Dat is relatief hoog. Kijk of er goedkopere abonnementen beschikbaar zijn.',
     zorgverzek_v:'Hoeveel betaal je per maand voor je zorgverzekering?',
     zorgverzek_u:'Dit is je maandpremie voor de basisverzekering, plus aanvullende verzekering als je die hebt.',
@@ -277,6 +277,8 @@ const T = {
     begrafenis_ja_u:'Betaal je per jaar of per kwartaal? Deel dan door 12 of 3.',
     vervoer_v:'Hoeveel betaal je per maand aan vervoer?',
     vervoer_u:'Denk aan een OV-abonnement, brandstof, parkeren of fietsreparaties. Geen auto? Dan alleen OV en fiets.',
+    vervoer_v_auto:'Hoeveel betaal je per maand aan OV, parkeren en fiets?',
+    vervoer_u_auto:'De autokosten zoals brandstof en parkeervergunning kun je hier invullen. Autoverzekering had je al ingevuld.',
     vervoer_nul:'Geen vervoerkosten? Denk ook aan een los buskaartje of fietsreparatie af en toe.',
     schulden_v:'Heb je leningen of afbetalingen?',
     schulden_u:'Denk aan een persoonlijke lening, roodstand, of een afbetalingsregeling met een verzekeraar, telecomprovider of gemeente.',
@@ -314,7 +316,7 @@ const T = {
     totaal_uit:'Totaal uitgaven',
     excel_btn:'Excel downloaden', pdf_btn:'PDF voor begeleider', print_btn:'🖨 Afdrukken', opnieuw_btn:'Opnieuw beginnen', excel_bezig:'Excel maken...', pdf_bezig:'PDF maken...',
     nibud_bron:'Bron: Nibud minimumvoorbeeldbegrotingen juli 2025',
-    disclaimer:'Indicatief overzicht. Bedragen gebaseerd op Nibud-richtlijnen (bijstandsniveau). Neem bij vragen contact op met Sociaal Wijkteam of VluchtelingenWerk Nederland.',
+    disclaimer:'Indicatief overzicht. Bedragen gebaseerd op Nibud-richtlijnen (bijstandsniveau). Neem bij vragen contact op met je Sociaal Wijkteam of de vrijwillige formulierenbrigade.',
     badge_hoog:'hoog', badge_ok:'goed',
     // Excel labels
     kolom_post:'Post', kolom_maand:'Per maand (€)', kolom_nibud:'Nibud richtlijn (€)',
@@ -394,8 +396,8 @@ const T = {
     energie_u:'Enter the total of your monthly advance payment or fixed amount.',
     energie_hoog:'That is above average. Was your advance payment recently increased?',
     energie_laag:'That seems low. Are gas, electricity and water all included?',
-    telefoon_v:'How much do you pay per month for phone and home internet?',
-    telefoon_u:'Enter your phone subscription and home internet together.',
+    telefoon_v:'How much do you pay per month for TV and home internet?',
+    telefoon_u:'Enter your TV subscription and home internet together.',
     telefoon_hoog:'That is relatively high. Check if cheaper subscriptions are available.',
     zorgverzek_v:'How much do you pay per month for your health insurance?',
     zorgverzek_u:'This is your monthly premium for basic insurance, plus supplementary if you have it.',
@@ -417,6 +419,8 @@ const T = {
     begrafenis_ja_u:'Do you pay yearly or quarterly? Divide by 12 or 3.',
     vervoer_v:'How much do you pay per month for transport?',
     vervoer_u:'Think of a public transport subscription, fuel, parking or bicycle repairs. No car? Then just public transport and bicycle.',
+    vervoer_v_auto:'How much do you pay per month for public transport, parking and bicycle?',
+    vervoer_u_auto:'You can include fuel and parking costs here. Car insurance was already entered.',
     vervoer_nul:'No transport costs? Think of occasional bus tickets or bicycle repairs.',
     schulden_v:'Do you have loans or repayments?',
     schulden_u:'Think of a personal loan, overdraft, or repayment plan with an insurer, telecom provider or municipality.',
@@ -530,8 +534,8 @@ const T = {
     energie_u:'أدخل إجمالي دفعتك الشهرية المسبقة أو المبلغ الثابت.',
     energie_hoog:'هذا أعلى من المتوسط. هل زادت دفعتك المسبقة مؤخراً؟',
     energie_laag:'يبدو هذا منخفضاً. هل تشمل الغاز والكهرباء والماء جميعها؟',
-    telefoon_v:'كم تدفع شهرياً للهاتف والإنترنت المنزلي؟',
-    telefoon_u:'أدخل اشتراك هاتفك والإنترنت المنزلي معاً.',
+    telefoon_v:'كم تدفع شهرياً للتلفزيون والإنترنت المنزلي؟',
+    telefoon_u:'أدخل اشتراك التلفزيون والإنترنت المنزلي معاً.',
     telefoon_hoog:'هذا مرتفع نسبياً. تحقق إذا كانت هناك اشتراكات أرخص.',
     zorgverzek_v:'كم تدفع شهرياً للتأمين الصحي؟',
     zorgverzek_u:'هذه قسطك الشهري للتأمين الأساسي، بالإضافة إلى التكميلي إذا كان لديك.',
@@ -553,6 +557,8 @@ const T = {
     begrafenis_ja_u:'هل تدفع سنوياً أو ربع سنوياً؟ قسّم على 12 أو 3.',
     vervoer_v:'كم تدفع شهرياً للمواصلات؟',
     vervoer_u:'فكر في اشتراك المواصلات العامة، الوقود، أو صيانة الدراجة. لا سيارة؟ إذن فقط المواصلات والدراجة.',
+    vervoer_v_auto:'كم تدفع شهرياً للمواصلات العامة والركن وإصلاح الدراجة؟',
+    vervoer_u_auto:'يمكنك إضافة تكاليف الوقود والركن هنا. تأمين السيارة أدخلته بالفعل.',
     vervoer_nul:'لا تكاليف مواصلات؟ فكر في تذاكر الحافلة الفردية أو إصلاح الدراجة.',
     schulden_v:'هل لديك قروض أو أقساط؟',
     schulden_u:'فكر في قرض شخصي، السحب على المكشوف، أو خطة سداد مع مزود التأمين أو الاتصالات أو البلدية.',
@@ -656,8 +662,8 @@ const T = {
     energie_u:'Aylık avans ödemenizin veya sabit tutarınızın toplamını girin.',
     energie_hoog:'Bu ortalamanın üzerinde. Avans ödemeniz son zamanlarda arttı mı?',
     energie_laag:'Bu düşük görünüyor. Gaz, elektrik ve su hepsi dahil mi?',
-    telefoon_v:'Telefon ve ev interneti için ayda ne kadar ödüyorsunuz?',
-    telefoon_u:'Telefon aboneliği ve ev internetini birlikte girin.',
+    telefoon_v:'TV ve ev interneti için ayda ne kadar ödüyorsunuz?',
+    telefoon_u:'TV aboneliği ve ev internetini birlikte girin.',
     telefoon_hoog:'Bu nispeten yüksek. Daha ucuz abonelik var mı kontrol edin.',
     zorgverzek_v:'Sağlık sigortası için ayda ne kadar ödüyorsunuz?',
     zorgverzek_u:'Bu temel sigorta için aylık priminiz, varsa ek sigortayla birlikte.',
@@ -679,6 +685,8 @@ const T = {
     begrafenis_ja_u:'Yıllık veya üç aylık ödüyorsanız 12\'ye veya 3\'e bölün.',
     vervoer_v:'Ulaşım için ayda ne kadar ödüyorsunuz?',
     vervoer_u:'Toplu taşıma aboneliği, yakıt, park ücreti veya bisiklet tamiri. Araba yok mu? Sadece toplu taşıma ve bisiklet.',
+    vervoer_v_auto:'Toplu taşıma, park ücreti ve bisiklet için ayda ne kadar ödüyorsunuz?',
+    vervoer_u_auto:'Yakıt ve park ücreti maliyetlerini buraya ekleyebilirsiniz. Araç sigortasını zaten girdiniz.',
     vervoer_nul:'Hiç ulaşım masrafı yok mu? Ara sıra otobüs bileti veya bisiklet tamirini de düşünün.',
     schulden_v:'Kredi veya taksit ödemeniz var mı?',
     schulden_u:'Bireysel kredi, eksi bakiye veya bir sigorta şirketi, telekom sağlayıcısı ya da belediyeyle taksit anlaşması.',
@@ -783,8 +791,8 @@ const T = {
     energie_u:'Введи загальну суму щомісячного авансу або фіксованого платежу.',
     energie_hoog:'Це вище середнього. Чи нещодавно збільшився твій аванс?',
     energie_laag:'Здається мало. Чи включені газ, електрика та вода?',
-    telefoon_v:'Скільки ти платиш на місяць за телефон та домашній інтернет?',
-    telefoon_u:'Введи мобільний абонемент та домашній інтернет разом.',
+    telefoon_v:'Скільки ти платиш на місяць за TV та домашній інтернет?',
+    telefoon_u:'Введи абонемент на TV та домашній інтернет разом.',
     telefoon_hoog:'Це відносно багато. Перевір, чи є дешевші абонементи.',
     zorgverzek_v:'Скільки ти платиш на місяць за медичну страховку?',
     zorgverzek_u:'Це щомісячний внесок за базову страховку, плюс додаткова якщо є.',
@@ -806,6 +814,8 @@ const T = {
     begrafenis_ja_u:'Платиш щорічно або поквартально? Розділи на 12 або 3.',
     vervoer_v:'Скільки ти платиш на місяць за транспорт?',
     vervoer_u:'Абонемент на транспорт, пальне, паркування або ремонт велосипеда. Немає авто? Тоді лише транспорт і велосипед.',
+    vervoer_v_auto:'Скільки ти платиш на місяць за громадський транспорт, паркування та велосипед?',
+    vervoer_u_auto:'Тут можна додати витрати на пальне та паркування. Страховку авто вже внесено.',
     vervoer_nul:'Жодних транспортних витрат? Подумай про разові квитки або ремонт велосипеда.',
     schulden_v:'Чи є у тебе позики або виплати?',
     schulden_u:'Особиста позика, мінус на рахунку або план виплат зі страховиком, телеком-провайдером або муніципалітетом.',
@@ -909,8 +919,8 @@ const T = {
     energie_u:'ሓቢርካ/ኪ ናይ ወርሒ ዝኸፍሎ ሕሰብ።',
     energie_hoog:'እዚ ካብ ሰርዓዊ ዝዛይድ እዩ።',
     energie_laag:'እዚ ትሑት ይመስሎ — ጋዝ ሃዲ ማይ ኩሉ ሓቢርካ/ኪ ዲኻ/ዲኺ?',
-    telefoon_v:'ኣብ ወርሒ ንተሌፎንን ኢንተርነትን ክንደይ ትኸፍል/ትኸፍሊ?',
-    telefoon_u:'ናይ ተሌፎን ኣቦነትን ናይ ቤት ኢንተርነትን ሓቢርካ/ኪ።',
+    telefoon_v:'ኣብ ወርሒ ንቴሌቪዥንን ኢንተርነትን ክንደይ ትኸፍል/ትኸፍሊ?',
+    telefoon_u:'ናይ ቴሌቪዥን ኣቦነትን ናይ ቤት ኢንተርነትን ሓቢርካ/ኪ።',
     telefoon_hoog:'እዚ ዝዛይድ እዩ — ርካሽ ኣቦነት ርኸብ/ርኸቢ።',
     zorgverzek_v:'ኣብ ወርሒ ንናይ ጥዕና ዋሕስ ክንደይ ትኸፍል/ትኸፍሊ?',
     zorgverzek_u:'ናይ ወርሒ ፕሪምዩምካ/ኪ ንናይ ጥዕና ዋሕስ።',
@@ -932,6 +942,8 @@ const T = {
     begrafenis_ja_u:'ብ12 ወይ 3 ዳርጋ።',
     vervoer_v:'ኣብ ወርሒ ንመጓዓዝያ ክንደይ ትኸፍል/ትኸፍሊ?',
     vervoer_u:'OV ኣቦነት ነዳዲ ወይ ብሽክለታ ዕቃ።',
+    vervoer_v_auto:'ንOV ፓርኪንግን ብሽክለታን ክንደይ ትኸፍል/ትኸፍሊ?',
+    vervoer_u_auto:'ናይ ነዳዲ ወጻኢ ክትውስኽ ትኽእል። ናይ መኪና ምውሓስ ድሮ ሞሊእካዮ/ሞሊእክዮ።',
     vervoer_nul:'ዋሕስ ናይ መጓዓዝያ ወጻኢ የለን?',
     schulden_v:'ልቓሕ ወይ ናይ ምኽፋል ስምምዕ ኣሎካ/ኪ ዲዩ?',
     schulden_u:'ናይ ወርሒ ክፍሊት ሓሳብ።',
@@ -1028,8 +1040,8 @@ const T = {
     energie_u:'مجموع پیش‌پرداخت ماهانه یا مبلغ ثابت.',
     energie_hoog:'این بالاتر از میانگین است.',
     energie_laag:'این کم به نظر می‌رسد — گاز، برق و آب همه با هم؟',
-    telefoon_v:'در ماه چقدر برای تلفن و اینترنت می‌پردازید؟',
-    telefoon_u:'اشتراک تلفن و اینترنت خانه با هم.',
+    telefoon_v:'در ماه چقدر برای تلویزیون و اینترنت خانه می‌پردازید؟',
+    telefoon_u:'اشتراک تلویزیون و اینترنت خانه با هم.',
     telefoon_hoog:'این نسبتاً زیاد است — اشتراک ارزان‌تر پیدا کنید.',
     zorgverzek_v:'در ماه چقدر بیمه درمانی می‌پردازید؟',
     zorgverzek_u:'حق بیمه ماهانه برای بیمه پایه و تکمیلی.',
@@ -1051,6 +1063,8 @@ const T = {
     begrafenis_ja_u:'سالانه یا فصلی؟ بر ۱۲ یا ۳ تقسیم کنید.',
     vervoer_v:'در ماه چقدر حمل‌ونقل می‌پردازید؟',
     vervoer_u:'اشتراک حمل‌ونقل عمومی، سوخت، پارکینگ یا تعمیر دوچرخه.',
+    vervoer_v_auto:'در ماه چقدر برای حمل‌ونقل عمومی، پارکینگ و دوچرخه می‌پردازید؟',
+    vervoer_u_auto:'می‌توانید هزینه سوخت و پارکینگ را اینجا وارد کنید. بیمه خودرو را قبلاً وارد کردید.',
     vervoer_nul:'هیچ هزینه حمل‌ونقلی ندارید؟',
     schulden_v:'وام یا اقساطی دارید؟',
     schulden_u:'وام شخصی، اضافه برداشت یا توافق اقساط.',
@@ -1148,8 +1162,8 @@ const T = {
     energie_u:'Completează suma totală a avansului lunar sau suma fixă.',
     energie_hoog:'Acesta este mai mult decât media. A crescut avansul tău recent?',
     energie_laag:'Pare puțin. Incluzi gazul, curentul și apa toate împreună?',
-    telefoon_v:'Cât plătești pe lună pentru telefon și internet acasă?',
-    telefoon_u:'Completează aici abonamentul telefonic și internetul de acasă împreună.',
+    telefoon_v:'Cât plătești pe lună pentru TV și internet acasă?',
+    telefoon_u:'Completează aici abonamentul TV și internetul de acasă împreună.',
     telefoon_hoog:'Acesta este relativ mult. Verifică dacă există abonamenty mai ieftine.',
     zorgverzek_v:'Cât plătești pe lună pentru asigurarea de sănătate?',
     zorgverzek_u:'Aceasta este prima lunară pentru asigurarea de bază, plus asigurarea suplimentară dacă o ai.',
@@ -1171,6 +1185,8 @@ const T = {
     begrafenis_ja_u:'Plătești anual sau trimestrial? Împarte la 12 sau 3.',
     vervoer_v:'Cât plătești pe lună pentru transport?',
     vervoer_u:'Gândește-te la abonamentul de transport public, combustibil, parcare sau reparații de bicicletă. Fără mașină? Doar transport public și bicicletă.',
+    vervoer_v_auto:'Cât plătești pe lună pentru transport public, parcare și bicicletă?',
+    vervoer_u_auto:'Poți adăuga aici costurile cu combustibilul și parcarea. Asigurarea mașinii a fost deja introdusă.',
     vervoer_nul:'Nicio cheltuială de transport? Gândește-te și la un bilet ocazional de autobuz sau reparații de bicicletă.',
     schulden_v:'Ai împrumuturi sau rate de plătit?',
     schulden_u:'Gândește-te la un împrumut personal, descoperit de cont, sau un acord de rate cu un asigurator, operator telefonic sau primărie.',
@@ -1282,8 +1298,8 @@ const T = {
     energie_u:'Wpisz łączną kwotę miesięcznej zaliczki lub stałą opłatę.',
     energie_hoog:'To więcej niż średnia. Czy twoja zaliczka ostatnio wzrosła?',
     energie_laag:'To wygląda na mało. Czy uwzględniasz gaz, prąd i wodę razem?',
-    telefoon_v:'Ile płacisz miesięcznie za telefon i internet domowy?',
-    telefoon_u:'Wpisz tutaj łącznie abonament telefoniczny i internet domowy.',
+    telefoon_v:'Ile płacisz miesięcznie za TV i internet domowy?',
+    telefoon_u:'Wpisz tutaj łącznie abonament TV i internet domowy.',
     telefoon_hoog:'To stosunkowo dużo. Sprawdź, czy są dostępne tańsze abonamenty.',
     zorgverzek_v:'Ile płacisz miesięcznie za ubezpieczenie zdrowotne?',
     zorgverzek_u:'To miesięczna składka na ubezpieczenie podstawowe plus dodatkowe, jeśli je masz.',
@@ -1305,6 +1321,8 @@ const T = {
     begrafenis_ja_u:'Płacisz rocznie lub kwartalnie? Podziel przez 12 lub 3.',
     vervoer_v:'Ile płacisz miesięcznie na transport?',
     vervoer_u:'Myśl o abonamencie komunikacji miejskiej, paliwie, parkowaniu lub naprawach roweru. Bez samochodu? Tylko komunikacja i rower.',
+    vervoer_v_auto:'Ile płacisz miesięcznie za komunikację miejską, parkowanie i rower?',
+    vervoer_u_auto:'Możesz tu dodać koszty paliwa i parkowania. Ubezpieczenie samochodu zostało już wprowadzone.',
     vervoer_nul:'Żadnych kosztów transportu? Myśl też o okazjonalnym bilecie autobusowym lub naprawie roweru.',
     schulden_v:'Czy masz pożyczki lub raty do spłacenia?',
     schulden_u:'Myśl o kredycie osobistym, debecie lub układzie ratalnym z ubezpieczycielem, operatorem telefonii lub gminą.',
@@ -1672,7 +1690,11 @@ async function stap_begrafenis(){
 
 async function stap_vervoer(){
   const t=T[taal]; const ref=NIBUD[A.sit]; setVoortgang(++stap);
-  await sol(t.vervoer_v); await sol(t.vervoer_u,'reactie');
+  // Vraag aanpassen op basis van of iemand een auto heeft
+  const vervoer_vraag = A.heeft_auto ? t.vervoer_v_auto : t.vervoer_v;
+  const vervoer_uitleg = A.heeft_auto ? t.vervoer_u_auto : t.vervoer_u;
+  await sol(vervoer_vraag || t.vervoer_v);
+  if(vervoer_uitleg || t.vervoer_u) await sol(vervoer_uitleg || t.vervoer_u,'reactie');
   toonBedrag('vervoer',false,async(v)=>{
     A.vervoer=v;
     if(v===0) await sol(t.vervoer_nul,'reactie');
@@ -2657,19 +2679,19 @@ function downloadExcelMetGemeente(gemeente) {
 function setTaal(code,btn){
   taal=code;
   document.querySelectorAll('.taal-btn').forEach(b=>b.classList.remove('actief'));
-  btn.classList.add('actief');
+  if(btn) btn.classList.add('actief');
   // Centrale i18n voor nav-links en gedeelde strings
   if(window.Solidari && Solidari.i18n) Solidari.i18n.passToe(code);
-  // Tool-specifieke strings via eigen T{}
-  start();
+  // Tool-specifieke strings via eigen T{} — alleen herstarten als al gestart
+  if(_gestart) start();
 }
 
-// Init centrale i18n bij laden
+// Init centrale i18n en start bij laden
+let _gestart = false;
 document.addEventListener('DOMContentLoaded', () => {
   if(window.Solidari && Solidari.i18n) Solidari.i18n.init();
+  if(!_gestart){ _gestart = true; start(); }
 });
-
-start();
 </script>
   <script src="components.js"></script>
 </body>

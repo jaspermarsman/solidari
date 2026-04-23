@@ -189,8 +189,11 @@ const T = {
     nieuw_hint: 'Het wettelijk minimumloon 2026 is € 1.995 bruto per maand bij voltijd (40 uur).',
     nieuw_placeholder: 'bijv. 1800',
     q_uren: 'Hoeveel uur per week ga je werken?',
-    uren: ['12 uur / week','20 uur / week','32 uur / week','40 uur (voltijd)'],
-    uren_hint: 'Kies een aantal uren — dan vul ik automatisch het minimumloon in als startpunt.',
+    uren_hint: 'Vul het aantal uren in — dan vul ik automatisch het minimumloon in als startpunt.',
+    uren_prefix: 'uur',
+    uren_placeholder: 'bijv. 32',
+    uren_label: 'uur/week',
+    uren_fout: 'Vul een aantal uren in tussen 1 en 60.',
     rekenen: 'Even rekenen…',
     res_titel: 'Wat verandert er?',
     res_oud_lbl: 'Nu',
@@ -217,7 +220,7 @@ const T = {
     blok1_titel: '💶 In je portemonnee',
     blok2_titel: '📋 Rechten die je opbouwt',
     blok3_titel: '⏱️ Wat verandert in je leven',
-    blok4_titel: '🚀 Wat dit opent',
+    blok4_titel: '🚀 Kansen die dit biedt',
     blok2_basis: 'Zodra je werkt, bouw je rechten op die je bij een uitkering niet hebt:',
     blok2_ww: '<strong>WW-recht:</strong> na 26 gewerkte weken heb je recht op een werkloosheidsuitkering als je je baan verliest.',
     blok2_pensioen: '<strong>Pensioen:</strong> via je werkgever bouw je elke maand pensioen op. Bij bijstand bouw je niets op.',
@@ -231,7 +234,7 @@ const T = {
     blok4_cv: '<strong>Op je cv:</strong> werkervaring vergroot je kansen bij volgende sollicitaties, ook buiten je huidige sector.',
     blok4_loon: '<strong>Loonsverhoging:</strong> na een jaar werk stijgt je salaris bij veel werkgevers automatisch, of kun je dat bespreekbaar maken.',
     blok4_doorgroei: '<strong>Doorgroeimogelijkheden:</strong> meer uren, een hogere functie of een opleiding — de eerste stap maakt de volgende makkelijker.',
-    advies: 'Wil je weten wat dit precies betekent voor jóuw situatie? Neem contact op met je <strong>Sociaal Wijkteam</strong> of <strong>VluchtelingenWerk</strong> — zij kunnen je gratis helpen.',
+    advies: 'Wil je weten wat dit precies betekent voor jóuw situatie? Neem contact op met je <strong>Sociaal Wijkteam</strong> of de <strong>vrijwillige formulierenbrigade</strong> — zij kunnen je gratis helpen.',
     disclaimer: 'Indicatieve berekening op basis van normen 2026. Bijstandsnormen per 1-1-2026, toeslagen Belastingdienst 2026. Zorgtoeslag max €128/mnd (alleenstaand) / €244/mnd (met partner). Kinderbijslag (AKW) is een vaste schatting. Kinderopvangtoeslag is een benadering — het exacte bedrag hangt af van het uurtarief, aantal uren en of beide ouders werken of een erkend traject volgen. Netto salaris en toeslagen zijn benaderingen — jouw situatie kan afwijken.',
     opnieuw: '↩ Opnieuw beginnen',
     q_kot: 'Maken je kinderen gebruik van kinderopvang? (dagopvang, BSO of gastouder)',
@@ -286,8 +289,11 @@ const T = {
     nieuw_hint: 'The statutory minimum wage 2026 is € 1,995 gross per month full-time (40 hours).',
     nieuw_placeholder: 'e.g. 1800',
     q_uren: 'How many hours per week will you work?',
-    uren: ['12 hours / week','20 hours / week','32 hours / week','40 hours (full-time)'],
-    uren_hint: 'Choose hours — I\'ll automatically fill in the minimum wage as a starting point.',
+    uren_hint: 'Enter the number of hours — I\'ll automatically fill in the minimum wage as a starting point.',
+    uren_prefix: 'hrs',
+    uren_placeholder: 'e.g. 32',
+    uren_label: 'hrs/week',
+    uren_fout: 'Please enter a number of hours between 1 and 60.',
     rekenen: 'Calculating…',
     res_titel: 'What changes?',
     res_oud_lbl: 'Now',
@@ -313,7 +319,7 @@ const T = {
     blok1_titel: '💶 In your wallet',
     blok2_titel: '📋 Rights you build up',
     blok3_titel: '⏱️ What changes in your life',
-    blok4_titel: '🚀 What this opens up',
+    blok4_titel: '🚀 Opportunities this creates',
     blok2_basis: 'Once you work, you build up rights that you don\'t have on benefits:',
     blok2_ww: '<strong>Unemployment benefit:</strong> after 26 worked weeks you are entitled to unemployment benefit if you lose your job.',
     blok2_pensioen: '<strong>Pension:</strong> through your employer you build up pension every month. On social assistance you build up nothing.',
@@ -382,8 +388,11 @@ const T = {
     nieuw_hint: 'الحد الأدنى للأجور 2026 هو €1,995 إجمالي شهرياً (دوام كامل، 40 ساعة).',
     nieuw_placeholder: 'مثال: 1800',
     q_uren: 'كم ساعة في الأسبوع ستعمل؟',
-    uren: ['12 ساعة/أسبوع','20 ساعة/أسبوع','32 ساعة/أسبوع','40 ساعة (دوام كامل)'],
-    uren_hint: 'اختر عدد الساعات — سأملأ الحد الأدنى للأجر تلقائياً.',
+    uren_hint: 'أدخل عدد الساعات — سأملأ الحد الأدنى للأجر تلقائياً.',
+    uren_prefix: 'ساعة',
+    uren_placeholder: 'مثال: 32',
+    uren_label: 'ساعة/أسبوع',
+    uren_fout: 'أدخل عدد ساعات بين 1 و60.',
     rekenen: 'جاري الحساب…',
     res_titel: 'ما الذي يتغير؟',
     res_oud_lbl: 'الآن',
@@ -409,7 +418,7 @@ const T = {
     blok1_titel: '💶 في محفظتك',
     blok2_titel: '📋 حقوق تبنيها',
     blok3_titel: '⏱️ ما يتغير في حياتك',
-    blok4_titel: '🚀 ما يفتحه هذا',
+    blok4_titel: '🚀 الفرص التي يخلقها هذا',
     blok2_basis: 'بمجرد العمل، تبني حقوقاً لا تملكها عند الإعانة:',
     blok2_ww: '<strong>حق البطالة:</strong> بعد 26 أسبوع عمل يحق لك الحصول على إعانة البطالة عند فقدان عملك.',
     blok2_pensioen: '<strong>المعاش:</strong> من خلال صاحب العمل تراكم معاشاً شهرياً. عند الإعانة لا تراكم شيئاً.',
@@ -478,8 +487,11 @@ const T = {
     nieuw_hint: 'Yasal asgari ücret 2026: tam zamanlı (40 saat) aylık brüt €1.995.',
     nieuw_placeholder: 'örn. 1800',
     q_uren: 'Haftada kaç saat çalışacaksınız?',
-    uren: ['12 saat/hafta','20 saat/hafta','32 saat/hafta','40 saat (tam zamanlı)'],
-    uren_hint: 'Saat seçin — başlangıç noktası olarak asgari ücreti otomatik dolduracağım.',
+    uren_hint: 'Saat sayısını girin — başlangıç noktası olarak asgari ücreti otomatik dolduracağım.',
+    uren_prefix: 'saat',
+    uren_placeholder: 'örn. 32',
+    uren_label: 'saat/hafta',
+    uren_fout: 'Lütfen 1 ile 60 arasında bir saat sayısı girin.',
     rekenen: 'Hesaplanıyor…',
     res_titel: 'Ne değişiyor?',
     res_oud_lbl: 'Şimdi',
@@ -505,7 +517,7 @@ const T = {
     blok1_titel: '💶 Cüzdanınızda',
     blok2_titel: '📋 Kazandığınız haklar',
     blok3_titel: '⏱️ Hayatınızda ne değişir',
-    blok4_titel: '🚀 Bu ne açar',
+    blok4_titel: '🚀 Bu hangi fırsatları yaratır',
     blok2_basis: 'Çalışmaya başladığınızda, yardımda olmayan haklar kazanırsınız:',
     blok2_ww: '<strong>İşsizlik hakkı:</strong> 26 hafta çalıştıktan sonra işinizi kaybederseniz işsizlik ödeneği hakkı kazanırsınız.',
     blok2_pensioen: '<strong>Emeklilik:</strong> işvereniniz aracılığıyla her ay emeklilik biriktirilir. Yardımda hiçbir şey birikmez.',
@@ -574,8 +586,11 @@ const T = {
     nieuw_hint: 'ዝተሓተ ሕጋዊ ደሞዝ 2026: €1,995 ጥሬ/ወርሒ (40 ሰዓት).',
     nieuw_placeholder: 'ንኣብነት 1800',
     q_uren: 'ሰሙናዊ ክንደይ ሰዓት ትሰርሕ?',
-    uren: ['12 ሰዓት/ሰሙን','20 ሰዓት/ሰሙን','32 ሰዓት/ሰሙን','40 ሰዓት (ምሉእ)'],
-    uren_hint: 'ሰዓት ምረጽ — ዝተሓተ ደሞዝ ሙሉእ ብሙሉእ ይምልኦ።',
+    uren_hint: 'ቁጽሪ ሰዓት ኣእቱ — ዝተሓተ ደሞዝ ሙሉእ ብሙሉእ ይምልኦ።',
+    uren_prefix: 'ሰዓት',
+    uren_placeholder: 'ንኣብነት 32',
+    uren_label: 'ሰዓት/ሰሙን',
+    uren_fout: 'ካብ 1 ክሳብ 60 ዝኾነ ሰዓት ኣእቱ።',
     rekenen: 'ይሕሰብ ኣሎ…',
     res_titel: 'እንታይ ይቕየር?',
     res_oud_lbl: 'ሕጂ',
@@ -601,7 +616,7 @@ const T = {
     blok1_titel: '💶 ኣብ ጀባኻ',
     blok2_titel: '📋 ዝሃኒጾ መሰላት',
     blok3_titel: '⏱️ ኣብ ህይወትካ ዝቕየር',
-    blok4_titel: '🚀 እንታይ ይኸፍት',
+    blok4_titel: '🚀 ዝፈጥሮ ዕድላት',
     blok2_basis: 'ምስ ጀመርካ ምስራሕ፣ ኣብ ሓገዝ ዘይህልዉ መሰላት ትሃኒጽ:',
     blok2_ww: '<strong>ናይ ስራሕ-ኣልቦ ሓገዝ:</strong> 26 ሰሙን ምስ ሰራሕካ ስራሕ ምስ ጠፍኣካ ሓገዝ ይግብኣካ።',
     blok2_pensioen: '<strong>ጡረታ:</strong> ብሓጋዚ ዋና ወርሓዊ ጡረታ ትሃኒጽ። ኣብ ሓገዝ ዘሃኒጾ ዋላ ሓደ የሎን።',
@@ -670,8 +685,11 @@ const T = {
     nieuw_hint: 'Мінімальна зарплата 2026: €1 995 брутто на місяць повний день (40 годин).',
     nieuw_placeholder: 'напр. 1800',
     q_uren: 'Скільки годин на тиждень ви будете працювати?',
-    uren: ['12 год/тиждень','20 год/тиждень','32 год/тиждень','40 год (повний день)'],
-    uren_hint: 'Оберіть години — я автоматично заповню мінімальну зарплату як відправну точку.',
+    uren_hint: 'Введіть кількість годин — я автоматично заповню мінімальну зарплату як відправну точку.',
+    uren_prefix: 'год',
+    uren_placeholder: 'напр. 32',
+    uren_label: 'год/тиждень',
+    uren_fout: 'Будь ласка, введіть кількість годин від 1 до 60.',
     rekenen: 'Розраховую…',
     res_titel: 'Що змінюється?',
     res_oud_lbl: 'Зараз',
@@ -697,7 +715,7 @@ const T = {
     blok1_titel: '💶 У вашому гаманці',
     blok2_titel: '📋 Права, які ви накопичуєте',
     blok3_titel: '⏱️ Що змінюється у вашому житті',
-    blok4_titel: '🚀 Що це відкриває',
+    blok4_titel: '🚀 Можливості, які це створює',
     blok2_basis: 'Як тільки ви починаєте працювати, ви накопичуєте права, яких немає при допомозі:',
     blok2_ww: '<strong>Право на безробіття:</strong> після 26 тижнів роботи ви маєте право на допомогу по безробіттю.',
     blok2_pensioen: '<strong>Пенсія:</strong> через роботодавця ви щомісяця накопичуєте пенсію. При допомозі нічого не накопичується.',
@@ -766,8 +784,11 @@ const T = {
     nieuw_hint: 'حداقل دستمزد 2026: ماهانه €1,995 ناخالص تمام‌وقت (40 ساعت).',
     nieuw_placeholder: 'مثال: 1800',
     q_uren: 'در هفته چند ساعت کار خواهید کرد؟',
-    uren: ['12 ساعت/هفته','20 ساعت/هفته','32 ساعت/هفته','40 ساعت (تمام‌وقت)'],
-    uren_hint: 'ساعت انتخاب کنید — حداقل دستمزد را به صورت خودکار پر می‌کنم.',
+    uren_hint: 'تعداد ساعات را وارد کنید — حداقل دستمزد را به صورت خودکار پر می‌کنم.',
+    uren_prefix: 'ساعت',
+    uren_placeholder: 'مثلاً ۳۲',
+    uren_label: 'ساعت/هفته',
+    uren_fout: 'لطفاً عددی بین ۱ تا ۶۰ وارد کنید.',
     rekenen: 'در حال محاسبه…',
     res_titel: 'چه تغییر می‌کند؟',
     res_oud_lbl: 'اکنون',
@@ -793,7 +814,7 @@ const T = {
     blok1_titel: '💶 در کیف پول شما',
     blok2_titel: '📋 حقوقی که می‌سازید',
     blok3_titel: '⏱️ چه چیزی در زندگی‌تان تغییر می‌کند',
-    blok4_titel: '🚀 چه چیزی باز می‌شود',
+    blok4_titel: '🚀 فرصت‌هایی که این ایجاد می‌کند',
     blok2_basis: 'با شروع کار، حقوقی می‌سازید که در کمک معیشتی ندارید:',
     blok2_ww: '<strong>حق بیمه بیکاری:</strong> پس از 26 هفته کار در صورت از دست دادن شغل حق بیمه بیکاری دارید.',
     blok2_pensioen: '<strong>بازنشستگی:</strong> از طریق کارفرما هر ماه بازنشستگی جمع می‌کنید. در کمک معیشتی چیزی جمع نمی‌شود.',
@@ -1290,15 +1311,22 @@ async function stap_uren() {
   vrtg(78);
   await sol(s('q_uren'), 300);
   await sol(s('uren_hint'), 200, 'reactie');
-  toonKeuzes(
-    s('uren').map((l,i) => ({label:l, val:[12,20,32,40][i]})),
-    async o => {
-      S.uren = o.val; userBericht(o.label);
-      // Auto-invullen minimumloon
-      S.nieuwBruto = Math.round(N.wml * o.val * (52/12));
+  toonGetalInvoer({
+    prefix: s('uren_prefix') || 'uur',
+    placeholder: s('uren_placeholder') || '0',
+    hint: '',
+    onKlik: async (v) => {
+      if (v <= 0 || v > 60) {
+        await sol(s('uren_fout') || 'Vul een aantal uren in tussen 1 en 60.', 200, 'waarschuwing');
+        stap_uren();
+        return;
+      }
+      S.uren = v;
+      userBericht(v + ' ' + (s('uren_label') || 'uur/week'));
+      S.nieuwBruto = Math.round(N.wml * v * (52/12));
       stap_bruto();
     }
-  );
+  });
 }
 
 async function stap_bruto() {
@@ -1521,16 +1549,17 @@ function setTaal(code, btn) {
   document.querySelectorAll('.taal-btn').forEach(b => b.classList.remove('actief'));
   if (btn) btn.classList.add('actief');
   if (window.Solidari && Solidari.i18n) Solidari.i18n.passToe(code.toUpperCase());
-  start();
+  if (_gestart) start();
 }
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
+let _gestart = false;
 document.addEventListener('DOMContentLoaded', () => {
   if (window.Solidari && Solidari.i18n) Solidari.i18n.init();
+  if (!_gestart) { _gestart = true; start(); }
 });
 
 try { const op = localStorage.getItem('solidari-taal'); if(op){ taal=op.toLowerCase(); document.querySelectorAll('.taal-btn').forEach(b=>b.classList.toggle('actief',b.textContent.trim().toLowerCase()===taal)); }} catch(e){}
-start();
 </script>
 <script src="components.js"></script>
 </body>
