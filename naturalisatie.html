@@ -7,6 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="components.css">
   <style>
+    :root { --paars: #7C3AED; --rood: #DC2626; --rood-licht: #FEF2F2; --blauw: #2563EB; --blauw-licht: #EFF6FF; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body { background: var(--wit); color: var(--tekst); font-family: 'Source Sans 3', sans-serif; font-weight: 400; line-height: 1.6; min-height: 100vh; }
@@ -25,7 +26,7 @@
     .vraag-header { padding: 1.5rem 1.8rem 1.2rem; border-bottom: 1px solid var(--rand); }
     .vraag-stap { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--amber-diep); margin-bottom: 0.5rem; }
     .vraag-tekst { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 600; color: var(--tekst); line-height: 1.3; }
-    .vraag-uitleg { font-size: 0.82rem; color: var(--tekst-licht); margin-top: 6px; font-weight: 300; line-height: 1.5; }
+    .vraag-uitleg { font-size: 0.82rem; color: var(--tekst-licht); margin-top: 6px; font-weight: 300; line-height: 1.6; }
     .antwoorden { padding: 1.2rem 1.8rem 1.5rem; display: flex; flex-direction: column; gap: 10px; }
     .antwoord-knop { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border: 1.5px solid var(--rand); border-radius: 12px; background: var(--wit); cursor: pointer; text-align: left; font-family: 'Source Sans 3', sans-serif; font-size: 0.9rem; color: var(--tekst); transition: all 0.2s; width: 100%; }
     .antwoord-knop:hover { border-color: var(--groen); background: var(--groen-licht); transform: translateX(4px); }
@@ -141,8 +142,23 @@ const vragen = {
       { tekst: 'Ik heb het inburgeringsexamen gehaald (B1- of onderwijsroute)', sub: 'DUO-diploma inburgering aanwezig', icoon: '✓', klasse: 'ja', volgende: 'v5' },
       { tekst: 'Ik heb een Nederlandstalig mbo 2, 3 of 4 diploma — of hbo / wo diploma', sub: 'Dit geeft blijvende vrijstelling van de inburgeringsplicht', icoon: '🎓', klasse: 'ja', volgende: 'v5' },
       { tekst: 'Ik ben vrijgesteld of ontheven van inburgering', sub: 'Bijv. door leeftijd (65+), medische reden of aantoonbare inspanning', icoon: '✓', klasse: 'ja', volgende: 'v5' },
-      { tekst: 'Ik heb de Z-route afgerond (eindgesprek + certificaat)', sub: 'Let op: dit geeft niet automatisch recht op naturalisatie — bekijk je opties', icoon: '🌱', klasse: 'anders', volgende: 'r_z_afgerond' },
+      { tekst: 'Ik heb de Z-route afgerond (eindgesprek + certificaat)', sub: 'Let op: dit geeft niet automatisch recht op naturalisatie — bekijk je opties', icoon: '🌱', klasse: 'anders', volgende: 'v4a_z' },
       { tekst: 'Ik ben nog bezig met inburgering', sub: 'Ik heb nog geen diploma of vrijstelling', icoon: '⏳', klasse: 'anders', volgende: 'v4b' },
+    ]
+  },
+  v4a_z: {
+    stap: 'Stap 5 van 9 — Z-route',
+    tekst: 'Je hebt de Z-route afgerond — er is nog één extra stap nodig voor naturalisatie',
+    uitleg: `De Z-route sluit af met een eindgesprek en certificaat, maar voor naturalisatie gelden aanvullende taaleisen vanuit de IND. Er zijn drie paden om toch te kunnen naturaliseren:<br><br>
+<strong>Pad A — Alsnog examen halen op A2-niveau</strong><br>
+Haal alle taalexamens op A2 (lezen, luisteren, schrijven, spreken) én het KNM-examen. Na een geslaagd examen heb je een DUO-diploma en voldoe je aan de inburgeringseis. Let op: nu de Z-route is afgerond zijn examenpogingen niet langer kosteloos — je meldt je aan via duo.nl.<br><br>
+<strong>Pad B — 600 uur taalles + minimaal 3 pogingen per onderdeel</strong><br>
+Heb je minstens 600 uur taalles op A2-niveau gevolgd bij een instelling met het Blik op Werk keurmerk, én per onderdeel minimaal 3 keer geprobeerd (waarvan minstens 1 keer een A2-examen)? Dan kan DUO een ontheffingsadvies afgeven — ook zonder geslaagd examen. Alfabetiseringsuren tellen mee tot maximaal 400 van de 600 uur.<br><br>
+<strong>Pad C — 600 uur alphabetisering + DUO-toets (€150)</strong><br>
+Heb je minstens 600 uur alfabetisering of taalles gevolgd bij een instelling met het Blik op Werk keurmerk, en blijkt uit een DUO-toets dat A2 niet haalbaar is? Dan volgt een ontheffing. De toets kost €150 en vraag je aan via duo.nl.<br><br>
+💡 Overleg met jouw gemeente of VluchtelingenWerk welk pad het beste past. Vraag ook of de kosten vergoed kunnen worden via bijzondere bijstand.`,
+    antwoorden: [
+      { tekst: 'Ik begrijp dit — ga verder met de overige voorwaarden', icoon: '→', klasse: 'ja', volgende: 'v5' },
     ]
   },
   v4b: {
@@ -161,7 +177,7 @@ const vragen = {
     tekst: 'Hoe ver ben je in de Z-route?',
     uitleg: 'De Z-route sluit af met een eindgesprek bij de gemeente en een positief DUO-advies. Dit is vereist voor naturalisatie.',
     antwoorden: [
-      { tekst: 'Ik ben klaar met de Z-route (DUO-positief advies ontvangen)', sub: 'Eindgesprek met gemeente afgerond', icoon: '✓', klasse: 'ja', volgende: 'v5' },
+      { tekst: 'Ik ben klaar met de Z-route (DUO-positief advies ontvangen)', sub: 'Eindgesprek met gemeente afgerond', icoon: '✓', klasse: 'ja', volgende: 'v4a_z' },
       { tekst: 'Ik ben nog bezig met de Z-route', sub: 'Nog niet klaar met de 800 uur taalles / participatie', icoon: '⏳', klasse: 'anders', volgende: 'r_bezig_z' },
     ]
   },
@@ -231,11 +247,12 @@ const resultaten = {
     stappen: [
       { nr: 1, tekst: '<strong>Wil je toch naturaliseren?</strong> De standaardvoorwaarden gelden ook voor EU-burgers: 5 jaar ononderbroken verblijf, inburgering, geen strafblad, afstand van nationaliteit.' },
       { nr: 2, tekst: '<strong>Dubbele nationaliteit:</strong> Informeer bij de Roemeense of Poolse ambassade of jij je nationaliteit kunt houden na naturalisatie. De regels per land verschillen.' },
-      { nr: 3, tekst: '<strong>Geen haast?</strong> Ga dan door met deze checker om te zien of je voldoet aan de naturalisatievoorwaarden.' },
+      { nr: 3, tekst: '<strong>Wil je verder?</strong> Doorloop de checker opnieuw en kies bij de verblijfsstatus voor "verblijfsvergunning" — de overige voorwaarden gelden ook voor EU-burgers.' },
     ],
     link: 'https://ind.nl/nl/nederlander-worden/naturalisatie', linkTekst: '→ Naturalisatie-informatie op ind.nl',
   },
   r_minderjarig: {
+    type: 'wacht', icoon: '🎂',
     titel: 'Naturalisatie voor kinderen gaat via de ouders',
     sub: 'Minderjarige kinderen kunnen meenaturaliseren als een ouder de Nederlandse nationaliteit aanvraagt of al heeft.',
     alternatieven: [
@@ -300,22 +317,6 @@ const resultaten = {
       { nr: 4, tekst: '<strong>Na behalen diploma:</strong> stuur het bewijs door naar de gemeente/IND.' },
     ],
     link: 'https://ind.nl/nl/nederlander-worden/naturalisatie', linkTekst: '→ Meer informatie op ind.nl',
-  },
-  r_z_afgerond: {
-    type: 'route', icoon: '🌱',
-    titel: 'Z-route afgerond — nog één stap nodig voor naturalisatie',
-    sub: 'Goed nieuws: je hebt de Z-route afgerond. Maar afronden van de Z-route betekent helaas niet automatisch dat je kunt naturaliseren. Voor naturalisatie moet je ook voldoen aan het inburgeringsvereiste (taaleis A2). Er zijn drie paden.',
-    infoBoxen: [
-      { type: 'amber', tekst: '⚠️ <strong>Belangrijk verschil:</strong> De Z-route sluit af met een eindgesprek en certificaat, geen diploma. Voor naturalisatie gelden aanvullende eisen vanuit de IND — je hebt een geslaagd A2-examen <em>of</em> een DUO-ontheffingsadvies nodig.' },
-      { type: 'blauw', tekst: '💡 <strong>Tip:</strong> Als je de Z-route nog niet hebt afgerond, zijn 2 examenpogingen per onderdeel op A2-niveau nog kosteloos. Zodra de Z-route is afgerond, betaal je zelf voor extra examenpogingen.' },
-    ],
-    paden: [
-      { nr: 'A', titel: 'Alsnog het inburgeringsexamen halen op A2-niveau', tekst: 'Haal alle taalexamens op A2-niveau (lezen, luisteren, schrijven, spreken) én het KNM-examen. Na een geslaagd examen heb je een DUO-diploma en voldoe je aan het inburgeringsvereiste. Let op: nu de Z-route is afgerond zijn examenpogingen niet langer kosteloos — je meldt je aan via duo.nl.' },
-      { nr: 'B', titel: '600 uur taalles (A2) + minimaal 3 pogingen per examenonderdeel', tekst: 'Heb je minstens 600 uur taalles op A2-niveau gevolgd bij een instelling met het Blik op Werk keurmerk, én per examenonderdeel minimaal 3 keer geprobeerd (waarvan minstens 1 keer een A2-examen)? Dan kan DUO een ontheffingsadvies afgeven — ook zonder geslaagd examen. Alfabetiseringsuren tellen mee tot maximaal 400 van de 600 uur.' },
-      { nr: 'C', titel: '600 uur alfabetisering of taalles + DUO-toets (geen leervermogen) — €150', tekst: 'Heb je minstens 600 uur alfabetisering gevolgd, of 600 uur taalles waarvan 300 uur alfabetisering, bij een instelling met Blik op Werk keurmerk? En blijkt uit een DUO-toets dat je taalniveau A2 niet kunt bereiken? Dan volgt een ontheffing. De DUO-toets kost €150 en moet worden aangevraagd via duo.nl.' },
-    ],
-    info: '📞 <strong>Advies:</strong> Overleg met jouw gemeente of VluchtelingenWerk welk pad het beste past. Vraag ook of de kosten voor examens of de DUO-toets vergoed kunnen worden via bijzondere bijstand.',
-    link: 'https://www.vluchtelingenwerk.nl', linkTekst: '→ Hulp via VluchtelingenWerk',
   },
   r_bezig_z: {
     type: 'route', icoon: '🌱',
@@ -408,7 +409,7 @@ const resultaten = {
 
 let geschiedenis = [];
 let huidigVraagId = 'v1';
-const totaalStappen = 8;
+const totaalStappen = 9;
 
 function render() {
   const hoofd = document.getElementById('hoofd');
@@ -477,6 +478,7 @@ function toonResultaat(id) {
     let stappenH = res.stappen ? `<div class="sectie-label">Wat kun je doen?</div><ul class="stap-lijst">${res.stappen.map(s=>`<li class="stap-item-res"><span class="stap-nr-res">${s.nr}</span><span class="stap-tekst-res">${s.tekst}</span></li>`).join('')}</ul>` : '';
     body = `<div class="resultaat-body">${infoH}${stappenH}${knoppen}${disclaimer}</div>`;
   } else if (res.type === 'route') {
+    let infoH = (res.infoBoxen||[]).map(b=>`<div class="${b.type==='amber'?'amber-box':'info-box'}">${b.tekst}</div>`).join('');
     if (res.info) infoH += `<div class="info-box">${res.info}</div>`;
     let padenH = res.paden ? `<div class="sectie-label">De drie paden voor naturalisatie vanuit de Z-route</div><div class="route-paden">${res.paden.map(p=>`<div class="route-pad"><div class="route-pad-header"><div class="route-pad-nr">${p.nr}</div><div class="route-pad-titel">${p.titel}</div></div><div class="route-pad-tekst">${p.tekst}</div></div>`).join('')}</div>` : '';
     let stappenH = res.stappen ? `<div class="sectie-label" style="margin-top:1rem;">Wat kun je nu doen?</div><ul class="stap-lijst">${res.stappen.map(s=>`<li class="stap-item-res"><span class="stap-nr-res">${s.nr}</span><span class="stap-tekst-res">${s.tekst}</span></li>`).join('')}</ul>` : '';
