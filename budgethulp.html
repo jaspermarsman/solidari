@@ -2688,10 +2688,14 @@ function setTaal(code,btn){
 
 // Init centrale i18n en start bij laden
 let _gestart = false;
-document.addEventListener('DOMContentLoaded', () => {
+function _init() {
+  if (_gestart) return;
+  _gestart = true;
   if(window.Solidari && Solidari.i18n) Solidari.i18n.init();
-  if(!_gestart){ _gestart = true; start(); }
-});
+  start();
+}
+document.addEventListener('DOMContentLoaded', _init);
+if (document.readyState !== 'loading') _init();
 </script>
   <script src="components.js"></script>
 </body>

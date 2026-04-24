@@ -1554,10 +1554,15 @@ function setTaal(code, btn) {
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 let _gestart = false;
-document.addEventListener('DOMContentLoaded', () => {
+function _init() {
+  if (_gestart) return;
+  _gestart = true;
   if (window.Solidari && Solidari.i18n) Solidari.i18n.init();
-  if (!_gestart) { _gestart = true; start(); }
-});
+  start();
+}
+document.addEventListener('DOMContentLoaded', _init);
+// Direct aanroepen als DOM al klaar is (voorkomt dubbele start via components.js)
+if (document.readyState !== 'loading') _init();
 
 try { const op = localStorage.getItem('solidari-taal'); if(op){ taal=op.toLowerCase(); document.querySelectorAll('.taal-btn').forEach(b=>b.classList.toggle('actief',b.textContent.trim().toLowerCase()===taal)); }} catch(e){}
 </script>
