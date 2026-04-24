@@ -387,6 +387,7 @@ const T = {
     ],
     thuis_uitleg:'Since you have no housing costs of your own, I will skip rent, energy and insurance.',
     inkomen_u:'This is your net salary or benefit — the amount that actually arrives in your account. After tax.',
+    inkomen_v:'How much money do you receive per month?',
     huur_v:'How much do you pay per month for rent or mortgage?',
     huur_u:'',
     huur_hoog:(p)=>`That is ${p}% of your income. Nibud advises a maximum of 35–40%. Have you checked if you qualify for housing allowance?`,
@@ -2037,6 +2038,10 @@ async function toonResultaat(){
   const wVerv  = verv/(52/12);                    // vervoer maand → week
   const wAbon  = abonnem/(52/12);                 // abonnementen maand → week
   const wDag   = vrijeRuimte/30;
+  // Vrije ruimte verdeling voor Excel weekbudget tabblad
+  const wVrijeRuimteWeek = vrijeRuimte/(52/12);
+  const wVrij  = Math.max(0, wVrijeRuimteWeek - wBood - wKled - wBuf) * 0.6;  // 60% uitjes
+  const wOverig = Math.max(0, wVrijeRuimteWeek - wBood - wKled - wBuf) * 0.4; // 40% overig
 
   // Nibud weekwaarden
   const nibudBood = Math.round(ref.voeding/(52/12));
@@ -2099,7 +2104,7 @@ async function toonResultaat(){
   b.appendChild(dlWrap); scrollNaar();
 
   // PDF data opslaan
-  window._pdf={saldo,pos,ink,wSaldo,dSaldo,totUit,huurB,nettoW,energie,tel,zorgv,autov,inboed,begraf,verv,schuld,abonnem,abonnementen:A.abonnementen||[],bood,overig,overig_naam:A.overig_naam||'Overige kosten',spaar,sit:A.sit||'alleen',huurtoesl:A.huurtoeslag||0,zorgtoesl:A.zorgtoeslag||0,wBood,wKled,wBuf,wVerv,wAbon,wDag};
+  window._pdf={saldo,pos,ink,wSaldo,dSaldo,totUit,huurB,nettoW,energie,tel,zorgv,autov,inboed,begraf,verv,schuld,abonnem,abonnementen:A.abonnementen||[],bood,overig,overig_naam:A.overig_naam||'Overige kosten',spaar,sit:A.sit||'alleen',huurtoesl:A.huurtoeslag||0,zorgtoesl:A.zorgtoeslag||0,wBood,wKled,wBuf,wVerv,wAbon,wDag,wVrij,wOverig};
 
   await new Promise(r=>setTimeout(r,300));
   if(saldo>50)  await sol(t.adv_pos(saldo),'reactie');
@@ -2622,11 +2627,7 @@ Maximaal 400 woorden.`
     if (err.message === 'TIMEOUT') {
       await sol('De analyse duurde te lang (45 sec). Probeer opnieuw.', 'waarschuwing');
     } else {
-      // Controleer of de Worker URL correct is ingesteld
-      const isPlaceholder = WORKER_URL.includes('jounaam') || WORKER_URL.includes('jaspermarsman');
-      const msg = isPlaceholder
-        ? 'De Worker URL is nog niet ingesteld. Stel WORKER_URL in budgethulp.html in op jouw Cloudflare Worker-adres.'
-        : 'Verbinding met AI-analyse mislukt. Controleer of de Cloudflare Worker actief is en de API-key is ingesteld.';
+      const msg = 'Verbinding met AI-analyse mislukt. Controleer of de API-server actief is (' + API_BASE + ').';
       await sol(msg, 'waarschuwing');
     }
   }
