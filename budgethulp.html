@@ -1536,13 +1536,17 @@ function toonNaamBedrag(id, optioneel, cb){
 // ══════════════════════════════════════════════════════
 // GESPREKSSTROOM
 // ══════════════════════════════════════════════════════
+let _bezig = false;
 async function start(){
+  if (_bezig) return;
+  _bezig = true;
   const t=T[taal];
   document.body.style.direction=taal==='ar'?'rtl':'ltr';
   document.getElementById('berichten').innerHTML='';
   verbergInvoer(); stap=0; setVoortgang(0);
   Object.keys(A).forEach(k=>delete A[k]);
   await sol(t.welkom); await sol(t.start);
+  _bezig = false;
   await stap_situatie();
 }
 
@@ -2695,7 +2699,7 @@ function _init() {
   start();
 }
 document.addEventListener('DOMContentLoaded', _init);
-if (document.readyState !== 'loading') _init();
+_init();
 </script>
   <script src="components.js"></script>
 </body>

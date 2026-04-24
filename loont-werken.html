@@ -1105,11 +1105,15 @@ function berekenKot(jaarinkomen) {
 }
 
 // ─── STAPPEN ──────────────────────────────────────────────────────────────────
+let _bezig = false;
 async function start() {
+  if (_bezig) return;
+  _bezig = true;
   B().innerHTML = ''; IZ().innerHTML = ''; vrtg(0);
   Object.assign(S, {situatie:null,partner:false,huisgenoten:[],leeftijd:null,huur:0,huidigNetto:0,nieuwBruto:0,uren:40,
                     kotActief:false,kotSoort:'dag',kotUrenMnd:0,kotKinderen:0});
   await sol(s('welkom'), 200);
+  _bezig = false;
   stap_situatie();
 }
 
@@ -1561,8 +1565,7 @@ function _init() {
   start();
 }
 document.addEventListener('DOMContentLoaded', _init);
-// Direct aanroepen als DOM al klaar is (voorkomt dubbele start via components.js)
-if (document.readyState !== 'loading') _init();
+_init();
 
 try { const op = localStorage.getItem('solidari-taal'); if(op){ taal=op.toLowerCase(); document.querySelectorAll('.taal-btn').forEach(b=>b.classList.toggle('actief',b.textContent.trim().toLowerCase()===taal)); }} catch(e){}
 </script>
