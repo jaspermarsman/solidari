@@ -771,7 +771,7 @@ function start() {
 function nieuwGesprek() { start(); }
 
 function setTaal(code, btn) {
-  taal = code;
+  taal = code.toUpperCase(); // components.js geeft lowercase door
   document.querySelectorAll('.taal-btn').forEach(b => b.classList.remove('actief'));
   btn.classList.add('actief');
   if (window.Solidari && Solidari.i18n) Solidari.i18n.passToe(code);
