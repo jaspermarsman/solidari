@@ -6,6 +6,7 @@
   <title>Naturalisatie Checker — Solidari</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="components.css">
+  <script src="naturalisatie-data.js"></script>
   <style>
     :root { --paars: #7C3AED; --rood: #DC2626; --rood-licht: #FEF2F2; --blauw: #2563EB; --blauw-licht: #EFF6FF; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -96,6 +97,46 @@
 <div class="hoofd" id="hoofd"></div>
 
 <script>
+// ── Taal-helpers ─────────────────────────────────────────────────────────
+function huidigeTaal() {
+  const code = (localStorage.getItem('solidari_taal') || 'nl').toUpperCase();
+  return window._NAT && window._NAT[code] ? code : 'NL';
+}
+
+function getNATdata() {
+  if (!window._NAT) return null;
+  return window._NAT[huidigeTaal()] || window._NAT['NL'];
+}
+
+// Update de statische header bij taalwissel
+function updateHeader() {
+  const nat = getNATdata();
+  if (!nat) return;
+  const h = nat.header;
+  const taal = huidigeTaal();
+  const rtl = taal === 'AR' || taal === 'FA';
+  document.documentElement.setAttribute('dir', rtl ? 'rtl' : 'ltr');
+  document.documentElement.setAttribute('lang', taal.toLowerCase());
+  const badgeEl = document.querySelector('.header-badge');
+  const titelEl = document.querySelector('.header-titel');
+  const subEl   = document.querySelector('.header-sub');
+  if (badgeEl) badgeEl.textContent = h.badge;
+  if (titelEl) titelEl.textContent = h.titel;
+  if (subEl)   subEl.textContent   = h.sub;
+}
+
+// Luister naar taalwisselingen vanuit components.js
+document.addEventListener('solidari:taalGewijzigd', function() {
+  updateHeader();
+  geschiedenis = [];
+  huidigVraagId = 'v1';
+  document.getElementById('voortgang').style.width = '0%';
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+// Legacy vragen/resultaten — worden niet meer direct gebruikt maar blijven
+// voor terugwaartse compatibiliteit (de functies pakken nu uit _NAT)
 const vragen = {
   v1: {
     stap: 'Stap 1 van 9',
@@ -427,7 +468,8 @@ function render() {
 }
 
 function toonVraag(id) {
-  const v = vragen[id]; if (!v) return;
+  const nat = getNATdata();
+  const v = (nat && nat.vragen ? nat.vragen : vragen)[id]; if (!v) return;
   const stapNr = parseInt(v.stap.match(/\d+/)?.[0]) || 1;
   document.getElementById('voortgang').style.width = ((stapNr / totaalStappen) * 100) + '%';
   const kaart = document.createElement('div');
@@ -460,7 +502,8 @@ function toonVraag(id) {
 }
 
 function toonResultaat(id) {
-  const res = resultaten[id]; if (!res) return;
+  const nat = getNATdata();
+  const res = (nat && nat.resultaten ? nat.resultaten : resultaten)[id]; if (!res) return;
   document.getElementById('voortgang').style.width = '100%';
   const kaart = document.createElement('div');
   kaart.className = `resultaat-kaart resultaat-${res.type}`;
@@ -491,7 +534,8 @@ function toonResultaat(id) {
 }
 
 function kiesAntwoord(vraagId, i) {
-  const v = vragen[vraagId], a = v.antwoorden[i];
+  const nat = getNATdata();
+  const v = (nat && nat.vragen ? nat.vragen : vragen)[vraagId], a = v.antwoorden[i];
   geschiedenis.push({ vraagId, vraagTekst: v.tekst, antwoordTekst: a.tekst, klasse: a.klasse });
   huidigVraagId = a.volgende;
   render();
@@ -504,6 +548,7 @@ function opnieuwBeginnen() {
 }
 
 render();
+updateHeader();
 </script>
 <div id="solidari-footer"></div>
 <script src="i18n.js"></script>

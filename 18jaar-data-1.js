@@ -304,7 +304,7 @@ d.EN = {
           ], extern:{ url:'https://www.donorregister.nl', tekst:'→ Update donor preference at donorregister.nl' } },
       ],
       checklist:[
-        { tekst:'Health insurance and healthcare benefit arranged', sub:'Via Mijn Toeslagen' },
+        { tekst:'Health insurance and healthcare benefit arranged', sub:'Via Mijn Toeslagen (belastingdienst.nl)' },
         { tekst:'Registered with housing association', sub:'Start early — waiting lists are long' },
         { tekst:'Donor preference submitted', sub:'Via donorregister.nl' },
         { tekst:'Social assistance or student finance applied for (if needed)', sub:'Depending on living situation and studies' },
