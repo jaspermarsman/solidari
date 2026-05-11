@@ -1868,3 +1868,392 @@ window._NAT.FA = {
     },
   },
 };
+
+// ─── TI ───────────────────────────────────────────────────────────────────
+window._NAT.TI = {
+  header: {
+    badge: '🇳🇱 መርመራ ዜጋነት',
+    titel: 'ንናይ ሆላንድ ፓስፖርት ዝምልከት መሰል ኣለኒ ድዩ?',
+    sub: 'ንቑሩብ ሕቶታት መልሲ ሃብ/ሃቢ — ሕጊ IND 2025 ብምትካል ናትካ/ኺ ናይ ዜጋነት ኩነታት ቅልጡፍ ርኣ/ርኣዪ።',
+  },
+  vragen: {
+    v1: {
+      stap: 'ስጉምቲ 1 ካብ 9',
+      tekst: '18 ዓመት ወይ ካብኡ ዝዓቢ ዕድሜ ኣለካ/ኺ ድዩ?',
+      uitleg: 'ናይ ዜጋነት ምልክታ ዝቕርቡ ዓቢ/ዓባይ ዝኾኑ ሰባት ጥራይ እዮም። ቆልዑ ኣብ ትሕቲ ዕድሜ ናይ ወለዶም ኢዮም ዘካልዱ።',
+      antwoorden: [
+        { tekst: 'እወ፡ 18 ዓመት ወይ ዝዓቢ ኣለኒ', icoon: '✓', klasse: 'ja', volgende: 'v1b' },
+        { tekst: 'ኣይኮንኩን፡ ካብ 18 ዓመት ኣሕሽሽ እዩ ዕድሜይ', icoon: '✗', klasse: 'nee', volgende: 'r_minderjarig' },
+      ]
+    },
+    v1b: {
+      stap: 'ስጉምቲ 2 ካብ 9',
+      tekst: 'ናይ ሕጂ ናይ ምቕማጥ ሃለዋትካ/ኺ ኣብ ሆላንድ እንታይ ኣዩ?',
+      uitleg: 'ኣብ ሆላንድ ዘለካ/ኺ ናይ ምቕማጥ ዓይነት ዝምልከት መንገዲ ይውስን። ናይ ኤሮጳ ሕብረት ዜጋታት ብሕጊ ኤሮጳ ሕብረት እዮም ዝቕመጡ — ብሆላንዳዊ ፍቓደ-ምቕማጥ ኣይኮነን።',
+      antwoorden: [
+        { tekst: 'ናይ ሆላንድ ፍቓደ-ምቕማጥ ኣለኒ', sub: 'ወይ ናይ ዑቕባ ሃለዋት (IND ዓይነት III፡ IV ወይ V)', icoon: '📄', klasse: 'ja', volgende: 'v2' },
+        { tekst: 'ናይ ኤሮጳ ሕብረት ዜጋ እየ (ለምሳሌ ሮማኒያዊ ወይ ፖለናዊ ፓስፖርት)', sub: 'ወይ ናይ EER / ሽዊዝ ዜጋ', icoon: '🇪🇺', klasse: 'anders', volgende: 'r_eu_burger' },
+        { tekst: 'ርግጸኛ ኣይኮንኩን/ኩኒን', icoon: '❓', klasse: 'anders', volgende: 'v2' },
+      ]
+    },
+    v2: {
+      stap: 'ስጉምቲ 3 ካብ 9',
+      tekst: 'ሕጋዊ ፍቓደ-ምቕማጥ ኣለካ/ኺ ድዩ?',
+      uitleg: 'ሕጋዊ ፍቓደ-ምቕማጥ ዘድሊ እዩ። ናይ ዑቕባ ሃለዋት (ዑቕባ ፍቓደ-ምቕማጥ ቁርጺ ወይ ዘይቁርጺ ዓቐን) ይሕሰብ።',
+      antwoorden: [
+        { tekst: 'እወ፡ ሕጋዊ ፍቓደ-ምቕማጥ ኣለኒ', sub: 'ወይ ናይ ዑቕባ ሃለዋት (IND ዓይነት III፡ IV ወይ V)', icoon: '✓', klasse: 'ja', volgende: 'v3' },
+        { tekst: 'ኣይፋሉን፡ ሕጋዊ ፍቓደ-ምቕማጥ የብለይን', icoon: '✗', klasse: 'nee', volgende: 'r_geen_vergunning' },
+      ]
+    },
+    v3: {
+      stap: 'ስጉምቲ 4 ካብ 9',
+      tekst: 'ካብ ክንደይ እዋን ኣቢሉ ብዘይምቁራጽ ኣብ ሆላንድ ትቕመጥ/ትቕመጢ ኣለኻ/ኺ?',
+      uitleg: 'ብቐጻሊ ሓሙሽተ ዓመት ወሓደ ምቕማጥ ዘድሊ እዩ። ናብ ደገ ምኻድ ሓጸርቲ ጸጊዕ ናይ ምቕማጥ ዓመታት ኣየቋርጹን።',
+      antwoorden: [
+        { tekst: 'ካብ 5 ዓመት ኣሕሽሽ', icoon: '⏳', klasse: 'nee', volgende: 'r_te_kort' },
+        { tekst: '5 ዓመት ወይ ካብኡ ንላዕሊ', sub: 'ብዘይምቁራጽ ኣብ ሆላንድ ምቕማጥ', icoon: '✓', klasse: 'ja', volgende: 'v4a' },
+      ]
+    },
+    v4a: {
+      stap: 'ስጉምቲ 5 ካብ 9 — ምውህሃድ',
+      tekst: 'ናይ ምውህሃድ (inburgering) ሃለዋትካ/ኺ እንታይ ኣዩ?',
+      uitleg: 'ንዜጋነት ምውህሃድካ/ኺ ከተረጋግጽ/ጺ ኣለካ/ኺ። ክልተ ወይ ዝዛይድ ኣገባባት ኣለዉ።',
+      antwoorden: [
+        { tekst: 'ናይ ምውህሃድ ፈተና ሓሊፈ (B1 ወይ ናይ ትምህርቲ መስርሕ)', sub: 'DUO ዲፕሎማ ምውህሃድ ኣሎ', icoon: '✓', klasse: 'ja', volgende: 'v5' },
+        { tekst: 'ናይ ሆላንዳዊ ቋንቋ MBO 2፡ 3 ወይ 4 ዲፕሎማ ኣሎኒ — ወይ HBO / WO', sub: 'እዚ ካብ ናይ ምውህሃድ ግዴታ ዘለዓለማዊ ናጻነት ይህብ', icoon: '🎓', klasse: 'ja', volgende: 'v5' },
+        { tekst: 'ካብ ምውህሃድ ናጻ ዝኾንኩ/ኩኒ', sub: 'ለምሳሌ ዕድሜ (65+)፡ ሕክምናዊ ምኽንያት ወይ ዝተረጋገጸ ጻዕሪ', icoon: '✓', klasse: 'ja', volgende: 'v5' },
+        { tekst: 'Z-መስርሕ ወዳእኩ/ዊ (ናይ መወዳእታ ዕላልን ምስክር ወረቐትን)', sub: 'ኣስተብህሉ፡ እዚ ናይ ዜጋነት መሰል ብኣውቶማቲክ ኣይህብን — ምርጫታትካ/ኺ ርኣ/ርኣዪ', icoon: '🌱', klasse: 'anders', volgende: 'v4a_z' },
+        { tekst: 'ሕጂ ድማ ኣብ ናይ ምውህሃድ ሂወት ኣለኹ/ኺ', sub: 'ዲፕሎማ ወይ ናጻነት ገና የብለይን', icoon: '⏳', klasse: 'anders', volgende: 'v4b' },
+      ]
+    },
+    v4a_z: {
+      stap: 'ስጉምቲ 5 ካብ 9 — Z-መስርሕ',
+      tekst: 'Z-መስርሕ ወዲእካ/ኢኺ — ንዜጋነት ሓደ ተወሳኺ ስጉምቲ ዘድሊ ኣዩ',
+      uitleg: 'Z-መስርሕ ብናይ መወዳእታ ዕላልን ምስክር ወረቐትን ይውዳእ፡ ግን IND ንዜጋነት ናይ ቋንቋ ዝምልከት ተወሳኺ ጠለባት ኣለዎ። ሰለስተ መንገድታት ኣለዉ፤<br><br><strong>መስርሕ A — ናብ A2 ደርጃ ፈተና ምሕላፍ</strong><br>ኩሎም ናይ ቋንቋ ፈተናታት ኣብ A2 (ምንባብ፡ ምስማዕ፡ ምጽሓፍ፡ ምዝራብ) ምሕላፍን KNM ፈተናን። Z-መስርሕ ምስ ወዳእካ/ዊ ናይ ፈተና ዕድላት ዳርጋ ርሑቕ ዋጋ ኣለዎ።<br><br><strong>መስርሕ B — 600 ሰዓት ናይ ቋንቋ ትምህርቲ + 3 ፈቲናታት ነናብ ክፍሊ</strong><br>ቅናት 600 ሰዓት ኣብ Blik op Werk ምስ ዝተቐበለ ትካል ምስ 3 ፈቲናታት ነናብ ክፍሊ? DUO ናጻነት ምኽሪ ክህብ ይኽእል — ፈተና ዘይሓለፍካ/ዊ ምስ ትኸውን እውን።<br><br><strong>መስርሕ C — 600 ሰዓት ናይ ትምህርቲ + DUO ፈተና (150 ዩሮ)</strong><br>ቅናት 600 ሰዓት ትምህርቲ ምስ ዝተቐበለ ትካል ምስ DUO ፈተና A2 ዘይክስሕ ምዃኑ ምስ ዘርኢ — ናጻነት ይወሃብ።<br><br>💡 ምስ ምምሕዳር ከቲ ወይ VluchtelingenWerk ዘቤ ናይ ምስምዑ ዝምስምዑ ምርካብ.',
+      antwoorden: [
+        { tekst: 'ተረዲኤ/ኤ — ናብ ዝተረፉ ኩነታት ቀጽሉ', icoon: '→', klasse: 'ja', volgende: 'v5' },
+      ]
+    },
+    v4b: {
+      stap: 'ስጉምቲ 5 ካብ 9 — ናይ ትምህርቲ መስርሕ',
+      tekst: 'ኣየናይ ናይ ምውህሃድ መስርሕ ትኽተሎ/ሊ ኣለኻ/ኺ?',
+      uitleg: 'ምምሕዳር ከቲ ናይ ትምህርቲ ዓቅምኻ/ኺ ብምርኣይ ናይ ትምህርቲ መስርሕካ/ኺ ይወስን። ሰለስተ መስርሓት ኣለዉ፡ B1፡ ናይ ትምህርቲ መስርሕን Z-መስርሕን።',
+      antwoorden: [
+        { tekst: 'B1-መስርሕ', sub: 'ናይ ቋንቋ ፈተና ኣብ B1 ደርጃ + KNM ፈተና', icoon: '📖', klasse: 'info', volgende: 'r_bezig_b1' },
+        { tekst: 'ናይ ትምህርቲ መስርሕ', sub: 'ናይ ቋንቋ ምስግጋር ፕሮግራም 1.5–2 ዓመት — ናይ MBO/HBO/WO ምስልሳል', icoon: '🏫', klasse: 'info', volgende: 'r_bezig_onderwijs' },
+        { tekst: 'Z-መስርሕ (ናይ ርእሰ-ምምርሓ መስርሕ)', sub: 'ንደቀ ሰባት B1 ዘይክስሕ ዝኾኖ', icoon: '🌱', klasse: 'anders', volgende: 'v4b_z' },
+        { tekst: 'ኣይፈልጥን / ገና ናይ ትምህርቲ መስርሕ የብለይን', icoon: '❓', klasse: 'anders', volgende: 'r_geen_inburgering' },
+      ]
+    },
+    v4b_z: {
+      stap: 'ስጉምቲ 5 ካብ 9 — Z-መስርሕ',
+      tekst: 'ኣብ Z-መስርሕ ክሳብ ኣበይ ወሲድካ/ኢኺ?',
+      uitleg: 'Z-መስርሕ ኣብ ምምሕዳር ከቲ ናይ መወዳእታ ዕላልን ናይ DUO ኣወንታዊ ምኽሪን ምስ ወዳእካ ይዛዘም። ክልቲኡ ንዜጋነት ዘድሊ ኣዩ።',
+      antwoorden: [
+        { tekst: 'Z-መስርሕ ወዲኤ (DUO ኣወንታዊ ምኽሪ ተቐቢለ)', sub: 'ምስ ምምሕዳር ከቲ ናይ መወዳእታ ዕላል ተወዲኡ', icoon: '✓', klasse: 'ja', volgende: 'v4a_z' },
+        { tekst: 'ሕጂ ድማ ኣብ Z-መስርሕ ኣለኹ/ኺ', sub: 'ናይ 800 ሰዓት ናይ ቋንቋ ትምህርቲ / ምክፋል ገና ኣይወዳእኩን/ን', icoon: '⏳', klasse: 'anders', volgende: 'r_bezig_z' },
+      ]
+    },
+    v5: {
+      stap: 'ስጉምቲ 6 ካብ 9',
+      tekst: 'ኣብ ዝሓለፉ 5 ዓመታት ብዝኾነ ወንጀል ተፈሪድካ/ኢኺ ዶ?',
+      uitleg: 'ናይ ወንጀል ፍርዲ ናይ ዜጋነት ምልክታ ክዓጹ ይኽእል። ናይ ትራፊክ ቅጻዓትን ንኣሽቱ ምጥሓሳትን ብዙሕ ኣይሕሰቡን።',
+      antwoorden: [
+        { tekst: 'ኣይፋሉን፡ ናይ ወንጀል ዝርዝር የብለይን', icoon: '✓', klasse: 'ja', volgende: 'v6' },
+        { tekst: 'እወ፡ ብወንጀል ተፈሪደ', icoon: '✗', klasse: 'nee', volgende: 'r_strafblad' },
+        { tekst: 'ርግጸኛ ኣይኮንኩን/ኩኒን', icoon: '❓', klasse: 'anders', volgende: 'r_strafblad_check' },
+      ]
+    },
+    v6: {
+      stap: 'ስጉምቲ 7 ካብ 9',
+      tekst: 'ናይ ሕጂ ቀንዲ ቤትካ/ኺ ኣብ ሆላንድ ዶ ኣዩ?',
+      uitleg: 'ቀንዲ ቤትካ/ኺ ኣብ ሆላንድ ክኸውን ኣለዎ። ሓደ ሓደ ግዜ ናብ ደገ ምኻድ ጸገም ኣይፈጥርን።',
+      antwoorden: [
+        { tekst: 'እወ፡ ብቐጻሊ ኣብ ሆላንድ እቕመጥ', icoon: '✓', klasse: 'ja', volgende: 'v7' },
+        { tekst: 'ኣይፋሉን፡ ብዛዕባ ኣብ ካልእ ሃገር ዝቕመጥ', icoon: '✗', klasse: 'nee', volgende: 'r_geen_verblijf' },
+      ]
+    },
+    v7: {
+      stap: 'ስጉምቲ 8 ካብ 9',
+      tekst: 'ናይ ሕጂ ዜግነትካ/ኺ ንምውጻእ ድሉው/ዊ ዲኻ/ዲኺ?',
+      uitleg: 'ሆላንድ ብዙሕ ዜግነት ዝፈቕድ ኣይኮነን። ናጻ ምፍቓድ፡ ፍሉይ ሃለዋት ዘለዎም ዑቕበኛታት ክልተ ዜግነት ክሕዙ ይኽእሉ።',
+      antwoorden: [
+        { tekst: 'እወ፡ ዜግነተይ ኣወጽእ', icoon: '✓', klasse: 'ja', volgende: 'v8' },
+        { tekst: 'ዕዉት ዑቕበኛ እየ (ናይ ሃለዋት ዋናታት)', sub: 'ናይ ሃለዋት ዋናታት ክልተ ዜግነት ክሕዙ ይኽእሉ', icoon: '✓', klasse: 'ja', volgende: 'v8' },
+        { tekst: 'ኣይፋሉን፡ ዜግነተይ ክሕዞ/ዞ እደሊ', icoon: '✗', klasse: 'nee', volgende: 'r_nationaliteit' },
+      ]
+    },
+    v8: {
+      stap: 'ስጉምቲ 9 ካብ 9',
+      tekst: 'ናይ ዜጋነት ዋጋ ትፈልጦ/ሊ ዲኻ/ዲኺ?',
+      uitleg: 'ምልክታ €1,044 ይወድቕ (2025)። ናይ ምልክታ ምስምሳ ኣቶ 6–12 ወርሒ ይወስድ።',
+      antwoorden: [
+        { tekst: 'እወ፡ ፈሊጠ ቀጺለ ክኸይድ እደሊ', icoon: '✓', klasse: 'ja', volgende: 'r_positief' },
+        { tekst: 'ዋጋ ኣዝዩ ብዙሕ ኣዩ — ሓገዝ ኣሎ ዶ?', icoon: '💡', klasse: 'anders', volgende: 'r_kosten' },
+      ]
+    },
+  },
+  resultaten: {
+    r_positief: {
+      type: 'positief', icoon: '🎉',
+      titel: 'ምናልባሽ መሰል ኣለካ/ኺ!',
+      sub: 'ናብ ሕቶታትካ/ኺ መሰረት ናይ ዜጋነት ቀንዲ ኩነታት ዘማልእ/እ ትኸውን ዘለካ/ኺ። ዝቕጽል ስጉምቲ ናብ ምምሕዳር ከቲ ናይ ወግዓዊ ምልክታ ምቕራብ ኣዩ።',
+      info: '💡 ናይ ሃለዋት ዋናታት (ዕዉት ዑቕበኛታት) ብዙሕ ኣብ ብዙሕ ሃለዋት ናይ ኦሪጂናሎም ዜጋነት ንምውጻእ ኣይጸናሕዎምን።',
+      stappen: [
+        { nr: 1, tekst: '<strong>ናብ ምምሕዳር ከቲ ቆጸራ ሓዝ/ሒዚ</strong> — ናይ ዜጋ ጉዳይ ክፍሊ። ናይ ዜጋነት ምልክታ ክቕርብ/ቕርቢ ምዃንካ/ኺ ሓብሮ/ሪ።' },
+        { nr: 2, tekst: '<strong>ሰነዳት ኣዳልዋ፡</strong> ሕጋዊ ፓስፖርት፡ ፍቓደ-ምቕማጥ፡ ምስክር ምውህሃድ፡ ናይ ልደት ምስክር (ምስ ዘድሊ ተፈቒዱ)።' },
+        { nr: 3, tekst: '<strong>ክፍሊት ኸፍሎ፡</strong> €1,044 ምስ ምቕራብ (2025)። ምምሕዳር ከቲ ናይ ምትሕብባር ፕሮግራም ኣለዎ ዶ ምሕትት/ቲ።' },
+        { nr: 4, tekst: '<strong>ናይ IND ውሳኔ ጸናሕ፡</strong> ብሓሙሽ ናብ 6–12 ወርሒ ዝወስድ ኣዩ።' },
+        { nr: 5, tekst: '<strong>ናይ ዜጋነት ሓፈሻ፡</strong> ምስ ተቐበለ ናይ ሓፈሻ ዕድመ ካብ ምምሕዳር ከቲ ትቕበሎ/ሊ።' },
+      ],
+      link: 'https://ind.nl/nl/nederlander-worden/naturalisatie', linkTekst: '→ ኣብ ind.nl ዝያዳ ሓበሬታ',
+    },
+    r_eu_burger: {
+      type: 'eu', icoon: '🇪🇺',
+      titel: 'ናይ ኤሮጳ ሕብረት ዜጋ ከም ዝኾንካ/ኩኒ ፍሉይ መሰላት ኣለካ/ኺ',
+      sub: 'ናይ ሆላንድ ዜጋነት ምስምሳ ይከኣል፡ ግን ኣብዚ ምቕማጥን ምስራሕን ናይ ሆላንድ ዜጋነት ኣይጠልብን። ናይ ኤሮጳ ዜጋ ከምዝኾንካ/ኩኒ ሕጂ ኣብ ሆላንድ ዓቢ መሰላት ኣለካ/ኺ።',
+      infoBoxen: [
+        { type: 'info', tekst: '🇪🇺 <strong>ናይ ኤሮጳ ዜጋ መሰላት፡</strong> ናይ ሮማኒያ ወይ ፖለናዊ ዜጋ ከምዝኾንካ/ኩኒ ብዘይ ፍቓደ-ምቕማጥ ኣብ ሆላንድ ናይ ምቕማጥ፡ ምስራሕን ምምሃርን መሰል ኣለካ/ኺ። ኣብ ምምሕዳር ከቲ (BRP) ትምዝገቡ፡ ግን ናይ IND ፍቓደ-ምቕማጥ ኣየድሊን።' },
+        { type: 'amber', tekst: '⚠️ <strong>ዳርባ ዜጋነት ዝምልከት፡</strong> ናይ ሆላንድ ዜጋ ምስ ትኸውን/ኢ ብሓፈሻ ናይ ሮማኒያ ወይ ፖሎናዊ ዜጋነትካ/ኺ ናይ ምውጻእ ግዴታ ኣለካ/ኺ። ሮማኒያን ፖለናን ሓደ ሓደ ግዜ ኣይፈቕዱን። ምስ ምቅላሉ ወዲኡ ናብ ምምሕዳሮም ሕቶ ሕቱ።' },
+      ],
+      stappen: [
+        { nr: 1, tekst: '<strong>ዜጋነት ምምስርሕ ትደሊ/ሊ?</strong> ሓፈሻዊ ኩነታት ናይ ኤሮጳ ዜጋ ድማ ይምልከቶም፡ 5 ዓመት ምቕማጥ፡ ምውህሃድ፡ ናይ ወንጀል ዝርዝር ዘይምህላው፡ ዜጋነት ምውጻእ።' },
+        { nr: 2, tekst: '<strong>ዳርባ ዜጋነት፡</strong> ምስ ናይ ሮማኒያ ወይ ፖሎናዊ ምምሕዳር ሃገር ሓተቶ/ቲ ናይ ምዓዱ ዜጋነትካ/ኺ ምኻድ ምስ ትኸውን/ኢ ክሕዝ ይኽእሉ ዶ ኢሎም። ናይ ሕጊ ፍልልያት ክሳብ ናብ ሃገር ናይ ሃገር ኣሎ።' },
+        { nr: 3, tekst: '<strong>ቀጺልካ ምምስርሕ ትደሊ/ሊ?</strong> ናይ ምምርማር ኣሳሒ ብምጥቃም ናይ ምቕማጥ ሃለዋት ኣብ "ፍቓደ-ምቕማጥ" ምምራጽ — ዝተረፉ ኩነታት ናይ ኤሮጳ ዜጋ ድማ ይምልከቶም።' },
+      ],
+      link: 'https://ind.nl/nl/nederlander-worden/naturalisatie', linkTekst: '→ ናይ ዜጋነት ሓበሬታ ኣብ ind.nl',
+    },
+    r_minderjarig: {
+      type: 'wacht', icoon: '🎂',
+      titel: 'ናይ ቆልዑ ዜጋነት ብወለዶም ኣቢሉ ኣዩ ዝምስርሕ',
+      sub: 'ትሕቲ ዕድሜ ዝኾኑ ቆልዑ ምስ ወለዶም ናይ ሆላንድ ዜጋነት ምልክታ ምስ ዝቐርቡ ወይ ናይ ሆላንድ ዜጋ ምስ ዝኾኑ ሓቢሮም ዜጋ ክኾኑ ይኽእሉ።',
+      alternatieven: [
+        { naam: 'ምስ ወለዶም ዜጋ ምዃን', tekst: 'ወለዲ ምስ ዜጋ ዝኾኑ ደቆም ብኣውቶማቲክ ዜጋ ክኾኑ ይኽእሉ።' },
+        { naam: 'ብፍርዳዊ ቤት', tekst: 'ሓደ ሓደ ሃለዋት ናይ ቆልዑ ፍሉይ ዜጋነት ይከኣሎ።' },
+        { naam: 'ሳብ 18 ምጽባይ', tekst: 'ኣብ 18 ዕድሜ ብናጻ ምልክታ ምቕራብ ይከኣሎ።' },
+        { naam: 'ናይ ምምራጽ ስጉምቲ', tekst: 'ኣብ ሆላንድ ምስ ትወለድ/ዲ ሓደ ሓደ ግዜ "ምምራጽ" ብምጥቃም ናይ ሆላንዳዊ ምዃን ይከኣሎ።' },
+      ],
+      link: 'https://ind.nl/nl/nederlander-worden', linkTekst: '→ ኣብ ind.nl ዝያዳ ሓበሬታ',
+    },
+    r_geen_vergunning: {
+      type: 'negatief', icoon: '📋',
+      titel: 'ቅድሚ ዝኾነ ፍቓደ-ምቕማጥ ዘድሊካ/ኺ',
+      sub: 'ዜጋነት ሕጋዊ ኣብ ሆላንድ ምቕማጥ ጥራይ ኣዩ ዝከኣሎ። ቅድሚ ሕጋዊ ፍቓደ-ምቕማጥ ምርካብ ዘድሊ።',
+      alternatieven: [
+        { naam: 'ናይ ዑቕባ ምልክታ', tekst: 'ሓለዋ ምስ ዘድልየካ/ኺ ናብ IND ናይ ዑቕባ ምልክታ ምቕራብ ይከኣሎ።' },
+        { naam: 'ናይ ሰርሓ ፍቓደ-ምቕማጥ', tekst: 'ንስራሕ፡ ትምህርቲ ወይ ናይ ስድራቤት ምምጻእ ፍቓዳት ኣለዉ።' },
+        { naam: 'ሕጋዊ ሓገዝ', tekst: 'ናይ ዑቕበኛ ትካልን ወይ ጠበቓን ርኸቦ/ቢ።' },
+        { naam: 'VluchtelingenWerk', tekst: 'ናይ ዑቕባ ሰሪሖምን ናይ ሃለዋት ዋናታትን ናጻ ሕጋዊ ሓገዝ።' },
+      ],
+      link: 'https://www.vluchtelingenwerk.nl', linkTekst: '→ ምስ VluchtelingenWerk ርኸቦ/ቢ',
+    },
+    r_te_kort: {
+      type: 'wacht', icoon: '⏳',
+      titel: 'ኣብ ሆላንድ ዝኣክል ዓመት ኣይቀመጥካን/ኩኒን',
+      sub: 'ቅናት 5 ዓመት ብቐጻሊ ምቕማጥ ዘድሊ ኣዩ። ናይ ምጽባይ ዓቐን ጽቡቕ ኣጠቒምካ/ኢኺ ክትጥቀሞ/ሚ ትኽእሎ/ሊ።',
+      alternatieven: [
+        { naam: 'ምውህሃድ ምዝዛም', tekst: 'ናይ ምጽባይ ዓቐን ናይ ምውህሃድ ፈተናካ/ኺ ንምሕላፍ ተጠቀሞ/ሚ።' },
+        { naam: 'ሰነዳት ምእካብ', tekst: 'ካብ ናይ ዓድካ/ኺ ሃገር ወግዓዊ ሰነዳት ቅድሚ ምሕታት ጸናሕ/ሒ።' },
+        { naam: 'ሆላንዳዊ ቋንቋ ምምሃር', tekst: 'ሆላንዳዊ ቋንቋካ/ኺ ምምሕያሽ — ብ Solidari NT2 ፕሮግራም ናጻ እውን ይከኣሎ።' },
+        { naam: 'ሓጸርቲ ዓቐን?', tekst: 'ናይ ሆላንዳዊ መጻምዲ ምስ ዝህሉ ዓቐን ሓጸር ክኸውን ይኽእሎ። ምምሕዳር ከቲ ሕቱ።' },
+      ],
+      link: 'https://ind.nl/nl/nederlander-worden/naturalisatie', linkTekst: '→ ኣብ ind.nl ኩነታት ምርሳዕ',
+    },
+    r_bezig_b1: {
+      type: 'route', icoon: '📖',
+      titel: 'ናይ ዜጋነት ምስምሳ ቅድሚ ምጅማር ክትዳሎ/ሊ ትኽእሎ/ሊ',
+      sub: 'B1-መስርሕ ትኽተሎ/ሊ ኣለካ/ኺ ግን ፈተናካ/ኺ ገና ኣይወዳእካን/ዊ። ናይ ዜጋነት ምስምሳ ቅድሚ ምጅማር ይከኣሎ — ናይ IND ዉሳኔ ምምጻኡ ዲፕሎማ ድሮ ክቀርብ ኣለዎ።',
+      infoBoxen: [
+        { type: 'blauw', tekst: '💡 <strong>ምኽሪ፡</strong> ምምሕዳር ከቲ B1-መስርሕ ትዛዝም ዘለካ/ኺ ምስ ዝሆን ናይ ዜጋነት ምልክታ ቅድሚ ምቕራብ ምጽናሕ ትኽእሎ/ሊ ዲኻ/ዲኺ ሕቱ/ቲ።' },
+      ],
+      stappen: [
+        { nr: 1, tekst: '<strong>B1-መስርሕ ቀጽሎ/ሊ፡</strong> ናይ ቋንቋ ፈተና (B1 ወይ ዝተረጋገጸ ጻዕሪ ምስ ዝህሉ A2) ምስ KNM ፈተና ሓሊፎ/ፊ።' },
+        { nr: 2, tekst: '<strong>ሰነዳት ቅድሚ ምሕታት፡</strong> ፓስፖርት፡ ናይ ልደት ምስክር፡ ፍቓደ-ምቕማጥ።' },
+        { nr: 3, tekst: '<strong>ምምሕዳር ከቲ ሕቱ/ቲ</strong> ኣብ ናይ ትምህርቲ ዝለካ/ኺ ምስ ዝሆን ምልክታ ምቕራብ ዝከኣሎ ምዃኑ።' },
+        { nr: 4, tekst: '<strong>ዲፕሎማ ምስ ተቐበልካ/ዊ፡</strong> ምስክር ናብ ምምሕዳር ከቲ / IND ለዓዮ/ዪ — ዉሳኔ ምስ ዝምጻእ ክወሃብ ይኽእሎ።' },
+      ],
+      link: 'https://ind.nl/nl/nederlander-worden/naturalisatie', linkTekst: '→ ኣብ ind.nl ዝያዳ ሓበሬታ',
+    },
+    r_bezig_onderwijs: {
+      type: 'route', icoon: '🏫',
+      titel: 'ናይ ዜጋነት ምስምሳ ቅድሚ ምጅማር ክትዳሎ/ሊ ትኽእሎ/ሊ',
+      sub: 'ናይ ትምህርቲ መስርሕ ትኽተሎ/ሊ ኣለካ/ኺ — ናብ MBO፡ HBO ወይ WO ምስልሳል ዝብህ 1.5–2 ዓመት ናይ ቋንቋ ምስግጋር ፕሮግራም።',
+      infoBoxen: [
+        { type: 'amber', tekst: '⚠️ <strong>ኣስተብህሉ፡</strong> ናይ ትምህርቲ መስርሕ ናይ MBO ወይ HBO ዲፕሎማ ኣይኮነን ካብ ምውህሃድ ናጻ ድማ ኣይገብርን። ናይ ምውህሃድ ግዴታ ንምምላእ ናይ ቀጥታ ናይ ምውህሃድ ፈተና (B1 ናይ ቋንቋ ፈተና + KNM) ምሕላፍ ኣለካ/ኺ።' },
+        { type: 'blauw', tekst: '💡 <strong>ምኽሪ፡</strong> ናይ ዜጋነት ምስምሳ ቅድሚ ምጅማር ይከኣሎ። ናይ IND ዉሳኔ ምምጻኡ ናይ ምውህሃድ ዲፕሎማ ድሮ ክቀርብ ኣለዎ።' },
+      ],
+      stappen: [
+        { nr: 1, tekst: '<strong>ናይ ትምህርቲ መስርሕ ዛዝሞ/ሚ፡</strong> ናይ ቋንቋ ፈተና (ምንባብ፡ ምስማዕ፡ ምጽሓፍ፡ ምዝራብ ኣብ B1) ምስ KNM ፈተና ሓሊፎ/ፊ።' },
+        { nr: 2, tekst: '<strong>ሰነዳት ቅድሚ ምሕታት፡</strong> ፓስፖርት፡ ናይ ልደት ምስክር፡ ፍቓደ-ምቕማጥ።' },
+        { nr: 3, tekst: '<strong>ምምሕዳር ከቲ ሕቱ/ቲ</strong> መስርሕ ዝለካ/ኺ ምስ ዝሆን ምልክታ ምቕራብ ዝከኣሎ ምዃኑ።' },
+        { nr: 4, tekst: '<strong>ዲፕሎማ ምስ ተቐበልካ/ዊ፡</strong> ምስክር ናብ ምምሕዳር ከቲ / IND ለዓዮ/ዪ።' },
+      ],
+      link: 'https://ind.nl/nl/nederlander-worden/naturalisatie', linkTekst: '→ ኣብ ind.nl ዝያዳ ሓበሬታ',
+    },
+    r_bezig_z: {
+      type: 'route', icoon: '🌱',
+      titel: 'ካብ Z-መስርሕ ዜጋነት — ኣዚዩ ዘገምደ ፍልልይ',
+      sub: 'Z-መስርሕ ምዝዛም ናይ ዜጋነት ናይ ምውህሃድ ጠለብ ብኣውቶማቲክ ዘሟልእ ኣይኮነን። ብ DUO ሰለስተ መንገድታት ኣለዉ።',
+      infoBoxen: [
+        { type: 'amber', tekst: '⚠️ <strong>ኣዚዩ ዝሓሸ፡</strong> Z-መስርሕ ናይ ፈተና ግዴታ ዘይብሉ ናይ ጻዕሪ ግዴታ ዘለዎ ኣዩ (800 ሰዓት ናይ ቋንቋ ትምህርቲ + ናይ መወዳእታ ዕላል)። ምዝዛም ናይ ዜጋነት መሰል ብኣውቶማቲክ <em>ኣይህብን</em>። ተወሳኺ ናይ DUO ናጻነት ምኽሪ ወይ A2 ናይ ፈተና ምሕላፍ ዘድሊ ኣዩ።' },
+      ],
+      paden: [
+        { nr: 'A', titel: 'ናይ ምውህሃድ ፈተና ኣብ A2 ደርጃ ምሕላፍ', tekst: 'ኩሎም ናይ ቋንቋ ፈተናታት ኣብ A2 (ምንባብ፡ ምስማዕ፡ ምጽሓፍ፡ ምዝራብ) ምስ KNM ፈተና ሓሊፎ/ፊ። ምስ ሓለፍካ/ዊ DUO ዲፕሎማ ኣለካ/ኺ ናይ ዜጋነት ናይ ምውህሃድ ጠለብ ትማልእ/እ።' },
+        { nr: 'B', titel: '600 ሰዓት ናይ ቋንቋ ትምህርቲ (A2) + ነናብ ፈተና ክፍሊ 3 ፈቲናታት', tekst: 'ቅናት 600 ሰዓት A2 ናይ ቋንቋ ትምህርቲ ኣብ Blik op Werk ምስ ዝተቐበለ ትካልን ነናብ ክፍሊ 3 ፈቲናታት (ናይ A2 ፈተና ሓደ ምስ ዝህሉ)? DUO ናጻነት ምኽሪ ክህብ ይኽእሎ — ፈተና ዘይሓለፍካ/ዊ ምስ ትኸውን/ኢ እውን።' },
+        { nr: 'C', titel: '600 ሰዓት ምምሃር / ናይ ቋንቋ ትምህርቲ + DUO ፈተና (150 ዩሮ)', tekst: 'ቅናት 600 ሰዓት ምምሃር ኣብ Blik op Werk ምስ ዝተቐበለ ትካል ምስ DUO ፈተና A2 ዘይክስሕ ምዃኑ ምስ ዘርኢ — ናጻነት ይወሃብ። DUO ፈተና €150 ዋጋ ኣለዎ።' },
+      ],
+      info: '📞 <strong>ምኽሪ፡</strong> ምስ ምምሕዳር ከቲ ወይ VluchtelingenWerk ናብ ናትካ/ኺ ሃለዋት ዝምጥን መስርሕ ምምርሓ ዘቤ ዛተ/ዪ።',
+      link: 'https://www.vluchtelingenwerk.nl', linkTekst: '→ ብ VluchtelingenWerk ሓገዝ',
+    },
+    r_geen_inburgering: {
+      type: 'wacht', icoon: '📚',
+      titel: 'ንዜጋነት ምውህሃድ ዘድሊካ/ኺ',
+      sub: 'ብዘይ ናይ ምውህሃድ ዲፕሎማ ወይ ናጻነት ናይ ዜጋነት ምልክታ ምቕራብ ኣይከኣልን። ሕጂ ጀምሮ/ሪ — ኣብ 1 ክሳብ 3 ዓመት ክትዳሎ/ሊ ትኽእሎ/ሊ።',
+      alternatieven: [
+        { naam: 'ናይ ትምህርቲ መስርሕካ/ኺ ምፍላጥ', tekst: 'ኣየናይ መስርሕ ዝምጥነካ/ኺ (B1፡ ናይ ትምህርቲ ወይ Z-መስርሕ) ንምፍላጥ ናብ ምምሕዳር ከቲ ኺዱ/ዊ።' },
+        { naam: 'NT2 ፕሮግራም ብ Solidari', tekst: 'ናይዚ ድሕረ-ገጽ NT2 ፕሮግራም ብምጥቃም ሆላንዳዊ ቋንቋ ናጻ ምምሃር (ናይ ሸምሽ ኃይሊ ምስ ዝህሉ)።' },
+        { naam: 'ፈተና ምሕታት', tekst: 'ሆላንዳዊ ቋንቋ ዝኣክል ምስ ትፈልጥ/ጢ ብ DUO ቅጥዕ ፈተና ምሕታት ይከኣሎ።' },
+        { naam: 'ናጻነት ይከኣሎ ዶ?', tekst: 'ናጻነት ዝምልከት ምርካቡ ምፍታሽ (65+፡ ሕክምናዊ ምኽንያት ወይ ናጻ ዝገብር ዲፕሎማ)።' },
+      ],
+      link: 'https://www.inburgeren.nl', linkTekst: '→ ናብ inburgeren.nl ምውህሃድ ዝምልከት ዝያዳ',
+    },
+    r_strafblad: {
+      type: 'negatief', icoon: '⚖️',
+      titel: 'ናይ ወንጀል ዝርዝር ናይ ዜጋነት ምስምሳ ክዕጹ ይኽእሎ',
+      sub: 'ናይ ፍርዲ ዓይነትን ምስ ክንደይ ዓመት ዝሓለፈን ጋሽቲ ክኸውን ይኽእሎ። ናይ ሙያ ሰብ ናትካ/ኺ ሃለዋት ክፍርዶ/ዲ ሕቶ/ቲ።',
+      alternatieven: [
+        { naam: 'ሕጋዊ ምኽሪ', tekst: 'ናትካ/ኺ ሃለዋት ናይ ዜጋነት ዕንቅፋት ምዃኑ ናብ ሕጋዊ ሙያ ሰብ ሕቱ/ቲ።' },
+        { naam: 'VluchtelingenWerk', tekst: 'ናይ ሃለዋት ዋናታት ናጻ ሕጋዊ ሓገዝ።' },
+        { naam: 'ናይ ምጽባይ ዓቐን', tekst: 'ናይ ምጽባይ ዓቐን ምስ ሓለፈ (ብፍርዲ ዝምለስ) ዳግም ምምልካት ይከኣሎ።' },
+        { naam: 'ንኣሽቱ ቅጻዓት', tekst: 'ናይ ትራፊክ ቅጻዓትን ንኣሽቱ ምጥሓሳትን ብዙሕ ኣይሕሰቡን።' },
+      ],
+      link: 'https://www.vluchtelingenwerk.nl', linkTekst: '→ ምስ VluchtelingenWerk ርኸቦ/ቢ',
+    },
+    r_strafblad_check: {
+      type: 'wacht', icoon: '🔍',
+      titel: 'ናይ ወንጀል ዝርዝር ኣለካ/ኺ ዶ ምርኣይ',
+      sub: 'ዝምዝገበ ዘሎ ንምርኣይ ናይ ጽቡቕ ምሕደራ ምስክር (VOG) ካብ justis.nl ምሕታት ይከኣሎ።',
+      alternatieven: [
+        { naam: 'VOG ምሕታት', tekst: 'ናይ ጽቡቕ ምሕደራ ምስክር (VOG) ብ justis.nl ሕቱ/ቲ።' },
+        { naam: 'ናይ ሓገዝ ዉናታት ናጻ', tekst: 'ሓገዝ ምስ ትቕበሎ/ሊ VOG ናጻ ክኸውን ይኽእሎ።' },
+        { naam: 'ንኣሽቱ ቅጻዓት ኣይሕሰቡን', tekst: 'ናይ ትራፊክ ቅጻዓትን ንኣሽቱ ምጥሓሳትን ብዙሕ ኣይሕሰቡን።' },
+        { naam: 'ሕጋዊ ምኽሪ', tekst: 'ርግጸኛ ምስ ዘይኮንካ/ኩኒ፡ ሕጋዊ ሙያ ሰብ ወይ VluchtelingenWerk ምርካብ።' },
+      ],
+      link: 'https://www.justis.nl/producten/vog', linkTekst: '→ ኣብ justis.nl VOG ምሕታት',
+    },
+    r_geen_verblijf: {
+      type: 'negatief', icoon: '🏠',
+      titel: 'ቀንዲ ቤትካ/ኺ ኣብ ሆላንድ ክኸውን ኣለዎ',
+      sub: 'ብዛዕባ ኣብ ካልእ ሃገር ምቕማጥ ናይ ዜጋነት ናይ ምቕማጥ ጠለብ ኣይማልእን።',
+      alternatieven: [
+        { naam: 'ቀንዲ ቤት ምስግጋር', tekst: 'ወግዓዊ ቀንዲ ቤትካ/ኺ ናብ ሆላንድ ምስጋር።' },
+        { naam: 'BRP ምምዝጋብ', tekst: 'ኣብ ምምሕዳር ከቲ BRP ምዝጋብካ/ኺ ምርጋጽ።' },
+        { naam: 'ምኻድ ይፈቀድ', tekst: 'ሓደ ሓደ ናብ ደገ ምኻድ ሆላንድ ቀንዲ ቦታካ/ኺ ምስ ዝኸውን ጸገም ኣይፈጥርን።' },
+        { naam: 'ዝያዳ ሓበሬታ', tekst: 'ናይ ምቕማጥ ኩነታት ብዝምልከት ምምሕዳር ከቲ ሕቱ/ቲ።' },
+      ],
+      link: 'https://ind.nl/nl/nederlander-worden/naturalisatie', linkTekst: '→ ኣብ ind.nl ዝያዳ ሓበሬታ',
+    },
+    r_nationaliteit: {
+      type: 'wacht', icoon: '🌍',
+      titel: 'ዜጋነት ምውጻእ ዓቢ ስጉምቲ ኣዩ',
+      sub: 'ሆላንድ ብዙሕ ዜጋነት ዝፈቅድ ዝሓደሮ ኣዩ። ፍሉያት ፍቓዳት ኣለዉ — ዉሳኔ ክትወስዶ/ዲ ቅድሚ ጽቡቕ ምንባቡ ዘድሊ።',
+      alternatieven: [
+        { naam: 'ናይ ሃለዋት ዋናታት ፍሉይ ፍቓድ', tekst: 'ዕዉት ዑቕበኛ ከምዝኾንካ/ኩኒ ዜጋነትካ/ኺ ናይ ምውጻእ ግዴታ የብልካ/ኪ።' },
+        { naam: 'ፍሉይ ፍቓድ፡ ዘይከኣሎ', tekst: 'ዜጋነት ምውጻእ ዘይከኣሎ ወይ ሓደገኛ ምስ ዝኸውን ፍሉይ ፍቓድ ምህላዉ ክኸውን ይኽእሎ።' },
+        { naam: 'ፍሉይ ፍቓድ፡ ናይ ሆላንዳዊ መጻምዲ', tekst: 'ናይ ሆላንዳዊ ሰብ ምስ ትምርዖ/ዮ ፍሉይ ሕጋዊ ሕጊ ይምልከቶ።' },
+        { naam: 'ሕጋዊ ምኽሪ', tekst: 'ናትካ/ኺ ሃለዋት ክፍርዶ/ዲ ሕቶ/ቲ — ሓደ ሓደ ኣጋጣሚ ዝሓሸ ዕድላት ኣለዉ።' },
+      ],
+      link: 'https://ind.nl/nl/nederlander-worden/naturalisatie', linkTekst: '→ ኣብ ind.nl ኩሎም ፍሉያት ፍቓዳት',
+    },
+    r_kosten: {
+      type: 'wacht', icoon: '💶',
+      titel: 'ዋጋ ናብ ምቕናሱ ዝምልከት ኣፍደጊ ኣለዉ',
+      sub: 'ዋጋ ዜጋነት €1,044 ኣዩ (2025) — ግን ዝርርብ ዋጋ ዝምልከት ኣፍደጊ ኣለዉ።',
+      alternatieven: [
+        { naam: 'ናይ ምምሕዳር ከቲ ሓካዊ ቦርሳ', tekst: 'ሓደ ሓደ ምምሕዳር ከቲ ናይ ሃለዋት ዋናታት ዋጋ (ኩሉ ወይ ሓሊፉ) ትምልስ/ሲ ኣለዉ።' },
+        { naam: 'ፍሉይ ሓገዝ', tekst: 'ናይ ፍቓደ-ምቕማጥ ክፍሊት ናይ ፍሉይ ሓገዝ (bijzondere bijstand) ምምሕዳር ከቲ ምሕታት ይከኣሎ።' },
+        { naam: 'VluchtelingenWerk', tekst: 'ናብ ምምሕዳርካ/ኺ ናይ ዝህሉ ናጻ ቦርሳ ዝፈልጡ ኣዮም።' },
+        { naam: 'ምቁጣብ', tekst: 'ካልኦት ሰነዳት ኣብ ዘዳልዉ ዘለኻ/ኺ ዓቐን ምቁጣብ ይከኣሎ።' },
+      ],
+      link: 'https://www.vluchtelingenwerk.nl', linkTekst: '→ ብ VluchtelingenWerk ናይ ዋጋ ሓገዝ',
+    },
+  },
+};
+
+// ─── RO ───────────────────────────────────────────────────────────────────
+window._NAT.RO = {
+  header: {
+    badge: '🇳🇱 Verificator Naturalizare',
+    titel: 'Am dreptul la un pașaport olandez?',
+    sub: 'Răspunde la câteva întrebări și află imediat dacă poți depune cerere de naturalizare — pe baza condițiilor IND 2025.',
+  },
+  vragen: {
+    v1: { stap:'Pasul 1 din 9', tekst:'Ai 18 ani sau mai mult?', uitleg:'Cererea de naturalizare poate fi depusă doar de adulți. Pentru copiii minori se aplică reguli separate prin intermediul părinților.', antwoorden:[ { tekst:'Da, am 18 ani sau mai mult', icoon:'✓', klasse:'ja', volgende:'v1b' }, { tekst:'Nu, am mai puțin de 18 ani', icoon:'✗', klasse:'nee', volgende:'r_minderjarig' } ] },
+    v1b: { stap:'Pasul 2 din 9', tekst:'Care este statutul tău actual de reședință în Olanda?', uitleg:'Modul în care locuiești în Olanda determină ce cale ți se aplică. Cetățenii UE locuiesc în baza dreptului UE — nu printr-un permis de ședere olandez.', antwoorden:[ { tekst:'Am permis de ședere olandez', sub:'Sau statut de azil (IND tip III, IV sau V)', icoon:'📄', klasse:'ja', volgende:'v2' }, { tekst:'Sunt cetățean UE (ex. pașaport românesc sau polonez)', sub:'Sau cetățean SEE/Elveția', icoon:'🇪🇺', klasse:'anders', volgende:'r_eu_burger' }, { tekst:'Nu sunt sigur/ă', icoon:'❓', klasse:'anders', volgende:'v2' } ] },
+    v2: { stap:'Pasul 3 din 9', tekst:'Ai permis de ședere valabil?', uitleg:'Ai nevoie de un permis de ședere valabil. Statutul de azil este de asemenea acceptat.', antwoorden:[ { tekst:'Da, am permis de ședere valabil', sub:'Sau statut de azil (IND tip III, IV sau V)', icoon:'✓', klasse:'ja', volgende:'v3' }, { tekst:'Nu, nu am permis de ședere valabil', icoon:'✗', klasse:'nee', volgende:'r_geen_vergunning' } ] },
+    v3: { stap:'Pasul 4 din 9', tekst:'De cât timp locuiești neîntrerupt în Olanda?', uitleg:'În mod normal trebuie să fi locuit în Olanda cel puțin 5 ani consecutivi. Călătoriile scurte în străinătate nu întrerup această perioadă.', antwoorden:[ { tekst:'Mai puțin de 5 ani', icoon:'⏳', klasse:'nee', volgende:'r_te_kort' }, { tekst:'5 ani sau mai mult', sub:'Reședință neîntreruptă în Olanda', icoon:'✓', klasse:'ja', volgende:'v4a' } ] },
+    v4a: { stap:'Pasul 5 din 9 — Integrare', tekst:'Care este situația ta cu integrarea civică (inburgering)?', uitleg:'Pentru naturalizare trebuie să dovedești că ești integrat/ă. Există mai multe modalități.', antwoorden:[ { tekst:'Am promovat examenul de integrare civică (ruta B1 sau educațională)', sub:'Diplomă de integrare DUO obținută', icoon:'✓', klasse:'ja', volgende:'v5' }, { tekst:'Am diplomă MBO 2, 3 sau 4 în limba olandeză — sau HBO / WO', sub:'Aceasta oferă scutire permanentă de la obligația de integrare', icoon:'🎓', klasse:'ja', volgende:'v5' }, { tekst:'Sunt scutit/ă de integrare', sub:'Ex. din cauza vârstei (65+), motiv medical sau efort demonstrabil', icoon:'✓', klasse:'ja', volgende:'v5' }, { tekst:'Am finalizat ruta Z (interviu final + certificat)', sub:'Atenție: aceasta nu dă automat dreptul la naturalizare — verifică opțiunile', icoon:'🌱', klasse:'anders', volgende:'v4a_z' }, { tekst:'Sunt încă în procesul de integrare civică', sub:'Nu am încă diplomă sau scutire', icoon:'⏳', klasse:'anders', volgende:'v4b' } ] },
+    v4a_z: { stap:'Pasul 5 din 9 — Ruta Z', tekst:'Ai finalizat ruta Z — mai este nevoie de un pas suplimentar pentru naturalizare', uitleg:'Ruta Z se încheie cu un interviu final și un certificat, dar naturalizarea necesită cerințe lingvistice suplimentare. Există trei căi:<br><br><strong>Calea A — Promovarea examenului la nivel A2</strong><br>Promovează toate examenele lingvistice la nivelul A2 plus examenul KNM. Tentativele nu mai sunt gratuite după finalizarea rutei Z.<br><br><strong>Calea B — 600 ore de cursuri + cel puțin 3 încercări per componentă</strong><br>Cel puțin 600 de ore la o instituție certificată Blik op Werk și 3 încercări per componentă? DUO poate emite o recomandare de scutire.<br><br><strong>Calea C — 600 ore de cursuri + test DUO (150 €)</strong><br>Test DUO arată că A2 nu este realizabil? Se acordă scutire.<br><br>💡 Consultați primăria sau VluchtelingenWerk pentru cea mai potrivită cale.', antwoorden:[ { tekst:'Am înțeles — continuă cu celelalte condiții', icoon:'→', klasse:'ja', volgende:'v5' } ] },
+    v4b: { stap:'Pasul 5 din 9 — Ruta de învățare', tekst:'Ce rută de integrare urmezi?', uitleg:'Primăria determină ruta ta de învățare în funcție de capacitatea de învățare. Există trei rute: B1, ruta educațională și ruta Z.', antwoorden:[ { tekst:'Ruta B1', sub:'Examen lingvistic la nivel B1 + examen KNM', icoon:'📖', klasse:'info', volgende:'r_bezig_b1' }, { tekst:'Ruta educațională', sub:'Program de tranziție lingvistică 1,5–2 ani — pregătire pentru MBO/HBO/WO', icoon:'🏫', klasse:'info', volgende:'r_bezig_onderwijs' }, { tekst:'Ruta Z (Ruta de autosuficiență)', sub:'Pentru persoanele pentru care B1 nu este realizabil', icoon:'🌱', klasse:'anders', volgende:'v4b_z' }, { tekst:'Nu știu / nu am încă o rută', icoon:'❓', klasse:'anders', volgende:'r_geen_inburgering' } ] },
+    v4b_z: { stap:'Pasul 5 din 9 — Ruta Z', tekst:'Cât de avansat/ă ești în ruta Z?', uitleg:'Ruta Z se încheie cu un interviu final la primărie și o recomandare pozitivă DUO. Ambele sunt necesare pentru naturalizare.', antwoorden:[ { tekst:'Am finalizat ruta Z (am primit recomandare pozitivă DUO)', sub:'Interviul final cu primăria finalizat', icoon:'✓', klasse:'ja', volgende:'v4a_z' }, { tekst:'Sunt încă în ruta Z', sub:'Nu am finalizat încă cele 800 de ore de cursuri / participare', icoon:'⏳', klasse:'anders', volgende:'r_bezig_z' } ] },
+    v5: { stap:'Pasul 6 din 9', tekst:'Ai fost condamnat/ă penal în ultimii 5 ani?', uitleg:'O condamnare penală poate bloca naturalizarea. Amenzile de trafic și contravențiile minore de obicei nu se iau în calcul.', antwoorden:[ { tekst:'Nu, nu am cazier judiciar', icoon:'✓', klasse:'ja', volgende:'v6' }, { tekst:'Da, am fost condamnat/ă penal', icoon:'✗', klasse:'nee', volgende:'r_strafblad' }, { tekst:'Nu sunt sigur/ă', icoon:'❓', klasse:'anders', volgende:'r_strafblad_check' } ] },
+    v6: { stap:'Pasul 7 din 9', tekst:'Reședința ta principală este în prezent în Olanda?', uitleg:'Trebuie să ai reședința principală în Olanda. Călătoriile ocazionale în străinătate nu reprezintă o problemă.', antwoorden:[ { tekst:'Da, locuiesc permanent în Olanda', icoon:'✓', klasse:'ja', volgende:'v7' }, { tekst:'Nu, locuiesc în principal în străinătate', icoon:'✗', klasse:'nee', volgende:'r_geen_verblijf' } ] },
+    v7: { stap:'Pasul 8 din 9', tekst:'Ești dispus/ă să renunți la cetățenia actuală?', uitleg:'Olanda nu permite în general dubla cetățenie. Excepție: refugiații recunoscuți pot păstra ambele cetățenii.', antwoorden:[ { tekst:'Da, voi renunța la cetățenia mea', icoon:'✓', klasse:'ja', volgende:'v8' }, { tekst:'Sunt refugiat/ă recunoscut/ă (deținător/oare de statut)', sub:'Deținătorii de statut pot păstra dubla cetățenie', icoon:'✓', klasse:'ja', volgende:'v8' }, { tekst:'Nu, vreau să-mi păstrez cetățenia', icoon:'✗', klasse:'nee', volgende:'r_nationaliteit' } ] },
+    v8: { stap:'Pasul 9 din 9', tekst:'Ești conștient/ă de costurile naturalizării?', uitleg:'Cererea costă €1.044 (2025). Procedura durează în medie 6–12 luni.', antwoorden:[ { tekst:'Da, știu și vreau să continui', icoon:'✓', klasse:'ja', volgende:'r_positief' }, { tekst:'Este prea scump — există subvenții?', icoon:'💡', klasse:'anders', volgende:'r_kosten' } ] },
+  },
+  resultaten: {
+    r_positief: { type:'positief', icoon:'🎉', titel:'Probabil ești eligibil/ă!', sub:'Pe baza răspunsurilor tale îndeplinești condițiile principale pentru naturalizare. Următorul pas este o cerere oficială la primăria ta.', info:'💡 Deținătorii de statut (refugiații recunoscuți) în general nu trebuie să renunțe la cetățenia originală.', stappen:[ { nr:1, tekst:'<strong>Programează o întâlnire la primăria ta</strong> — departamentul de afaceri civile. Spune că vrei să depui cerere de naturalizare.' }, { nr:2, tekst:'<strong>Adună documentele:</strong> pașaport valabil, permis de ședere, dovadă de integrare, certificat de naștere (legalizat dacă este necesar).' }, { nr:3, tekst:'<strong>Plătește taxa:</strong> €1.044 la depunere (2025). Întreabă primăria dacă există un program de contribuție.' }, { nr:4, tekst:'<strong>Așteaptă decizia</strong> IND. Aceasta durează în medie 6–12 luni.' }, { nr:5, tekst:'<strong>Ceremonia de naturalizare:</strong> după aprobare vei primi o invitație la ceremonie la primărie.' } ], link:'https://ind.nl/nl/nederlander-worden/naturalisatie', linkTekst:'→ Mai multe informații pe ind.nl' },
+    r_eu_burger: { type:'eu', icoon:'🇪🇺', titel:'Ca cetățean UE ai drepturi diferite', sub:'Naturalizarea ca cetățean olandez este posibilă, dar nu ai nevoie de cetățenia olandeză pentru a locui și munci aici.', infoBoxen:[ { type:'info', tekst:'🇪🇺 <strong>Drepturi cetățean UE:</strong> Ca cetățean român sau polonez ai dreptul să locuiești, să muncești și să studiezi în Olanda fără permis de ședere. Te înregistrezi la primărie (BRP).' }, { type:'amber', tekst:'⚠️ <strong>Atenție dubla cetățenie:</strong> Dacă te naturalizezi ca olandez, trebuie în principiu să renunți la cetățenia română sau polonă. Verifică la ambasadă.' } ], stappen:[ { nr:1, tekst:'<strong>Vrei totuși să te naturalizezi?</strong> Condițiile standard se aplică și cetățenilor UE: 5 ani, integrare, fără cazier, renunțare la cetățenie.' }, { nr:2, tekst:'<strong>Dubla cetățenie:</strong> Întreabă la ambasada română sau polonă dacă poți păstra cetățenia după naturalizare.' }, { nr:3, tekst:'<strong>Vrei să continui?</strong> Parcurge din nou verificatorul și alege "permis de ședere".' } ], link:'https://ind.nl/nl/nederlander-worden/naturalisatie', linkTekst:'→ Informații pe ind.nl' },
+    r_minderjarig: { type:'wacht', icoon:'🎂', titel:'Naturalizarea copiilor se face prin părinți', sub:'Copiii minori pot fi naturalizați împreună cu un părinte care depune cerere sau are deja cetățenia olandeză.', alternatieven:[ { naam:'Naturalizare împreună', tekst:'Dacă părintele tău se naturalizează, te poți naturaliza automat.' }, { naam:'Prin tribunal', tekst:'În unele cazuri este posibilă naturalizarea separată a minorilor.' }, { naam:'Așteaptă până la 18 ani', tekst:'La 18 ani poți depune cerere independent.' }, { naam:'Procedura de opțiune', tekst:'Dacă te-ai născut în Olanda, uneori poți deveni olandez/ă prin procedura "opțiunii".' } ], link:'https://ind.nl/nl/nederlander-worden', linkTekst:'→ Mai multe informații pe ind.nl' },
+    r_geen_vergunning: { type:'negatief', icoon:'📋', titel:'Mai întâi ai nevoie de permis de ședere', sub:'Naturalizarea este posibilă doar dacă locuiești legal în Olanda. Obține mai întâi un permis de ședere valabil.', alternatieven:[ { naam:'Cerere de azil', tekst:'Dacă ai nevoie de protecție, poți depune o cerere de azil la IND.' }, { naam:'Permis obișnuit', tekst:'Pentru muncă, studii sau reîntregirea familiei există permise obișnuite.' }, { naam:'Ajutor juridic', tekst:'Contactează o organizație pentru refugiați sau un avocat.' }, { naam:'VluchtelingenWerk', tekst:'Sprijin juridic gratuit pentru solicitanții de azil și deținătorii de statut.' } ], link:'https://www.vluchtelingenwerk.nl', linkTekst:'→ Contactează VluchtelingenWerk' },
+    r_te_kort: { type:'wacht', icoon:'⏳', titel:'Nu ai locuit suficient de mult în Olanda', sub:'Trebuie să fi locuit în Olanda cel puțin 5 ani consecutivi. Folosește bine perioada de așteptare.', alternatieven:[ { naam:'Finalizează integrarea', tekst:'Folosește perioada de așteptare pentru a promova examenul de integrare civică.' }, { naam:'Adună documente', tekst:'Solicită în avans documente oficiale din țara de origine.' }, { naam:'Învață olandeză', tekst:'Îmbunătățește-ți olandeza — și gratuit prin cursul Solidari NT2.' }, { naam:'Perioadă mai scurtă?', tekst:'Cu un partener olandez perioada poate fi mai scurtă. Întreabă la primărie.' } ], link:'https://ind.nl/nl/nederlander-worden/naturalisatie', linkTekst:'→ Verifică condițiile pe ind.nl' },
+    r_bezig_b1: { type:'route', icoon:'📖', titel:'Poți începe deja să te pregătești pentru naturalizare', sub:'Urmezi ruta B1 dar nu ai finalizat încă examenul. Poți deja porni procedura de naturalizare — diploma trebuie să fie gata înainte ca IND să ia o decizie.', infoBoxen:[ { type:'blauw', tekst:'💡 <strong>Sfat:</strong> Întreabă la primărie dacă poți depune cererea de naturalizare în timp ce finalizezi ruta B1.' } ], stappen:[ { nr:1, tekst:'<strong>Continuă cu ruta B1:</strong> promovează examenul lingvistic și examenul KNM.' }, { nr:2, tekst:'<strong>Solicită documente în avans:</strong> pașaport, certificat de naștere, permis de ședere.' }, { nr:3, tekst:'<strong>Întreabă la primăria ta</strong> dacă poți depune cererea în timp ce finalizezi ruta.' }, { nr:4, tekst:'<strong>După obținerea diplomei:</strong> trimite dovada la primărie/IND.' } ], link:'https://ind.nl/nl/nederlander-worden/naturalisatie', linkTekst:'→ Mai multe informații pe ind.nl' },
+    r_bezig_onderwijs: { type:'route', icoon:'🏫', titel:'Poți începe deja să te pregătești pentru naturalizare', sub:'Urmezi ruta educațională — un program intensiv de tranziție lingvistică de 1,5–2 ani.', infoBoxen:[ { type:'amber', tekst:'⚠️ <strong>Atenție:</strong> Ruta educațională nu te scutește de integrare. Trebuie să promovezi examenul central de integrare (B1 + KNM).' }, { type:'blauw', tekst:'💡 <strong>Sfat:</strong> Poți porni procedura de naturalizare deja. Diploma trebuie gata înainte de decizia IND.' } ], stappen:[ { nr:1, tekst:'<strong>Finalizează ruta educațională:</strong> promovează examenul lingvistic (B1) și examenul KNM.' }, { nr:2, tekst:'<strong>Solicită documente în avans:</strong> pașaport, certificat de naștere, permis de ședere.' }, { nr:3, tekst:'<strong>Întreabă la primăria ta</strong> dacă poți depune cererea în timp ce finalizezi ruta.' }, { nr:4, tekst:'<strong>După obținerea diplomei:</strong> trimite dovada la primărie/IND.' } ], link:'https://ind.nl/nl/nederlander-worden/naturalisatie', linkTekst:'→ Mai multe informații pe ind.nl' },
+    r_bezig_z: { type:'route', icoon:'🌱', titel:'Naturalizare prin ruta Z — o diferență importantă', sub:'Finalizarea rutei Z nu înseamnă automat că îndeplinești cerința de integrare pentru naturalizare. Există trei căi prin DUO.', infoBoxen:[ { type:'amber', tekst:'⚠️ <strong>Important:</strong> Ruta Z are obligație de efort (800 ore + interviu final), nu de examen. Finalizarea nu dă automat dreptul la naturalizare. Ai nevoie de o recomandare DUO sau examen A2.' } ], paden:[ { nr:'A', titel:'Promovarea examenului de integrare la nivel A2', tekst:'Promovează toate examenele lingvistice la nivel A2 și examenul KNM.' }, { nr:'B', titel:'600 ore cursuri de limbă (A2) + cel puțin 3 încercări per componentă', tekst:'600 ore la o instituție Blik op Werk și 3 încercări per componentă. DUO poate emite o recomandare de scutire.' }, { nr:'C', titel:'600 ore de alfabetizare + test DUO — 150 €', tekst:'600 ore de alfabetizare și testul DUO arată că A2 nu este realizabil. Se acordă scutire. Testul costă 150 €.' } ], info:'📞 <strong>Sfat:</strong> Consultați primăria sau VluchtelingenWerk.', link:'https://www.vluchtelingenwerk.nl', linkTekst:'→ Ajutor prin VluchtelingenWerk' },
+    r_geen_inburgering: { type:'wacht', icoon:'📚', titel:'Ai nevoie de integrare civică pentru naturalizare', sub:'Fără diplomă de integrare sau scutire nu poți depune cerere de naturalizare. Începe acum — în 1–3 ani vei fi gata.', alternatieven:[ { naam:'Află ruta ta de învățare', tekst:'Mergi la primăria ta pentru a afla care rută ți se potrivește (B1, educațională sau Z).' }, { naam:'Curs NT2 prin Solidari', tekst:'Învață olandeza gratuit prin cursul NT2 de pe acest site.' }, { naam:'Aplică pentru examen', tekst:'Dacă vorbești deja suficientă olandeză, poți aplica direct prin DUO.' }, { naam:'Scutire posibilă?', tekst:'Verifică dacă ești eligibil/ă pentru scutire (65+, motiv medical sau diplomă scutitoare).' } ], link:'https://www.inburgeren.nl', linkTekst:'→ Mai multe despre integrare pe inburgeren.nl' },
+    r_strafblad: { type:'negatief', icoon:'⚖️', titel:'Cazierul judiciar poate bloca naturalizarea', sub:'În funcție de tipul condamnării și de cât timp a trecut, aceasta poate fi un obstacol. Solicită unui specialist să evalueze situația ta.', alternatieven:[ { naam:'Consiliere juridică', tekst:'Întreabă un consilier juridic dacă situația ta reprezintă un obstacol pentru naturalizare.' }, { naam:'VluchtelingenWerk', tekst:'Ajutor juridic gratuit pentru deținătorii de statut.' }, { naam:'Perioadă de așteptare', tekst:'După o anumită perioadă de așteptare poți redepune cererea.' }, { naam:'Amenzi minore', tekst:'Amenzile de trafic și contravențiile minore de obicei NU se iau în calcul.' } ], link:'https://www.vluchtelingenwerk.nl', linkTekst:'→ Contactează VluchtelingenWerk' },
+    r_strafblad_check: { type:'wacht', icoon:'🔍', titel:'Verifică dacă ai cazier judiciar', sub:'Poți solicita un Certificat de Bună Conduită (VOG) pe justis.nl pentru a vedea ce este înregistrat.', alternatieven:[ { naam:'Solicită VOG', tekst:'Solicită un Certificat de Bună Conduită (VOG) prin justis.nl.' }, { naam:'Gratuit pentru beneficiari', tekst:'Dacă primești ajutor social, VOG poate fi gratuit.' }, { naam:'Amenzile minore nu contează', tekst:'Amenzile de trafic și contravențiile minore de obicei NU se iau în calcul.' }, { naam:'Consiliere juridică', tekst:'În caz de îndoială consultați un consilier juridic sau VluchtelingenWerk.' } ], link:'https://www.justis.nl/producten/vog', linkTekst:'→ Solicită VOG pe justis.nl' },
+    r_geen_verblijf: { type:'negatief', icoon:'🏠', titel:'Reședința ta principală trebuie să fie în Olanda', sub:'Dacă locuiești în principal în străinătate, nu îndeplinești cerința de reședință pentru naturalizare.', alternatieven:[ { naam:'Mută reședința principală', tekst:'Mută-ți reședința oficială principală în Olanda.' }, { naam:'Înregistrare BRP', tekst:'Asigură-te că ești înregistrat/ă în BRP la primăria ta.' }, { naam:'Călătoriile sunt permise', tekst:'Deplasările ocazionale nu sunt o problemă atât timp cât Olanda este baza ta.' }, { naam:'Mai multe informații', tekst:'Întreabă la primăria ta despre cerințele exacte de reședință.' } ], link:'https://ind.nl/nl/nederlander-worden/naturalisatie', linkTekst:'→ Mai multe informații pe ind.nl' },
+    r_nationaliteit: { type:'wacht', icoon:'🌍', titel:'Renunțarea la cetățenie este un pas important', sub:'Olanda nu permite în general dubla cetățenie. Există excepții — citește cu atenție înainte de a decide.', alternatieven:[ { naam:'Excepție: deținătorii de statut', tekst:'Ca refugiat/ă recunoscut/ă NU ești obligat/ă să renunți la cetățenie.' }, { naam:'Excepție: imposibil', tekst:'Dacă renunțarea este imposibilă sau periculoasă poate exista o excepție.' }, { naam:'Excepție: partener olandez', tekst:'Ești căsătorit/ă cu un cetățean olandez? Se aplică reguli speciale.' }, { naam:'Consiliere juridică', tekst:'Solicită evaluarea situației tale — uneori există mai multe posibilități.' } ], link:'https://ind.nl/nl/nederlander-worden/naturalisatie', linkTekst:'→ Toate excepțiile pe ind.nl' },
+    r_kosten: { type:'wacht', icoon:'💶', titel:'Există modalități de a reduce costurile', sub:'Naturalizarea costă €1.044 (2025) — dar există modalități de a o face accesibilă.', alternatieven:[ { naam:'Fond municipal', tekst:'Unele primării rambursează costurile (parțial) pentru deținătorii de statut.' }, { naam:'Asistență specială', tekst:'Solicită asistență specială (bijzondere bijstand) la primăria ta pentru taxele de dosariat.' }, { naam:'VluchtelingenWerk', tekst:'Știu ce fonduri sunt disponibile în primăria ta.' }, { naam:'Economisește', tekst:'Economisește suma în timp ce aduni celelalte documente.' } ], link:'https://www.vluchtelingenwerk.nl', linkTekst:'→ Ajutor cu costurile prin VluchtelingenWerk' },
+  },
+};
+
+// ─── PL ───────────────────────────────────────────────────────────────────
+window._NAT.PL = {
+  header: {
+    badge: '🇳🇱 Sprawdzanie Naturalizacji',
+    titel: 'Czy mam prawo do holenderskiego paszportu?',
+    sub: 'Odpowiedz na kilka pytań i dowiedz się od razu, czy możesz złożyć wniosek o naturalizację — na podstawie wymogów IND na rok 2025.',
+  },
+  vragen: {
+    v1: { stap:'Krok 1 z 9', tekst:'Czy masz 18 lat lub więcej?', uitleg:'Wniosek o naturalizację mogą składać tylko osoby pełnoletnie. Dla małoletnich dzieci obowiązują odrębne przepisy przez rodziców.', antwoorden:[ { tekst:'Tak, mam 18 lat lub więcej', icoon:'✓', klasse:'ja', volgende:'v1b' }, { tekst:'Nie, mam mniej niż 18 lat', icoon:'✗', klasse:'nee', volgende:'r_minderjarig' } ] },
+    v1b: { stap:'Krok 2 z 9', tekst:'Jaki jest Twój aktualny status pobytowy w Holandii?', uitleg:'Sposób zamieszkania w Holandii określa, która ścieżka ma zastosowanie. Obywatele UE zamieszkują na podstawie prawa UE — nie zezwolenia na pobyt holenderski.', antwoorden:[ { tekst:'Posiadam holenderskie zezwolenie na pobyt', sub:'Lub status azylanta (IND typ III, IV lub V)', icoon:'📄', klasse:'ja', volgende:'v2' }, { tekst:'Jestem obywatelem/ką UE (np. paszport rumuński lub polski)', sub:'Lub obywatel/ka EOG/Szwajcarii', icoon:'🇪🇺', klasse:'anders', volgende:'r_eu_burger' }, { tekst:'Nie jestem pewny/a', icoon:'❓', klasse:'anders', volgende:'v2' } ] },
+    v2: { stap:'Krok 3 z 9', tekst:'Czy posiadasz ważne zezwolenie na pobyt?', uitleg:'Potrzebujesz ważnego zezwolenia na pobyt. Status azylanta również się liczy.', antwoorden:[ { tekst:'Tak, posiadam ważne zezwolenie na pobyt', sub:'Lub status azylanta (IND typ III, IV lub V)', icoon:'✓', klasse:'ja', volgende:'v3' }, { tekst:'Nie, nie posiadam ważnego zezwolenia na pobyt', icoon:'✗', klasse:'nee', volgende:'r_geen_vergunning' } ] },
+    v3: { stap:'Krok 4 z 9', tekst:'Jak długo nieprzerwanie mieszkasz w Holandii?', uitleg:'Zazwyczaj musisz nieprzerwanie mieszkać w Holandii przez co najmniej 5 lat. Krótkie wyjazdy za granicę nie przerywają tego okresu.', antwoorden:[ { tekst:'Mniej niż 5 lat', icoon:'⏳', klasse:'nee', volgende:'r_te_kort' }, { tekst:'5 lat lub więcej', sub:'Nieprzerwany pobyt w Holandii', icoon:'✓', klasse:'ja', volgende:'v4a' } ] },
+    v4a: { stap:'Krok 5 z 9 — Integracja', tekst:'Jaki jest status Twojej integracji obywatelskiej (inburgering)?', uitleg:'Do naturalizacji musisz udowodnić, że jesteś zintegrowny/a. Istnieje kilka sposobów.', antwoorden:[ { tekst:'Zdałem/am egzamin z integracji obywatelskiej (trasa B1 lub edukacyjna)', sub:'Dyplom integracji DUO uzyskany', icoon:'✓', klasse:'ja', volgende:'v5' }, { tekst:'Posiadam dyplom MBO 2, 3 lub 4 w języku niderlandzkim — lub HBO / WO', sub:'Daje to stałe zwolnienie z obowiązku integracji', icoon:'🎓', klasse:'ja', volgende:'v5' }, { tekst:'Jestem zwolniony/a z integracji', sub:'Np. z powodu wieku (65+), przyczyny medycznej lub udowodnionego wysiłku', icoon:'✓', klasse:'ja', volgende:'v5' }, { tekst:'Ukończyłem/am trasę Z (wywiad końcowy + certyfikat)', sub:'Uwaga: nie daje to automatycznie prawa do naturalizacji — sprawdź swoje opcje', icoon:'🌱', klasse:'anders', volgende:'v4a_z' }, { tekst:'Nadal jestem w trakcie integracji obywatelskiej', sub:'Nie mam jeszcze dyplomu ani zwolnienia', icoon:'⏳', klasse:'anders', volgende:'v4b' } ] },
+    v4a_z: { stap:'Krok 5 z 9 — Trasa Z', tekst:'Ukończyłeś/aś trasę Z — potrzebny jest jeszcze jeden dodatkowy krok do naturalizacji', uitleg:'Trasa Z kończy się wywiadem końcowym i certyfikatem, ale naturalizacja wymaga dodatkowych wymagań językowych. Istnieją trzy ścieżki:<br><br><strong>Ścieżka A — Zdanie egzaminu na poziomie A2</strong><br>Zdaj wszystkie egzaminy językowe na poziomie A2 plus egzamin KNM. Po ukończeniu trasy Z próby nie są już bezpłatne.<br><br><strong>Ścieżka B — 600 godzin kursów + co najmniej 3 próby na komponent</strong><br>Co najmniej 600 godzin w instytucji certyfikowanej Blik op Werk i 3 próby na komponent? DUO może wydać rekomendację zwolnienia.<br><br><strong>Ścieżka C — 600 godzin kursów + test DUO (150 €)</strong><br>Test DUO pokazuje, że A2 jest nieosiągalne? Zostaje przyznane zwolnienie.<br><br>💡 Skonsultuj się z gminą lub VluchtelingenWerk w sprawie najlepszej ścieżki.', antwoorden:[ { tekst:'Rozumiem — kontynuuj do pozostałych warunków', icoon:'→', klasse:'ja', volgende:'v5' } ] },
+    v4b: { stap:'Krok 5 z 9 — Trasa nauki', tekst:'Jaką trasę integracji realizujesz?', uitleg:'Gmina określa Twoją trasę nauki na podstawie zdolności uczenia się. Istnieją trzy trasy: B1, trasa edukacyjna i trasa Z.', antwoorden:[ { tekst:'Trasa B1', sub:'Egzamin językowy na poziomie B1 + egzamin KNM', icoon:'📖', klasse:'info', volgende:'r_bezig_b1' }, { tekst:'Trasa edukacyjna', sub:'Program przejściowy językowy 1,5–2 lata — przygotowanie do MBO/HBO/WO', icoon:'🏫', klasse:'info', volgende:'r_bezig_onderwijs' }, { tekst:'Trasa Z (Trasa samodzielności)', sub:'Dla osób, dla których B1 jest nieosiągalne', icoon:'🌱', klasse:'anders', volgende:'v4b_z' }, { tekst:'Nie wiem / nie mam jeszcze trasy', icoon:'❓', klasse:'anders', volgende:'r_geen_inburgering' } ] },
+    v4b_z: { stap:'Krok 5 z 9 — Trasa Z', tekst:'Jak zaawansowany/a jesteś w trasie Z?', uitleg:'Trasa Z kończy się wywiadem końcowym w gminie i pozytywną rekomendacją DUO. Oba są wymagane do naturalizacji.', antwoorden:[ { tekst:'Ukończyłem/am trasę Z (otrzymałem/am pozytywną rekomendację DUO)', sub:'Wywiad końcowy z gminą zakończony', icoon:'✓', klasse:'ja', volgende:'v4a_z' }, { tekst:'Nadal jestem w trakcie trasy Z', sub:'Nie ukończyłem/am jeszcze 800 godzin kursów / uczestnictwa', icoon:'⏳', klasse:'anders', volgende:'r_bezig_z' } ] },
+    v5: { stap:'Krok 6 z 9', tekst:'Czy zostałeś/aś skazany/a za przestępstwo karne w ciągu ostatnich 5 lat?', uitleg:'Skazanie karne może zablokować naturalizację. Mandaty drogowe i drobne wykroczenia zazwyczaj się nie liczą.', antwoorden:[ { tekst:'Nie, nie mam kartoteki kryminalnej', icoon:'✓', klasse:'ja', volgende:'v6' }, { tekst:'Tak, zostałem/am skazany/a za przestępstwo karne', icoon:'✗', klasse:'nee', volgende:'r_strafblad' }, { tekst:'Nie jestem pewny/a', icoon:'❓', klasse:'anders', volgende:'r_strafblad_check' } ] },
+    v6: { stap:'Krok 7 z 9', tekst:'Czy Twoje główne miejsce zamieszkania jest obecnie w Holandii?', uitleg:'Musisz mieć główne miejsce zamieszkania w Holandii. Okazjonalne wyjazdy za granicę nie stanowią problemu.', antwoorden:[ { tekst:'Tak, mieszkam na stałe w Holandii', icoon:'✓', klasse:'ja', volgende:'v7' }, { tekst:'Nie, mieszkam głównie za granicą', icoon:'✗', klasse:'nee', volgende:'r_geen_verblijf' } ] },
+    v7: { stap:'Krok 8 z 9', tekst:'Czy jesteś gotowy/a do zrzeczenia się obecnego obywatelstwa?', uitleg:'Holandia zasadniczo nie zezwala na podwójne obywatelstwo. Wyjątek: uznani uchodźcy mogą zachować oba obywatelstwa.', antwoorden:[ { tekst:'Tak, zrzeknę się obywatelstwa', icoon:'✓', klasse:'ja', volgende:'v8' }, { tekst:'Jestem uznanym/ą uchodźcą/uciekinierką (posiadacz/ka statusu)', sub:'Posiadacze statusu mogą zachować podwójne obywatelstwo', icoon:'✓', klasse:'ja', volgende:'v8' }, { tekst:'Nie, chcę zachować moje obywatelstwo', icoon:'✗', klasse:'nee', volgende:'r_nationaliteit' } ] },
+    v8: { stap:'Krok 9 z 9', tekst:'Czy jesteś świadomy/a kosztów naturalizacji?', uitleg:'Wniosek kosztuje €1.044 (2025). Procedura trwa średnio 6–12 miesięcy.', antwoorden:[ { tekst:'Tak, wiem i chcę kontynuować', icoon:'✓', klasse:'ja', volgende:'r_positief' }, { tekst:'To zbyt drogie — czy są dofinansowania?', icoon:'💡', klasse:'anders', volgende:'r_kosten' } ] },
+  },
+  resultaten: {
+    r_positief: { type:'positief', icoon:'🎉', titel:'Prawdopodobnie spełniasz warunki!', sub:'Na podstawie Twoich odpowiedzi spełniasz główne wymagania naturalizacji. Następnym krokiem jest oficjalny wniosek w Twojej gminie.', info:'💡 Posiadacze statusu (uznani uchodźcy) zazwyczaj nie muszą zrzekać się pierwotnego obywatelstwa.', stappen:[ { nr:1, tekst:'<strong>Umów wizytę w swojej gminie</strong> — wydział spraw obywatelskich. Powiedz, że chcesz złożyć wniosek o naturalizację.' }, { nr:2, tekst:'<strong>Zbierz dokumenty:</strong> ważny paszport, zezwolenie na pobyt, dowód integracji, akt urodzenia (zalegalizowany jeśli konieczne).' }, { nr:3, tekst:'<strong>Zapłać opłatę:</strong> €1.044 przy składaniu (2025). Zapytaj gminę, czy dostępny jest program wsparcia.' }, { nr:4, tekst:'<strong>Czekaj na decyzję</strong> IND. Trwa to średnio 6–12 miesięcy.' }, { nr:5, tekst:'<strong>Ceremonia naturalizacji:</strong> po zatwierdzeniu otrzymasz zaproszenie na ceremonię w gminie.' } ], link:'https://ind.nl/nl/nederlander-worden/naturalisatie', linkTekst:'→ Więcej informacji na ind.nl' },
+    r_eu_burger: { type:'eu', icoon:'🇪🇺', titel:'Jako obywatel/ka UE masz inne prawa', sub:'Naturalizacja jako obywatel/ka Holandii jest możliwa, ale nie potrzebujesz holenderskiego obywatelstwa, aby tu mieszkać i pracować.', infoBoxen:[ { type:'info', tekst:'🇪🇺 <strong>Prawa obywatela UE:</strong> Jako obywatel/ka rumuński/a lub polski/a masz prawo mieszkać, pracować i studiować w Holandii bez zezwolenia na pobyt. Rejestrujesz się w gminie (BRP).' }, { type:'amber', tekst:'⚠️ <strong>Uwaga dotycząca podwójnego obywatelstwa:</strong> Jeśli naturalizujesz się jako Holender/ka, musisz co do zasady zrzec się rumuńskiego lub polskiego obywatelstwa. Sprawdź w ambasadzie.' } ], stappen:[ { nr:1, tekst:'<strong>Mimo to chcesz się naturalizować?</strong> Standardowe warunki dotyczą również obywateli UE: 5 lat, integracja, brak kartoteki, zrzeczenie się obywatelstwa.' }, { nr:2, tekst:'<strong>Podwójne obywatelstwo:</strong> Zapytaj w ambasadzie rumuńskiej lub polskiej, czy możesz zachować obywatelstwo po naturalizacji.' }, { nr:3, tekst:'<strong>Chcesz kontynuować?</strong> Przejdź przez weryfikator ponownie i wybierz "zezwolenie na pobyt".' } ], link:'https://ind.nl/nl/nederlander-worden/naturalisatie', linkTekst:'→ Informacje na ind.nl' },
+    r_minderjarig: { type:'wacht', icoon:'🎂', titel:'Naturalizacja dzieci odbywa się przez rodziców', sub:'Małoletnie dzieci mogą zostać naturalizowane razem z rodzicem, który składa wniosek lub już ma holenderskie obywatelstwo.', alternatieven:[ { naam:'Naturalizacja razem', tekst:'Jeśli Twój rodzic zostanie naturalizowany, Ty możesz automatycznie zostać naturalizowany/a.' }, { naam:'Przez sąd', tekst:'W niektórych przypadkach możliwa jest osobna naturalizacja małoletnich.' }, { naam:'Poczekaj do 18 lat', tekst:'W wieku 18 lat możesz samodzielnie złożyć wniosek.' }, { naam:'Procedura opcji', tekst:'Jeśli urodziłeś/aś się w Holandii, czasem możesz zostać Holendrem/Holenderką przez procedurę "opcji".' } ], link:'https://ind.nl/nl/nederlander-worden', linkTekst:'→ Więcej informacji na ind.nl' },
+    r_geen_vergunning: { type:'negatief', icoon:'📋', titel:'Najpierw potrzebujesz zezwolenia na pobyt', sub:'Naturalizacja jest możliwa tylko jeśli legalnie przebywasz w Holandii. Najpierw uzyskaj ważne zezwolenie na pobyt.', alternatieven:[ { naam:'Wniosek o azyl', tekst:'Jeśli potrzebujesz ochrony, możesz złożyć wniosek o azyl do IND.' }, { naam:'Zwykłe zezwolenie', tekst:'Do pracy, nauki lub łączenia rodzin dostępne są zwykłe zezwolenia.' }, { naam:'Pomoc prawna', tekst:'Skontaktuj się z organizacją ds. uchodźców lub adwokatem.' }, { naam:'VluchtelingenWerk', tekst:'Bezpłatne wsparcie prawne dla wnioskodawców azylowych i posiadaczy statusu.' } ], link:'https://www.vluchtelingenwerk.nl', linkTekst:'→ Skontaktuj się z VluchtelingenWerk' },
+    r_te_kort: { type:'wacht', icoon:'⏳', titel:'Nie mieszkasz jeszcze wystarczająco długo w Holandii', sub:'Musisz nieprzerwanie mieszkać w Holandii przez co najmniej 5 lat. Dobrze wykorzystaj czas oczekiwania.', alternatieven:[ { naam:'Zakończ integrację', tekst:'Wykorzystaj czas oczekiwania na zdanie egzaminu z integracji obywatelskiej.' }, { naam:'Zbierz dokumenty', tekst:'Z wyprzedzeniem zamów oficjalne dokumenty z kraju pochodzenia.' }, { naam:'Naucz się niderlandzkiego', tekst:'Popraw swój niderlandzki — bezpłatnie też przez kurs Solidari NT2.' }, { naam:'Krótszy okres?', tekst:'Z holenderskim partnerem okres może być krótszy. Zapytaj w gminie.' } ], link:'https://ind.nl/nl/nederlander-worden/naturalisatie', linkTekst:'→ Sprawdź warunki na ind.nl' },
+    r_bezig_b1: { type:'route', icoon:'📖', titel:'Możesz już zacząć przygotowywać naturalizację', sub:'Realizujesz trasę B1 ale nie ukończyłeś/aś jeszcze egzaminu. Możesz już rozpocząć procedurę — dyplom musi być gotowy przed decyzją IND.', infoBoxen:[ { type:'blauw', tekst:'💡 <strong>Wskazówka:</strong> Zapytaj w gminie, czy możesz złożyć wniosek podczas kończenia trasy B1.' } ], stappen:[ { nr:1, tekst:'<strong>Kontynuuj trasę B1:</strong> zdaj egzamin językowy i egzamin KNM.' }, { nr:2, tekst:'<strong>Zamów dokumenty z wyprzedzeniem:</strong> paszport, akt urodzenia, zezwolenie na pobyt.' }, { nr:3, tekst:'<strong>Zapytaj w gminie,</strong> czy możesz złożyć wniosek podczas realizacji trasy.' }, { nr:4, tekst:'<strong>Po uzyskaniu dyplomu:</strong> wyślij dowód do gminy/IND.' } ], link:'https://ind.nl/nl/nederlander-worden/naturalisatie', linkTekst:'→ Więcej informacji na ind.nl' },
+    r_bezig_onderwijs: { type:'route', icoon:'🏫', titel:'Możesz już zacząć przygotowywać naturalizację', sub:'Realizujesz trasę edukacyjną — intensywny program przejściowy językowy trwający 1,5–2 lata.', infoBoxen:[ { type:'amber', tekst:'⚠️ <strong>Ważne:</strong> Trasa edukacyjna nie zwalnia z integracji. Nadal musisz zdać centralny egzamin integracyjny (B1 + KNM).' }, { type:'blauw', tekst:'💡 <strong>Wskazówka:</strong> Możesz już rozpocząć procedurę naturalizacji. Dyplom musi być gotowy przed decyzją IND.' } ], stappen:[ { nr:1, tekst:'<strong>Zakończ trasę edukacyjną:</strong> zdaj egzamin językowy (B1) i egzamin KNM.' }, { nr:2, tekst:'<strong>Zamów dokumenty z wyprzedzeniem:</strong> paszport, akt urodzenia, zezwolenie na pobyt.' }, { nr:3, tekst:'<strong>Zapytaj w gminie,</strong> czy możesz złożyć wniosek podczas realizacji trasy.' }, { nr:4, tekst:'<strong>Po uzyskaniu dyplomu:</strong> wyślij dowód do gminy/IND.' } ], link:'https://ind.nl/nl/nederlander-worden/naturalisatie', linkTekst:'→ Więcej informacji na ind.nl' },
+    r_bezig_z: { type:'route', icoon:'🌱', titel:'Naturalizacja przez trasę Z — ważna różnica', sub:'Ukończenie trasy Z nie oznacza automatycznie spełnienia wymogu integracji do naturalizacji. Przez DUO istnieją trzy ścieżki.', infoBoxen:[ { type:'amber', tekst:'⚠️ <strong>Ważne:</strong> Trasa Z ma obowiązek wysiłku (800 godzin + wywiad końcowy), nie egzaminacyjny. Ukończenie nie daje automatycznie prawa do naturalizacji. Potrzebna jest rekomendacja zwolnienia DUO lub zdany egzamin A2.' } ], paden:[ { nr:'A', titel:'Zdanie egzaminu integracyjnego na poziomie A2', tekst:'Zdaj wszystkie egzaminy językowe na poziomie A2 i egzamin KNM. Po zdaniu masz dyplom DUO i spełniasz wymóg integracji.' }, { nr:'B', titel:'600 godzin kursów językowych (A2) + co najmniej 3 próby na komponent egzaminu', tekst:'600 godzin kursów na poziomie A2 w instytucji Blik op Werk i 3 próby na komponent. DUO może wydać rekomendację zwolnienia bez zdanego egzaminu.' }, { nr:'C', titel:'600 godzin alfabetyzacji + test DUO — 150 €', tekst:'600 godzin alfabetyzacji w instytucji Blik op Werk i test DUO pokazuje, że A2 jest nieosiągalne. Przyznawane jest zwolnienie. Test kosztuje 150 €.' } ], info:'📞 <strong>Porada:</strong> Skonsultuj się z gminą lub VluchtelingenWerk.', link:'https://www.vluchtelingenwerk.nl', linkTekst:'→ Pomoc przez VluchtelingenWerk' },
+    r_geen_inburgering: { type:'wacht', icoon:'📚', titel:'Potrzebujesz integracji obywatelskiej do naturalizacji', sub:'Bez dyplomu integracji lub zwolnienia nie możesz złożyć wniosku o naturalizację. Zacznij teraz — za 1–3 lata będziesz gotowy/a.', alternatieven:[ { naam:'Poznaj swoją trasę nauki', tekst:'Idź do gminy, aby dowiedzieć się, która trasa Ci odpowiada (B1, edukacyjna lub Z).' }, { naam:'Kurs NT2 przez Solidari', tekst:'Naucz się niderlandzkiego bezpłatnie przez kurs NT2 na tej stronie.' }, { naam:'Złóż wniosek o egzamin', tekst:'Jeśli mówisz wystarczająco po niderlandzku, możesz złożyć wniosek przez DUO.' }, { naam:'Zwolnienie możliwe?', tekst:'Sprawdź, czy kwalifikujesz się do zwolnienia (65+, przyczyna medyczna lub dyplom zwalniający).' } ], link:'https://www.inburgeren.nl', linkTekst:'→ Więcej o integracji na inburgeren.nl' },
+    r_strafblad: { type:'negatief', icoon:'⚖️', titel:'Kartoteka kryminalna może zablokować naturalizację', sub:'W zależności od rodzaju skazania i jak dawno temu, może to stanowić przeszkodę. Poproś specjalistę o ocenę Twojej sytuacji.', alternatieven:[ { naam:'Porady prawne', tekst:'Zapytaj doradcę prawnego, czy Twoja sytuacja stanowi przeszkodę dla naturalizacji.' }, { naam:'VluchtelingenWerk', tekst:'Bezpłatna pomoc prawna dla posiadaczy statusu.' }, { naam:'Okres oczekiwania', tekst:'Po określonym czasie oczekiwania możesz ponownie złożyć wniosek.' }, { naam:'Drobne mandaty', tekst:'Mandaty drogowe i drobne wykroczenia zazwyczaj NIE są brane pod uwagę.' } ], link:'https://www.vluchtelingenwerk.nl', linkTekst:'→ Skontaktuj się z VluchtelingenWerk' },
+    r_strafblad_check: { type:'wacht', icoon:'🔍', titel:'Sprawdź, czy masz kartotekę kryminalną', sub:'Możesz złożyć wniosek o Zaświadczenie o Niekaralności (VOG) na justis.nl, aby zobaczyć co jest zarejestrowane.', alternatieven:[ { naam:'Złóż wniosek o VOG', tekst:'Złóż wniosek o Zaświadczenie o Niekaralności (VOG) przez justis.nl.' }, { naam:'Bezpłatne dla beneficjentów', tekst:'Jeśli otrzymujesz zasiłek, VOG może być bezpłatne.' }, { naam:'Drobne mandaty się nie liczą', tekst:'Mandaty drogowe i drobne wykroczenia zazwyczaj NIE są brane pod uwagę.' }, { naam:'Porady prawne', tekst:'W razie wątpliwości skonsultuj się z doradcą prawnym lub VluchtelingenWerk.' } ], link:'https://www.justis.nl/producten/vog', linkTekst:'→ Złóż wniosek o VOG na justis.nl' },
+    r_geen_verblijf: { type:'negatief', icoon:'🏠', titel:'Twoje główne miejsce zamieszkania musi być w Holandii', sub:'Jeśli mieszkasz głównie za granicą, nie spełniasz wymogu zamieszkania do naturalizacji.', alternatieven:[ { naam:'Przenieś główne miejsce zamieszkania', tekst:'Przenieś swoje oficjalne główne miejsce zamieszkania do Holandii.' }, { naam:'Rejestracja BRP', tekst:'Upewnij się, że jesteś zarejestrowany/a w BRP w swojej gminie.' }, { naam:'Podróże są dozwolone', tekst:'Okazjonalne wyjazdy za granicę nie są problemem, o ile Holandia jest Twoją bazą.' }, { naam:'Więcej informacji', tekst:'Zapytaj w gminie o dokładne wymagania dotyczące zamieszkania.' } ], link:'https://ind.nl/nl/nederlander-worden/naturalisatie', linkTekst:'→ Więcej informacji na ind.nl' },
+    r_nationaliteit: { type:'wacht', icoon:'🌍', titel:'Zrzeczenie się obywatelstwa to poważny krok', sub:'Holandia zasadniczo nie zezwala na podwójne obywatelstwo. Istnieją wyjątki — przeczytaj to uważnie przed podjęciem decyzji.', alternatieven:[ { naam:'Wyjątek: posiadacze statusu', tekst:'Jako uznany/a uchodźca/uchodźczyni NIE musisz zrzekać się obywatelstwa.' }, { naam:'Wyjątek: niemożliwe', tekst:'Jeśli zrzeczenie jest niemożliwe lub niebezpieczne, może istnieć wyjątek.' }, { naam:'Wyjątek: holenderski partner', tekst:'Jesteś żonaty/zamężna z Holendrem/Holenderką? Obowiązują specjalne przepisy.' }, { naam:'Porady prawne', tekst:'Poproś o ocenę swojej sytuacji — czasem istnieje więcej możliwości niż sądzisz.' } ], link:'https://ind.nl/nl/nederlander-worden/naturalisatie', linkTekst:'→ Wszystkie wyjątki na ind.nl' },
+    r_kosten: { type:'wacht', icoon:'💶', titel:'Istnieją sposoby na obniżenie kosztów', sub:'Naturalizacja kosztuje €1.044 (2025) — ale istnieją sposoby, aby uczynić ją dostępną.', alternatieven:[ { naam:'Fundusz gminny', tekst:'Niektóre gminy refundują koszty (częściowo) dla posiadaczy statusu.' }, { naam:'Pomoc specjalna', tekst:'Złóż wniosek o pomoc specjalną (bijzondere bijstand) w gminie na opłaty procesowe.' }, { naam:'VluchtelingenWerk', tekst:'Wiedzą, jakie fundusze są dostępne w Twojej gminie.' }, { naam:'Oszczędzaj', tekst:'Oszczędzaj kwotę podczas zbierania pozostałych dokumentów.' } ], link:'https://www.vluchtelingenwerk.nl', linkTekst:'→ Pomoc z kosztami przez VluchtelingenWerk' },
+  },
+};
