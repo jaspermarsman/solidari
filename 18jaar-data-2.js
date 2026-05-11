@@ -4,175 +4,790 @@ var d = window._D18 = window._D18 || {};
 d.TI = {
   ouder: {
     voor: {
-      intro: { icoon:'⏰', tekst:'<strong>እዚ ቅድሚ 18ይ ዕለተ-ልደት ምስ ትወፍሩ ኣዳልዉ።</strong> ገሊኦም ሓገዛት ብኣውቶማቲክ ኣብ መዓልቲ ወዲ/ጓልኩም 18 ዓመት ዝኾነሉ ይቋረጹ። ቅልጡፍ ስጉምቲ ውሰዱ ከይትጉሃሉ።' },
+      intro: {
+        icoon: '⏰',
+        tekst: '<strong>እዚ ቅድሚ 18ይ ዕለተ-ልደት ምስ ትወፍሩ ኣዳልዉ።</strong> ገሊኦም ሓገዛት ብኣውቶማቲክ ኣብ መዓልቲ ወዲ/ጓልኩም 18 ዓመት ዝኾነሉ ይቋረጹ። ቅልጡፍ ስጉምቲ ውሰዱ ከይትጉሃሉ።'
+      },
       categorieen: [
-        { icoon:'💰', kleur:'#FDF3E0', naam:'ሓገዝ ቆልዓ (Kinderbijslag)', samenvatting:'ብኣውቶማቲክ ይቋረጽ — ዝግበር ነገር የለን', badge:'ይቋረጽ', badgeKleur:'stopt',
-          punten:[
-            { icoon:'✗', kleur:'#FEF2F2', tekst:'<strong>ሓገዝ ቆልዓ ብኣውቶማቲክ ይቋረጽ</strong> ኣብ መወዳእታ ናይቲ ርብዒ ዓመት ወዲ/ጓልኩም 18 ዝኾነሉ። SVB ባዕሉ ይሰርሖ — ክትሕብሩ ኣይጸናሕኩምን።<span class="stopt-chip">ይቋረጽ</span>' },
-            { icoon:'ℹ', kleur:'#EFF6FF', tekst:'SVB ደብዳቤ ክሰደልኩም እዩ። ኣድራሻኹም ቅኑዕ ምዃኑ ኣረጋግጹ።' },
-          ], extern:null },
-        { icoon:'👶', kleur:'#EBF3EE', naam:'ሓገዝ ዝተኣሳሰረ ቆልዓ (Kindgebonden budget)', samenvatting:'ኣብ 18ይ ዕለተ-ልደት ይቋረጽ — ለውጢ ሓብሩ', badge:'ይቋረጽ', badgeKleur:'stopt',
-          punten:[
-            { icoon:'✗', kleur:'#FEF2F2', tekst:'<strong>ሓገዝ ዝተኣሳሰረ ቆልዓ ኣብ መዓልቲ 18ይ ዕለተ-ልደት ይቋረጽ።</strong> ኣዝዩ ዓቢ ለውጢ — ክሳብ ብዙሕ ሚእቲ ዩሮ ኣብ ወርሒ ክኸውን ይኽእል።<span class="stopt-chip">ይቋረጽ</span>' },
-            { icoon:'!', kleur:'#FDF3E0', tekst:'<strong>ናብ Belastingdienst ሓብሩ</strong> ብ Mijn Toeslagen። እንተዘይሓቢርኩም ዝተወሰኸ ትቕበሉ ናብ ምምላስ ድማ ትግደዱ።<span class="let-chip">ኣስተብህሉ</span>' },
-          ], infoBox:{ type:'amber', tekst:'⚠️ ብዝቕልጠፈ ብ <strong>Mijn Toeslagen</strong> ኣብ belastingdienst.nl ሓብሩ።' },
-          extern:{ url:'https://www.belastingdienst.nl/wps/wcm/connect/nl/toeslagen/content/hoe-geef-ik-wijzigingen-door', tekst:'→ ለውጢ ብ Mijn Toeslagen ሓብሩ' } },
-        { icoon:'📋', kleur:'#EFF6FF', naam:'DigiD ንወዲ/ጓልኩም', samenvatting:'ቅድሚ 18ይ ዕለተ-ልደት ምልክታ ኣቕርቡ', badge:'ስጉምቲ', badgeKleur:'nieuw',
-          punten:[
-            { icoon:'✓', kleur:'#EBF3EE', tekst:'<strong>ካብ 18 ዓመት ወዲ/ጓልኩም ናቱ/ናታ DigiD የድልዮ</strong> ንሓገዝ ጥዕና፡ ቀረጽ፡ ኩሉ ምስ መንግስቲ ዝምልከት ንጥፈታት።<span class="nieuw-chip">ስጉምቲ</span>' },
-            { icoon:'ℹ', kleur:'#EFF6FF', tekst:'DigiD ምርካብ 5 ናይ ስራሕ መዓልቲ ይወስድ። ኣብ digid.nl ምልክታ ኣቕርቡ። ወዲ/ጓልኩም ባዕሉ/ባዕላ ክገብሮ/ክገብሮ ኣለዎ/ኣለዋ።' },
-          ], extern:{ url:'https://www.digid.nl/aanvragen-en-activeren/aanvragen/', tekst:'→ DigiD ኣብ digid.nl ምልክታ ኣቕርቡ' } },
-        { icoon:'🏥', kleur:'#FDF3E0', naam:'ናይ ጥዕና ዋሕስ', samenvatting:'ቅድሚ 18 ምስ ዘይተዳለዉ ቅጽዓት ኣሎ', badge:'ናይ መወዳእታ ዕለት', badgeKleur:'stopt',
-          punten:[
-            { icoon:'!', kleur:'#FEF2F2', tekst:'<strong>ወዲ/ጓልኩም ካብ ናትኩም ናይ ጥዕና ዋሕስ ወጻኢ ይኸውን</strong> 18 ምስ መልአ። ናቱ/ናታ ዋሕስ ክህልዎ/ክህልዋ ኣለዎ/ኣለዋ።<span class="stopt-chip">ናይ መወዳእታ ዕለት</span>' },
-            { icoon:'💰', kleur:'#EBF3EE', tekst:'ካብ 18 ዓመት ወዲ/ጓልኩም <strong>ሓገዝ ናይ ጥዕና ዋሕስ (zorgtoeslag)</strong> ክሓትት ይኽእል። 2026: ክሳብ €154 ኣብ ወርሒ።<span class="nieuw-chip">ሓድሽ</span>' },
-          ], infoBox:{ type:'groen', tekst:'✅ Mijn Toeslagen (belastingdienst.nl) ብ DigiD ምልክታ ኣቕርቡ።' },
-          extern:{ url:'https://www.belastingdienst.nl/wps/wcm/connect/nl/zorgtoeslag/zorgtoeslag', tekst:'→ ብዛዕባ ሓገዝ ናይ ጥዕና ዋሕስ' } },
+        {
+          icoon: '💰',
+          kleur: '#FDF3E0',
+          naam: 'ሓገዝ ቆልዓ (Kinderbijslag)',
+          samenvatting: 'ብኣውቶማቲክ ይቋረጽ — ዝግበር ነገር የለን',
+          badge: 'ይቋረጽ',
+          badgeKleur: 'stopt',
+          punten: [
+            {
+              icoon: '✗',
+              kleur: '#FEF2F2',
+              tekst: '<strong>ሓገዝ ቆልዓ ብኣውቶማቲክ ይቋረጽ</strong> ኣብ መወዳእታ ናይቲ ርብዒ ዓመት ወዲ/ጓልኩም 18 ዝኾነሉ። SVB ባዕሉ ይሰርሖ — ክትሕብሩ ኣይጸናሕኩምን።<span class=\'stopt-chip\'>ይቋረጽ</span>'
+            },
+            {
+              icoon: 'ℹ',
+              kleur: '#EFF6FF',
+              tekst: 'SVB ደብዳቤ ክሰደልኩም እዩ። ኣድራሻኹም ቅኑዕ ምዃኑ ኣረጋግጹ።'
+            }
+          ],
+          extern: null
+        },
+        {
+          icoon: '👶',
+          kleur: '#EBF3EE',
+          naam: 'ሓገዝ ዝተኣሳሰረ ቆልዓ (Kindgebonden budget)',
+          samenvatting: 'ኣብ 18ይ ዕለተ-ልደት ይቋረጽ — ለውጢ ሓብሩ',
+          badge: 'ይቋረጽ',
+          badgeKleur: 'stopt',
+          punten: [
+            {
+              icoon: '✗',
+              kleur: '#FEF2F2',
+              tekst: '<strong>ሓገዝ ዝተኣሳሰረ ቆልዓ ኣብ መዓልቲ 18ይ ዕለተ-ልደት ይቋረጽ።</strong> ኣዝዩ ዓቢ ለውጢ — ክሳብ ብዙሕ ሚእቲ ዩሮ ኣብ ወርሒ ክኸውን ይኽእል።<span class=\'stopt-chip\'>ይቋረጽ</span>'
+            },
+            {
+              icoon: '!',
+              kleur: '#FDF3E0',
+              tekst: '<strong>ናብ Belastingdienst ሓብሩ</strong> ብ Mijn Toeslagen። እንተዘይሓቢርኩም ዝተወሰኸ ትቕበሉ ናብ ምምላስ ድማ ትግደዱ።<span class=\'let-chip\'>ኣስተብህሉ</span>'
+            },
+            {
+              icoon: 'ℹ',
+              kleur: '#EFF6FF',
+              tekst: 'ካልኦት ቆልዑ ትሕቲ 18 ዓመት ዘለዉኹም ምስ ዝህልዉ — ሓገዝ ዝተኣሳሰረ ቆልዓ ንኣኦም ይቕጽል።'
+            }
+          ],
+          infoBox: {
+            type: 'amber',
+            tekst: '⚠️ ብዝቕልጠፈ ብ <strong>Mijn Toeslagen</strong> ኣብ belastingdienst.nl ሓብሩ።'
+          },
+          extern: {
+            url: 'https://www.belastingdienst.nl/wps/wcm/connect/nl/toeslagen/content/hoe-geef-ik-wijzigingen-door',
+            tekst: '→ ለውጢ ብ Mijn Toeslagen ሓብሩ'
+          }
+        },
+        {
+          icoon: '📋',
+          kleur: '#EFF6FF',
+          naam: 'DigiD ንወዲ/ጓልኩም',
+          samenvatting: 'ቅድሚ 18ይ ዕለተ-ልደት ምልክታ ኣቕርቡ',
+          badge: 'ስጉምቲ',
+          badgeKleur: 'nieuw',
+          punten: [
+            {
+              icoon: '✓',
+              kleur: '#EBF3EE',
+              tekst: '<strong>ካብ 18 ዓመት ወዲ/ጓልኩም ናቱ/ናታ DigiD የድልዮ</strong> ንሓገዝ ጥዕና፡ ቀረጽ፡ ኩሉ ምስ መንግስቲ ዝምልከት ንጥፈታት።<span class=\'nieuw-chip\'>ስጉምቲ</span>'
+            },
+            {
+              icoon: 'ℹ',
+              kleur: '#EFF6FF',
+              tekst: 'DigiD ምርካብ 5 ናይ ስራሕ መዓልቲ ይወስድ። ኣብ digid.nl ምልክታ ኣቕርቡ። ወዲ/ጓልኩም ባዕሉ/ባዕላ ክገብሮ/ክገብሮ ኣለዎ/ኣለዋ።'
+            },
+            {
+              icoon: '!',
+              kleur: '#FDF3E0',
+              tekst: 'ወዲ/ጓልኩም ናቱ/ናታ ናጻ ኢሜይልን ቁጽሪ ስልክን ንዝኾነ DigiD ምርግጋጽ ከጣምሮ/ከጣምሮ ኣለዎ/ኣለዋ።'
+            }
+          ],
+          extern: {
+            url: 'https://www.digid.nl/aanvragen-en-activeren/aanvragen/',
+            tekst: '→ DigiD ኣብ digid.nl ምልክታ ኣቕርቡ'
+          }
+        },
+        {
+          icoon: '🏥',
+          kleur: '#FDF3E0',
+          naam: 'ናይ ጥዕና ዋሕስ',
+          samenvatting: 'ቅድሚ 18 ምስ ዘይተዳለዉ ቅጽዓት ኣሎ',
+          badge: 'ናይ መወዳእታ ዕለት',
+          badgeKleur: 'stopt',
+          punten: [
+            {
+              icoon: '!',
+              kleur: '#FEF2F2',
+              tekst: '<strong>ወዲ/ጓልኩም ካብ ናትኩም ናይ ጥዕና ዋሕስ ወጻኢ ይኸውን</strong> 18 ምስ መልአ። ናቱ/ናታ ዋሕስ ክህልዎ/ክህልዋ ኣለዎ/ኣለዋ።<span class=\'stopt-chip\'>ናይ መወዳእታ ዕለት</span>'
+            },
+            {
+              icoon: '💰',
+              kleur: '#EBF3EE',
+              tekst: 'ካብ 18 ዓመት ወዲ/ጓልኩም <strong>ሓገዝ ናይ ጥዕና ዋሕስ (zorgtoeslag)</strong> ክሓትት ይኽእል። 2026: ክሳብ €154 ኣብ ወርሒ።<span class=\'nieuw-chip\'>ሓድሽ</span>'
+            },
+            {
+              icoon: '✓',
+              kleur: '#EBF3EE',
+              tekst: 'ካብ 18 ዓመት ወዲ/ጓልኩም <strong>ሓገዝ ናይ ጥዕና ዋሕስ (zorgtoeslag)</strong> ምልክታ ኣቕርብ/ኣቕርቢ ይኽእሎ/ትኽእሎ። 2026: ክሳብ €154 ኣብ ወርሒ (ናይ ኣታዊ ወሰን €40,857).<span class=\'nieuw-chip\'>ሓድሽ</span>'
+            },
+            {
+              icoon: 'ℹ',
+              kleur: '#EFF6FF',
+              tekst: 'ናይ ርእሱ ኣባጎሮ 2026 <strong>€165</strong> ኣዩ። ወዲ/ጓልኩም ባዕሉ/ባዕላ ክኸፍሎ/ክኸፍሎ ኣለዎ/ኣለዋ።'
+            }
+          ],
+          infoBox: {
+            type: 'groen',
+            tekst: '✅ Mijn Toeslagen (belastingdienst.nl) ብ DigiD ምልክታ ኣቕርቡ።'
+          },
+          extern: {
+            url: 'https://www.belastingdienst.nl/wps/wcm/connect/nl/zorgtoeslag/zorgtoeslag',
+            tekst: '→ ብዛዕባ ሓገዝ ናይ ጥዕና ዋሕስ'
+          }
+        }
       ],
-      checklist:[
-        { tekst:'DigiD ን ወዲ/ጓልኩም ምልክታ ቀሪቡ', sub:'5 ናይ ስራሕ መዓልቲ ይወስድ — ቕልጡፍ ኩኑ' },
-        { tekst:'ናይ ጥዕና ዋሕስ ተዳሊዩ', sub:'ቅድሚ ወይ ኣብ 18ይ ዕለተ-ልደት' },
-        { tekst:'ሓገዝ ናይ ጥዕና ዋሕስ ምልክታ ቀሪቡ', sub:'ቅድሚ 18 ምልክታ ምቕራብ ይከኣል' },
-        { tekst:'ናይ ባንኪ ሕሳብ ኣብ ስም ወዲ/ጓልኩም', sub:'ሓገዛት ናብ ናቱ/ናታ ሕሳብ ይኸዱ' },
-        { tekst:'ለውጢ ሓገዝ ዝተኣሳሰረ ቆልዓ ሓቢርካ', sub:'ብ Mijn Toeslagen ድሕሪ 18ይ ዕለተ-ልደት' },
-      ],
+      checklist: [
+        {
+          tekst: 'DigiD ን ወዲ/ጓልኩም ምልክታ ቀሪቡ',
+          sub: '5 ናይ ስራሕ መዓልቲ ይወስድ — ቕልጡፍ ኩኑ'
+        },
+        {
+          tekst: 'ናይ ጥዕና ዋሕስ ተዳሊዩ',
+          sub: 'ቅድሚ ወይ ኣብ 18ይ ዕለተ-ልደት'
+        },
+        {
+          tekst: 'ሓገዝ ናይ ጥዕና ዋሕስ ምልክታ ቀሪቡ',
+          sub: 'ቅድሚ 18 ምልክታ ምቕራብ ይከኣል'
+        },
+        {
+          tekst: 'ናይ ባንኪ ሕሳብ ኣብ ስም ወዲ/ጓልኩም',
+          sub: 'ሓገዛት ናብ ናቱ/ናታ ሕሳብ ይኸዱ'
+        },
+        {
+          tekst: 'ለውጢ ሓገዝ ዝተኣሳሰረ ቆልዓ ሓቢርካ',
+          sub: 'ብ Mijn Toeslagen ድሕሪ 18ይ ዕለተ-ልደት'
+        }
+      ]
     },
     op: {
-      intro: { icoon:'🎂', tekst:'<strong>ኣብ ዝኸዓ መዓልቲ ብዙሕ ይቀያየር።</strong> ወዲ/ጓልኩም ሕጂ ብወግዒ ዓቢ/ዓባይ ኮይኑ/ኮይና ናቱ/ናታ መሰላትን ሓላፍነታትን ኣለዎ/ኣለዋ።' },
+      intro: {
+        icoon: '🎂',
+        tekst: '<strong>ኣብ ዝኸዓ መዓልቲ ብዙሕ ይቀያየር።</strong> ወዲ/ጓልኩም ሕጂ ብወግዒ ዓቢ/ዓባይ ኮይኑ/ኮይና ናቱ/ናታ መሰላትን ሓላፍነታትን ኣለዎ/ኣለዋ።'
+      },
       categorieen: [
-        { icoon:'⚖️', kleur:'#F5F3FF', naam:'ዕብየትን መሰላትን', samenvatting:'ወዲ/ጓልኩም ሕጂ ብሕጊ ዓቢ/ዓባይ ኣዩ/ያ', badge:'ሎሚ', badgeKleur:'nieuw',
-          punten:[
-            { icoon:'✓', kleur:'#EBF3EE', tekst:'<strong>ካብ ሎሚ ወዲ/ጓልኩም ብምሉኡ ሕጋዊ ዓቕሚ ኣለዎ/ኣለዋ።</strong> ናጻ ዝኾኑ ዋዕሎታት ክፍርም/ክፍርም፡ ክመርጽ/ክትመርጽ፡ ናቱ/ናታ ሕጋዊ ሓላፍነት ኣለዎ/ኣለዋ።' },
-            { icoon:'!', kleur:'#FDF3E0', tekst:'ወዲ/ጓልኩም ሕጂ ናቱ/ናታ ምዕራፍ ሕክምናዊ ምርጫ ባዕሉ/ባዕላ ይወስን/ትወስን።' },
-          ], extern:null },
-        { icoon:'💶', kleur:'#EBF3EE', naam:'ሓገዛት: ዝቋረጽ፡ ዝጅምር', samenvatting:'ሓገዝ ቆልዓ ይቋረጽ — ሓገዝ ጥዕና ይጅምር', badge:'ለውጢ', badgeKleur:'let',
-          punten:[
-            { icoon:'✗', kleur:'#FEF2F2', tekst:'<strong>ሓገዝ ቆልዓ</strong> ኣብ መወዳእታ ናይቲ ርብዒ ዓመት ይቋረጽ።<span class="stopt-chip">ይቋረጽ</span>' },
-            { icoon:'✗', kleur:'#FEF2F2', tekst:'<strong>ሓገዝ ዝተኣሳሰረ ቆልዓ</strong> ኣብ ዕለተ-ልደት ባዕሉ ይቋረጽ።<span class="stopt-chip">ይቋረጽ</span>' },
-            { icoon:'✓', kleur:'#EBF3EE', tekst:'<strong>ሓገዝ ናይ ጥዕና ዋሕስ</strong> ይጅምር — ወዲ/ጓልኩም ምልክታ ምስ ዝህብ/ትህብ። ሕጂ ዘይሰርሑ? ሎሚ ግበሩ።<span class="nieuw-chip">ይጅምር</span>' },
-          ], extern:null },
-        { icoon:'📝', kleur:'#FDF3E0', naam:'ምውህሃድ (inburgering)', samenvatting:'ግዴታ ምውህሃድ ሕጂ ንወዲ/ጓልኩም እውን ይምልከት', badge:'ኣስተብህሉ', badgeKleur:'let',
-          punten:[
-            { icoon:'!', kleur:'#FDF3E0', tekst:'<strong>ወዲ/ጓልኩም ድሕሪ 1 ጃንዋሪ 2022 ናብ ሆላንድ ዝመጸ/ዝመጸት ምስ ዝኸውን</strong> ግዴታ ምውህሃድ ሕጂ ናቱ/ናታ እውን ኣዩ/ያ።<span class="let-chip">ኣስተብህሉ</span>' },
-            { icoon:'ℹ', kleur:'#EFF6FF', tekst:'ወዲ/ጓልኩም ኣብ ምምሕዳር ከቲ ኣቃውሞ ክምዝገብ/ክምዝገብ ኣለዎ/ኣለዋ። ናይ ምውህሃድ ግዜ 3 ዓመት ካብ ዕለት ፍቓድ ምቕማጥ ኣዩ።' },
-          ], infoBox:{ type:'blauw', tekst:'💡 ናይ <a href="naturalisatie.html" style="color:var(--blauw)">ምርመራ ዜጋነት</a> ኣብ Solidari ተጠቐሙ።' },
-          extern:null },
+        {
+          icoon: '⚖️',
+          kleur: '#F5F3FF',
+          naam: 'ዕብየትን መሰላትን',
+          samenvatting: 'ወዲ/ጓልኩም ሕጂ ብሕጊ ዓቢ/ዓባይ ኣዩ/ያ',
+          badge: 'ሎሚ',
+          badgeKleur: 'nieuw',
+          punten: [
+            {
+              icoon: '✓',
+              kleur: '#EBF3EE',
+              tekst: '<strong>ካብ ሎሚ ወዲ/ጓልኩም ብምሉኡ ሕጋዊ ዓቕሚ ኣለዎ/ኣለዋ።</strong> ናጻ ዝኾኑ ዋዕሎታት ክፍርም/ክፍርም፡ ክመርጽ/ክትመርጽ፡ ናቱ/ናታ ሕጋዊ ሓላፍነት ኣለዎ/ኣለዋ።'
+            },
+            {
+              icoon: '!',
+              kleur: '#FDF3E0',
+              tekst: 'ወዲ/ጓልኩም ሕጂ ናቱ/ናታ ምዕራፍ ሕክምናዊ ምርጫ ባዕሉ/ባዕላ ይወስን/ትወስን።'
+            },
+            {
+              icoon: '✓',
+              kleur: '#EBF3EE',
+              tekst: 'ወዲ/ጓልኩም ሕጂ ባዕሉ/ባዕላ <strong>ናይ ምዝዋር ፍቓድ</strong> ምሕታት፡ ኣልኮሆላዊ መስተ ምዕዳግን ናብ ናቱ/ናታ ስም ናይ ኪራይ ዋዕሎ ምፍራምን ይኽእሎ/ትኽእሎ።'
+            }
+          ],
+          extern: null
+        },
+        {
+          icoon: '💶',
+          kleur: '#EBF3EE',
+          naam: 'ሓገዛት: ዝቋረጽ፡ ዝጅምር',
+          samenvatting: 'ሓገዝ ቆልዓ ይቋረጽ — ሓገዝ ጥዕና ይጅምር',
+          badge: 'ለውጢ',
+          badgeKleur: 'let',
+          punten: [
+            {
+              icoon: '✗',
+              kleur: '#FEF2F2',
+              tekst: '<strong>ሓገዝ ቆልዓ</strong> ኣብ መወዳእታ ናይቲ ርብዒ ዓመት ይቋረጽ።<span class=\'stopt-chip\'>ይቋረጽ</span>'
+            },
+            {
+              icoon: '✗',
+              kleur: '#FEF2F2',
+              tekst: '<strong>ሓገዝ ዝተኣሳሰረ ቆልዓ</strong> ኣብ ዕለተ-ልደት ባዕሉ ይቋረጽ።<span class=\'stopt-chip\'>ይቋረጽ</span>'
+            },
+            {
+              icoon: '✓',
+              kleur: '#EBF3EE',
+              tekst: '<strong>ሓገዝ ናይ ጥዕና ዋሕስ</strong> ይጅምር — ወዲ/ጓልኩም ምልክታ ምስ ዝህብ/ትህብ። ሕጂ ዘይሰርሑ? ሎሚ ግበሩ።<span class=\'nieuw-chip\'>ይጅምር</span>'
+            },
+            {
+              icoon: '✓',
+              kleur: '#EBF3EE',
+              tekst: 'ወዲ/ጓልኩም ናጻ ምስ ዝነብር/ትነብር <strong>ሓገዝ ኪራይ</strong> ናብ ናቱ/ናታ ስም ምልክታ ኣቕርብ/ኣቕርቢ ይኽእሎ/ትኽእሎ።<span class=\'nieuw-chip\'>ይጅምር</span>'
+            }
+          ],
+          extern: null
+        },
+        {
+          icoon: '📝',
+          kleur: '#FDF3E0',
+          naam: 'ምውህሃድ (inburgering)',
+          samenvatting: 'ግዴታ ምውህሃድ ሕጂ ንወዲ/ጓልኩም እውን ይምልከት',
+          badge: 'ኣስተብህሉ',
+          badgeKleur: 'let',
+          punten: [
+            {
+              icoon: '!',
+              kleur: '#FDF3E0',
+              tekst: '<strong>ወዲ/ጓልኩም ድሕሪ 1 ጃንዋሪ 2022 ናብ ሆላንድ ዝመጸ/ዝመጸት ምስ ዝኸውን</strong> ግዴታ ምውህሃድ ሕጂ ናቱ/ናታ እውን ኣዩ/ያ።<span class=\'let-chip\'>ኣስተብህሉ</span>'
+            },
+            {
+              icoon: 'ℹ',
+              kleur: '#EFF6FF',
+              tekst: 'ወዲ/ጓልኩም ኣብ ምምሕዳር ከቲ ኣቃውሞ ክምዝገብ/ክምዝገብ ኣለዎ/ኣለዋ። ናይ ምውህሃድ ግዜ 3 ዓመት ካብ ዕለት ፍቓድ ምቕማጥ ኣዩ።'
+            },
+            {
+              icoon: '✓',
+              kleur: '#EBF3EE',
+              tekst: 'ወዲ/ጓልኩም ቀደም ምምዉህሃዱ/ምምዉህሃዳ ዝወዳእ/ዝወዳኤ ወይ ናጻ ምስ ዝኾን/ኮነ — ዝቕይር ነገር የለን።'
+            }
+          ],
+          infoBox: {
+            type: 'blauw',
+            tekst: '💡 ናይ <a href=\'naturalisatie.html\' style=\'color:var(--blauw)\'>ምርመራ ዜጋነት</a> ኣብ Solidari ተጠቐሙ።'
+          },
+          extern: null
+        }
       ],
-      checklist:null,
+      checklist: null
     },
     na: {
-      intro: { icoon:'→', tekst:'<strong>ኣብ ሰሙናትን ኣዋርሕን ድሕሪ 18ይ ዕለተ-ልደት</strong> ወዲ/ጓልኩም ባዕሉ/ባዕላ ዝሰርሖ/ዝሰርሖ ዘለዎ/ዘለዋ ስራሕ ኣሎ። ክትሕግዙ ትኽእሉ፡ ግን ምልክታታት ኣብ ስሙ/ስማ ኣዮም።' },
+      intro: {
+        icoon: '→',
+        tekst: '<strong>ኣብ ሰሙናትን ኣዋርሕን ድሕሪ 18ይ ዕለተ-ልደት</strong> ወዲ/ጓልኩም ባዕሉ/ባዕላ ዝሰርሖ/ዝሰርሖ ዘለዎ/ዘለዋ ስራሕ ኣሎ። ክትሕግዙ ትኽእሉ፡ ግን ምልክታታት ኣብ ስሙ/ስማ ኣዮም።'
+      },
       categorieen: [
-        { icoon:'🏦', kleur:'#EBF3EE', naam:'ሓገዝ ናብርኣ — ናጻ መሰል', samenvatting:'ወዲ/ጓልኩም ናቱ/ናታ ሓገዝ ናብርኣ ዓቅሚ ኣለዎ/ኣለዋ', badge:'ሓድሽ መሰል', badgeKleur:'nieuw',
-          punten:[
-            { icoon:'✓', kleur:'#EBF3EE', tekst:'<strong>ካብ 18 ዓመት ወዲ/ጓልኩም ናቱ/ናታ ናጻ ሓገዝ ናብርኣ መሰል ኣለዎ/ኣለዋ</strong> ኣታዊ ምስ ዘይህሉዎ/ዘይህሉዋ ከምዘይምሃርን። ካብ ናትኩም ሓገዝ ናጻ ኣዩ/ያ።<span class="nieuw-chip">ሓድሽ መሰል</span>' },
-            { icoon:'!', kleur:'#FDF3E0', tekst:'ወዲ/ጓልኩም ምሳኻትኩም ዝነብር/ትነብር ምስ ዝኸውን — ናብ ናትኩም ሓገዝ ክጸሉ ይኽእል። ኣቀዲምኩም ምምሕዳር ከቲ ሕቱ።<span class="let-chip">ርኣዩ</span>' },
-          ], extern:{ url:'https://www.werk.nl/werkzoekenden/uitkering-aanvragen/', tekst:'→ ሓገዝ ናብርኣ ኣብ werk.nl ምልክታ ኣቕርቡ' } },
-        { icoon:'🎓', kleur:'#EFF6FF', naam:'ትምህርቲን DUOን', samenvatting:'ሓገዝ ትምህርቲ ምልክታ ኣቕርቡ', badge:'ይከኣል', badgeKleur:'nieuw',
-          punten:[
-            { icoon:'✓', kleur:'#EBF3EE', tekst:'<strong>ወዲ/ጓልኩም ናብ MBO፡ HBO ወይ ዩኒቨርሲቲ ምስ ከደ/ከደት</strong> ካብ DUO ሓገዝ ትምህርቲ ክሓትት/ክትሓትት ይኽእል/ትኽእል።<span class="nieuw-chip">ሓድሽ</span>' },
-            { icoon:'!', kleur:'#FDF3E0', tekst:'ሓገዝ ትምህርቲ ዘይምለስ ዕዳ ኣዩ። ምስ ወዲ/ጓልኩም ብዛዕባ ዛ ዕዳ ዛተዩ።' },
-          ], extern:{ url:'https://duo.nl/particulier/student-hbo-universiteit/studiefinanciering-aanvragen.jsp', tekst:'→ ሓገዝ ትምህርቲ ኣብ duo.nl ምልክታ ኣቕርቡ' } },
-        { icoon:'🗳️', kleur:'#EBF3EE', naam:'መሰል ምርጫን ምዝገባ ወሃቢ ኣካልን', samenvatting:'ክልተ ሓድሽ ሲቪካዊ መሰላት', badge:'ሓድሽ መሰል', badgeKleur:'nieuw',
-          punten:[
-            { icoon:'✓', kleur:'#EBF3EE', tekst:'<strong>ወዲ/ጓልኩም ሕጂ ኣብ ምርጫ ክምርጽ/ክትምርጽ ይኽእል/ትኽእል።</strong><span class="nieuw-chip">ሓድሽ መሰል</span>' },
-            { icoon:'ℹ', kleur:'#EFF6FF', tekst:'18 ዓመት ዝሞልኡ ኩሎም ብኣውቶማቲክ ከም ወሃቢ ኣካል ይምዝገቡ። ምርጫ ኣብ donorregister.nl ይቅየር።' },
-          ], extern:{ url:'https://www.donorregister.nl', tekst:'→ ምርጫ ወሃቢ ኣካል ኣብ donorregister.nl' } },
+        {
+          icoon: '🏦',
+          kleur: '#EBF3EE',
+          naam: 'ሓገዝ ናብርኣ — ናጻ መሰል',
+          samenvatting: 'ወዲ/ጓልኩም ናቱ/ናታ ሓገዝ ናብርኣ ዓቅሚ ኣለዎ/ኣለዋ',
+          badge: 'ሓድሽ መሰል',
+          badgeKleur: 'nieuw',
+          punten: [
+            {
+              icoon: '✓',
+              kleur: '#EBF3EE',
+              tekst: '<strong>ካብ 18 ዓመት ወዲ/ጓልኩም ናቱ/ናታ ናጻ ሓገዝ ናብርኣ መሰል ኣለዎ/ኣለዋ</strong> ኣታዊ ምስ ዘይህሉዎ/ዘይህሉዋ ከምዘይምሃርን። ካብ ናትኩም ሓገዝ ናጻ ኣዩ/ያ።<span class=\'nieuw-chip\'>ሓድሽ መሰል</span>'
+            },
+            {
+              icoon: '!',
+              kleur: '#FDF3E0',
+              tekst: 'ወዲ/ጓልኩም ምሳኻትኩም ዝነብር/ትነብር ምስ ዝኸውን — ናብ ናትኩም ሓገዝ ክጸሉ ይኽእል። ኣቀዲምኩም ምምሕዳር ከቲ ሕቱ።<span class=\'let-chip\'>ርኣዩ</span>'
+            },
+            {
+              icoon: '⚠️',
+              kleur: '#FEF2F2',
+              tekst: '<strong>ኣስተብህሉ:</strong> ወዲ/ጓልኩም ምሳኻትኩም ምስ ዝነብር/ትነብር ሓገዝ ናብርኣ ምስ ዝሓትት/ትሓትት — ናብ ናትኩም ሓገዝ ክጸሉ ይኽእሎ።<span class=\'let-chip\'>ርኣዩ</span>'
+            }
+          ],
+          extern: {
+            url: 'https://www.werk.nl/werkzoekenden/uitkering-aanvragen/',
+            tekst: '→ ሓገዝ ናብርኣ ኣብ werk.nl ምልክታ ኣቕርቡ'
+          }
+        },
+        {
+          icoon: '🎓',
+          kleur: '#EFF6FF',
+          naam: 'ትምህርቲን DUOን',
+          samenvatting: 'ሓገዝ ትምህርቲ ምልክታ ኣቕርቡ',
+          badge: 'ይከኣል',
+          badgeKleur: 'nieuw',
+          punten: [
+            {
+              icoon: '✓',
+              kleur: '#EBF3EE',
+              tekst: '<strong>ወዲ/ጓልኩም ናብ MBO፡ HBO ወይ ዩኒቨርሲቲ ምስ ከደ/ከደት</strong> ካብ DUO ሓገዝ ትምህርቲ ክሓትት/ክትሓትት ይኽእል/ትኽእል።<span class=\'nieuw-chip\'>ሓድሽ</span>'
+            },
+            {
+              icoon: '!',
+              kleur: '#FDF3E0',
+              tekst: 'ሓገዝ ትምህርቲ ዘይምለስ ዕዳ ኣዩ። ምስ ወዲ/ጓልኩም ብዛዕባ ዛ ዕዳ ዛተዩ።'
+            },
+            {
+              icoon: 'ℹ',
+              kleur: '#EFF6FF',
+              tekst: 'ሓገዝ ትምህርቲ ዕዳ ኣዩ — ድሕሪ ምምሃር ይምለስ። ምስ ወዲ/ጓልኩም ብዝርዝር ዛተዩ።'
+            }
+          ],
+          extern: {
+            url: 'https://duo.nl/particulier/student-hbo-universiteit/studiefinanciering-aanvragen.jsp',
+            tekst: '→ ሓገዝ ትምህርቲ ኣብ duo.nl ምልክታ ኣቕርቡ'
+          }
+        },
+        {
+          icoon: '🏠',
+          kleur: '#FDF3E0',
+          naam: 'ምቕማጥን ሓገዝ ኪራይን',
+          samenvatting: 'ናይ ቤት ምዝገባ',
+          badge: 'ምኽሪ',
+          badgeKleur: 'let',
+          punten: [
+            {
+              icoon: '✓',
+              kleur: '#EBF3EE',
+              tekst: '<strong>ሕጂ ኣብ ናይ ቤት ማሕበር ምዝገቡ።</strong> ዝጽበ ዝዳ ነዊሕ ኣዩ — 5 ክሳብ 10 ዓመት ክኸውን ይኽእሎ።'
+            },
+            {
+              icoon: '✓',
+              kleur: '#EBF3EE',
+              tekst: 'ወዲ/ጓልኩም ናጻ ምስ ዝነብር/ትነብር ዝተሓተ ኣታዊ ምስ ዝህሉ <strong>ሓገዝ ኪራይ</strong> ምልክታ ኣቕርብ/ኣቕርቢ ይኽእሎ/ትኽእሎ།'
+            }
+          ],
+          extern: null
+        },
+        {
+          icoon: '🗳️',
+          kleur: '#EBF3EE',
+          naam: 'መሰል ምርጫን ምዝገባ ወሃቢ ኣካልን',
+          samenvatting: 'ክልተ ሓድሽ ሲቪካዊ መሰላት',
+          badge: 'ሓድሽ መሰል',
+          badgeKleur: 'nieuw',
+          punten: [
+            {
+              icoon: '✓',
+              kleur: '#EBF3EE',
+              tekst: '<strong>ወዲ/ጓልኩም ሕጂ ኣብ ምርጫ ክምርጽ/ክትምርጽ ይኽእል/ትኽእል።</strong><span class=\'nieuw-chip\'>ሓድሽ መሰል</span>'
+            },
+            {
+              icoon: 'ℹ',
+              kleur: '#EFF6FF',
+              tekst: '18 ዓመት ዝሞልኡ ኩሎም ብኣውቶማቲክ ከም ወሃቢ ኣካል ይምዝገቡ። ምርጫ ኣብ donorregister.nl ይቅየር።'
+            }
+          ],
+          extern: {
+            url: 'https://www.donorregister.nl',
+            tekst: '→ ምርጫ ወሃቢ ኣካል ኣብ donorregister.nl'
+          }
+        }
       ],
-      checklist:[
-        { tekst:'ናይ ጥዕና ዋሕስን ሓገዝ ናይ ጥዕና ዋሕስን ተዳሊዩ', sub:'ብ Mijn Toeslagen' },
-        { tekst:'ኣብ ናይ ቤት ማሕበር ምዝገባ', sub:'ቕልጡፍ ጀምሩ — ዝጽበ ዝዳ ነዊሕ ኣዩ' },
-        { tekst:'ምርጫ ወሃቢ ኣካል ሓቢርካ', sub:'ብ donorregister.nl' },
-        { tekst:'ሓገዝ ናብርኣ ወይ ሓገዝ ትምህርቲ ምልክታ ቀሪቡ (ምስ ኣድለየ)', sub:'ብ መሰረት ኩነታት ምቕማጥን ትምህርቲን' },
-        { tekst:'ግዴታ ምውህሃድ ተፈቲሹ', sub:'ምምሕዳር ከቲ ሕቱ ምስ ዘይምዉህሃድ' },
-      ],
-    },
+      checklist: [
+        {
+          tekst: 'ናይ ጥዕና ዋሕስን ሓገዝ ናይ ጥዕና ዋሕስን ተዳሊዩ',
+          sub: 'ብ Mijn Toeslagen'
+        },
+        {
+          tekst: 'ኣብ ናይ ቤት ማሕበር ምዝገባ',
+          sub: 'ቕልጡፍ ጀምሩ — ዝጽበ ዝዳ ነዊሕ ኣዩ'
+        },
+        {
+          tekst: 'ምርጫ ወሃቢ ኣካል ሓቢርካ',
+          sub: 'ብ donorregister.nl'
+        },
+        {
+          tekst: 'ሓገዝ ናብርኣ ወይ ሓገዝ ትምህርቲ ምልክታ ቀሪቡ (ምስ ኣድለየ)',
+          sub: 'ብ መሰረት ኩነታት ምቕማጥን ትምህርቲን'
+        },
+        {
+          tekst: 'ግዴታ ምውህሃድ ተፈቲሹ',
+          sub: 'ምምሕዳር ከቲ ሕቱ ምስ ዘይምዉህሃድ'
+        }
+      ]
+    }
   },
   kind: {
     voor: {
-      intro: { icoon:'⏰', tekst:'<strong>ገና 18 ኣይኮንካን/ኣይኮንኪን? ቅድሚ ዕለተ-ልደትካ/ኪ ኣዳልዉ።</strong> ጽቡቕ ምስ ትዳለዉ ኣብ 18ይ ዕለተ-ልደትካ/ኪ ዝምለስ ዘሎ ኣይክህሉን ኣዩ።' },
+      intro: {
+        icoon: '⏰',
+        tekst: '<strong>ገና 18 ኣይኮንካን/ኣይኮንኪን? ቅድሚ ዕለተ-ልደትካ/ኪ ኣዳልዉ።</strong> ጽቡቕ ምስ ትዳለዉ ኣብ 18ይ ዕለተ-ልደትካ/ኪ ዝምለስ ዘሎ ኣይክህሉን ኣዩ።'
+      },
       categorieen: [
-        { icoon:'🔑', kleur:'#EFF6FF', naam:'DigiD ምልክታ ኣቕርብ', samenvatting:'ንኩሉ ምስ መንግስቲ ዝምልከት ዝሕጋዝ', badge:'ስጉምቲ', badgeKleur:'nieuw',
-          punten:[
-            { icoon:'✓', kleur:'#EBF3EE', tekst:'<strong>DigiD ዲጂታል ምልክታ ሕጋዊ ናይ ርእስኻ/ኺ ኣዩ</strong> ናብ መንግስቲ። ንሓገዝ ጥዕና፡ ቀረጽ፡ DUO ኩሉ ዘድልየካ/ኺ ኣዩ።<span class="nieuw-chip">ግበሮ/ግበሪ</span>' },
-            { icoon:'ℹ', kleur:'#EFF6FF', tekst:'ቅድሚ 18 ዓመት ምልክታ ኣቕርብ። digid.nl — ምፍቃድ 5 ናይ ስራሕ መዓልቲ ይወስድ።' },
-            { icoon:'!', kleur:'#FDF3E0', tekst:'ናትካ/ኪ ናጻ ኢሜይልን ቁጽሪ ስልክን የድልየካ/ኺ። ናይ ወለድኻ/ኺ ኣይትጠቐም/ኣይትጠቐሚ።' },
-          ], extern:{ url:'https://www.digid.nl/aanvragen-en-activeren/aanvragen/', tekst:'→ DigiD ኣብ digid.nl ምልክታ ኣቕርብ' } },
-        { icoon:'🏥', kleur:'#FDF3E0', naam:'ናይ ጥዕና ዋሕስ ኣዳልዊ', samenvatting:'ካብ ዋሕስ ወለድኻ/ኺ ወጻኢ ኮንካ/ኺ', badge:'ግዴታ', badgeKleur:'stopt',
-          punten:[
-            { icoon:'!', kleur:'#FEF2F2', tekst:'<strong>ኣብ 18ይ ዕለተ-ልደትካ/ኺ ካብ ናይ ወለድኻ/ኺ ዋሕስ ወጻኢ ኮንካ/ኺ።</strong> ናትካ/ኺ ናጻ ዋሕስ ቅድሚ ወይ ኣብቲ ዕለት ዝህሉ ጌርካ/ኺ ኣዳልዊ።<span class="stopt-chip">ግዴታ</span>' },
-            { icoon:'💰', kleur:'#EBF3EE', tekst:'<strong>ሓገዝ ናይ ጥዕና ዋሕስ ምልክታ ኣቕርብ!</strong> ዝተሓተ ኣታዊ ምስ ዝህሉ ክሳብ €154 ኣብ ወርሒ (2026)። ብ Mijn Toeslagen ምስ DigiD ናትካ/ኺ።<span class="nieuw-chip">ገንዘብ</span>' },
-          ], infoBox:{ type:'groen', tekst:'✅ ኣብ <strong>belastingdienst.nl/toeslagen</strong> ምልክታ ኣቕርብ። ቅድሚ 18 ምልክታ ምቕራብ ይከኣል — ካብ ዕለተ-ልደት ይጅምር።' },
-          extern:{ url:'https://www.belastingdienst.nl/wps/wcm/connect/nl/zorgtoeslag/zorgtoeslag', tekst:'→ ብዛዕባ ሓገዝ ናይ ጥዕና ዋሕስ' } },
-        { icoon:'🏦', kleur:'#EBF3EE', naam:'ናይ ባንኪ ሕሳብ', samenvatting:'ሓገዛት ናብ ናትካ/ኺ ሕሳብ ይኸዱ', badge:'ምኽሪ', badgeKleur:'let',
-          punten:[
-            { icoon:'✓', kleur:'#EBF3EE', tekst:'<strong>ኣብ ስምካ/ኺ ናይ ባንኪ ሕሳብ ምህላዉ ኣረጋግጽ/ኣረጋግጺ።</strong> ኩሎም ሓገዛት ናብ ሕሳብካ/ኺ ዩም ዝኸዱ።' },
-            { icoon:'✓', kleur:'#EBF3EE', tekst:'ናይ ቁጠባ ሕሳብ ውን ክፈት/ፊቺ — ንዘይትጽቡቖ ወጻኢ (ናይ ዋሕስ ወጻኢ €165 ኣብ 2026)።' },
-          ], extern:null },
+        {
+          icoon: '🔑',
+          kleur: '#EFF6FF',
+          naam: 'DigiD ምልክታ ኣቕርብ',
+          samenvatting: 'ንኩሉ ምስ መንግስቲ ዝምልከት ዝሕጋዝ',
+          badge: 'ስጉምቲ',
+          badgeKleur: 'nieuw',
+          punten: [
+            {
+              icoon: '✓',
+              kleur: '#EBF3EE',
+              tekst: '<strong>DigiD ዲጂታል ምልክታ ሕጋዊ ናይ ርእስኻ/ኺ ኣዩ</strong> ናብ መንግስቲ። ንሓገዝ ጥዕና፡ ቀረጽ፡ DUO ኩሉ ዘድልየካ/ኺ ኣዩ።<span class=\'nieuw-chip\'>ግበሮ/ግበሪ</span>'
+            },
+            {
+              icoon: 'ℹ',
+              kleur: '#EFF6FF',
+              tekst: 'ቅድሚ 18 ዓመት ምልክታ ኣቕርብ። digid.nl — ምፍቃድ 5 ናይ ስራሕ መዓልቲ ይወስድ።'
+            },
+            {
+              icoon: '!',
+              kleur: '#FDF3E0',
+              tekst: 'ናትካ/ኪ ናጻ ኢሜይልን ቁጽሪ ስልክን የድልየካ/ኺ። ናይ ወለድኻ/ኺ ኣይትጠቐም/ኣይትጠቐሚ።'
+            }
+          ],
+          extern: {
+            url: 'https://www.digid.nl/aanvragen-en-activeren/aanvragen/',
+            tekst: '→ DigiD ኣብ digid.nl ምልክታ ኣቕርብ'
+          }
+        },
+        {
+          icoon: '🏥',
+          kleur: '#FDF3E0',
+          naam: 'ናይ ጥዕና ዋሕስ ኣዳልዊ',
+          samenvatting: 'ካብ ዋሕስ ወለድኻ/ኺ ወጻኢ ኮንካ/ኺ',
+          badge: 'ግዴታ',
+          badgeKleur: 'stopt',
+          punten: [
+            {
+              icoon: '!',
+              kleur: '#FEF2F2',
+              tekst: '<strong>ኣብ 18ይ ዕለተ-ልደትካ/ኺ ካብ ናይ ወለድኻ/ኺ ዋሕስ ወጻኢ ኮንካ/ኺ።</strong> ናትካ/ኺ ናጻ ዋሕስ ቅድሚ ወይ ኣብቲ ዕለት ዝህሉ ጌርካ/ኺ ኣዳልዊ።<span class=\'stopt-chip\'>ግዴታ</span>'
+            },
+            {
+              icoon: 'ℹ',
+              kleur: '#EFF6FF',
+              tekst: 'ድሕሪ ዕለተ-ልደትካ/ኺ 3 ወርሒ ናይ ዋሕስ ምቝጻር ቅጻዓት ዘይብሉ ዕድሜ ኣለካ/ኺ። ኣይትዘናጋዕ/ኣይትዘናጋዕን።'
+            },
+            {
+              icoon: '💰',
+              kleur: '#EBF3EE',
+              tekst: '<strong>ሓገዝ ናይ ጥዕና ዋሕስ ምልክታ ኣቕርብ!</strong> ዝተሓተ ኣታዊ ምስ ዝህሉ ክሳብ €154 ኣብ ወርሒ (2026)። ብ Mijn Toeslagen ምስ DigiD ናትካ/ኺ።<span class=\'nieuw-chip\'>ገንዘብ</span>'
+            }
+          ],
+          infoBox: {
+            type: 'groen',
+            tekst: '✅ ኣብ <strong>belastingdienst.nl/toeslagen</strong> ምልክታ ኣቕርብ። ቅድሚ 18 ምልክታ ምቕራብ ይከኣል — ካብ ዕለተ-ልደት ይጅምር።'
+          },
+          extern: {
+            url: 'https://www.belastingdienst.nl/wps/wcm/connect/nl/zorgtoeslag/zorgtoeslag',
+            tekst: '→ ብዛዕባ ሓገዝ ናይ ጥዕና ዋሕስ'
+          }
+        },
+        {
+          icoon: '🏦',
+          kleur: '#EBF3EE',
+          naam: 'ናይ ባንኪ ሕሳብ',
+          samenvatting: 'ሓገዛት ናብ ናትካ/ኺ ሕሳብ ይኸዱ',
+          badge: 'ምኽሪ',
+          badgeKleur: 'let',
+          punten: [
+            {
+              icoon: '✓',
+              kleur: '#EBF3EE',
+              tekst: '<strong>ኣብ ስምካ/ኺ ናይ ባንኪ ሕሳብ ምህላዉ ኣረጋግጽ/ኣረጋግጺ።</strong> ኩሎም ሓገዛት ናብ ሕሳብካ/ኺ ዩም ዝኸዱ።'
+            },
+            {
+              icoon: 'ℹ',
+              kleur: '#EFF6FF',
+              tekst: 'ኣብ ብዙሕ ባንኪ ቅድሚ 18 ዕድሜ ናይ ምኽፋት ናይ ምኽፋት ናይ ባንኪ ሕሳብ ዕድሎ ኣሎ። ወለድኻ/ኺ ሕቱ።'
+            },
+            {
+              icoon: '✓',
+              kleur: '#EBF3EE',
+              tekst: 'ናይ ቁጠባ ሕሳብ ውን ክፈት/ፊቺ — ንዘይትጽቡቖ ወጻኢ (ናይ ዋሕስ ወጻኢ €165 ኣብ 2026)።'
+            }
+          ],
+          extern: null
+        }
       ],
-      checklist:[
-        { tekst:'DigiD ምልክታ ቀሪቡ ተፈቒዱ', sub:'ቕልጡፍ ምልክታ ኣቕርብ' },
-        { tekst:'ናይ ጥዕና ዋሕስ ተዳሊዩ', sub:'ቅድሚ ወይ ኣብ 18ይ ዕለተ-ልደት' },
-        { tekst:'ሓገዝ ናይ ጥዕና ዋሕስ ምልክታ ቀሪቡ', sub:'ብ Mijn Toeslagen ምስ DigiD ናትካ/ኺ' },
-        { tekst:'ናይ ባንኪ ሕሳብ ኣብ ስምካ/ኺ', sub:'ንምቕባል ሓገዛት የድሊ' },
-        { tekst:'ናይ ቁጠባ ሕሳብ ተኸፊቱ', sub:'ቁጠባ ንዘይትጽቡቖ ወጻኢ' },
-      ],
+      checklist: [
+        {
+          tekst: 'DigiD ምልክታ ቀሪቡ ተፈቒዱ',
+          sub: 'ቕልጡፍ ምልክታ ኣቕርብ'
+        },
+        {
+          tekst: 'ናይ ጥዕና ዋሕስ ተዳሊዩ',
+          sub: 'ቅድሚ ወይ ኣብ 18ይ ዕለተ-ልደት'
+        },
+        {
+          tekst: 'ሓገዝ ናይ ጥዕና ዋሕስ ምልክታ ቀሪቡ',
+          sub: 'ብ Mijn Toeslagen ምስ DigiD ናትካ/ኺ'
+        },
+        {
+          tekst: 'ናይ ባንኪ ሕሳብ ኣብ ስምካ/ኺ',
+          sub: 'ንምቕባል ሓገዛት የድሊ'
+        },
+        {
+          tekst: 'ናይ ቁጠባ ሕሳብ ተኸፊቱ',
+          sub: 'ቁጠባ ንዘይትጽቡቖ ወጻኢ'
+        }
+      ]
     },
     op: {
-      intro: { icoon:'🎂', tekst:'<strong>ሕጂ ብወግዒ 18 ዓመት ምሉእካ/ኺ!</strong> ሕጂ ብሕጊ ዓቢ/ዓባይ ኮንካ/ኺ ሓድሽ መሰላትን ሓላፍነታትን ኣለካ/ኺ።' },
+      intro: {
+        icoon: '🎂',
+        tekst: '<strong>ሕጂ ብወግዒ 18 ዓመት ምሉእካ/ኺ!</strong> ሕጂ ብሕጊ ዓቢ/ዓባይ ኮንካ/ኺ ሓድሽ መሰላትን ሓላፍነታትን ኣለካ/ኺ።'
+      },
       categorieen: [
-        { icoon:'⚖️', kleur:'#F5F3FF', naam:'ሕጂ ናጻ ኢኻ/ኺ', samenvatting:'ብሕጊ ዓቢ/ዓባይ — ናትካ/ኺ መሰላትን ሓላፍነታትን', badge:'ሎሚ', badgeKleur:'nieuw',
-          punten:[
-            { icoon:'✓', kleur:'#EBF3EE', tekst:'<strong>ሕጂ ኩሉ ነገር ናጻ ኢኻ/ኺ ትሰርሖ/ትሰርሕዮ</strong> — ዋዕሎ ምፍራም፡ ምርጫ፡ ሕክምናዊ ምርጫ፡ ፍቃድ ምዕዳል ምልክታ ምቕራብ።' },
-            { icoon:'!', kleur:'#FDF3E0', tekst:'<strong>ዕዳ ኣጸቢቕካ/ኺ ሓሉ:</strong> ካብ 18 ዓመት ዝያዳ ቀሊል ዩ ናይ ዕዳ ምዕዳል ወይ ምልቃሕ። ዕዳ ቅልጡፍ ይዕርጕ።<span class="let-chip">ተጠንቀቕ/ተጠንቀቒ</span>' },
-          ], extern:null },
-        { icoon:'🗳️', kleur:'#EBF3EE', naam:'መሰል ምርጫን ምዝገባ ወሃቢ ኣካልን', samenvatting:'ሎሚ ዝጅምሩ ሓድሽ ክልተ መሰላት', badge:'ሓድሽ', badgeKleur:'nieuw',
-          punten:[
-            { icoon:'✓', kleur:'#EBF3EE', tekst:'<strong>ምርጫ:</strong> ሕጂ ክትምርጽ/ክትምርጺ ትኽእል/ትኽእሊ! ኣብ ዝቕጽል ምርጫ ናብ ኣድራሻኻ/ኺ ናይ ምርጫ ወረቐት ይስደደልካ/ኺ።<span class="nieuw-chip">ሓድሽ መሰል</span>' },
-            { icoon:'ℹ', kleur:'#EFF6FF', tekst:'<strong>ወሃቢ ኣካል ምዝገባ:</strong> ብኣውቶማቲክ ከም ወሃቢ ኣካል ትምዝገብ/ትምዝገቢ። ምርጫ ኣብ donorregister.nl ቀይር/ቀይሪ።' },
-          ], extern:{ url:'https://www.donorregister.nl', tekst:'→ ምርጫ ወሃቢ ኣካል ኣብ donorregister.nl ምዝገቡ' } },
-        { icoon:'📋', kleur:'#FDF3E0', naam:'ምውህሃድ — ፍትሽ ከም ዘሎ', samenvatting:'ግዴታ ምውህሃድ ናትካ/ኺ ኣዩ?', badge:'ፍትሽ', badgeKleur:'let',
-          punten:[
-            { icoon:'!', kleur:'#FDF3E0', tekst:'<strong>ድሕሪ 1 ጃንዋሪ 2022 ናብ ሆላንድ ዝመጻኻ/ዝመጻኺ</strong> ከምዝኾንካ/ኮንኺ ከምዘይምውህሃድ ከለካ/ኺ — ግዴታ ምውህሃድ ሕጂ ናትካ/ኺ ኣዩ።<span class="let-chip">ፍትሽ</span>' },
-          ], infoBox:{ type:'blauw', tekst:'💡 ናይ <a href="naturalisatie.html" style="color:var(--blauw)">ምርመራ ዜጋነት</a> ኣብ Solidari ብናጻ ተጠቐም/ተጠቐሚ።' },
-          extern:null },
+        {
+          icoon: '⚖️',
+          kleur: '#F5F3FF',
+          naam: 'ሕጂ ናጻ ኢኻ/ኺ',
+          samenvatting: 'ብሕጊ ዓቢ/ዓባይ — ናትካ/ኺ መሰላትን ሓላፍነታትን',
+          badge: 'ሎሚ',
+          badgeKleur: 'nieuw',
+          punten: [
+            {
+              icoon: '✓',
+              kleur: '#EBF3EE',
+              tekst: '<strong>ሕጂ ኩሉ ነገር ናጻ ኢኻ/ኺ ትሰርሖ/ትሰርሕዮ</strong> — ዋዕሎ ምፍራም፡ ምርጫ፡ ሕክምናዊ ምርጫ፡ ፍቃድ ምዕዳል ምልክታ ምቕራብ።'
+            },
+            {
+              icoon: '!',
+              kleur: '#FDF3E0',
+              tekst: '<strong>ዕዳ ኣጸቢቕካ/ኺ ሓሉ:</strong> ካብ 18 ዓመት ዝያዳ ቀሊል ዩ ናይ ዕዳ ምዕዳል ወይ ምልቃሕ። ዕዳ ቅልጡፍ ይዕርጕ።<span class=\'let-chip\'>ተጠንቀቕ/ተጠንቀቒ</span>'
+            },
+            {
+              icoon: '✓',
+              kleur: '#EBF3EE',
+              tekst: 'ሕጂ ባዕልካ/ኺ <strong>ናይ ምዝዋር ፍቓድ</strong> ምሕታት፡ ኣልኮሆላዊ ምዕዳግን ናብ ናትካ/ኺ ስም ናይ ኪራይ ዋዕሎ ምፍራምን ትኽእሎ/ትኽእሊ።'
+            }
+          ],
+          extern: null
+        },
+        {
+          icoon: '🗳️',
+          kleur: '#EBF3EE',
+          naam: 'መሰል ምርጫን ምዝገባ ወሃቢ ኣካልን',
+          samenvatting: 'ሎሚ ዝጅምሩ ሓድሽ ክልተ መሰላት',
+          badge: 'ሓድሽ',
+          badgeKleur: 'nieuw',
+          punten: [
+            {
+              icoon: '✓',
+              kleur: '#EBF3EE',
+              tekst: '<strong>ምርጫ:</strong> ሕጂ ክትምርጽ/ክትምርጺ ትኽእል/ትኽእሊ! ኣብ ዝቕጽል ምርጫ ናብ ኣድራሻኻ/ኺ ናይ ምርጫ ወረቐት ይስደደልካ/ኺ።<span class=\'nieuw-chip\'>ሓድሽ መሰል</span>'
+            },
+            {
+              icoon: 'ℹ',
+              kleur: '#EFF6FF',
+              tekst: '<strong>ወሃቢ ኣካል ምዝገባ:</strong> ብኣውቶማቲክ ከም ወሃቢ ኣካል ትምዝገብ/ትምዝገቢ። ምርጫ ኣብ donorregister.nl ቀይር/ቀይሪ።'
+            }
+          ],
+          extern: {
+            url: 'https://www.donorregister.nl',
+            tekst: '→ ምርጫ ወሃቢ ኣካል ኣብ donorregister.nl ምዝገቡ'
+          }
+        },
+        {
+          icoon: '📋',
+          kleur: '#FDF3E0',
+          naam: 'ምውህሃድ — ፍትሽ ከም ዘሎ',
+          samenvatting: 'ግዴታ ምውህሃድ ናትካ/ኺ ኣዩ?',
+          badge: 'ፍትሽ',
+          badgeKleur: 'let',
+          punten: [
+            {
+              icoon: '!',
+              kleur: '#FDF3E0',
+              tekst: '<strong>ድሕሪ 1 ጃንዋሪ 2022 ናብ ሆላንድ ዝመጻኻ/ዝመጻኺ</strong> ከምዝኾንካ/ኮንኺ ከምዘይምውህሃድ ከለካ/ኺ — ግዴታ ምውህሃድ ሕጂ ናትካ/ኺ ኣዩ።<span class=\'let-chip\'>ፍትሽ</span>'
+            },
+            {
+              icoon: 'ℹ',
+              kleur: '#EFF6FF',
+              tekst: 'ምውህሃድ ዝጀምርካ/ኺ ዲኻ/ዲኺ? ቀጽሎ/ቀጽሊ — ናይ ምውህሃድ ዓቐን ሕጂ ድማ ይቕጽል።'
+            }
+          ],
+          infoBox: {
+            type: 'blauw',
+            tekst: '💡 ናይ <a href=\'naturalisatie.html\' style=\'color:var(--blauw)\'>ምርመራ ዜጋነት</a> ኣብ Solidari ብናጻ ተጠቐም/ተጠቐሚ።'
+          },
+          extern: null
+        }
       ],
-      checklist:null,
+      checklist: null
     },
     na: {
-      intro: { icoon:'→', tekst:'<strong>ሕጂ 18 ዓመት ምሉእካ/ኺ፡ ሓድሽ መሰላት ኣለካ/ኺ።</strong> ገሊኦም ዓቅምታት ባዕልካ/ኺ ምልክታ ምቕራብ የድሊ — ብኣውቶማቲክ ኣይመጸኡን ኣዮም።' },
+      intro: {
+        icoon: '→',
+        tekst: '<strong>ሕጂ 18 ዓመት ምሉእካ/ኺ፡ ሓድሽ መሰላት ኣለካ/ኺ።</strong> ገሊኦም ዓቅምታት ባዕልካ/ኺ ምልክታ ምቕራብ የድሊ — ብኣውቶማቲክ ኣይመጸኡን ኣዮም።'
+      },
       categorieen: [
-        { icoon:'💶', kleur:'#EBF3EE', naam:'ሓገዝ ናብርኣ ምልክታ ኣቕርብ', samenvatting:'ኣታዊ ምስ ዘይህሉ ዘምህርን ዘይኮንካ/ኺ', badge:'መሰል', badgeKleur:'nieuw',
-          punten:[
-            { icoon:'✓', kleur:'#EBF3EE', tekst:'<strong>ሓገዝ ናብርኣ (Participatiewet) ዓቅምኻ/ኺ ኣዩ</strong> ኣታዊ ምስ ዘይህሉ ዘምህርን ዘይኮንካ/ኺ ኣብ ሆላንድ ምስ ትነብር/ትነብሪ።<span class="nieuw-chip">መሰል</span>' },
-            { icoon:'!', kleur:'#FDF3E0', tekst:'<strong>ምውህሃድን ሓገዝን:</strong> ግዴታ ምውህሃድ ምስ ዝህሉ ንምሕላው ሓገዝ ብንጥፈት ክትሳተፍ/ክትሳተፊ ኣለካ/ኺ።<span class="let-chip">ቅድመ-ኩነት</span>' },
-          ], extern:{ url:'https://www.werk.nl/werkzoekenden/uitkering-aanvragen/', tekst:'→ ሓገዝ ናብርኣ ኣብ werk.nl ምልክታ ኣቕርብ' } },
-        { icoon:'🎓', kleur:'#EFF6FF', naam:'ትምህርቲን DUOን', samenvatting:'ሓገዝ ትምህርቲ ምልክታ ኣቕርብ', badge:'ይከኣል', badgeKleur:'nieuw',
-          punten:[
-            { icoon:'✓', kleur:'#EBF3EE', tekst:'<strong>ናብ MBO፡ HBO ወይ ዩኒቨርሲቲ ዲኻ/ኺ ትኸድ/ትኸዲ?</strong> ካብ DUO ሓገዝ ትምህርቲ ምልክታ ኣቕርብ/ኣቕርቢ (ዕዳ ኣዩ — ድሒሩ ትምልሶ/ትምልሱ)።<span class="nieuw-chip">ሓድሽ</span>' },
-          ], extern:{ url:'https://duo.nl/particulier/student-hbo-universiteit/studiefinanciering-aanvragen.jsp', tekst:'→ ሓገዝ ትምህርቲ ኣብ duo.nl' } },
-        { icoon:'🏠', kleur:'#FDF3E0', naam:'ቤትን ሓገዝ ኪራይን', samenvatting:'ናይ ቤት ምዝገባ', badge:'ምኽሪ', badgeKleur:'let',
-          punten:[
-            { icoon:'✓', kleur:'#EBF3EE', tekst:'<strong>ሕጂ ኣብ ናይ ቤት ማሕበር ምዝገብ/ምዝገቢ።</strong> ዝጽበ ዝዳ ነዊሕ ኣዩ — ሓንሳቡ 5 ክሳብ 10 ዓመት።' },
-            { icoon:'✓', kleur:'#EBF3EE', tekst:'ናጻ ምስ ትነብር/ትነብሪ ዝተሓተ ኣታዊ ምስ ዝህሉ <strong>ሓገዝ ኪራይ</strong> ምልክታ ኣቕርብ/ኣቕርቢ። 2026 ዋጋ ኪራይ ወሰን: €880.66.<span class="nieuw-chip">ገንዘብ</span>' },
-          ], extern:null },
-        { icoon:'🤝', kleur:'#FDF3E0', naam:'ሓገዝ መንእሰይ ይቋረጽ — ሓገዝ ዓቢ ይጅምር', samenvatting:'ሓገዝ ትቕበል ዝነበርካ/ኺ? ዝቀያየር ነገር ፍትሽ', badge:'ፍትሽ', badgeKleur:'let',
-          punten:[
-            { icoon:'!', kleur:'#FDF3E0', tekst:'<strong>ሓገዝ መንእሰይ ኣብ 18ኛ ዓመት ይቋረጽ።</strong> ቅድሚ ዕለተ-ልደትካ/ኺ ምስ ሓጋዚኻ/ኺ ድሕሪኡ ዝርከብ ዓቀን ዛተ/ዛቲ።<span class="let-chip">ኣገዳሲ</span>' },
-            { icoon:'✓', kleur:'#EBF3EE', tekst:'ሓደ ሓደ ፍርዲ ሓገዝ መንእሰይ ክሳብ 23 ዓመት ክቕጽል ይኽእል። ምምሕዳር ከቲ ሕቱ።' },
-          ], infoBox:{ type:'amber', tekst:'⚠️ ምስ ሓጋዚኻ/ኺ ወይ ምምሕዳር ከቲ <strong>ቅድሚ 18ይ ዕለተ-ልደትካ/ኺ</strong> ዛተ/ዛቲ።' },
-          extern:null },
+        {
+          icoon: '💶',
+          kleur: '#EBF3EE',
+          naam: 'ሓገዝ ናብርኣ ምልክታ ኣቕርብ',
+          samenvatting: 'ኣታዊ ምስ ዘይህሉ ዘምህርን ዘይኮንካ/ኺ',
+          badge: 'መሰል',
+          badgeKleur: 'nieuw',
+          punten: [
+            {
+              icoon: '✓',
+              kleur: '#EBF3EE',
+              tekst: '<strong>ሓገዝ ናብርኣ (Participatiewet) ዓቅምኻ/ኺ ኣዩ</strong> ኣታዊ ምስ ዘይህሉ ዘምህርን ዘይኮንካ/ኺ ኣብ ሆላንድ ምስ ትነብር/ትነብሪ።<span class=\'nieuw-chip\'>መሰል</span>'
+            },
+            {
+              icoon: '!',
+              kleur: '#FDF3E0',
+              tekst: '<strong>ምውህሃድን ሓገዝን:</strong> ግዴታ ምውህሃድ ምስ ዝህሉ ንምሕላው ሓገዝ ብንጥፈት ክትሳተፍ/ክትሳተፊ ኣለካ/ኺ።<span class=\'let-chip\'>ቅድመ-ኩነት</span>'
+            },
+            {
+              icoon: '⚠️',
+              kleur: '#FEF2F2',
+              tekst: '<strong>ምውህሃድን ሓገዝ ናብርኣን:</strong> ግዴታ ምውህሃድ ምስ ዝህሉ ሓገዝ ናብርኣ ብንጥፈት ምስምሳሉ ቅድመ-ኩነት ኣዩ።<span class=\'let-chip\'>ቅድመ-ኩነት</span>'
+            }
+          ],
+          extern: {
+            url: 'https://www.werk.nl/werkzoekenden/uitkering-aanvragen/',
+            tekst: '→ ሓገዝ ናብርኣ ኣብ werk.nl ምልክታ ኣቕርብ'
+          }
+        },
+        {
+          icoon: '🎓',
+          kleur: '#EFF6FF',
+          naam: 'ትምህርቲን DUOን',
+          samenvatting: 'ሓገዝ ትምህርቲ ምልክታ ኣቕርብ',
+          badge: 'ይከኣል',
+          badgeKleur: 'nieuw',
+          punten: [
+            {
+              icoon: '✓',
+              kleur: '#EBF3EE',
+              tekst: '<strong>ናብ MBO፡ HBO ወይ ዩኒቨርሲቲ ዲኻ/ኺ ትኸድ/ትኸዲ?</strong> ካብ DUO ሓገዝ ትምህርቲ ምልክታ ኣቕርብ/ኣቕርቢ (ዕዳ ኣዩ — ድሒሩ ትምልሶ/ትምልሱ)።<span class=\'nieuw-chip\'>ሓድሽ</span>'
+            },
+            {
+              icoon: 'ℹ',
+              kleur: '#EFF6FF',
+              tekst: '<strong>OV-studentenkaart</strong> ኣብ ናይ ዘይ-ቐቢ ሰዓታት ናጻ ጉዕዞ ይህብ።'
+            },
+            {
+              icoon: '!',
+              kleur: '#FDF3E0',
+              tekst: 'ሓገዝ ትምህርቲ <strong>ዕዳ</strong> ኣዩ — ድሕሪ ምምሃር ትምልሶ/ትምልሱ። ዘድልየካ/ኺ ጥራይ ተለቃሕ/ተለቃሒ።<span class=\'let-chip\'>ዕዳ</span>'
+            }
+          ],
+          extern: {
+            url: 'https://duo.nl/particulier/student-hbo-universiteit/studiefinanciering-aanvragen.jsp',
+            tekst: '→ ሓገዝ ትምህርቲ ኣብ duo.nl'
+          }
+        },
+        {
+          icoon: '🏠',
+          kleur: '#FDF3E0',
+          naam: 'ቤትን ሓገዝ ኪራይን',
+          samenvatting: 'ናይ ቤት ምዝገባ',
+          badge: 'ምኽሪ',
+          badgeKleur: 'let',
+          punten: [
+            {
+              icoon: '✓',
+              kleur: '#EBF3EE',
+              tekst: '<strong>ሕጂ ኣብ ናይ ቤት ማሕበር ምዝገብ/ምዝገቢ።</strong> ዝጽበ ዝዳ ነዊሕ ኣዩ — ሓንሳቡ 5 ክሳብ 10 ዓመት።'
+            },
+            {
+              icoon: '✓',
+              kleur: '#EBF3EE',
+              tekst: 'ናጻ ምስ ትነብር/ትነብሪ ዝተሓተ ኣታዊ ምስ ዝህሉ <strong>ሓገዝ ኪራይ</strong> ምልክታ ኣቕርብ/ኣቕርቢ። 2026 ዋጋ ኪራይ ወሰን: €880.66.<span class=\'nieuw-chip\'>ገንዘብ</span>'
+            }
+          ],
+          extern: null
+        },
+        {
+          icoon: '🤝',
+          kleur: '#FDF3E0',
+          naam: 'ሓገዝ መንእሰይ ይቋረጽ — ሓገዝ ዓቢ ይጅምር',
+          samenvatting: 'ሓገዝ ትቕበል ዝነበርካ/ኺ? ዝቀያየር ነገር ፍትሽ',
+          badge: 'ፍትሽ',
+          badgeKleur: 'let',
+          punten: [
+            {
+              icoon: '!',
+              kleur: '#FDF3E0',
+              tekst: '<strong>ሓገዝ መንእሰይ ኣብ 18ኛ ዓመት ይቋረጽ።</strong> ቅድሚ ዕለተ-ልደትካ/ኺ ምስ ሓጋዚኻ/ኺ ድሕሪኡ ዝርከብ ዓቀን ዛተ/ዛቲ።<span class=\'let-chip\'>ኣገዳሲ</span>'
+            },
+            {
+              icoon: '✓',
+              kleur: '#EBF3EE',
+              tekst: 'ሓደ ሓደ ፍርዲ ሓገዝ መንእሰይ ክሳብ 23 ዓመት ክቕጽል ይኽእል። ምምሕዳር ከቲ ሕቱ።'
+            }
+          ],
+          infoBox: {
+            type: 'amber',
+            tekst: '⚠️ ምስ ሓጋዚኻ/ኺ ወይ ምምሕዳር ከቲ <strong>ቅድሚ 18ይ ዕለተ-ልደትካ/ኺ</strong> ዛተ/ዛቲ።'
+          },
+          extern: {
+            url: 'https://www.belastingdienst.nl/wps/wcm/connect/nl/ib-aangifte/',
+            tekst: '→ ናይ ቀረጽ ምምለስ ኣብ belastingdienst.nl'
+          }
+        },
+        {
+          icoon: '🚗',
+          kleur: '#EFF6FF',
+          naam: 'ናይ ምዝዋር ፍቓድ',
+          samenvatting: 'ናይ ምዝዋር ፍቓድ ምሕታት ሕጂ ይከኣሎ',
+          badge: 'ሓድሽ መሰል',
+          badgeKleur: 'nieuw',
+          punten: [
+            {
+              icoon: '✓',
+              kleur: '#EBF3EE',
+              tekst: '<strong>ካብ 18 ዓመት ብናጻ ናይ ምዝዋር ፍቓድ ምፍተን ምሕታት ይከኣሎ</strong> — ናይ ደጋፊ ዘይጠልብ ኮንካ/ኺ።<span class=\'nieuw-chip\'>ሓድሽ መሰል</span>'
+            },
+            {
+              icoon: 'ℹ',
+              kleur: '#EFF6FF',
+              tekst: '2toDrive ናይ ምዝዋር ፍቓድ ቀደም ዝነበርካ/ኺ? ሕጂ ብናጻ ምዝዋር ትኽእሎ/ትኽእሊ።'
+            },
+            {
+              icoon: '!',
+              kleur: '#FDF3E0',
+              tekst: '<strong>ናይ ምዝዋር ፍቓድ ምሕዛን ወጻኢ ኣለዎ</strong> — ብሓሙሻ €1,500 ክሳብ €2,500።<span class=\'let-chip\'>ወጻኢ</span>'
+            }
+          ],
+          extern: {
+            url: 'https://www.cbr.nl',
+            tekst: '→ ብዛዕባ ናይ ምዝዋር ፍቓድን ፈተናን ኣብ cbr.nl'
+          }
+        },
+        {
+          icoon: '🤝',
+          kleur: '#FDF3E0',
+          naam: 'ሓገዝ መንእሰይ ይቋረጽ — ናይ ዓቢ ሰብ ሓገዝ ይጅምር',
+          samenvatting: 'ሓገዝ ዝነበርካ/ኺ ዲኻ/ዲኺ? ዝቀያየር ፍትሽ',
+          badge: 'ፍትሽ',
+          badgeKleur: 'let',
+          punten: [
+            {
+              icoon: '!',
+              kleur: '#FDF3E0',
+              tekst: '<strong>ሓገዝ መንእሰይ 18 ምስ ምሉእካ/ኺ ይቋረጽ።</strong> ቅድሚ ዕለተ-ልደትካ/ኺ ምስ ሓጋዚኻ/ኺ ድሕሪኡ ዝርከብ ዓቀን ዛተ/ዛቲ።<span class=\'let-chip\'>ኣገዳሲ</span>'
+            },
+            {
+              icoon: 'ℹ',
+              kleur: '#EFF6FF',
+              tekst: 'ሓደ ሓደ ፍርዲ ሓገዝ መንእሰይ ክሳብ 23 ዓመት (ናዊሕ ሓገዝ መንእሰይ) ክቕጽል ይኽእሎ። ምምሕዳር ከቲ ኣቐዲምካ/ኪ ሕቱ/ቲ።'
+            },
+            {
+              icoon: '✓',
+              kleur: '#EBF3EE',
+              tekst: 'ናይ ዓቢ ሰብ ሓገዝ ብ: ሓኪም፡ WMO (ምምሕዳር ከቲ)፡ GGZ ወይ ናይ ሕብረተሰብ ስራሕ። JIP ክሕግዘካ/ኺ ይኽእሎ።'
+            }
+          ],
+          infoBox: {
+            type: 'amber',
+            tekst: '⚠️ ምስ ሓጋዚኻ/ኺ ወይ ምምሕዳር ከቲ <strong>ቅድሚ 18ይ ዕለተ-ልደትካ/ኺ</strong> ዛተ/ዛቲ። ዕለተ-ልደትካ/ኺ ምጽባይ ኣይትጸበ/ኣይትጸበዪ።'
+          },
+          extern: null
+        }
       ],
-      checklist:[
-        { tekst:'ኣብ ናይ ቤት ማሕበር ምዝገባ', sub:'ብዝቕልጠፈ — ዝጽበ ዝዳ ነዊሕ ኣዩ' },
-        { tekst:'ምርጫ ወሃቢ ኣካል ሓቢርካ/ኺ', sub:'ብ donorregister.nl' },
-        { tekst:'ሓገዝ ናብርኣ ወይ ሓገዝ ትምህርቲ ምልክታ ቀሪቡ (ምስ ኣድለየ)', sub:'ብ መሰረት ኩነታት ምቕማጥን ትምህርቲን' },
-        { tekst:'ግዴታ ምውህሃድ ምምሕዳር ከቲ ተፈቲሹ', sub:'ምስ ዘይምዉህሃድ' },
-        { tekst:'ናይ ቀረጽ ምምለስ ዝቕጽለ ዓመት ዘክሮ/ዝከሪ', sub:'ኩሉ ዓመት ኣብ ማርቲ belastingdienst.nl' },
-        { tekst:'ሓገዝ መንእሰይ ምስ ምምሕዳር ከቲ ዘተ ቀሪቡ', sub:'ሓገዝ ትቕበል ዝነበርካ/ኺ ምስ ዝኾን' },
-      ],
-    },
-  },
+      checklist: [
+        {
+          tekst: 'ኣብ ናይ ቤት ማሕበር ምዝገባ',
+          sub: 'ብዝቕልጠፈ — ዝጽበ ዝዳ ነዊሕ ኣዩ'
+        },
+        {
+          tekst: 'ምርጫ ወሃቢ ኣካል ሓቢርካ/ኺ',
+          sub: 'ብ donorregister.nl'
+        },
+        {
+          tekst: 'ሓገዝ ናብርኣ ወይ ሓገዝ ትምህርቲ ምልክታ ቀሪቡ (ምስ ኣድለየ)',
+          sub: 'ብ መሰረት ኩነታት ምቕማጥን ትምህርቲን'
+        },
+        {
+          tekst: 'ግዴታ ምውህሃድ ምምሕዳር ከቲ ተፈቲሹ',
+          sub: 'ምስ ዘይምዉህሃድ'
+        },
+        {
+          tekst: 'ናይ ቀረጽ ምምለስ ዝቕጽለ ዓመት ዘክሮ/ዝከሪ',
+          sub: 'ኩሉ ዓመት ኣብ ማርቲ belastingdienst.nl'
+        },
+        {
+          tekst: 'ሓገዝ መንእሰይ ምስ ምምሕዳር ከቲ ዘተ ቀሪቡ',
+          sub: 'ሓገዝ ትቕበል ዝነበርካ/ኺ ምስ ዝኾን'
+        }
+      ]
+    }
+  }
 };
 })();
 // UK
