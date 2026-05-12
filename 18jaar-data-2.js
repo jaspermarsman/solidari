@@ -106,11 +106,6 @@ d.TI = {
               tekst: '<strong>ወዲ/ጓልኩም ካብ ናትኩም ናይ ጥዕና ዋሕስ ወጻኢ ይኸውን</strong> 18 ምስ መልአ። ናቱ/ናታ ዋሕስ ክህልዎ/ክህልዋ ኣለዎ/ኣለዋ።<span class=\'stopt-chip\'>ናይ መወዳእታ ዕለት</span>'
             },
             {
-              icoon: '💰',
-              kleur: '#EBF3EE',
-              tekst: 'ካብ 18 ዓመት ወዲ/ጓልኩም <strong>ሓገዝ ናይ ጥዕና ዋሕስ (zorgtoeslag)</strong> ክሓትት ይኽእል። 2026: ክሳብ €154 ኣብ ወርሒ።<span class=\'nieuw-chip\'>ሓድሽ</span>'
-            },
-            {
               icoon: '✓',
               kleur: '#EBF3EE',
               tekst: 'ካብ 18 ዓመት ወዲ/ጓልኩም <strong>ሓገዝ ናይ ጥዕና ዋሕስ (zorgtoeslag)</strong> ምልክታ ኣቕርብ/ኣቕርቢ ይኽእሎ/ትኽእሎ። 2026: ክሳብ €154 ኣብ ወርሒ (ናይ ኣታዊ ወሰን €40,857).<span class=\'nieuw-chip\'>ሓድሽ</span>'
