@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vertaalhulp — Solidari</title>
+  <meta name="description" content="Help Solidari beter te maken door vertalingen te verbeteren in jouw taal.">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="components.css">
+  <style>
+    .hero {
+      background: var(--groen);
+      color: white;
+      padding: 3rem 1.5rem 2.5rem;
+      text-align: center;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 600;
+      margin: 0 0 0.75rem;
+    }
+    .hero p {
+      font-size: 1.05rem;
+      opacity: 0.85;
+      max-width: 540px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .wrap {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+    }
+
+    /* ── Stap-indicator ── */
+    .stappen {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 2.5rem;
+    }
+    .stap {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      color: var(--tekst-licht);
+      flex: 1;
+    }
+    .stap.actief { color: var(--groen); font-weight: 600; }
+    .stap.klaar { color: var(--tekst-zacht); }
+    .stap-nr {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--rand);
+      color: var(--tekst-licht);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    .stap.actief .stap-nr {
+      background: var(--groen);
+      color: white;
+    }
+    .stap.klaar .stap-nr {
+      background: var(--groen-licht);
+      color: var(--groen);
+    }
+    .stap-lijn {
+      height: 2px;
+      background: var(--rand);
+      flex: 1;
+      margin: 0 0.5rem;
+    }
+
+    /* ── Uitleg-blok ── */
+    .uitleg {
+      background: var(--amber-licht);
+      border: 1px solid #f0d08a;
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 2rem;
+      font-size: 0.95rem;
+      line-height: 1.65;
+      color: var(--tekst);
+    }
+    .uitleg strong { color: var(--amber-diep); }
+
+    /* ── Veldgroep ── */
+    .veld-groep {
+      margin-bottom: 1.75rem;
+    }
+    .veld-groep label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--tekst);
+      margin-bottom: 0.45rem;
+    }
+    .veld-groep .hint {
+      font-size: 0.85rem;
+      color: var(--tekst-zacht);
+      margin-top: 0.35rem;
+      line-height: 1.5;
+    }
+    .optioneel {
+      font-weight: 400;
+      color: var(--tekst-licht);
+      font-size: 0.85rem;
+      margin-left: 0.3rem;
+    }
+
+    select, input[type="text"], input[type="email"], textarea {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 0.75rem 1rem;
+      border: 1.5px solid var(--rand);
+      border-radius: 8px;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 1rem;
+      color: var(--tekst);
+      background: white;
+      transition: border-color 0.2s;
+      appearance: none;
+    }
+    select:focus, input[type="text"]:focus, input[type="email"]:focus, textarea:focus {
+      outline: none;
+      border-color: var(--groen);
+      box-shadow: 0 0 0 3px rgba(45,90,61,0.1);
+    }
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235C5C58' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      padding-right: 2.5rem;
+    }
+    textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
+
+    /* ── Vertalingenlijst ── */
+    #vertalingen-sectie { display: none; }
+
+    .vertaal-groep {
+      background: white;
+      border: 1.5px solid var(--rand);
+      border-radius: 10px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+    }
+    .vertaal-groep-header {
+      padding: 0.85rem 1.25rem;
+      background: var(--wit-warm);
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--tekst-zacht);
+      border-bottom: 1px solid var(--rand);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .vertaal-rij {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border-bottom: 1px solid var(--rand);
+    }
+    .vertaal-rij:last-child { border-bottom: none; }
+
+    .vertaal-huidig {
+      padding: 0.9rem 1.25rem;
+      font-size: 0.95rem;
+      line-height: 1.55;
+      color: var(--tekst-zacht);
+      border-right: 1px solid var(--rand);
+      background: var(--wit-warm);
+      display: flex;
+      align-items: center;
+    }
+    .vertaal-input-wrap {
+      padding: 0.6rem 0.75rem;
+      display: flex;
+      align-items: center;
+    }
+    .vertaal-input {
+      width: 100%;
+      border: 1.5px solid var(--rand);
+      border-radius: 6px;
+      padding: 0.5rem 0.75rem;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.95rem;
+      color: var(--tekst);
+      background: white;
+      transition: border-color 0.15s;
+      box-sizing: border-box;
+    }
+    .vertaal-input:focus {
+      outline: none;
+      border-color: var(--groen);
+      box-shadow: 0 0 0 2px rgba(45,90,61,0.08);
+    }
+    .vertaal-input.gewijzigd {
+      border-color: var(--amber);
+      background: var(--amber-licht);
+    }
+
+    .teller-rijen {
+      font-size: 0.82rem;
+      color: var(--tekst-licht);
+      margin-bottom: 1.25rem;
+      margin-top: 0.25rem;
+    }
+    .teller-rijen span { color: var(--groen); font-weight: 600; }
+
+    /* ── Knoppen ── */
+    .knop-rij {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 0.5rem;
+    }
+    .verstuur-knop {
+      flex: 1;
+      padding: 1rem;
+      background: var(--groen);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .verstuur-knop:hover { background: #234832; }
+    .verstuur-knop:disabled { background: var(--tekst-licht); cursor: not-allowed; }
+    .volgende-knop {
+      flex: 1;
+      padding: 1rem;
+      background: var(--groen);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .volgende-knop:hover { background: #234832; }
+
+    /* ── Meldingen ── */
+    .melding {
+      display: none;
+      padding: 1rem 1.25rem;
+      border-radius: 10px;
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+    .melding.succes { background: var(--groen-licht); color: var(--groen); border: 1px solid #b8d4c0; }
+    .melding.fout   { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+
+    /* ── Privacynoot ── */
+    .privacynoot {
+      margin-top: 1.5rem;
+      padding: 1rem 1.25rem;
+      background: var(--wit-warm);
+      border-radius: 8px;
+      font-size: 0.85rem;
+      color: var(--tekst-zacht);
+      line-height: 1.6;
+    }
+    .privacynoot a { color: var(--groen); text-decoration: none; }
+
+    /* ── RTL support ── */
+    [dir="rtl"] .vertaal-rij {
+      direction: rtl;
+    }
+    [dir="rtl"] .vertaal-huidig {
+      border-right: none;
+      border-left: 1px solid var(--rand);
+    }
+
+    @media (max-width: 560px) {
+      .vertaal-rij { grid-template-columns: 1fr; }
+      .vertaal-huidig { border-right: none; border-bottom: 1px solid var(--rand); }
+      .hero h1 { font-size: 1.6rem; }
+      .stap-label { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div id="solidari-nav"></div>
+
+  <div class="hero">
+    <h1>Help ons vertalen</h1>
+    <p>Spreek je een van onze talen als moedertaal? Vertel ons welke vertalingen beter kunnen. Jouw hulp maakt Solidari beter voor iedereen.</p>
+  </div>
+
+  <div class="wrap">
+
+    <div id="melding" class="melding" role="alert"></div>
+
+    <!-- Stap-indicator -->
+    <div class="stappen" id="stappen">
+      <div class="stap actief" id="stap1-ind">
+        <div class="stap-nr">1</div>
+        <span class="stap-label">Jouw taal</span>
+      </div>
+      <div class="stap-lijn"></div>
+      <div class="stap" id="stap2-ind">
+        <div class="stap-nr">2</div>
+        <span class="stap-label">Vertalingen</span>
+      </div>
+      <div class="stap-lijn"></div>
+      <div class="stap" id="stap3-ind">
+        <div class="stap-nr">3</div>
+        <span class="stap-label">Versturen</span>
+      </div>
+    </div>
+
+    <!-- ── STAP 1: Taal kiezen ── -->
+    <div id="stap1-sectie">
+      <div class="uitleg">
+        <strong>Hoe werkt het?</strong><br>
+        Kies je moedertaal. Je ziet dan de huidige vertalingen op Solidari — links wat er nu staat, rechts een veld waar jij een betere versie kunt invullen. Je hoeft niet alles in te vullen, alleen wat je wilt verbeteren.
+      </div>
+
+      <div class="veld-groep">
+        <label for="taal-keuze">Wat is jouw moedertaal?</label>
+        <select id="taal-keuze">
+          <option value="">— kies een taal —</option>
+          <option value="EN">🇬🇧 English</option>
+          <option value="AR">🇸🇦 العربية (Arabic)</option>
+          <option value="TR">🇹🇷 Türkçe (Turkish)</option>
+          <option value="TI">🇪🇷 ትግርኛ (Tigrinya)</option>
+          <option value="UK">🇺🇦 Українська (Ukrainian)</option>
+          <option value="FA">🇮🇷 دری / فارسی (Dari/Farsi)</option>
+          <option value="RO">🇷🇴 Română (Romanian)</option>
+          <option value="PL">🇵🇱 Polski (Polish)</option>
+        </select>
+      </div>
+
+      <div class="veld-groep">
+        <label for="naam">Jouw naam <span class="optioneel">(optioneel)</span></label>
+        <input type="text" id="naam" placeholder="Alleen voor onze administratie, niet gepubliceerd">
+      </div>
+
+      <button class="volgende-knop" id="volgende-knop" onclick="naarStap2()" disabled>
+        Vertalingen bekijken →
+      </button>
+    </div>
+
+    <!-- ── STAP 2 + 3: Vertalingen + versturen ── -->
+    <div id="vertalingen-sectie">
+
+      <div class="teller-rijen">
+        Geef verbeteringen door in <span id="taal-naam-display">—</span>. Vul alleen in wat beter kan — de rest hoef je niet aan te raken.
+      </div>
+
+      <div id="vertaal-groepen"></div>
+
+      <div class="veld-groep" style="margin-top:1.5rem;">
+        <label for="opmerkingen">Extra opmerkingen <span class="optioneel">(optioneel)</span></label>
+        <textarea id="opmerkingen" rows="3" placeholder="Algemene opmerkingen over de vertalingen, of context bij je suggesties."></textarea>
+      </div>
+
+      <div class="veld-groep">
+        <label for="email">E-mailadres <span class="optioneel">(optioneel)</span></label>
+        <input type="email" id="email" placeholder="naam@voorbeeld.nl — alleen als je een reactie wilt ontvangen">
+      </div>
+
+      <div class="knop-rij">
+        <button class="verstuur-knop" id="verstuur-knop" onclick="verstuur()">
+          Suggesties versturen
+        </button>
+      </div>
+
+      <div class="privacynoot">
+        Je e-mailadres wordt alleen gebruikt om je terug te kunnen mailen en nooit gedeeld.
+        We slaan geen andere persoonsgegevens op. Zie ook onze
+        <a href="over.html#privacy">privacyverklaring</a>.
+      </div>
+    </div>
+
+  </div>
+
+  <div id="solidari-footer"></div>
+
+  <script src="i18n.js"></script>
+  <script src="components.js"></script>
+  <script>
+    const WORKER_URL = 'https://solidari-digi-hulp-worker.jaspermarsman.workers.dev';
+
+    // ── Vertaaldata per taal ─────────────────────────────────────────────────
+    // Structuur: { groepnaam: [ [sleutel, huidigeVertaling], ... ] }
+    const VERTALINGEN = {
+      EN: {
+        'Navigatie & footer': [
+          ['nav-tools',           'Tools'],
+          ['nav-over',            'About us'],
+          ['nav-privacy',         'Privacy'],
+          ['footer-cookies',      'No cookies · No storage · No ads'],
+        ],
+        'Tool-namen & omschrijvingen': [
+          ['tool-brief-naam',           'Letter Explainer'],
+          ['tool-brief-omschrijving',   'Take a photo of your letter. We explain what it says, what you need to do and when.'],
+          ['tool-budget-naam',          'Budget Help'],
+          ['tool-budget-omschrijving',  'Map out your income and expenses. Step by step, in plain language. Download a summary afterwards.'],
+          ['tool-18jaar-naam',          'Turning 18'],
+          ['tool-naturalisatie-naam',   'Naturalisation Checker'],
+        ],
+        'Loont Werken — UI': [
+          ['lw-titel',       'Will I be better off if I start working?'],
+          ['lw-sub',         'Enter what you receive now and what you would earn. See immediately whether working pays — including the effect on benefits.'],
+          ['lw-meer',        'You keep {x} more per month'],
+          ['lw-minder',      'You keep {x} less per month'],
+          ['lw-gelijk',      'You keep roughly the same amount'],
+          ['lw-gelijk-sub',  'But working builds work experience, language skills and a network.'],
+          ['lw-av-banner',   'This is the poverty trap. Ask your municipality about available schemes.'],
+          ['lw-kale-huur',   '(base rent)'],
+        ],
+        'Loont Werken — uitleg': [
+          ['lw-av-txt',       'The poverty trap is when working financially yields little — because allowances stop and the benefit ends. A known problem in the Netherlands.'],
+          ['lw-mot-val-txt',  'Even if you keep little extra, you build work experience, language skills and a network. Ask your municipality about the income exemption.'],
+        ],
+      },
+      AR: {
+        'التنقل والتذييل': [
+          ['nav-tools',      'الأدوات'],
+          ['nav-over',       'من نحن'],
+          ['nav-privacy',    'الخصوصية'],
+          ['footer-cookies', 'بلا كوكيز · بلا تخزين · بلا إعلانات'],
+        ],
+        'أسماء الأدوات': [
+          ['tool-brief-naam',           'فاهم الرسائل'],
+          ['tool-brief-omschrijving',   'التقط صورة لرسالتك. نشرح لك ما تعنيه، وما يجب فعله ومتى.'],
+          ['tool-budget-naam',          'مساعدة الميزانية'],
+          ['tool-18jaar-naam',          'بلوغ سن 18'],
+          ['tool-naturalisatie-naam',   'فحص التجنيس'],
+        ],
+        'هل يستحق العمل — الواجهة': [
+          ['lw-titel',       'هل سأكون أفضل حالاً إذا عملت؟'],
+          ['lw-sub',         'أدخل ما تتلقاه الآن وما ستكسبه. ستعرف فوراً هل العمل يستحق — بما يشمل أثره على الإعانات.'],
+          ['lw-meer',        'ستحتفظ بـ {x} إضافي شهرياً'],
+          ['lw-minder',      'ستحتفظ بـ {x} أقل شهرياً'],
+          ['lw-gelijk',      'ستحتفظ بتقريباً نفس المبلغ'],
+          ['lw-gelijk-sub',  'لكن العمل يبني الخبرة ومهارات اللغة والشبكة.'],
+          ['lw-av-banner',   'هذا فخ الفقر. اسأل بلديتك عن المساعدات.'],
+          ['lw-kale-huur',   '(الإيجار الأساسي)'],
+        ],
+        'هل يستحق العمل — شرح': [
+          ['lw-av-txt',      'فخ الفقر هو حين لا يُجدي العمل مالياً لأن الإعانات تتوقف. مشكلة معروفة في هولندا.'],
+          ['lw-mot-val-txt', 'حتى لو احتفظت بقليل إضافي، تبني خبرة ومهارات لغوية وشبكة. اسأل عن إعفاء دخل العمل.'],
+        ],
+      },
+      TR: {
+        'Gezinti ve altbilgi': [
+          ['nav-tools',      'Araçlar'],
+          ['nav-over',       'Hakkımızda'],
+          ['nav-privacy',    'Gizlilik'],
+          ['footer-cookies', 'Çerez yok · Depolama yok · Reklam yok'],
+        ],
+        'Araç adları': [
+          ['tool-brief-naam',           'Mektup Açıklayıcı'],
+          ['tool-brief-omschrijving',   'Mektubunuzun fotoğrafını çekin. Ne anlama geldiğini açıklıyoruz.'],
+          ['tool-budget-naam',          'Bütçe Yardımı'],
+          ['tool-18jaar-naam',          '18 Yaşına Girmek'],
+          ['tool-naturalisatie-naam',   'Vatandaşlık Kontrolü'],
+        ],
+        'Çalışmak kazandırır — arayüz': [
+          ['lw-titel',       'Çalışırsam daha iyi olur muyum?'],
+          ['lw-sub',         'Şu an ne aldığınızı ve ne kazanacağınızı girin. Çalışmanın kazandırıp kazandırmadığını hemen görün.'],
+          ['lw-meer',        'Ayda {x} fazla kazanırsınız'],
+          ['lw-minder',      'Ayda {x} daha az kalır'],
+          ['lw-gelijk',      'Yaklaşık aynı miktarı elde edersiniz'],
+          ['lw-gelijk-sub',  'Ama çalışmak iş deneyimi ve dil becerisi sağlar.'],
+          ['lw-av-banner',   'Bu bir yoksulluk tuzağıdır. Belediyenizden destek sorun.'],
+          ['lw-met-werk',    'Çalışınca'],
+          ['lw-kale-huur',   '(çıplak kira)'],
+        ],
+        'Çalışmak kazandırır — açıklama': [
+          ['lw-av-txt',      'Yoksulluk tuzağı, yardımlar kesildiği için çalışmanın az kazandırdığı durumdur. Hollanda\'da bilinen bir sorundur.'],
+          ['lw-mot-val-txt', 'Az ekstra kazansanız bile iş deneyimi ve dil becerisi kazanırsınız. Gelir muafiyeti hakkında belediyenize sorun.'],
+        ],
+      },
+      TI: {
+        'ናቪጌሽን ምሉእ': [
+          ['nav-tools',      'መሳርሒታት'],
+          ['nav-over',       'ብዛዕባና'],
+          ['nav-privacy',    'ግልጽነት'],
+          ['footer-cookies', 'ዋላ ኩኪ · ዋላ ምዕቃብ · ዋላ ወዛ'],
+        ],
+        'ስማት መሳርሒ': [
+          ['tool-brief-naam',           'ደብዳቤ ኣብርሃዮ'],
+          ['tool-brief-omschrijving',   'ናይ ደብዳቤኻ ስእሊ ውሰድ። እንታይ ዝብልን እንታይ ክትገብርን ነብርህ።'],
+          ['tool-budget-naam',          'ሓገዝ ባጀት'],
+          ['tool-18jaar-naam',          '18 ዓመት ምዃን'],
+          ['tool-naturalisatie-naam',   'ዜግነት ምርመራ'],
+        ],
+        'ስራሕ ይጠቅም ድዩ — UI': [
+          ['lw-titel',       'ስራ እንተሰሪሐ ዝበለጸ ይኸውን ድዩ?'],
+          ['lw-sub',         'ሕጂ እንታይ ትቅበልን ክትሰርሕ ከለኻ እንታይ ከም እትረክብ ኣእቱ።'],
+          ['lw-meer',        'ወርሓዊ {x} ዝያዳ ትሕዝ'],
+          ['lw-minder',      'ወርሓዊ {x} ውሑድ ትሕዝ'],
+          ['lw-gelijk',      'ብምምሳል ናይ ሕጂ ዝሓርቅ'],
+          ['lw-gelijk-sub',  'ስራሕ ተሞክሮን ቛንቛን ማሕበርን ይህብ።'],
+          ['lw-av-banner',   'ናይ ድኽነት ጠለፋ እዩ። ካብ ኮምዩን ሓበሬታ ሕተት።'],
+          ['lw-huur-lbl',    'ወርሓዊ ኪራይ'],
+          ['lw-kale-huur',   '(ዝሕቆፍ ኪራይ)'],
+          ['lw-ht',          'ኪራይ ሓገዝ'],
+        ],
+        'ስራሕ ይጠቅም ድዩ — ምብርህ': [
+          ['lw-av-txt',      'ናይ ድኽነት ጠለፋ ስራሕ ዋጋ ዘይህብ ኩነታት እዩ — ሓገዝ ስለ ዝቋርጽ። ኣብ ሆላንድ ዝፍለጥ ጸገም እዩ.'],
+          ['lw-mot-val-txt', 'ውሑድ ዝያዳ እንተሕዚካ ተሞክሮን ቛንቛን ማሕበርን ትሃኒጽ།'],
+        ],
+      },
+      UK: {
+        'Навігація та підвал': [
+          ['nav-tools',      'Інструменти'],
+          ['nav-over',       'Про нас'],
+          ['nav-privacy',    'Конфіденційність'],
+          ['footer-cookies', 'Без cookies · Без зберігання · Без реклами'],
+        ],
+        'Назви інструментів': [
+          ['tool-brief-naam',           'Пояснення листів'],
+          ['tool-brief-omschrijving',   'Сфотографуйте листа. Ми пояснимо що там написано і що робити.'],
+          ['tool-budget-naam',          'Допомога з бюджетом'],
+          ['tool-18jaar-naam',          'Повноліття'],
+          ['tool-naturalisatie-naam',   'Перевірка громадянства'],
+        ],
+        'Чи варто працювати — інтерфейс': [
+          ['lw-titel',       'Чи стане мені краще, якщо я піду працювати?'],
+          ['lw-sub',         'Введіть те, що ви зараз отримуєте, і те, що зароблятимете. Відразу побачите, чи вигідно працювати.'],
+          ['lw-meer',        'Ви залишатимете {x} більше на місяць'],
+          ['lw-minder',      'Ви залишатимете {x} менше на місяць'],
+          ['lw-gelijk',      'Ви залишатимете приблизно стільки ж'],
+          ['lw-gelijk-sub',  'Але робота дає досвід, мовні навички та контакти.'],
+          ['lw-av-banner',   'Це пастка бідності. Дізнайтеся в муніципалітеті про програми.'],
+          ['lw-kale-huur',   '(базова оренда)'],
+        ],
+        'Чи варто працювати — пояснення': [
+          ['lw-av-txt',      'Пастка бідності — ситуація, коли субсидії припиняються і робота фінансово майже нічого не дає. Відома проблема в Нідерландах.'],
+          ['lw-mot-val-txt', 'Навіть якщо залишаєте мало зайвого, ви будуєте досвід та мережу контактів. Дізнайтеся про звільнення від доходу.'],
+        ],
+      },
+      FA: {
+        'ناوبری و پاورقی': [
+          ['nav-tools',      'ابزارها'],
+          ['nav-over',       'درباره ما'],
+          ['nav-privacy',    'حریم خصوصی'],
+          ['footer-cookies', 'بدون کوکی · بدون ذخیره · بدون تبلیغات'],
+        ],
+        'نام ابزارها': [
+          ['tool-brief-naam',           'توضیح نامه'],
+          ['tool-brief-omschrijving',   'از نامه‌تان عکس بگیرید. توضیح می‌دهیم چه می‌گوید و چه باید بکنید.'],
+          ['tool-budget-naam',          'کمک بودجه'],
+          ['tool-18jaar-naam',          '18 ساله شدن'],
+          ['tool-naturalisatie-naam',   'بررسی تابعیت'],
+        ],
+        'آیا کار ارزش دارد — رابط': [
+          ['lw-titel',       'آیا با کار کردن وضعم بهتر می‌شود؟'],
+          ['lw-sub',         'وارد کنید که الان چه دریافت می‌کنید و چقدر خواهید کرد. فوراً می‌بینید که آیا کار ارزش دارد — از جمله تأثیر آن بر کمک‌ها.'],
+          ['lw-meer',        'ماهانه {x} بیشتر نگه می‌دارید'],
+          ['lw-minder',      'ماهانه {x} کمتر نگه می‌دارید'],
+          ['lw-gelijk',      'تقریباً همان مقدار نگه می‌دارید'],
+          ['lw-gelijk-sub',  'اما کار تجربه، مهارت زبانی و شبکه می‌دهد.'],
+          ['lw-av-banner',   'این تله فقر است. از شهرداری بپرسید.'],
+          ['lw-kale-huur',   '(اجاره خالص)'],
+        ],
+        'آیا کار ارزش دارد — توضیح': [
+          ['lw-av-txt',      'تله فقر وضعیتی است که کمک‌ها قطع می‌شوند و کار سود نمی‌دهد. مشکل شناخته‌شده در هلند است.'],
+          ['lw-mot-val-txt', 'حتی اگر کم اضافه می‌گیرید، تجربه، مهارت زبانی و شبکه می‌سازید. از شهرداری درباره معافیت درآمد کاری بپرسید.'],
+        ],
+      },
+      RO: {
+        'Navigație și subsol': [
+          ['nav-tools',      'Instrumente'],
+          ['nav-over',       'Despre proiect'],
+          ['nav-privacy',    'Confidențialitate'],
+          ['footer-cookies', 'Fără cookie-uri · Fără stocare · Fără reclame'],
+        ],
+        'Numele instrumentelor': [
+          ['tool-brief-naam',           'Explicator de scrisori'],
+          ['tool-brief-omschrijving',   'Fă o fotografie scrisorii tale. Explicăm ce înseamnă, ce trebuie să faci și până când.'],
+          ['tool-budget-naam',          'Ajutor buget'],
+          ['tool-18jaar-naam',          'Împlinești 18 ani'],
+          ['tool-naturalisatie-naam',   'Verificator cetățenie'],
+        ],
+        'Merită să muncești — interfață': [
+          ['lw-titel',       'Voi câștiga mai mult dacă încep să lucrez?'],
+          ['lw-sub',         'Introdu ce primești acum și cât ai câștiga. Vezi imediat dacă munca este rentabilă — inclusiv efectul asupra alocațiilor.'],
+          ['lw-meer',        'Rămâi cu {x} mai mult pe lună'],
+          ['lw-minder',      'Rămâi cu {x} mai puțin pe lună'],
+          ['lw-gelijk',      'Rămâi cu aproximativ același venit'],
+          ['lw-gelijk-sub',  'Totuși, munca îți aduce experiență, cunoștințe de limbă și rețea.'],
+          ['lw-av-banner',   'Aceasta este capcana sărăciei. Informează-te la primărie despre reglementări.'],
+          ['lw-wml-hint',    'Salariul minim 2026: € 1.995,00/lună (normă întreagă)'],
+          ['lw-uren-hint',   'Apăsând completezi automat salariul minim pentru acel număr de ore'],
+        ],
+        'Merită să muncești — explicație': [
+          ['lw-av-txt',      'Capcana sărăciei este fenomenul prin care munca aduce puțin financiar — pentru că alocațiile se opresc și ajutorul dispare. Este o problemă cunoscută în Țările de Jos.'],
+          ['lw-mot-val-txt', 'Chiar dacă rămâi cu puțin în plus, îți construiești experiență profesională și rețea. Întreabă primăria despre scutirea de venit din muncă.'],
+        ],
+      },
+      PL: {
+        'Nawigacja i stopka': [
+          ['nav-tools',      'Narzędzia'],
+          ['nav-over',       'O projekcie'],
+          ['nav-privacy',    'Prywatność'],
+          ['footer-cookies', 'Bez ciasteczek · Bez przechowywania · Bez reklam'],
+        ],
+        'Nazwy narzędzi': [
+          ['tool-brief-naam',           'Tłumacz pism'],
+          ['tool-brief-omschrijving',   'Zrób zdjęcie pisma. Wyjaśniamy co oznacza, co musisz zrobić i do kiedy.'],
+          ['tool-budget-naam',          'Pomoc budżetowa'],
+          ['tool-18jaar-naam',          'Ukończenie 18 lat'],
+          ['tool-naturalisatie-naam',   'Sprawdzanie obywatelstwa'],
+        ],
+        'Czy praca się opłaca — interfejs': [
+          ['lw-titel',       'Czy będę na tym lepiej, jeśli zacznę pracować?'],
+          ['lw-sub',         'Wpisz, co teraz otrzymujesz i ile byś zarabiał/a. Od razu zobaczysz, czy praca się opłaca — wraz z wpływem na zasiłki.'],
+          ['lw-meer',        'Zostaje Ci {x} więcej miesięcznie'],
+          ['lw-minder',      'Zostaje Ci {x} mniej miesięcznie'],
+          ['lw-gelijk',      'Zostaje Ci mniej więcej tyle samo'],
+          ['lw-gelijk-sub',  'Praca daje jednak doświadczenie, umiejętności językowe i sieć kontaktów.'],
+          ['lw-av-banner',   'To jest pułapka ubóstwa. Zapytaj gminę o dostępne programy.'],
+          ['lw-kale-huur',   '(czynsz podstawowy)'],
+        ],
+        'Czy praca się opłaca — wyjaśnienie': [
+          ['lw-av-txt',      'Pułapka ubóstwa to zjawisko, w którym praca mało się opłaca finansowo — bo świadczenia się kończą i zasiłek odpada. To znany problem w Holandii.'],
+          ['lw-mot-val-txt', 'Nawet jeśli zostaje Ci mało extra, budujesz doświadczenie zawodowe i sieć kontaktów. Zapytaj gminę o zwolnienie z dochodów z pracy.'],
+        ],
+      },
+    };
+
+    const TAAL_NAMEN = {
+      EN: 'English', AR: 'العربية', TR: 'Türkçe',
+      TI: 'ትግርኛ', UK: 'Українська', FA: 'دری / فارسی',
+      RO: 'Română', PL: 'Polski',
+    };
+    const RTL_TALEN = ['AR', 'FA'];
+
+    let gekozenTaal = '';
+
+    // ── Stap 1: taal-select activeren ───────────────────────────────────────
+    document.getElementById('taal-keuze').addEventListener('change', function() {
+      document.getElementById('volgende-knop').disabled = !this.value;
+    });
+
+    // ── Stap 2: vertalingen tonen ────────────────────────────────────────────
+    function naarStap2() {
+      gekozenTaal = document.getElementById('taal-keuze').value;
+      if (!gekozenTaal) return;
+
+      // Stap-indicator
+      document.getElementById('stap1-ind').className = 'stap klaar';
+      document.getElementById('stap2-ind').className = 'stap actief';
+
+      // RTL instellen voor de vertaalkolom
+      const isRTL = RTL_TALEN.includes(gekozenTaal);
+
+      // Taal-naam tonen
+      document.getElementById('taal-naam-display').textContent = TAAL_NAMEN[gekozenTaal] || gekozenTaal;
+
+      // Groepen opbouwen
+      const container = document.getElementById('vertaal-groepen');
+      container.innerHTML = '';
+      const data = VERTALINGEN[gekozenTaal] || {};
+
+      Object.entries(data).forEach(([groepnaam, rijen]) => {
+        const groep = document.createElement('div');
+        groep.className = 'vertaal-groep';
+
+        const header = document.createElement('div');
+        header.className = 'vertaal-groep-header';
+        header.textContent = groepnaam;
+        groep.appendChild(header);
+
+        rijen.forEach(([sleutel, huidig]) => {
+          const rij = document.createElement('div');
+          rij.className = 'vertaal-rij';
+          if (isRTL) rij.dir = 'rtl';
+
+          const huidigCol = document.createElement('div');
+          huidigCol.className = 'vertaal-huidig';
+          huidigCol.textContent = huidig;
+
+          const inputWrap = document.createElement('div');
+          inputWrap.className = 'vertaal-input-wrap';
+
+          const input = document.createElement('input');
+          input.type = 'text';
+          input.className = 'vertaal-input';
+          input.dataset.sleutel = sleutel;
+          input.placeholder = isRTL ? '...' : 'Betere versie...';
+          if (isRTL) input.dir = 'rtl';
+
+          // Markeer gewijzigde velden
+          input.addEventListener('input', function() {
+            this.classList.toggle('gewijzigd', this.value.trim().length > 0);
+            telWijzigingen();
+          });
+
+          inputWrap.appendChild(input);
+          rij.appendChild(huidigCol);
+          rij.appendChild(inputWrap);
+          groep.appendChild(rij);
+        });
+
+        container.appendChild(groep);
+      });
+
+      // Toon stap 2
+      document.getElementById('stap1-sectie').style.display = 'none';
+      document.getElementById('vertalingen-sectie').style.display = 'block';
+      document.getElementById('stap3-ind').className = 'stap actief';
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function telWijzigingen() {
+      const n = document.querySelectorAll('.vertaal-input.gewijzigd').length;
+      // optioneel: teller tonen
+    }
+
+    // ── Versturen ────────────────────────────────────────────────────────────
+    async function verstuur() {
+      const meldingEl = document.getElementById('melding');
+      const knop = document.getElementById('verstuur-knop');
+
+      // Verzamel alle ingevulde suggesties
+      const suggesties = {};
+      document.querySelectorAll('.vertaal-input').forEach(input => {
+        const val = input.value.trim();
+        if (val) suggesties[input.dataset.sleutel] = val;
+      });
+
+      if (Object.keys(suggesties).length === 0) {
+        meldingEl.className = 'melding fout';
+        meldingEl.textContent = 'Vul minimaal één suggestie in voordat je verstuurt.';
+        meldingEl.style.display = 'block';
+        meldingEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        return;
+      }
+
+      const naam      = document.getElementById('naam').value.trim();
+      const email     = document.getElementById('email').value.trim();
+      const opmerking = document.getElementById('opmerkingen').value.trim();
+
+      const aantalSuggesties = Object.keys(suggesties).length;
+      const omschrijving = [
+        `Taal: ${gekozenTaal} (${TAAL_NAMEN[gekozenTaal]})`,
+        naam ? `Naam: ${naam}` : null,
+        `Aantal suggesties: ${aantalSuggesties}`,
+        opmerking ? `Opmerkingen: ${opmerking}` : null,
+        '',
+        'Suggesties:',
+        ...Object.entries(suggesties).map(([k, v]) => `  ${k}: ${v}`),
+      ].filter(r => r !== null).join('\n');
+
+      knop.disabled = true;
+      knop.textContent = '⏳ …';
+
+      try {
+        const res = await fetch(WORKER_URL + '/api/feedback', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            tool: 'vertaling',
+            type: 'vertaling',
+            omschrijving,
+            email: email || null,
+            taal: gekozenTaal.toLowerCase(),
+            // Extra velden voor analyse
+            vertaal_taal: gekozenTaal,
+            suggesties: JSON.stringify(suggesties),
+          })
+        });
+
+        const data = await res.json();
+
+        if (res.ok && data.ok) {
+          meldingEl.className = 'melding succes';
+          meldingEl.textContent = `Bedankt! Je ${aantalSuggesties} suggestie${aantalSuggesties > 1 ? 's zijn' : ' is'} ontvangen. We bekijken ze zo snel mogelijk.`;
+          meldingEl.style.display = 'block';
+          document.getElementById('vertalingen-sectie').style.display = 'none';
+          document.getElementById('stap2-ind').className = 'stap klaar';
+          document.getElementById('stap3-ind').className = 'stap klaar';
+        } else {
+          throw new Error(data.error || 'Onbekende fout');
+        }
+      } catch (err) {
+        meldingEl.className = 'melding fout';
+        meldingEl.textContent = 'Er ging iets mis. Probeer het opnieuw of stuur een e-mail naar info@solidari.nl.';
+        meldingEl.style.display = 'block';
+        console.error('Vertaalhulp fout:', err);
+      } finally {
+        if (!document.getElementById('vertalingen-sectie').style.display === 'none') {
+          knop.disabled = false;
+          knop.textContent = 'Suggesties versturen';
+        }
+        meldingEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+  </script>
+</body>
+</html>
