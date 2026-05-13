@@ -296,8 +296,8 @@
   <div id="solidari-nav"></div>
 
   <div class="hero">
-    <h1>Help ons vertalen</h1>
-    <p>Spreek je een van onze talen als moedertaal? Vertel ons welke vertalingen beter kunnen. Jouw hulp maakt Solidari beter voor iedereen.</p>
+    <h1 data-i18n="vt-hero-titel">Help ons vertalen</h1>
+    <p data-i18n="vt-hero-sub">Spreek je een van onze talen als moedertaal? Vertel ons welke vertalingen beter kunnen. Jouw hulp maakt Solidari beter voor iedereen.</p>
   </div>
 
   <div class="wrap">
@@ -308,31 +308,31 @@
     <div class="stappen" id="stappen">
       <div class="stap actief" id="stap1-ind">
         <div class="stap-nr">1</div>
-        <span class="stap-label">Jouw taal</span>
+        <span class="stap-label" data-i18n="vt-stap1-label">Jouw taal</span>
       </div>
       <div class="stap-lijn"></div>
       <div class="stap" id="stap2-ind">
         <div class="stap-nr">2</div>
-        <span class="stap-label">Vertalingen</span>
+        <span class="stap-label" data-i18n="vt-stap2-label">Vertalingen</span>
       </div>
       <div class="stap-lijn"></div>
       <div class="stap" id="stap3-ind">
         <div class="stap-nr">3</div>
-        <span class="stap-label">Versturen</span>
+        <span class="stap-label" data-i18n="vt-stap3-label">Versturen</span>
       </div>
     </div>
 
     <!-- ── STAP 1: Taal kiezen ── -->
     <div id="stap1-sectie">
-      <div class="uitleg">
+      <div class="uitleg" data-i18n="vt-uitleg">
         <strong>Hoe werkt het?</strong><br>
         Kies je moedertaal. Je ziet dan de huidige vertalingen op Solidari — links wat er nu staat, rechts een veld waar jij een betere versie kunt invullen. Je hoeft niet alles in te vullen, alleen wat je wilt verbeteren.
       </div>
 
       <div class="veld-groep">
-        <label for="taal-keuze">Wat is jouw moedertaal?</label>
+        <label for="taal-keuze" data-i18n="vt-taal-label">Wat is jouw moedertaal?</label>
         <select id="taal-keuze">
-          <option value="">— kies een taal —</option>
+          <option value="" data-i18n="vt-taal-kies">— kies een taal —</option>
           <option value="EN">🇬🇧 English</option>
           <option value="AR">🇸🇦 العربية (Arabic)</option>
           <option value="TR">🇹🇷 Türkçe (Turkish)</option>
@@ -345,11 +345,11 @@
       </div>
 
       <div class="veld-groep">
-        <label for="naam">Jouw naam <span class="optioneel">(optioneel)</span></label>
+        <label for="naam"><span data-i18n="vt-naam-label">Jouw naam</span> <span class="optioneel" data-i18n="vt-naam-optioneel">(optioneel)</span></label>
         <input type="text" id="naam" placeholder="Alleen voor onze administratie, niet gepubliceerd">
       </div>
 
-      <button class="volgende-knop" id="volgende-knop" onclick="naarStap2()" disabled>
+      <button class="volgende-knop" id="volgende-knop" onclick="naarStap2()" disabled data-i18n="vt-volgende-knop">
         Vertalingen bekijken →
       </button>
     </div>
@@ -357,29 +357,29 @@
     <!-- ── STAP 2 + 3: Vertalingen + versturen ── -->
     <div id="vertalingen-sectie">
 
-      <div class="teller-rijen">
+      <div class="teller-rijen" id="teller-rijen-tekst">
         Geef verbeteringen door in <span id="taal-naam-display">—</span>. Vul alleen in wat beter kan — de rest hoef je niet aan te raken.
       </div>
 
       <div id="vertaal-groepen"></div>
 
       <div class="veld-groep" style="margin-top:1.5rem;">
-        <label for="opmerkingen">Extra opmerkingen <span class="optioneel">(optioneel)</span></label>
+        <label for="opmerkingen"><span data-i18n="vt-opmerking-label">Extra opmerkingen</span> <span class="optioneel" data-i18n="vt-naam-optioneel">(optioneel)</span></label>
         <textarea id="opmerkingen" rows="3" placeholder="Algemene opmerkingen over de vertalingen, of context bij je suggesties."></textarea>
       </div>
 
       <div class="veld-groep">
-        <label for="email">E-mailadres <span class="optioneel">(optioneel)</span></label>
+        <label for="email"><span data-i18n="vt-email-label">E-mailadres</span> <span class="optioneel" data-i18n="vt-naam-optioneel">(optioneel)</span></label>
         <input type="email" id="email" placeholder="naam@voorbeeld.nl — alleen als je een reactie wilt ontvangen">
       </div>
 
       <div class="knop-rij">
-        <button class="verstuur-knop" id="verstuur-knop" onclick="verstuur()">
+        <button class="verstuur-knop" id="verstuur-knop" onclick="verstuur()" data-i18n="vt-verstuur-knop">
           Suggesties versturen
         </button>
       </div>
 
-      <div class="privacynoot">
+      <div class="privacynoot" data-i18n="vt-privacy">
         Je e-mailadres wordt alleen gebruikt om je terug te kunnen mailen en nooit gedeeld.
         We slaan geen andere persoonsgegevens op. Zie ook onze
         <a href="over.html#privacy">privacyverklaring</a>.
@@ -393,19 +393,393 @@
   <script src="i18n.js"></script>
   <script src="components.js"></script>
   <script>
+    // ── Pagina-specifieke vertalingen ────────────────────────────────────────
+    Solidari.i18n.extend({
+      NL: {
+        'vt-hero-titel':        'Help ons vertalen',
+        'vt-hero-sub':          'Spreek je een van onze talen als moedertaal? Vertel ons welke vertalingen beter kunnen. Jouw hulp maakt Solidari beter voor iedereen.',
+        'vt-stap1-label':       'Jouw taal',
+        'vt-stap2-label':       'Vertalingen',
+        'vt-stap3-label':       'Versturen',
+        'vt-uitleg':            '<strong>Hoe werkt het?</strong><br>Kies je moedertaal. Je ziet dan de huidige vertalingen op Solidari — links wat er nu staat, rechts een veld waar jij een betere versie kunt invullen. Je hoeft niet alles in te vullen, alleen wat je wilt verbeteren.',
+        'vt-taal-label':        'Wat is jouw moedertaal?',
+        'vt-taal-kies':         '— kies een taal —',
+        'vt-naam-label':        'Jouw naam',
+        'vt-naam-optioneel':    '(optioneel)',
+        'vt-naam-placeholder':  'Alleen voor onze administratie, niet gepubliceerd',
+        'vt-volgende-knop':     'Vertalingen bekijken →',
+        'vt-teller':            'Geef verbeteringen door in {taal}. Vul alleen in wat beter kan — de rest hoef je niet aan te raken.',
+        'vt-opmerking-label':   'Extra opmerkingen',
+        'vt-opmerking-ph':      'Algemene opmerkingen over de vertalingen, of context bij je suggesties.',
+        'vt-email-label':       'E-mailadres',
+        'vt-email-ph':          'naam@voorbeeld.nl — alleen als je een reactie wilt ontvangen',
+        'vt-verstuur-knop':     'Suggesties versturen',
+        'vt-privacy':           'Je e-mailadres wordt alleen gebruikt om je terug te kunnen mailen en nooit gedeeld. We slaan geen andere persoonsgegevens op. Zie ook onze <a href="over.html#privacy">privacyverklaring</a>.',
+        'vt-fout-leeg':         'Vul minimaal één suggestie in voordat je verstuurt.',
+        'vt-fout-send':         'Er ging iets mis. Probeer het opnieuw of stuur een e-mail naar info@solidari.nl.',
+        'vt-succes':            'Bedankt! Je {n} suggestie{meervoud} ontvangen. We bekijken ze zo snel mogelijk.',
+        'vt-succes-mv':         's zijn',
+        'vt-succes-ev':         ' is',
+        'vt-placeholder':       'Betere versie…',
+        // Groepnamen in de vertaaltabel
+        'vt-groep-nav':         'Navigatie & footer',
+        'vt-groep-tools':       'Toolnamen & omschrijvingen',
+        'vt-groep-lw-ui':       'Loont Werken — interface',
+        'vt-groep-lw-uitleg':   'Loont Werken — uitleg',
+        'vt-groep-nat':         'Naturalisatie — resultaten',
+        'vt-groep-18ouder':     '18 Jaar — categorieën (ouder)',
+        'vt-groep-18kind':      '18 Jaar — categorieën (kind)',
+        'vt-groep-rechten':     'Rechten & Plichten — interface',
+        'vt-groep-digi':        'Digi Hulp — interface',
+        'vt-groep-brief':       'Brief Begrijper — interface',
+        'vt-groep-bud-chat':    'Budgethulp — gesprek',
+        'vt-groep-bud-ui':      'Budgethulp — resultaten & interface',
+      },
+      EN: {
+        'vt-hero-titel':        'Help us translate',
+        'vt-hero-sub':          'Do you speak one of our languages as a native speaker? Tell us which translations can be improved. Your help makes Solidari better for everyone.',
+        'vt-stap1-label':       'Your language',
+        'vt-stap2-label':       'Translations',
+        'vt-stap3-label':       'Submit',
+        'vt-uitleg':            '<strong>How does it work?</strong><br>Choose your native language. You will see the current translations on Solidari — on the left what is there now, on the right a field where you can enter a better version. You do not need to fill in everything, only what you want to improve.',
+        'vt-taal-label':        'What is your native language?',
+        'vt-taal-kies':         '— choose a language —',
+        'vt-naam-label':        'Your name',
+        'vt-naam-optioneel':    '(optional)',
+        'vt-naam-placeholder':  'For our records only, not published',
+        'vt-volgende-knop':     'View translations →',
+        'vt-teller':            'Suggest improvements in {taal}. Only fill in what you want to improve — leave the rest.',
+        'vt-opmerking-label':   'Additional comments',
+        'vt-opmerking-ph':      'General comments about the translations, or context for your suggestions.',
+        'vt-email-label':       'Email address',
+        'vt-email-ph':          'name@example.com — only if you want a reply',
+        'vt-verstuur-knop':     'Submit suggestions',
+        'vt-privacy':           'Your email address is only used to reply to you and will never be shared. We do not store any other personal data. See also our <a href="over.html#privacy">privacy statement</a>.',
+        'vt-fout-leeg':         'Please fill in at least one suggestion before submitting.',
+        'vt-fout-send':         'Something went wrong. Please try again or send an email to info@solidari.nl.',
+        'vt-succes':            'Thank you! Your {n} suggestion{meervoud} received. We will review them as soon as possible.',
+        'vt-succes-mv':         's have been',
+        'vt-succes-ev':         ' has been',
+        'vt-placeholder':       'Better version…',
+        'vt-groep-nav':         'Navigation & footer',
+        'vt-groep-tools':       'Tool names & descriptions',
+        'vt-groep-lw-ui':       'Does work pay — UI',
+        'vt-groep-lw-uitleg':   'Does work pay — explanation',
+        'vt-groep-nat':         'Naturalisation — results',
+        'vt-groep-18ouder':     'Turning 18 — category names (for parent)',
+        'vt-groep-18kind':      'Turning 18 — category names (for the young person)',
+        'vt-groep-rechten':     'Rights & obligations — UI',
+        'vt-groep-digi':        'Digital skills assistant — UI',
+        'vt-groep-brief':       'Letter Explainer — UI',
+        'vt-groep-bud-chat':    'Budget Help — chat',
+        'vt-groep-bud-ui':      'Budget Help — results & UI',
+      },
+      AR: {
+        'vt-hero-titel':        'ساعدنا في الترجمة',
+        'vt-hero-sub':          'هل تتحدث إحدى لغاتنا كلغة أم؟ أخبرنا بالترجمات التي يمكن تحسينها. مساعدتك تجعل Solidari أفضل للجميع.',
+        'vt-stap1-label':       'لغتك',
+        'vt-stap2-label':       'الترجمات',
+        'vt-stap3-label':       'إرسال',
+        'vt-uitleg':            '<strong>كيف يعمل؟</strong><br>اختر لغتك الأم. ستظهر لك الترجمات الحالية على Solidari — على اليسار ما هو موجود الآن، وعلى اليمين حقل يمكنك فيه إدخال نسخة أفضل. لا تحتاج إلى ملء كل شيء، فقط ما تريد تحسينه.',
+        'vt-taal-label':        'ما هي لغتك الأم؟',
+        'vt-taal-kies':         '— اختر لغة —',
+        'vt-naam-label':        'اسمك',
+        'vt-naam-optioneel':    '(اختياري)',
+        'vt-naam-placeholder':  'لسجلاتنا فقط، لن يُنشر',
+        'vt-volgende-knop':     'عرض الترجمات →',
+        'vt-teller':            'اقترح تحسينات باللغة {taal}. أدخل فقط ما تريد تحسينه.',
+        'vt-opmerking-label':   'ملاحظات إضافية',
+        'vt-opmerking-ph':      'تعليقات عامة على الترجمات، أو سياق لاقتراحاتك.',
+        'vt-email-label':       'البريد الإلكتروني',
+        'vt-email-ph':          'name@example.com — فقط إذا أردت ردًا',
+        'vt-verstuur-knop':     'إرسال الاقتراحات',
+        'vt-privacy':           'يُستخدم بريدك الإلكتروني فقط للرد عليك ولن يُشارك أبدًا. لا نخزن بيانات شخصية أخرى. انظر أيضًا <a href="over.html#privacy">بيان الخصوصية</a>.',
+        'vt-fout-leeg':         'يرجى ملء اقتراح واحد على الأقل قبل الإرسال.',
+        'vt-fout-send':         'حدث خطأ ما. حاول مرة أخرى أو أرسل بريدًا إلى info@solidari.nl.',
+        'vt-succes':            'شكرًا! تم استلام {n} اقتراح{meervoud}. سنراجعها في أقرب وقت ممكن.',
+        'vt-succes-mv':         '',
+        'vt-succes-ev':         '',
+        'vt-placeholder':       'نسخة أفضل…',
+        'vt-groep-nav':         'التنقل والتذييل',
+        'vt-groep-tools':       'أسماء الأدوات وأوصافها',
+        'vt-groep-lw-ui':       'هل يستحق العمل؟ — الواجهة',
+        'vt-groep-lw-uitleg':   'هل يستحق العمل؟ — الشرح',
+        'vt-groep-nat':         'التجنيس — النتائج',
+        'vt-groep-18ouder':     '18 عامًا — الفئات (للوالدين)',
+        'vt-groep-18kind':      '18 عامًا — الفئات (للشباب)',
+        'vt-groep-rechten':     'الحقوق والواجبات — الواجهة',
+        'vt-groep-digi':        'مساعد المهارات الرقمية — الواجهة',
+        'vt-groep-brief':       'شارح الرسائل — الواجهة',
+        'vt-groep-bud-chat':    'مساعدة الميزانية — المحادثة',
+        'vt-groep-bud-ui':      'مساعدة الميزانية — النتائج والواجهة',
+      },
+      TR: {
+        'vt-hero-titel':        'Çeviride bize yardım edin',
+        'vt-hero-sub':          'Dillerimizden birini anadil olarak konuşuyor musunuz? Hangi çevirilerin daha iyi olabileceğini bize söyleyin. Yardımınız Solidari\'yi herkes için daha iyi hale getirir.',
+        'vt-stap1-label':       'Diliniz',
+        'vt-stap2-label':       'Çeviriler',
+        'vt-stap3-label':       'Gönder',
+        'vt-uitleg':            '<strong>Nasıl çalışır?</strong><br>Ana dilinizi seçin. Solidari\'deki mevcut çevirileri göreceksiniz — solda şu an ne olduğu, sağda daha iyi bir versiyon girebileceğiniz alan. Her şeyi doldurmak zorunda değilsiniz, yalnızca geliştirmek istediklerinizi.',
+        'vt-taal-label':        'Ana diliniz nedir?',
+        'vt-taal-kies':         '— bir dil seçin —',
+        'vt-naam-label':        'Adınız',
+        'vt-naam-optioneel':    '(isteğe bağlı)',
+        'vt-naam-placeholder':  'Yalnızca kayıtlarımız için, yayınlanmaz',
+        'vt-volgende-knop':     'Çevirileri görüntüle →',
+        'vt-teller':            '{taal} dilinde iyileştirme önerin. Yalnızca geliştirmek istediklerinizi doldurun.',
+        'vt-opmerking-label':   'Ek yorumlar',
+        'vt-opmerking-ph':      'Çeviriler hakkında genel yorumlar veya önerilerinize bağlam.',
+        'vt-email-label':       'E-posta adresi',
+        'vt-email-ph':          'name@example.com — yalnızca yanıt almak istiyorsanız',
+        'vt-verstuur-knop':     'Önerileri gönder',
+        'vt-privacy':           'E-posta adresiniz yalnızca size yanıt vermek için kullanılır ve asla paylaşılmaz. Başka kişisel veri saklamıyoruz. Ayrıca bkz. <a href="over.html#privacy">gizlilik bildirimi</a>.',
+        'vt-fout-leeg':         'Göndermeden önce lütfen en az bir öneri girin.',
+        'vt-fout-send':         'Bir şeyler ters gitti. Tekrar deneyin veya info@solidari.nl adresine e-posta gönderin.',
+        'vt-succes':            'Teşekkürler! {n} öneriniz{meervoud} alındı. En kısa sürede inceleyeceğiz.',
+        'vt-succes-mv':         '',
+        'vt-succes-ev':         '',
+        'vt-placeholder':       'Daha iyi bir versiyon…',
+        'vt-groep-nav':         'Navigasyon ve alt bilgi',
+        'vt-groep-tools':       'Araç adları ve açıklamaları',
+        'vt-groep-lw-ui':       'Çalışmak kazandırır mı? — arayüz',
+        'vt-groep-lw-uitleg':   'Çalışmak kazandırır mı? — açıklama',
+        'vt-groep-nat':         'Vatandaşlık — sonuçlar',
+        'vt-groep-18ouder':     '18 Yaş — kategoriler (ebeveyn)',
+        'vt-groep-18kind':      '18 Yaş — kategoriler (genç)',
+        'vt-groep-rechten':     'Haklar ve yükümlülükler — arayüz',
+        'vt-groep-digi':        'Dijital beceri asistanı — arayüz',
+        'vt-groep-brief':       'Mektup açıklayıcı — arayüz',
+        'vt-groep-bud-chat':    'Bütçe yardımı — sohbet',
+        'vt-groep-bud-ui':      'Bütçe yardımı — sonuçlar ve arayüz',
+      },
+      TI: {
+        'vt-hero-titel':        'ምትርጓሜ ሓግዘና',
+        'vt-hero-sub':          'ሓንቲ ካብ ቋንቋታትና ከም ቋንቋ-ኣደ ትዛረቦ ዲኻ/ዲኺ? ምስ ትሕሸሉ ምትርጓሜ ሓብረና። ሓገዝካ/ሓገዝኪ ንኹሎም Solidari ዝሓሸ ይገብሮ።',
+        'vt-stap1-label':       'ቋንቋኻ/ቋንቋኺ',
+        'vt-stap2-label':       'ምትርጓሜ',
+        'vt-stap3-label':       'ስደድ',
+        'vt-uitleg':            '<strong>ከመይ ይሰርሕ?</strong><br>ቋንቋ-ኣደኻ/ቋንቋ-ኣደኺ ምረጽ። ሕጂ ዘሎ ምትርጓሜ ናይ Solidari ክትርኢ ኢኻ/ኢኺ — ብጸጋም እዚ ሕጂ ዘሎ፣ ብየማን ሓደ ሜዳ ናብ ዝሓሸ ምትርጓሜ ከተእቱ ትኽእል/ትኽእሊ። ኩሉ ክትመልእ ኣየድልየካን/ኣየድልየኪን — ንምምሕያሽ ዝደሊ ጥራይ።',
+        'vt-taal-label':        'ቋንቋ-ኣደኻ/ቋንቋ-ኣደኺ እንታይ ኢዩ?',
+        'vt-taal-kies':         '— ቋንቋ ምረጽ —',
+        'vt-naam-label':        'ስምካ/ስምኪ',
+        'vt-naam-optioneel':    '(ወሃቢ)',
+        'vt-naam-placeholder':  'ንሓበሬታና ጥራይ፣ ኣይፍታሓሉን',
+        'vt-volgende-knop':     'ምትርጓሜ ርኣይ →',
+        'vt-teller':            'ምምሕያሻት ብ{taal} ሕቀቕ። ምምሕያሽ ዝደሊ ጥራይ ምልኣ።',
+        'vt-opmerking-label':   'ተወሳኺ ርኢቶ',
+        'vt-opmerking-ph':      'ሓፈሻዊ ርኢቶ ብዛዕባ ምትርጓሜ ወይ ብዛዕባ ሓሳባትካ/ሓሳባትኪ ዝምልከት ሓበሬታ።',
+        'vt-email-label':       'ኢ-መይል ኣድራሻ',
+        'vt-email-ph':          'name@example.com — ምላሽ ምስ ደለኻ/ደለኺ ጥራይ',
+        'vt-verstuur-knop':     'ሓሳባት ስደድ',
+        'vt-privacy':           'ኢ-መይልካ/ኢ-መይልኪ ንምምላስ ጥራይ ይውዕል — ኣይካፈልን። ካልእ ውልቃዊ ሓበሬታ ኣይንዓቅቦን። ርኣይ <a href="over.html#privacy">ፕራይቬሲ መግለጺ</a>.',
+        'vt-fout-leeg':         'ቅድሚ ምስዳድ ቢያንስ ሓደ ሓሳብ ምልኣ።',
+        'vt-fout-send':         'ሓደ ጸገም ኣጋጢሙ። ካብ ሓድሽ ፈትን ወይ ናብ info@solidari.nl ኢ-መይል ስደድ።',
+        'vt-succes':            'የቐንየልና! {n} ሓሳብካ/ሓሳብኪ ተቐቢልናዮ። ኣስቲቅ ክንርኢ ኢና።',
+        'vt-succes-mv':         '',
+        'vt-succes-ev':         '',
+        'vt-placeholder':       'ዝሓሸ ምትርጓሜ…',
+        'vt-groep-nav':         'ናቪጌሽን & ፉተር',
+        'vt-groep-tools':       'ስማት ናይ ሃናጺ & ትርኢቶም',
+        'vt-groep-lw-ui':       'ምስራሕ ዝሓሸ ድዩ? — ኢንተርፌስ',
+        'vt-groep-lw-uitleg':   'ምስራሕ ዝሓሸ ድዩ? — ምግላጽ',
+        'vt-groep-nat':         'ዜግነት — ውጺኢታት',
+        'vt-groep-18ouder':     '18 ዓመት — ጉጅለታት (ወለዲ)',
+        'vt-groep-18kind':      '18 ዓመት — ጉጅለታት (ሕጻናት)',
+        'vt-groep-rechten':     'መሰላትን ግዴታትን — ኢንተርፌስ',
+        'vt-groep-digi':        'ሓጋዚ ዲጂታል ክእለት — ኢንተርፌስ',
+        'vt-groep-brief':       'ሓጋዚ ደብዳቤ — ኢንተርፌስ',
+        'vt-groep-bud-chat':    'ሓጋዚ ባጀት — ዕላል',
+        'vt-groep-bud-ui':      'ሓጋዚ ባጀት — ውጺኢታትን ኢንተርፌስን',
+      },
+      UK: {
+        'vt-hero-titel':        'Допоможіть нам з перекладом',
+        'vt-hero-sub':          'Ви розмовляєте однією з наших мов як рідною? Розкажіть нам, які переклади можна покращити. Ваша допомога зробить Solidari кращим для всіх.',
+        'vt-stap1-label':       'Ваша мова',
+        'vt-stap2-label':       'Переклади',
+        'vt-stap3-label':       'Надіслати',
+        'vt-uitleg':            '<strong>Як це працює?</strong><br>Виберіть свою рідну мову. Ви побачите поточні переклади на Solidari — зліва те, що є зараз, справа поле, де ви можете ввести кращий варіант. Не потрібно заповнювати все — лише те, що хочете покращити.',
+        'vt-taal-label':        'Яка ваша рідна мова?',
+        'vt-taal-kies':         '— оберіть мову —',
+        'vt-naam-label':        'Ваше ім\'я',
+        'vt-naam-optioneel':    '(необов\'язково)',
+        'vt-naam-placeholder':  'Лише для наших записів, не публікується',
+        'vt-volgende-knop':     'Переглянути переклади →',
+        'vt-teller':            'Пропонуйте покращення {taal}. Заповнюйте лише те, що хочете покращити.',
+        'vt-opmerking-label':   'Додаткові коментарі',
+        'vt-opmerking-ph':      'Загальні коментарі щодо перекладів або контекст для ваших пропозицій.',
+        'vt-email-label':       'Адреса електронної пошти',
+        'vt-email-ph':          'name@example.com — лише якщо хочете отримати відповідь',
+        'vt-verstuur-knop':     'Надіслати пропозиції',
+        'vt-privacy':           'Ваша електронна адреса використовується лише для відповіді вам і ніколи не передається третім особам. Ми не зберігаємо інших персональних даних. Також дивіться нашу <a href="over.html#privacy">заяву про конфіденційність</a>.',
+        'vt-fout-leeg':         'Будь ласка, введіть принаймні одну пропозицію перед надсиланням.',
+        'vt-fout-send':         'Щось пішло не так. Спробуйте ще раз або надішліть електронний лист на info@solidari.nl.',
+        'vt-succes':            'Дякуємо! Ваші {n} пропозиції{meervoud} отримано. Ми розглянемо їх якнайшвидше.',
+        'vt-succes-mv':         '',
+        'vt-succes-ev':         '',
+        'vt-placeholder':       'Кращий варіант…',
+        'vt-groep-nav':         'Навігація та нижній колонтитул',
+        'vt-groep-tools':       'Назви та описи інструментів',
+        'vt-groep-lw-ui':       'Чи вигідно працювати? — інтерфейс',
+        'vt-groep-lw-uitleg':   'Чи вигідно працювати? — пояснення',
+        'vt-groep-nat':         'Натуралізація — результати',
+        'vt-groep-18ouder':     '18 років — категорії (для батьків)',
+        'vt-groep-18kind':      '18 років — категорії (для молодих)',
+        'vt-groep-rechten':     'Права та обов\'язки — інтерфейс',
+        'vt-groep-digi':        'Асистент цифрових навичок — інтерфейс',
+        'vt-groep-brief':       'Пояснювач листів — інтерфейс',
+        'vt-groep-bud-chat':    'Бюджетна допомога — розмова',
+        'vt-groep-bud-ui':      'Бюджетна допомога — результати та інтерфейс',
+      },
+      FA: {
+        'vt-hero-titel':        'در ترجمه به ما کمک کنید',
+        'vt-hero-sub':          'آیا یکی از زبان‌های ما را به عنوان زبان مادری صحبت می‌کنید؟ بگویید کدام ترجمه‌ها می‌توانند بهتر شوند. کمک شما Solidari را برای همه بهتر می‌کند.',
+        'vt-stap1-label':       'زبان شما',
+        'vt-stap2-label':       'ترجمه‌ها',
+        'vt-stap3-label':       'ارسال',
+        'vt-uitleg':            '<strong>چگونه کار می‌کند؟</strong><br>زبان مادری خود را انتخاب کنید. ترجمه‌های فعلی Solidari را خواهید دید — سمت چپ آنچه هست، سمت راست فیلدی که می‌توانید نسخه بهتری وارد کنید. لازم نیست همه را پر کنید — فقط آنچه می‌خواهید بهبود دهید.',
+        'vt-taal-label':        'زبان مادری شما چیست؟',
+        'vt-taal-kies':         '— یک زبان انتخاب کنید —',
+        'vt-naam-label':        'نام شما',
+        'vt-naam-optioneel':    '(اختیاری)',
+        'vt-naam-placeholder':  'فقط برای سوابق ما، منتشر نمی‌شود',
+        'vt-volgende-knop':     'مشاهده ترجمه‌ها →',
+        'vt-teller':            'پیشنهادهای بهبود به زبان {taal}. فقط آنچه می‌خواهید بهبود دهید را پر کنید.',
+        'vt-opmerking-label':   'نظرات اضافی',
+        'vt-opmerking-ph':      'نظرات کلی درباره ترجمه‌ها یا زمینه پیشنهادهایتان.',
+        'vt-email-label':       'آدرس ایمیل',
+        'vt-email-ph':          'name@example.com — فقط اگر می‌خواهید پاسخ دریافت کنید',
+        'vt-verstuur-knop':     'ارسال پیشنهادها',
+        'vt-privacy':           'آدرس ایمیل شما فقط برای پاسخ استفاده می‌شود و هرگز به اشتراک گذاشته نمی‌شود. هیچ داده شخصی دیگری ذخیره نمی‌کنیم. همچنین ببینید <a href="over.html#privacy">بیانیه حریم خصوصی</a>.',
+        'vt-fout-leeg':         'لطفاً قبل از ارسال حداقل یک پیشنهاد وارد کنید.',
+        'vt-fout-send':         'مشکلی پیش آمد. دوباره امتحان کنید یا به info@solidari.nl ایمیل بزنید.',
+        'vt-succes':            'متشکریم! {n} پیشنهاد شما دریافت شد. در اسرع وقت بررسی خواهیم کرد.',
+        'vt-succes-mv':         '',
+        'vt-succes-ev':         '',
+        'vt-placeholder':       'نسخه بهتر…',
+        'vt-groep-nav':         'ناوبری و پاورقی',
+        'vt-groep-tools':       'نام‌ها و توضیحات ابزارها',
+        'vt-groep-lw-ui':       'آیا کار ارزش دارد؟ — رابط',
+        'vt-groep-lw-uitleg':   'آیا کار ارزش دارد؟ — توضیح',
+        'vt-groep-nat':         'اتباع — نتایج',
+        'vt-groep-18ouder':     '18 سال — دسته‌بندی‌ها (والدین)',
+        'vt-groep-18kind':      '18 سال — دسته‌بندی‌ها (جوانان)',
+        'vt-groep-rechten':     'حقوق و تکالیف — رابط',
+        'vt-groep-digi':        'دستیار مهارت‌های دیجیتال — رابط',
+        'vt-groep-brief':       'توضیح‌دهنده نامه — رابط',
+        'vt-groep-bud-chat':    'کمک بودجه — گفتگو',
+        'vt-groep-bud-ui':      'کمک بودجه — نتایج و رابط',
+      },
+      RO: {
+        'vt-hero-titel':        'Ajutați-ne să traducem',
+        'vt-hero-sub':          'Vorbiți una dintre limbile noastre ca limbă maternă? Spuneți-ne ce traduceri pot fi îmbunătățite. Ajutorul dvs. face Solidari mai bun pentru toți.',
+        'vt-stap1-label':       'Limba dvs.',
+        'vt-stap2-label':       'Traduceri',
+        'vt-stap3-label':       'Trimite',
+        'vt-uitleg':            '<strong>Cum funcționează?</strong><br>Alegeți limba maternă. Veți vedea traducerile actuale de pe Solidari — în stânga ce există acum, în dreapta un câmp unde puteți introduce o versiune mai bună. Nu trebuie să completați totul — doar ce doriți să îmbunătățiți.',
+        'vt-taal-label':        'Care este limba dvs. maternă?',
+        'vt-taal-kies':         '— alegeți o limbă —',
+        'vt-naam-label':        'Numele dvs.',
+        'vt-naam-optioneel':    '(opțional)',
+        'vt-naam-placeholder':  'Doar pentru evidențele noastre, nu se publică',
+        'vt-volgende-knop':     'Vizualizați traducerile →',
+        'vt-teller':            'Sugerați îmbunătățiri în {taal}. Completați doar ce doriți să îmbunătățiți.',
+        'vt-opmerking-label':   'Comentarii suplimentare',
+        'vt-opmerking-ph':      'Comentarii generale despre traduceri sau context pentru sugestiile dvs.',
+        'vt-email-label':       'Adresă de e-mail',
+        'vt-email-ph':          'name@example.com — doar dacă doriți un răspuns',
+        'vt-verstuur-knop':     'Trimiteți sugestii',
+        'vt-privacy':           'Adresa dvs. de e-mail este folosită doar pentru a vă răspunde și nu va fi niciodată partajată. Nu stocăm alte date personale. Consultați și <a href="over.html#privacy">declarația de confidențialitate</a>.',
+        'vt-fout-leeg':         'Vă rugăm să introduceți cel puțin o sugestie înainte de a trimite.',
+        'vt-fout-send':         'Ceva a mers greșit. Încercați din nou sau trimiteți un e-mail la info@solidari.nl.',
+        'vt-succes':            'Mulțumim! Cele {n} sugestii ale dvs.{meervoud} au fost primite. Le vom analiza cât mai curând posibil.',
+        'vt-succes-mv':         '',
+        'vt-succes-ev':         '',
+        'vt-placeholder':       'Versiune mai bună…',
+        'vt-groep-nav':         'Navigare și subsol',
+        'vt-groep-tools':       'Nume și descrieri de instrumente',
+        'vt-groep-lw-ui':       'Merită să lucrezi? — interfață',
+        'vt-groep-lw-uitleg':   'Merită să lucrezi? — explicație',
+        'vt-groep-nat':         'Naturalizare — rezultate',
+        'vt-groep-18ouder':     '18 ani — categorii (pentru părinți)',
+        'vt-groep-18kind':      '18 ani — categorii (pentru tineri)',
+        'vt-groep-rechten':     'Drepturi și obligații — interfață',
+        'vt-groep-digi':        'Asistent abilități digitale — interfață',
+        'vt-groep-brief':       'Explicator scrisori — interfață',
+        'vt-groep-bud-chat':    'Ajutor buget — conversație',
+        'vt-groep-bud-ui':      'Ajutor buget — rezultate și interfață',
+      },
+      PL: {
+        'vt-hero-titel':        'Pomóż nam tłumaczyć',
+        'vt-hero-sub':          'Czy mówisz w jednym z naszych języków jako język ojczysty? Powiedz nam, które tłumaczenia można poprawić. Twoja pomoc sprawia, że Solidari jest lepszy dla wszystkich.',
+        'vt-stap1-label':       'Twój język',
+        'vt-stap2-label':       'Tłumaczenia',
+        'vt-stap3-label':       'Wyślij',
+        'vt-uitleg':            '<strong>Jak to działa?</strong><br>Wybierz swój język ojczysty. Zobaczysz aktualne tłumaczenia na Solidari — po lewej to, co jest teraz, po prawej pole, w którym możesz wpisać lepszą wersję. Nie musisz wypełniać wszystkiego — tylko to, co chcesz poprawić.',
+        'vt-taal-label':        'Jaki jest Twój język ojczysty?',
+        'vt-taal-kies':         '— wybierz język —',
+        'vt-naam-label':        'Twoje imię',
+        'vt-naam-optioneel':    '(opcjonalnie)',
+        'vt-naam-placeholder':  'Tylko do naszych zapisów, nie będzie publikowane',
+        'vt-volgende-knop':     'Zobacz tłumaczenia →',
+        'vt-teller':            'Zaproponuj ulepszenia w języku {taal}. Wypełnij tylko to, co chcesz poprawić.',
+        'vt-opmerking-label':   'Dodatkowe uwagi',
+        'vt-opmerking-ph':      'Ogólne uwagi dotyczące tłumaczeń lub kontekst Twoich propozycji.',
+        'vt-email-label':       'Adres e-mail',
+        'vt-email-ph':          'name@example.com — tylko jeśli chcesz otrzymać odpowiedź',
+        'vt-verstuur-knop':     'Wyślij propozycje',
+        'vt-privacy':           'Twój adres e-mail jest używany tylko do odpowiedzi i nigdy nie będzie udostępniany. Nie przechowujemy innych danych osobowych. Zobacz też naszą <a href="over.html#privacy">informację o prywatności</a>.',
+        'vt-fout-leeg':         'Proszę podać co najmniej jedną propozycję przed wysłaniem.',
+        'vt-fout-send':         'Coś poszło nie tak. Spróbuj ponownie lub wyślij e-mail na info@solidari.nl.',
+        'vt-succes':            'Dziękujemy! Twoje {n} propozycje{meervoud} zostały odebrane. Przejrzymy je jak najszybciej.',
+        'vt-succes-mv':         '',
+        'vt-succes-ev':         '',
+        'vt-placeholder':       'Lepsza wersja…',
+        'vt-groep-nav':         'Nawigacja i stopka',
+        'vt-groep-tools':       'Nazwy i opisy narzędzi',
+        'vt-groep-lw-ui':       'Czy praca się opłaca? — interfejs',
+        'vt-groep-lw-uitleg':   'Czy praca się opłaca? — wyjaśnienie',
+        'vt-groep-nat':         'Naturalizacja — wyniki',
+        'vt-groep-18ouder':     '18 lat — kategorie (dla rodziców)',
+        'vt-groep-18kind':      '18 lat — kategorie (dla młodych)',
+        'vt-groep-rechten':     'Prawa i obowiązki — interfejs',
+        'vt-groep-digi':        'Asystent umiejętności cyfrowych — interfejs',
+        'vt-groep-brief':       'Wyjaśniacz listów — interfejs',
+        'vt-groep-bud-chat':    'Pomoc budżetowa — rozmowa',
+        'vt-groep-bud-ui':      'Pomoc budżetowa — wyniki i interfejs',
+      },
+    });
+
+    // ── Placeholders bijwerken bij taalwisseling ─────────────────────────────
+    // components.js roept window.setTaal() aan als die bestaat
+    window.setTaal = function(taal) {
+      const code = taal.toUpperCase();
+      const strings = {
+        'vt-naam-placeholder':  { id: 'naam' },
+        'vt-opmerking-ph':      { id: 'opmerkingen' },
+        'vt-email-ph':          { id: 'email' },
+      };
+      Object.entries(strings).forEach(([sleutel, cfg]) => {
+        const el = document.getElementById(cfg.id);
+        if (el) el.placeholder = Solidari.i18n.t(sleutel);
+      });
+    };
+
+    // ── Init ─────────────────────────────────────────────────────────────────
+    Solidari.i18n.init();
+
     const WORKER_URL = 'https://solidari-digi-hulp-worker.jaspermarsman.workers.dev';
 
     // ── Vertaaldata per taal ─────────────────────────────────────────────────
     // Structuur: { groepnaam: [ [sleutel, huidigeVertaling], ... ] }
     const VERTALINGEN = {
       EN: {
-        'Navigation & footer': [
+        'vt-groep-nav': [
           ['nav-tools',           'Tools'],
           ['nav-over',            'About us'],
           ['nav-privacy',         'Privacy'],
           ['footer-cookies',      'No cookies · No storage · No ads'],
         ],
-        'Tool names & descriptions': [
+        'vt-groep-tools': [
           ['tool-brief-naam',           'Letter Explainer'],
           ['tool-brief-omschrijving',   'Take a photo of your letter. We explain what it says, what you need to do and when.'],
           ['tool-budget-naam',          'Budget Help'],
@@ -413,7 +787,7 @@
           ['tool-18jaar-naam',          'Turning 18'],
           ['tool-naturalisatie-naam',   'Naturalisation Checker'],
         ],
-        'Does work pay — UI': [
+        'vt-groep-lw-ui': [
           ['lw-titel',       'Will I be better off if I start working?'],
           ['lw-sub',         'Enter what you receive now and what you would earn. See immediately whether working pays — including the effect on benefits.'],
           ['lw-meer',        'You keep {x} more per month'],
@@ -423,11 +797,11 @@
           ['lw-av-banner',   'This is the poverty trap. Ask your municipality about available schemes.'],
           ['lw-kale-huur',   '(base rent)'],
         ],
-        'Does work pay — explanation': [
+        'vt-groep-lw-uitleg': [
           ['lw-av-txt',       'The poverty trap is when working financially yields little — because allowances stop and the benefit ends. A known problem in the Netherlands.'],
           ['lw-mot-val-txt',  'Even if you keep little extra, you build work experience, language skills and a network. Ask your municipality about the income exemption.'],
         ],
-        'Naturalisation — results': [
+        'vt-groep-nat': [
           ['nat-r_positief-titel',        'You are probably eligible!'],
           ['nat-r_positief-sub',          'Based on your answers you meet the main requirements for naturalisation. The next step is an official application at your municipality.'],
           ['nat-r_eu_burger-titel',       'As an EU citizen you have different rights'],
@@ -447,7 +821,7 @@
           ['nat-r_kosten-titel',          'There are ways to reduce the costs'],
           ['nat-r_kosten-sub',            'The naturalisation fee is €1,044 (2025) — but there are ways to make this affordable.'],
         ],
-        'Turning 18 — category names (for parent)': [
+        'vt-groep-18ouder': [
           ['18-ouder-voor-kinderbijslag',     'Child benefit'],
           ['18-ouder-voor-kgb',              'Child-related benefit (Kindgebonden budget)'],
           ['18-ouder-voor-digid',            'DigiD for your child'],
@@ -460,7 +834,7 @@
           ['18-ouder-na-wonen',              'Living independently'],
           ['18-ouder-na-stemmen',            'Voting rights & donor registration'],
         ],
-        'Turning 18 — category names (for the young person)': [
+        'vt-groep-18kind': [
           ['18-kind-voor-digid',            'Apply for DigiD'],
           ['18-kind-voor-zorgverzekering',  'Arrange your own health insurance'],
           ['18-kind-voor-bankrekening',     'Own bank account & savings account'],
@@ -472,7 +846,7 @@
           ['18-kind-na-rijbewijs',          'Driving licence'],
           ['18-kind-na-jeugdhulp',          'Youth care — what changes'],
         ],
-        'Rights & obligations — UI': [
+        'vt-groep-rechten': [
           ['rechten-welkom',      'Hello! I explain what the law says about your situation — about benefits, integration or support from the municipality.\n\nWhat is your question about?'],
           ['rechten-disclaimer',  '🤖 This tool uses AI. Answers are informational — not official advice. Do not share names, BSN numbers or other personal data.'],
           ['rechten-kaartje-bijstand',      'I receive benefits (bijstand)'],
@@ -481,7 +855,7 @@
           ['rechten-kaartje-wmo',           'I need support (WMO)'],
           ['rechten-kaartje-anders',        'Other question'],
         ],
-        'Digital skills assistant — UI': [
+        'vt-groep-digi': [
           ['digi-welkom',           'Hello! I help you when something digital is not working.\n\nWhat is the problem?'],
           ['digi-disclaimer',       '🤖 This tool uses AI. Answers are informational — not official advice. Do not share names, BSN numbers or other personal data.'],
           ['digi-cursus-vraag',     'Would you like to save what you have learned? I can make a learning sheet — in your language and in Dutch, so you can take it to your support worker.'],
@@ -493,7 +867,7 @@
           ['digi-voorbeeld-4',      'For example: the app does not work on my phone...'],
           ['digi-voorbeeld-5',      'For example: I need to fill in a form but I do not know how...'],
         ],
-        'Letter Explainer — UI': [
+        'vt-groep-brief': [
           ['brief-uploadTitel',   'Photo or scan of your letter'],
           ['brief-uploadSub',     'Drag the file here, or click to browse'],
           ['brief-contextTitel',  'Do you know anything about this letter?'],
@@ -503,7 +877,7 @@
           ['brief-verwerkFase3',  'Writing explanation in English…'],
           ['brief-headerSub',     'Take a photo of your letter. We explain what it says, what you need to do, and when.'],
         ],
-        'Budget Help — chat': [
+        'vt-groep-bud-chat': [
           ['bud-welkom',           'Hello! I will help you with your budget.\nI will ask questions — one at a time. Together we will see how much money you have left each month.'],
           ['bud-sit_v',            'Who lives in your home?'],
           ['bud-sit-alleen',       '👤 Just me'],
@@ -568,7 +942,7 @@
           ['bud-sparen_tip',       'You have room in your budget. Even €25 per month provides financial security.'],
           ['bud-overslaan',        'Don\'t know — skip'],
         ],
-        'Budget Help — results & UI': [
+        'vt-groep-bud-ui': [
           ['bud-res_titel',        'Your monthly budget'],
           ['bud-overschot',        'Surplus per month'],
           ['bud-tekort',           'Deficit per month'],
@@ -607,20 +981,20 @@
         ],
       },
       AR: {
-        'التنقل والتذييل': [
+        'vt-groep-nav': [
           ['nav-tools',      'الأدوات'],
           ['nav-over',       'من نحن'],
           ['nav-privacy',    'الخصوصية'],
           ['footer-cookies', 'بلا كوكيز · بلا تخزين · بلا إعلانات'],
         ],
-        'أسماء الأدوات': [
+        'vt-groep-tools': [
           ['tool-brief-naam',           'فاهم الرسائل'],
           ['tool-brief-omschrijving',   'التقط صورة لرسالتك. نشرح لك ما تعنيه، وما يجب فعله ومتى.'],
           ['tool-budget-naam',          'مساعدة الميزانية'],
           ['tool-18jaar-naam',          'بلوغ سن 18'],
           ['tool-naturalisatie-naam',   'فحص التجنيس'],
         ],
-        'التجنيس — نتائج': [
+        'vt-groep-nat': [
           ['nat-r_positief-titel',        'على الأرجح أنت مؤهل!'],
           ['nat-r_positief-sub',          'بناءً على إجاباتك، تستوفي الشروط الرئيسية للتجنيس. الخطوة التالية هي تقديم طلب رسمي في بلديتك.'],
           ['nat-r_eu_burger-titel',       'كمواطن أوروبي لديك حقوق مختلفة'],
@@ -640,7 +1014,7 @@
           ['nat-r_kosten-titel',          'هناك طرق لتخفيض التكاليف'],
           ['nat-r_kosten-sub',            'رسوم التجنيس هي 1.044 يورو (2025) — لكن هناك طرقاً لجعلها في متناول اليد.'],
         ],
-        'بلوغ 18 — أسماء الفئات (للوالد)': [
+        'vt-groep-18ouder': [
           ['18-ouder-voor-kinderbijslag',    'علاوة الأطفال'],
           ['18-ouder-voor-kgb',             'العلاوة المرتبطة بالأطفال'],
           ['18-ouder-voor-digid',           'DigiD لطفلك'],
@@ -653,7 +1027,7 @@
           ['18-ouder-na-wonen',             'السكن المستقل'],
           ['18-ouder-na-stemmen',           'حق التصويت وتسجيل التبرع بالأعضاء'],
         ],
-        'بلوغ 18 — أسماء الفئات (للشاب/الشابة)': [
+        'vt-groep-18kind': [
           ['18-kind-voor-digid',            'التقدم للحصول على DigiD'],
           ['18-kind-voor-zorgverzekering',  'ترتيب تأمينك الصحي الخاص'],
           ['18-kind-voor-bankrekening',     'حساب بنكي خاص وحساب ادخار'],
@@ -665,7 +1039,7 @@
           ['18-kind-na-rijbewijs',          'رخصة القيادة'],
           ['18-kind-na-jeugdhulp',          'رعاية الشباب — ما الذي يتغير'],
         ],
-        'الحقوق والواجبات — الواجهة': [
+        'vt-groep-rechten': [
           ['rechten-welkom',             'مرحباً! أشرح لك ما يقوله القانون بشأن وضعك — حول الإعانات أو الاندماج أو الدعم من البلدية.\n\nما الذي تريد معرفته؟'],
           ['rechten-disclaimer',         '🤖 هذه الأداة تستخدم الذكاء الاصطناعي. الإجابات للمعلومات فقط — وليست نصيحة رسمية. لا تشارك الأسماء أو أرقام BSN أو بيانات شخصية أخرى.'],
           ['rechten-kaartje-bijstand',   'أتلقى إعانة اجتماعية'],
@@ -674,7 +1048,7 @@
           ['rechten-kaartje-wmo',        'أحتاج مساعدة (WMO)'],
           ['rechten-kaartje-anders',     'سؤال آخر'],
         ],
-        'مساعد المهارات الرقمية — الواجهة': [
+        'vt-groep-digi': [
           ['digi-welkom',       'مرحباً! أساعدك عندما لا يعمل شيء رقمي.\n\nما هي مشكلتك؟'],
           ['digi-disclaimer',   '🤖 هذه الأداة تستخدم الذكاء الاصطناعي. الإجابات للمعلومات فقط. لا تشارك الأسماء أو أرقام BSN.'],
           ['digi-cursus-vraag', 'هل تريد حفظ ما تعلمته؟ سأصنع لك ورقة تعليمية — بلغتك وبالهولندية، لتأخذها إلى مرشدك.'],
@@ -686,7 +1060,7 @@
           ['digi-voorbeeld-4',  'مثلاً: التطبيق لا يعمل على هاتفي...'],
           ['digi-voorbeeld-5',  'مثلاً: لا أعرف كيف أملأ النموذج...'],
         ],
-        'هل يستحق العمل — الواجهة': [
+        'vt-groep-lw-ui': [
           ['lw-titel',       'هل سأكون أفضل حالاً إذا عملت؟'],
           ['lw-sub',         'أدخل ما تتلقاه الآن وما ستكسبه. ستعرف فوراً هل العمل يستحق — بما يشمل أثره على الإعانات.'],
           ['lw-meer',        'ستحتفظ بـ {x} إضافي شهرياً'],
@@ -696,11 +1070,11 @@
           ['lw-av-banner',   'هذا فخ الفقر. اسأل بلديتك عن المساعدات.'],
           ['lw-kale-huur',   '(الإيجار الأساسي)'],
         ],
-        'هل يستحق العمل — شرح': [
+        'vt-groep-lw-uitleg': [
           ['lw-av-txt',      'فخ الفقر هو حين لا يُجدي العمل مالياً لأن الإعانات تتوقف. مشكلة معروفة في هولندا.'],
           ['lw-mot-val-txt', 'حتى لو احتفظت بقليل إضافي، تبني خبرة ومهارات لغوية وشبكة. اسأل عن إعفاء دخل العمل.'],
         ],
-        'فاهم الرسائل — الواجهة': [
+        'vt-groep-brief': [
           ['brief-uploadTitel',  'صورة أو مسح ضوئي لرسالتك'],
           ['brief-uploadSub',    'اسحب الملف هنا أو انقر للتصفح'],
           ['brief-contextTitel', 'هل تعرف شيئاً عن هذه الرسالة؟'],
@@ -710,7 +1084,7 @@
           ['brief-verwerkFase3', 'كتابة الشرح بالعربية…'],
           ['brief-headerSub',    'التقط صورة لرسالتك. سنشرح ما تقوله، وما يجب عليك فعله، ومتى.'],
         ],
-        'مساعدة الميزانية — محادثة': [
+        'vt-groep-bud-chat': [
           ['bud-welkom',           'مرحباً! سأساعدك في وضع ميزانيتك الشهرية.\nسأطرح عليك أسئلة — واحداً في كل مرة. معاً سنرى كم يتبقى لك كل شهر.'],
           ['bud-sit_v',            'من يسكن معك في المنزل؟'],
           ['bud-sit-alleen',       '👤 أنا وحدي'],
@@ -775,7 +1149,7 @@
           ['bud-sparen_tip',       'لديك مساحة في ميزانيتك. حتى €25 شهرياً يوفر أماناً مالياً.'],
           ['bud-overslaan',        'لا أعرف — تخطي'],
         ],
-        'مساعدة الميزانية — النتائج والواجهة': [
+        'vt-groep-bud-ui': [
           ['bud-res_titel',        'ميزانيتك الشهرية'],
           ['bud-overschot',        'فائض شهري'],
           ['bud-tekort',           'عجز شهري'],
@@ -814,20 +1188,20 @@
         ],
       },
       TR: {
-        'Gezinti ve altbilgi': [
+        'vt-groep-nav': [
           ['nav-tools',      'Araçlar'],
           ['nav-over',       'Hakkımızda'],
           ['nav-privacy',    'Gizlilik'],
           ['footer-cookies', 'Çerez yok · Depolama yok · Reklam yok'],
         ],
-        'Araç adları': [
+        'vt-groep-tools': [
           ['tool-brief-naam',           'Mektup Açıklayıcı'],
           ['tool-brief-omschrijving',   'Mektubunuzun fotoğrafını çekin. Ne anlama geldiğini açıklıyoruz.'],
           ['tool-budget-naam',          'Bütçe Yardımı'],
           ['tool-18jaar-naam',          '18 Yaşına Girmek'],
           ['tool-naturalisatie-naam',   'Vatandaşlık Kontrolü'],
         ],
-        'Vatandaşlık (naturalisatie) — sonuçlar': [
+        'vt-groep-nat': [
           ['nat-r_positief-titel',        'Muhtemelen başvurabilirsiniz!'],
           ['nat-r_positief-sub',          'Yanıtlarınıza göre vatandaşlık için temel koşulları karşılıyorsunuz. Sonraki adım belediyenize resmi başvuru yapmaktır.'],
           ['nat-r_eu_burger-titel',       'AB vatandaşı olarak farklı haklarınız var'],
@@ -847,7 +1221,7 @@
           ['nat-r_kosten-titel',          'Maliyetleri düşürmenin yolları var'],
           ['nat-r_kosten-sub',            'Vatandaşlık ücreti €1.044 (2025) — ancak bunu karşılanabilir kılmanın yolları var.'],
         ],
-        '18 yaşına girmek — kategori adları (ebeveyn için)': [
+        'vt-groep-18ouder': [
           ['18-ouder-voor-kinderbijslag',    'Çocuk yardımı (Kinderbijslag)'],
           ['18-ouder-voor-kgb',             'Çocuğa bağlı yardım (KGB)'],
           ['18-ouder-voor-digid',           'Çocuğunuz için DigiD'],
@@ -860,7 +1234,7 @@
           ['18-ouder-na-wonen',             'Bağımsız yaşam'],
           ['18-ouder-na-stemmen',           'Oy hakkı ve organ bağışı kaydı'],
         ],
-        '18 yaşına girmek — kategori adları (genç için)': [
+        'vt-groep-18kind': [
           ['18-kind-voor-digid',            'DigiD başvurusu'],
           ['18-kind-voor-zorgverzekering',  'Kendi sağlık sigortanı yaptır'],
           ['18-kind-voor-bankrekening',     'Kendi banka hesabı ve tasarruf hesabı'],
@@ -872,7 +1246,7 @@
           ['18-kind-na-rijbewijs',          'Sürücü belgesi'],
           ['18-kind-na-jeugdhulp',          'Gençlik hizmetleri — ne değişiyor'],
         ],
-        'Haklar ve yükümlülükler — arayüz': [
+        'vt-groep-rechten': [
           ['rechten-welkom',             'Merhaba! Durumunuz hakkında yasanın ne söylediğini açıklıyorum — sosyal yardım, entegrasyon veya belediye desteği konularında.\n\nSorunuz ne hakkında?'],
           ['rechten-disclaimer',         '🤖 Bu araç yapay zeka kullanmaktadır. Yanıtlar bilgi amaçlıdır — resmi tavsiye değildir. Ad, BSN numarası veya diğer kişisel verileri paylaşmayın.'],
           ['rechten-kaartje-bijstand',   'Sosyal yardım alıyorum'],
@@ -881,7 +1255,7 @@
           ['rechten-kaartje-wmo',        'Desteğe ihtiyacım var (WMO)'],
           ['rechten-kaartje-anders',     'Başka soru'],
         ],
-        'Dijital beceriler — arayüz': [
+        'vt-groep-digi': [
           ['digi-welkom',       'Merhaba! Dijital bir şey işe yaramadığında sana yardım ediyorum.\n\nSorun ne?'],
           ['digi-disclaimer',   '🤖 Bu araç yapay zeka kullanır. Yanıtlar bilgi amaçlıdır. Ad veya BSN paylaşmayın.'],
           ['digi-cursus-vraag', 'Öğrendiklerini kaydetmek ister misin? Senin dilinde ve Hollandaca bir öğrenme sayfası hazırlıyorum.'],
@@ -893,7 +1267,7 @@
           ['digi-voorbeeld-4',  'Örneğin: uygulama telefonumda çalışmıyor...'],
           ['digi-voorbeeld-5',  'Örneğin: formu nasıl dolduracağımı bilmiyorum...'],
         ],
-        'Çalışmak kazandırır — arayüz': [
+        'vt-groep-lw-ui': [
           ['lw-titel',       'Çalışırsam daha iyi olur muyum?'],
           ['lw-sub',         'Şu an ne aldığınızı ve ne kazanacağınızı girin. Çalışmanın kazandırıp kazandırmadığını hemen görün.'],
           ['lw-meer',        'Ayda {x} fazla kazanırsınız'],
@@ -904,11 +1278,11 @@
           ['lw-met-werk',    'Çalışınca'],
           ['lw-kale-huur',   '(çıplak kira)'],
         ],
-        'Çalışmak kazandırır — açıklama': [
+        'vt-groep-lw-uitleg': [
           ['lw-av-txt',      'Yoksulluk tuzağı, yardımlar kesildiği için çalışmanın az kazandırdığı durumdur. Hollanda\'da bilinen bir sorundur.'],
           ['lw-mot-val-txt', 'Az ekstra kazansanız bile iş deneyimi ve dil becerisi kazanırsınız. Gelir muafiyeti hakkında belediyenize sorun.'],
         ],
-        'Mektup Açıklayıcı — arayüz': [
+        'vt-groep-brief': [
           ['brief-uploadTitel',  'Mektubunuzun fotoğrafı veya taraması'],
           ['brief-uploadSub',    'Dosyayı buraya sürükleyin veya tıklayın'],
           ['brief-contextTitel', 'Bu mektup hakkında bir şey biliyor musunuz?'],
@@ -918,7 +1292,7 @@
           ['brief-verwerkFase3', 'Türkçe açıklama yazılıyor…'],
           ['brief-headerSub',    'Mektubunuzun bir fotoğrafını çekin. Ne yazdığını, ne yapmanız gerektiğini ve ne zaman açıklıyoruz.'],
         ],
-        'Bütçe Yardımı — sohbet': [
+        'vt-groep-bud-chat': [
           ['bud-welkom',           'Merhaba! Aylık bütçeni çıkarmana yardımcı olacağım.\nSana sorular soracağım — birer birer. Birlikte her ay ne kadar paranın kaldığını göreceğiz.'],
           ['bud-sit_v',            'Evinde kimler yaşıyor?'],
           ['bud-sit-alleen',       '👤 Yalnız ben'],
@@ -983,7 +1357,7 @@
           ['bud-sparen_tip',       'Bütçenizde alan var. Ayda sadece €25 bile finansal güvenlik sağlar.'],
           ['bud-overslaan',        'Bilmiyorum — atla'],
         ],
-        'Bütçe Yardımı — sonuçlar ve arayüz': [
+        'vt-groep-bud-ui': [
           ['bud-res_titel',        'Aylık bütçen'],
           ['bud-overschot',        'Aylık fazla'],
           ['bud-tekort',           'Aylık açık'],
@@ -1022,20 +1396,20 @@
         ],
       },
       TI: {
-        'ናቪጌሽን ምሉእ': [
+        'vt-groep-nav': [
           ['nav-tools',      'መሳርሒታት'],
           ['nav-over',       'ብዛዕባና'],
           ['nav-privacy',    'ግልጽነት'],
           ['footer-cookies', 'ዋላ ኩኪ · ዋላ ምዕቃብ · ዋላ ወዛ'],
         ],
-        'ስማት መሳርሒ': [
+        'vt-groep-tools': [
           ['tool-brief-naam',           'ደብዳቤ ኣብርሃዮ'],
           ['tool-brief-omschrijving',   'ናይ ደብዳቤኻ ስእሊ ውሰድ። እንታይ ዝብልን እንታይ ክትገብርን ነብርህ።'],
           ['tool-budget-naam',          'ሓገዝ ባጀት'],
           ['tool-18jaar-naam',          '18 ዓመት ምዃን'],
           ['tool-naturalisatie-naam',   'ዜግነት ምርመራ'],
         ],
-        'ናቱራሊዛሲዮን — ውጽኢታት': [
+        'vt-groep-nat': [
           ['nat-r_positief-titel',        'ምናልባሽ ክትወሃቦ ትኽእል ኢኻ!'],
           ['nat-r_positief-sub',          'ብምልስታትካ ዋና ቅድመ-ኩነታት ናቱራሊዛሲዮን ተማልኢ ኢኻ። ዝቕጽል ስጉምቲ ኣብ ከተማኻ ወግዓዊ መልክዕ ምቕራብ እዩ።'],
           ['nat-r_eu_burger-titel',       'ከም ዜጋ ኤሮፓ ዝተፈልዩ መሰላት ኣለካ'],
@@ -1055,7 +1429,7 @@
           ['nat-r_kosten-titel',          'ወጻኢ ንምቕናስ መንገዲ ኣሎ'],
           ['nat-r_kosten-sub',            'ናቱራሊዛሲዮን ወጻኢ €1.044 (2025) — ምስ ኣቃዊምካ ናብ ዝሓሸ ዋጋ ዝቕይሮ ዕድላት ኣሎ።'],
         ],
-        '18 ዓመት ምዃን — ስማት ኣርእስቲ (ንወላዲ)': [
+        'vt-groep-18ouder': [
           ['18-ouder-voor-kinderbijslag',    'ናይ ዕሸል ሓገዝ (Kinderbijslag)'],
           ['18-ouder-voor-kgb',             'ናይ ቆልዓ-ዝምልከት ሓገዝ (KGB)'],
           ['18-ouder-voor-digid',           'DigiD ን ቆልዓኻ'],
@@ -1068,7 +1442,7 @@
           ['18-ouder-na-wonen',             'ናጻ ምንባር'],
           ['18-ouder-na-stemmen',           'ናይ ምምራጽ መሰልን ናይ ኦርጋን ምሃብ ምምዝጋብን'],
         ],
-        '18 ዓመት ምዃን — ስማት ኣርእስቲ (ንሓደሽቲ ዓቀብቲ)': [
+        'vt-groep-18kind': [
           ['18-kind-voor-digid',            'DigiD ምሕታት'],
           ['18-kind-voor-zorgverzekering',  'ናይ ባዕልኻ ናይ ጥዕና ዋሕስ ምዕሳብ'],
           ['18-kind-voor-bankrekening',     'ናይ ባዕልኻ ናይ ባንኪ ሕሳብን ናይ ቁጠባ ሕሳብን'],
@@ -1080,7 +1454,7 @@
           ['18-kind-na-rijbewijs',          'ናይ ምዝዋር ፍቓድ'],
           ['18-kind-na-jeugdhulp',          'ናይ መናእሰይ ሓገዝ — እንታይ ይቅየር'],
         ],
-        'መሰላትን ግዴታትን — UI': [
+        'vt-groep-rechten': [
           ['rechten-welkom',             'ሰላም! ሕጊ ብዛዕባ ኩነታትካ እንታይ ከምዝብል ኣብርህ — ብዛዕባ ሓገዝ ወይ ናብ ምሕዋይ ወይ ደገፍ ካብ ምምሕዳር ከተማ።\n\nሕቶኻ ብዛዕባ እንታይ እዩ?'],
           ['rechten-disclaimer',         '🤖 እዚ መሳርሒ AI ይጥቀም። መልስታት ሓበሬታዊ እዮም — ወግዓዊ ምኽሪ ኣይኮኑን። ስም፡ BSN ቁጽሪ ወይ ካልእ ውልቃዊ ሓበሬታ ኣይካፍሉ።'],
           ['rechten-kaartje-bijstand',   'ሓገዝ እቕበል ኣለኹ'],
@@ -1089,7 +1463,7 @@
           ['rechten-kaartje-wmo',        'ደገፍ የድልየኒ (WMO)'],
           ['rechten-kaartje-anders',     'ካልእ ሕቶ'],
         ],
-        'ዲጂታላዊ ሓገዝ — UI': [
+        'vt-groep-digi': [
           ['digi-welkom',       'ሰላም! ሓደ ዲጂታላዊ ነገር ምስ ዘይሰርሕ ይሕግዘካ።\n\nጸገምካ እንታይ እዩ?'],
           ['digi-disclaimer',   '🤖 እዚ መሳርሒ AI ይጥቀም። መልስታት ሓበሬታዊ እዮም — ወግዓዊ ምኽሪ ኣይኮኑን።'],
           ['digi-cursus-vraag', 'ዝተምሃርካዮ ከተቐምጥ ትደሊ? ናይ ትምህርቲ ወረቐት ክሰርሓልካ — ብቋንቋኻን ብሆላንድኛን።'],
@@ -1101,7 +1475,7 @@
           ['digi-voorbeeld-4',  'ንኣብነት: ኣፕ ኣብ ስልከይ ኣይሰርሕን...'],
           ['digi-voorbeeld-5',  'ንኣብነት: ፎርም ብኸመይ ክቕስቅስ ከምዘለኒ ኣይፈልጥን...'],
         ],
-        'ስራሕ ይጠቅም ድዩ — UI': [
+        'vt-groep-lw-ui': [
           ['lw-titel',       'ስራ እንተሰሪሐ ዝበለጸ ይኸውን ድዩ?'],
           ['lw-sub',         'ሕጂ እንታይ ትቅበልን ክትሰርሕ ከለኻ እንታይ ከም እትረክብ ኣእቱ።'],
           ['lw-meer',        'ወርሓዊ {x} ዝያዳ ትሕዝ'],
@@ -1113,11 +1487,11 @@
           ['lw-kale-huur',   '(ዝሕቆፍ ኪራይ)'],
           ['lw-ht',          'ኪራይ ሓገዝ'],
         ],
-        'ስራሕ ይጠቅም ድዩ — ምብርህ': [
+        'vt-groep-lw-uitleg': [
           ['lw-av-txt',      'ናይ ድኽነት ጠለፋ ስራሕ ዋጋ ዘይህብ ኩነታት እዩ — ሓገዝ ስለ ዝቋርጽ። ኣብ ሆላንድ ዝፍለጥ ጸገም እዩ.'],
           ['lw-mot-val-txt', 'ውሑድ ዝያዳ እንተሕዚካ ተሞክሮን ቛንቛን ማሕበርን ትሃኒጽ።'],
         ],
-        'ደብዳቤ ኣብርሃዮ — UI': [
+        'vt-groep-brief': [
           ['brief-uploadTitel',  'ፎቶ ወይ ስካን ናይ ደብዳቤኻ'],
           ['brief-uploadSub',    'ፋይል ናብዚ ስሓቦ ወይ ጠውቕ'],
           ['brief-contextTitel', 'ብዛዕባ እዚ ደብዳቤ ዝኾነ ትፈልጥ ዲኻ?'],
@@ -1127,7 +1501,7 @@
           ['brief-verwerkFase3', 'ምብርሃን ብትግርኛ ምጽሓፍ…'],
           ['brief-headerSub',    'ናይ ደብዳቤኻ ፎቶ ውሰድ። ዝብሎ፡ እንታይ ክትገብር ከምዘለካ፡ መዓስ ከም ዘለካ ነብርህ።'],
         ],
-        'ሓገዝ ባጀት — ዝርርብ': [
+        'vt-groep-bud-chat': [
           ['bud-welkom',           'ሰላም! ናይ ወርሒ ቍጠባኻ/ኺ ንምድላዋ ክሕግዘካ/ኪ እዩ።\nሓደ ሓደ ሕቶ ክሓተካ/ኪ እዩ። ብሓባር ክንርኢ ኢና ክንደይ ገንዘብ ይተርፈካ/ኪ።'],
           ['bud-sit_v',            'ኣብ ቤትካ/ኪ መን ይቕመጥ?'],
           ['bud-sit-alleen',       '👤 ኣነ ጥራይ'],
@@ -1192,7 +1566,7 @@
           ['bud-sparen_tip',       'ቦታ ኣሎካ/ኪ — €25 ኣብ ወርሒ ውን ሓቂ ይሕግዝ።'],
           ['bud-overslaan',        'ኣይፈልጥን — ሓሊፍ/ሓሊፊ'],
         ],
-        'ሓገዝ ባጀት — ውጽኢትን UI': [
+        'vt-groep-bud-ui': [
           ['bud-res_titel',        'ናይ ወርሒ ቍጠባኻ/ኪ'],
           ['bud-overschot',        'ናይ ወርሒ ዝተርፈ'],
           ['bud-tekort',           'ናይ ወርሒ ጉድለት'],
@@ -1231,20 +1605,20 @@
         ],
       },
       UK: {
-        'Навігація та підвал': [
+        'vt-groep-nav': [
           ['nav-tools',      'Інструменти'],
           ['nav-over',       'Про нас'],
           ['nav-privacy',    'Конфіденційність'],
           ['footer-cookies', 'Без cookies · Без зберігання · Без реклами'],
         ],
-        'Назви інструментів': [
+        'vt-groep-tools': [
           ['tool-brief-naam',           'Пояснення листів'],
           ['tool-brief-omschrijving',   'Сфотографуйте листа. Ми пояснимо що там написано і що робити.'],
           ['tool-budget-naam',          'Допомога з бюджетом'],
           ['tool-18jaar-naam',          'Повноліття'],
           ['tool-naturalisatie-naam',   'Перевірка громадянства'],
         ],
-        'Натуралізація — результати': [
+        'vt-groep-nat': [
           ['nat-r_positief-titel',        'Ви, мабуть, маєте право!'],
           ['nat-r_positief-sub',          'Судячи з ваших відповідей, ви відповідаєте основним вимогам для натуралізації. Наступний крок — офіційна заявка у вашому муніципалітеті.'],
           ['nat-r_eu_burger-titel',       'Як громадянин ЄС ви маєте інші права'],
@@ -1264,7 +1638,7 @@
           ['nat-r_kosten-titel',          'Є способи знизити витрати'],
           ['nat-r_kosten-sub',            'Вартість натуралізації становить €1.044 (2025) — але є способи зробити це доступним.'],
         ],
-        '18 років — назви категорій (для батьків)': [
+        'vt-groep-18ouder': [
           ['18-ouder-voor-kinderbijslag',    'Дитяча допомога (Kinderbijslag)'],
           ['18-ouder-voor-kgb',             'Пов\'язана з дитиною допомога (KGB)'],
           ['18-ouder-voor-digid',           'DigiD для вашої дитини'],
@@ -1277,7 +1651,7 @@
           ['18-ouder-na-wonen',             'Самостійне проживання'],
           ['18-ouder-na-stemmen',           'Право голосу та реєстрація донорства'],
         ],
-        '18 років — назви категорій (для молодої людини)': [
+        'vt-groep-18kind': [
           ['18-kind-voor-digid',            'Подати заявку на DigiD'],
           ['18-kind-voor-zorgverzekering',  'Оформити власне медичне страхування'],
           ['18-kind-voor-bankrekening',     'Власний банківський рахунок та ощадний рахунок'],
@@ -1289,7 +1663,7 @@
           ['18-kind-na-rijbewijs',          'Посвідчення водія'],
           ['18-kind-na-jeugdhulp',          'Молодіжна допомога — що змінюється'],
         ],
-        'Права та обов\'язки — інтерфейс': [
+        'vt-groep-rechten': [
           ['rechten-welkom',             'Привіт! Я пояснюю, що закон говорить про вашу ситуацію — щодо допомоги, інтеграції або підтримки від муніципалітету.\n\nПро що ваше запитання?'],
           ['rechten-disclaimer',         '🤖 Цей інструмент використовує ШІ. Відповіді є інформаційними — не офіційною порадою. Не вказуйте імена, номери BSN або інші особисті дані.'],
           ['rechten-kaartje-bijstand',   'Я отримую соціальну допомогу'],
@@ -1298,7 +1672,7 @@
           ['rechten-kaartje-wmo',        'Мені потрібна підтримка (WMO)'],
           ['rechten-kaartje-anders',     'Інше питання'],
         ],
-        'Цифровий помічник — інтерфейс': [
+        'vt-groep-digi': [
           ['digi-welkom',       'Привіт! Я допомагаю, коли щось цифрове не працює.\n\nЯка у вас проблема?'],
           ['digi-disclaimer',   '🤖 Цей інструмент використовує ШІ. Відповіді є інформаційними. Не вказуйте імена або номери BSN.'],
           ['digi-cursus-vraag', 'Хочете зберегти те, що навчилися? Я зроблю навчальний аркуш — вашою мовою та нідерландською.'],
@@ -1310,7 +1684,7 @@
           ['digi-voorbeeld-4',  'Наприклад: додаток не працює на телефоні...'],
           ['digi-voorbeeld-5',  'Наприклад: не знаю як заповнити форму...'],
         ],
-        'Чи варто працювати — інтерфейс': [
+        'vt-groep-lw-ui': [
           ['lw-titel',       'Чи стане мені краще, якщо я піду працювати?'],
           ['lw-sub',         'Введіть те, що ви зараз отримуєте, і те, що зароблятимете. Відразу побачите, чи вигідно працювати.'],
           ['lw-meer',        'Ви залишатимете {x} більше на місяць'],
@@ -1320,11 +1694,11 @@
           ['lw-av-banner',   'Це пастка бідності. Дізнайтеся в муніципалітеті про програми.'],
           ['lw-kale-huur',   '(базова оренда)'],
         ],
-        'Чи варто працювати — пояснення': [
+        'vt-groep-lw-uitleg': [
           ['lw-av-txt',      'Пастка бідності — ситуація, коли субсидії припиняються і робота фінансово майже нічого не дає. Відома проблема в Нідерландах.'],
           ['lw-mot-val-txt', 'Навіть якщо залишаєте мало зайвого, ви будуєте досвід та мережу контактів. Дізнайтеся про звільнення від доходу.'],
         ],
-        'Пояснення листів — інтерфейс': [
+        'vt-groep-brief': [
           ['brief-uploadTitel',  'Фото або скан вашого листа'],
           ['brief-uploadSub',    'Перетягніть файл сюди або натисніть'],
           ['brief-contextTitel', 'Чи знаєте ви щось про цей лист?'],
@@ -1334,7 +1708,7 @@
           ['brief-verwerkFase3', 'Написання пояснення українською…'],
           ['brief-headerSub',    'Сфотографуйте свій лист. Ми пояснимо, що там написано, що потрібно зробити і коли.'],
         ],
-        'Допомога з бюджетом — чат': [
+        'vt-groep-bud-chat': [
           ['bud-welkom',           'Привіт! Я допоможу тобі скласти місячний бюджет.\nЯ задам питання — по одному. Разом побачимо, скільки залишається щомісяця.'],
           ['bud-sit_v',            'Хто живе у твоєму домі?'],
           ['bud-sit-alleen',       '👤 Тільки я'],
@@ -1399,7 +1773,7 @@
           ['bud-sparen_tip',       'У тебе є простір у бюджеті. Навіть €25 на місяць забезпечує фінансову безпеку.'],
           ['bud-overslaan',        'Не знаю — пропустити'],
         ],
-        'Допомога з бюджетом — результати та інтерфейс': [
+        'vt-groep-bud-ui': [
           ['bud-res_titel',        'Твій місячний бюджет'],
           ['bud-overschot',        'Залишок на місяць'],
           ['bud-tekort',           'Дефіцит на місяць'],
@@ -1438,20 +1812,20 @@
         ],
       },
       FA: {
-        'ناوبری و پاورقی': [
+        'vt-groep-nav': [
           ['nav-tools',      'ابزارها'],
           ['nav-over',       'درباره ما'],
           ['nav-privacy',    'حریم خصوصی'],
           ['footer-cookies', 'بدون کوکی · بدون ذخیره · بدون تبلیغات'],
         ],
-        'نام ابزارها': [
+        'vt-groep-tools': [
           ['tool-brief-naam',           'توضیح نامه'],
           ['tool-brief-omschrijving',   'از نامه‌تان عکس بگیرید. توضیح می‌دهیم چه می‌گوید و چه باید بکنید.'],
           ['tool-budget-naam',          'کمک بودجه'],
           ['tool-18jaar-naam',          '18 ساله شدن'],
           ['tool-naturalisatie-naam',   'بررسی تابعیت'],
         ],
-        'تابعیت — نتایج': [
+        'vt-groep-nat': [
           ['nat-r_positief-titel',        'احتمالاً واجد شرایط هستید!'],
           ['nat-r_positief-sub',          'بر اساس پاسخ‌های شما، شرایط اصلی تابعیت را دارید. قدم بعدی ارائه درخواست رسمی در شهرداری شماست.'],
           ['nat-r_eu_burger-titel',       'شما به‌عنوان شهروند اتحادیه اروپا حقوق متفاوتی دارید'],
@@ -1471,7 +1845,7 @@
           ['nat-r_kosten-titel',          'راه‌هایی برای کاهش هزینه وجود دارد'],
           ['nat-r_kosten-sub',            'هزینه تابعیت €۱.۰۴۴ (۲۰۲۵) است — اما راه‌هایی برای قابل پرداخت کردن آن وجود دارد.'],
         ],
-        '۱۸ ساله شدن — نام دسته‌ها (برای والدین)': [
+        'vt-groep-18ouder': [
           ['18-ouder-voor-kinderbijslag',    'کمک‌هزینه فرزند (Kinderbijslag)'],
           ['18-ouder-voor-kgb',             'کمک‌هزینه مرتبط با فرزند (KGB)'],
           ['18-ouder-voor-digid',           'DigiD برای فرزندتان'],
@@ -1484,7 +1858,7 @@
           ['18-ouder-na-wonen',             'زندگی مستقل'],
           ['18-ouder-na-stemmen',           'حق رأی و ثبت اهدای عضو'],
         ],
-        '۱۸ ساله شدن — نام دسته‌ها (برای جوان)': [
+        'vt-groep-18kind': [
           ['18-kind-voor-digid',            'درخواست DigiD'],
           ['18-kind-voor-zorgverzekering',  'ترتیب بیمه درمانی خود'],
           ['18-kind-voor-bankrekening',     'حساب بانکی و پس‌انداز خودت'],
@@ -1496,7 +1870,7 @@
           ['18-kind-na-rijbewijs',          'گواهینامه رانندگی'],
           ['18-kind-na-jeugdhulp',          'خدمات جوانان — چه تغییری می‌کند'],
         ],
-        'حقوق و تکالیف — رابط': [
+        'vt-groep-rechten': [
           ['rechten-welkom',             'سلام! من توضیح می‌دهم که قانون درباره وضعیت شما چه می‌گوید — در مورد کمک هزینه، ادغام یا حمایت از شهرداری.\n\nسوال شما درباره چیست؟'],
           ['rechten-disclaimer',         '🤖 این ابزار از هوش مصنوعی استفاده می‌کند. پاسخ‌ها اطلاعاتی هستند — مشاوره رسمی نیستند. نام، شماره BSN یا اطلاعات شخصی دیگری به اشتراک نگذارید.'],
           ['rechten-kaartje-bijstand',   'کمک هزینه اجتماعی دریافت می‌کنم'],
@@ -1505,7 +1879,7 @@
           ['rechten-kaartje-wmo',        'به حمایت نیاز دارم (WMO)'],
           ['rechten-kaartje-anders',     'سوال دیگر'],
         ],
-        'دستیار مهارت‌های دیجیتال — رابط': [
+        'vt-groep-digi': [
           ['digi-welkom',       'سلام! وقتی چیزی دیجیتال کار نمی‌کند کمک می‌کنم.\n\nمشکل شما چیست؟'],
           ['digi-disclaimer',   '🤖 این ابزار از هوش مصنوعی استفاده می‌کند. پاسخ‌ها اطلاعاتی هستند. نام یا شماره BSN به اشتراک نگذارید.'],
           ['digi-cursus-vraag', 'می‌خواهید آنچه یاد گرفتید را ذخیره کنید؟ یک برگه آموزشی می‌سازم — به زبان شما و هلندی.'],
@@ -1517,7 +1891,7 @@
           ['digi-voorbeeld-4',  'مثلاً: برنامه روی تلفنم کار نمی‌کند...'],
           ['digi-voorbeeld-5',  'مثلاً: نمی‌دانم چطور فرم را پر کنم...'],
         ],
-        'آیا کار ارزش دارد — رابط': [
+        'vt-groep-lw-ui': [
           ['lw-titel',       'آیا با کار کردن وضعم بهتر می‌شود؟'],
           ['lw-sub',         'وارد کنید که الان چه دریافت می‌کنید و چقدر خواهید کرد. فوراً می‌بینید که آیا کار ارزش دارد — از جمله تأثیر آن بر کمک‌ها.'],
           ['lw-meer',        'ماهانه {x} بیشتر نگه می‌دارید'],
@@ -1527,11 +1901,11 @@
           ['lw-av-banner',   'این تله فقر است. از شهرداری بپرسید.'],
           ['lw-kale-huur',   '(اجاره خالص)'],
         ],
-        'آیا کار ارزش دارد — توضیح': [
+        'vt-groep-lw-uitleg': [
           ['lw-av-txt',      'تله فقر وضعیتی است که کمک‌ها قطع می‌شوند و کار سود نمی‌دهد. مشکل شناخته‌شده در هلند است.'],
           ['lw-mot-val-txt', 'حتی اگر کم اضافه می‌گیرید، تجربه، مهارت زبانی و شبکه می‌سازید. از شهرداری درباره معافیت درآمد کاری بپرسید.'],
         ],
-        'توضیح نامه — رابط': [
+        'vt-groep-brief': [
           ['brief-uploadTitel',  'عکس یا اسکن نامه‌تان'],
           ['brief-uploadSub',    'فایل را اینجا بکشید یا کلیک کنید'],
           ['brief-contextTitel', 'آیا چیزی درباره این نامه می‌دانید؟'],
@@ -1541,7 +1915,7 @@
           ['brief-verwerkFase3', 'نوشتن توضیح به دری…'],
           ['brief-headerSub',    'از نامه‌تان عکس بگیرید. ما توضیح می‌دهیم که چه می‌گوید، چه باید انجام دهید و چه وقت.'],
         ],
-        'کمک بودجه — گفتگو': [
+        'vt-groep-bud-chat': [
           ['bud-welkom',           'سلام! من به شما کمک می‌کنم بودجه ماهانه‌تان را بررسی کنید.\nیک سوال در یک وقت می‌پرسم. با هم می‌بینیم چقدر پول می‌ماند.'],
           ['bud-sit_v',            'در خانه‌تان چه کسانی زندگی می‌کنند؟'],
           ['bud-sit-alleen',       '👤 تنها خودم'],
@@ -1606,7 +1980,7 @@
           ['bud-sparen_tip',       'فضا دارید — حتی €۲۵ در ماه امنیت مالی می‌دهد.'],
           ['bud-overslaan',        'نمی‌دانم — رد شو'],
         ],
-        'کمک بودجه — نتایج و رابط': [
+        'vt-groep-bud-ui': [
           ['bud-res_titel',        'بودجه ماهانه شما'],
           ['bud-overschot',        'مازاد ماهانه'],
           ['bud-tekort',           'کسری ماهانه'],
@@ -1645,20 +2019,20 @@
         ],
       },
       RO: {
-        'Navigație și subsol': [
+        'vt-groep-nav': [
           ['nav-tools',      'Instrumente'],
           ['nav-over',       'Despre proiect'],
           ['nav-privacy',    'Confidențialitate'],
           ['footer-cookies', 'Fără cookie-uri · Fără stocare · Fără reclame'],
         ],
-        'Numele instrumentelor': [
+        'vt-groep-tools': [
           ['tool-brief-naam',           'Explicator de scrisori'],
           ['tool-brief-omschrijving',   'Fă o fotografie scrisorii tale. Explicăm ce înseamnă, ce trebuie să faci și până când.'],
           ['tool-budget-naam',          'Ajutor buget'],
           ['tool-18jaar-naam',          'Împlinești 18 ani'],
           ['tool-naturalisatie-naam',   'Verificator cetățenie'],
         ],
-        'Naturalizare — rezultate': [
+        'vt-groep-nat': [
           ['nat-r_positief-titel',        'Probabil ești eligibil/ă!'],
           ['nat-r_positief-sub',          'Pe baza răspunsurilor tale, îndeplinești condițiile principale pentru naturalizare. Următorul pas este o cerere oficială la primăria ta.'],
           ['nat-r_eu_burger-titel',       'Ca cetățean UE ai drepturi diferite'],
@@ -1678,7 +2052,7 @@
           ['nat-r_kosten-titel',          'Există modalități de a reduce costurile'],
           ['nat-r_kosten-sub',            'Taxa de naturalizare este de €1.044 (2025) — dar există modalități de a o face accesibilă.'],
         ],
-        'Împlinești 18 ani — numele categoriilor (pentru părinți)': [
+        'vt-groep-18ouder': [
           ['18-ouder-voor-kinderbijslag',    'Alocație pentru copii (Kinderbijslag)'],
           ['18-ouder-voor-kgb',             'Alocație legată de copil (KGB)'],
           ['18-ouder-voor-digid',           'DigiD pentru copilul tău'],
@@ -1691,7 +2065,7 @@
           ['18-ouder-na-wonen',             'Locuire independentă'],
           ['18-ouder-na-stemmen',           'Drept de vot și înregistrare donator'],
         ],
-        'Împlinești 18 ani — numele categoriilor (pentru tânăr)': [
+        'vt-groep-18kind': [
           ['18-kind-voor-digid',            'Solicită DigiD'],
           ['18-kind-voor-zorgverzekering',  'Aranjează propria asigurare de sănătate'],
           ['18-kind-voor-bankrekening',     'Cont bancar propriu și cont de economii'],
@@ -1703,7 +2077,7 @@
           ['18-kind-na-rijbewijs',          'Permis de conducere'],
           ['18-kind-na-jeugdhulp',          'Servicii pentru tineri — ce se schimbă'],
         ],
-        'Drepturi și obligații — interfață': [
+        'vt-groep-rechten': [
           ['rechten-welkom',             'Bună! Explic ce spune legea despre situația ta — despre ajutor social, integrare sau sprijin din partea primăriei.\n\nDespre ce este întrebarea ta?'],
           ['rechten-disclaimer',         '🤖 Acest instrument folosește AI. Răspunsurile sunt informative — nu sfaturi oficiale. Nu împărtăși nume, numere BSN sau alte date personale.'],
           ['rechten-kaartje-bijstand',   'Primesc ajutor social (bijstand)'],
@@ -1712,7 +2086,7 @@
           ['rechten-kaartje-wmo',        'Am nevoie de sprijin (WMO)'],
           ['rechten-kaartje-anders',     'Altă întrebare'],
         ],
-        'Asistent digital — interfață': [
+        'vt-groep-digi': [
           ['digi-welkom',       'Bună! Te ajut când ceva digital nu funcționează.\n\nCare este problema?'],
           ['digi-disclaimer',   '🤖 Acest instrument folosește AI. Răspunsurile sunt informative. Nu împărtăși nume sau numere BSN.'],
           ['digi-cursus-vraag', 'Vrei să salvezi ce ai învățat? Fac o foaie de învățare — în limba ta și în neerlandeză, ca să o poți lua la consilierul tău.'],
@@ -1724,7 +2098,7 @@
           ['digi-voorbeeld-4',  'De exemplu: aplicația nu funcționează pe telefonul meu...'],
           ['digi-voorbeeld-5',  'De exemplu: trebuie să completez ceva dar nu știu cum...'],
         ],
-        'Merită să muncești — interfață': [
+        'vt-groep-lw-ui': [
           ['lw-titel',       'Voi câștiga mai mult dacă încep să lucrez?'],
           ['lw-sub',         'Introdu ce primești acum și cât ai câștiga. Vezi imediat dacă munca este rentabilă — inclusiv efectul asupra alocațiilor.'],
           ['lw-meer',        'Rămâi cu {x} mai mult pe lună'],
@@ -1735,11 +2109,11 @@
           ['lw-wml-hint',    'Salariul minim 2026: € 1.995,00/lună (normă întreagă)'],
           ['lw-uren-hint',   'Apăsând completezi automat salariul minim pentru acel număr de ore'],
         ],
-        'Merită să muncești — explicație': [
+        'vt-groep-lw-uitleg': [
           ['lw-av-txt',      'Capcana sărăciei este fenomenul prin care munca aduce puțin financiar — pentru că alocațiile se opresc și ajutorul dispare. Este o problemă cunoscută în Țările de Jos.'],
           ['lw-mot-val-txt', 'Chiar dacă rămâi cu puțin în plus, îți construiești experiență profesională și rețea. Întreabă primăria despre scutirea de venit din muncă.'],
         ],
-        'Explicator de scrisori — interfață': [
+        'vt-groep-brief': [
           ['brief-uploadTitel',  'Fotografie sau scanare a scrisorii tale'],
           ['brief-uploadSub',    'Trage fișierul aici sau dă click pentru a naviga'],
           ['brief-contextTitel', 'Știi deja ceva despre această scrisoare?'],
@@ -1749,7 +2123,7 @@
           ['brief-verwerkFase3', 'Scriere explicație în română…'],
           ['brief-headerSub',    'Fă o fotografie scrisorii tale. Explicăm ce înseamnă, ce trebuie să faci și până când.'],
         ],
-        'Ajutor buget — conversație': [
+        'vt-groep-bud-chat': [
           ['bud-welkom',           'Bună! Te ajut să îți faci bugetul lunar.\nÎți voi pune întrebări — una câte una. Împreună vom vedea cât îți rămâne în fiecare lună.'],
           ['bud-sit_v',            'Cine locuiește cu tine acasă?'],
           ['bud-sit-alleen',       '👤 Doar eu'],
@@ -1814,7 +2188,7 @@
           ['bud-sparen_tip',       'Ai spațiu în buget. Chiar și €25 pe lună oferă securitate financiară.'],
           ['bud-overslaan',        'Nu știu — sari peste'],
         ],
-        'Ajutor buget — rezultate și interfață': [
+        'vt-groep-bud-ui': [
           ['bud-res_titel',        'Bugetul tău lunar'],
           ['bud-overschot',        'Surplus lunar'],
           ['bud-tekort',           'Deficit lunar'],
@@ -1853,20 +2227,20 @@
         ],
       },
       PL: {
-        'Nawigacja i stopka': [
+        'vt-groep-nav': [
           ['nav-tools',      'Narzędzia'],
           ['nav-over',       'O projekcie'],
           ['nav-privacy',    'Prywatność'],
           ['footer-cookies', 'Bez ciasteczek · Bez przechowywania · Bez reklam'],
         ],
-        'Nazwy narzędzi': [
+        'vt-groep-tools': [
           ['tool-brief-naam',           'Tłumacz pism'],
           ['tool-brief-omschrijving',   'Zrób zdjęcie pisma. Wyjaśniamy co oznacza, co musisz zrobić i do kiedy.'],
           ['tool-budget-naam',          'Pomoc budżetowa'],
           ['tool-18jaar-naam',          'Ukończenie 18 lat'],
           ['tool-naturalisatie-naam',   'Sprawdzanie obywatelstwa'],
         ],
-        'Naturalizacja — wyniki': [
+        'vt-groep-nat': [
           ['nat-r_positief-titel',        'Prawdopodobnie masz prawo ubiegać się o obywatelstwo!'],
           ['nat-r_positief-sub',          'Na podstawie Twoich odpowiedzi spełniasz główne warunki naturalizacji. Następnym krokiem jest złożenie oficjalnego wniosku w swoim urzędzie gminy.'],
           ['nat-r_eu_burger-titel',       'Jako obywatel UE masz inne prawa'],
@@ -1886,7 +2260,7 @@
           ['nat-r_kosten-titel',          'Istnieją sposoby na obniżenie kosztów'],
           ['nat-r_kosten-sub',            'Opłata za naturalizację wynosi €1.044 (2025) — ale istnieją sposoby na jej przystępność.'],
         ],
-        'Ukończenie 18 lat — nazwy kategorii (dla rodziców)': [
+        'vt-groep-18ouder': [
           ['18-ouder-voor-kinderbijslag',    'Zasiłek na dziecko (Kinderbijslag)'],
           ['18-ouder-voor-kgb',             'Zasiłek związany z dzieckiem (KGB)'],
           ['18-ouder-voor-digid',           'DigiD dla Twojego dziecka'],
@@ -1899,7 +2273,7 @@
           ['18-ouder-na-wonen',             'Samodzielne zamieszkanie'],
           ['18-ouder-na-stemmen',           'Prawo głosu i rejestracja dawcy'],
         ],
-        'Ukończenie 18 lat — nazwy kategorii (dla młodej osoby)': [
+        'vt-groep-18kind': [
           ['18-kind-voor-digid',            'Złóż wniosek o DigiD'],
           ['18-kind-voor-zorgverzekering',  'Zorganizuj własne ubezpieczenie zdrowotne'],
           ['18-kind-voor-bankrekening',     'Własne konto bankowe i oszczędnościowe'],
@@ -1911,7 +2285,7 @@
           ['18-kind-na-rijbewijs',          'Prawo jazdy'],
           ['18-kind-na-jeugdhulp',          'Opieka nad młodzieżą — co się zmienia'],
         ],
-        'Prawa i obowiązki — interfejs': [
+        'vt-groep-rechten': [
           ['rechten-welkom',             'Cześć! Wyjaśniam co mówi prawo o twojej sytuacji — o zasiłkach, integracji lub wsparciu ze strony gminy.\n\nO czym jest twoje pytanie?'],
           ['rechten-disclaimer',         '🤖 To narzędzie używa AI. Odpowiedzi są informacyjne — nie są oficjalną poradą. Nie udostępniaj nazw, numerów BSN ani innych danych osobowych.'],
           ['rechten-kaartje-bijstand',   'Otrzymuję zasiłek społeczny (bijstand)'],
@@ -1920,7 +2294,7 @@
           ['rechten-kaartje-wmo',        'Potrzebuję wsparcia (WMO)'],
           ['rechten-kaartje-anders',     'Inne pytanie'],
         ],
-        'Asystent cyfrowy — interfejs': [
+        'vt-groep-digi': [
           ['digi-welkom',       'Cześć! Pomagam, gdy coś cyfrowego nie działa.\n\nJaki masz problem?'],
           ['digi-disclaimer',   '🤖 To narzędzie używa AI. Odpowiedzi są informacyjne. Nie udostępniaj nazw ani numerów BSN.'],
           ['digi-cursus-vraag', 'Chcesz zapisać to, czego się nauczyłeś/aś? Zrobię arkusz nauki — w twoim języku i po niderlandzku.'],
@@ -1932,7 +2306,7 @@
           ['digi-voorbeeld-4',  'Na przykład: aplikacja nie działa na moim telefonie...'],
           ['digi-voorbeeld-5',  'Na przykład: muszę coś wypełnić ale nie wiem jak...'],
         ],
-        'Czy praca się opłaca — interfejs': [
+        'vt-groep-lw-ui': [
           ['lw-titel',       'Czy będę na tym lepiej, jeśli zacznę pracować?'],
           ['lw-sub',         'Wpisz, co teraz otrzymujesz i ile byś zarabiał/a. Od razu zobaczysz, czy praca się opłaca — wraz z wpływem na zasiłki.'],
           ['lw-meer',        'Zostaje Ci {x} więcej miesięcznie'],
@@ -1942,11 +2316,11 @@
           ['lw-av-banner',   'To jest pułapka ubóstwa. Zapytaj gminę o dostępne programy.'],
           ['lw-kale-huur',   '(czynsz podstawowy)'],
         ],
-        'Czy praca się opłaca — wyjaśnienie': [
+        'vt-groep-lw-uitleg': [
           ['lw-av-txt',      'Pułapka ubóstwa to zjawisko, w którym praca mało się opłaca finansowo — bo świadczenia się kończą i zasiłek odpada. To znany problem w Holandii.'],
           ['lw-mot-val-txt', 'Nawet jeśli zostaje Ci mało extra, budujesz doświadczenie zawodowe i sieć kontaktów. Zapytaj gminę o zwolnienie z dochodów z pracy.'],
         ],
-        'Tłumacz pism — interfejs': [
+        'vt-groep-brief': [
           ['brief-uploadTitel',  'Zdjęcie lub skan twojego pisma'],
           ['brief-uploadSub',    'Przeciągnij plik tutaj lub kliknij, aby wybrać'],
           ['brief-contextTitel', 'Czy wiesz już coś o tym piśmie?'],
@@ -1956,7 +2330,7 @@
           ['brief-verwerkFase3', 'Pisanie wyjaśnienia po polsku…'],
           ['brief-headerSub',    'Zrób zdjęcie swojego pisma. Wyjaśniamy co oznacza, co musisz zrobić i do kiedy.'],
         ],
-        'Pomoc budżetowa — rozmowa': [
+        'vt-groep-bud-chat': [
           ['bud-welkom',           'Cześć! Pomogę Ci z budżetem miesięcznym.\nBędę zadawać pytania — jedno po jednym. Razem zobaczymy, ile pieniędzy zostaje co miesiąc.'],
           ['bud-sit_v',            'Kto mieszka z tobą w domu?'],
           ['bud-sit-alleen',       '👤 Tylko ja'],
@@ -2021,7 +2395,7 @@
           ['bud-sparen_tip',       'Masz przestrzeń w budżecie. Nawet €25 miesięcznie daje finansowe bezpieczeństwo.'],
           ['bud-overslaan',        'Nie wiem — pomiń'],
         ],
-        'Pomoc budżetowa — wyniki i interfejs': [
+        'vt-groep-bud-ui': [
           ['bud-res_titel',        'Twój budżet miesięczny'],
           ['bud-overschot',        'Nadwyżka miesięczna'],
           ['bud-tekort',           'Niedobór miesięczny'],
@@ -2070,6 +2444,11 @@
 
     let gekozenTaal = '';
 
+    // ── Helper: i18n shorthand ───────────────────────────────────────────────
+    function t(sleutel) {
+      return Solidari.i18n.t ? Solidari.i18n.t(sleutel) : sleutel;
+    }
+
     // ── Stap 1: taal-select activeren ───────────────────────────────────────
     document.getElementById('taal-keuze').addEventListener('change', function() {
       document.getElementById('volgende-knop').disabled = !this.value;
@@ -2087,21 +2466,26 @@
       // RTL instellen voor de vertaalkolom
       const isRTL = RTL_TALEN.includes(gekozenTaal);
 
-      // Taal-naam tonen
-      document.getElementById('taal-naam-display').textContent = TAAL_NAMEN[gekozenTaal] || gekozenTaal;
+      // Taal-naam tonen + teller-tekst
+      const taalNaam = TAAL_NAMEN[gekozenTaal] || gekozenTaal;
+      const tellerTekst = t('vt-teller').replace('{taal}', taalNaam);
+      document.getElementById('teller-rijen-tekst').textContent = tellerTekst;
 
-      // Groepen opbouwen
+      // Placeholder voor vertaalinputs
+      const placeholder = t('vt-placeholder') || 'Betere versie…';
+
+      // Groepen opbouwen — sleutels in VERTALINGEN zijn nu i18n-sleutels
       const container = document.getElementById('vertaal-groepen');
       container.innerHTML = '';
       const data = VERTALINGEN[gekozenTaal] || {};
 
-      Object.entries(data).forEach(([groepnaam, rijen]) => {
+      Object.entries(data).forEach(([groepSleutel, rijen]) => {
         const groep = document.createElement('div');
         groep.className = 'vertaal-groep';
 
         const header = document.createElement('div');
         header.className = 'vertaal-groep-header';
-        header.textContent = groepnaam;
+        header.textContent = t(groepSleutel) || groepSleutel;
         groep.appendChild(header);
 
         rijen.forEach(([sleutel, huidig]) => {
@@ -2120,13 +2504,11 @@
           input.type = 'text';
           input.className = 'vertaal-input';
           input.dataset.sleutel = sleutel;
-          input.placeholder = isRTL ? '...' : 'Betere versie...';
+          input.placeholder = placeholder;
           if (isRTL) input.dir = 'rtl';
 
-          // Markeer gewijzigde velden
           input.addEventListener('input', function() {
             this.classList.toggle('gewijzigd', this.value.trim().length > 0);
-            telWijzigingen();
           });
 
           inputWrap.appendChild(input);
@@ -2146,17 +2528,11 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function telWijzigingen() {
-      const n = document.querySelectorAll('.vertaal-input.gewijzigd').length;
-      // optioneel: teller tonen
-    }
-
     // ── Versturen ────────────────────────────────────────────────────────────
     async function verstuur() {
       const meldingEl = document.getElementById('melding');
       const knop = document.getElementById('verstuur-knop');
 
-      // Verzamel alle ingevulde suggesties
       const suggesties = {};
       document.querySelectorAll('.vertaal-input').forEach(input => {
         const val = input.value.trim();
@@ -2165,7 +2541,7 @@
 
       if (Object.keys(suggesties).length === 0) {
         meldingEl.className = 'melding fout';
-        meldingEl.textContent = 'Vul minimaal één suggestie in voordat je verstuurt.';
+        meldingEl.textContent = t('vt-fout-leeg');
         meldingEl.style.display = 'block';
         meldingEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         return;
@@ -2199,7 +2575,6 @@
             omschrijving,
             email: email || null,
             taal: gekozenTaal.toLowerCase(),
-            // Extra velden voor analyse
             vertaal_taal: gekozenTaal,
             suggesties: JSON.stringify(suggesties),
           })
@@ -2209,7 +2584,10 @@
 
         if (res.ok && data.ok) {
           meldingEl.className = 'melding succes';
-          meldingEl.textContent = `Bedankt! Je ${aantalSuggesties} suggestie${aantalSuggesties > 1 ? 's zijn' : ' is'} ontvangen. We bekijken ze zo snel mogelijk.`;
+          const mv = aantalSuggesties > 1 ? t('vt-succes-mv') : t('vt-succes-ev');
+          meldingEl.textContent = t('vt-succes')
+            .replace('{n}', aantalSuggesties)
+            .replace('{meervoud}', mv);
           meldingEl.style.display = 'block';
           document.getElementById('vertalingen-sectie').style.display = 'none';
           document.getElementById('stap2-ind').className = 'stap klaar';
@@ -2219,16 +2597,13 @@
         }
       } catch (err) {
         meldingEl.className = 'melding fout';
-        meldingEl.textContent = 'Er ging iets mis. Probeer het opnieuw of stuur een e-mail naar info@solidari.nl.';
+        meldingEl.textContent = t('vt-fout-send');
         meldingEl.style.display = 'block';
         console.error('Vertaalhulp fout:', err);
-      } finally {
-        if (!document.getElementById('vertalingen-sectie').style.display === 'none') {
-          knop.disabled = false;
-          knop.textContent = 'Suggesties versturen';
-        }
-        meldingEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        knop.disabled = false;
+        knop.textContent = t('vt-verstuur-knop');
       }
+      meldingEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
   </script>
 </body>
