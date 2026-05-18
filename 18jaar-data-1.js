@@ -654,7 +654,7 @@ d.TR = {
             { icoon:'ℹ', kleur:'#EFF6FF', tekst:'DigiD başvurusu 5 iş günü sürer. digid.nl üzerinden başvurun. Çocuğunuzun bunu kendisinin yapması gerekir.' },
             { icoon:'!', kleur:'#FDF3E0', tekst:'DigiD doğrulaması için çocuğunuzun kendine ait e-posta adresi ve telefon numarasına sahip olduğundan emin olun.' },
           ], extern:{ url:'https://www.digid.nl/aanvragen-en-activeren/aanvragen/', tekst:'→ digid.nl\'de DigiD başvurusu yapın' } },
-        { icoon:'🏥', kleur:'#FDF3E0', naam:'Sağlık sigortası ayarlama', samenvatting:'18. doğum gününden önce alın — aksi hâlde ceza', badge:'SON TARİH', badgeKleur:'stopt',
+        { icoon:'🏥', kleur:'#FDF3E0', naam:'Sağlık sigortası almak', samenvatting:'18. doğum gününden önce alın — aksi hâlde ceza', badge:'SON TARİH', badgeKleur:'stopt',
           punten:[
             { icoon:'!', kleur:'#FEF2F2', tekst:'<strong>Çocuğunuz 18 yaşına girdiğinde sizin sağlık sigortanızın kapsamından çıkar.</strong> Kendi poliçesine sahip olması gerekir.<span class="stopt-chip">SON TARİH</span>' },
             { icoon:'✓', kleur:'#EBF3EE', tekst:'Çocuğunuzun doğum gününden sonra cezasız sigorta yaptırmak için <strong>3 ayı</strong> vardır. Ancak 18. doğum gününden önce düzenlemek daha akıllıcadır.' },
@@ -680,7 +680,7 @@ d.TR = {
             { icoon:'✓', kleur:'#EBF3EE', tekst:'Çocuğunuz artık tek başına doktora gidebilir ve tıbbi tedavilere kendi rızasını verebilir.' },
             { icoon:'ℹ', kleur:'#EFF6FF', tekst:'Çocuğunuz artık bağımsız olarak <strong>sürücü belgesi</strong> başvurusunda bulunabilir, alkol satın alabilir ve kira sözleşmesi imzalayabilir.' },
           ], extern:null },
-        { icoon:'💶', kleur:'#EBF3EE', naam:'Yardımlar: duranlar ve başlayanlar', samenvatting:'Çocuk yardımları duruyor — sağlık yardımı başlıyor', badge:'DEĞİŞİKLİK', badgeKleur:'let',
+        { icoon:'💶', kleur:'#EBF3EE', naam:'Hangi yardımlar durur hangi yardımlar başlar', samenvatting:'Çocuk yardımları duruyor — sağlık yardımı başlıyor', badge:'DEĞİŞİKLİK', badgeKleur:'let',
           punten:[
             { icoon:'✗', kleur:'#FEF2F2', tekst:'<strong>Çocuk yardımı</strong> çeyreğin son gününde durur.<span class="stopt-chip">DURUYOR</span>' },
             { icoon:'✗', kleur:'#FEF2F2', tekst:'<strong>Çocuğa bağlı yardım</strong> doğum gününde durur.<span class="stopt-chip">DURUYOR</span>' },
@@ -700,7 +700,7 @@ d.TR = {
     na: {
       intro: { icoon:'→', tekst:'<strong>18. doğum gününden sonraki haftalarda ve aylarda</strong> çocuğunuzun kendisinin düzenlemesi gereken birkaç şey vardır.' },
       categorieen: [
-        { icoon:'🏦', kleur:'#EBF3EE', naam:'Sosyal yardım — bireysel hak', samenvatting:'Çocuğunuz kendi sosyal yardımına hak kazandı', badge:'YENİ HAK', badgeKleur:'nieuw',
+        { icoon:'🏦', kleur:'#EBF3EE', naam:'Sosyal yardım, kendi hakkın', samenvatting:'Çocuğunuz kendi sosyal yardımına hak kazandı', badge:'YENİ HAK', badgeKleur:'nieuw',
           punten:[
             { icoon:'✓', kleur:'#EBF3EE', tekst:'<strong>18 yaşından itibaren çocuğunuzun geliri yoksa ve öğrenci değilse sosyal yardıma bireysel hakkı vardır.</strong> Bu sizin yardımınızdan bağımsızdır.<span class="nieuw-chip">YENİ HAK</span>' },
             { icoon:'ℹ', kleur:'#EFF6FF', tekst:'Çocuğunuz hâlâ sizinle mi yaşıyor? Yardım hesaplanırken ikamet durumu dikkate alınır. Belediyeye sorun.' },

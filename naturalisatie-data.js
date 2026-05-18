@@ -1064,7 +1064,7 @@ window._NAT.TR = {
     r_positief: {
       type: 'positief', icoon: '🎉',
       titel: 'Muhtemelen uygunsunuz!',
-      sub: 'Yanıtlarınıza göre vatandaşlık için temel şartları karşılıyorsunuz. Bir sonraki adım belediyenize resmi başvuru yapmaktır.',
+      sub: 'Yanıtlarınıza göre vatandaşlık için temel koşulları karşılıyorsunuz. Sonraki adım, belediyenize resmi başvuru yapmak!',
       info: '💡 Statü sahipleri (tanınmış mülteciler) çoğu durumda orijinal vatandaşlıklarından vazgeçmek zorunda değildir.',
       stappen: [
         { nr: 1, tekst: '<strong>Belediyenizden randevu alın</strong> — nüfus işleri birimi. Vatandaşlık başvurusu yapmak istediğinizi söyleyin.' },
@@ -1077,8 +1077,8 @@ window._NAT.TR = {
     },
     r_eu_burger: {
       type: 'eu', icoon: '🇪🇺',
-      titel: 'AB vatandaşı olarak farklı haklarınız var',
-      sub: 'Hollanda vatandaşlığına geçmek mümkündür; ancak burada yaşamak ve çalışmak için Hollanda vatandaşlığına sahip olmanız gerekmez. AB vatandaşı olarak Hollanda\'da zaten geniş haklara sahipsiniz.',
+      titel: 'AB vatandaşı olduğunuz için farklı haklarınız bulunmakta.',
+      sub: 'Hollanda vatandaşlığına geçiş yapabilirsiniz, ancak burada yaşamak ve çalışmak için buna ihtiyacınız yok. AB vatandaşı olarak halihazırda birçok hakkınız var.',
       infoBoxen: [
         { type: 'info', tekst: '🇪🇺 <strong>AB vatandaşlık hakları:</strong> Rumen veya Polonyalı vatandaş olarak ikamet izni olmadan Hollanda\'da yaşama, çalışma ve okuma hakkına sahipsiniz. Belediyeye kayıt olursunuz (BRP), ancak IND izni gerekmez.' },
         { type: 'amber', tekst: '⚠️ <strong>Çifte vatandaşlık uyarısı:</strong> Hollanda vatandaşlığına geçerseniz kural olarak Rumen veya Polonya vatandaşlığınızdan vazgeçmeniz gerekir. Romanya ve Polonya buna her zaman izin vermez. Başlamadan önce büyükelçiliğe danışın.' },
@@ -1105,7 +1105,7 @@ window._NAT.TR = {
     r_geen_vergunning: {
       type: 'negatief', icoon: '📋',
       titel: 'Önce ikamet iznine ihtiyacınız var',
-      sub: 'Vatandaşlık yalnızca Hollanda\'da yasal olarak ikamet ediyorsanız mümkündür. Önce geçerli bir ikamet izni alın.',
+      sub: 'Vatandaşlık yalnızca Hollanda\'da yasal olarak ikamet ediyorsanız mümkündür. Önce geçerli bir oturma izni almalısınız.',
       alternatieven: [
         { naam: 'Sığınma başvurusu', tekst: 'Korumaya ihtiyaç duyuyorsanız IND\'ye sığınma başvurusu yapabilirsiniz.' },
         { naam: 'Normal izin', tekst: 'İş, öğrenim veya aile birleşimi için düzenli izinler mevcuttur.' },
@@ -1117,7 +1117,7 @@ window._NAT.TR = {
     r_te_kort: {
       type: 'wacht', icoon: '⏳',
       titel: 'Hollanda\'da henüz yeterince uzun süre ikamet etmediniz',
-      sub: 'Hollanda\'da en az 5 yıl kesintisiz ikamet etmiş olmanız gerekir. Bekleme süresini iyi değerlendirin.',
+      sub: 'Hollanda\'da en az 5 yıl kesintisiz yaşamış olmanız gerekiyor. Bekleme süresini iyi değerlendirin, zaman su gibi akıp gidiyor!',
       alternatieven: [
         { naam: 'Entegrasyonu tamamlayın', tekst: 'Bekleme süresinde entegrasyon sınavınızı geçin.' },
         { naam: 'Belgeleri toplayın', tekst: 'Menşe ülkenizden resmi belgelerinizi önceden talep edin.' },
@@ -1186,8 +1186,8 @@ window._NAT.TR = {
     },
     r_strafblad: {
       type: 'negatief', icoon: '⚖️',
-      titel: 'Adli sicil vatandaşlığı engelleyebilir',
-      sub: 'Mahkûmiyetin türüne ve ne kadar önce olduğuna bağlı olarak engel teşkil edebilir. Bir uzmanın durumunuzu değerlendirmesini isteyin.',
+      titel: 'Sabıka kaydına sahip olmanız bir engel teşkil ediyor.',
+      sub: 'Yakın dönemdeki bir mahkûmiyet genellikle birkaç yıl vatandaşlığı engeller. Bir avukata danışın.',
       alternatieven: [
         { naam: 'Hukuki tavsiye', tekst: 'Durumunuzun vatandaşlık için engel oluşturup oluşturmadığını bir hukuk danışmanına sorun.' },
         { naam: 'VluchtelingenWerk', tekst: 'Statü sahipleri için ücretsiz hukuki yardım.' },
@@ -1211,7 +1211,7 @@ window._NAT.TR = {
     r_geen_verblijf: {
       type: 'negatief', icoon: '🏠',
       titel: 'Ana ikamet yeriniz Hollanda\'da olmalı',
-      sub: 'Büyük ölçüde yurt dışında yaşıyorsanız vatandaşlık için ikamet şartını karşılamıyorsunuz demektir.',
+      sub: 'Vatandaşlık alabilmeniz için, fiilen Hollanda\'da ikamet etmenizi gerekiyor. Yurt dışında yaşamak bir engel oluşturur.',
       alternatieven: [
         { naam: 'Ana ikameti taşıyın', tekst: 'Resmi ana ikamet yerinizi Hollanda\'ya taşıyın.' },
         { naam: 'BRP kaydı', tekst: 'Belediyenizde BRP\'ye kayıtlı olduğunuzdan emin olun.' },
@@ -1222,7 +1222,7 @@ window._NAT.TR = {
     },
     r_nationaliteit: {
       type: 'wacht', icoon: '🌍',
-      titel: 'Vatandaşlıktan vazgeçmek büyük bir adım',
+      titel: 'Çifte vatandaşlık genellikle mümkün değil.',
       sub: 'Hollanda kural olarak çifte vatandaşlığa izin vermez. İstisnalar mevcuttur — karar vermeden önce iyice okuyun.',
       alternatieven: [
         { naam: 'İstisna: statü sahipleri', tekst: 'Tanınmış mülteci olarak vatandaşlığınızdan vazgeçmek ZORUNDA değilsiniz.' },
@@ -1234,8 +1234,8 @@ window._NAT.TR = {
     },
     r_kosten: {
       type: 'wacht', icoon: '💶',
-      titel: 'Maliyetleri düşürmenin yolları var',
-      sub: 'Vatandaşlık maliyeti 1.044 € (2025) — ancak bunu karşılanabilir kılmanın yolları var.',
+      titel: 'Maliyetleri düşürmek için bazı yöntemler mevcut.',
+      sub: 'Vatandaşlık ücreti €1.044\'dür (2025), ancak bu maliyeti düşürmek mümkün.',
       alternatieven: [
         { naam: 'Belediye fonu', tekst: 'Bazı belediyeler statü sahipleri için maliyeti (kısmen) karşılar.' },
         { naam: 'Özel yardım', tekst: 'Harç masrafları için belediyenizden özel yardım (bijzondere bijstand) başvurusu yapın.' },
