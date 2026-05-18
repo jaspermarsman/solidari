@@ -12,7 +12,7 @@ Solidari helpt nieuwkomers, statushouders en laaggeletterden navigeren door brie
 
 | Tool | Beschikbaarheid | Talen |
 |---|---|---|
-| 📬 Brief Begrijper | ☀️ Bij zon (lokale AI) | NL EN AR TR TI UK FA |
+| 📬 Brief Begrijper | ☀️ Bij zon (Claude API + lokale PII-redactie) | NL EN AR TR TI UK FA RO PL |
 | 💬 Budgethulp | ☀️ Bij zon (Claude API) | NL EN AR TR TI UK FA RO PL |
 | 💶 Loont Werken? | ✓ Altijd | NL EN AR TR TI UK FA RO PL |
 | 🇳🇱 Naturalisatie Checker | ✓ Altijd | NL |
@@ -30,8 +30,8 @@ Gebruiker → GitHub Pages (statisch, altijd aan)
         Cloudflare Worker (proxy, rate limiting)
                 ↓ bij zonne-overschot
          Lenovo PC thuis (Flask + Gunicorn)
-         ├── Ollama — Gemma 3 4B (GPU, CUDA)
-         └── Claude API (Haiku, via Flask-proxy)
+         ├── OCR + PII-redactie (lokaal)
+         └── Claude API (Haiku) — geanonimiseerde brieftekst
 ```
 
 **Frontend:** Statische HTML/CSS/JS — geen buildstap, geen framework. Gedeelde architectuur via `components.js`, `components.css` en `i18n.js`.
@@ -39,9 +39,8 @@ Gebruiker → GitHub Pages (statisch, altijd aan)
 **Backend:** Flask op Ubuntu (Linux Mint 22.3), nginx reverse proxy, Let's Encrypt HTTPS. Draait als `solidari` systeemgebruiker zonder root-rechten.
 
 **AI-routing:**
-- Lokaal (Ollama / Gemma 3 4B): NL, EN, AR, TR, UK, RO, PL
-- Claude API verplicht: TI (Tigrinya), FA (Dari) — onvoldoende trainingsdata in lokale modellen
-- Brief Begrijper: **nooit** cloud-fallback — privacygevoelig
+- Brief Begrijper: OCR en PII-redactie lokaal → geanonimiseerde tekst naar Claude API (Haiku)
+- Overige tools (Budgethulp, Rechten & Plichten, Digi Hulp): Claude API direct — geen privacygevoelige documenten
 
 **Sleep-automatisering:** Home Assistant monitort zonneopbrengst (`sensor.electricity_meter_power_production`). Bij >400W wekt het de PC en blokkeert slaapstand via Flask-endpoint + systemd inhibit lock.
 
@@ -79,15 +78,15 @@ solidari-worker.js      Cloudflare Worker (Claude API proxy)
 
 | Code | Taal | RTL | AI-backend |
 |---|---|---|---|
-| NL | Nederlands | — | Ollama |
-| EN | Engels | — | Ollama |
-| AR | Arabisch | ✓ | Ollama |
-| TR | Turks | — | Ollama |
-| TI | Tigrinya | — | Claude API |
-| UK | Oekraïens | — | Ollama |
-| FA | Dari/Farsi | ✓ | Claude API |
-| RO | Roemeens | — | Ollama |
-| PL | Pools | — | Ollama |
+| NL | Nederlands | — | Claude API (Haiku) |
+| EN | Engels | — | Claude API (Haiku) |
+| AR | Arabisch | ✓ | Claude API (Haiku) |
+| TR | Turks | — | Claude API (Haiku) |
+| TI | Tigrinya | — | Claude API (Haiku) |
+| UK | Oekraïens | — | Claude API (Haiku) |
+| FA | Dari/Farsi | ✓ | Claude API (Haiku) |
+| RO | Roemeens | — | Claude API (Haiku) |
+| PL | Pools | — | Claude API (Haiku) |
 
 ---
 
@@ -95,9 +94,11 @@ solidari-worker.js      Cloudflare Worker (Claude API proxy)
 
 - Geen opslag van persoonsgegevens — alles in RAM, direct vernietigd na verwerking
 - Geen cookies, geen tracking, geen analytics
-- Brief Begrijper verwerkt lokaal via Ollama — nooit naar externe servers
-- Geen cloud-fallback voor Brief Begrijper, ook niet bij offline backend
-- AVG-compliant; verwerkersovereenkomst met Anthropic voor Claude API-gebruik
+- Brief Begrijper: OCR en PII-redactie (BSN, IBAN, adres, kenmerknummers) lokaal — alleen geanonimiseerde brieftekst naar Claude API
+- Geen cloud-fallback voor Brief Begrijper bij offline backend
+- Gebruiker geeft expliciete toestemming vóór upload (akkoordcheckbox)
+- AVG-compliant; DPA met Anthropic van toepassing via Commercial Terms of Service (effectief 24 feb 2025)
+- Anthropic bewaart API-data maximaal 30 dagen; feedbackdeling uitgeschakeld
 
 ---
 
@@ -108,7 +109,7 @@ solidari-worker.js      Cloudflare Worker (Claude API proxy)
 # Open index.html direct in de browser, of gebruik een eenvoudige HTTP-server:
 python3 -m http.server 8080
 
-# Backend (vereist Linux, Python 3.11+, Ollama)
+# Backend (vereist Linux, Python 3.11+)
 cd /opt/solidari-backend
 pip install -r requirements.txt
 gunicorn --bind 0.0.0.0:5000 app:app
