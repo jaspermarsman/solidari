@@ -687,6 +687,20 @@
     </div>
   </div>
 
+  <!-- PRIVACYMELDING + AKKOORD -->
+  <div id="privacy-akkoord-blok" style="margin-bottom:1.5rem;">
+    <div style="background:var(--amber-licht);border:1px solid var(--amber);border-radius:12px;padding:1.1rem 1.3rem;font-size:0.88rem;color:var(--tekst);line-height:1.6;">
+      <strong style="color:var(--amber-diep);">🔒 Hoe gaan we om met je brief?</strong><br>
+      Je brief wordt op onze server ingelezen en omgezet naar tekst (OCR). Persoonsgegevens zoals je naam, adres, BSN en rekeningnummer worden daarna <strong>lokaal verwijderd</strong>. Alleen de inhoud van de brief — tekst, deadlines en instructies — wordt ter analyse doorgestuurd naar <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener" style="color:var(--amber-diep);">Anthropic (Claude API)</a>. De brief wordt nooit opgeslagen.
+    </div>
+    <div style="margin-top:0.9rem;display:flex;align-items:center;gap:0.6rem;">
+      <input type="checkbox" id="privacy-checkbox" style="width:18px;height:18px;cursor:pointer;accent-color:var(--groen);">
+      <label for="privacy-checkbox" style="font-size:0.88rem;cursor:pointer;color:var(--tekst);">
+        Ik begrijp dit en ga akkoord
+      </label>
+    </div>
+  </div>
+
   <!-- STAP 1: UPLOAD -->
   <div id="stap-upload">
     <div class="upload-zone" id="dropzone">
@@ -942,6 +956,17 @@ document.querySelectorAll('.taal-btn').forEach(btn => {
 // ─── BESTAND KIEZEN ──────────────────────────────────────────────
 let gekozenBestand = null;
 
+// Analyseer-knop: alleen actief als bestand gekozen EN akkoord gegeven
+function _updateAnalyseerKnop() {
+  const heeftBestand = !!gekozenBestand;
+  const heeftAkkoord = document.getElementById('privacy-checkbox').checked;
+  const knop = document.getElementById('analyseer-knop');
+  if (knop && !knop.textContent.includes('offline')) {
+    knop.disabled = !(heeftBestand && heeftAkkoord);
+  }
+}
+document.getElementById('privacy-checkbox').addEventListener('change', _updateAnalyseerKnop);
+
 document.getElementById('bestand-input').addEventListener('change', function(e) {
   const bestand = e.target.files[0];
   if (bestand) verwerkBestand(bestand);
@@ -968,7 +993,7 @@ function verwerkBestand(bestand) {
   gekozenBestand = bestand;
   document.getElementById('bestandsnaam').textContent = bestand.name;
   document.getElementById('bestand-preview').classList.add('zichtbaar');
-  document.getElementById('analyseer-knop').disabled = false;
+  _updateAnalyseerKnop();
 
   // Toon preview als het een afbeelding is
   const previewImg = document.getElementById('preview-img');

@@ -658,9 +658,9 @@
           <div class="arch-laag" style="background: var(--wit-warm);">
             <div class="arch-laag-icoon">🤖</div>
             <div class="arch-laag-inhoud">
-              <div class="arch-laag-naam">AI-laag — Ollama + Claude API</div>
+              <div class="arch-laag-naam">AI-laag — Claude API (Anthropic)</div>
               <div class="arch-laag-detail">
-                Niet één model voor alles. <span class="code-badge">Gemma 3 4B</span> draait lokaal via Ollama op de GPU (CUDA) voor Nederlands, Engels, Arabisch, Turks en Oekraïens. Voor Tigrinya en Dari gaat het verkeer altijd via Claude API — Gemma mist voldoende trainingsdata voor het Ge'ez-schrift en Dari om betrouwbaar te zijn. De routing is configureerbaar: de volgorde staat als instelling in de backend, niet hardcoded in de logica.
+                Brief Begrijper gebruikt <span class="code-badge">Claude Haiku</span> via de Anthropic API. OCR en PII-redactie draaien lokaal; alleen de geanonimiseerde brieftekst wordt naar de API gestuurd. Andere tools (Budgethulp, Rechten & Plichten, Digi Hulp) gebruiken Claude API direct — zonder privacygevoelige documenten.
               </div>
             </div>
           </div>
@@ -672,10 +672,10 @@
             <div>
               <div class="arch-uitleg-titel">Brieven worden nooit opgeslagen</div>
               <p class="arch-uitleg-tekst">
-                De Brief Begrijper is de enige tool die privacygevoelige documenten verwerkt. Een geüploade brief wordt in het geheugen van de server gelezen, direct door Ollama geanalyseerd, en daarna automatisch vrijgegeven — het bestand raakt nooit een schijf, database of logbestand. Dit is geen instelling, maar hoe de code is geschreven: er is simpelweg geen schrijfoperatie naar schijf in de verwerkingsketen.
+                De Brief Begrijper is de enige tool die privacygevoelige documenten verwerkt. Een geüploade brief wordt in het geheugen van de server gelezen en omgezet naar tekst (OCR). Daarna worden persoonsgegevens — naam, adres, BSN, rekeningnummer, kenmerknummers — lokaal vervangen door neutrale placeholders. Alleen de inhoud van de brief (tekst, deadlines, instructies) wordt ter analyse doorgestuurd naar de Claude API. Het bestand raakt nooit een schijf, database of logbestand.
               </p>
               <p class="arch-uitleg-tekst">
-                Er is bewust geen cloud-fallback gebouwd voor deze tool. Als de pc uit staat, is Brief Begrijper niet beschikbaar — en krijgt de gebruiker een melding. Dat kost beschikbaarheid. Het alternatief — brieven naar een externe server sturen wanneer de lokale backend offline is — was geen optie.
+                De gebruiker geeft expliciet toestemming vóór de upload. Solidari heeft een verwerkersovereenkomst afgesloten met Anthropic. Brief Begrijper is alleen beschikbaar als de lokale pc actief is — er is bewust geen alternatieve route gebouwd.
               </p>
             </div>
           </div>
@@ -747,9 +747,9 @@
             </p>
           </div>
           <div class="privacy-kaart">
-            <div class="privacy-kaart-titel">Brief Begrijper — lokaal</div>
+            <div class="privacy-kaart-titel">Brief Begrijper — geanonimiseerd</div>
             <p class="privacy-kaart-tekst">
-              Brieven die je uploadt worden uitsluitend lokaal verwerkt via Ollama (Gemma 3 4B). Ze verlaten het apparaat nooit. Er is bewust geen cloud-fallback voor deze tool.
+              OCR en PII-redactie (naam, adres, BSN, rekeningnummer) draaien lokaal. Alleen de geanonimiseerde brieftekst wordt naar de Claude API gestuurd. De brief wordt nooit opgeslagen. Je geeft expliciet toestemming vóór de upload.
             </p>
           </div>
           <div class="privacy-kaart">
