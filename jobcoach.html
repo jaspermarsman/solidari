@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solivia Jobcoach — Solidari</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="components.css">
+  <style>
+    :root {
+      --wit:#FAFAF7;--wit-warm:#F5F2EC;
+      --amber:#E8A020;--amber-licht:#FDF3E0;--amber-diep:#C47F10;
+      --groen:#2D5A3D;--groen-licht:#EBF3EE;
+      --tekst:#1A1A18;--tekst-zacht:#5C5C58;--tekst-licht:#9C9C98;
+      --rand:#E8E5DE;--rood:#DC2626;--rood-licht:#FEF2F2;
+      --chat-bg:#EFECE6;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html,body{height:100%;}
+    body{background:var(--chat-bg);color:var(--tekst);font-family:'Source Sans 3',sans-serif;font-weight:400;display:flex;flex-direction:column;}
+
+    /* ── CODE-INVOERSCHERM ─────────────────────────────────────── */
+    #codeScherm{
+      flex:1;display:flex;align-items:center;justify-content:center;
+      padding:1.5rem;padding-top:80px;
+    }
+    .code-kaart{
+      background:white;border-radius:20px;padding:2rem 1.8rem;
+      max-width:400px;width:100%;
+      box-shadow:0 4px 24px rgba(0,0,0,0.08);text-align:center;
+    }
+    .code-logo{
+      width:48px;height:48px;background:var(--groen);border-radius:12px;
+      display:flex;align-items:center;justify-content:center;
+      margin:0 auto 1.2rem;font-size:24px;
+    }
+    .code-kop{
+      font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;
+      color:var(--tekst);margin-bottom:0.5rem;
+    }
+    .code-sub{
+      font-size:0.95rem;color:var(--tekst-zacht);line-height:1.5;
+      margin-bottom:1.5rem;
+    }
+    .code-input{
+      width:100%;padding:14px 16px;font-size:1.3rem;text-align:center;
+      text-transform:uppercase;letter-spacing:0.08em;font-weight:600;
+      border:2px solid var(--rand);border-radius:12px;
+      font-family:'Source Sans 3',sans-serif;color:var(--tekst);
+      background:var(--wit-warm);transition:border-color 0.2s;outline:none;
+    }
+    .code-input:focus{border-color:var(--groen);background:white;}
+    .code-knop{
+      width:100%;margin-top:12px;padding:15px;
+      background:var(--groen);color:white;border:none;border-radius:12px;
+      font-size:1rem;font-weight:600;font-family:'Source Sans 3',sans-serif;
+      cursor:pointer;transition:background 0.18s;
+    }
+    .code-knop:hover{background:#234830;}
+    .code-knop:disabled{opacity:0.6;cursor:not-allowed;}
+    .code-fout{
+      color:var(--rood);font-size:0.88rem;margin-top:10px;
+      display:none;line-height:1.4;
+    }
+    .code-tip{
+      font-size:0.78rem;color:var(--tekst-licht);margin-top:1rem;
+      line-height:1.4;
+    }
+
+    /* ── CHAT-SCHERM ───────────────────────────────────────────── */
+    #chatScherm{flex:1;display:none;flex-direction:column;min-height:0;}
+    .chat-wrap{
+      flex:1;display:flex;flex-direction:column;
+      max-width:680px;margin:0 auto;width:100%;
+      padding:0 1rem;min-height:0;padding-top:64px;
+    }
+    .berichten{
+      flex:1;overflow-y:auto;padding:1.2rem 0 140px;
+      display:flex;flex-direction:column;gap:0.6rem;scroll-behavior:smooth;
+    }
+    .berichten::-webkit-scrollbar{width:4px;}
+    .berichten::-webkit-scrollbar-thumb{background:var(--rand);border-radius:4px;}
+
+    /* Berichten */
+    .bericht-sol{display:flex;align-items:flex-end;gap:8px;max-width:88%;align-self:flex-start;animation:inSchuiven 0.25s ease both;}
+    .sol-avatar{width:32px;height:32px;background:var(--groen);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px;}
+    .bel-sol{background:white;border-radius:18px 18px 18px 4px;padding:10px 14px;font-size:0.92rem;line-height:1.6;color:var(--tekst);box-shadow:0 1px 2px rgba(0,0,0,0.06);}
+    .bel-sol.info{background:var(--groen-licht);border:1px solid rgba(45,90,61,0.12);font-size:0.85rem;color:var(--tekst-zacht);}
+    .bel-sol.fout{background:var(--rood-licht);border:1px solid rgba(220,38,38,0.15);font-size:0.85rem;color:var(--rood);}
+
+    .bericht-user{align-self:flex-end;max-width:78%;animation:inSchuiven 0.2s ease both;}
+    .bel-user{background:var(--groen);border-radius:18px 18px 4px 18px;padding:10px 14px;font-size:0.92rem;color:white;line-height:1.5;box-shadow:0 1px 2px rgba(0,0,0,0.1);}
+
+    /* Typing indicator */
+    .typing{display:flex;align-items:flex-end;gap:8px;align-self:flex-start;}
+    .typing-dots{background:white;border-radius:18px;padding:12px 16px;display:flex;gap:4px;align-items:center;}
+    .typing-dots span{width:6px;height:6px;background:var(--tekst-licht);border-radius:50%;animation:tikken 1.2s infinite;}
+    .typing-dots span:nth-child(2){animation-delay:0.2s;}
+    .typing-dots span:nth-child(3){animation-delay:0.4s;}
+    @keyframes tikken{0%,60%,100%{transform:translateY(0);opacity:0.4;}30%{transform:translateY(-5px);opacity:1;}}
+    @keyframes inSchuiven{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+    /* Invoerzone */
+    .invoer-zone{
+      padding:0.8rem 0.8rem 1rem;position:fixed;bottom:0;left:0;right:0;
+      z-index:50;background:var(--chat-bg);border-top:1px solid var(--rand);
+    }
+    .invoer-inner{max-width:680px;margin:0 auto;width:100%;}
+    .invoer-rij{display:flex;gap:8px;align-items:stretch;}
+    .invoer-vak{
+      flex:1;background:white;border:2px solid var(--rand);border-radius:14px;
+      padding:12px 14px;font-size:0.95rem;font-family:'Source Sans 3',sans-serif;
+      color:var(--tekst);resize:none;outline:none;transition:border-color 0.2s;
+      line-height:1.4;max-height:120px;overflow-y:auto;
+    }
+    .invoer-vak:focus{border-color:var(--groen);}
+    .invoer-vak::placeholder{color:var(--tekst-licht);}
+    .stuur-btn{
+      padding:0 18px;background:var(--groen);border:none;border-radius:14px;
+      cursor:pointer;color:white;font-size:1.2rem;transition:all 0.18s;
+      display:flex;align-items:center;min-height:50px;min-width:50px;justify-content:center;
+    }
+    .stuur-btn:hover{background:#234830;}
+    .stuur-btn:disabled{opacity:0.5;cursor:not-allowed;}
+
+    /* Andere code link */
+    .andere-code-link{
+      text-align:center;font-size:0.78rem;color:var(--tekst-licht);
+      margin-top:6px;cursor:pointer;background:none;border:none;
+      font-family:'Source Sans 3',sans-serif;width:100%;display:block;
+      transition:color 0.2s;padding:4px 0;
+    }
+    .andere-code-link:hover{color:var(--tekst-zacht);}
+
+    /* RTL-ondersteuning voor Arabisch en Dari */
+    [dir="rtl"] .bericht-sol{align-self:flex-end;}
+    [dir="rtl"] .bel-sol{border-radius:18px 18px 4px 18px;}
+    [dir="rtl"] .bericht-user{align-self:flex-start;}
+    [dir="rtl"] .bel-user{border-radius:18px 18px 18px 4px;}
+    [dir="rtl"] .invoer-vak{text-align:right;}
+
+    @media(max-width:480px){
+      .chat-wrap{padding:0 0.6rem;padding-top:60px;}
+      .code-kaart{padding:1.5rem 1.2rem;}
+    }
+  </style>
+</head>
+<body>
+
+<div id="solidari-nav"></div>
+
+<!-- ═══════════════════════════════════════════════════════
+     CODE-INVOERSCHERM
+═══════════════════════════════════════════════════════ -->
+<div id="codeScherm">
+  <div class="code-kaart">
+    <div class="code-logo">💼</div>
+    <h1 class="code-kop" id="codeKop">Voer je code in</h1>
+    <p class="code-sub" id="codeSub">Je werkgever heeft je een code gegeven. Voer die hier in.</p>
+    <input
+      id="codeInvoer"
+      type="text"
+      class="code-input"
+      placeholder="Bijv. TEST01"
+      maxlength="12"
+      autocomplete="off"
+      autocapitalize="characters"
+      onkeydown="if(event.key==='Enter') startMetCode()"
+    >
+    <button class="code-knop" id="codeKnop" onclick="startMetCode()">Verder</button>
+    <p class="code-fout" id="codeFout">Ongeldige code. Vraag je leidinggevende om hulp.</p>
+    <p class="code-tip" id="codeTip">Tip: stel je vragen in je eigen taal — de jobcoach begrijpt je.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     CHAT-SCHERM
+═══════════════════════════════════════════════════════ -->
+<div id="chatScherm">
+  <div class="chat-wrap">
+    <div class="berichten" id="berichten"></div>
+  </div>
+  <div class="invoer-zone">
+    <div class="invoer-inner">
+      <div class="invoer-rij">
+        <textarea
+          id="invoerVak"
+          class="invoer-vak"
+          rows="1"
+          placeholder="Stel een vraag..."
+          onkeydown="handleInvoerKey(event)"
+          oninput="autoResize(this)"
+        ></textarea>
+        <button class="stuur-btn" id="stuurBtn" onclick="stuurBericht()" aria-label="Verstuur">
+          &#9654;
+        </button>
+      </div>
+      <button class="andere-code-link" id="andereCodeLink" onclick="andereCode()">
+        Andere code invoeren
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="i18n.js"></script>
+<script>
+// ══════════════════════════════════════════════════════════════════════════════
+// CONFIGURATIE
+// ══════════════════════════════════════════════════════════════════════════════
+//
+// TODO (B2.7): Vervang door HTTPS-URL zodra SSL is ingesteld op de Hetzner server
+//              Bijv: 'https://api.solivia.work'
+//
+const SOLIVIA_API = 'http://[SERVER-IP]';
+//
+// TODO (B2.7): Voeg /api/chat toe aan de Flask server (zie commentaar onderaan)
+//
+// ══════════════════════════════════════════════════════════════════════════════
+
+// ── VERTALINGEN (9 talen) ─────────────────────────────────────────────────────
+const RTL_TALEN = ['AR','FA'];
+const T = {
+  NL: {
+    titel:       'Solivia Jobcoach',
+    code_kop:    'Voer je code in',
+    code_sub:    'Je werkgever heeft je een code gegeven. Voer die hier in.',
+    code_ph:     'Bijv. TEST01',
+    code_knop:   'Verder',
+    code_fout:   'Ongeldige code. Vraag je leidinggevende om hulp.',
+    code_tip:    'Tip: stel je vragen in je eigen taal — de jobcoach begrijpt je.',
+    welkom:      (fn) => `Hallo! Ik ben je jobcoach voor de functie van ${fn}.\n\nStel me een vraag over je werk. Ik antwoord in jouw taal.`,
+    input_ph:    'Stel een vraag...',
+    fout_chat:   'Er is iets misgegaan. Probeer het opnieuw.',
+    andere_code: 'Andere code invoeren',
+    laden:       'Een moment...',
+  },
+  EN: {
+    titel:       'Solivia Job Coach',
+    code_kop:    'Enter your code',
+    code_sub:    'Your employer has given you a code. Enter it here.',
+    code_ph:     'E.g. TEST01',
+    code_knop:   'Continue',
+    code_fout:   'Invalid code. Ask your supervisor for help.',
+    code_tip:    'Tip: ask your questions in your own language — the job coach understands you.',
+    welkom:      (fn) => `Hello! I am your job coach for the role of ${fn}.\n\nAsk me anything about your work. I will answer in your language.`,
+    input_ph:    'Ask a question...',
+    fout_chat:   'Something went wrong. Please try again.',
+    andere_code: 'Enter a different code',
+    laden:       'One moment...',
+  },
+  AR: {
+    titel:       'مساعد الوظيفة — سوليفيا',
+    code_kop:    'أدخل رمزك',
+    code_sub:    'أعطاك صاحب العمل رمزاً. أدخله هنا.',
+    code_ph:     'مثال: TEST01',
+    code_knop:   'متابعة',
+    code_fout:   'الرمز غير صحيح. اطلب المساعدة من مشرفك.',
+    code_tip:    'نصيحة: اطرح أسئلتك بلغتك الخاصة — المساعد يفهمك.',
+    welkom:      (fn) => `مرحباً! أنا مساعدك في العمل لوظيفة ${fn}.\n\nاطرح عليّ أي سؤال عن عملك. سأجيبك بلغتك.`,
+    input_ph:    'اطرح سؤالاً...',
+    fout_chat:   'حدث خطأ. حاول مرة أخرى.',
+    andere_code: 'إدخال رمز آخر',
+    laden:       'لحظة...',
+  },
+  TR: {
+    titel:       'Solivia İş Koçu',
+    code_kop:    'Kodunu gir',
+    code_sub:    'İşveren sana bir kod verdi. Buraya gir.',
+    code_ph:     'Örn. TEST01',
+    code_knop:   'Devam',
+    code_fout:   'Geçersiz kod. Amirine danış.',
+    code_tip:    'İpucu: soruları kendi dilinde sorabilirsin — iş koçu seni anlar.',
+    welkom:      (fn) => `Merhaba! Ben senin ${fn} pozisyonu için iş koçunum.\n\nİşin hakkında her şeyi sorabilirsin. Kendi dilinde cevap veririm.`,
+    input_ph:    'Soru sor...',
+    fout_chat:   'Bir sorun oluştu. Tekrar dene.',
+    andere_code: 'Farklı kod gir',
+    laden:       'Bir an...',
+  },
+  TI: {
+    titel:       'ሶሊቪያ — ናይ ስራሕ ሓጋዚ',
+    code_kop:    'ኮድ ኣእቱ',
+    code_sub:    'ዋናኻ ኮድ ሂቡካ ኣሎ። ኣብዚ ኣእቱ።',
+    code_ph:     'ኣብ. TEST01',
+    code_knop:   'ቀጽል',
+    code_fout:   'ኮድ ቅኑዕ ኣይኮነን። ሓላፍኻ ሕተት።',
+    code_tip:    'ጠቕሚ: ሕቶኻ ብቋንቋኻ ሕተት — ሓጋዚ ይርዳዓካ።',
+    welkom:      (fn) => `ሰላም! ኣነ ናይ ${fn} ናይ ስራሕ ሓጋዚ ኢየ።\n\nብዛዕባ ስርሓትካ ሕቶ ሕተት። ብቋንቋኻ ክምልሽ እየ።`,
+    input_ph:    'ሕቶ ሕተት...',
+    fout_chat:   'ጸገም ተፈጢሩ። ደጊምካ ፈትን።',
+    andere_code: 'ካልእ ኮድ ኣእቱ',
+    laden:       'ቅሩብ ደቓይቕ...',
+  },
+  UK: {
+    titel:       'Solivia — Помічник на роботі',
+    code_kop:    'Введи свій код',
+    code_sub:    'Роботодавець дав тобі код. Введи його тут.',
+    code_ph:     'Напр. TEST01',
+    code_knop:   'Далі',
+    code_fout:   'Недійсний код. Запитай свого керівника.',
+    code_tip:    'Порада: запитуй своєю мовою — помічник тебе розуміє.',
+    welkom:      (fn) => `Привіт! Я твій помічник для роботи на посаді ${fn}.\n\nСтав запитання про свою роботу. Відповім твоєю мовою.`,
+    input_ph:    'Постав запитання...',
+    fout_chat:   'Сталася помилка. Спробуй ще раз.',
+    andere_code: 'Ввести інший код',
+    laden:       'Зачекай...',
+  },
+  FA: {
+    titel:       'سولیویا — مربی کاری',
+    code_kop:    'کد خود را وارد کنید',
+    code_sub:    'کارفرمای شما یک کد داده است. آن را اینجا وارد کنید.',
+    code_ph:     'مثال: TEST01',
+    code_knop:   'ادامه',
+    code_fout:   'کد نامعتبر است. از سرپرست خود بپرسید.',
+    code_tip:    'راهنمایی: سوال خود را به زبان خودتان بپرسید — مربی شما را می‌فهمد.',
+    welkom:      (fn) => `سلام! من مربی کاری شما برای شغل ${fn} هستم.\n\nسوال خود را درباره کارتان بپرسید. به زبان خودتان پاسخ می‌دهم.`,
+    input_ph:    'سوال بپرسید...',
+    fout_chat:   'مشکلی پیش آمد. دوباره امتحان کنید.',
+    andere_code: 'وارد کردن کد دیگر',
+    laden:       'لحظه‌ای...',
+  },
+  RO: {
+    titel:       'Solivia — Mentor la locul de muncă',
+    code_kop:    'Introdu codul tău',
+    code_sub:    'Angajatorul ți-a dat un cod. Introdu-l aici.',
+    code_ph:     'Ex. TEST01',
+    code_knop:   'Continuă',
+    code_fout:   'Cod invalid. Cere ajutorul supervizorului.',
+    code_tip:    'Sfat: poți pune întrebările în propria limbă — mentorul te înțelege.',
+    welkom:      (fn) => `Bună! Sunt mentorul tău pentru postul de ${fn}.\n\nPune-mi orice întrebare despre munca ta. Îți răspund în limba ta.`,
+    input_ph:    'Pune o întrebare...',
+    fout_chat:   'A apărut o eroare. Încearcă din nou.',
+    andere_code: 'Introdu alt cod',
+    laden:       'Un moment...',
+  },
+  PL: {
+    titel:       'Solivia — Doradca w pracy',
+    code_kop:    'Wpisz swój kod',
+    code_sub:    'Pracodawca dał ci kod. Wpisz go tutaj.',
+    code_ph:     'Np. TEST01',
+    code_knop:   'Dalej',
+    code_fout:   'Nieprawidłowy kod. Zapytaj przełożonego.',
+    code_tip:    'Wskazówka: zadawaj pytania w swoim języku — doradca cię rozumie.',
+    welkom:      (fn) => `Cześć! Jestem twoim doradcą dla stanowiska ${fn}.\n\nZadaj mi pytanie o swoją pracę. Odpowiem w twoim języku.`,
+    input_ph:    'Zadaj pytanie...',
+    fout_chat:   'Coś poszło nie tak. Spróbuj ponownie.',
+    andere_code: 'Wpisz inny kod',
+    laden:       'Chwilę...',
+  },
+};
+
+// ── TAALDETECTIE ──────────────────────────────────────────────────────────────
+function huidigeTaal() {
+  const opgeslagen = localStorage.getItem('solidari_taal') || 'NL';
+  return T[opgeslagen] ? opgeslagen : 'NL';
+}
+
+function t(key, arg) {
+  const taal = huidigeTaal();
+  const val = (T[taal] || T['NL'])[key] || T['NL'][key] || key;
+  return typeof val === 'function' ? val(arg) : val;
+}
+
+function isRTL() {
+  return RTL_TALEN.includes(huidigeTaal());
+}
+
+// ── STAAT ─────────────────────────────────────────────────────────────────────
+let pakket = null;           // geldig pakket van de API
+let chatGeschiedenis = [];   // berichtgeschiedenis voor Claude
+let bezig = false;           // voorkomt dubbele verzending
+
+// ── INITIALISATIE ─────────────────────────────────────────────────────────────
+function initUI() {
+  const taal = huidigeTaal();
+  const rtl  = isRTL();
+
+  // RTL
+  document.documentElement.setAttribute('dir', rtl ? 'rtl' : 'ltr');
+  document.documentElement.setAttribute('lang', taal.toLowerCase());
+
+  // Code-scherm teksten
+  document.getElementById('codeKop').textContent  = t('code_kop');
+  document.getElementById('codeSub').textContent  = t('code_sub');
+  document.getElementById('codeInvoer').placeholder = t('code_ph');
+  document.getElementById('codeKnop').textContent  = t('code_knop');
+  document.getElementById('codeTip').textContent   = t('code_tip');
+  document.getElementById('codeFout').textContent  = t('code_fout');
+
+  // Chat teksten
+  const inv = document.getElementById('invoerVak');
+  if (inv) inv.placeholder = t('input_ph');
+  const acl = document.getElementById('andereCodeLink');
+  if (acl) acl.textContent = t('andere_code');
+}
+
+// ── CODE VALIDEREN ────────────────────────────────────────────────────────────
+async function startMetCode() {
+  const code  = document.getElementById('codeInvoer').value.trim().toUpperCase();
+  const fout  = document.getElementById('codeFout');
+  const knop  = document.getElementById('codeKnop');
+
+  fout.style.display = 'none';
+  if (!code) return;
+
+  knop.disabled   = true;
+  knop.textContent = t('laden');
+
+  try {
+    const res  = await fetch(`${SOLIVIA_API}/api/pakket/${code}`);
+    if (!res.ok) throw new Error('Ongeldige code');
+    pakket = await res.json();
+
+    // Code geldig — schakel over naar chat
+    chatGeschiedenis = [];
+    document.getElementById('codeScherm').style.display = 'none';
+    const cs = document.getElementById('chatScherm');
+    cs.style.display = 'flex';
+
+    // Welkomstbericht
+    voegBerichtToe('sol', t('welkom', pakket.functietitel));
+
+  } catch (e) {
+    fout.style.display = 'block';
+  } finally {
+    knop.disabled    = false;
+    knop.textContent = t('code_knop');
+  }
+}
+
+// ── CHAT ──────────────────────────────────────────────────────────────────────
+function bouwSystemPrompt() {
+  return `Je bent een jobcoach voor de functie van ${pakket.functietitel}.
+Je beantwoordt alleen vragen op basis van de onderstaande werkinstructies.
+Als het antwoord er niet in staat, zeg je: "Dat weet ik niet — vraag het aan je leidinggevende."
+Antwoord altijd in de taal van de gebruiker, op taalniveau A2. Korte zinnen. Geen jargon.
+
+WERKINSTRUCTIES:
+${pakket.instructietekst}`;
+}
+
+async function stuurBericht() {
+  const vak   = document.getElementById('invoerVak');
+  const tekst = vak.value.trim();
+  if (!tekst || bezig) return;
+
+  bezig = true;
+  vak.value = '';
+  autoResize(vak);
+  document.getElementById('stuurBtn').disabled = true;
+
+  // Gebruikersbericht tonen
+  voegBerichtToe('user', tekst);
+
+  // Aan chatgeschiedenis toevoegen
+  chatGeschiedenis.push({ role: 'user', content: tekst });
+
+  // Typing indicator
+  const typingEl = voegTypingToe();
+
+  try {
+    const res = await fetch(`${SOLIVIA_API}/api/chat`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        system:   bouwSystemPrompt(),
+        messages: chatGeschiedenis,
+      }),
+    });
+
+    verwijderTyping(typingEl);
+
+    if (!res.ok) throw new Error('API-fout');
+
+    const data = await res.json();
+    const antwoord = data.content || data.response || data.text || '';
+
+    chatGeschiedenis.push({ role: 'assistant', content: antwoord });
+    voegBerichtToe('sol', antwoord);
+
+  } catch (e) {
+    verwijderTyping(typingEl);
+    voegBerichtToe('sol', t('fout_chat'), 'fout');
+  } finally {
+    bezig = false;
+    document.getElementById('stuurBtn').disabled = false;
+    document.getElementById('invoerVak').focus();
+  }
+}
+
+function handleInvoerKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    stuurBericht();
+  }
+}
+
+function andereCode() {
+  pakket = null;
+  chatGeschiedenis = [];
+  document.getElementById('berichten').innerHTML = '';
+  document.getElementById('chatScherm').style.display = 'none';
+  document.getElementById('codeScherm').style.display = 'flex';
+  document.getElementById('codeInvoer').value = '';
+  document.getElementById('codeFout').style.display = 'none';
+  document.getElementById('codeInvoer').focus();
+}
+
+// ── HELPER: berichten renderen ────────────────────────────────────────────────
+function voegBerichtToe(wie, tekst, klasse) {
+  const berichten = document.getElementById('berichten');
+
+  if (wie === 'sol') {
+    const wrap = document.createElement('div');
+    wrap.className = 'bericht-sol';
+
+    const avatar = document.createElement('div');
+    avatar.className = 'sol-avatar';
+    avatar.textContent = '💼';
+
+    const bel = document.createElement('div');
+    bel.className = 'bel-sol' + (klasse ? ' ' + klasse : '');
+    // Wissel newlines naar <br>
+    bel.innerHTML = tekst.replace(/\n/g, '<br>');
+
+    wrap.appendChild(avatar);
+    wrap.appendChild(bel);
+    berichten.appendChild(wrap);
+  } else {
+    const wrap = document.createElement('div');
+    wrap.className = 'bericht-user';
+
+    const bel = document.createElement('div');
+    bel.className = 'bel-user';
+    bel.textContent = tekst;
+
+    wrap.appendChild(bel);
+    berichten.appendChild(wrap);
+  }
+
+  berichten.scrollTop = berichten.scrollHeight;
+}
+
+function voegTypingToe() {
+  const berichten = document.getElementById('berichten');
+  const wrap = document.createElement('div');
+  wrap.className = 'typing';
+  wrap.innerHTML = `
+    <div class="sol-avatar">💼</div>
+    <div class="typing-dots"><span></span><span></span><span></span></div>
+  `;
+  berichten.appendChild(wrap);
+  berichten.scrollTop = berichten.scrollHeight;
+  return wrap;
+}
+
+function verwijderTyping(el) {
+  if (el && el.parentNode) el.parentNode.removeChild(el);
+}
+
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+}
+
+// ── TAALWISSELING (reageer op components.js events) ───────────────────────────
+window.setTaal = function() {
+  initUI();
+};
+window.addEventListener('solidari:taalGewijzigd', () => initUI());
+
+// ── START ─────────────────────────────────────────────────────────────────────
+initUI();
+</script>
+<script src="components.js"></script>
+
+<!--
+═══════════════════════════════════════════════════════════════════════════════
+TODO — STAP B2.7: Voeg /api/chat toe aan de Flask server (app.py op Hetzner)
+
+Voeg dit toe aan app.py (na de bestaande imports):
+
+  import anthropic
+  import os
+
+  claude = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_KEY"))
+
+  @app.route("/api/chat", methods=["POST"])
+  def chat():
+      data    = request.get_json()
+      system  = data.get("system", "")
+      messages = data.get("messages", [])
+
+      response = claude.messages.create(
+          model="claude-haiku-4-5-20251001",
+          max_tokens=512,
+          system=system,
+          messages=messages,
+      )
+      return jsonify({"content": response.content[0].text})
+
+En voeg toe aan .env:
+  ANTHROPIC_KEY=sk-ant-...
+
+En installeer in de venv:
+  pip install anthropic
+
+Vergeet ook niet HTTPS in te stellen op de Hetzner server:
+  - Domein api.solivia.work laten wijzen naar server-IP
+  - sudo apt install certbot python3-certbot-nginx
+  - sudo certbot --nginx -d api.solivia.work
+═══════════════════════════════════════════════════════════════════════════════
+-->
+</body>
+</html>
