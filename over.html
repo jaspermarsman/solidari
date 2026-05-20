@@ -776,7 +776,48 @@
 
   <div id="solidari-footer"></div>
 
+  <!-- ── TAAL POPUP ───────────────────────────────────────────────────────── -->
+  <div id="taal-popup-overlay" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.45);align-items:center;justify-content:center;padding:1rem;" role="dialog" aria-modal="true" aria-labelledby="taal-popup-titel">
+    <div style="background:#FAFAF7;border-radius:12px;border:1px solid #E8E5DE;padding:2rem;max-width:400px;width:100%;position:relative;">
+
+      <button id="taal-popup-sluit" aria-label="Sluiten" style="position:absolute;top:1rem;right:1rem;background:none;border:none;cursor:pointer;color:#5C5C58;font-size:1.25rem;line-height:1;padding:4px;">✕</button>
+
+      <div style="width:40px;height:40px;border-radius:50%;background:#FDF3E0;display:flex;align-items:center;justify-content:center;margin-bottom:1rem;font-size:1.2rem;">🌐</div>
+
+      <h2 id="taal-popup-titel" style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:600;margin:0 0 0.75rem;color:#1A1A18;">Deze pagina is alleen in het Nederlands.</h2>
+
+      <p style="font-size:0.95rem;color:#5C5C58;line-height:1.6;margin:0 0 0.5rem;">Alle tools van Solidari zijn beschikbaar in jouw taal. Maar deze pagina is alleen in het Nederlands.</p>
+
+      <p style="font-size:0.95rem;color:#5C5C58;line-height:1.6;margin:0 0 1.5rem;">Spreek jij een andere taal goed? Help ons de vertalingen beter te maken.</p>
+
+      <a href="https://solidari.nl/vertaalhulp.html" style="display:inline-flex;align-items:center;gap:8px;background:#2D5A3D;color:#fff;text-decoration:none;padding:0.6rem 1.25rem;border-radius:8px;font-size:0.95rem;font-weight:600;">
+        Help mee met vertalingen →
+      </a>
+
+    </div>
+  </div>
+
   <script src="i18n.js"></script>
   <script src="components.js"></script>
+  <script>
+    window.setTaal = function(taal) {
+      if (taal !== 'nl') {
+        var overlay = document.getElementById('taal-popup-overlay');
+        overlay.style.display = 'flex';
+      }
+    };
+
+    document.getElementById('taal-popup-sluit').addEventListener('click', function() {
+      document.getElementById('taal-popup-overlay').style.display = 'none';
+    });
+
+    document.getElementById('taal-popup-overlay').addEventListener('click', function(e) {
+      if (e.target === this) this.style.display = 'none';
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') document.getElementById('taal-popup-overlay').style.display = 'none';
+    });
+  </script>
 </body>
 </html>
