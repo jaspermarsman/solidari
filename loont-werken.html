@@ -1029,8 +1029,13 @@ function berekenNetto(bruto) {
   if (bj <= L.ak_oe) ak = bj/L.ak_oe*L.ak;
   else if (bj <= L.ak_as) ak = L.ak;
   else if (bj <= L.ak_ae) ak = Math.max(0, L.ak*(1-(bj-L.ak_as)/(L.ak_ae-L.ak_as)));
-  // Inclusief vakantiegeld (8% bovenop netto)
-  return Math.round(Math.max(0, bj - bel + ahk + ak) * 1.08 / 12);
+  // Netto per maand (excl. vakantiegeld)
+  const nettoMnd = Math.max(0, bj - bel + ahk + ak) / 12;
+  // Vakantiegeld: 8% over bruto, uitbetaald als 13e maand. Netto VG = bruto*0.08 * (1 - marginaal tarief).
+  // Marginaal tarief benadering: schijf 1 (36%) voor lage lonen, schijf 2 (49.5%) daarboven.
+  const margTarief = bj <= L.s1g ? L.s1t : L.s2t;
+  const vgNetto = bruto * 0.08 * (1 - margTarief);
+  return Math.round(nettoMnd + vgNetto);
 }
 function berekenZt(ji) {
   const Z = N.zt, dr = S.partner?Z.dr_p:Z.dr_s, mx = S.partner?Z.mx_p:Z.mx_s;
@@ -1357,10 +1362,15 @@ async function stap_berekenen() {
 }
 
 function toonResultaat(extra=0) {
-  // Huidig totaal = wat de gebruiker opgaf + huidige KOT
+  // Huidig totaal = wat de gebruiker opgaf + toeslagen op basis van huidig inkomen
   const huidigJaar = S.huidigNetto * 12 / 1.08;
   const kotOudVal = berekenKot(huidigJaar);
-  const totOud = S.huidigNetto + kotOudVal;
+  const totOud = S.huidigNetto
+    + berekenZt(huidigJaar)
+    + berekenHt(huidigJaar)
+    + berekenKgb(huidigJaar)
+    + kotOudVal
+    + (kinderenOnder18()>0 ? kinderenOnder18()*N.akw : 0);
 
   // Nieuw: netto salaris + eventuele bijstandsaanvulling + toeslagen
   const nettoNw = berekenNetto(S.nieuwBruto + extra);
