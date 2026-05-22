@@ -206,6 +206,8 @@ const T = {
     uitsp_oud: 'Nu',
     uitsp_nw: 'Straks',
     netto_sal: 'Netto salaris',
+    vakantiegeld_lbl: 'Vakantiegeld',
+    vakantiegeld_noot: '8% van bruto',
     bijstand_lbl: 'Bijstandsaanvulling',
     zt_lbl: 'Zorgtoeslag',
     ht_lbl: 'Huurtoeslag',
@@ -306,6 +308,8 @@ const T = {
     uitsp_oud: 'Now',
     uitsp_nw: 'Then',
     netto_sal: 'Net salary',
+    vakantiegeld_lbl: 'Holiday allowance',
+    vakantiegeld_noot: '8% of gross',
     bijstand_lbl: 'Benefit top-up',
     zt_lbl: 'Healthcare allowance',
     ht_lbl: 'Rent allowance',
@@ -405,6 +409,8 @@ const T = {
     uitsp_oud: 'الآن',
     uitsp_nw: 'لاحقاً',
     netto_sal: 'الراتب الصافي',
+    vakantiegeld_lbl: 'بدل الإجازة',
+    vakantiegeld_noot: '8% من الإجمالي',
     bijstand_lbl: 'تكملة الإعانة',
     zt_lbl: 'إعانة الرعاية الصحية',
     ht_lbl: 'إعانة الإيجار',
@@ -504,6 +510,8 @@ const T = {
     uitsp_oud: 'Şimdi',
     uitsp_nw: 'Sonra',
     netto_sal: 'Net maaş',
+    vakantiegeld_lbl: 'Tatil ücreti',
+    vakantiegeld_noot: "Brütün %8'i",
     bijstand_lbl: 'Yardım tamamlama',
     zt_lbl: 'Sağlık yardımı',
     ht_lbl: 'Kira yardımı',
@@ -603,6 +611,8 @@ const T = {
     uitsp_oud: 'ሕጂ',
     uitsp_nw: 'ጸኒሑ',
     netto_sal: 'ናይ ኢድ ደሞዝ',
+    vakantiegeld_lbl: 'ናይ ዕረፍቲ ወሃብ',
+    vakantiegeld_noot: '8% ካብ ጃምላ',
     bijstand_lbl: 'ናይ ሓገዝ ምምላእ',
     zt_lbl: 'ሕክምና ሓገዝ',
     ht_lbl: 'ካርታ ሓገዝ',
@@ -702,6 +712,8 @@ const T = {
     uitsp_oud: 'Зараз',
     uitsp_nw: 'Потім',
     netto_sal: 'Нетто зарплата',
+    vakantiegeld_lbl: 'Відпускні',
+    vakantiegeld_noot: '8% від брутто',
     bijstand_lbl: 'Доплата допомоги',
     zt_lbl: 'Медична субсидія',
     ht_lbl: 'Субсидія на оренду',
@@ -801,6 +813,8 @@ const T = {
     uitsp_oud: 'اکنون',
     uitsp_nw: 'بعداً',
     netto_sal: 'حقوق خالص',
+    vakantiegeld_lbl: 'حق مرخصی',
+    vakantiegeld_noot: '۸٪ از ناخالص',
     bijstand_lbl: 'تکمیل کمک معیشتی',
     zt_lbl: 'یارانه بهداشتی',
     ht_lbl: 'یارانه اجاره',
@@ -1019,7 +1033,8 @@ function bijstandNorm() {
   }
   return p ? N.bijstand.p21 : N.bijstand.s21;
 }
-function berekenNetto(bruto) {
+// Netto maandloon EXCLUSIEF vakantiegeld — gebruikt voor bijstandsaanvulling
+function berekenNettoExclVG(bruto) {
   if (bruto <= 0) return 0;
   const bj = bruto * 12, L = N.lh;
   let bel = bj <= L.s1g ? bj*L.s1t : L.s1g*L.s1t + (bj-L.s1g)*L.s2t;
@@ -1029,13 +1044,14 @@ function berekenNetto(bruto) {
   if (bj <= L.ak_oe) ak = bj/L.ak_oe*L.ak;
   else if (bj <= L.ak_as) ak = L.ak;
   else if (bj <= L.ak_ae) ak = Math.max(0, L.ak*(1-(bj-L.ak_as)/(L.ak_ae-L.ak_as)));
-  // Netto per maand (excl. vakantiegeld)
-  const nettoMnd = Math.max(0, bj - bel + ahk + ak) / 12;
-  // Vakantiegeld: 8% over bruto, uitbetaald als 13e maand. Netto VG = bruto*0.08 * (1 - marginaal tarief).
-  // Marginaal tarief benadering: schijf 1 (36%) voor lage lonen, schijf 2 (49.5%) daarboven.
+  return Math.round(Math.max(0, bj - bel + ahk + ak) / 12);
+}
+// Netto maandloon INCLUSIEF vakantiegeld — voor weergave en totaalberekening
+function berekenNetto(bruto) {
+  if (bruto <= 0) return 0;
+  const bj = bruto * 12, L = N.lh;
   const margTarief = bj <= L.s1g ? L.s1t : L.s2t;
-  const vgNetto = bruto * 0.08 * (1 - margTarief);
-  return Math.round(nettoMnd + vgNetto);
+  return berekenNettoExclVG(bruto) + Math.round(bruto * 0.08 * (1 - margTarief));
 }
 function berekenZt(ji) {
   const Z = N.zt, dr = S.partner?Z.dr_p:Z.dr_s, mx = S.partner?Z.mx_p:Z.mx_s;
@@ -1376,7 +1392,10 @@ function toonResultaat(extra=0) {
   const nettoNw = berekenNetto(S.nieuwBruto + extra);
   const brutoNwJaar = (S.nieuwBruto + extra) * 12;
   const norm = bijstandNorm();
-  const bijstandAanv = S.situatie === 0 ? Math.max(0, norm - nettoNw) : 0;
+  // Bijstand vult maandelijks aan op basis van netto EXCL. vakantiegeld (VG wordt apart verrekend)
+  const nettoNwExclVG = berekenNettoExclVG(S.nieuwBruto + extra);
+  const bijstandAanv = S.situatie === 0 ? Math.max(0, norm - nettoNwExclVG) : 0;
+  const vgNw = nettoNw - nettoNwExclVG; // vakantiegeld netto per maand
   const totNw = nettoNw + bijstandAanv
     + berekenZt(brutoNwJaar)
     + berekenHt(brutoNwJaar)
@@ -1497,7 +1516,8 @@ function toonResultaat(extra=0) {
         <span>${s('uitsp_bron')}</span>
         <div class="uitsp-hdr-bed"><span style="width:64px;text-align:right">${s('uitsp_oud')}</span><span style="width:64px;text-align:right">${s('uitsp_nw')}</span></div>
       </div>
-      ${rij('#EBF3EE', s('netto_sal'), 0, nettoNw)}
+      ${rij('#EBF3EE', s('netto_sal'), 0, nettoNwExclVG)}
+      ${vgNw > 0 ? rij('#EBF3EE', s('vakantiegeld_lbl'), 0, vgNw, s('vakantiegeld_noot')) : ''}
       ${S.situatie===0 ? rij('#F5F2EC', s('bijstand_lbl'), Math.max(0,norm-S.huidigNetto), bijstandAanv) : ''}
       ${rij('#FDF3E0', s('zt_lbl'), ztOud, ztNw)}
       ${S.huur>0 ? rij('#EFF6FF', s('ht_lbl'), htOud, htNw, huurNoot) : ''}
