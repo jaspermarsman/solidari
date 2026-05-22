@@ -45,6 +45,13 @@
     { naam: 'Digi Hulp', url: null },            // binnenkort
   ];
 
+  // Edge op Windows toont vlag-emoji's niet — detecteer en laat vlaggen weg
+  const isEdge = /Edg\//.test(navigator.userAgent);
+
+  function taalLabel(t) {
+    return isEdge ? t.label : (t.vlag + '\u00A0' + t.label);
+  }
+
   // ── Talen ──────────────────────────────────────────────────────────────
   const TALEN = [
     { code: 'NL', vlag: '🇳🇱', label: 'NL' },
@@ -72,7 +79,7 @@
     }).join('');
 
     const taalItems = TALEN.map(t =>
-      `<button class="taal-dd-btn taal-btn" data-taal="${t.code}">${t.vlag} ${t.label}</button>`
+      `<button class="taal-dd-btn taal-btn" data-taal="${t.code}">${taalLabel(t)}</button>`
     ).join('');
 
     // Mobiel menu: tools uitgeschreven + taalwisseling
@@ -86,7 +93,7 @@
     }).join('');
 
     const mobileTaalItems = TALEN.map(t =>
-      `<button class="taal-btn mob-taal-btn" data-taal="${t.code}">${t.vlag} ${t.label}</button>`
+      `<button class="taal-btn mob-taal-btn" data-taal="${t.code}">${taalLabel(t)}</button>`
     ).join('');
 
     return `<nav id="solidari-nav-bar">
@@ -113,7 +120,7 @@
     <div class="nav-taal-dropdown">
       <button class="taal-trigger" aria-label="Taal kiezen">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-        <span class="taal-huidig">🇳🇱 NL</span>
+        <span class="taal-huidig">${taalLabel(TALEN[0])}</span>
         <svg class="chevron" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
       <div class="taal-dropdown-menu">
@@ -275,7 +282,7 @@
       // Update het zichtbare label in de trigger
       const taalObj = TALEN.find(t => t.code === taal);
       const huidig = document.querySelector('.taal-huidig');
-      if (huidig && taalObj) huidig.textContent = taalObj.vlag + ' ' + taalObj.label;
+      if (huidig && taalObj) huidig.textContent = taalLabel(taalObj);
 
       if (window.Solidari && Solidari.i18n) Solidari.i18n.passToe(taal);
       if (typeof window.setTaal === 'function') {

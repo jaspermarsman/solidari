@@ -114,22 +114,33 @@ nav#solidari-nav-bar {
 .dropdown-menu {
   display: none;
   position: absolute;
-  top: calc(100% + 8px);
+  top: 100%;
   left: 0;
   min-width: 220px;
-  background: var(--wit);
-  border: 1px solid var(--rand);
-  border-radius: 10px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.09);
-  padding: 6px;
+  /* Transparante buffer bovenaan zodat muis van trigger naar menu kan zonder gap */
+  padding: 8px 6px 6px;
+  background: transparent;
   list-style: none;
   margin: 0;
   z-index: 300;
 }
 
+/* Zichtbare achtergrond-box via pseudo-element (begint pas na de transparante buffer) */
+.dropdown-menu::after {
+  content: '';
+  position: absolute;
+  top: 8px; left: 0; right: 0; bottom: 0;
+  background: var(--wit);
+  border: 1px solid var(--rand);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.09);
+  z-index: -1;
+  pointer-events: none;
+}
+
 .dropdown-menu.open { display: block; }
 
-.dropdown-menu li { margin: 0; }
+.dropdown-menu li { margin: 0; position: relative; }
 
 .dropdown-menu a {
   display: block;
