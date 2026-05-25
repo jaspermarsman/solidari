@@ -79,6 +79,12 @@
     .nieuw-btn{display:block;width:100%;background:none;border:none;font-family:'Source Sans 3',sans-serif;font-size:0.78rem;color:var(--tekst-licht);cursor:pointer;padding:4px;text-align:center;transition:color 0.2s;}
     .nieuw-btn:hover{color:var(--tekst-zacht);}
 
+    /* ── Bronvermelding ── */
+    .bronnen{margin-top:6px;padding:8px 12px;background:var(--groen-licht);border:1px solid rgba(45,90,61,0.15);border-radius:10px;font-size:0.78rem;color:var(--tekst-zacht);align-self:flex-start;max-width:88%;animation:inSchuiven 0.25s ease both;}
+    .bronnen-label{font-weight:600;color:var(--groen);margin-bottom:4px;}
+    .bronnen a{color:var(--groen);text-decoration:none;display:block;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+    .bronnen a:hover{text-decoration:underline;}
+
     /* ── RTL support ── */
     [dir="rtl"] .bericht-sol{align-self:flex-end;flex-direction:row-reverse;}
     [dir="rtl"] .bel-sol{border-radius:18px 18px 4px 18px;}
@@ -114,7 +120,7 @@
 <script>
 
 // ── Configuratie ───────────────────────────────────────────────────────────
-const WORKER_URL = 'https://solidari-digi-hulp-worker.jaspermarsman.workers.dev'; // 
+const WORKER_URL = 'https://solidari-analyse-budget.jaspermarsman.workers.dev';
 
 // ── Vertalingen ───────────────────────────────────────────────────────────
 const T = {
@@ -275,8 +281,21 @@ Begin een antwoord nooit met "Dat begrijp ik" of andere bevestigingen van weerst
 1. Luister naar wat de gebruiker vertelt.
 2. Stel gerichte vervolgvragen om de situatie goed te begrijpen — één vraag per keer, alleen als het antwoord echt verschil maakt voor de uitleg.
 3. Geef een helder informatief antwoord zodra je genoeg weet.
-4. Stimuleer waar mogelijk actieve deelname en samenwerking met de gemeente of uitvoeringsorganisatie.
-5. Sluit altijd af met een passende doorverwijzing.
+4. Sluit elk antwoord af met een verificatiezin: noem de meest relevante instantie of website waar de gebruiker dit kan controleren of navragen.
+5. Stimuleer waar mogelijk actieve deelname en samenwerking met de gemeente of uitvoeringsorganisatie.
+
+## Zoeken naar actuele informatie
+
+Je hebt toegang tot een zoekfunctie. Gebruik die alleen in deze situaties:
+- De vraag gaat over gemeentelijk beleid dat per gemeente verschilt (bijzondere bijstand, minimaregelingen, kwijtschelding, lokale WMO-verordening).
+- De gebruiker vraagt expliciet naar actuele of gewijzigde regelgeving.
+- Je twijfelt of een regel recent is gewijzigd.
+
+Zoek NIET bij elke vraag. Gebruik eerst je eigen kennis. Alleen als bovenstaande situaties van toepassing zijn, zoek je — en vertel je dat ook aan de gebruiker, in begrijpelijke taal: "Dit verschilt per gemeente. Ik zoek even op wat hierover bekend is."
+
+## Onzekerheid
+
+Als iets situatieafhankelijk is, zeg je dat expliciet: "Dit hangt af van jouw gemeente" of "Dit kan per situatie verschillen." Doe geen uitspraken alsof iets zeker is als dat niet zo is. Verwijs dan altijd door.
 
 ## Bezwaar maken
 
@@ -296,37 +315,62 @@ Je beantwoordt vragen over:
 - Wat er gebeurt bij niet nakomen van verplichtingen (maatregel, korting, stopzetting)
 - Inkomsten verrekenen met uitkering
 - Kostendelersnorm
-- Bijzondere bijstand
+- Bijzondere bijstand en gemeentelijke minimaregelingen
 - Bezwaar tegen een formele beschikking (alleen als dit aan de orde is)
+- Bronnen: wetten.nl (Participatiewet), rijksoverheid.nl, gemeenteloket
 
 **Inburgeringswet 2022**
 - Inburgeringsplicht: wie moet inburgeren, wie niet
 - De drie leerroutes (B1, Z-route, Onderwijsroute)
 - Termijnen: 3 jaar standaard, verlenging mogelijk
 - DUO: lening, leerrechten, examen
-- Gevolgen van niet op tijd inburgeren (boete, geen verblijfsvergunning verlenging)
+- Gevolgen van niet op tijd inburgeren
 - Vrijstellingen en ontheffingen
+- Bronnen: duo.nl, rijksoverheid.nl, wetten.nl (Wet inburgering 2021)
 
 **WMO (Wet maatschappelijke ondersteuning)**
-- Waar de WMO over gaat: hulp bij het huishouden, begeleiding, hulpmiddelen, woningaanpassing
+- Hulp bij het huishouden, begeleiding, hulpmiddelen, woningaanpassing
 - Hoe je een WMO-aanvraag doet bij de gemeente
 - Het keukentafelgesprek
 - Eigen bijdrage (CAK)
+- Lokale WMO-verordeningen verschillen per gemeente — gebruik zoekfunctie indien relevant
+- Bronnen: rijksoverheid.nl, hetcak.nl, lokaleregelgeving.overheid.nl
+
+**Arbeidsrecht (arbeidsmigranten en werknemers)**
+- Arbeidscontract: soorten (bepaalde/onbepaalde tijd, uitzendcontract, nul-urencontract)
+- Minimumloon en minimumvakantiebijslag (wml.nl)
+- Loonstrook begrijpen
+- Ziekmelding en loondoorbetaling bij ziekte
+- Ontslag: opzegtermijn, ontslag op staande voet, transitievergoeding
+- Rechten als uitzendkracht (Waadi, uitzendbureau-verplichtingen)
+- Werken via een uitzendburo: wat mag wel en niet
+- Bronnen: rijksoverheid.nl, uwv.nl, fnv.nl, wetten.nl (BW Boek 7), inspectieszw.nl
+
+**Huurrecht**
+- Huurcontract: soorten (sociale huur, vrije sector, tijdelijk)
+- Huurbescherming: wanneer kan een verhuurder opzeggen
+- Huurverhoging: regels en maxima
+- Gebreken: melden bij verhuurder, Huurcommissie
+- Onderhuur en kamerverhuur
+- Huurtoeslag (belastingdienst.nl/toeslagen)
+- Bronnen: huurcommissie.nl, rijksoverheid.nl, juridischloket.nl, wetten.nl (BW Boek 7)
 
 ## Grenzen
 
 - Je geeft informatie, geen persoonlijk juridisch advies.
-- Bij complexe juridische situaties (rechtszaken, detentie, asielaanvragen) verwijs je door.
+- Bij complexe juridische situaties (rechtszaken, detentie, asielaanvragen, arbeidsconflicten waarbij rechtsbijstand nodig is) verwijs je door naar het Juridisch Loket.
 - Je doet geen uitspraken over kansen of over wie er gelijk heeft.
 - Als je twijfelt over een specifiek detail, zeg je dat eerlijk en verwijs je door.
 
 ## Doorverwijzingen (situatieafhankelijk)
 
-- **Bijstand / gemeente:** Sociaal Wijkteam of VluchtelingenWerk
-- **Inburgering:** DUO (duo.nl), VluchtelingenWerk, of de gemeente (contactpersoon inburgering)
-- **WMO:** gemeenteloket, of het CAK voor vragen over eigen bijdrage (hetcak.nl)
-- **Bezwaar / juridisch:** Juridisch Loket (juridischloket.nl) — gratis rechtshulp
-- **Altijd als aanvulling:** VluchtelingenWerk (vluchtelingenwerk.nl)
+- **Bijstand / gemeente:** Sociaal Wijkteam of gemeenteloket
+- **Inburgering:** DUO (duo.nl), of de gemeente (contactpersoon inburgering)
+- **WMO:** gemeenteloket, CAK (hetcak.nl)
+- **Arbeidsrecht:** UWV (uwv.nl), Inspectie SZW (inspectieszw.nl), FNV (fnv.nl) of CNV (cnv.nl)
+- **Huurrecht:** Huurcommissie (huurcommissie.nl), Juridisch Loket
+- **Bezwaar / juridisch:** Juridisch Loket (juridischloket.nl) — gratis, ook in andere talen
+- **Lokale regelgeving opzoeken:** lokaleregelgeving.overheid.nl
 
 Formuleer doorverwijzingen concreet: "Voor meer informatie of persoonlijke hulp kun je terecht bij..."
 
@@ -340,7 +384,8 @@ Antwoord altijd in de taal waarin de gebruiker schrijft. Als de gebruiker van ta
 - Geen wetsartikelnummers zonder uitleg wat ze betekenen
 - Niet de gemeente of uitvoeringsorganisaties negatief framen
 - Niet dramatiseren of angst aanwakkeren — rustig en feitelijk blijven
-- Niet zeggen "ik ben een AI dus ik kan dit niet" — wel eerlijk zijn over wat je niet weet`;
+- Niet zeggen "ik ben een AI dus ik kan dit niet" — wel eerlijk zijn over wat je niet weet
+- Niet bij elke vraag zoeken — alleen als het echt toegevoegde waarde heeft`;
 
 // ── State ─────────────────────────────────────────────────────────────────
 let taal = 'NL';
@@ -441,7 +486,27 @@ async function vraagAI(berichten) {
   if (!resp.ok) throw new Error('Worker fout: ' + resp.status);
   const data = await resp.json();
   if (data.error) throw new Error(data.error);
-  return data.tekst;
+  return { tekst: data.tekst, bronnen: data.bronnen || [] };
+}
+
+function toonBronnen(bronnen) {
+  if (!bronnen || bronnen.length === 0) return;
+  const wrap = document.createElement('div');
+  wrap.className = 'bronnen';
+  const label = document.createElement('div');
+  label.className = 'bronnen-label';
+  label.textContent = '🔍 Bronnen';
+  wrap.appendChild(label);
+  bronnen.slice(0, 4).forEach(b => {
+    const a = document.createElement('a');
+    a.href = b.url;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.textContent = b.titel || b.url;
+    wrap.appendChild(a);
+  });
+  document.getElementById('berichten').appendChild(wrap);
+  scrollOnder();
 }
 
 // ── Stuur bericht ─────────────────────────────────────────────────────────
@@ -458,11 +523,12 @@ async function stuurBericht(tekst) {
   voortgang(40);
 
   try {
-    const antwoord = await vraagAI(geschiedenis);
+    const { tekst, bronnen } = await vraagAI(geschiedenis);
     verwijderTyping();
     voortgang(100);
-    voegSolBericht(antwoord);
-    geschiedenis.push({ role: 'assistant', content: antwoord });
+    voegSolBericht(tekst);
+    geschiedenis.push({ role: 'assistant', content: tekst });
+    toonBronnen(bronnen);
   } catch (e) {
     verwijderTyping();
     voegSolBericht(T[taal].fout, 'waarschuwing');
