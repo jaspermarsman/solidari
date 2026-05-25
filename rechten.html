@@ -120,7 +120,7 @@
 <script>
 
 // ── Configuratie ───────────────────────────────────────────────────────────
-const WORKER_URL = 'https://solidari-analyse-budget.jaspermarsman.workers.dev';
+const WORKER_URL = 'https://solidari-digi-hulp-worker.jaspermarsman.workers.dev';
 
 // ── Vertalingen ───────────────────────────────────────────────────────────
 const T = {
@@ -128,12 +128,14 @@ const T = {
     placeholder: 'Stel je vraag...',
     nieuw: '↺ Nieuw gesprek',
     disclaimer: '🤖 Deze tool gebruikt AI. De antwoorden zijn informatief — geen officieel advies. Deel geen namen, BSN-nummers of andere persoonlijke gegevens.',
-    welkom: 'Hallo! Ik leg uit wat de wet zegt over jouw situatie — over bijstand, inburgering of hulp van de gemeente.\n\nWaar gaat jouw vraag over?',
+    welkom: 'Hallo! Ik leg uit wat de wet zegt over jouw situatie — over bijstand, inburgering, WMO, arbeidsrecht of huurrecht.\n\nWaar gaat jouw vraag over?',
     fout: 'Er ging iets mis. Probeer het opnieuw.',
     kaartjes: [
       { emoji: '🏛️', tekst: 'Ik krijg bijstand' },
       { emoji: '📚', tekst: 'Ik moet inburgeren' },
-      { emoji: '💼', tekst: 'Ik ga werken' },
+      { emoji: '💼', tekst: 'Mijn rechten als werknemer' },
+      { emoji: '💰', tekst: 'Mijn loon of contract klopt niet' },
+      { emoji: '🏠', tekst: 'Mijn huurcontract of woning' },
       { emoji: '♿', tekst: 'Ik heb hulp nodig (WMO)' },
       { emoji: '❓', tekst: 'Andere vraag' },
     ],
@@ -143,12 +145,14 @@ const T = {
     placeholder: 'Ask your question...',
     nieuw: '↺ New conversation',
     disclaimer: '🤖 This tool uses AI. Answers are informational — not official advice. Do not share names, BSN numbers or other personal data.',
-    welkom: 'Hello! I explain what the law says about your situation — about benefits, integration or support from the municipality.\n\nWhat is your question about?',
+    welkom: 'Hello! I explain what the law says about your situation — about benefits, integration, WMO, employment law or housing.\n\nWhat is your question about?',
     fout: 'Something went wrong. Please try again.',
     kaartjes: [
       { emoji: '🏛️', tekst: 'I receive benefits (bijstand)' },
       { emoji: '📚', tekst: 'I need to integrate (inburgering)' },
-      { emoji: '💼', tekst: 'I am going to work' },
+      { emoji: '💼', tekst: 'My rights as an employee' },
+      { emoji: '💰', tekst: 'My pay or contract is wrong' },
+      { emoji: '🏠', tekst: 'My rental contract or housing' },
       { emoji: '♿', tekst: 'I need support (WMO)' },
       { emoji: '❓', tekst: 'Other question' },
     ],
@@ -163,7 +167,9 @@ const T = {
     kaartjes: [
       { emoji: '🏛️', tekst: 'أتلقى إعانة اجتماعية' },
       { emoji: '📚', tekst: 'يجب عليّ الاندماج' },
-      { emoji: '💼', tekst: 'سأبدأ العمل' },
+      { emoji: '💼', tekst: 'حقوقي كموظف' },
+      { emoji: '💰', tekst: 'راتبي أو عقدي غير صحيح' },
+      { emoji: '🏠', tekst: 'عقد إيجاري أو مسكني' },
       { emoji: '♿', tekst: 'أحتاج مساعدة (WMO)' },
       { emoji: '❓', tekst: 'سؤال آخر' },
     ],
@@ -178,7 +184,9 @@ const T = {
     kaartjes: [
       { emoji: '🏛️', tekst: 'ሓገዝ እቕበል ኣለኹ' },
       { emoji: '📚', tekst: 'ክሓዊ ኣለኒ' },
-      { emoji: '💼', tekst: 'ክሰርሕ እየ' },
+      { emoji: '💼', tekst: 'መሰለይ ከም ሰራሕተኛ' },
+      { emoji: '💰', tekst: 'ደሞዘይ ወይ ውዕለይ ቅኑዕ ኣይኮነን' },
+      { emoji: '🏠', tekst: 'ውዕል ኣካርያይ ወይ መንበሪ ቦታይ' },
       { emoji: '♿', tekst: 'ደገፍ የድልየኒ (WMO)' },
       { emoji: '❓', tekst: 'ካልእ ሕቶ' },
     ],
@@ -193,7 +201,9 @@ const T = {
     kaartjes: [
       { emoji: '🏛️', tekst: 'Sosyal yardım alıyorum' },
       { emoji: '📚', tekst: 'Entegrasyon yükümlülüğüm var' },
-      { emoji: '💼', tekst: 'Çalışmaya başlayacağım' },
+      { emoji: '💼', tekst: 'Çalışan olarak haklarım' },
+      { emoji: '💰', tekst: 'Maaşım veya sözleşmem hatalı' },
+      { emoji: '🏠', tekst: 'Kira sözleşmem veya konutum' },
       { emoji: '♿', tekst: 'Desteğe ihtiyacım var (WMO)' },
       { emoji: '❓', tekst: 'Başka soru' },
     ],
@@ -208,7 +218,9 @@ const T = {
     kaartjes: [
       { emoji: '🏛️', tekst: 'Я отримую соціальну допомогу' },
       { emoji: '📚', tekst: 'Я зобов\'язаний інтегруватися' },
-      { emoji: '💼', tekst: 'Я йду на роботу' },
+      { emoji: '💼', tekst: 'Мої права як працівника' },
+      { emoji: '💰', tekst: 'Моя зарплата або контракт неправильні' },
+      { emoji: '🏠', tekst: 'Мій договір оренди або житло' },
       { emoji: '♿', tekst: 'Мені потрібна підтримка (WMO)' },
       { emoji: '❓', tekst: 'Інше питання' },
     ],
@@ -223,7 +235,9 @@ const T = {
     kaartjes: [
       { emoji: '🏛️', tekst: 'کمک هزینه اجتماعی دریافت می‌کنم' },
       { emoji: '📚', tekst: 'باید ادغام شوم' },
-      { emoji: '💼', tekst: 'می‌خواهم کار کنم' },
+      { emoji: '💼', tekst: 'حقوق من به عنوان کارمند' },
+      { emoji: '💰', tekst: 'حقوق یا قراردادم اشتباه است' },
+      { emoji: '🏠', tekst: 'قرارداد اجاره یا مسکنم' },
       { emoji: '♿', tekst: 'به حمایت نیاز دارم (WMO)' },
       { emoji: '❓', tekst: 'سوال دیگر' },
     ],
@@ -238,7 +252,9 @@ const T = {
     kaartjes: [
       { emoji: '🏛️', tekst: 'Primesc ajutor social (bijstand)' },
       { emoji: '📚', tekst: 'Trebuie să mă integrez (inburgering)' },
-      { emoji: '💼', tekst: 'Vreau să mă angajez' },
+      { emoji: '💼', tekst: 'Drepturile mele ca angajat' },
+      { emoji: '💰', tekst: 'Salariul sau contractul meu nu este corect' },
+      { emoji: '🏠', tekst: 'Contractul de închiriere sau locuința mea' },
       { emoji: '♿', tekst: 'Am nevoie de sprijin (WMO)' },
       { emoji: '❓', tekst: 'Altă întrebare' },
     ],
@@ -253,7 +269,9 @@ const T = {
     kaartjes: [
       { emoji: '🏛️', tekst: 'Otrzymuję zasiłek społeczny (bijstand)' },
       { emoji: '📚', tekst: 'Muszę się integrować (inburgering)' },
-      { emoji: '💼', tekst: 'Chcę podjąć pracę' },
+      { emoji: '💼', tekst: 'Moje prawa jako pracownika' },
+      { emoji: '💰', tekst: 'Moja wypłata lub umowa jest błędna' },
+      { emoji: '🏠', tekst: 'Moja umowa najmu lub mieszkanie' },
       { emoji: '♿', tekst: 'Potrzebuję wsparcia (WMO)' },
       { emoji: '❓', tekst: 'Inne pytanie' },
     ],
