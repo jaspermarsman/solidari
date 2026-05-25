@@ -41,7 +41,7 @@
     { naam: 'Loont Werken?', url: 'loont-werken.html' },
     { naam: 'Naturalisatie', url: 'naturalisatie.html' },
     { naam: '18 Jaar', url: '18jaar.html' },
-    { naam: 'Rechten & Plichten', url: null },   // binnenkort
+    { naam: 'Rechten & Plichten', url: 'rechten.html' },
     { naam: 'Digi Hulp', url: null },            // binnenkort
   ];
 
