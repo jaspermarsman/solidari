@@ -33,6 +33,9 @@ Solidari.i18n = (function() {
       'tool-toeslagen-naam':     'Toeslagen Calculator',
       'tool-18jaar-naam':        '18 Jaar Worden',
       'tool-naturalisatie-naam': 'Naturalisatie Checker',
+      'tool-loont-naam':         'Loont Werken?',
+      'tool-rechten-naam':       'Rechten & Plichten',
+      'tool-digi-naam':          'Digi Hulp',
     },
     EN: {
       'nav-tools':    'Tools',
@@ -47,6 +50,9 @@ Solidari.i18n = (function() {
       'tool-toeslagen-naam':     'Benefits Calculator',
       'tool-18jaar-naam':        'Turning 18',
       'tool-naturalisatie-naam': 'Naturalisation Checker',
+      'tool-loont-naam':         'Does Work Pay?',
+      'tool-rechten-naam':       'Rights & Duties',
+      'tool-digi-naam':          'Digital Help',
     },
     AR: {
       'nav-tools':    'الأدوات',
@@ -61,6 +67,9 @@ Solidari.i18n = (function() {
       'tool-toeslagen-naam':     'حاسبة الإعانات',
       'tool-18jaar-naam':        'بلوغ سن 18',
       'tool-naturalisatie-naam': 'فحص التجنيس',
+      'tool-loont-naam':         'هل يستحق العمل؟',
+      'tool-rechten-naam':       'الحقوق والواجبات',
+      'tool-digi-naam':          'مساعدة رقمية',
     },
     TR: {
       'nav-tools':    'Araçlar',
@@ -75,6 +84,9 @@ Solidari.i18n = (function() {
       'tool-toeslagen-naam':     'Yardım Hesaplayıcı',
       'tool-18jaar-naam':        '18 Yaşına Girmek',
       'tool-naturalisatie-naam': 'Vatandaşlık Kontrolü',
+      'tool-loont-naam':         'Çalışmaya Değer mi?',
+      'tool-rechten-naam':       'Haklar ve Görevler',
+      'tool-digi-naam':          'Dijital Yardım',
     },
     TI: {
       'nav-tools':    'መሳርሒታት',
@@ -89,6 +101,9 @@ Solidari.i18n = (function() {
       'tool-toeslagen-naam':     'ሓጋዚ ኣበርክቶ',
       'tool-18jaar-naam':        '18 ዓመት ምዃን',
       'tool-naturalisatie-naam': 'ዜግነት ምርመራ',
+      'tool-loont-naam':         'ስራሕ ይሓይሽ ዶ?',
+      'tool-rechten-naam':       'መሰላትን ግዴታታትን',
+      'tool-digi-naam':          'ዲጂታል ሓገዝ',
     },
     UK: {
       'nav-tools':    'Інструменти',
@@ -103,6 +118,9 @@ Solidari.i18n = (function() {
       'tool-toeslagen-naam':     'Калькулятор пільг',
       'tool-18jaar-naam':        'Повноліття',
       'tool-naturalisatie-naam': 'Перевірка громадянства',
+      'tool-loont-naam':         'Чи вигідно працювати?',
+      'tool-rechten-naam':       'Права та обов\'язки',
+      'tool-digi-naam':          'Цифрова допомога',
     },
     FA: {
       'nav-tools':    'ابزارها',
@@ -117,6 +135,9 @@ Solidari.i18n = (function() {
       'tool-toeslagen-naam':     'ماشین حساب کمک‌هزینه',
       'tool-18jaar-naam':        '18 ساله شدن',
       'tool-naturalisatie-naam': 'بررسی تابعیت',
+      'tool-loont-naam':         'آیا کار ارزش دارد؟',
+      'tool-rechten-naam':       'حقوق و وظایف',
+      'tool-digi-naam':          'کمک دیجیتال',
     },
     RO: {
       'nav-tools':    'Instrumente',
@@ -131,6 +152,9 @@ Solidari.i18n = (function() {
       'tool-toeslagen-naam':     'Calculator alocații',
       'tool-18jaar-naam':        'Împlinești 18 ani',
       'tool-naturalisatie-naam': 'Verificator cetățenie',
+      'tool-loont-naam':         'Merită să lucrezi?',
+      'tool-rechten-naam':       'Drepturi și obligații',
+      'tool-digi-naam':          'Ajutor digital',
     },
     PL: {
       'nav-tools':    'Narzędzia',
@@ -145,6 +169,9 @@ Solidari.i18n = (function() {
       'tool-toeslagen-naam':     'Kalkulator zasiłków',
       'tool-18jaar-naam':        'Ukończenie 18 lat',
       'tool-naturalisatie-naam': 'Sprawdzanie obywatelstwa',
+      'tool-loont-naam':         'Czy praca się opłaca?',
+      'tool-rechten-naam':       'Prawa i obowiązki',
+      'tool-digi-naam':          'Pomoc cyfrowa',
     },
   };
 

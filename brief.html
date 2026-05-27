@@ -1293,8 +1293,12 @@ const DEMO_RESULTAAT = {
   ]
 };
 
-// ─── INITIALISATIE ───────────────────────────────────────────────
-toonStap('upload');
+// ─── NAV TAAL BRIDGE ─────────────────────────────────────────────
+// components.js roept window.setTaal(taalcode) aan bij taalwissel via de nav.
+// Wij koppelen dat door naar de eigen wisselTaal() functie van deze pagina.
+window.setTaal = function(taal) { wisselTaal(taal); };
+
+
 
 // Controleer of backend online is (optioneel)
 if (CONFIG.BACKEND_URL) {

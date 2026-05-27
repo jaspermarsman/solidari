@@ -36,13 +36,13 @@
 
   // ── Tools lijst ────────────────────────────────────────────────────────
   const TOOLS = [
-    { naam: 'Brief Begrijper', url: 'brief.html' },
-    { naam: 'Budgethulp', url: 'budgethulp.html' },
-    { naam: 'Loont Werken?', url: 'loont-werken.html' },
-    { naam: 'Naturalisatie', url: 'naturalisatie.html' },
-    { naam: '18 Jaar', url: '18jaar.html' },
-    { naam: 'Rechten & Plichten', url: 'rechten.html' },
-    { naam: 'Digi Hulp', url: null },            // binnenkort
+    { i18n: 'tool-brief-naam',        url: 'brief.html' },
+    { i18n: 'tool-budget-naam',       url: 'budgethulp.html' },
+    { i18n: 'tool-loont-naam',        url: 'loont-werken.html' },
+    { i18n: 'tool-naturalisatie-naam',url: 'naturalisatie.html' },
+    { i18n: 'tool-18jaar-naam',       url: '18jaar.html' },
+    { i18n: 'tool-rechten-naam',      url: 'rechten.html' },
+    { i18n: 'tool-digi-naam',         url: 'digihulp.html' },
   ];
 
   // Edge op Windows toont vlag-emoji's niet — detecteer en laat vlaggen weg
@@ -70,12 +70,10 @@
     const pagina = window.location.pathname.split('/').pop() || 'index.html';
 
     const toolsItems = TOOLS.map(t => {
-      if (t.url) {
-        const actief = pagina === t.url ? ' class="actief"' : '';
-        return `<li><a href="${ROOT}${t.url}"${actief}>${t.naam}</a></li>`;
-      } else {
-        return `<li><span class="tool-binnenkort">${t.naam}<span class="binnenkort-label">binnenkort</span></span></li>`;
-      }
+      // NL-naam als initiële tekst; data-i18n zorgt voor vertaling bij taalwissel
+      const naamNL = (window.Solidari && Solidari.i18n) ? Solidari.i18n.t(t.i18n) : t.i18n;
+      const actief = pagina === t.url ? ' class="actief"' : '';
+      return `<li><a href="${ROOT}${t.url}"${actief} data-i18n="${t.i18n}">${naamNL}</a></li>`;
     }).join('');
 
     const taalItems = TALEN.map(t =>
@@ -84,12 +82,9 @@
 
     // Mobiel menu: tools uitgeschreven + taalwisseling
     const mobieleToolsItems = TOOLS.map(t => {
-      if (t.url) {
-        const actief = pagina === t.url ? ' class="actief"' : '';
-        return `<a href="${ROOT}${t.url}"${actief}>${t.naam}</a>`;
-      } else {
-        return `<span class="tool-binnenkort">${t.naam}<span class="binnenkort-label">binnenkort</span></span>`;
-      }
+      const naamNL = (window.Solidari && Solidari.i18n) ? Solidari.i18n.t(t.i18n) : t.i18n;
+      const actief = pagina === t.url ? ' class="actief"' : '';
+      return `<a href="${ROOT}${t.url}"${actief} data-i18n="${t.i18n}">${naamNL}</a>`;
     }).join('');
 
     const mobileTaalItems = TALEN.map(t =>
@@ -105,7 +100,7 @@
   <ul class="nav-links">
     <li class="nav-dropdown">
       <button class="nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true">
-        Tools <svg class="chevron" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span data-i18n="nav-tools">Tools</span> <svg class="chevron" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
       <ul class="dropdown-menu" role="menu">
         ${toolsItems}
@@ -142,9 +137,9 @@
     </div>
   </div>
   <div class="mob-menu-sectie">
-    <a href="${ROOT}over.html" class="mob-link"${pagina === 'over.html' ? ' data-actief' : ''}>Over dit project</a>
-    <a href="${ROOT}feedback.html" class="mob-link"${pagina === 'feedback.html' ? ' data-actief' : ''}>Feedback</a>
-    <a href="${ROOT}over.html#privacy" class="mob-link">Privacy</a>
+    <a href="${ROOT}over.html" class="mob-link" data-i18n="nav-over"${pagina === 'over.html' ? ' data-actief' : ''}>Over dit project</a>
+    <a href="${ROOT}feedback.html" class="mob-link" data-i18n="nav-feedback"${pagina === 'feedback.html' ? ' data-actief' : ''}>Feedback</a>
+    <a href="${ROOT}over.html#privacy" class="mob-link" data-i18n="nav-privacy">Privacy</a>
   </div>
   <div class="mob-menu-sectie mob-talen">
     <div class="mob-menu-label">Taal</div>
