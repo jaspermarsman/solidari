@@ -29,7 +29,7 @@ d.RO = {
             { icoon:'!', kleur:'#FEF2F2', tekst:'<strong>Copilul tău nu mai este acoperit de asigurarea ta de sănătate</strong> odată ce împlinește 18 ani. Trebuie să aibă propria poliță.<span class="stopt-chip">TERMEN LIMITĂ</span>' },
             { icoon:'✓', kleur:'#EBF3EE', tekst:'Copilul tău are <strong>3 luni</strong> după ziua de naștere să încheie asigurarea fără amendă. Dar este înțelept să aranjezi asta înainte.' },
             { icoon:'💰', kleur:'#EBF3EE', tekst:'De la 18 ani copilul tău poate solicita <strong>alocație de sănătate (zorgtoeslag)</strong>. În 2026: până la €154/lună.<span class="nieuw-chip">NOU</span>' },
-            { icoon:'ℹ', kleur:'#EFF6FF', tekst:'Franchiza obligatorie (eigen risico) în 2026 este de <strong>€165</strong>. Copilul tău o plătește singur.' },
+            { icoon:'ℹ', kleur:'#EFF6FF', tekst:'Franchiza obligatorie (eigen risico) în 2026 este de <strong>€385</strong>. Copilul tău o plătește singur.' },
           ], infoBox:{ type:'groen', tekst:'✅ <strong>Solicitarea alocației de sănătate:</strong> Copilul tău trebuie să facă asta prin Mijn Toeslagen (belastingdienst.nl). Asigură-te că DigiD este pregătit.' },
           extern:{ url:'https://www.belastingdienst.nl/wps/wcm/connect/nl/zorgtoeslag/zorgtoeslag', tekst:'→ Mai multe despre alocația de sănătate' } },
       ],
@@ -124,7 +124,7 @@ d.RO = {
           punten:[
             { icoon:'✓', kleur:'#EBF3EE', tekst:'<strong>Asigură-te că ai un cont bancar pe propriul tău nume.</strong> Toate alocațiile sunt plătite în contul TĂU.' },
             { icoon:'ℹ', kleur:'#EFF6FF', tekst:'La majoritatea băncilor poți deschide un cont curent chiar înainte de 18 ani. Întreabă.' },
-            { icoon:'✓', kleur:'#EBF3EE', tekst:'<strong>Deschide și un cont de economii</strong> ca rezervă pentru cheltuieli neașteptate — franchiza este €165 în 2026.' },
+            { icoon:'✓', kleur:'#EBF3EE', tekst:'<strong>Deschide și un cont de economii</strong> ca rezervă pentru cheltuieli neașteptate — franchiza este €385 în 2026.' },
           ], extern:null },
       ],
       checklist:[
@@ -240,7 +240,7 @@ d.PL = {
             { icoon:'!', kleur:'#FEF2F2', tekst:'<strong>Twoje dziecko nie jest już objęte twoim ubezpieczeniem zdrowotnym</strong> po ukończeniu 18 lat. Musi mieć własną polisę.<span class="stopt-chip">TERMIN</span>' },
             { icoon:'✓', kleur:'#EBF3EE', tekst:'Twoje dziecko ma <strong>3 miesiące</strong> po urodzinach na wykupienie ubezpieczenia bez kary. Ale lepiej załatwić to wcześniej.' },
             { icoon:'💰', kleur:'#EBF3EE', tekst:'Od 18 lat dziecko może ubiegać się o <strong>zasiłek zdrowotny (zorgtoeslag)</strong>. W 2026: do €154/miesiąc.<span class="nieuw-chip">NOWE</span>' },
-            { icoon:'ℹ', kleur:'#EFF6FF', tekst:'Obowiązkowe własne ryzyko (eigen risico) w 2026 wynosi <strong>€165</strong>. Dziecko płaci to samo.' },
+            { icoon:'ℹ', kleur:'#EFF6FF', tekst:'Obowiązkowe własne ryzyko (eigen risico) w 2026 wynosi <strong>€385</strong>. Dziecko płaci to samo.' },
           ], infoBox:{ type:'groen', tekst:'✅ <strong>Złożenie wniosku o zasiłek zdrowotny:</strong> Dziecko musi to zrobić przez Mijn Toeslagen (belastingdienst.nl). Upewnij się, że DigiD jest gotowe.' },
           extern:{ url:'https://www.belastingdienst.nl/wps/wcm/connect/nl/zorgtoeslag/zorgtoeslag', tekst:'→ Więcej o zasiłku zdrowotnym' } },
       ],
@@ -335,7 +335,7 @@ d.PL = {
           punten:[
             { icoon:'✓', kleur:'#EBF3EE', tekst:'<strong>Zadbaj o konto bankowe na własne nazwisko.</strong> Wszystkie świadczenia są wypłacane na TWOJE konto.' },
             { icoon:'ℹ', kleur:'#EFF6FF', tekst:'W większości banków możesz otworzyć rachunek bieżący jeszcze przed 18. urodzinami. Zapytaj.' },
-            { icoon:'✓', kleur:'#EBF3EE', tekst:'<strong>Otwórz też konto oszczędnościowe</strong> jako bufor na niespodziewane koszty — własne ryzyko wynosi €165 w 2026.' },
+            { icoon:'✓', kleur:'#EBF3EE', tekst:'<strong>Otwórz też konto oszczędnościowe</strong> jako bufor na niespodziewane koszty — własne ryzyko wynosi €385 w 2026.' },
           ], extern:null },
       ],
       checklist:[
