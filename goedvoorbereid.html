@@ -14,13 +14,12 @@
       --groen:#2D5A3D;--groen-licht:#EBF3EE;
       --tekst:#1A1A18;--tekst-zacht:#5C5C58;--tekst-licht:#9C9C98;
       --rand:#E8E5DE;--rood:#DC2626;--rood-licht:#FEF2F2;
-      --bg:#F5F2EC;
+      --chat-bg:#EFECE6;
     }
     *{margin:0;padding:0;box-sizing:border-box;}
-    html,body{min-height:100%;}
-    body{background:var(--bg);color:var(--tekst);font-family:'Source Sans 3',sans-serif;font-weight:400;line-height:1.6;}
+    html,body{height:100%;}
+    body{background:var(--chat-bg);color:var(--tekst);font-family:'Source Sans 3',sans-serif;font-weight:400;display:flex;flex-direction:column;}
 
-    /* ── Nav (via components.js) ── */
     nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,250,247,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--rand);padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;}
     .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
     .logo-icon{width:36px;height:36px;}
@@ -33,128 +32,88 @@
     .taal-btn{background:none;border:1px solid var(--rand);border-radius:4px;padding:3px 8px;font-size:0.75rem;cursor:pointer;color:var(--tekst-zacht);font-family:'Source Sans 3',sans-serif;transition:all 0.2s;}
     .taal-btn:hover,.taal-btn.actief{background:var(--amber);border-color:var(--amber);color:white;}
 
-    /* ── Layout ── */
-    .wrap{max-width:640px;margin:0 auto;padding:88px 1.2rem 4rem;}
-    .titel{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;letter-spacing:-0.02em;margin-bottom:0.5rem;}
-    .intro{font-size:1.05rem;color:var(--tekst-zacht);margin-bottom:1.8rem;}
+    /* ── Chat layout (zoals budgethulp) ── */
+    .chat-wrap{flex:1;display:flex;flex-direction:column;max-width:680px;margin:0 auto;width:100%;padding:0 1rem;min-height:0;padding-top:64px;}
+    .berichten{flex:1;overflow-y:auto;padding:1.2rem 0 150px;display:flex;flex-direction:column;gap:0.6rem;scroll-behavior:smooth;}
+    .berichten::-webkit-scrollbar{width:4px;}
+    .berichten::-webkit-scrollbar-thumb{background:var(--rand);border-radius:4px;}
 
-    .vraag-label{font-size:1.15rem;font-weight:600;margin:0 0 0.9rem;}
+    /* ── Berichten ── */
+    .bericht-sol{display:flex;align-items:flex-end;gap:8px;max-width:90%;align-self:flex-start;animation:inSchuiven 0.25s ease both;}
+    .sol-avatar{width:32px;height:32px;background:var(--groen);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;}
+    .bel-sol{background:white;border-radius:18px 18px 18px 4px;padding:12px 15px;font-size:0.95rem;line-height:1.55;color:var(--tekst);box-shadow:0 1px 2px rgba(0,0,0,0.06);white-space:pre-wrap;}
+    .bel-sol .blok-kop{font-weight:600;color:var(--groen);margin-bottom:6px;font-size:1rem;}
+    .bel-sol ul{list-style:none;display:flex;flex-direction:column;gap:7px;margin-top:2px;}
+    .bel-sol li{padding-left:20px;position:relative;line-height:1.45;}
+    .bel-sol li::before{content:'→';position:absolute;left:0;color:var(--amber-diep);font-weight:600;}
+    .bel-sol.disclaimer{background:var(--amber-licht);border:1px solid rgba(232,160,32,0.3);font-size:0.82rem;color:var(--amber-diep);}
+    .bel-sol.fout{background:var(--rood-licht);border:1px solid rgba(220,38,38,0.15);font-size:0.85rem;color:var(--rood);}
 
-    /* ── Tegels ── */
-    .tegels{display:flex;flex-direction:column;gap:10px;}
-    .tegel{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:white;border:2px solid var(--rand);border-radius:14px;padding:16px 18px;cursor:pointer;font-family:'Source Sans 3',sans-serif;font-size:1.05rem;font-weight:500;color:var(--tekst);transition:all 0.16s;line-height:1.4;}
-    .tegel:hover,.tegel:focus-visible{border-color:var(--groen);background:var(--groen-licht);outline:none;}
-    .tegel-emoji{font-size:1.7rem;flex-shrink:0;line-height:1;}
+    .bericht-user{align-self:flex-end;max-width:80%;animation:inSchuiven 0.2s ease both;}
+    .bel-user{background:var(--groen);border-radius:18px 18px 4px 18px;padding:10px 14px;font-size:0.92rem;color:white;line-height:1.45;box-shadow:0 1px 2px rgba(0,0,0,0.1);display:flex;align-items:center;gap:6px;}
 
-    /* ── Terug-knop ── */
-    .terug{display:inline-flex;align-items:center;gap:6px;background:none;border:none;font-family:'Source Sans 3',sans-serif;font-size:0.95rem;font-weight:500;color:var(--groen);cursor:pointer;padding:6px 0;margin-bottom:1rem;}
-    .terug:hover{text-decoration:underline;}
+    .typing{display:flex;align-items:flex-end;gap:8px;align-self:flex-start;}
+    .typing-dots{background:white;border-radius:18px;padding:12px 16px;display:flex;gap:4px;align-items:center;box-shadow:0 1px 2px rgba(0,0,0,0.06);}
+    .typing-dots span{width:6px;height:6px;background:var(--tekst-licht);border-radius:50%;animation:tikken 1.2s infinite;}
+    .typing-dots span:nth-child(2){animation-delay:0.2s;}
+    .typing-dots span:nth-child(3){animation-delay:0.4s;}
+    @keyframes tikken{0%,60%,100%{transform:translateY(0);opacity:0.4;}30%{transform:translateY(-5px);opacity:1;}}
+    @keyframes inSchuiven{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
 
-    /* ── Uitleg ── */
-    .situatie-titel{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:600;margin-bottom:1.2rem;display:flex;align-items:center;gap:10px;}
-    .situatie-titel .em{font-size:1.6rem;}
-    .blok{background:white;border:1px solid var(--rand);border-radius:14px;padding:18px 20px;margin-bottom:14px;}
-    .blok-kop{font-size:1.1rem;font-weight:600;color:var(--groen);margin-bottom:8px;}
-    .blok-tekst{font-size:1.02rem;color:var(--tekst);white-space:pre-wrap;}
-    .blok ul{list-style:none;display:flex;flex-direction:column;gap:9px;}
-    .blok li{font-size:1.02rem;padding-left:24px;position:relative;}
-    .blok li::before{content:'→';position:absolute;left:0;color:var(--amber-diep);font-weight:600;}
+    /* ── Invoer/actie-zone onderaan (fixed, zoals budgethulp) ── */
+    .invoer-zone{padding:0.8rem 0.8rem 1rem;position:fixed;bottom:0;left:0;right:0;z-index:50;background:var(--chat-bg);border-top:1px solid var(--rand);}
+    .invoer-zone:empty{border-top:none;padding:0;}
+    .invoer-inner{max-width:680px;margin:0 auto;width:100%;}
 
-    .vaste-scheiding{border:none;border-top:1px dashed var(--rand);margin:1.6rem 0 1.2rem;}
+    /* ── Keuzeknoppen (tegels als grote knoppen) ── */
+    .keuze-kolom{display:flex;flex-direction:column;gap:8px;}
+    .keuze-btn{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:white;border:1.5px solid var(--rand);border-radius:14px;padding:13px 16px;font-size:1rem;font-weight:500;cursor:pointer;color:var(--tekst);font-family:'Source Sans 3',sans-serif;transition:all 0.16s;line-height:1.35;}
+    .keuze-btn:hover{border-color:var(--groen);background:var(--groen-licht);color:var(--groen);}
+    .keuze-emoji{font-size:1.5rem;flex-shrink:0;line-height:1;}
 
-    /* ── AI-laag ── */
-    .ai-zone{margin-top:2rem;background:var(--amber-licht);border:1px solid rgba(232,160,32,0.3);border-radius:16px;padding:20px;}
-    .ai-uitnodiging{font-size:1.12rem;font-weight:600;margin-bottom:4px;}
-    .ai-sub{font-size:0.95rem;color:var(--tekst-zacht);margin-bottom:14px;}
-    .ai-invoer-rij{display:flex;gap:8px;align-items:flex-end;}
-    .ai-tekst-wrap{flex:1;display:flex;align-items:flex-end;background:white;border:2px solid var(--rand);border-radius:16px;padding:4px 4px 4px 14px;transition:border-color 0.2s;}
-    .ai-tekst-wrap:focus-within{border-color:var(--groen);}
-    .ai-invoer{flex:1;border:none;background:transparent;outline:none;font-family:'Source Sans 3',sans-serif;font-size:1rem;resize:none;max-height:120px;line-height:1.5;padding:8px 0;color:var(--tekst);}
-    .ai-invoer::placeholder{color:var(--tekst-licht);}
-    .icoon-btn{width:42px;height:42px;border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.15rem;transition:all 0.16s;}
-    .spreek-btn{background:white;border:2px solid var(--rand);color:var(--tekst-zacht);}
+    /* ── Verder-knop ── */
+    .verder-btn{display:block;width:100%;background:var(--groen);border:none;border-radius:14px;padding:14px;font-size:1.02rem;font-weight:600;color:white;cursor:pointer;font-family:'Source Sans 3',sans-serif;transition:all 0.18s;}
+    .verder-btn:hover{background:#234830;}
+
+    .opnieuw-link{text-align:center;font-size:0.82rem;color:var(--tekst-licht);margin-top:8px;cursor:pointer;background:none;border:none;font-family:'Source Sans 3',sans-serif;width:100%;display:block;transition:color 0.2s;}
+    .opnieuw-link:hover{color:var(--tekst-zacht);}
+
+    /* ── AI-invoer ── */
+    .ai-rij{display:flex;gap:8px;align-items:flex-end;}
+    .spreek-btn{width:46px;height:46px;border:2px solid var(--rand);background:white;border-radius:50%;cursor:pointer;color:var(--tekst-zacht);font-size:1.15rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.16s;}
     .spreek-btn:hover{border-color:var(--groen);color:var(--groen);}
     .spreek-btn.luistert{background:var(--rood);border-color:var(--rood);color:white;animation:pulse 1.2s infinite;}
-    @keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.08);}}
-    .stuur-btn{background:var(--groen);color:white;}
+    @keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.07);}}
+    .tekst-wrap{flex:1;display:flex;align-items:flex-end;background:white;border:2px solid var(--rand);border-radius:20px;overflow:hidden;transition:border-color 0.2s;padding:4px 4px 4px 16px;}
+    .tekst-wrap:focus-within{border-color:var(--groen);}
+    .tekst-invoer{flex:1;border:none;background:transparent;color:var(--tekst);outline:none;font-family:'Source Sans 3',sans-serif;font-size:0.95rem;resize:none;max-height:120px;line-height:1.5;padding:9px 0;}
+    .tekst-invoer::placeholder{color:var(--tekst-licht);}
+    .stuur-btn{width:40px;height:40px;background:var(--groen);border:none;border-radius:50%;cursor:pointer;color:white;font-size:1.1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.18s;}
     .stuur-btn:hover{background:#234830;}
     .stuur-btn:disabled{background:var(--tekst-licht);cursor:default;}
-    .ai-disclaimer{font-size:0.82rem;color:var(--amber-diep);margin-top:12px;line-height:1.5;}
-
-    /* ── AI-antwoorden ── */
-    .ai-gesprek{display:flex;flex-direction:column;gap:10px;margin-top:16px;}
-    .ai-bericht-user{align-self:flex-end;background:var(--groen);color:white;border-radius:16px 16px 4px 16px;padding:10px 14px;font-size:0.98rem;max-width:85%;}
-    .ai-bericht-sol{align-self:flex-start;background:white;border:1px solid var(--rand);border-radius:16px 16px 16px 4px;padding:10px 14px;font-size:0.98rem;max-width:90%;white-space:pre-wrap;line-height:1.55;}
-    .ai-bericht-sol.fout{background:var(--rood-licht);border-color:rgba(220,38,38,0.2);color:var(--rood);}
-    .ai-typing{align-self:flex-start;background:white;border:1px solid var(--rand);border-radius:16px;padding:12px 16px;display:flex;gap:5px;}
-    .ai-typing span{width:7px;height:7px;background:var(--tekst-licht);border-radius:50%;animation:tik 1.2s infinite;}
-    .ai-typing span:nth-child(2){animation-delay:0.2s;}
-    .ai-typing span:nth-child(3){animation-delay:0.4s;}
-    @keyframes tik{0%,60%,100%{transform:translateY(0);opacity:0.4;}30%{transform:translateY(-5px);opacity:1;}}
-
-    .verborgen{display:none !important;}
 
     /* ── RTL ── */
-    [dir="rtl"] .tegel{text-align:right;}
-    [dir="rtl"] .blok li{padding-left:0;padding-right:24px;}
-    [dir="rtl"] .blok li::before{left:auto;right:0;content:'←';}
-    [dir="rtl"] .ai-bericht-user{align-self:flex-start;border-radius:16px 16px 16px 4px;}
-    [dir="rtl"] .ai-bericht-sol{align-self:flex-end;border-radius:16px 16px 4px 16px;}
-    [dir="rtl"] .ai-invoer{text-align:right;}
-
-    @media(max-width:520px){
-      .wrap{padding-top:80px;}
-      .titel{font-size:1.7rem;}
-    }
+    [dir="rtl"] .bericht-sol{align-self:flex-end;flex-direction:row-reverse;}
+    [dir="rtl"] .bel-sol{border-radius:18px 18px 4px 18px;}
+    [dir="rtl"] .bel-sol li{padding-left:0;padding-right:20px;}
+    [dir="rtl"] .bel-sol li::before{left:auto;right:0;content:'←';}
+    [dir="rtl"] .bericht-user{align-self:flex-start;}
+    [dir="rtl"] .bel-user{border-radius:18px 18px 18px 4px;}
+    [dir="rtl"] .keuze-btn{text-align:right;}
+    [dir="rtl"] .tekst-wrap{padding:4px 16px 4px 4px;}
+    [dir="rtl"] .tekst-invoer{text-align:right;}
   </style>
 </head>
 <body>
 
 <div id="solidari-nav"></div>
 
-<div class="wrap">
-  <h1 class="titel" id="pagina-titel">Goed Voorbereid</h1>
-  <p class="intro" id="intro"></p>
-
-  <!-- Stap 1: categorie kiezen -->
-  <div id="stap-categorie">
-    <p class="vraag-label" id="label-categorie"></p>
-    <div class="tegels" id="categorie-tegels"></div>
-  </div>
-
-  <!-- Stap 2: situatie kiezen -->
-  <div id="stap-situatie" class="verborgen">
-    <button class="terug" id="terug-naar-categorie"></button>
-    <p class="vraag-label" id="label-situatie"></p>
-    <div class="tegels" id="situatie-tegels"></div>
-  </div>
-
-  <!-- Stap 3: uitleg + AI -->
-  <div id="stap-uitleg" class="verborgen">
-    <button class="terug" id="terug-naar-situatie"></button>
-    <h2 class="situatie-titel" id="uitleg-titel"></h2>
-    <div id="uitleg-blokken"></div>
-    <hr class="vaste-scheiding">
-    <div id="vaste-blokken"></div>
-
-    <!-- AI-laag -->
-    <div class="ai-zone">
-      <div class="ai-uitnodiging" id="ai-uitnodiging"></div>
-      <div class="ai-sub" id="ai-sub"></div>
-      <div class="ai-gesprek" id="ai-gesprek"></div>
-      <div class="ai-invoer-rij">
-        <button class="icoon-btn spreek-btn" id="spreek-btn" title="Inspreken">🎤</button>
-        <div class="ai-tekst-wrap">
-          <textarea class="ai-invoer" id="ai-invoer" rows="1"></textarea>
-        </div>
-        <button class="icoon-btn stuur-btn" id="ai-stuur-btn" title="Vraag stellen">↑</button>
-      </div>
-      <div class="ai-disclaimer" id="ai-disclaimer"></div>
-    </div>
+<div class="chat-wrap">
+  <div class="berichten" id="berichten"></div>
+  <div class="invoer-zone" id="invoer-zone">
+    <div class="invoer-inner" id="invoer-inner"></div>
   </div>
 </div>
-
-<div id="solidari-footer"></div>
 
 <script src="i18n.js"></script>
 <script src="goedvoorbereid-data.js"></script>
@@ -164,262 +123,283 @@ const WORKER_URL = 'https://solidari-digi-hulp-worker.jaspermarsman.workers.dev'
 
 // ── State ───────────────────────────────────────────────────────────────────
 let taal = 'NL';
-let huidigeCategorie = null;   // categorie-object
-let huidigeSituatie  = null;   // situatie-object
-let aiGeschiedenis   = [];     // [{role, content}]
+let huidigeCategorie = null;
+let huidigeSituatie  = null;
+let alleBlokken = [];     // situatie-blokken + categorie vaste blokken
+let blokIndex = 0;
+let aiGeschiedenis = [];
 let aiBezig = false;
+let aiModus = false;      // true zodra alle blokken getoond zijn → typeveld actief
 
-// ── Helpers: data ophalen voor huidige taal (met NL-fallback) ────────────────
-function data() {
-  return window.GoedVoorbereidData[taal] || window.GoedVoorbereidData.NL;
+function data(){ return window.GoedVoorbereidData[taal] || window.GoedVoorbereidData.NL; }
+function isRTL(){ return taal === 'AR' || taal === 'FA'; }
+
+// ── DOM helpers ──────────────────────────────────────────────────────────────
+function el(tag, cls, html){ const e=document.createElement(tag); if(cls)e.className=cls; if(html!=null)e.innerHTML=html; return e; }
+function berichtenEl(){ return document.getElementById('berichten'); }
+function zoneEl(){ return document.getElementById('invoer-inner'); }
+function scrollOnder(){ const b=berichtenEl(); b.scrollTop=b.scrollHeight; }
+function escapeHTML(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function avatar(){ const a=el('div','sol-avatar'); a.textContent='📋'; return a; }
+
+function solBericht(htmlInhoud, extraKlasse){
+  const rij = el('div','bericht-sol');
+  const bel = el('div','bel-sol'+(extraKlasse?' '+extraKlasse:''), htmlInhoud);
+  if(isRTL()){ rij.setAttribute('dir','rtl'); }
+  rij.appendChild(avatar()); rij.appendChild(bel);
+  berichtenEl().appendChild(rij); scrollOnder();
+  return bel;
 }
-function isRTL() {
-  return taal === 'AR' || taal === 'FA';
+function userBericht(tekst){
+  const rij = el('div','bericht-user');
+  const bel = el('div','bel-user'); bel.textContent = tekst;
+  rij.appendChild(bel);
+  berichtenEl().appendChild(rij); scrollOnder();
+}
+function typing(){
+  const rij = el('div','typing'); rij.id='typing';
+  rij.appendChild(avatar());
+  rij.appendChild(el('div','typing-dots','<span></span><span></span><span></span>'));
+  berichtenEl().appendChild(rij); scrollOnder();
+}
+function stopTyping(){ const t=document.getElementById('typing'); if(t)t.remove(); }
+
+function zoneLeeg(){ zoneEl().innerHTML=''; }
+
+// Toon Solidari-bericht met korte typing-animatie ervoor
+function solMetTyping(htmlInhoud, extraKlasse, klaarCb){
+  typing();
+  setTimeout(()=>{ stopTyping(); solBericht(htmlInhoud, extraKlasse); if(klaarCb)klaarCb(); }, 450);
 }
 
-// ── System prompt voor de AI-laag ────────────────────────────────────────────
-// De system prompt is opgebouwd uit een vaste kern + context van de gekozen situatie.
-function bouwSystemPrompt() {
+// ── Blok → HTML ──────────────────────────────────────────────────────────────
+function blokHTML(blok){
+  let h = '<div class="blok-kop">'+escapeHTML(blok.kop)+'</div>';
+  if(blok.type==='lijst'){
+    h += '<ul>'+blok.items.map(i=>'<li>'+escapeHTML(i)+'</li>').join('')+'</ul>';
+  } else {
+    h += '<div>'+escapeHTML(blok.tekst)+'</div>';
+  }
+  return h;
+}
+
+// ── Flow: start ──────────────────────────────────────────────────────────────
+function start(){
+  berichtenEl().innerHTML='';
+  zoneLeeg();
+  huidigeCategorie=null; huidigeSituatie=null; alleBlokken=[]; blokIndex=0;
+  aiGeschiedenis=[]; aiBezig=false; aiModus=false;
+  document.body.setAttribute('dir', isRTL()?'rtl':'ltr');
+
+  const d=data();
+  solBericht(d.ui.aiDisclaimer,'disclaimer');
+  solMetTyping(escapeHTML(d.ui.welkom), '', ()=> {
+    solMetTyping(escapeHTML(d.ui.kiesCategorie), '', toonCategorieKeuze);
+  });
+}
+
+// ── Flow: categorie kiezen ────────────────────────────────────────────────────
+function toonCategorieKeuze(){
+  const d=data();
+  zoneLeeg();
+  const kolom = el('div','keuze-kolom');
+  d.categorieen.forEach(cat=>{
+    const btn = el('button','keuze-btn');
+    btn.innerHTML = '<span class="keuze-emoji">'+cat.emoji+'</span><span>'+escapeHTML(cat.naam)+'</span>';
+    btn.onclick = ()=>kiesCategorie(cat.id);
+    kolom.appendChild(btn);
+  });
+  zoneEl().appendChild(kolom);
+}
+
+function kiesCategorie(catId){
+  const d=data();
+  huidigeCategorie = d.categorieen.find(c=>c.id===catId);
+  if(!huidigeCategorie) return;
+  userBericht(huidigeCategorie.emoji+' '+huidigeCategorie.naam);
+  zoneLeeg();
+
+  // Eén situatie? sla keuze over.
+  if(huidigeCategorie.situaties.length===1){
+    solMetTyping(escapeHTML(d.ui.kiesSituatie), '', ()=>kiesSituatie(huidigeCategorie.situaties[0].id, true));
+    return;
+  }
+  solMetTyping(escapeHTML(d.ui.kiesSituatie), '', toonSituatieKeuze);
+}
+
+// ── Flow: situatie kiezen ─────────────────────────────────────────────────────
+function toonSituatieKeuze(){
+  zoneLeeg();
+  const kolom = el('div','keuze-kolom');
+  huidigeCategorie.situaties.forEach(sit=>{
+    const btn = el('button','keuze-btn');
+    btn.innerHTML = '<span class="keuze-emoji">'+sit.emoji+'</span><span>'+escapeHTML(sit.titel)+'</span>';
+    btn.onclick = ()=>kiesSituatie(sit.id);
+    kolom.appendChild(btn);
+  });
+  zoneEl().appendChild(kolom);
+}
+
+function kiesSituatie(sitId, stilleKeuze){
+  huidigeSituatie = huidigeCategorie.situaties.find(s=>s.id===sitId);
+  if(!huidigeSituatie) return;
+  if(!stilleKeuze) userBericht(huidigeSituatie.emoji+' '+huidigeSituatie.titel);
+  zoneLeeg();
+
+  // Bouw de bloklijst: situatie-blokken + categorie vaste blokken
+  alleBlokken = huidigeSituatie.blokken.concat(huidigeCategorie.vasteBlokken||[]);
+  blokIndex = 0;
+  toonVolgendBlok();
+}
+
+// ── Flow: blokken één voor één met 'Verder →' ────────────────────────────────
+function toonVolgendBlok(){
+  const d=data();
+  if(blokIndex >= alleBlokken.length){ naarAIModus(); return; }
+  const blok = alleBlokken[blokIndex];
+  blokIndex++;
+  zoneLeeg();
+  solMetTyping(blokHTML(blok), '', ()=>{
+    if(blokIndex < alleBlokken.length){
+      const btn = el('button','verder-btn'); btn.textContent = d.ui.verder;
+      btn.onclick = toonVolgendBlok;
+      zoneEl().appendChild(btn);
+    } else {
+      naarAIModus();
+    }
+  });
+}
+
+// ── Flow: AI-modus (na alle blokken) ──────────────────────────────────────────
+function naarAIModus(){
+  const d=data();
+  aiModus = true;
+  solMetTyping(escapeHTML(d.ui.aiUitnodiging), '', toonAIInvoer);
+}
+
+function toonAIInvoer(){
+  const d=data();
+  zoneLeeg();
+  const rij = el('div','ai-rij');
+
+  // Spreekknop (alleen indien ondersteund; setupSpraak verbergt 'm anders)
+  const spreek = el('button','spreek-btn'); spreek.id='spreek-btn'; spreek.title=d.ui.aiSpreekTitel; spreek.textContent='🎤';
+
+  const wrap = el('div','tekst-wrap');
+  const ta = el('textarea','tekst-invoer'); ta.id='ai-invoer'; ta.rows=1; ta.placeholder=d.ui.aiPlaceholder;
+  wrap.appendChild(ta);
+
+  const stuur = el('button','stuur-btn'); stuur.id='ai-stuur'; stuur.textContent='↑'; stuur.title='Verstuur';
+  stuur.onclick = aiVerstuur;
+
+  rij.appendChild(spreek); rij.appendChild(wrap); rij.appendChild(stuur);
+  zoneEl().appendChild(rij);
+
+  const opnieuw = el('button','opnieuw-link'); opnieuw.textContent=d.ui.opnieuw; opnieuw.onclick=start;
+  zoneEl().appendChild(opnieuw);
+
+  ta.addEventListener('keydown', e=>{ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); aiVerstuur(); } });
+  ta.addEventListener('input', function(){ this.style.height='auto'; this.style.height=Math.min(this.scrollHeight,120)+'px'; });
+
+  setupSpraak();
+}
+
+// ── AI system prompt ──────────────────────────────────────────────────────────
+function bouwSystemPrompt(){
   const cat = huidigeCategorie ? huidigeCategorie.naam : '';
   const sit = huidigeSituatie ? huidigeSituatie.titel : '';
-  return `Je bent een rustige, geduldige hulp die mensen helpt zich voor te bereiden op een afspraak. De gebruiker bereidt zich voor op deze afspraak: "${cat} — ${sit}".
+  return `Je bent een rustige, geduldige hulp die mensen helpt zich voor te bereiden op een afspraak. De gebruiker bereidt zich voor op: "${cat} — ${sit}".
 
 JE DOEL: de gebruiker helpen bedenken WAT HIJ KAN ZEGGEN tijdens de afspraak en WAT HIJ KAN VERWACHTEN. Je maakt hem klaar voor het gesprek met de echte persoon (dokter, klantmanager). Je vervangt die persoon niet.
 
-TAAL: Antwoord altijd in dezelfde taal als de gebruiker. Gebruik korte, eenvoudige zinnen op taalniveau A2. Geen moeilijke woorden. Wees warm en geruststellend.
+TAAL: Antwoord altijd in dezelfde taal als de gebruiker. Korte, eenvoudige zinnen op niveau A2. Geen moeilijke woorden. Warm en rustig, maar behandel de gebruiker als volwassene — geen overdreven geruststelling.
 
 HARDE GRENZEN — hier wijk je NOOIT van af:
-- Geef NOOIT een medische diagnose, noem NOOIT mogelijke oorzaken van klachten, geef NOOIT advies over medicijnen of behandeling. Bij een medische vraag: erken hem kort en buig terug naar het gesprek met de dokter. Voorbeeld: "Dat is precies iets om met de huisarts te bespreken. Je zou kunnen zeggen: ..."
+- Geef NOOIT een medische diagnose, noem NOOIT mogelijke oorzaken van klachten, geef NOOIT advies over medicijnen of behandeling. Bij een medische vraag: erken kort en buig terug naar het gesprek met de dokter. Bijvoorbeeld: "Dat is iets om met de huisarts te bespreken. Je zou kunnen zeggen: ..."
 - Geef NOOIT juridisch advies en zeg NOOIT of iemand wel of geen recht heeft op iets. Buig terug naar het gesprek met de gemeente of een hulpverlener.
-- Schat NOOIT in hoe ernstig of dringend iets is. Niet "dat klinkt ernstig" en niet "dat valt wel mee". Wel: "dat kun je het beste met je [dokter/klantmanager] bespreken".
-- Beschrijft de gebruiker iets dat acuut gevaarlijk klinkt of niet kan wachten? Reageer kalm, geef GEEN medische inschatting, en zeg dat hij meteen zijn huisarts of de huisartsenpost moet bellen. Bij levensgevaar: 112.
-- Gaat de vraag niet over deze afspraak (bijvoorbeeld over een brief, DigiD, of geld)? Zeg vriendelijk dat je hier alleen helpt met het voorbereiden op de afspraak, en verwijs naar de andere tools op Solidari.
-- Vraag NOOIT om persoonlijke gegevens (naam, BSN, adres). Krijg je ze toch, gebruik ze niet.
+- Schat NOOIT in hoe ernstig of dringend iets is. Wel: "dat kun je het beste met je [dokter/klantmanager] bespreken".
+- Klinkt iets acuut gevaarlijk of kan het niet wachten? Reageer kalm, geef GEEN inschatting, en zeg dat hij meteen zijn huisarts of de huisartsenpost belt. Bij levensgevaar: 112.
+- Gaat de vraag niet over deze afspraak (bv. een brief, DigiD, geld)? Zeg vriendelijk dat je hier alleen helpt met het voorbereiden op de afspraak, en verwijs naar de andere tools op Solidari.
+- Vraag NOOIT om persoonlijke gegevens (naam, BSN, adres) en gebruik ze niet als ze toch gegeven worden.
 
-VORM: Houd antwoorden kort (een paar zinnen). Geef waar het kan een concrete zin die de gebruiker letterlijk kan zeggen tegen de dokter of klantmanager.`;
+VORM: Kort (een paar zinnen). Geef waar mogelijk een concrete zin die de gebruiker letterlijk kan zeggen tegen de dokter of klantmanager.`;
 }
 
-// ── Renderen: stap 1 (categorieën) ──────────────────────────────────────────
-function toonCategorieen() {
-  const d = data();
-  document.getElementById('label-categorie').textContent = d.ui.kiesCategorie;
-  const cont = document.getElementById('categorie-tegels');
-  cont.innerHTML = '';
-  d.categorieen.forEach(cat => {
-    const btn = document.createElement('button');
-    btn.className = 'tegel';
-    btn.innerHTML = `<span class="tegel-emoji">${cat.emoji}</span><span>${cat.naam}</span>`;
-    btn.onclick = () => kiesCategorie(cat.id);
-    cont.appendChild(btn);
-  });
-  wisselStap('categorie');
-}
+// ── AI versturen ──────────────────────────────────────────────────────────────
+async function aiVerstuur(){
+  const ta = document.getElementById('ai-invoer');
+  if(!ta) return;
+  const tekst = ta.value.trim();
+  if(!tekst || aiBezig) return;
+  aiBezig=true;
+  const stuur=document.getElementById('ai-stuur'); if(stuur)stuur.disabled=true;
+  ta.value=''; ta.style.height='auto';
 
-// ── Renderen: stap 2 (situaties) ────────────────────────────────────────────
-function kiesCategorie(catId) {
-  const d = data();
-  huidigeCategorie = d.categorieen.find(c => c.id === catId);
-  if (!huidigeCategorie) return;
-  document.getElementById('label-situatie').textContent = d.ui.kiesSituatie;
-  document.getElementById('terug-naar-categorie').textContent = d.ui.terugCategorie;
-  const cont = document.getElementById('situatie-tegels');
-  cont.innerHTML = '';
-  huidigeCategorie.situaties.forEach(sit => {
-    const btn = document.createElement('button');
-    btn.className = 'tegel';
-    btn.innerHTML = `<span class="tegel-emoji">${sit.emoji}</span><span>${sit.titel}</span>`;
-    btn.onclick = () => kiesSituatie(sit.id);
-    cont.appendChild(btn);
-  });
-  // Als er maar één situatie is, sla de keuze over en toon meteen de uitleg
-  if (huidigeCategorie.situaties.length === 1) {
-    kiesSituatie(huidigeCategorie.situaties[0].id);
-    return;
-  }
-  wisselStap('situatie');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
+  userBericht(tekst);
+  aiGeschiedenis.push({role:'user', content:tekst});
+  typing();
 
-// ── Renderen: stap 3 (uitleg + AI) ──────────────────────────────────────────
-function kiesSituatie(sitId) {
-  const d = data();
-  huidigeSituatie = huidigeCategorie.situaties.find(s => s.id === sitId);
-  if (!huidigeSituatie) return;
-
-  document.getElementById('terug-naar-situatie').textContent = d.ui.terugSituatie;
-  document.getElementById('uitleg-titel').innerHTML =
-    `<span class="em">${huidigeSituatie.emoji}</span><span>${huidigeSituatie.titel}</span>`;
-
-  // Situatie-specifieke blokken
-  document.getElementById('uitleg-blokken').innerHTML =
-    huidigeSituatie.blokken.map(renderBlok).join('');
-
-  // Vaste blokken van de categorie
-  const vaste = huidigeCategorie.vasteBlokken || [];
-  document.getElementById('vaste-blokken').innerHTML = vaste.map(renderBlok).join('');
-
-  // AI-laag teksten + reset
-  document.getElementById('ai-uitnodiging').textContent = d.ui.aiUitnodiging;
-  document.getElementById('ai-sub').textContent = d.ui.aiSub;
-  document.getElementById('ai-invoer').placeholder = d.ui.aiPlaceholder;
-  document.getElementById('ai-disclaimer').textContent = d.ui.aiDisclaimer;
-  document.getElementById('ai-gesprek').innerHTML = '';
-  document.getElementById('ai-invoer').value = '';
-  aiGeschiedenis = [];
-
-  wisselStap('uitleg');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-function renderBlok(blok) {
-  if (blok.type === 'lijst') {
-    const lis = blok.items.map(i => `<li>${escapeHTML(i)}</li>`).join('');
-    return `<div class="blok"><div class="blok-kop">${escapeHTML(blok.kop)}</div><ul>${lis}</ul></div>`;
-  }
-  return `<div class="blok"><div class="blok-kop">${escapeHTML(blok.kop)}</div><div class="blok-tekst">${escapeHTML(blok.tekst)}</div></div>`;
-}
-
-function escapeHTML(s) {
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
-
-// ── Stap-navigatie ──────────────────────────────────────────────────────────
-function wisselStap(naam) {
-  ['categorie','situatie','uitleg'].forEach(s => {
-    document.getElementById('stap-' + s).classList.toggle('verborgen', s !== naam);
-  });
-}
-
-// ── AI-laag: vraag stellen ──────────────────────────────────────────────────
-async function aiVraag() {
-  const invoer = document.getElementById('ai-invoer');
-  const tekst = invoer.value.trim();
-  if (!tekst || aiBezig) return;
-
-  aiBezig = true;
-  document.getElementById('ai-stuur-btn').disabled = true;
-  invoer.value = '';
-  invoer.style.height = 'auto';
-
-  voegAIBericht(tekst, 'user');
-  aiGeschiedenis.push({ role: 'user', content: tekst });
-
-  const typing = toonAITyping();
-
-  try {
-    const resp = await fetch(WORKER_URL + '/api/digi', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+  try{
+    const resp = await fetch(WORKER_URL+'/api/digi', {
+      method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({ systeem: bouwSystemPrompt(), berichten: aiGeschiedenis })
     });
-    if (!resp.ok) throw new Error('Worker ' + resp.status);
-    const dataResp = await resp.json();
-    if (dataResp.error) throw new Error(dataResp.error);
-    typing.remove();
-    voegAIBericht(dataResp.tekst, 'sol');
-    aiGeschiedenis.push({ role: 'assistant', content: dataResp.tekst });
-  } catch (e) {
-    typing.remove();
-    voegAIBericht(data().ui.aiFout, 'sol', true);
+    if(!resp.ok) throw new Error('Worker '+resp.status);
+    const r = await resp.json();
+    if(r.error) throw new Error(r.error);
+    stopTyping();
+    solBericht(escapeHTML(r.tekst));
+    aiGeschiedenis.push({role:'assistant', content:r.tekst});
+  }catch(e){
+    stopTyping();
+    solBericht(escapeHTML(data().ui.aiFout),'fout');
     console.error(e);
   }
-
-  aiBezig = false;
-  document.getElementById('ai-stuur-btn').disabled = false;
+  aiBezig=false;
+  if(stuur)stuur.disabled=false;
 }
 
-function voegAIBericht(tekst, wie, isFout) {
-  const div = document.createElement('div');
-  div.className = wie === 'user' ? 'ai-bericht-user' : 'ai-bericht-sol' + (isFout ? ' fout' : '');
-  div.textContent = tekst;
-  document.getElementById('ai-gesprek').appendChild(div);
-  div.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-}
-
-function toonAITyping() {
-  const div = document.createElement('div');
-  div.className = 'ai-typing';
-  div.innerHTML = '<span></span><span></span><span></span>';
-  document.getElementById('ai-gesprek').appendChild(div);
-  div.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  return div;
-}
-
-// ── Spraakherkenning (optioneel, alleen waar ondersteund) ────────────────────
-let herkenning = null;
-function setupSpraak() {
+// ── Spraakherkenning (optioneel) ──────────────────────────────────────────────
+let herkenning=null;
+function setupSpraak(){
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  const spreekBtn = document.getElementById('spreek-btn');
-  if (!SR) { spreekBtn.style.display = 'none'; return; }
-
-  spreekBtn.onclick = () => {
-    if (herkenning) { herkenning.stop(); return; }
+  const btn = document.getElementById('spreek-btn');
+  if(!btn) return;
+  if(!SR){ btn.style.display='none'; return; }
+  btn.onclick = ()=>{
+    if(herkenning){ herkenning.stop(); return; }
     herkenning = new SR();
     herkenning.lang = spraakTaalCode();
-    herkenning.interimResults = false;
-    herkenning.maxAlternatives = 1;
-    spreekBtn.classList.add('luistert');
-    herkenning.onresult = (e) => {
+    herkenning.interimResults=false; herkenning.maxAlternatives=1;
+    btn.classList.add('luistert');
+    herkenning.onresult = e=>{
       const t = e.results[0][0].transcript;
-      const inv = document.getElementById('ai-invoer');
-      inv.value = (inv.value ? inv.value + ' ' : '') + t;  // geen auto-versturen: gebruiker kan controleren
-      inv.style.height = 'auto';
-      inv.style.height = Math.min(inv.scrollHeight, 120) + 'px';
-      inv.focus();
+      const ta=document.getElementById('ai-invoer');
+      ta.value = (ta.value?ta.value+' ':'')+t;   // geen auto-versturen: gebruiker controleert
+      ta.style.height='auto'; ta.style.height=Math.min(ta.scrollHeight,120)+'px'; ta.focus();
     };
-    herkenning.onerror = () => { /* stil falen; gebruiker kan typen */ };
-    herkenning.onend = () => { spreekBtn.classList.remove('luistert'); herkenning = null; };
+    herkenning.onerror = ()=>{};
+    herkenning.onend = ()=>{ btn.classList.remove('luistert'); herkenning=null; };
     herkenning.start();
   };
 }
-function spraakTaalCode() {
-  const map = { NL:'nl-NL', EN:'en-US', AR:'ar-SA', TR:'tr-TR', UK:'uk-UA', FA:'fa-IR', RO:'ro-RO', PL:'pl-PL' };
-  return map[taal] || 'nl-NL';  // TI heeft geen betrouwbare code
+function spraakTaalCode(){
+  const map={NL:'nl-NL',EN:'en-US',AR:'ar-SA',TR:'tr-TR',UK:'uk-UA',FA:'fa-IR',RO:'ro-RO',PL:'pl-PL'};
+  return map[taal]||'nl-NL';
 }
 
 // ── Taal & init ──────────────────────────────────────────────────────────────
-function pasTaalToe() {
-  const d = data();
-  document.documentElement.lang = taal.toLowerCase();
-  document.body.setAttribute('dir', isRTL() ? 'rtl' : 'ltr');
-  document.getElementById('pagina-titel').textContent = d.ui.paginaTitel;
-  document.getElementById('intro').textContent = d.ui.intro;
-  // Terug naar begin bij taalwissel
-  huidigeCategorie = null; huidigeSituatie = null; aiGeschiedenis = [];
-  toonCategorieen();
-}
-
-// components.js roept dit aan als: setTaal('nl', btnElement).
-// components.js heeft Solidari.i18n.passToe op dat moment al uitgevoerd,
-// dus hier alleen onze eigen content opnieuw opbouwen.
-function setTaal(code, btn) {
+function setTaal(code, btn){
   taal = String(code).toUpperCase();
-  pasTaalToe();
+  // components.js heeft Solidari.i18n.passToe al uitgevoerd voor nav/footer
+  start();
 }
 window.setTaal = setTaal;
 
-document.addEventListener('DOMContentLoaded', () => {
-  if (window.Solidari && Solidari.i18n) Solidari.i18n.init();
-
-  // Terug-knoppen
-  document.getElementById('terug-naar-categorie').onclick = () => { toonCategorieen(); window.scrollTo({top:0,behavior:'smooth'}); };
-  document.getElementById('terug-naar-situatie').onclick = () => {
-    // Terug naar situatiekeuze; als categorie maar 1 situatie heeft, terug naar categorieën
-    if (huidigeCategorie && huidigeCategorie.situaties.length === 1) { toonCategorieen(); }
-    else { wisselStap('situatie'); }
-    window.scrollTo({top:0,behavior:'smooth'});
-  };
-
-  // AI-invoer
-  const inv = document.getElementById('ai-invoer');
-  document.getElementById('ai-stuur-btn').onclick = aiVraag;
-  inv.addEventListener('keydown', e => {
-    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); aiVraag(); }
-  });
-  inv.addEventListener('input', function(){ this.style.height='auto'; this.style.height=Math.min(this.scrollHeight,120)+'px'; });
-
-  setupSpraak();
-  pasTaalToe();
+document.addEventListener('DOMContentLoaded', ()=>{
+  if(window.Solidari && Solidari.i18n) Solidari.i18n.init();
+  start();
 });
 </script>
 <script src="components.js"></script>
