@@ -88,7 +88,7 @@
   <div class="header-inhoud">
     <div class="header-badge">🇳🇱 Naturalisatie Checker</div>
     <h1 class="header-titel">Kom ik in aanmerking voor een Nederlands paspoort?</h1>
-    <p class="header-sub">Beantwoord een paar vragen en zie direct of je naturalisatie kunt aanvragen — op basis van de IND-voorwaarden 2025.</p>
+    <p class="header-sub">Beantwoord een paar vragen en zie direct of je naturalisatie kunt aanvragen — op basis van de IND-voorwaarden van 2026, inclusief de nieuwe asielregels.</p>
   </div>
   <div class="voortgang-balk">
     <div class="voortgang-balk-vulling" id="voortgang" style="width:0%"></div>
@@ -200,7 +200,7 @@ const vragen = {
 Haal alle taalexamens op A2 (lezen, luisteren, schrijven, spreken) én het KNM-examen. Na een geslaagd examen heb je een DUO-diploma en voldoe je aan de inburgeringseis. Let op: nu de Z-route is afgerond zijn examenpogingen niet langer kosteloos — je meldt je aan via duo.nl.<br><br>
 <strong>Pad B — 600 uur taalles + minimaal 3 pogingen per onderdeel</strong><br>
 Heb je minstens 600 uur taalles op A2-niveau gevolgd bij een instelling met het Blik op Werk keurmerk, én per onderdeel minimaal 3 keer geprobeerd (waarvan minstens 1 keer een A2-examen)? Dan kan DUO een ontheffingsadvies afgeven — ook zonder geslaagd examen. Alfabetiseringsuren tellen mee tot maximaal 400 van de 600 uur.<br><br>
-<strong>Pad C — 600 uur alphabetisering + DUO-toets (€150)</strong><br>
+<strong>Pad C — 600 uur alfabetisering + DUO-toets (€150)</strong><br>
 Heb je minstens 600 uur alfabetisering of taalles gevolgd bij een instelling met het Blik op Werk keurmerk, en blijkt uit een DUO-toets dat A2 niet haalbaar is? Dan volgt een ontheffing. De toets kost €150 en vraag je aan via duo.nl.<br><br>
 💡 Overleg met jouw gemeente of VluchtelingenWerk welk pad het beste past. Vraag ook of de kosten vergoed kunnen worden via bijzondere bijstand.`,
     antwoorden: [
@@ -259,7 +259,7 @@ Heb je minstens 600 uur alfabetisering of taalles gevolgd bij een instelling met
   v8: {
     stap: 'Stap 9 van 9',
     tekst: 'Ben je op de hoogte van de kosten van naturalisatie?',
-    uitleg: 'De aanvraag kost €1.044 (2025). De procedure duurt gemiddeld 6–12 maanden.',
+    uitleg: 'De aanvraag kost €1.139 (één persoon) of €1.454 (met partner) — tarieven 2026. Asielstatushouders/staatlozen betalen een verlaagd tarief van €847 (alleen) of €1.163 (met partner). De procedure duurt gemiddeld 6–12 maanden.',
     antwoorden: [
       { tekst: 'Ja, ik weet dit en wil doorgaan', icoon: '✓', klasse: 'ja', volgende: 'r_positief' },
       { tekst: 'Dat is te duur — zijn er vergoedingen?', icoon: '💡', klasse: 'anders', volgende: 'r_kosten' },
@@ -276,7 +276,7 @@ const resultaten = {
     stappen: [
       { nr: 1, tekst: '<strong>Maak een afspraak bij jouw gemeente</strong> — afdeling burgerzaken. Zeg dat je naturalisatie wilt aanvragen.' },
       { nr: 2, tekst: '<strong>Verzamel documenten:</strong> geldig paspoort, verblijfsvergunning, bewijs van inburgering, geboorteakte (zo nodig gelegaliseerd).' },
-      { nr: 3, tekst: '<strong>Betaal de leges:</strong> €1.044 bij indiening (2025). Vraag bij de gemeente of er een bijdrageregeling is.' },
+      { nr: 3, tekst: '<strong>Betaal de leges:</strong> €1.139 (één persoon) of €1.454 (met partner) bij indiening — tarieven 2026; verlaagd tarief €847/€1.163 voor asielstatushouders/staatlozen. Vraag bij de gemeente of er een bijdrageregeling is.' },
       { nr: 4, tekst: '<strong>Wacht op de beslissing</strong> van de IND. Dit duurt gemiddeld 6–12 maanden.' },
       { nr: 5, tekst: '<strong>Naturalisatieceremonie:</strong> na goedkeuring ontvang je een uitnodiging voor de ceremonie bij de gemeente.' },
     ],
@@ -328,7 +328,7 @@ const resultaten = {
     alternatieven: [
       { naam: 'Inburgering afronden', tekst: 'Gebruik de wachttijd om je inburgeringsexamen te halen.' },
       { naam: 'Documenten verzamelen', tekst: 'Vraag alvast officiële documenten op uit je land van herkomst.' },
-      { naam: 'NT2 leren', tekst: 'Verbeter je Nederlands — ook gratis via Solidari NT2-cursus.' },
+      { naam: 'Taalles volgen', tekst: 'Werk aan je Nederlands via een taalcursus bij een instelling met het Blik op Werk keurmerk.' },
       { naam: 'Kortere wachttijd?', tekst: 'Met een Nederlandse partner kan de termijn korter zijn. Vraag dit na bij de gemeente.' },
     ],
     link: 'https://ind.nl/nl/nederlander-worden/naturalisatie', linkTekst: '→ Controleer de voorwaarden op ind.nl',
@@ -385,7 +385,7 @@ const resultaten = {
     sub: 'Zonder inburgeringsdiploma of vrijstelling kun je geen naturalisatie aanvragen. Begin nu — dan ben je over 1 tot 3 jaar klaar.',
     alternatieven: [
       { naam: 'Vraag je leerroute op', tekst: 'Ga naar je gemeente om te weten welke route bij jou past (B1, Onderwijsroute of Z-route).' },
-      { naam: 'NT2-cursus via Solidari', tekst: 'Leer gratis Nederlands via de NT2-cursus op deze website (bij zon beschikbaar).' },
+      { naam: 'Start met taalles', tekst: 'Volg taalles bij een instelling met het Blik op Werk keurmerk. Vraag je gemeente naar de mogelijkheden en een eventuele vergoeding.' },
       { naam: 'Examen aanvragen', tekst: 'Als je al voldoende Nederlands spreekt, kun je direct het examen aanvragen via DUO.' },
       { naam: 'Vrijstelling mogelijk?', tekst: 'Vraag na of jij in aanmerking komt voor vrijstelling (65+, medische reden, of een vrijstellend diploma).' },
     ],
@@ -442,7 +442,7 @@ const resultaten = {
   r_kosten: {
     type: 'wacht', icoon: '💶',
     titel: 'Er zijn mogelijkheden om de kosten te verlagen',
-    sub: 'De naturalisatiekosten zijn €1.044 (2025) — maar er zijn manieren om dit betaalbaar te maken.',
+    sub: 'De naturalisatiekosten zijn €1.139 (alleen) of €1.454 (met partner) — tarieven 2026; verlaagd tarief €847/€1.163 voor asielstatushouders/staatlozen. Er zijn manieren om dit betaalbaar te maken.',
     alternatieven: [
       { naam: 'Gemeentelijk fonds', tekst: 'Sommige gemeenten vergoeden de kosten (deels) voor statushouders.' },
       { naam: 'Bijzondere bijstand', tekst: 'Vraag bijzondere bijstand aan bij je gemeente voor de legeskosten.' },
@@ -512,8 +512,10 @@ function toonResultaat(id) {
   document.getElementById('voortgang').style.width = '100%';
   const kaart = document.createElement('div');
   kaart.className = `resultaat-kaart resultaat-${res.type}`;
-  const disclaimer = `<div class="disclaimer">⚠️ Deze checker geeft een indicatie op basis van de IND-voorwaarden 2025. Er zijn altijd uitzonderingen en persoonlijke omstandigheden. Raadpleeg altijd een medewerker van de gemeente of VluchtelingenWerk voor persoonlijk advies.</div>`;
-  const knoppen = `<div class="actie-knoppen"><a href="${res.link}" target="_blank" class="knop-primair">${res.linkTekst}</a><button class="knop-secundair" onclick="opnieuwBeginnen()">↺ Opnieuw beginnen</button></div>`;
+  const disclaimer = `<div class="disclaimer">⚠️ Deze checker geeft een indicatie op basis van de IND-voorwaarden van 2026, inclusief het tweestatusstelsel dat sinds 12 juni 2026 geldt. Een paar aangekondigde maatregelen (zoals de naturalisatietermijn van 5 naar 10 jaar en taalniveau B1) zijn nog niet definitief. Er zijn altijd uitzonderingen en persoonlijke omstandigheden. Raadpleeg altijd een medewerker van de gemeente of VluchtelingenWerk voor persoonlijk advies.</div>`;
+  const interneBtn = res.interneLink ? `<button class="knop-primair" style="background:var(--blauw);" onclick="gaNaarResultaat('${res.interneLink.naar}')">${res.interneLink.tekst}</button>` : '';
+  const externeBtn = res.link ? `<a href="${res.link}" target="_blank" class="${res.interneLink ? 'knop-secundair' : 'knop-primair'}">${res.linkTekst}</a>` : '';
+  const knoppen = `<div class="actie-knoppen">${interneBtn}${externeBtn}<button class="knop-secundair" onclick="opnieuwBeginnen()">↺ Opnieuw beginnen</button></div>`;
   let body = '';
   if (res.type === 'positief') {
     body = `<div class="resultaat-body">
@@ -549,6 +551,12 @@ function kiesAntwoord(vraagId, i) {
 function opnieuwBeginnen() {
   geschiedenis = []; huidigVraagId = 'v1';
   document.getElementById('voortgang').style.width = '0%';
+  render(); window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Navigeer van het ene resultaat naar een ander (bijv. naar EU-langdurig ingezetene)
+function gaNaarResultaat(id) {
+  huidigVraagId = id;
   render(); window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
