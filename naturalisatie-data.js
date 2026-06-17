@@ -18,7 +18,10 @@ window._NAT = {
     "header": {
       "badge": "🇳🇱 Naturalisatie Checker",
       "titel": "Kom ik in aanmerking voor een Nederlands paspoort?",
-      "sub": "Beantwoord een paar vragen en zie direct of je naturalisatie kunt aanvragen — op basis van de IND-voorwaarden van 2026, inclusief de nieuwe asielregels."
+      "sub": "Beantwoord een paar vragen en zie direct of je naturalisatie kunt aanvragen — op basis van de IND-voorwaarden van 2026, inclusief de nieuwe asielregels.",
+      "disclaimer": "⚠️ Deze checker geeft een indicatie op basis van de IND-voorwaarden van 2026, inclusief het tweestatusstelsel dat sinds 12 juni 2026 geldt. Een paar aangekondigde maatregelen (zoals de naturalisatietermijn van 5 naar 10 jaar en taalniveau B1) zijn nog niet definitief. Er zijn altijd uitzonderingen en persoonlijke omstandigheden. Raadpleeg altijd een medewerker van de gemeente of VluchtelingenWerk voor persoonlijk advies.",
+      "vwnLabel": "Twijfel je over jouw situatie?",
+      "vwnTekst": "Naturalisatieregels veranderen snel en jouw situatie kan anders liggen dan de checker aangeeft. VluchtelingenWerk heeft spreekuren en begeleiding bij naturalisatie — kijk op <a href=\"https://www.vluchtelingenwerk.nl/over-ons/locaties\" target=\"_blank\" style=\"color:inherit;\">vluchtelingenwerk.nl/over-ons/locaties</a> voor een locatie bij jou in de buurt."
     },
     "vragen": {
       "v1": {
@@ -767,7 +770,10 @@ window._NAT = {
     "header": {
       "badge": "🇳🇱 Naturalisation Checker",
       "titel": "Am I eligible for a Dutch passport?",
-      "sub": "Answer a few questions and see right away whether you can apply for naturalisation — based on the IND requirements for 2026, including the new asylum rules."
+      "sub": "Answer a few questions and see right away whether you can apply for naturalisation — based on the IND requirements for 2026, including the new asylum rules.",
+      "disclaimer": "⚠️ This checker provides an indication based on IND requirements for 2026, including the two-status system that has been in effect since 12 June 2026. A number of announced measures (such as the naturalisation period from 5 to 10 years and language level B1) are not yet final. There are always exceptions and personal circumstances. Always consult a municipality employee or VluchtelingenWerk for personal advice.",
+      "vwnLabel": "Not sure about your situation?",
+      "vwnTekst": "Naturalisation rules change quickly and your situation may differ from what the checker indicates. VluchtelingenWerk offers drop-in sessions and guidance on naturalisation — find a location near you at <a href=\"https://www.vluchtelingenwerk.nl/over-ons/locaties\" target=\"_blank\" style=\"color:inherit;\">vluchtelingenwerk.nl/over-ons/locaties</a>."
     },
     "vragen": {
       "v1": {
@@ -1516,7 +1522,10 @@ window._NAT = {
     "header": {
       "badge": "🇳🇱 فاحص التجنيس",
       "titel": "هل أنا مؤهل للحصول على جواز سفر هولندي؟",
-      "sub": "أجب عن بعض الأسئلة واعرف فوراً ما إذا كان بإمكانك تقديم طلب التجنيس — بناءً على شروط دائرة الهجرة (IND) لعام 2026، بما في ذلك قواعد اللجوء الجديدة."
+      "sub": "أجب عن بعض الأسئلة واعرف فوراً ما إذا كان بإمكانك تقديم طلب التجنيس — بناءً على شروط دائرة الهجرة (IND) لعام 2026، بما في ذلك قواعد اللجوء الجديدة.",
+      "disclaimer": "⚠️ تُقدّم هذه الأداة تقديراً استناداً إلى شروط دائرة الهجرة (IND) لعام 2026، بما يشمل نظام الوضعين المزدوج الساري منذ 12 يونيو 2026. بعض الإجراءات المُعلنة (كمدة التجنيس من 5 إلى 10 سنوات ومستوى اللغة B1) لم تُقرَّ بعد. دائماً ما توجد استثناءات وظروف شخصية. استشر دائماً موظفاً في البلدية أو منظمة VluchtelingenWerk للحصول على مشورة شخصية.",
+      "vwnLabel": "هل تتردد في أمر وضعك؟",
+      "vwnTekst": "قواعد التجنيس تتغير بسرعة وقد تختلف حالتك عما تُظهره الأداة. تُقدّم منظمة VluchtelingenWerk Nederland جلسات إرشادية ومساعدة مجانية في التجنيس — ابحث عن موقع قريب منك على <a href=\"https://www.vluchtelingenwerk.nl/over-ons/locaties\" target=\"_blank\" style=\"color:inherit;\">vluchtelingenwerk.nl/over-ons/locaties</a>."
     },
     "vragen": {
       "v1": {
@@ -2265,7 +2274,10 @@ window._NAT = {
     "header": {
       "badge": "🇳🇱 Vatandaşlık Denetleyicisi",
       "titel": "Hollanda pasaportu için uygun muyum?",
-      "sub": "Birkaç soruyu yanıtlayın ve vatandaşlık başvurusu yapıp yapamayacağınızı hemen görün — 2026 IND koşullarına ve yeni iltica kurallarına göre."
+      "sub": "Birkaç soruyu yanıtlayın ve vatandaşlık başvurusu yapıp yapamayacağınızı hemen görün — 2026 IND koşullarına ve yeni iltica kurallarına göre.",
+      "disclaimer": "⚠️ Bu araç, 12 Haziran 2026'dan itibaren geçerli olan çift statü sistemi dahil 2026 IND koşullarına dayalı bir gösterge sunmaktadır. Açıklanan bazı önlemler (5'ten 10 yıla uzayan vatandaşlık süresi ve B1 dil seviyesi gibi) henüz kesinleşmemiştir. Her zaman istisnalar ve kişisel koşullar söz konusu olabilir. Kişisel tavsiye için her zaman bir belediye çalışanına veya VluchtelingenWerk'e başvurun.",
+      "vwnLabel": "Durumunuzdan emin değil misiniz?",
+      "vwnTekst": "Vatandaşlık kuralları hızla değişmektedir ve durumunuz aracın gösterdiğinden farklı olabilir. VluchtelingenWerk Nederland, vatandaşlık konusunda ücretsiz danışma saatleri ve rehberlik sunmaktadır — <a href=\"https://www.vluchtelingenwerk.nl/over-ons/locaties\" target=\"_blank\" style=\"color:inherit;\">vluchtelingenwerk.nl/over-ons/locaties</a> adresinden size yakın bir merkezi bulun."
     },
     "vragen": {
       "v1": {
@@ -3014,7 +3026,10 @@ window._NAT = {
     "header": {
       "badge": "🇳🇱 Перевірка натуралізації",
       "titel": "Чи маю я право на нідерландський паспорт?",
-      "sub": "Дайте відповідь на кілька запитань і одразу дізнайтеся, чи можете ви подати заяву на натуралізацію — на основі умов IND 2026 року, включно з новими правилами щодо притулку."
+      "sub": "Дайте відповідь на кілька запитань і одразу дізнайтеся, чи можете ви подати заяву на натуралізацію — на основі умов IND 2026 року, включно з новими правилами щодо притулку.",
+      "disclaimer": "⚠️ Цей інструмент надає орієнтовну інформацію на основі умов IND 2026 року, включно з системою двох статусів, що діє з 12 червня 2026 року. Деякі оголошені заходи (зокрема подовження терміну натуралізації з 5 до 10 років та рівень мови B1) ще не є остаточними. Завжди можуть бути винятки та індивідуальні обставини. Завжди звертайтеся до співробітника муніципалітету або VluchtelingenWerk за особистою консультацією.",
+      "vwnLabel": "Не впевнені у своїй ситуації?",
+      "vwnTekst": "Правила натуралізації швидко змінюються, і ваша ситуація може відрізнятися від того, що показує інструмент. VluchtelingenWerk Nederland пропонує безкоштовні консультації та підтримку щодо натуралізації — знайдіть найближче місце на <a href=\"https://www.vluchtelingenwerk.nl/over-ons/locaties\" target=\"_blank\" style=\"color:inherit;\">vluchtelingenwerk.nl/over-ons/locaties</a>."
     },
     "vragen": {
       "v1": {
@@ -3763,7 +3778,10 @@ window._NAT = {
     "header": {
       "badge": "🇳🇱 بررسی تابعیت",
       "titel": "آیا واجد شرایط پاسپورت هلندی هستم؟",
-      "sub": "به چند پرسش پاسخ دهید و بلافاصله ببینید آیا می‌توانید درخواست تابعیت بدهید — بر اساس شرایط IND سال 2026، از جمله قوانین جدید پناهندگی."
+      "sub": "به چند پرسش پاسخ دهید و بلافاصله ببینید آیا می‌توانید درخواست تابعیت بدهید — بر اساس شرایط IND سال 2026، از جمله قوانین جدید پناهندگی.",
+      "disclaimer": "⚠️ این ابزار بر اساس شرایط IND سال 2026، از جمله سیستم دو وضعیتی که از 12 ژوئن 2026 اجرایی شده، یک تخمین ارائه می‌دهد. برخی از اقدامات اعلام‌شده (مانند افزایش مدت تابعیت از 5 به 10 سال و سطح زبانی B1) هنوز قطعی نشده‌اند. همیشه استثناها و شرایط شخصی وجود دارد. برای مشاوره شخصی همیشه با یک کارمند شهرداری یا VluchtelingenWerk مشورت کنید.",
+      "vwnLabel": "در مورد وضعیت خود مطمئن نیستید؟",
+      "vwnTekst": "قوانین تابعیت به سرعت تغییر می‌کنند و وضعیت شما ممکن است با آنچه این ابزار نشان می‌دهد متفاوت باشد. VluchtelingenWerk Nederland ساعات مشاوره رایگان و راهنمایی در زمینه تابعیت ارائه می‌دهد — محلی نزدیک به خود را در <a href=\"https://www.vluchtelingenwerk.nl/over-ons/locaties\" target=\"_blank\" style=\"color:inherit;\">vluchtelingenwerk.nl/over-ons/locaties</a> پیدا کنید."
     },
     "vragen": {
       "v1": {
@@ -4512,7 +4530,10 @@ window._NAT = {
     "header": {
       "badge": "🇳🇱 መርመራ ዜጋነት",
       "titel": "ንናይ ሆላንድ ፓስፖርት ዝምልከት መሰል ኣለኒ ድዩ?",
-      "sub": "ቅሩብ ሕቶታት መልሱ፡ ብመሰረት ናይ IND ኩነታት 2026 (ምስ ሓደስቲ ሕግታት ዑቕባ ሓዊሱ) ሕጂ ናይ ዜግነት ምልክታ ከተእቱ ትኽእል ምዃንካ ብቐጥታ ርአ።"
+      "sub": "ቅሩብ ሕቶታት መልሱ፡ ብመሰረት ናይ IND ኩነታት 2026 (ምስ ሓደስቲ ሕግታት ዑቕባ ሓዊሱ) ሕጂ ናይ ዜግነት ምልክታ ከተእቱ ትኽእል ምዃንካ ብቐጥታ ርአ።",
+      "disclaimer": "⚠️ እዚ መርሚሪ ካብ 12 ሰነ 2026 ዝጸንሐ ስርዓት ክልተ-ደረጃ ሓዊሱ ናይ IND ኩነታት 2026 ዝምርኰሰ ምልክታ ይህብ። ዝቐርቡ ዘለዉ ሓደ ሓደ ስጉምቲታት (ናይ ዜግነት ማሕለኻ ካብ 5 ናብ 10 ዓመት ምንዋሕን ደረጃ ቋንቋ B1ን) ገና ናይ መወዳእታ ኣይኮነን። ሎሚ ኩሉ ጊዜ ምትሕልላፋትን ናይ ውልቀ-ሰብ ኩነታትን ኣሎ። ናይ ውልቀ-ሰብ ምኽሪ ንምርካብ ሎሚ ኩሉ ጊዜ ናብ ናይ ምምሕዳር ሰራሕተኛ ወይ VluchtelingenWerk ተወከሱ።",
+      "vwnLabel": "ብዛዕባ ኩነታትካ/ኪ ርግጽ ዘይኮንካ/ኪ?",
+      "vwnTekst": "ናይ ዜግነት ሕግታት ቀልጢፈን ይቕየራ፡ ኩነታትካ/ኪ ካብ ዘርኢ ዘሎ ፍልይ ክብል ይኽእል። VluchtelingenWerk Nederland ብናጻ ናይ ምኽሪ ሰዓታትን ናብ ዜግነት ምቕራብ ሓገዝን ይህብ — ኣብ <a href=\"https://www.vluchtelingenwerk.nl/over-ons/locaties\" target=\"_blank\" style=\"color:inherit;\">vluchtelingenwerk.nl/over-ons/locaties</a> ቀረባ ቦታ ድለዩ።"
     },
     "vragen": {
       "v1": {
@@ -5261,7 +5282,10 @@ window._NAT = {
     "header": {
       "badge": "🇳🇱 Verificator Naturalizare",
       "titel": "Am dreptul la un pașaport olandez?",
-      "sub": "Răspunde la câteva întrebări și află imediat dacă poți depune cerere de naturalizare — pe baza condițiilor IND din 2026, inclusiv noile reguli privind azilul."
+      "sub": "Răspunde la câteva întrebări și află imediat dacă poți depune cerere de naturalizare — pe baza condițiilor IND din 2026, inclusiv noile reguli privind azilul.",
+      "disclaimer": "⚠️ Acest instrument oferă o indicație bazată pe condițiile IND din 2026, inclusiv sistemul cu două statute în vigoare din 12 iunie 2026. Câteva măsuri anunțate (cum ar fi prelungirea perioadei de naturalizare de la 5 la 10 ani și nivelul de limbă B1) nu sunt încă definitive. Există întotdeauna excepții și circumstanțe personale. Consultați întotdeauna un angajat al primăriei sau VluchtelingenWerk pentru sfaturi personale.",
+      "vwnLabel": "Nu ești sigur/ă de situația ta?",
+      "vwnTekst": "Regulile de naturalizare se schimbă rapid și situația ta poate fi diferită de ce arată instrumentul. VluchtelingenWerk Nederland oferă consultații gratuite și îndrumare pentru naturalizare — găsește o locație apropiată pe <a href=\"https://www.vluchtelingenwerk.nl/over-ons/locaties\" target=\"_blank\" style=\"color:inherit;\">vluchtelingenwerk.nl/over-ons/locaties</a>."
     },
     "vragen": {
       "v1": {
@@ -6010,7 +6034,10 @@ window._NAT = {
     "header": {
       "badge": "🇳🇱 Sprawdzanie Naturalizacji",
       "titel": "Czy mam prawo do holenderskiego paszportu?",
-      "sub": "Odpowiedz na kilka pytań i od razu dowiedz się, czy możesz złożyć wniosek o naturalizację — na podstawie warunków IND z 2026 roku, w tym nowych przepisów azylowych."
+      "sub": "Odpowiedz na kilka pytań i od razu dowiedz się, czy możesz złożyć wniosek o naturalizację — na podstawie warunków IND z 2026 roku, w tym nowych przepisów azylowych.",
+      "disclaimer": "⚠️ To narzędzie daje orientację na podstawie warunków IND z 2026 roku, w tym systemu dwóch statusów obowiązującego od 12 czerwca 2026 r. Niektóre ogłoszone środki (jak wydłużenie okresu naturalizacji z 5 do 10 lat i poziom językowy B1) nie są jeszcze ostateczne. Zawsze mogą wystąpić wyjątki i indywidualne okoliczności. W celu uzyskania osobistej porady zawsze skonsultuj się z pracownikiem gminy lub organizacją VluchtelingenWerk.",
+      "vwnLabel": "Nie masz pewności co do swojej sytuacji?",
+      "vwnTekst": "Przepisy dotyczące naturalizacji szybko się zmieniają, a Twoja sytuacja może się różnić od tego, co wskazuje narzędzie. VluchtelingenWerk Nederland oferuje bezpłatne dyżury i wsparcie w kwestiach naturalizacji — znajdź pobliskie miejsce na <a href=\"https://www.vluchtelingenwerk.nl/over-ons/locaties\" target=\"_blank\" style=\"color:inherit;\">vluchtelingenwerk.nl/over-ons/locaties</a>."
     },
     "vragen": {
       "v1": {

@@ -512,16 +512,26 @@ function toonResultaat(id) {
   document.getElementById('voortgang').style.width = '100%';
   const kaart = document.createElement('div');
   kaart.className = `resultaat-kaart resultaat-${res.type}`;
-  const disclaimer = `<div class="disclaimer">⚠️ Deze checker geeft een indicatie op basis van de IND-voorwaarden van 2026, inclusief het tweestatusstelsel dat sinds 12 juni 2026 geldt. Een paar aangekondigde maatregelen (zoals de naturalisatietermijn van 5 naar 10 jaar en taalniveau B1) zijn nog niet definitief. Er zijn altijd uitzonderingen en persoonlijke omstandigheden. Raadpleeg altijd een medewerker van de gemeente of VluchtelingenWerk voor persoonlijk advies.</div>`;
+  const taal = huidigeTaal();
+  const vwnTekstFallback = taal === 'NL'
+    ? `Naturalisatieregels veranderen snel en jouw situatie kan anders liggen dan de checker aangeeft. VluchtelingenWerk heeft spreekuren en begeleiding bij naturalisatie — kijk op <a href="https://www.vluchtelingenwerk.nl/over-ons/locaties" target="_blank" style="color:inherit;">vluchtelingenwerk.nl/over-ons/locaties</a> voor een locatie bij jou in de buurt.`
+    : `VluchtelingenWerk Nederland (VWN) biedt gratis hulp bij naturalisatie, ook in jouw taal. Zoek een locatie via <a href="https://www.vluchtelingenwerk.nl/over-ons/locaties" target="_blank" style="color:inherit;">vluchtelingenwerk.nl/over-ons/locaties</a>.`;
+  const vwnTekst = (nat && nat.vwnTekst) ? nat.vwnTekst : vwnTekstFallback;
+  const disclaimerTekst = (nat && nat.disclaimer) ? nat.disclaimer : '⚠️ Deze checker geeft een indicatie op basis van de IND-voorwaarden van 2026, inclusief het tweestatusstelsel dat sinds 12 juni 2026 geldt. Een paar aangekondigde maatregelen (zoals de naturalisatietermijn van 5 naar 10 jaar en taalniveau B1) zijn nog niet definitief. Er zijn altijd uitzonderingen en persoonlijke omstandigheden. Raadpleeg altijd een medewerker van de gemeente of VluchtelingenWerk voor persoonlijk advies.';
+  const disclaimer = `<div class="disclaimer">${disclaimerTekst}<br><br>💬 ${vwnTekst}</div>`;
   const interneBtn = res.interneLink ? `<button class="knop-primair" style="background:var(--blauw);" onclick="gaNaarResultaat('${res.interneLink.naar}')">${res.interneLink.tekst}</button>` : '';
   const externeBtn = res.link ? `<a href="${res.link}" target="_blank" class="${res.interneLink ? 'knop-secundair' : 'knop-primair'}">${res.linkTekst}</a>` : '';
   const knoppen = `<div class="actie-knoppen">${interneBtn}${externeBtn}<button class="knop-secundair" onclick="opnieuwBeginnen()">↺ Opnieuw beginnen</button></div>`;
+  const vwnLabel = (nat && nat.vwnLabel) || 'Twijfel je over jouw situatie?';
+  const vwnBox = `<div class="amber-box" style="margin-top:1rem;">💬 <strong>${vwnLabel}</strong> ${vwnTekst}</div>`;
   let body = '';
   if (res.type === 'positief') {
+    const vwnStap = { nr: res.stappen.length + 1, tekst: `<strong>Laat je situatie checken</strong> — ${vwnTekst}` };
+    const alleStappen = [...res.stappen, vwnStap];
     body = `<div class="resultaat-body">
       ${res.info?`<div class="info-box">${res.info}</div>`:''}
       <div class="sectie-label">Volgende stappen</div>
-      <ul class="stap-lijst">${res.stappen.map(s=>`<li class="stap-item-res"><span class="stap-nr-res">${s.nr}</span><span class="stap-tekst-res">${s.tekst}</span></li>`).join('')}</ul>
+      <ul class="stap-lijst">${alleStappen.map(s=>`<li class="stap-item-res"><span class="stap-nr-res">${s.nr}</span><span class="stap-tekst-res">${s.tekst}</span></li>`).join('')}</ul>
       ${knoppen}${disclaimer}</div>`;
   } else if (res.type === 'eu') {
     let infoH = (res.infoBoxen||[]).map(b=>`<div class="${b.type==='amber'?'amber-box':'info-box'}">${b.tekst}</div>`).join('');
@@ -534,7 +544,7 @@ function toonResultaat(id) {
     let stappenH = res.stappen ? `<div class="sectie-label" style="margin-top:1rem;">Wat kun je nu doen?</div><ul class="stap-lijst">${res.stappen.map(s=>`<li class="stap-item-res"><span class="stap-nr-res">${s.nr}</span><span class="stap-tekst-res">${s.tekst}</span></li>`).join('')}</ul>` : '';
     body = `<div class="resultaat-body">${infoH}${padenH}${stappenH}${knoppen}${disclaimer}</div>`;
   } else {
-    body = `<div class="resultaat-body"><div class="alternatief-grid">${res.alternatieven.map(a=>`<div class="alternatief-item"><div class="alternatief-naam">${a.naam}</div><div class="alternatief-tekst">${a.tekst}</div></div>`).join('')}</div>${knoppen}${disclaimer}</div>`;
+    body = `<div class="resultaat-body"><div class="alternatief-grid">${res.alternatieven.map(a=>`<div class="alternatief-item"><div class="alternatief-naam">${a.naam}</div><div class="alternatief-tekst">${a.tekst}</div></div>`).join('')}</div>${vwnBox}${knoppen}${disclaimer}</div>`;
   }
   kaart.innerHTML = `<div class="resultaat-header"><div class="resultaat-icoon-groot">${res.icoon}</div><div class="resultaat-titel">${res.titel}</div><div class="resultaat-sub">${res.sub}</div></div>${body}`;
   document.getElementById('hoofd').appendChild(kaart);
