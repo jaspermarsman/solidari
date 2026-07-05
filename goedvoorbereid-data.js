@@ -11,11 +11,28 @@
  *   'tekst'  → { kop, tekst }
  *   'lijst'  → { kop, items: [..] }   (items tonen als losse regels in één bubbel)
  *
+ * Lijst-items: een string (gewone regel) óf een zeg-zin-object:
+ *   { zeg, intro?, na?, eigen? }
+ *   - zeg   : de Nederlandse zin die de gebruiker letterlijk kan uitspreken of
+ *             op de telefoon kan laten zien. In ÁLLE taalversies identiek
+ *             Nederlands — nooit vertalen.
+ *   - intro : korte inleiding vóór de zin (in de taal van het blok).
+ *   - na    : korte tekst ná de zin (in de taal van het blok).
+ *   - eigen : vertaling van de zin, alleen in niet-NL-versies. Voorbeeld (EN):
+ *             { intro: 'Feel free to ask:',
+ *               zeg:   'Kunt u het langzamer of met makkelijkere woorden zeggen?',
+ *               eigen: 'Could you say that more slowly, or in easier words?' }
+ *   De pagina toont zeg-zinnen met een voorleesknop (🔊) en tik-voor-groot,
+ *   zodat de gebruiker de zin aan de dokter/klantmanager/leerkracht kan laten zien.
+ *
  * Presentatie (goedvoorbereid.html): elk blok wordt één chat-bubbel. De gebruiker
  * gaat met 'Verder →' naar het volgende blok. Geen muur, geen leeg tekstveld.
  *
  * Nieuwe taal: kopieer het NL-blok, vertaal strings, behoud alle id's.
  * Nieuwe categorie: voeg object toe aan categorieen-array; pagina past zich aan.
+ *
+ * Categorieën (v0.5): dokter (5 situaties), gemeente (1), school/basisschool (1).
+ * Categorieën met 1 situatie slaan de situatiekeuze automatisch over.
  */
 
 window.GoedVoorbereidData = {
@@ -35,6 +52,8 @@ window.GoedVoorbereidData = {
       aiSpreekTitel: 'Inspreken',
       aiFout: 'Er ging iets mis. Probeer het opnieuw.',
       aiDisclaimer: '🤖 Dit is hulp bij het voorbereiden op je gesprek. Geen medisch of juridisch advies. Deel geen BSN of andere persoonlijke gegevens.',
+      voorlezen: 'Voorlezen',
+      zegSluit: 'Tik om te sluiten',
     },
 
     categorieen: [
@@ -48,7 +67,7 @@ window.GoedVoorbereidData = {
         naam: 'De dokter',
         vasteBlokken: [
           { kop: 'Als het gesprek moeilijk te volgen is', type: 'lijst', items: [
-            'Vraag gerust: "kunt u het langzamer of met makkelijkere woorden zeggen?"',
+            { intro: 'Vraag gerust:', zeg: 'Kunt u het langzamer of met makkelijkere woorden zeggen?' },
             'Je mag iemand meenemen die je vertrouwt.',
             'Spreek je de taal nog niet goed? Vraag om een tolk als je de afspraak maakt, het liefst als je belt. Neem liever geen kind mee om te tolken bij moeilijke gesprekken.',
           ] },
@@ -75,9 +94,10 @@ window.GoedVoorbereidData = {
                 'Gebruik je medicijnen? Neem ze mee of schrijf de namen op.',
               ] },
               { kop: 'Wat jij mag zeggen of vragen', type: 'lijst', items: [
-                '"Ik begrijp het niet, kunt u het nog een keer uitleggen?"',
-                '"Wat kan ik zelf doen?" en "Wanneer moet ik terugkomen?"',
-                'Vraag de dokter om het op te schrijven als je het niet wilt onthouden.',
+                { zeg: 'Ik begrijp het niet, kunt u het nog een keer uitleggen?' },
+                { zeg: 'Wat kan ik zelf doen?' },
+                { zeg: 'Wanneer moet ik terugkomen?' },
+                'Vraag de dokter om het op te schrijven als je het niet kunt onthouden.',
               ] },
             ],
           },
@@ -97,7 +117,7 @@ window.GoedVoorbereidData = {
                 'Heb je medische informatie van vroeger? Neem die mee naar het eerste bezoek.',
               ] },
               { kop: 'Wat jij mag zeggen of vragen', type: 'lijst', items: [
-                '"Neemt u nieuwe patiënten aan?"',
+                { zeg: 'Neemt u nieuwe patiënten aan?' },
                 'Vraag hoe het werkt: een afspraak maken, en wat je doet \'s avonds of in het weekend.',
               ] },
             ],
@@ -114,8 +134,8 @@ window.GoedVoorbereidData = {
               ] },
               { kop: 'Wat jij mag zeggen of vragen', type: 'lijst', items: [
                 'Leg uit waarom je je zorgen maakt.',
-                '"Waarom is een specialist nu nog niet nodig?"',
-                '"Wanneer moet ik terugkomen als het niet beter wordt?"',
+                { zeg: 'Waarom is een specialist nu nog niet nodig?' },
+                { zeg: 'Wanneer moet ik terugkomen als het niet beter wordt?' },
               ] },
             ],
           },
@@ -137,7 +157,8 @@ window.GoedVoorbereidData = {
               ] },
               { kop: 'Wat jij mag zeggen of vragen', type: 'lijst', items: [
                 'Je kent je kind het beste. Zeg het als je kind echt anders is dan normaal.',
-                '"Waar moet ik op letten?" en "Wanneer moet ik terugkomen of bellen?"',
+                { zeg: 'Waar moet ik op letten?' },
+                { zeg: 'Wanneer moet ik terugkomen of bellen?' },
               ] },
             ],
           },
@@ -152,8 +173,8 @@ window.GoedVoorbereidData = {
                 'Wil je hier rustig de tijd voor? Zeg bij het maken van de afspraak dat je ergens over wilt praten. Soms krijg je dan een langere afspraak.',
               ] },
               { kop: 'Wat jij mag zeggen of vragen', type: 'lijst', items: [
-                '"Dit is moeilijk voor mij om te vertellen."',
-                '"Met wie kan ik hierover verder praten?" De huisarts kan je doorverwijzen.',
+                { zeg: 'Dit is moeilijk voor mij om te vertellen.' },
+                { zeg: 'Met wie kan ik hierover verder praten?', na: 'De huisarts kan je doorverwijzen.' },
                 'Je mag iemand meenemen die je vertrouwt.',
               ] },
             ],
@@ -170,7 +191,7 @@ window.GoedVoorbereidData = {
         naam: 'De gemeente',
         vasteBlokken: [
           { kop: 'Als het gesprek moeilijk te volgen is', type: 'lijst', items: [
-            'Vraag gerust: "kunt u het langzamer of met makkelijkere woorden zeggen?"',
+            { intro: 'Vraag gerust:', zeg: 'Kunt u het langzamer of met makkelijkere woorden zeggen?' },
             'Je mag iemand meenemen die je vertrouwt.',
             'Spreek je de taal nog niet goed? Vraag om een tolk als je de afspraak maakt.',
           ] },
@@ -198,9 +219,56 @@ window.GoedVoorbereidData = {
                 'Heb je problemen, zoals schulden? Je mag die noemen. De gemeente kan soms helpen.',
               ] },
               { kop: 'Wat jij mag zeggen of vragen', type: 'lijst', items: [
-                '"Ik begrijp het niet, kunt u het rustiger uitleggen?"',
-                '"Wat betekent dit voor mijn uitkering?" en "Wat moet ik nu doen?"',
+                { zeg: 'Ik begrijp het niet, kunt u het rustiger uitleggen?' },
+                { zeg: 'Wat betekent dit voor mijn uitkering?' },
+                { zeg: 'Wat moet ik nu doen?' },
                 'Vraag of de gemeente een afspraak op papier zet, zodat je het thuis kunt nalezen.',
+              ] },
+            ],
+          },
+        ],
+      },
+
+      // ===================================================================
+      // SCHOOL (basisschool)
+      // ===================================================================
+      {
+        id: 'school',
+        emoji: '🏫',
+        naam: 'De school van mijn kind',
+        vasteBlokken: [
+          { kop: 'Als het gesprek moeilijk te volgen is', type: 'lijst', items: [
+            { intro: 'Vraag gerust:', zeg: 'Kunt u het langzamer of met makkelijkere woorden zeggen?' },
+            'Je mag iemand meenemen die je vertrouwt.',
+            'Spreek je de taal nog niet goed? Vraag vooraf aan de school of er een tolk kan zijn, of neem iemand mee die kan vertalen.',
+          ] },
+          { kop: 'Is 10 minuten te kort?', type: 'tekst',
+            tekst: 'Heb je meer te bespreken dan in 10 minuten past? Vraag de leerkracht om een aparte afspraak. Dat kan altijd, ook op een ander moment in het jaar.' },
+        ],
+        situaties: [
+          {
+            id: 'school-tienminuten', emoji: '🧑‍🏫', titel: 'Het 10-minutengesprek met de leerkracht',
+            blokken: [
+              { kop: 'Hoe het werkt', type: 'tekst',
+                tekst: 'Een paar keer per jaar nodigt de school alle ouders uit voor een kort gesprek met de juf of meester. Het duurt ongeveer 10 minuten. Jullie bespreken hoe het met je kind gaat op school.\n\nDit gesprek is voor alle ouders, ook als het goed gaat met je kind. Omdat de tijd kort is, helpt het om voorbereid te komen.' },
+              { kop: 'Wat de leerkracht gaat vertellen of vragen', type: 'lijst', items: [
+                'Hoe het gaat met lezen, rekenen en andere vakken.',
+                'Hoe je kind meedoet in de klas en omgaat met andere kinderen.',
+                'Soms laat de leerkracht werk of toetsresultaten van je kind zien.',
+                'Gaat je kind met plezier naar school? Hoe gaat het thuis?',
+              ] },
+              { kop: 'Hoe je je voorbereidt', type: 'lijst', items: [
+                'Vraag je kind van tevoren: hoe gaat het op school? Wat vind je leuk? Wat vind je moeilijk?',
+                'De tijd is kort. Bedenk één of twee dingen die je zeker wilt vragen en schrijf ze op.',
+                'Heb je een brief of een rapport gekregen? Neem die mee.',
+                'Maak je je ergens zorgen over? Begin daarmee, dan is er genoeg tijd voor.',
+              ] },
+              { kop: 'Wat jij mag zeggen of vragen', type: 'lijst', items: [
+                { zeg: 'Hoe gaat het met lezen en rekenen?' },
+                { zeg: 'Gaat mijn kind goed om met andere kinderen?' },
+                { zeg: 'Wat kan ik thuis doen om te helpen?' },
+                'Jij kent je kind het beste. Vertel het als je thuis iets anders ziet dan de leerkracht op school.',
+                { zeg: 'Ik begrijp het niet, kunt u het anders zeggen?' },
               ] },
             ],
           },
