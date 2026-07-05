@@ -36,21 +36,14 @@
 
   // ── Tools lijst ────────────────────────────────────────────────────────
   const TOOLS = [
-    { i18n: 'tool-brief-naam',        url: 'brief.html' },
-    { i18n: 'tool-budget-naam',       url: 'budgethulp.html' },
-    { i18n: 'tool-loont-naam',        url: 'loont-werken.html' },
-    { i18n: 'tool-naturalisatie-naam',url: 'naturalisatie.html' },
-    { i18n: 'tool-18jaar-naam',       url: '18jaar.html' },
-    { i18n: 'tool-rechten-naam',      url: 'rechten.html' },
-    { i18n: 'tool-digi-naam',         url: 'digihulp.html' },
+    { naam: 'Brief Begrijper', url: 'brief.html' },
+    { naam: 'Budgethulp', url: 'budgethulp.html' },
+    { naam: 'Loont Werken?', url: 'loont-werken.html' },
+    { naam: 'Naturalisatie', url: 'naturalisatie.html' },
+    { naam: '18 Jaar', url: '18jaar.html' },
+    { naam: 'Rechten & Plichten', url: 'rechten.html' },
+    { naam: 'Goed Voorbereid', url: 'goedvoorbereid.html' },
   ];
-
-  // Edge op Windows toont vlag-emoji's niet — detecteer en laat vlaggen weg
-  const isEdge = /Edg\//.test(navigator.userAgent);
-
-  function taalLabel(t) {
-    return isEdge ? t.label : (t.vlag + '\u00A0' + t.label);
-  }
 
   // ── Talen ──────────────────────────────────────────────────────────────
   const TALEN = [
@@ -70,25 +63,30 @@
     const pagina = window.location.pathname.split('/').pop() || 'index.html';
 
     const toolsItems = TOOLS.map(t => {
-      // NL-naam als initiële tekst; data-i18n zorgt voor vertaling bij taalwissel
-      const naamNL = (window.Solidari && Solidari.i18n) ? Solidari.i18n.t(t.i18n) : t.i18n;
-      const actief = pagina === t.url ? ' class="actief"' : '';
-      return `<li><a href="${ROOT}${t.url}"${actief} data-i18n="${t.i18n}">${naamNL}</a></li>`;
+      if (t.url) {
+        const actief = pagina === t.url ? ' class="actief"' : '';
+        return `<li><a href="${ROOT}${t.url}"${actief}>${t.naam}</a></li>`;
+      } else {
+        return `<li><span class="tool-binnenkort">${t.naam}<span class="binnenkort-label">binnenkort</span></span></li>`;
+      }
     }).join('');
 
     const taalItems = TALEN.map(t =>
-      `<button class="taal-dd-btn taal-btn" data-taal="${t.code}">${taalLabel(t)}</button>`
+      `<button class="taal-dd-btn taal-btn" data-taal="${t.code}">${t.vlag} ${t.label}</button>`
     ).join('');
 
     // Mobiel menu: tools uitgeschreven + taalwisseling
     const mobieleToolsItems = TOOLS.map(t => {
-      const naamNL = (window.Solidari && Solidari.i18n) ? Solidari.i18n.t(t.i18n) : t.i18n;
-      const actief = pagina === t.url ? ' class="actief"' : '';
-      return `<a href="${ROOT}${t.url}"${actief} data-i18n="${t.i18n}">${naamNL}</a>`;
+      if (t.url) {
+        const actief = pagina === t.url ? ' class="actief"' : '';
+        return `<a href="${ROOT}${t.url}"${actief}>${t.naam}</a>`;
+      } else {
+        return `<span class="tool-binnenkort">${t.naam}<span class="binnenkort-label">binnenkort</span></span>`;
+      }
     }).join('');
 
     const mobileTaalItems = TALEN.map(t =>
-      `<button class="taal-btn mob-taal-btn" data-taal="${t.code}">${taalLabel(t)}</button>`
+      `<button class="taal-btn mob-taal-btn" data-taal="${t.code}">${t.vlag} ${t.label}</button>`
     ).join('');
 
     return `<nav id="solidari-nav-bar">
@@ -100,7 +98,7 @@
   <ul class="nav-links">
     <li class="nav-dropdown">
       <button class="nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true">
-        <span data-i18n="nav-tools">Tools</span> <svg class="chevron" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Tools <svg class="chevron" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
       <ul class="dropdown-menu" role="menu">
         ${toolsItems}
@@ -115,7 +113,7 @@
     <div class="nav-taal-dropdown">
       <button class="taal-trigger" aria-label="Taal kiezen">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-        <span class="taal-huidig">${taalLabel(TALEN[0])}</span>
+        <span class="taal-huidig">🇳🇱 NL</span>
         <svg class="chevron" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
       <div class="taal-dropdown-menu">
@@ -137,9 +135,9 @@
     </div>
   </div>
   <div class="mob-menu-sectie">
-    <a href="${ROOT}over.html" class="mob-link" data-i18n="nav-over"${pagina === 'over.html' ? ' data-actief' : ''}>Over dit project</a>
-    <a href="${ROOT}feedback.html" class="mob-link" data-i18n="nav-feedback"${pagina === 'feedback.html' ? ' data-actief' : ''}>Feedback</a>
-    <a href="${ROOT}over.html#privacy" class="mob-link" data-i18n="nav-privacy">Privacy</a>
+    <a href="${ROOT}over.html" class="mob-link"${pagina === 'over.html' ? ' data-actief' : ''}>Over dit project</a>
+    <a href="${ROOT}feedback.html" class="mob-link"${pagina === 'feedback.html' ? ' data-actief' : ''}>Feedback</a>
+    <a href="${ROOT}over.html#privacy" class="mob-link">Privacy</a>
   </div>
   <div class="mob-menu-sectie mob-talen">
     <div class="mob-menu-label">Taal</div>
@@ -162,8 +160,7 @@
     <div class="footer-midden">
       <a href="${ROOT}over.html">Over dit project</a> ·
       <a href="${ROOT}over.html#privacy">Privacy</a> ·
-      <a href="${ROOT}feedback.html">Contact</a> ·
-      <a href="${ROOT}vertaalhulp.html">Help mee vertalen</a><br>
+      <a href="${ROOT}feedback.html">Contact</a><br>
       <span class="footer-cookies" data-i18n="footer-cookies">Geen cookies · Geen opslag · Geen advertenties</span>
     </div>
     <a href="${ROOT}feedback.html" class="footer-feedback" data-i18n="nav-feedback">💬 Feedback</a>
@@ -277,7 +274,7 @@
       // Update het zichtbare label in de trigger
       const taalObj = TALEN.find(t => t.code === taal);
       const huidig = document.querySelector('.taal-huidig');
-      if (huidig && taalObj) huidig.textContent = taalLabel(taalObj);
+      if (huidig && taalObj) huidig.textContent = taalObj.vlag + ' ' + taalObj.label;
 
       if (window.Solidari && Solidari.i18n) Solidari.i18n.passToe(taal);
       if (typeof window.setTaal === 'function') {

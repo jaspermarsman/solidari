@@ -159,6 +159,8 @@ let aiGeschiedenis = [];
 let aiBezig = false;
 let aiModus = false;      // true zodra alle blokken getoond zijn → typeveld actief
 let zegRegister = [];     // uitspreekbare zinnen: {nl, eigen} — index via data-zeg
+let flowRun = 0;          // run-token: maakt lopende typing-timers ongeldig bij herstart
+let gestart = false;      // voorkomt dubbele start (pagina + components.js/setTaal)
 
 function data(){ return window.GoedVoorbereidData[taal] || window.GoedVoorbereidData.NL; }
 function isRTL(){ return taal === 'AR' || taal === 'FA'; }
@@ -198,8 +200,12 @@ function zoneLeeg(){ zoneEl().innerHTML=''; }
 
 // Toon Solidari-bericht met korte typing-animatie ervoor
 function solMetTyping(htmlInhoud, extraKlasse, klaarCb){
+  const run = flowRun;
   typing();
-  setTimeout(()=>{ stopTyping(); solBericht(htmlInhoud, extraKlasse); if(klaarCb)klaarCb(); }, 450);
+  setTimeout(()=>{
+    if(run !== flowRun) return;   // flow is intussen opnieuw gestart
+    stopTyping(); solBericht(htmlInhoud, extraKlasse); if(klaarCb)klaarCb();
+  }, 450);
 }
 
 // ── Blok → HTML ──────────────────────────────────────────────────────────────
@@ -234,6 +240,7 @@ function blokHTML(blok){
 
 // ── Flow: start ──────────────────────────────────────────────────────────────
 function start(){
+  flowRun++; gestart = true;
   berichtenEl().innerHTML='';
   zoneLeeg();
   huidigeCategorie=null; huidigeSituatie=null; alleBlokken=[]; blokIndex=0;
@@ -499,8 +506,9 @@ function setupZegZinnen(){
 
 // ── Taal & init ──────────────────────────────────────────────────────────────
 function setTaal(code, btn){
-  taal = String(code).toUpperCase();
-  // components.js heeft Solidari.i18n.passToe al uitgevoerd voor nav/footer
+  const nieuw = String(code).toUpperCase();
+  if(gestart && nieuw === taal) return;   // components.js roept setTaal bij laden — geen herstart nodig
+  taal = nieuw;
   start();
 }
 window.setTaal = setTaal;
@@ -508,6 +516,8 @@ window.setTaal = setTaal;
 document.addEventListener('DOMContentLoaded', ()=>{
   if(window.Solidari && Solidari.i18n) Solidari.i18n.init();
   setupZegZinnen();
+  // Opgeslagen taal direct lezen, zodat de eerste start meteen in de juiste taal is
+  try{ taal = (localStorage.getItem('solidari-taal') || 'NL').toUpperCase(); }catch(e){}
   start();
 });
 </script>

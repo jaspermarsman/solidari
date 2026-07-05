@@ -36,6 +36,7 @@ Solidari.i18n = (function() {
       'tool-loont-naam':         'Loont Werken?',
       'tool-rechten-naam':       'Rechten & Plichten',
       'tool-digi-naam':          'Digi Hulp',
+      'tool-gv-naam':            'Goed Voorbereid',
     },
     EN: {
       'nav-tools':    'Tools',
@@ -53,6 +54,7 @@ Solidari.i18n = (function() {
       'tool-loont-naam':         'Does Work Pay?',
       'tool-rechten-naam':       'Rights & Duties',
       'tool-digi-naam':          'Digital Help',
+      'tool-gv-naam':            'Well Prepared',
     },
     AR: {
       'nav-tools':    'الأدوات',
@@ -70,6 +72,7 @@ Solidari.i18n = (function() {
       'tool-loont-naam':         'هل يستحق العمل؟',
       'tool-rechten-naam':       'الحقوق والواجبات',
       'tool-digi-naam':          'مساعدة رقمية',
+      'tool-gv-naam':            'استعد جيدًا',
     },
     TR: {
       'nav-tools':    'Araçlar',
@@ -87,6 +90,7 @@ Solidari.i18n = (function() {
       'tool-loont-naam':         'Çalışmaya Değer mi?',
       'tool-rechten-naam':       'Haklar ve Görevler',
       'tool-digi-naam':          'Dijital Yardım',
+      'tool-gv-naam':            'İyi Hazırlan',
     },
     TI: {
       'nav-tools':    'መሳርሒታት',
@@ -104,6 +108,7 @@ Solidari.i18n = (function() {
       'tool-loont-naam':         'ስራሕ ይሓይሽ ዶ?',
       'tool-rechten-naam':       'መሰላትን ግዴታታትን',
       'tool-digi-naam':          'ዲጂታል ሓገዝ',
+      'tool-gv-naam':            'ጽቡቕ ተዳሎ',
     },
     UK: {
       'nav-tools':    'Інструменти',
@@ -121,6 +126,7 @@ Solidari.i18n = (function() {
       'tool-loont-naam':         'Чи вигідно працювати?',
       'tool-rechten-naam':       'Права та обов\'язки',
       'tool-digi-naam':          'Цифрова допомога',
+      'tool-gv-naam':            'Добре підготовлені',
     },
     FA: {
       'nav-tools':    'ابزارها',
@@ -138,6 +144,7 @@ Solidari.i18n = (function() {
       'tool-loont-naam':         'آیا کار ارزش دارد؟',
       'tool-rechten-naam':       'حقوق و وظایف',
       'tool-digi-naam':          'کمک دیجیتال',
+      'tool-gv-naam':            'خوب آماده شوید',
     },
     RO: {
       'nav-tools':    'Instrumente',
@@ -155,6 +162,7 @@ Solidari.i18n = (function() {
       'tool-loont-naam':         'Merită să lucrezi?',
       'tool-rechten-naam':       'Drepturi și obligații',
       'tool-digi-naam':          'Ajutor digital',
+      'tool-gv-naam':            'Bine pregătit',
     },
     PL: {
       'nav-tools':    'Narzędzia',
@@ -172,6 +180,7 @@ Solidari.i18n = (function() {
       'tool-loont-naam':         'Czy praca się opłaca?',
       'tool-rechten-naam':       'Prawa i obowiązki',
       'tool-digi-naam':          'Pomoc cyfrowa',
+      'tool-gv-naam':            'Dobrze przygotowani',
     },
   };
 
