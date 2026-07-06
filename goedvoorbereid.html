@@ -20,17 +20,9 @@
     html,body{height:100%;}
     body{background:var(--chat-bg);color:var(--tekst);font-family:'Source Sans 3',sans-serif;font-weight:400;display:flex;flex-direction:column;}
 
-    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,250,247,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--rand);padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;}
-    .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
-    .logo-icon{width:36px;height:36px;}
-    .logo-naam{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--tekst);letter-spacing:-0.02em;}
-    .logo-naam span{color:var(--amber);}
-    .nav-links{display:flex;align-items:center;gap:2rem;list-style:none;}
-    .nav-links a{text-decoration:none;color:var(--tekst-zacht);font-size:0.9rem;font-weight:500;transition:color 0.2s;}
-    .nav-links a:hover{color:var(--tekst);}
-    .nav-taal{display:flex;gap:0.4rem;}
-    .taal-btn{background:none;border:1px solid var(--rand);border-radius:4px;padding:3px 8px;font-size:0.75rem;cursor:pointer;color:var(--tekst-zacht);font-family:'Source Sans 3',sans-serif;transition:all 0.2s;}
-    .taal-btn:hover,.taal-btn.actief{background:var(--amber);border-color:var(--amber);color:white;}
+    /* ── Nav wordt volledig door components.css verzorgd (incl. mobiel hamburgermenu).
+       Géén eigen nav-/.nav-links-/.taal-btn-regels hier: die overschreven de
+       @media(max-width:768px)-regel uit components.css en hielden de hamburger verborgen. ── */
 
     /* ── Chat layout (zoals budgethulp) ── */
     .chat-wrap{flex:1;display:flex;flex-direction:column;max-width:680px;margin:0 auto;width:100%;padding:0 1rem;min-height:0;padding-top:64px;}
@@ -92,27 +84,6 @@
     .stuur-btn:hover{background:#234830;}
     .stuur-btn:disabled{background:var(--tekst-licht);cursor:default;}
 
-    /* ── Zeg-zinnen (uitspreekbaar / toonbaar) ── */
-    .zeg-intro{display:block;margin-bottom:3px;}
-    .zeg-zin{display:flex;align-items:center;gap:8px;background:var(--amber-licht);border:1px solid rgba(232,160,32,0.35);border-radius:10px;padding:8px 11px;margin:3px 0;cursor:pointer;transition:border-color 0.15s;}
-    .zeg-zin:hover{border-color:var(--amber);}
-    .zeg-kol{flex:1;display:flex;flex-direction:column;gap:2px;}
-    .zeg-nl{font-weight:500;direction:ltr;unicode-bidi:isolate;text-align:left;}
-    .zeg-eigen{font-size:0.85rem;color:var(--tekst-zacht);line-height:1.4;}
-    .zeg-speak{border:none;background:none;cursor:pointer;font-size:1.05rem;flex-shrink:0;padding:2px 4px;line-height:1;}
-    .zeg-na{display:block;margin-top:3px;}
-    body.geen-tts .zeg-speak{display:none;}
-
-    /* ── Groot-weergave (zin laten zien aan de gesprekspartner) ── */
-    #zeg-groot{position:fixed;inset:0;z-index:200;background:var(--wit);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.4rem;padding:2rem;text-align:center;cursor:pointer;}
-    #zeg-groot[hidden]{display:none;}
-    #zeg-groot .groot-nl{font-size:clamp(1.7rem,6.5vw,2.6rem);font-weight:600;line-height:1.35;color:var(--tekst);direction:ltr;}
-    #zeg-groot .groot-eigen{font-size:clamp(1.05rem,4vw,1.4rem);color:var(--tekst-zacht);line-height:1.45;}
-    #zeg-groot .groot-speak{font-size:1.7rem;border:2px solid var(--rand);background:white;border-radius:50%;width:60px;height:60px;cursor:pointer;transition:border-color 0.15s;}
-    #zeg-groot .groot-speak:hover{border-color:var(--groen);}
-    #zeg-groot .groot-sluit{font-size:0.85rem;color:var(--tekst-licht);}
-    body.geen-tts #zeg-groot .groot-speak{display:none;}
-
     /* ── RTL ── */
     [dir="rtl"] .bericht-sol{align-self:flex-end;flex-direction:row-reverse;}
     [dir="rtl"] .bel-sol{border-radius:18px 18px 4px 18px;}
@@ -136,13 +107,6 @@
   </div>
 </div>
 
-<div id="zeg-groot" hidden>
-  <div class="groot-nl" id="groot-nl"></div>
-  <div class="groot-eigen" id="groot-eigen"></div>
-  <button class="groot-speak" id="groot-speak" title="Voorlezen">🔊</button>
-  <div class="groot-sluit" id="groot-sluit"></div>
-</div>
-
 <script src="i18n.js"></script>
 <script src="goedvoorbereid-data.js"></script>
 <script>
@@ -158,9 +122,6 @@ let blokIndex = 0;
 let aiGeschiedenis = [];
 let aiBezig = false;
 let aiModus = false;      // true zodra alle blokken getoond zijn → typeveld actief
-let zegRegister = [];     // uitspreekbare zinnen: {nl, eigen} — index via data-zeg
-let flowRun = 0;          // run-token: maakt lopende typing-timers ongeldig bij herstart
-let gestart = false;      // voorkomt dubbele start (pagina + components.js/setTaal)
 
 function data(){ return window.GoedVoorbereidData[taal] || window.GoedVoorbereidData.NL; }
 function isRTL(){ return taal === 'AR' || taal === 'FA'; }
@@ -200,38 +161,15 @@ function zoneLeeg(){ zoneEl().innerHTML=''; }
 
 // Toon Solidari-bericht met korte typing-animatie ervoor
 function solMetTyping(htmlInhoud, extraKlasse, klaarCb){
-  const run = flowRun;
   typing();
-  setTimeout(()=>{
-    if(run !== flowRun) return;   // flow is intussen opnieuw gestart
-    stopTyping(); solBericht(htmlInhoud, extraKlasse); if(klaarCb)klaarCb();
-  }, 450);
+  setTimeout(()=>{ stopTyping(); solBericht(htmlInhoud, extraKlasse); if(klaarCb)klaarCb(); }, 450);
 }
 
 // ── Blok → HTML ──────────────────────────────────────────────────────────────
-function zegItemHTML(item){
-  const idx = zegRegister.push({ nl: item.zeg, eigen: item.eigen || '' }) - 1;
-  const d = data();
-  let h = '';
-  if(item.intro) h += '<span class="zeg-intro">'+escapeHTML(item.intro)+'</span>';
-  h += '<span class="zeg-zin" data-zeg="'+idx+'">'
-     +   '<span class="zeg-kol">'
-     +     '<span class="zeg-nl">'+escapeHTML(item.zeg)+'</span>'
-     +     (item.eigen ? '<span class="zeg-eigen">'+escapeHTML(item.eigen)+'</span>' : '')
-     +   '</span>'
-     +   '<button class="zeg-speak" data-zeg="'+idx+'" title="'+escapeHTML(d.ui.voorlezen||'Voorlezen')+'">🔊</button>'
-     + '</span>';
-  if(item.na) h += '<span class="zeg-na">'+escapeHTML(item.na)+'</span>';
-  return h;
-}
-
 function blokHTML(blok){
   let h = '<div class="blok-kop">'+escapeHTML(blok.kop)+'</div>';
   if(blok.type==='lijst'){
-    h += '<ul>'+blok.items.map(i=>{
-      if(i && typeof i==='object' && i.zeg) return '<li>'+zegItemHTML(i)+'</li>';
-      return '<li>'+escapeHTML(i)+'</li>';
-    }).join('')+'</ul>';
+    h += '<ul>'+blok.items.map(i=>'<li>'+escapeHTML(i)+'</li>').join('')+'</ul>';
   } else {
     h += '<div>'+escapeHTML(blok.tekst)+'</div>';
   }
@@ -240,11 +178,10 @@ function blokHTML(blok){
 
 // ── Flow: start ──────────────────────────────────────────────────────────────
 function start(){
-  flowRun++; gestart = true;
   berichtenEl().innerHTML='';
   zoneLeeg();
   huidigeCategorie=null; huidigeSituatie=null; alleBlokken=[]; blokIndex=0;
-  aiGeschiedenis=[]; aiBezig=false; aiModus=false; zegRegister=[];
+  aiGeschiedenis=[]; aiBezig=false; aiModus=false;
   document.body.setAttribute('dir', isRTL()?'rtl':'ltr');
 
   const d=data();
@@ -275,9 +212,9 @@ function kiesCategorie(catId){
   userBericht(huidigeCategorie.emoji+' '+huidigeCategorie.naam);
   zoneLeeg();
 
-  // Eén situatie? Sla de vraag én de keuze over — direct naar de blokken.
+  // Eén situatie? sla keuze over.
   if(huidigeCategorie.situaties.length===1){
-    kiesSituatie(huidigeCategorie.situaties[0].id, true);
+    solMetTyping(escapeHTML(d.ui.kiesSituatie), '', ()=>kiesSituatie(huidigeCategorie.situaties[0].id, true));
     return;
   }
   solMetTyping(escapeHTML(d.ui.kiesSituatie), '', toonSituatieKeuze);
@@ -330,9 +267,7 @@ function toonVolgendBlok(){
 function naarAIModus(){
   const d=data();
   aiModus = true;
-  solMetTyping(escapeHTML(d.ui.klaar), '', ()=>{
-    solMetTyping(escapeHTML(d.ui.aiUitnodiging), '', toonAIInvoer);
-  });
+  solMetTyping(escapeHTML(d.ui.aiUitnodiging), '', toonAIInvoer);
 }
 
 function toonAIInvoer(){
@@ -368,20 +303,19 @@ function bouwSystemPrompt(){
   const sit = huidigeSituatie ? huidigeSituatie.titel : '';
   return `Je bent een rustige, geduldige hulp die mensen helpt zich voor te bereiden op een afspraak. De gebruiker bereidt zich voor op: "${cat} — ${sit}".
 
-JE DOEL: de gebruiker helpen bedenken WAT HIJ KAN ZEGGEN tijdens de afspraak en WAT HIJ KAN VERWACHTEN. Je maakt hem klaar voor het gesprek met de echte persoon (dokter, klantmanager, leerkracht). Je vervangt die persoon niet.
+JE DOEL: de gebruiker helpen bedenken WAT HIJ KAN ZEGGEN tijdens de afspraak en WAT HIJ KAN VERWACHTEN. Je maakt hem klaar voor het gesprek met de echte persoon (dokter, klantmanager). Je vervangt die persoon niet.
 
 TAAL: Antwoord altijd in dezelfde taal als de gebruiker. Korte, eenvoudige zinnen op niveau A2. Geen moeilijke woorden. Warm en rustig, maar behandel de gebruiker als volwassene — geen overdreven geruststelling.
 
 HARDE GRENZEN — hier wijk je NOOIT van af:
 - Geef NOOIT een medische diagnose, noem NOOIT mogelijke oorzaken van klachten, geef NOOIT advies over medicijnen of behandeling. Bij een medische vraag: erken kort en buig terug naar het gesprek met de dokter. Bijvoorbeeld: "Dat is iets om met de huisarts te bespreken. Je zou kunnen zeggen: ..."
 - Geef NOOIT juridisch advies en zeg NOOIT of iemand wel of geen recht heeft op iets. Buig terug naar het gesprek met de gemeente of een hulpverlener.
-- Geef NOOIT een oordeel over een kind: zeg NOOIT dat een kind een leerprobleem, achterstand, gedragsprobleem of aandoening heeft of zou kunnen hebben. Buig terug naar het gesprek met de leerkracht: "dat is precies iets om aan de leerkracht te vragen. Je zou kunnen zeggen: ..."
-- Schat NOOIT in hoe ernstig of dringend iets is. Wel: "dat kun je het beste met je [dokter/klantmanager/de leerkracht] bespreken".
+- Schat NOOIT in hoe ernstig of dringend iets is. Wel: "dat kun je het beste met je [dokter/klantmanager] bespreken".
 - Klinkt iets acuut gevaarlijk of kan het niet wachten? Reageer kalm, geef GEEN inschatting, en zeg dat hij meteen zijn huisarts of de huisartsenpost belt. Bij levensgevaar: 112.
 - Gaat de vraag niet over deze afspraak (bv. een brief, DigiD, geld)? Zeg vriendelijk dat je hier alleen helpt met het voorbereiden op de afspraak, en verwijs naar de andere tools op Solidari.
 - Vraag NOOIT om persoonlijke gegevens (naam, BSN, adres) en gebruik ze niet als ze toch gegeven worden.
 
-VORM: Kort (een paar zinnen). Geef waar mogelijk een concrete zin die de gebruiker letterlijk kan zeggen tegen de dokter, klantmanager of leerkracht.`;
+VORM: Kort (een paar zinnen). Geef waar mogelijk een concrete zin die de gebruiker letterlijk kan zeggen tegen de dokter of klantmanager.`;
 }
 
 // ── AI versturen ──────────────────────────────────────────────────────────────
@@ -447,77 +381,16 @@ function spraakTaalCode(){
   return map[taal]||'nl-NL';
 }
 
-// ── Zeg-zinnen: voorlezen (TTS) & groot tonen ─────────────────────────────────
-function kanVoorlezen(){ return 'speechSynthesis' in window; }
-
-function leesVoor(tekst){
-  if(!kanVoorlezen() || !tekst) return;
-  try{
-    speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(tekst);
-    u.lang = 'nl-NL';   // zeg-zinnen zijn altijd Nederlands, ook in andere taalversies
-    u.rate = 0.9;
-    speechSynthesis.speak(u);
-  }catch(e){ /* stil falen: knop is optioneel comfort */ }
-}
-
-let grootZin = null;
-function toonGroot(z){
-  grootZin = z;
-  const d = data();
-  document.getElementById('groot-nl').textContent = z.nl;
-  const eigenEl = document.getElementById('groot-eigen');
-  eigenEl.textContent = z.eigen || '';
-  eigenEl.style.display = z.eigen ? '' : 'none';
-  eigenEl.setAttribute('dir', isRTL() ? 'rtl' : 'ltr');
-  document.getElementById('groot-sluit').textContent = d.ui.zegSluit || 'Tik om te sluiten';
-  document.getElementById('zeg-groot').hidden = false;
-}
-
-function setupZegZinnen(){
-  if(!kanVoorlezen()) document.body.classList.add('geen-tts');
-
-  // Delegatie: bubbels worden als HTML-string ingevoegd, dus geen directe handlers
-  berichtenEl().addEventListener('click', e=>{
-    const spk = e.target.closest('.zeg-speak');
-    if(spk){
-      e.stopPropagation();
-      const z = zegRegister[+spk.dataset.zeg];
-      if(z) leesVoor(z.nl);
-      return;
-    }
-    const zin = e.target.closest('.zeg-zin');
-    if(zin){
-      const z = zegRegister[+zin.dataset.zeg];
-      if(z) toonGroot(z);
-    }
-  });
-
-  const groot = document.getElementById('zeg-groot');
-  groot.addEventListener('click', e=>{
-    if(e.target.closest('.groot-speak')){
-      if(grootZin) leesVoor(grootZin.nl);
-      return;
-    }
-    groot.hidden = true;
-    if(kanVoorlezen()) speechSynthesis.cancel();
-  });
-}
-
 // ── Taal & init ──────────────────────────────────────────────────────────────
 function setTaal(code, btn){
-  const nieuw = String(code).toUpperCase();
-  if(gestart && nieuw === taal) return;   // components.js roept setTaal bij laden — geen herstart nodig
-  taal = nieuw;
+  taal = String(code).toUpperCase();
+  // components.js heeft Solidari.i18n.passToe al uitgevoerd voor nav/footer
   start();
 }
 window.setTaal = setTaal;
 
 document.addEventListener('DOMContentLoaded', ()=>{
   if(window.Solidari && Solidari.i18n) Solidari.i18n.init();
-  setupZegZinnen();
-  // Opgeslagen taal direct lezen, zodat de eerste start meteen in de juiste taal is
-  try{ taal = (localStorage.getItem('solidari-taal') || 'NL').toUpperCase(); }catch(e){}
   start();
 });
 </script>
