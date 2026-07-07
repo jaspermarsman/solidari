@@ -165,10 +165,17 @@ function stopTyping(){ const t=document.getElementById('typing'); if(t)t.remove(
 
 function zoneLeeg(){ zoneEl().innerHTML=''; }
 
-// Toon Solidari-bericht met korte typing-animatie ervoor
+// Toon Solidari-bericht met korte typing-animatie ervoor.
+// sessieGen loopt op bij elke start(); ingeplande berichten van een oudere
+// sessie (bv. na een taalwissel) breken af, zodat er geen dubbele zinnen ontstaan.
+let sessieGen = 0;
 function solMetTyping(htmlInhoud, extraKlasse, klaarCb){
+  const gen = sessieGen;
   typing();
-  setTimeout(()=>{ stopTyping(); solBericht(htmlInhoud, extraKlasse); if(klaarCb)klaarCb(); }, 450);
+  setTimeout(()=>{
+    if(gen !== sessieGen) return;   // verouderd: nieuwere start() heeft overgenomen
+    stopTyping(); solBericht(htmlInhoud, extraKlasse); if(klaarCb)klaarCb();
+  }, 450);
 }
 
 // ── Eén lijst-item → HTML ─────────────────────────────────────────────────────
@@ -202,6 +209,7 @@ function blokHTML(blok){
 
 // ── Flow: start ──────────────────────────────────────────────────────────────
 function start(){
+  sessieGen++;                    // breek ingeplande berichten van een vorige sessie af
   berichtenEl().innerHTML='';
   zoneLeeg();
   huidigeCategorie=null; huidigeSituatie=null; alleBlokken=[]; blokIndex=0;
