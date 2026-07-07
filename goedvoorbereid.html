@@ -38,6 +38,12 @@
     .bel-sol ul{list-style:none;display:flex;flex-direction:column;gap:7px;margin-top:2px;}
     .bel-sol li{padding-left:20px;position:relative;line-height:1.45;}
     .bel-sol li::before{content:'→';position:absolute;left:0;color:var(--amber-diep);font-weight:600;}
+    .bel-sol .regel-intro{color:var(--tekst-zacht);}
+    .bel-sol .regel-zeg{display:block;font-weight:500;font-style:italic;color:var(--groen);}
+    .bel-sol .regel-zeg::before{content:'“';}
+    .bel-sol .regel-zeg::after{content:'”';}
+    .bel-sol .regel-eigen{display:block;color:var(--tekst-licht);font-size:0.85em;font-style:italic;}
+    .bel-sol .regel-na{display:block;color:var(--tekst-zacht);font-size:0.9em;margin-top:2px;}
     .bel-sol.disclaimer{background:var(--amber-licht);border:1px solid rgba(232,160,32,0.3);font-size:0.82rem;color:var(--amber-diep);}
     .bel-sol.fout{background:var(--rood-licht);border:1px solid rgba(220,38,38,0.15);font-size:0.85rem;color:var(--rood);}
 
@@ -165,11 +171,29 @@ function solMetTyping(htmlInhoud, extraKlasse, klaarCb){
   setTimeout(()=>{ stopTyping(); solBericht(htmlInhoud, extraKlasse); if(klaarCb)klaarCb(); }, 450);
 }
 
+// ── Eén lijst-item → HTML ─────────────────────────────────────────────────────
+// Een item is óf een string (adviesregel), óf een citaat-object:
+//   { intro?, zeg, eigen?, na? }  — zeg = de zin die je kunt zeggen,
+//   eigen = vertaling in eigen taal, na = korte toelichting.
+function itemHTML(item){
+  if(typeof item === 'string') return escapeHTML(item);
+  if(item && typeof item === 'object'){
+    let h = '';
+    if(item.intro) h += '<span class="regel-intro">'+escapeHTML(item.intro)+'</span> ';
+    if(item.zeg)   h += '<span class="regel-zeg">'+escapeHTML(item.zeg)+'</span>';
+    if(item.eigen) h += '<span class="regel-eigen">'+escapeHTML(item.eigen)+'</span>';
+    if(item.na)    h += '<span class="regel-na">'+escapeHTML(item.na)+'</span>';
+    if(!h){ const v = Object.values(item).find(x=>typeof x==='string'); h = escapeHTML(v||''); }
+    return h;
+  }
+  return escapeHTML(item==null ? '' : item);
+}
+
 // ── Blok → HTML ──────────────────────────────────────────────────────────────
 function blokHTML(blok){
   let h = '<div class="blok-kop">'+escapeHTML(blok.kop)+'</div>';
   if(blok.type==='lijst'){
-    h += '<ul>'+blok.items.map(i=>'<li>'+escapeHTML(i)+'</li>').join('')+'</ul>';
+    h += '<ul>'+blok.items.map(i=>'<li>'+itemHTML(i)+'</li>').join('')+'</ul>';
   } else {
     h += '<div>'+escapeHTML(blok.tekst)+'</div>';
   }
