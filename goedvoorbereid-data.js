@@ -46,7 +46,7 @@ window.GoedVoorbereidData = {
 
     ui: {
       paginaTitel: 'Goed Voorbereid',
-      welkom: 'Ga je naar een afspraak? Ik help je je voor te bereiden. Zo weet je wat je kunt verwachten en wat je kunt zeggen.',
+      welkom: 'Ga je naar een afspraak? Ik help je met voorbereiden. Dan weet je wat je kunt verwachten en wat je kunt zeggen.',
       kiesCategorie: 'Waar ga je naartoe?',
       kiesSituatie: 'Waarvoor ga je?',
       verder: 'Verder →',
@@ -56,7 +56,7 @@ window.GoedVoorbereidData = {
       aiPlaceholder: 'Stel je vraag...',
       aiSpreekTitel: 'Inspreken',
       aiFout: 'Er ging iets mis. Probeer het opnieuw.',
-      aiDisclaimer: '🤖 Dit is hulp bij het voorbereiden op je gesprek. Geen medisch of juridisch advies. Deel geen BSN of andere persoonlijke gegevens.',
+      aiDisclaimer: '🤖 Ik help je met voorbereiden op je gesprek. Dit is geen medisch advies en geen juridisch advies. Deel geen BSN of andere persoonlijke gegevens.',
       voorlezen: 'Voorlezen',
       zegSluit: 'Tik om te sluiten',
     },
@@ -74,7 +74,7 @@ window.GoedVoorbereidData = {
           { kop: 'Als het gesprek moeilijk te volgen is', type: 'lijst', items: [
             { intro: 'Vraag gerust:', zeg: 'Kunt u het langzamer of met makkelijkere woorden zeggen?' },
             'Je mag iemand meenemen die je vertrouwt.',
-            'Spreek je de taal nog niet goed? Vraag om een tolk als je de afspraak maakt, het liefst als je belt. Neem liever geen kind mee om te tolken bij moeilijke gesprekken.',
+            'Spreek je nog niet goed Nederlands? Vraag om een tolk als je de afspraak maakt. Neem liever geen kind mee om te vertalen.',
           ] },
           { kop: 'Het kost niets', type: 'tekst',
             tekst: 'Een bezoek aan de huisarts is gratis. Het gaat niet van je eigen risico af.' },
@@ -84,25 +84,22 @@ window.GoedVoorbereidData = {
             id: 'dokter-klacht', emoji: '🤒', titel: 'Ik heb een klacht of pijn',
             blokken: [
               { kop: 'Hoe de dokter werkt', type: 'tekst',
-                tekst: 'De huisarts geeft niet altijd meteen medicijnen. De dokter stelt eerst vragen om je klacht goed te begrijpen. Soms is het advies om een week af te wachten en terug te komen als het niet beter gaat. Veel klachten gaan vanzelf over.' },
+                tekst: 'De huisarts geeft niet altijd meteen medicijnen. Eerst stelt de dokter vragen om je klacht te begrijpen. Veel klachten gaan vanzelf over. Soms is het advies: een week afwachten en terugkomen als het niet beter gaat.' },
               { kop: 'Wat de dokter gaat vragen', type: 'lijst', items: [
-                'Sinds wanneer heb je deze klacht?',
+                'Sinds wanneer heb je de klacht?',
                 'Waar zit de pijn precies?',
                 'Wat heb je al geprobeerd?',
-                'Heb je nog andere klachten?',
-                'Hoe gaat het verder met je: werk, thuis, slapen?',
+                'Hoe gaat het met werk, thuis en slapen?',
               ] },
               { kop: 'Hoe je je voorbereidt', type: 'lijst', items: [
-                'Bedenk wanneer de klacht begon en wat je precies voelt.',
-                'Schrijf je klacht op, of laat iemand je daarbij helpen.',
-                'Heb je meer dan één klacht? Zeg dat aan het begin, zodat de dokter de tijd kan verdelen.',
+                'Bedenk wanneer de klacht begon en wat je voelt.',
+                'Schrijf je klacht op. Vraag iemand om te helpen als dat nodig is.',
                 'Gebruik je medicijnen? Neem ze mee of schrijf de namen op.',
               ] },
               { kop: 'Wat jij mag zeggen of vragen', type: 'lijst', items: [
                 { zeg: 'Ik begrijp het niet, kunt u het nog een keer uitleggen?' },
                 { zeg: 'Wat kan ik zelf doen?' },
                 { zeg: 'Wanneer moet ik terugkomen?' },
-                'Vraag de dokter om het op te schrijven als je het niet kunt onthouden.',
               ] },
             ],
           },
@@ -110,20 +107,21 @@ window.GoedVoorbereidData = {
             id: 'dokter-eerste', emoji: '👋', titel: 'Voor het eerst naar een nieuwe huisarts',
             blokken: [
               { kop: 'Hoe het werkt', type: 'tekst',
-                tekst: 'Je moet eerst ingeschreven staan bij een huisartsenpraktijk. Je kiest één huisarts in de buurt en schrijft je daar in. Dat wordt dan jouw vaste huisarts.' },
+                tekst: 'Je schrijft je eerst in bij een huisarts in de buurt. Die wordt dan jouw vaste huisarts.' },
               { kop: 'Wat je nodig hebt om je in te schrijven', type: 'lijst', items: [
                 'Je identiteitsbewijs.',
                 'Je burgerservicenummer (BSN).',
                 'Je zorgverzekering.',
               ] },
               { kop: 'Hoe je je voorbereidt', type: 'lijst', items: [
-                'Zoek een huisarts in de buurt die nieuwe patiënten aanneemt. In een grote stad is dat soms lastig. Blijf bellen of vraag iemand om hulp.',
+                'Zoek een huisarts in de buurt die nieuwe patiënten aanneemt. In een grote stad is dat soms lastig. Blijf bellen of vraag hulp.',
                 'Schrijf je in zodra het kan, ook als je niet ziek bent.',
-                'Heb je medische informatie van vroeger? Neem die mee naar het eerste bezoek.',
+                'Heb je medische papieren van vroeger? Neem ze mee.',
               ] },
               { kop: 'Wat jij mag zeggen of vragen', type: 'lijst', items: [
                 { zeg: 'Neemt u nieuwe patiënten aan?' },
-                'Vraag hoe het werkt: een afspraak maken, en wat je doet \'s avonds of in het weekend.',
+                'Vraag hoe je een afspraak maakt.',
+                'Vraag ook wat je doet als je \'s avonds of in het weekend ziek wordt.',
               ] },
             ],
           },
@@ -131,7 +129,7 @@ window.GoedVoorbereidData = {
             id: 'dokter-specialist', emoji: '🏥', titel: 'Naar een specialist of het ziekenhuis',
             blokken: [
               { kop: 'Hoe het werkt', type: 'tekst',
-                tekst: 'Je gaat eerst naar de huisarts, niet rechtstreeks naar een specialist. De huisarts beoordeelt of een specialist nodig is en geeft dan een verwijzing. Zonder verwijzing betaalt je verzekering de specialist meestal niet.\n\nDe huisarts verwijst niet altijd door. Soms behandelt de huisarts je klacht zelf. Dat betekent dat een specialist op dat moment nog niet nodig is.' },
+                tekst: 'Je gaat eerst naar de huisarts, niet meteen naar een specialist. De huisarts kijkt of een specialist nodig is en geeft dan een verwijzing. Zonder verwijzing betaalt je verzekering de specialist meestal niet.\n\nSoms behandelt de huisarts je klacht zelf. Dan is een specialist op dat moment nog niet nodig.' },
               { kop: 'Wat de dokter gaat vragen', type: 'lijst', items: [
                 'Wat is je klacht en sinds wanneer heb je die?',
                 'Wat is er al geprobeerd?',
@@ -148,12 +146,11 @@ window.GoedVoorbereidData = {
             id: 'dokter-kind', emoji: '🧒', titel: 'Ik ga voor mijn kind',
             blokken: [
               { kop: 'Hoe het werkt', type: 'tekst',
-                tekst: 'Voor klachten en ziektes ga je met je kind naar de huisarts, net als voor jezelf. De dokter stelt vragen en onderzoekt je kind.\n\nVoor groei, vaccinaties en algemene controles ga je niet naar de huisarts, maar naar het consultatiebureau of de jeugdgezondheidszorg (GGD). Dat is een aparte plek voor kinderen.' },
+                tekst: 'Voor klachten en ziekte ga je met je kind naar de huisarts, net als voor jezelf.\n\nVoor groei, prikken en controles ga je niet naar de huisarts, maar naar het consultatiebureau of de GGD. Dat is een aparte plek voor kinderen.' },
               { kop: 'Wat de dokter gaat vragen', type: 'lijst', items: [
                 'Sinds wanneer heeft je kind de klacht?',
-                'Heeft je kind koorts, en hoe hoog?',
+                'Heeft je kind koorts? Hoe hoog?',
                 'Eet en drinkt je kind normaal?',
-                'Wat heb je al gedaan of gegeven?',
               ] },
               { kop: 'Hoe je je voorbereidt', type: 'lijst', items: [
                 'Bedenk wanneer het begon en wat je opvalt aan je kind.',
@@ -175,7 +172,7 @@ window.GoedVoorbereidData = {
               { kop: 'Hoe je je voorbereidt', type: 'lijst', items: [
                 'Bedenk van tevoren wat je wilt vertellen. Je mag het opschrijven en voorlezen.',
                 'Je hoeft niet alles in één keer te vertellen. Begin met het belangrijkste.',
-                'Wil je hier rustig de tijd voor? Zeg bij het maken van de afspraak dat je ergens over wilt praten. Soms krijg je dan een langere afspraak.',
+                'Wil je hier rustig de tijd voor? Zeg bij het maken van de afspraak dat je ergens over wilt praten. Soms krijg je dan meer tijd.',
               ] },
               { kop: 'Wat jij mag zeggen of vragen', type: 'lijst', items: [
                 { zeg: 'Dit is moeilijk voor mij om te vertellen.' },
@@ -206,21 +203,20 @@ window.GoedVoorbereidData = {
             id: 'gemeente-balie', emoji: '🪪', titel: 'Iets regelen aan de balie (paspoort, ID of ander document)',
             blokken: [
               { kop: 'Hoe het werkt', type: 'tekst',
-                tekst: 'Voor een paspoort, ID-kaart, rijbewijs of uittreksel maak je meestal eerst een afspraak, online of telefonisch. Je kunt niet altijd zomaar binnenlopen.\n\nEen nieuw paspoort, ID-kaart of rijbewijs is niet meteen klaar. Je haalt het later op, vaak na ongeveer een week.' },
+                tekst: 'Voor een paspoort, ID-kaart, rijbewijs of uittreksel maak je meestal eerst een afspraak. Dat kan online of met de telefoon.\n\nEen nieuw document is niet meteen klaar. Je haalt het later op, vaak na ongeveer een week.' },
               { kop: 'Wat je meeneemt', type: 'lijst', items: [
-                'De bevestiging van je afspraak, als je die hebt gekregen.',
-                'Je identiteitsbewijs. Neem het ook mee als het verlopen is.',
-                'Je pinpas. Aan de balie betaal je meteen, vaak alleen met pin.',
-                'Voor een paspoort, ID-kaart of rijbewijs: een recente pasfoto van een fotograaf. Een zelfgemaakte foto wordt meestal niet goedgekeurd.',
+                'De bevestiging van je afspraak, als je die hebt.',
+                'Je identiteitsbewijs. Ook als het verlopen is.',
+                'Je pinpas. Je betaalt meestal meteen, vaak alleen met pin.',
+                'Voor een paspoort, ID-kaart of rijbewijs: een pasfoto van een fotograaf.',
               ] },
               { kop: 'Hoe je je voorbereidt', type: 'lijst', items: [
-                'Kijk in de bevestiging wat je mee moet nemen. Twijfel je? Bel de gemeente voordat je gaat.',
+                'Twijfel je wat je mee moet nemen? Bel de gemeente voordat je gaat.',
                 'Kom op tijd. Ben je te laat, dan moet je soms een nieuwe afspraak maken.',
               ] },
               { kop: 'Wat jij mag zeggen of vragen', type: 'lijst', items: [
                 { zeg: 'Wat kost het?' },
                 { zeg: 'Wanneer is het klaar?' },
-                { zeg: 'Moet ik een afspraak maken om het op te halen?' },
                 { zeg: 'Ik begrijp het niet, kunt u het rustiger uitleggen?' },
               ] },
             ],
@@ -229,17 +225,16 @@ window.GoedVoorbereidData = {
             id: 'gemeente-wmo', emoji: '🏠', titel: 'Een gesprek over hulp of zorg thuis (Wmo)',
             blokken: [
               { kop: 'Hoe het werkt', type: 'tekst',
-                tekst: 'Heb je hulp nodig, bijvoorbeeld bij het huishouden, met vervoer, of een aanpassing in huis? Dan heb je eerst een gesprek met iemand van de gemeente. Dit heet vaak een keukentafelgesprek. Het kan bij jou thuis zijn of op het gemeentehuis.\n\nIn het gesprek kijkt de gemeente samen met jou wat je zelf kunt, wat mensen om je heen kunnen doen, en waar hulp nodig is.' },
+                tekst: 'Heb je hulp nodig, bijvoorbeeld in het huishouden, met vervoer of een aanpassing in huis? Dan heb je eerst een gesprek met iemand van de gemeente. Dit heet vaak een keukentafelgesprek.\n\nSamen kijken jullie wat je zelf kunt, wat anderen kunnen doen, en waar hulp nodig is.' },
               { kop: 'Wat de gemeente gaat vragen', type: 'lijst', items: [
-                'Wat lukt er thuis goed, en wat lukt niet meer?',
+                'Wat lukt thuis goed, en wat lukt niet meer?',
                 'Wie helpen je nu al? (familie, buren, bekenden)',
-                'Hoe is je gezondheid?',
                 'Wat wil je graag weer zelf kunnen?',
               ] },
               { kop: 'Hoe je je voorbereidt', type: 'lijst', items: [
-                'Bedenk vooraf wat er niet meer lukt. Geef voorbeelden uit je dag, zoals traplopen, boodschappen of het huishouden.',
-                'Schrijf op wat je wilt vertellen, of laat iemand je daarbij helpen.',
-                'Je mag iemand meenemen. Er is ook gratis onafhankelijke hulp bij dit gesprek: een cliëntondersteuner. Vraag ernaar als je de afspraak maakt.',
+                'Bedenk vooraf wat niet meer lukt. Geef voorbeelden uit je dag: traplopen, boodschappen, het huishouden.',
+                'Schrijf op wat je wilt vertellen, of vraag iemand om te helpen.',
+                'Je mag iemand meenemen. Er is ook gratis hulp: een cliëntondersteuner. Vraag ernaar als je de afspraak maakt.',
               ] },
               { kop: 'Wat jij mag zeggen of vragen', type: 'lijst', items: [
                 { zeg: 'Dit lukt mij niet meer alleen.' },
@@ -252,28 +247,25 @@ window.GoedVoorbereidData = {
             id: 'gemeente-bijstand', emoji: '📋', titel: 'Een gesprek over mijn uitkering (bijstand)',
             blokken: [
               { kop: 'Hoe het werkt', type: 'tekst',
-                tekst: 'Als je een bijstandsuitkering krijgt, heb je soms een gesprek met je klantmanager. Het gaat over hoe het met je gaat, of er iets veranderd is in je situatie, en wat de afspraken zijn over werk of meedoen. Het is een normaal onderdeel van de uitkering.' },
+                tekst: 'Krijg je een bijstandsuitkering? Dan heb je soms een gesprek met je klantmanager. Het gaat over hoe het met je gaat, of er iets veranderd is, en de afspraken over werk. Dit is normaal.' },
               { kop: 'Twee dingen die belangrijk zijn', type: 'lijst', items: [
-                'Geef veranderingen in je situatie op tijd door: samenwonen, werk, extra geld, iemand die bij je intrekt, of verhuizen. Geef het ook door als je twijfelt. Doe je dat niet op tijd, dan kan de gemeente geld terugvragen.',
-                'Werk mee aan afspraken, zoals naar een gesprek komen of stappen zetten om werk te vinden.',
+                'Geef veranderingen op tijd door: werk, extra geld, samenwonen of verhuizen. Twijfel je? Geef het toch door. Anders kan de gemeente geld terugvragen.',
+                'Werk mee aan de afspraken, zoals naar een gesprek komen of stappen zetten om werk te vinden.',
               ] },
               { kop: 'Wat de klantmanager gaat vragen', type: 'lijst', items: [
                 'Hoe gaat het met je op dit moment?',
-                'Is er iets veranderd in je situatie? (wonen, gezin, geld, gezondheid)',
+                'Is er iets veranderd? (wonen, gezin, geld, gezondheid)',
                 'Werk je, of doe je iets om werk te vinden?',
-                'Lukt het om rond te komen?',
               ] },
               { kop: 'Hoe je je voorbereidt', type: 'lijst', items: [
                 'Bedenk of er iets veranderd is sinds de vorige keer. Twijfel je? Vertel het toch.',
-                'Neem mee: je identiteitsbewijs en je bankpas. Soms vraagt de gemeente bankafschriften, kijk in je uitnodigingsbrief.',
-                'Heb je een brief gekregen over dit gesprek? Neem die mee.',
-                'Heb je problemen, zoals schulden? Je mag die noemen. De gemeente kan soms helpen.',
+                'Neem mee: je identiteitsbewijs en je bankpas. Kijk in je brief of je ook bankafschriften nodig hebt.',
+                'Heb je problemen, zoals schulden? Je mag ze noemen. De gemeente kan soms helpen.',
               ] },
               { kop: 'Wat jij mag zeggen of vragen', type: 'lijst', items: [
                 { zeg: 'Ik begrijp het niet, kunt u het rustiger uitleggen?' },
                 { zeg: 'Wat betekent dit voor mijn uitkering?' },
                 { zeg: 'Wat moet ik nu doen?' },
-                'Vraag of de gemeente een afspraak op papier zet, zodat je het thuis kunt nalezen.',
               ] },
             ],
           },
@@ -291,35 +283,80 @@ window.GoedVoorbereidData = {
           { kop: 'Als het gesprek moeilijk te volgen is', type: 'lijst', items: [
             { intro: 'Vraag gerust:', zeg: 'Kunt u het langzamer of met makkelijkere woorden zeggen?' },
             'Je mag iemand meenemen die je vertrouwt.',
-            'Spreek je de taal nog niet goed? Vraag vooraf aan de school of er een tolk kan zijn, of neem iemand mee die kan vertalen.',
+            'Spreek je nog niet goed Nederlands? Neem iemand mee die kan vertalen. Of laat iemand meeluisteren via de telefoon.',
           ] },
           { kop: 'Is 10 minuten te kort?', type: 'tekst',
-            tekst: 'Heb je meer te bespreken dan in 10 minuten past? Vraag de leerkracht om een aparte afspraak. Dat kan altijd, ook op een ander moment in het jaar.' },
+            tekst: 'Heb je meer te bespreken dan in 10 minuten past? Vraag de leerkracht om een aparte afspraak. Dat kan altijd.' },
         ],
         situaties: [
           {
             id: 'school-tienminuten', emoji: '🧑‍🏫', titel: 'Het 10-minutengesprek met de leerkracht',
             blokken: [
               { kop: 'Hoe het werkt', type: 'tekst',
-                tekst: 'Een paar keer per jaar nodigt de school alle ouders uit voor een kort gesprek met de juf of meester. Het duurt ongeveer 10 minuten. Jullie bespreken hoe het met je kind gaat op school.\n\nDit gesprek is voor alle ouders, ook als het goed gaat met je kind. Omdat de tijd kort is, helpt het om voorbereid te komen.' },
+                tekst: 'Een paar keer per jaar praat je kort met de juf of meester. Het duurt ongeveer 10 minuten. Jullie bespreken hoe het met je kind gaat.\n\nDit gesprek is voor alle ouders, ook als het goed gaat. De tijd is kort, dus voorbereiden helpt.' },
               { kop: 'Wat de leerkracht gaat vertellen of vragen', type: 'lijst', items: [
                 'Hoe het gaat met lezen, rekenen en andere vakken.',
-                'Hoe je kind meedoet in de klas en omgaat met andere kinderen.',
-                'Soms laat de leerkracht werk of toetsresultaten van je kind zien.',
+                'Hoe je kind meedoet in de klas en met andere kinderen.',
                 'Gaat je kind met plezier naar school? Hoe gaat het thuis?',
               ] },
               { kop: 'Hoe je je voorbereidt', type: 'lijst', items: [
-                'Vraag je kind van tevoren: hoe gaat het op school? Wat vind je leuk? Wat vind je moeilijk?',
-                'De tijd is kort. Bedenk één of twee dingen die je zeker wilt vragen en schrijf ze op.',
-                'Heb je een brief of een rapport gekregen? Neem die mee.',
-                'Maak je je ergens zorgen over? Begin daarmee, dan is er genoeg tijd voor.',
+                'Vraag je kind vooraf: hoe gaat het op school? Wat vind je leuk of moeilijk?',
+                'De tijd is kort. Kies één of twee dingen die je zeker wilt vragen en schrijf ze op.',
+                'Maak je je ergens zorgen over? Begin daarmee.',
+              ] },
+              { kop: 'Voorbeelden van vragen die je kunt stellen', type: 'lijst', items: [
+                { zeg: 'Hoe gaat het met lezen en rekenen?' },
+                { zeg: 'Heeft mijn kind vriendjes en vriendinnetjes?' },
+                { zeg: 'Wat kan ik thuis doen om te helpen?' },
+                { zeg: 'Ik begrijp het niet, kunt u het anders zeggen?' },
+                'Bedenk zelf ook een vraag die jij belangrijk vindt.',
+              ] },
+            ],
+          },
+        ],
+      },
+
+      // ===================================================================
+      // HULP BIJ GELDZORGEN (schuldhulp)
+      // ===================================================================
+      {
+        id: 'schuldhulp',
+        emoji: '💶',
+        naam: 'Hulp bij geldzorgen',
+        vasteBlokken: [
+          { kop: 'Als het gesprek moeilijk te volgen is', type: 'lijst', items: [
+            { intro: 'Vraag gerust:', zeg: 'Kunt u het langzamer of met makkelijkere woorden zeggen?' },
+            'Je mag iemand meenemen die je vertrouwt.',
+            'Spreek je nog niet goed Nederlands? Vraag om een tolk als je de afspraak maakt.',
+          ] },
+          { kop: 'Het is gratis en vertrouwelijk', type: 'tekst',
+            tekst: 'Hulp bij geldzorgen via de gemeente is gratis. De hulpverlener gaat vertrouwelijk om met je gegevens. Je hoeft je niet te schamen. Heel veel mensen hebben geldzorgen.' },
+        ],
+        situaties: [
+          {
+            id: 'schuldhulp-eerste', emoji: '🤝', titel: 'Eerste gesprek over schulden of geldzorgen',
+            blokken: [
+              { kop: 'Hoe het werkt', type: 'tekst',
+                tekst: 'Kom je niet meer rond, of heb je schulden? De gemeente helpt je gratis. Je krijgt eerst een gesprek met iemand die je helpt met je geld. Dat kan een hulpverlener of een coach zijn. Samen kijken jullie naar je geld en maken jullie een plan.' },
+              { kop: 'Wat je meeneemt', type: 'lijst', items: [
+                'Brieven over je schulden en rekeningen, ook de ongeopende.',
+                'Een overzicht van je inkomen: loon, uitkering of toeslagen.',
+                'Je identiteitsbewijs en je bankpas.',
+              ] },
+              { kop: 'Hoe je je voorbereidt', type: 'lijst', items: [
+                'Verzamel je post op één plek. Je hoeft het niet uit te zoeken, dat doen jullie samen.',
+                { intro: 'Wil je alvast overzicht van je geld? Dat kan nu al.', linkTekst: 'Maak een overzicht met Budgethulp', url: 'https://solidari.nl/budgethulp.html' },
+                'Je mag iemand meenemen die je vertrouwt.',
+              ] },
+              { kop: 'Voorbeelden van vragen die ze je kunnen stellen', type: 'lijst', items: [
+                'Hoeveel geld komt er binnen, en hoeveel gaat eruit?',
+                'Welke schulden of achterstanden heb je?',
+                'Wat is er gebeurd waardoor het niet meer lukt?',
               ] },
               { kop: 'Wat jij mag zeggen of vragen', type: 'lijst', items: [
-                { zeg: 'Hoe gaat het met lezen en rekenen?' },
-                { zeg: 'Gaat mijn kind goed om met andere kinderen?' },
-                { zeg: 'Wat kan ik thuis doen om te helpen?' },
-                'Jij kent je kind het beste. Vertel het als je thuis iets anders ziet dan de leerkracht op school.',
-                { zeg: 'Ik begrijp het niet, kunt u het anders zeggen?' },
+                { zeg: 'Ik kom er zelf niet meer uit.' },
+                { zeg: 'Wat kan ik nu al doen?' },
+                { zeg: 'Wat gebeurt er na dit gesprek?' },
               ] },
             ],
           },
@@ -343,7 +380,7 @@ window.GoedVoorbereidData = {
       aiPlaceholder: 'Ask your question...',
       aiSpreekTitel: 'Speak',
       aiFout: 'Something went wrong. Please try again.',
-      aiDisclaimer: '🤖 This is help with preparing for your appointment. Not medical or legal advice. Do not share your BSN or other personal details.',
+      aiDisclaimer: '🤖 I help you prepare for your appointment. This is not medical advice and not legal advice. Do not share your BSN or other personal details.',
       voorlezen: 'Read aloud',
       zegSluit: 'Tap to close',
     },
@@ -415,7 +452,8 @@ window.GoedVoorbereidData = {
               { kop: 'What you can say or ask', type: 'lijst', items: [
                 { zeg: 'Neemt u nieuwe patiënten aan?',
                   eigen: 'Are you accepting new patients?' },
-                'Ask how things work: making an appointment, and what to do in the evening or at the weekend.',
+                'Ask how to make an appointment.',
+                'Also ask what to do if you get ill in the evening or at the weekend.',
               ] },
             ],
           },
@@ -595,7 +633,7 @@ window.GoedVoorbereidData = {
             { intro: 'Feel free to ask:', zeg: 'Kunt u het langzamer of met makkelijkere woorden zeggen?',
               eigen: 'Could you say that more slowly, or in easier words?' },
             'You may bring someone you trust.',
-            'Do you not speak the language well yet? Ask the school in advance if an interpreter can be there, or bring someone who can translate.',
+            'Do you not speak Dutch well yet? Bring someone who can translate. Or have someone translate over the phone.',
           ] },
           { kop: 'Are 10 minutes too short?', type: 'tekst',
             tekst: 'Do you have more to discuss than fits in 10 minutes? Ask the teacher for a separate appointment. That is always possible, also at another time of year.' },
@@ -618,16 +656,63 @@ window.GoedVoorbereidData = {
                 'Did you receive a letter or a school report? Bring it with you.',
                 'Are you worried about something? Start with that, so there is enough time for it.',
               ] },
-              { kop: 'What you can say or ask', type: 'lijst', items: [
+              { kop: 'Examples of questions you can ask', type: 'lijst', items: [
                 { zeg: 'Hoe gaat het met lezen en rekenen?',
                   eigen: 'How is my child doing with reading and maths?' },
-                { zeg: 'Gaat mijn kind goed om met andere kinderen?',
-                  eigen: 'Does my child get along well with other children?' },
+                { zeg: 'Heeft mijn kind vriendjes en vriendinnetjes?',
+                  eigen: 'Does my child have friends?' },
                 { zeg: 'Wat kan ik thuis doen om te helpen?',
                   eigen: 'What can I do at home to help?' },
-                'You know your child best. Say so if you see something different at home than the teacher sees at school.',
                 { zeg: 'Ik begrijp het niet, kunt u het anders zeggen?',
                   eigen: 'I do not understand, could you say it differently?' },
+                'Also think of a question that matters to you.',
+              ] },
+            ],
+          },
+        ],
+      },
+
+      // ===================================================================
+      // HULP BIJ GELDZORGEN (schuldhulp)
+      // ===================================================================
+      {
+        id: 'schuldhulp',
+        emoji: '💶',
+        naam: 'Help with money worries',
+        vasteBlokken: [
+          { kop: 'If the conversation is hard to follow', type: 'lijst', items: [
+            { intro: 'Feel free to ask:', zeg: 'Kunt u het langzamer of met makkelijkere woorden zeggen?', eigen: 'Could you say that more slowly, or in easier words?' },
+            'You may bring someone you trust.',
+            'Do you not speak Dutch well yet? Ask for an interpreter when you make the appointment.',
+          ] },
+          { kop: 'It is free and confidential', type: 'tekst',
+            tekst: 'Help with money worries through the municipality is free. The helper treats your information confidentially. You do not need to feel ashamed. Very many people have money worries.' },
+        ],
+        situaties: [
+          {
+            id: 'schuldhulp-eerste', emoji: '🤝', titel: 'First meeting about debts or money worries',
+            blokken: [
+              { kop: 'How it works', type: 'tekst',
+                tekst: 'Can you no longer make ends meet, or do you have debts? The municipality helps you for free. You first have a meeting with someone who helps you with your money. That can be a helper or a coach. Together you look at your money and make a plan.' },
+              { kop: 'What to bring', type: 'lijst', items: [
+                'Letters about your debts and bills, including the unopened ones.',
+                'An overview of your income: wages, benefit or allowances.',
+                'Your ID and your bank card.',
+              ] },
+              { kop: 'How to prepare', type: 'lijst', items: [
+                'Collect your mail in one place. You do not have to sort it out — you do that together.',
+                { intro: 'Would you like an overview of your money already? You can do that now.', linkTekst: 'Make an overview with Budget Help', url: 'https://solidari.nl/budgethulp.html' },
+                'You may bring someone you trust.',
+              ] },
+              { kop: 'Examples of questions they may ask you', type: 'lijst', items: [
+                'How much money comes in, and how much goes out?',
+                'What debts or arrears do you have?',
+                'What happened that made it no longer work?',
+              ] },
+              { kop: 'What you may say or ask', type: 'lijst', items: [
+                { zeg: 'Ik kom er zelf niet meer uit.', eigen: 'I can no longer manage on my own.' },
+                { zeg: 'Wat kan ik nu al doen?', eigen: 'What can I already do now?' },
+                { zeg: 'Wat gebeurt er na dit gesprek?', eigen: 'What happens after this meeting?' },
               ] },
             ],
           },
@@ -651,7 +736,7 @@ window.GoedVoorbereidData = {
       aiPlaceholder: 'اطرح سؤالك...',
       aiSpreekTitel: 'تكلّم',
       aiFout: 'حدث خطأ ما. حاول مرة أخرى.',
-      aiDisclaimer: '🤖 هذه مساعدة للاستعداد لموعدك. ليست نصيحة طبية أو قانونية. لا تشارك رقم BSN أو بيانات شخصية أخرى.',
+      aiDisclaimer: '🤖 أساعدك على الاستعداد لموعدك. هذه ليست نصيحة طبية وليست نصيحة قانونية. لا تشارك رقم BSN أو بيانات شخصية أخرى.',
       voorlezen: 'قراءة بصوت عالٍ',
       zegSluit: 'اضغط للإغلاق',
     },
@@ -723,7 +808,8 @@ window.GoedVoorbereidData = {
               { kop: 'ماذا يمكنك أن تقول أو تسأل', type: 'lijst', items: [
                 { zeg: 'Neemt u nieuwe patiënten aan?',
                   eigen: 'هل تقبلون مرضى جدداً؟' },
-                'اسأل كيف تسير الأمور: حجز موعد، وماذا تفعل في المساء أو في عطلة نهاية الأسبوع.',
+                'اسأل كيف تحجز موعداً.',
+                'واسأل أيضاً ماذا تفعل إذا مرضت في المساء أو في عطلة نهاية الأسبوع.',
               ] },
             ],
           },
@@ -903,7 +989,7 @@ window.GoedVoorbereidData = {
             { intro: 'لا تتردد في السؤال:', zeg: 'Kunt u het langzamer of met makkelijkere woorden zeggen?',
               eigen: 'هل يمكنك أن تقول ذلك ببطء أكثر أو بكلمات أسهل؟' },
             'يمكنك إحضار شخص تثق به.',
-            'ألا تتكلم اللغة جيداً بعد؟ اسأل المدرسة مسبقاً إن كان يمكن وجود مترجم، أو أحضر شخصاً يستطيع الترجمة.',
+            'ألا تتكلم الهولندية جيداً بعد؟ أحضر شخصاً يستطيع الترجمة. أو اجعل شخصاً يترجم عبر الهاتف.',
           ] },
           { kop: 'هل 10 دقائق قصيرة جداً؟', type: 'tekst',
             tekst: 'هل عندك ما تناقشه أكثر مما يتسع في 10 دقائق؟ اطلب من المعلم موعداً منفصلاً. هذا ممكن دائماً، وأيضاً في وقت آخر من السنة.' },
@@ -926,16 +1012,63 @@ window.GoedVoorbereidData = {
                 'هل وصلتك رسالة أو تقرير مدرسي؟ أحضره معك.',
                 'هل أنت قلق من شيء؟ ابدأ به، حتى يكون هناك وقت كافٍ له.',
               ] },
-              { kop: 'ماذا يمكنك أن تقول أو تسأل', type: 'lijst', items: [
+              { kop: 'أمثلة على أسئلة يمكنك طرحها', type: 'lijst', items: [
                 { zeg: 'Hoe gaat het met lezen en rekenen?',
                   eigen: 'كيف تسير القراءة والحساب؟' },
-                { zeg: 'Gaat mijn kind goed om met andere kinderen?',
-                  eigen: 'هل يتعامل طفلي جيداً مع الأطفال الآخرين؟' },
+                { zeg: 'Heeft mijn kind vriendjes en vriendinnetjes?',
+                  eigen: 'هل لطفلي أصدقاء؟' },
                 { zeg: 'Wat kan ik thuis doen om te helpen?',
                   eigen: 'ماذا يمكنني أن أفعل في البيت للمساعدة؟' },
-                'أنت تعرف طفلك أفضل من الجميع. قل ذلك إذا رأيت في البيت شيئاً مختلفاً عما يراه المعلم في المدرسة.',
                 { zeg: 'Ik begrijp het niet, kunt u het anders zeggen?',
                   eigen: 'لم أفهم، هل يمكنك قوله بطريقة أخرى؟' },
+                'فكّر أيضاً في سؤال يهمّك أنت.',
+              ] },
+            ],
+          },
+        ],
+      },
+
+      // ===================================================================
+      // HULP BIJ GELDZORGEN (schuldhulp)
+      // ===================================================================
+      {
+        id: 'schuldhulp',
+        emoji: '💶',
+        naam: 'مساعدة عند القلق بشأن المال',
+        vasteBlokken: [
+          { kop: 'إذا كان الحديث صعب المتابعة', type: 'lijst', items: [
+            { intro: 'لا تتردد في أن تسأل:', zeg: 'Kunt u het langzamer of met makkelijkere woorden zeggen?', eigen: 'هل يمكنك قول ذلك ببطء أكثر أو بكلمات أسهل؟' },
+            'يمكنك أن تصطحب شخصًا تثق به.',
+            'ألا تتحدث الهولندية جيدًا بعد؟ اطلب مترجمًا عند تحديد الموعد.',
+          ] },
+          { kop: 'إنها مجانية وسرية', type: 'tekst',
+            tekst: 'المساعدة عند القلق بشأن المال عبر البلدية مجانية. يتعامل المساعد مع معلوماتك بسرية. لا داعي للخجل. كثير من الناس لديهم قلق بشأن المال.' },
+        ],
+        situaties: [
+          {
+            id: 'schuldhulp-eerste', emoji: '🤝', titel: 'أول لقاء بشأن الديون أو القلق بشأن المال',
+            blokken: [
+              { kop: 'كيف يعمل', type: 'tekst',
+                tekst: 'ألا تستطيع تغطية نفقاتك، أو لديك ديون؟ البلدية تساعدك مجانًا. تحصل أولًا على لقاء مع شخص يساعدك في أمور مالك. قد يكون مساعدًا أو مدربًا. معًا تنظران في مالك وتضعان خطة.' },
+              { kop: 'ماذا تحضر معك', type: 'lijst', items: [
+                'رسائل عن ديونك وفواتيرك، بما فيها غير المفتوحة.',
+                'نظرة عامة على دخلك: الراتب أو الإعانة أو المخصصات.',
+                'إثبات هويتك وبطاقتك المصرفية.',
+              ] },
+              { kop: 'كيف تستعد', type: 'lijst', items: [
+                'اجمع بريدك في مكان واحد. لا يلزم أن ترتبه بنفسك — تفعلان ذلك معًا.',
+                { intro: 'هل تريد نظرة عامة على مالك من الآن؟ يمكنك ذلك الآن.', linkTekst: 'أنشئ نظرة عامة مع مساعدة الميزانية', url: 'https://solidari.nl/budgethulp.html' },
+                'يمكنك أن تصطحب شخصًا تثق به.',
+              ] },
+              { kop: 'أمثلة على أسئلة قد يطرحونها عليك', type: 'lijst', items: [
+                'كم من المال يدخل، وكم يخرج؟',
+                'ما الديون أو المتأخرات التي عليك؟',
+                'ما الذي حدث وجعل الأمر لم يعد ممكنًا؟',
+              ] },
+              { kop: 'ما الذي يمكنك قوله أو سؤاله', type: 'lijst', items: [
+                { zeg: 'Ik kom er zelf niet meer uit.', eigen: 'لم أعد أستطيع التدبّر بمفردي.' },
+                { zeg: 'Wat kan ik nu al doen?', eigen: 'ما الذي يمكنني فعله من الآن؟' },
+                { zeg: 'Wat gebeurt er na dit gesprek?', eigen: 'ماذا يحدث بعد هذا اللقاء؟' },
               ] },
             ],
           },
@@ -959,7 +1092,7 @@ window.GoedVoorbereidData = {
       aiPlaceholder: 'Sorunu sor...',
       aiSpreekTitel: 'Konuş',
       aiFout: 'Bir şeyler ters gitti. Tekrar dene.',
-      aiDisclaimer: '🤖 Bu, randevuna hazırlanman için bir yardımdır. Tıbbi veya hukuki tavsiye değildir. BSN numaranı veya başka kişisel bilgilerini paylaşma.',
+      aiDisclaimer: '🤖 Randevuna hazırlanmana yardım ederim. Bu, tıbbi bir tavsiye değildir ve hukuki bir tavsiye değildir. BSN numaranı veya başka kişisel bilgilerini paylaşma.',
       voorlezen: 'Sesli oku',
       zegSluit: 'Kapatmak için dokun',
     },
@@ -1031,7 +1164,8 @@ window.GoedVoorbereidData = {
               { kop: 'Ne söyleyebilir veya sorabilirsin', type: 'lijst', items: [
                 { zeg: 'Neemt u nieuwe patiënten aan?',
                   eigen: 'Yeni hasta kabul ediyor musunuz?' },
-                'Nasıl işlediğini sor: randevu almayı, ve akşamları veya hafta sonu ne yapacağını.',
+                'Nasıl randevu alacağını sor.',
+                'Akşam veya hafta sonu hastalanırsan ne yapman gerektiğini de sor.',
               ] },
             ],
           },
@@ -1211,7 +1345,7 @@ window.GoedVoorbereidData = {
             { intro: 'Çekinmeden sor:', zeg: 'Kunt u het langzamer of met makkelijkere woorden zeggen?',
               eigen: 'Daha yavaş veya daha kolay kelimelerle söyleyebilir misiniz?' },
             'Güvendiğin birini yanında getirebilirsin.',
-            'Dili henüz iyi konuşamıyor musun? Okula önceden bir tercüman olup olamayacağını sor, veya çeviri yapabilecek birini yanında getir.',
+            'Hollandacayı henüz iyi konuşamıyor musun? Çeviri yapabilecek birini yanında getir. Veya biri telefondan çeviri yapsın.',
           ] },
           { kop: '10 dakika çok mu kısa?', type: 'tekst',
             tekst: 'Konuşacakların 10 dakikaya sığmıyor mu? Öğretmenden ayrı bir randevu iste. Bu her zaman mümkündür, yılın başka bir zamanında da.' },
@@ -1234,16 +1368,63 @@ window.GoedVoorbereidData = {
                 'Bir mektup veya karne aldın mı? Yanında getir.',
                 'Bir konuda endişeleniyor musun? Onunla başla, böylece ona yeterli zaman kalır.',
               ] },
-              { kop: 'Ne söyleyebilir veya sorabilirsin', type: 'lijst', items: [
+              { kop: 'Sorabileceğin soru örnekleri', type: 'lijst', items: [
                 { zeg: 'Hoe gaat het met lezen en rekenen?',
                   eigen: 'Okuma ve matematik nasıl gidiyor?' },
-                { zeg: 'Gaat mijn kind goed om met andere kinderen?',
-                  eigen: 'Çocuğum diğer çocuklarla iyi geçiniyor mu?' },
+                { zeg: 'Heeft mijn kind vriendjes en vriendinnetjes?',
+                  eigen: 'Çocuğumun arkadaşları var mı?' },
                 { zeg: 'Wat kan ik thuis doen om te helpen?',
                   eigen: 'Yardımcı olmak için evde ne yapabilirim?' },
-                'Çocuğunu en iyi sen tanırsın. Evde, öğretmenin okulda gördüğünden farklı bir şey görüyorsan söyle.',
                 { zeg: 'Ik begrijp het niet, kunt u het anders zeggen?',
                   eigen: 'Anlamadım, başka türlü söyleyebilir misiniz?' },
+                'Senin için önemli olan bir soruyu da düşün.',
+              ] },
+            ],
+          },
+        ],
+      },
+
+      // ===================================================================
+      // HULP BIJ GELDZORGEN (schuldhulp)
+      // ===================================================================
+      {
+        id: 'schuldhulp',
+        emoji: '💶',
+        naam: 'Para sıkıntısında yardım',
+        vasteBlokken: [
+          { kop: 'Konuşmayı takip etmek zorsa', type: 'lijst', items: [
+            { intro: 'Rahatça sor:', zeg: 'Kunt u het langzamer of met makkelijkere woorden zeggen?', eigen: 'Daha yavaş veya daha kolay kelimelerle söyleyebilir misiniz?' },
+            'Güvendiğin birini yanında getirebilirsin.',
+            'Henüz Hollandaca iyi konuşamıyor musun? Randevu alırken bir tercüman iste.',
+          ] },
+          { kop: 'Ücretsiz ve gizlidir', type: 'tekst',
+            tekst: 'Belediye üzerinden para sıkıntısında yardım ücretsizdir. Yardımcı, bilgilerini gizli tutar. Utanmana gerek yok. Çok insanın para sıkıntısı vardır.' },
+        ],
+        situaties: [
+          {
+            id: 'schuldhulp-eerste', emoji: '🤝', titel: 'Borçlar veya para sıkıntısı hakkında ilk görüşme',
+            blokken: [
+              { kop: 'Nasıl işler', type: 'tekst',
+                tekst: 'Geçinemiyor musun ya da borçların mı var? Belediye sana ücretsiz yardım eder. Önce, paran konusunda sana yardım eden biriyle görüşürsün. Bu bir yardımcı veya bir koç olabilir. Birlikte paranıza bakar ve bir plan yaparsınız.' },
+              { kop: 'Yanına ne alırsın', type: 'lijst', items: [
+                'Borçların ve faturaların hakkındaki mektuplar, açılmamış olanlar dahil.',
+                'Gelirinin bir özeti: maaş, sosyal yardım veya ödenekler.',
+                'Kimliğin ve banka kartın.',
+              ] },
+              { kop: 'Nasıl hazırlanırsın', type: 'lijst', items: [
+                'Postanı tek bir yerde topla. Kendin düzenlemene gerek yok — bunu birlikte yaparsınız.',
+                { intro: 'Paran hakkında şimdiden genel bir görünüm ister misin? Bunu şimdi yapabilirsin.', linkTekst: 'Bütçe Yardımı ile bir özet oluştur', url: 'https://solidari.nl/budgethulp.html' },
+                'Güvendiğin birini yanında getirebilirsin.',
+              ] },
+              { kop: 'Sana sorabilecekleri soru örnekleri', type: 'lijst', items: [
+                'Ne kadar para giriyor ve ne kadar çıkıyor?',
+                'Hangi borçların veya gecikmelerin var?',
+                'Ne oldu da artık idare edemez oldun?',
+              ] },
+              { kop: 'Ne söyleyebilir veya sorabilirsin', type: 'lijst', items: [
+                { zeg: 'Ik kom er zelf niet meer uit.', eigen: 'Kendi başıma artık başa çıkamıyorum.' },
+                { zeg: 'Wat kan ik nu al doen?', eigen: 'Şimdiden ne yapabilirim?' },
+                { zeg: 'Wat gebeurt er na dit gesprek?', eigen: 'Bu görüşmeden sonra ne olacak?' },
               ] },
             ],
           },
@@ -1267,7 +1448,7 @@ window.GoedVoorbereidData = {
       aiPlaceholder: 'ሕቶኻ ሕተት...',
       aiSpreekTitel: 'ተዛረብ',
       aiFout: 'ጌጋ ተፈጢሩ። እንደገና ፈትን።',
-      aiDisclaimer: '🤖 እዚ ንቆጸራኻ ንምድላው ዝሕግዝ እዩ። ሕክምናዊ ወይ ሕጋዊ ምኽሪ ኣይኮነን። BSN ወይ ካልእ ውልቃዊ ሓበሬታ ኣይትካፈል።',
+      aiDisclaimer: '🤖 ንቆጸራኻ ንኽትዳሎ ክሕግዘካ እየ። እዚ ሕክምናዊ ምኽሪ ኣይኮነን፡ ሕጋዊ ምኽሪ‘ውን ኣይኮነን። BSN ወይ ካልእ ውልቃዊ ሓበሬታ ኣይትካፈል።',
       voorlezen: 'ኣንብበለይ',
       zegSluit: 'ንምዕጻው ጠውቕ',
     },
@@ -1339,7 +1520,8 @@ window.GoedVoorbereidData = {
               { kop: 'እንታይ ክትብል ወይ ክትሓትት ትኽእል', type: 'lijst', items: [
                 { zeg: 'Neemt u nieuwe patiënten aan?',
                   eigen: 'ሓደስቲ ሕሙማት ትቕበሉ ዲኹም?' },
-                'ከመይ ከም ዝሰርሕ ሕተት: ቆጸራ ምግባር፣ ከምኡውን ምሸት ወይ ቀዳመ-ሰንበት እንታይ ከም ትገብር።',
+                'ከመይ ጌርካ ቆጸራ ከም ትገብር ሕተት።',
+                'ምሸት ወይ ቀዳመ-ሰንበት እንተ ሓሚምካ እንታይ ከም ትገብር‘ውን ሕተት።',
               ] },
             ],
           },
@@ -1519,7 +1701,7 @@ window.GoedVoorbereidData = {
             { intro: 'ብዘይ ፍርሒ ሕተት:', zeg: 'Kunt u het langzamer of met makkelijkere woorden zeggen?',
               eigen: 'ብዝያዳ ቀስ ኢልኩም ወይ ብቐለልቲ ቃላት ክትብልዎ ትኽእሉ ዶ?' },
             'ዝኣምኖ ሰብ ሒዝካ ክትመጽእ ትኽእል ኢኻ።',
-            'ነቲ ቋንቋ ገና ጽቡቕ ዘይትዛረብ ዲኻ? ተርጓሚ ክህሉ ይኽእል እንተኾይኑ ኣቐዲምካ ንቤት ትምህርቲ ሕተት፣ ወይ ክትርጉም ዝኽእል ሰብ ሒዝካ ምጻእ።',
+            'ገና ጽቡቕ ሆላንድኛ ኣይትዛረብን ዲኻ? ክትርጉም ዝኽእል ሰብ ሒዝካ ምጻእ። ወይ ብተለፎን ዝትርጉም ሰብ ግበር።',
           ] },
           { kop: '10 ደቓይቕ ኣዝዩ ሓጺር ድዩ?', type: 'tekst',
             tekst: 'ካብ 10 ደቓይቕ ንላዕሊ ዝወስድ ክትዘራረበሉ ዝድለ ኣለካ ድዩ? ንመምህር ፍሉይ ቆጸራ ሕተት። እዚ ኩሉ ግዜ ይከኣል እዩ፣ ኣብ ካልእ እዋን ናይቲ ዓመት ውን።' },
@@ -1542,16 +1724,63 @@ window.GoedVoorbereidData = {
                 'ደብዳበ ወይ ጸብጻብ ተቐቢልካ ዲኻ? ሒዝካዮ ምጻእ።',
                 'ብገለ ትጭነቕ ዲኻ? በኡ ጀምር፣ ከምኡ እኹል ግዜ ይህልዎ።',
               ] },
-              { kop: 'እንታይ ክትብል ወይ ክትሓትት ትኽእል', type: 'lijst', items: [
+              { kop: 'ክትሓቶም እትኽእል ኣብነት ሕቶታት', type: 'lijst', items: [
                 { zeg: 'Hoe gaat het met lezen en rekenen?',
                   eigen: 'ምንባብን ሕሳብን ከመይ ይኸዱ ኣለዉ?' },
-                { zeg: 'Gaat mijn kind goed om met andere kinderen?',
-                  eigen: 'ውላደይ ምስ ካልኦት ቆልዑ ጽቡቕ ይኸይድ ድዩ?' },
+                { zeg: 'Heeft mijn kind vriendjes en vriendinnetjes?',
+                  eigen: 'ውላደይ ኣዕሩኽ ኣለዉዎ ዶ?' },
                 { zeg: 'Wat kan ik thuis doen om te helpen?',
                   eigen: 'ንምሕጋዝ ኣብ ገዛ እንታይ ክገብር እኽእል?' },
-                'ንውላድካ ካብ ኩሉ ንላዕሊ ንስኻ ኢኻ ትፈልጦ። ኣብ ገዛ ካብቲ መምህር ኣብ ቤት ትምህርቲ ዝርእዮ ዝተፈልየ ነገር እንተሪኢኻ ንገር።',
                 { zeg: 'Ik begrijp het niet, kunt u het anders zeggen?',
                   eigen: 'ኣይተረድኣንን፣ ብኻልእ መንገዲ ክትብልዎ ትኽእሉ ዶ?' },
+                'ንዓኻ ኣገዳሲ ዝኾነ ሕቶ ባዕልኻ‘ውን ሕሰብ።',
+              ] },
+            ],
+          },
+        ],
+      },
+
+      // ===================================================================
+      // HULP BIJ GELDZORGEN (schuldhulp)
+      // ===================================================================
+      {
+        id: 'schuldhulp',
+        emoji: '💶',
+        naam: 'ሓገዝ ኣብ ጭንቀት ገንዘብ',
+        vasteBlokken: [
+          { kop: 'እቲ ዝርርብ ንምክትታል ከቢድ እንተኾይኑ', type: 'lijst', items: [
+            { intro: 'ብዘይ ሽግር ሕተት:', zeg: 'Kunt u het langzamer of met makkelijkere woorden zeggen?', eigen: 'ቀስ ኢልኩም ወይ ብቐለልቲ ቃላት ክትብልዎ ትኽእሉ ዶ?' },
+            'እትኣምኖ ሰብ ክትማላእ ትኽእል ኢኻ።',
+            'ገና ጽቡቕ ሆላንድኛ ኣይትዛረብን ዲኻ? ቆጸራ ክትገብር ከለኻ ተርጓሚ ሕተት።',
+          ] },
+          { kop: 'ነጻን ምስጢራውን እዩ', type: 'tekst',
+            tekst: 'ብመንገዲ ምምሕዳር ዝወሃብ ሓገዝ ኣብ ጭንቀት ገንዘብ ነጻ እዩ። እቲ ሓጋዚ ንሓበሬታኻ ብምስጢር ይሕዞ። ክትሓፍር ኣየድልየካን። ብዙሓት ሰባት ጭንቀት ገንዘብ ኣለዎም።' },
+        ],
+        situaties: [
+          {
+            id: 'schuldhulp-eerste', emoji: '🤝', titel: 'ናይ መጀመርታ ዝርርብ ብዛዕባ ዕዳ ወይ ጭንቀት ገንዘብ',
+            blokken: [
+              { kop: 'ከመይ ከም ዝሰርሕ', type: 'tekst',
+                tekst: 'ክትሽፍን ኣይትኽእልን ዲኻ፡ ወይ ዕዳ ኣለካ ዶ? እቲ ምምሕዳር ብነጻ ይሕግዘካ። መጀመርታ ምስ ሓደ ብዛዕባ ገንዘብካ ዝሕግዘካ ሰብ ትራኸብ። ንሱ ሓጋዚ ወይ ኣሰልጣኒ ክኸውን ይኽእል። ብሓባር ንገንዘብካ ትርእዩን መደብ ትገብሩን።' },
+              { kop: 'እንታይ ትማላእ', type: 'lijst', items: [
+                'ብዛዕባ ዕዳታትካን ጠለባትካን ዘሎ ደብዳቤታት፡ እቶም ዘይተኸፍቱ ‘ውን ሓዊስካ።',
+                'ናይ ኣታዊኻ ሓፈሻዊ ትሕዝቶ፡ ደሞዝ፡ ደገፍ ወይ ኣበል።',
+                'መንነትካን ናይ ባንክ ካርድኻን።',
+              ] },
+              { kop: 'ከመይ ትዳሎ', type: 'lijst', items: [
+                'ፖስታኻ ኣብ ሓደ ቦታ ኣኪብካ ኣቐምጦ። ባዕልኻ ክትፈልዮ ኣየድልየካን — ብሓባር ኢኹም ትገብርዎ።',
+                { intro: 'ብዛዕባ ገንዘብካ ካብ ሕጂ ሓፈሻዊ ትሕዝቶ ትደሊ ዲኻ? ካብ ሕጂ ክትገብሮ ትኽእል።', linkTekst: 'ብ Budgethulp ሓፈሻዊ ትሕዝቶ ግበር', url: 'https://solidari.nl/budgethulp.html' },
+                'እትኣምኖ ሰብ ክትማላእ ትኽእል ኢኻ።',
+              ] },
+              { kop: 'ክሓቱኻ ዝኽእሉ ኣብነት ሕቶታት', type: 'lijst', items: [
+                'ክንደይ ገንዘብ ይኣቱ፡ ክንደይ ከ ይወጽእ?',
+                'እንታይ ዕዳ ወይ ዘይተኸፍለ ኣለካ?',
+                'እንታይ ኮይኑ እዩ ደጊም ዘይሰርሕ ኮይኑ?',
+              ] },
+              { kop: 'እንታይ ክትብል ወይ ክትሓትት ትኽእል', type: 'lijst', items: [
+                { zeg: 'Ik kom er zelf niet meer uit.', eigen: 'በይነይ ደጊም ክገጥሞ ኣይክእልን እየ።' },
+                { zeg: 'Wat kan ik nu al doen?', eigen: 'ካብ ሕጂ እንታይ ክገብር እኽእል?' },
+                { zeg: 'Wat gebeurt er na dit gesprek?', eigen: 'ድሕሪ እዚ ዝርርብ እንታይ ይኸውን?' },
               ] },
             ],
           },
@@ -1575,7 +1804,7 @@ window.GoedVoorbereidData = {
       aiPlaceholder: 'Постав своє запитання...',
       aiSpreekTitel: 'Наговорити',
       aiFout: 'Щось пішло не так. Спробуй ще раз.',
-      aiDisclaimer: '🤖 Це допомога в підготовці до зустрічі. Не медична і не юридична порада. Не діліться номером BSN чи іншими особистими даними.',
+      aiDisclaimer: '🤖 Я допомагаю тобі підготуватися до зустрічі. Це не медична порада і не юридична порада. Не діліться номером BSN чи іншими особистими даними.',
       voorlezen: 'Прочитати вголос',
       zegSluit: 'Торкнись, щоб закрити',
     },
@@ -1647,7 +1876,8 @@ window.GoedVoorbereidData = {
               { kop: 'Що ти можеш сказати або запитати', type: 'lijst', items: [
                 { zeg: 'Neemt u nieuwe patiënten aan?',
                   eigen: 'Чи приймаєте ви нових пацієнтів?' },
-                'Запитай, як це працює: як записатися на прийом і що робити ввечері чи у вихідні.',
+                'Запитай, як записатися на прийом.',
+                'Запитай також, що робити, якщо захворієш увечері чи у вихідні.',
               ] },
             ],
           },
@@ -1827,7 +2057,7 @@ window.GoedVoorbereidData = {
             { intro: 'Сміливо запитай:', zeg: 'Kunt u het langzamer of met makkelijkere woorden zeggen?',
               eigen: 'Чи можете ви сказати це повільніше або простішими словами?' },
             'Можна взяти з собою людину, якій довіряєш.',
-            'Ще не добре володієш мовою? Заздалегідь запитай у школи, чи може бути перекладач, або візьми з собою когось, хто може перекладати.',
+            'Ще не дуже добре володієш нідерландською? Візьми з собою когось, хто може перекласти. Або хай хтось перекладе по телефону.',
           ] },
           { kop: '10 хвилин замало?', type: 'tekst',
             tekst: 'Маєш обговорити більше, ніж вміщається в 10 хвилин? Попроси вчителя про окрему зустріч. Це завжди можливо, також в інший час року.' },
@@ -1850,16 +2080,63 @@ window.GoedVoorbereidData = {
                 'Отримав листа або табель? Візьми з собою.',
                 'Щось тебе непокоїть? Почни з цього — тоді на це вистачить часу.',
               ] },
-              { kop: 'Що ти можеш сказати або запитати', type: 'lijst', items: [
+              { kop: 'Приклади запитань, які можеш поставити', type: 'lijst', items: [
                 { zeg: 'Hoe gaat het met lezen en rekenen?',
                   eigen: 'Як справи з читанням і математикою?' },
-                { zeg: 'Gaat mijn kind goed om met andere kinderen?',
-                  eigen: 'Чи добре моя дитина ладнає з іншими дітьми?' },
+                { zeg: 'Heeft mijn kind vriendjes en vriendinnetjes?',
+                  eigen: 'Чи має моя дитина друзів?' },
                 { zeg: 'Wat kan ik thuis doen om te helpen?',
                   eigen: 'Що я можу робити вдома, щоб допомогти?' },
-                'Ти знаєш свою дитину найкраще. Скажи, якщо вдома бачиш щось інше, ніж учитель у школі.',
                 { zeg: 'Ik begrijp het niet, kunt u het anders zeggen?',
                   eigen: 'Я не розумію, чи можете сказати це інакше?' },
+                'Придумай також запитання, яке важливе для тебе.',
+              ] },
+            ],
+          },
+        ],
+      },
+
+      // ===================================================================
+      // HULP BIJ GELDZORGEN (schuldhulp)
+      // ===================================================================
+      {
+        id: 'schuldhulp',
+        emoji: '💶',
+        naam: 'Допомога з грошовими турботами',
+        vasteBlokken: [
+          { kop: 'Якщо розмову важко зрозуміти', type: 'lijst', items: [
+            { intro: 'Не соромся запитати:', zeg: 'Kunt u het langzamer of met makkelijkere woorden zeggen?', eigen: 'Чи не могли б ви сказати це повільніше або простішими словами?' },
+            'Ти можеш узяти з собою когось, кому довіряєш.',
+            'Ще не дуже добре говориш нідерландською? Попроси перекладача, коли записуєшся на зустріч.',
+          ] },
+          { kop: 'Це безкоштовно та конфіденційно', type: 'tekst',
+            tekst: 'Допомога з грошовими турботами через муніципалітет безкоштовна. Помічник поводиться з твоєю інформацією конфіденційно. Тобі не потрібно соромитися. Дуже багато людей мають грошові турботи.' },
+        ],
+        situaties: [
+          {
+            id: 'schuldhulp-eerste', emoji: '🤝', titel: 'Перша зустріч про борги або грошові турботи',
+            blokken: [
+              { kop: 'Як це працює', type: 'tekst',
+                tekst: 'Тобі вже не вистачає грошей або маєш борги? Муніципалітет допоможе тобі безкоштовно. Спершу ти маєш зустріч із кимось, хто допомагає тобі з грошима. Це може бути помічник або коуч. Разом ви дивитеся на твої гроші й складаєте план.' },
+              { kop: 'Що взяти з собою', type: 'lijst', items: [
+                'Листи про твої борги та рахунки, зокрема нерозкриті.',
+                'Огляд твого доходу: зарплата, допомога або надбавки.',
+                'Твоє посвідчення особи та банківську картку.',
+              ] },
+              { kop: 'Як підготуватися', type: 'lijst', items: [
+                'Збери свою пошту в одному місці. Тобі не треба її розбирати — ви робите це разом.',
+                { intro: 'Хочеш уже зараз мати огляд своїх грошей? Це можна зробити зараз.', linkTekst: 'Зроби огляд за допомогою Budgethulp', url: 'https://solidari.nl/budgethulp.html' },
+                'Ти можеш узяти з собою когось, кому довіряєш.',
+              ] },
+              { kop: 'Приклади запитань, які тобі можуть поставити', type: 'lijst', items: [
+                'Скільки грошей надходить і скільки витрачається?',
+                'Які борги або заборгованості ти маєш?',
+                'Що сталося, через що це більше не виходить?',
+              ] },
+              { kop: 'Що ти можеш сказати або запитати', type: 'lijst', items: [
+                { zeg: 'Ik kom er zelf niet meer uit.', eigen: 'Я вже не можу впоратися сам.' },
+                { zeg: 'Wat kan ik nu al doen?', eigen: 'Що я вже можу зробити зараз?' },
+                { zeg: 'Wat gebeurt er na dit gesprek?', eigen: 'Що буде після цієї зустрічі?' },
               ] },
             ],
           },
@@ -1883,7 +2160,7 @@ window.GoedVoorbereidData = {
       aiPlaceholder: 'سؤالت را بپرس...',
       aiSpreekTitel: 'صحبت کن',
       aiFout: 'مشکلی پیش آمد. دوباره امتحان کن.',
-      aiDisclaimer: '🤖 این کمکی است برای آماده شدن برای قرار ملاقاتت. مشوره طبی یا حقوقی نیست. نمبر BSN یا معلومات شخصی دیگر را به اشتراک نگذار.',
+      aiDisclaimer: '🤖 کمکت می‌کنم برای قرار ملاقاتت آماده شوی. این مشورهٔ طبی نیست و مشورهٔ حقوقی هم نیست. نمبر BSN یا معلومات شخصی دیگر را به اشتراک نگذار.',
       voorlezen: 'با صدای بلند بخوان',
       zegSluit: 'برای بستن لمس کن',
     },
@@ -1955,7 +2232,8 @@ window.GoedVoorbereidData = {
               { kop: 'چه می‌توانی بگویی یا بپرسی', type: 'lijst', items: [
                 { zeg: 'Neemt u nieuwe patiënten aan?',
                   eigen: 'آیا مریض جدید قبول می‌کنید؟' },
-                'بپرس چطور کار می‌کند: گرفتن قرار، و شب یا آخر هفته چه باید بکنی.',
+                'بپرس چطور قرار بگیری.',
+                'همچنین بپرس اگر شب یا آخر هفته مریض شدی چه باید بکنی.',
               ] },
             ],
           },
@@ -2135,7 +2413,7 @@ window.GoedVoorbereidData = {
             { intro: 'بدون تردید بپرس:', zeg: 'Kunt u het langzamer of met makkelijkere woorden zeggen?',
               eigen: 'می‌توانید آهسته‌تر یا با کلمات ساده‌تر بگویید؟' },
             'می‌توانی کسی را که به او اعتماد داری با خود ببری.',
-            'هنوز زبان را خوب صحبت نمی‌کنی؟ از قبل از مکتب بپرس که آیا ترجمان می‌تواند باشد، یا کسی را ببر که بتواند ترجمه کند.',
+            'هنوز هلندی را خوب صحبت نمی‌کنی؟ کسی را که می‌تواند ترجمه کند همراه بیاور. یا کسی از طریق تلفن ترجمه کند.',
           ] },
           { kop: '۱۰ دقیقه خیلی کوتاه است؟', type: 'tekst',
             tekst: 'بیشتر از آنچه در ۱۰ دقیقه جا شود، برای صحبت داری؟ از معلم قرار جداگانه بخواه. این همیشه ممکن است، در وقت دیگری از سال هم.' },
@@ -2158,16 +2436,63 @@ window.GoedVoorbereidData = {
                 'نامه یا کارنامه‌ای گرفته‌ای؟ با خود ببر.',
                 'درباره چیزی نگران هستی؟ با آن شروع کن، تا برایش وقت کافی باشد.',
               ] },
-              { kop: 'چه می‌توانی بگویی یا بپرسی', type: 'lijst', items: [
+              { kop: 'نمونه پرسش‌هایی که می‌توانی بپرسی', type: 'lijst', items: [
                 { zeg: 'Hoe gaat het met lezen en rekenen?',
                   eigen: 'خواندن و ریاضی چطور پیش می‌رود؟' },
-                { zeg: 'Gaat mijn kind goed om met andere kinderen?',
-                  eigen: 'طفل من با اطفال دیگر خوب رفتار می‌کند؟' },
+                { zeg: 'Heeft mijn kind vriendjes en vriendinnetjes?',
+                  eigen: 'آیا طفلم دوست دارد؟' },
                 { zeg: 'Wat kan ik thuis doen om te helpen?',
                   eigen: 'در خانه چه می‌توانم بکنم تا کمک کنم؟' },
-                'تو طفلت را از همه بهتر می‌شناسی. اگر در خانه چیز دیگری می‌بینی نسبت به آنچه معلم در مکتب می‌بیند، بگو.',
                 { zeg: 'Ik begrijp het niet, kunt u het anders zeggen?',
                   eigen: 'نفهمیدم، می‌توانید طور دیگری بگویید؟' },
+                'سوالی را هم که برای خودت مهم است، فکر کن.',
+              ] },
+            ],
+          },
+        ],
+      },
+
+      // ===================================================================
+      // HULP BIJ GELDZORGEN (schuldhulp)
+      // ===================================================================
+      {
+        id: 'schuldhulp',
+        emoji: '💶',
+        naam: 'کمک هنگام نگرانی‌های مالی',
+        vasteBlokken: [
+          { kop: 'اگر دنبال کردن گفتگو دشوار است', type: 'lijst', items: [
+            { intro: 'راحت بپرس:', zeg: 'Kunt u het langzamer of met makkelijkere woorden zeggen?', eigen: 'می‌شود آهسته‌تر یا با کلمات ساده‌تر بگویید؟' },
+            'می‌توانی کسی را که به او اعتماد داری همراه بیاوری.',
+            'هنوز هلندی را خوب صحبت نمی‌کنی؟ هنگام گرفتن وقت، یک مترجم بخواه.',
+          ] },
+          { kop: 'رایگان و محرمانه است', type: 'tekst',
+            tekst: 'کمک هنگام نگرانی‌های مالی از طریق شهرداری رایگان است. کمک‌کننده اطلاعات تو را محرمانه نگه می‌دارد. لازم نیست خجالت بکشی. بسیاری از مردم نگرانی‌های مالی دارند.' },
+        ],
+        situaties: [
+          {
+            id: 'schuldhulp-eerste', emoji: '🤝', titel: 'اولین گفتگو درباره بدهی‌ها یا نگرانی‌های مالی',
+            blokken: [
+              { kop: 'چطور کار می‌کند', type: 'tekst',
+                tekst: 'دیگر نمی‌توانی خرجت را دربیاوری، یا بدهی داری؟ شهرداری رایگان به تو کمک می‌کند. اول با کسی که در امور پولت به تو کمک می‌کند گفتگو می‌کنی. او می‌تواند یک کمک‌کننده یا یک مربی باشد. با هم به پولت نگاه می‌کنید و یک برنامه می‌سازید.' },
+              { kop: 'چه چیزی همراه بیاوری', type: 'lijst', items: [
+                'نامه‌های مربوط به بدهی‌ها و صورتحساب‌هایت، از جمله نامه‌های بازنشده.',
+                'نمای کلی از درآمدت: حقوق، کمک‌هزینه یا مزایا.',
+                'مدرک شناسایی و کارت بانکی‌ات.',
+              ] },
+              { kop: 'چطور آماده شوی', type: 'lijst', items: [
+                'پست‌هایت را در یک جا جمع کن. لازم نیست خودت مرتبشان کنی — این کار را با هم انجام می‌دهید.',
+                { intro: 'می‌خواهی همین حالا نمای کلی از پولت داشته باشی؟ الان می‌توانی این کار را بکنی.', linkTekst: 'با کمک بودجه یک نمای کلی بساز', url: 'https://solidari.nl/budgethulp.html' },
+                'می‌توانی کسی را که به او اعتماد داری همراه بیاوری.',
+              ] },
+              { kop: 'نمونه پرسش‌هایی که ممکن است از تو بپرسند', type: 'lijst', items: [
+                'چقدر پول وارد می‌شود و چقدر خارج می‌شود؟',
+                'چه بدهی‌ها یا معوقاتی داری؟',
+                'چه اتفاقی افتاد که دیگر جور درنمی‌آید؟',
+              ] },
+              { kop: 'چه می‌توانی بگویی یا بپرسی', type: 'lijst', items: [
+                { zeg: 'Ik kom er zelf niet meer uit.', eigen: 'دیگر خودم از پسش برنمی‌آیم.' },
+                { zeg: 'Wat kan ik nu al doen?', eigen: 'همین حالا چه کاری می‌توانم بکنم؟' },
+                { zeg: 'Wat gebeurt er na dit gesprek?', eigen: 'بعد از این گفتگو چه می‌شود؟' },
               ] },
             ],
           },
@@ -2191,7 +2516,7 @@ window.GoedVoorbereidData = {
       aiPlaceholder: 'Pune întrebarea ta...',
       aiSpreekTitel: 'Vorbește',
       aiFout: 'Ceva nu a mers. Încearcă din nou.',
-      aiDisclaimer: '🤖 Acesta este un ajutor pentru pregătirea programării tale. Nu este sfat medical sau juridic. Nu împărtăși numărul BSN sau alte date personale.',
+      aiDisclaimer: '🤖 Te ajut să te pregătești pentru programarea ta. Acesta nu este un sfat medical și nu este un sfat juridic. Nu împărtăși numărul BSN sau alte date personale.',
       voorlezen: 'Citește cu voce tare',
       zegSluit: 'Atinge pentru a închide',
     },
@@ -2263,7 +2588,8 @@ window.GoedVoorbereidData = {
               { kop: 'Ce poți spune sau întreba', type: 'lijst', items: [
                 { zeg: 'Neemt u nieuwe patiënten aan?',
                   eigen: 'Primiți pacienți noi?' },
-                'Întreabă cum funcționează: cum faci o programare și ce faci seara sau în weekend.',
+                'Întreabă cum să faci o programare.',
+                'Întreabă și ce să faci dacă te îmbolnăvești seara sau în weekend.',
               ] },
             ],
           },
@@ -2443,7 +2769,7 @@ window.GoedVoorbereidData = {
             { intro: 'Nu ezita să întrebi:', zeg: 'Kunt u het langzamer of met makkelijkere woorden zeggen?',
               eigen: 'Puteți spune mai rar sau cu cuvinte mai simple?' },
             'Poți lua cu tine o persoană în care ai încredere.',
-            'Nu vorbești încă bine limba? Întreabă școala dinainte dacă poate fi prezent un interpret, sau ia cu tine pe cineva care poate traduce.',
+            'Nu vorbești încă bine olandeza? Ia cu tine pe cineva care poate traduce. Sau roagă pe cineva să traducă prin telefon.',
           ] },
           { kop: 'Sunt 10 minute prea puțin?', type: 'tekst',
             tekst: 'Ai de discutat mai mult decât încape în 10 minute? Cere învățătorului o programare separată. Asta e întotdeauna posibil, și în alt moment al anului.' },
@@ -2466,16 +2792,63 @@ window.GoedVoorbereidData = {
                 'Ai primit o scrisoare sau un carnet de note? Ia-le cu tine.',
                 'Te îngrijorează ceva? Începe cu asta, ca să fie destul timp pentru ea.',
               ] },
-              { kop: 'Ce poți spune sau întreba', type: 'lijst', items: [
+              { kop: 'Exemple de întrebări pe care le poți pune', type: 'lijst', items: [
                 { zeg: 'Hoe gaat het met lezen en rekenen?',
                   eigen: 'Cum merge cu cititul și matematica?' },
-                { zeg: 'Gaat mijn kind goed om met andere kinderen?',
-                  eigen: 'Se înțelege copilul meu bine cu ceilalți copii?' },
+                { zeg: 'Heeft mijn kind vriendjes en vriendinnetjes?',
+                  eigen: 'Are copilul meu prieteni?' },
                 { zeg: 'Wat kan ik thuis doen om te helpen?',
                   eigen: 'Ce pot face acasă ca să ajut?' },
-                'Tu îți cunoști copilul cel mai bine. Spune dacă acasă vezi ceva diferit de ce vede învățătorul la școală.',
                 { zeg: 'Ik begrijp het niet, kunt u het anders zeggen?',
                   eigen: 'Nu înțeleg, puteți spune altfel?' },
+                'Gândește-te și la o întrebare care contează pentru tine.',
+              ] },
+            ],
+          },
+        ],
+      },
+
+      // ===================================================================
+      // HULP BIJ GELDZORGEN (schuldhulp)
+      // ===================================================================
+      {
+        id: 'schuldhulp',
+        emoji: '💶',
+        naam: 'Ajutor la griji legate de bani',
+        vasteBlokken: [
+          { kop: 'Dacă discuția este greu de urmărit', type: 'lijst', items: [
+            { intro: 'Întreabă liniștit:', zeg: 'Kunt u het langzamer of met makkelijkere woorden zeggen?', eigen: 'Puteți spune mai rar sau cu cuvinte mai simple?' },
+            'Poți aduce pe cineva în care ai încredere.',
+            'Încă nu vorbești bine olandeză? Cere un interpret când faci programarea.',
+          ] },
+          { kop: 'Este gratuit și confidențial', type: 'tekst',
+            tekst: 'Ajutorul la griji legate de bani prin primărie este gratuit. Persoana care te ajută tratează informațiile tale confidențial. Nu trebuie să îți fie rușine. Foarte mulți oameni au griji legate de bani.' },
+        ],
+        situaties: [
+          {
+            id: 'schuldhulp-eerste', emoji: '🤝', titel: 'Prima întâlnire despre datorii sau griji legate de bani',
+            blokken: [
+              { kop: 'Cum funcționează', type: 'tekst',
+                tekst: 'Nu mai reușești să te descurci cu banii sau ai datorii? Primăria te ajută gratuit. Mai întâi ai o întâlnire cu cineva care te ajută cu banii tăi. Poate fi o persoană de sprijin sau un coach. Împreună vă uitați la banii tăi și faceți un plan.' },
+              { kop: 'Ce iei cu tine', type: 'lijst', items: [
+                'Scrisori despre datoriile și facturile tale, inclusiv cele nedeschise.',
+                'O privire de ansamblu asupra venitului tău: salariu, ajutor social sau alocații.',
+                'Actul tău de identitate și cardul bancar.',
+              ] },
+              { kop: 'Cum te pregătești', type: 'lijst', items: [
+                'Strânge-ți corespondența într-un singur loc. Nu trebuie să o sortezi singur — faceți asta împreună.',
+                { intro: 'Vrei deja o privire de ansamblu asupra banilor tăi? Poți face asta acum.', linkTekst: 'Fă o privire de ansamblu cu Ajutor buget', url: 'https://solidari.nl/budgethulp.html' },
+                'Poți aduce pe cineva în care ai încredere.',
+              ] },
+              { kop: 'Exemple de întrebări pe care ți le pot pune', type: 'lijst', items: [
+                'Câți bani intră și câți ies?',
+                'Ce datorii sau restanțe ai?',
+                'Ce s-a întâmplat de nu mai merge?',
+              ] },
+              { kop: 'Ce poți spune sau întreba', type: 'lijst', items: [
+                { zeg: 'Ik kom er zelf niet meer uit.', eigen: 'Nu mă mai descurc singur.' },
+                { zeg: 'Wat kan ik nu al doen?', eigen: 'Ce pot face de pe acum?' },
+                { zeg: 'Wat gebeurt er na dit gesprek?', eigen: 'Ce se întâmplă după această întâlnire?' },
               ] },
             ],
           },
@@ -2499,7 +2872,7 @@ window.GoedVoorbereidData = {
       aiPlaceholder: 'Zadaj pytanie...',
       aiSpreekTitel: 'Powiedz',
       aiFout: 'Coś poszło nie tak. Spróbuj ponownie.',
-      aiDisclaimer: '🤖 To pomoc w przygotowaniu się do spotkania. To nie jest porada medyczna ani prawna. Nie podawaj numeru BSN ani innych danych osobowych.',
+      aiDisclaimer: '🤖 Pomagam ci przygotować się do spotkania. To nie jest porada medyczna ani porada prawna. Nie podawaj numeru BSN ani innych danych osobowych.',
       voorlezen: 'Przeczytaj na głos',
       zegSluit: 'Dotknij, aby zamknąć',
     },
@@ -2571,7 +2944,8 @@ window.GoedVoorbereidData = {
               { kop: 'Co możesz powiedzieć lub zapytać', type: 'lijst', items: [
                 { zeg: 'Neemt u nieuwe patiënten aan?',
                   eigen: 'Czy przyjmują państwo nowych pacjentów?' },
-                'Zapytaj, jak to działa: jak umówić wizytę i co robić wieczorem lub w weekend.',
+                'Zapytaj, jak umówić wizytę.',
+                'Zapytaj też, co robić, jeśli zachorujesz wieczorem lub w weekend.',
               ] },
             ],
           },
@@ -2751,7 +3125,7 @@ window.GoedVoorbereidData = {
             { intro: 'Śmiało zapytaj:', zeg: 'Kunt u het langzamer of met makkelijkere woorden zeggen?',
               eigen: 'Czy może pan/pani powiedzieć to wolniej lub prostszymi słowami?' },
             'Możesz zabrać ze sobą osobę, której ufasz.',
-            'Nie mówisz jeszcze dobrze w tym języku? Zapytaj wcześniej szkołę, czy może być obecny tłumacz, albo weź kogoś, kto może tłumaczyć.',
+            'Nie mówisz jeszcze dobrze po niderlandzku? Weź kogoś, kto może tłumaczyć. Albo niech ktoś tłumaczy przez telefon.',
           ] },
           { kop: 'Czy 10 minut to za mało?', type: 'tekst',
             tekst: 'Masz do omówienia więcej, niż mieści się w 10 minutach? Poproś nauczyciela o osobne spotkanie. To zawsze możliwe, także w innym momencie roku.' },
@@ -2774,16 +3148,63 @@ window.GoedVoorbereidData = {
                 'Dostałeś list lub świadectwo? Weź je ze sobą.',
                 'Czymś się martwisz? Zacznij od tego, wtedy będzie na to dość czasu.',
               ] },
-              { kop: 'Co możesz powiedzieć lub zapytać', type: 'lijst', items: [
+              { kop: 'Przykłady pytań, które możesz zadać', type: 'lijst', items: [
                 { zeg: 'Hoe gaat het met lezen en rekenen?',
                   eigen: 'Jak idzie czytanie i matematyka?' },
-                { zeg: 'Gaat mijn kind goed om met andere kinderen?',
-                  eigen: 'Czy moje dziecko dobrze dogaduje się z innymi dziećmi?' },
+                { zeg: 'Heeft mijn kind vriendjes en vriendinnetjes?',
+                  eigen: 'Czy moje dziecko ma kolegów i koleżanki?' },
                 { zeg: 'Wat kan ik thuis doen om te helpen?',
                   eigen: 'Co mogę robić w domu, żeby pomóc?' },
-                'Znasz swoje dziecko najlepiej. Powiedz, jeśli w domu widzisz coś innego niż nauczyciel w szkole.',
                 { zeg: 'Ik begrijp het niet, kunt u het anders zeggen?',
                   eigen: 'Nie rozumiem, czy może pan/pani powiedzieć inaczej?' },
+                'Pomyśl też o pytaniu, które jest ważne dla ciebie.',
+              ] },
+            ],
+          },
+        ],
+      },
+
+      // ===================================================================
+      // HULP BIJ GELDZORGEN (schuldhulp)
+      // ===================================================================
+      {
+        id: 'schuldhulp',
+        emoji: '💶',
+        naam: 'Pomoc przy problemach z pieniędzmi',
+        vasteBlokken: [
+          { kop: 'Jeśli trudno nadążyć za rozmową', type: 'lijst', items: [
+            { intro: 'Śmiało zapytaj:', zeg: 'Kunt u het langzamer of met makkelijkere woorden zeggen?', eigen: 'Czy może pan/pani powiedzieć to wolniej lub prostszymi słowami?' },
+            'Możesz przyprowadzić kogoś, komu ufasz.',
+            'Nie mówisz jeszcze dobrze po niderlandzku? Poproś o tłumacza, gdy umawiasz spotkanie.',
+          ] },
+          { kop: 'To jest bezpłatne i poufne', type: 'tekst',
+            tekst: 'Pomoc przy problemach z pieniędzmi przez gminę jest bezpłatna. Osoba pomagająca traktuje twoje dane poufnie. Nie musisz się wstydzić. Bardzo wielu ludzi ma problemy z pieniędzmi.' },
+        ],
+        situaties: [
+          {
+            id: 'schuldhulp-eerste', emoji: '🤝', titel: 'Pierwsza rozmowa o długach lub problemach z pieniędzmi',
+            blokken: [
+              { kop: 'Jak to działa', type: 'tekst',
+                tekst: 'Nie możesz już związać końca z końcem albo masz długi? Gmina pomaga ci bezpłatnie. Najpierw masz rozmowę z kimś, kto pomaga ci z pieniędzmi. To może być osoba pomagająca lub coach. Razem patrzycie na twoje pieniądze i układacie plan.' },
+              { kop: 'Co zabrać ze sobą', type: 'lijst', items: [
+                'Listy o twoich długach i rachunkach, także te nieotwarte.',
+                'Zestawienie twoich dochodów: pensja, zasiłek lub dodatki.',
+                'Twój dowód tożsamości i kartę bankową.',
+              ] },
+              { kop: 'Jak się przygotować', type: 'lijst', items: [
+                'Zbierz swoją pocztę w jednym miejscu. Nie musisz jej sam segregować — robicie to razem.',
+                { intro: 'Chcesz już teraz mieć przegląd swoich pieniędzy? Możesz to zrobić teraz.', linkTekst: 'Zrób przegląd z Pomocą budżetową', url: 'https://solidari.nl/budgethulp.html' },
+                'Możesz przyprowadzić kogoś, komu ufasz.',
+              ] },
+              { kop: 'Przykłady pytań, które mogą ci zadać', type: 'lijst', items: [
+                'Ile pieniędzy wpływa, a ile wychodzi?',
+                'Jakie masz długi lub zaległości?',
+                'Co się stało, że przestało się udawać?',
+              ] },
+              { kop: 'Co możesz powiedzieć lub zapytać', type: 'lijst', items: [
+                { zeg: 'Ik kom er zelf niet meer uit.', eigen: 'Sam już sobie nie radzę.' },
+                { zeg: 'Wat kan ik nu al doen?', eigen: 'Co mogę zrobić już teraz?' },
+                { zeg: 'Wat gebeurt er na dit gesprek?', eigen: 'Co się dzieje po tej rozmowie?' },
               ] },
             ],
           },

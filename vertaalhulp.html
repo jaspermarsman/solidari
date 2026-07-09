@@ -434,6 +434,7 @@
         'vt-groep-brief':       'Brief Begrijper — interface',
         'vt-groep-bud-chat':    'Budgethulp — gesprek',
         'vt-groep-bud-ui':      'Budgethulp — resultaten & interface',
+        'vt-groep-gv':          'Goed Voorbereid — gesprek',
       },
       EN: {
         'vt-hero-titel':        'Help us translate',
@@ -473,6 +474,7 @@
         'vt-groep-brief':       'Letter Explainer — UI',
         'vt-groep-bud-chat':    'Budget Help — chat',
         'vt-groep-bud-ui':      'Budget Help — results & UI',
+        'vt-groep-gv':          'Well Prepared — conversation',
       },
       AR: {
         'vt-hero-titel':        'ساعدنا في الترجمة',
@@ -512,6 +514,7 @@
         'vt-groep-brief':       'شارح الرسائل — الواجهة',
         'vt-groep-bud-chat':    'مساعدة الميزانية — المحادثة',
         'vt-groep-bud-ui':      'مساعدة الميزانية — النتائج والواجهة',
+        'vt-groep-gv':          'استعداد جيد — المحادثة',
       },
       TR: {
         'vt-hero-titel':        'Çeviride bize yardım edin',
@@ -551,6 +554,7 @@
         'vt-groep-brief':       'Mektup açıklayıcı — arayüz',
         'vt-groep-bud-chat':    'Bütçe yardımı — sohbet',
         'vt-groep-bud-ui':      'Bütçe yardımı — sonuçlar ve arayüz',
+        'vt-groep-gv':          'İyi Hazırlan — konuşma',
       },
       TI: {
         'vt-hero-titel':        'ምትርጓሜ ሓግዘና',
@@ -590,6 +594,7 @@
         'vt-groep-brief':       'ሓጋዚ ደብዳቤ — ኢንተርፌስ',
         'vt-groep-bud-chat':    'ሓጋዚ ባጀት — ዕላል',
         'vt-groep-bud-ui':      'ሓጋዚ ባጀት — ውጺኢታትን ኢንተርፌስን',
+        'vt-groep-gv':          'ጽቡቕ ተዳሎ — ዝርርብ',
       },
       UK: {
         'vt-hero-titel':        'Допоможіть нам з перекладом',
@@ -629,6 +634,7 @@
         'vt-groep-brief':       'Пояснювач листів — інтерфейс',
         'vt-groep-bud-chat':    'Бюджетна допомога — розмова',
         'vt-groep-bud-ui':      'Бюджетна допомога — результати та інтерфейс',
+        'vt-groep-gv':          'Добре підготовлені — розмова',
       },
       FA: {
         'vt-hero-titel':        'در ترجمه به ما کمک کنید',
@@ -668,6 +674,7 @@
         'vt-groep-brief':       'توضیح‌دهنده نامه — رابط',
         'vt-groep-bud-chat':    'کمک بودجه — گفتگو',
         'vt-groep-bud-ui':      'کمک بودجه — نتایج و رابط',
+        'vt-groep-gv':          'خوب آماده شوید — گفتگو',
       },
       RO: {
         'vt-hero-titel':        'Ajutați-ne să traducem',
@@ -707,6 +714,7 @@
         'vt-groep-brief':       'Explicator scrisori — interfață',
         'vt-groep-bud-chat':    'Ajutor buget — conversație',
         'vt-groep-bud-ui':      'Ajutor buget — rezultate și interfață',
+        'vt-groep-gv':          'Bine pregătit — conversație',
       },
       PL: {
         'vt-hero-titel':        'Pomóż nam tłumaczyć',
@@ -746,6 +754,7 @@
         'vt-groep-brief':       'Wyjaśniacz listów — interfejs',
         'vt-groep-bud-chat':    'Pomoc budżetowa — rozmowa',
         'vt-groep-bud-ui':      'Pomoc budżetowa — wyniki i interfejs',
+        'vt-groep-gv':          'Dobrze przygotowani — rozmowa',
       },
     });
 
@@ -773,6 +782,13 @@
     // Structuur: { groepnaam: [ [sleutel, huidigeVertaling], ... ] }
     const VERTALINGEN = {
       EN: {
+        'vt-groep-gv': [
+          ['gv-welkom',      'Do you have an appointment coming up? I will help you prepare. So you know what to expect and what you can say.'],
+          ['gv-disclaimer',  '🤖 I help you prepare for your appointment. This is not medical advice and not legal advice. Do not share your BSN or other personal details.'],
+          ['gv-geld-naam',   'Help with money worries'],
+          ['gv-geld-titel',  'First meeting about debts or money worries'],
+          ['gv-geld-hoe',    'Can you no longer make ends meet, or do you have debts? The municipality helps you for free. You first have a meeting with someone who helps you with your money. That can be a helper or a coach. Together you look at your money and make a plan.'],
+        ],
         'vt-groep-nav': [
           ['nav-tools',           'Tools'],
           ['nav-over',            'About us'],
@@ -996,6 +1012,13 @@
         ],
       },
       AR: {
+        'vt-groep-gv': [
+          ['gv-welkom',      'هل لديك موعد قريب؟ سأساعدك على الاستعداد. هكذا تعرف ماذا تتوقع وماذا يمكنك أن تقول.'],
+          ['gv-disclaimer',  '🤖 أساعدك على الاستعداد لموعدك. هذه ليست نصيحة طبية وليست نصيحة قانونية. لا تشارك رقم BSN أو بيانات شخصية أخرى.'],
+          ['gv-geld-naam',   'مساعدة عند القلق بشأن المال'],
+          ['gv-geld-titel',  'أول لقاء بشأن الديون أو القلق بشأن المال'],
+          ['gv-geld-hoe',    'ألا تستطيع تغطية نفقاتك، أو لديك ديون؟ البلدية تساعدك مجانًا. تحصل أولًا على لقاء مع شخص يساعدك في أمور مالك. قد يكون مساعدًا أو مدربًا. معًا تنظران في مالك وتضعان خطة.'],
+        ],
         'vt-groep-nav': [
           ['nav-tools',      'الأدوات'],
           ['nav-over',       'من نحن'],
@@ -1218,6 +1241,13 @@
         ],
       },
       TR: {
+        'vt-groep-gv': [
+          ['gv-welkom',      'Bir randevun mu var? Hazırlanmana yardım ederim. Böylece ne bekleyeceğini ve ne söyleyebileceğini bilirsin.'],
+          ['gv-disclaimer',  '🤖 Randevuna hazırlanmana yardım ederim. Bu, tıbbi bir tavsiye değildir ve hukuki bir tavsiye değildir. BSN numaranı veya başka kişisel bilgilerini paylaşma.'],
+          ['gv-geld-naam',   'Para sıkıntısında yardım'],
+          ['gv-geld-titel',  'Borçlar veya para sıkıntısı hakkında ilk görüşme'],
+          ['gv-geld-hoe',    'Geçinemiyor musun ya da borçların mı var? Belediye sana ücretsiz yardım eder. Önce, paran konusunda sana yardım eden biriyle görüşürsün. Bu bir yardımcı veya bir koç olabilir. Birlikte paranıza bakar ve bir plan yaparsınız.'],
+        ],
         'vt-groep-nav': [
           ['nav-tools',      'Araçlar'],
           ['nav-over',       'Hakkımızda'],
@@ -1441,6 +1471,13 @@
         ],
       },
       TI: {
+        'vt-groep-gv': [
+          ['gv-welkom',      'ናብ ቆጸራ ክትከይድ ዲኻ? ንኽትዳሎ ክሕግዘካ እየ። ከምኡ እንታይ ከም ትጽበ ን እንታይ ክትብል ከም ትኽእል ትፈልጥ።'],
+          ['gv-disclaimer',  '🤖 ንቆጸራኻ ንኽትዳሎ ክሕግዘካ እየ። እዚ ሕክምናዊ ምኽሪ ኣይኮነን፡ ሕጋዊ ምኽሪ‘ውን ኣይኮነን። BSN ወይ ካልእ ውልቃዊ ሓበሬታ ኣይትካፈል።'],
+          ['gv-geld-naam',   'ሓገዝ ኣብ ጭንቀት ገንዘብ'],
+          ['gv-geld-titel',  'ናይ መጀመርታ ዝርርብ ብዛዕባ ዕዳ ወይ ጭንቀት ገንዘብ'],
+          ['gv-geld-hoe',    'ክትሽፍን ኣይትኽእልን ዲኻ፡ ወይ ዕዳ ኣለካ ዶ? እቲ ምምሕዳር ብነጻ ይሕግዘካ። መጀመርታ ምስ ሓደ ብዛዕባ ገንዘብካ ዝሕግዘካ ሰብ ትራኸብ። ንሱ ሓጋዚ ወይ ኣሰልጣኒ ክኸውን ይኽእል። ብሓባር ንገንዘብካ ትርእዩን መደብ ትገብሩን።'],
+        ],
         'vt-groep-nav': [
           ['nav-tools',      'መሳርሒታት'],
           ['nav-over',       'ብዛዕባና'],
@@ -1665,6 +1702,13 @@
         ],
       },
       UK: {
+        'vt-groep-gv': [
+          ['gv-welkom',      'Маєш зустріч або прийом? Я допоможу тобі підготуватися. Так ти знатимеш, чого очікувати і що можна сказати.'],
+          ['gv-disclaimer',  '🤖 Я допомагаю тобі підготуватися до зустрічі. Це не медична порада і не юридична порада. Не діліться номером BSN чи іншими особистими даними.'],
+          ['gv-geld-naam',   'Допомога з грошовими турботами'],
+          ['gv-geld-titel',  'Перша зустріч про борги або грошові турботи'],
+          ['gv-geld-hoe',    'Тобі вже не вистачає грошей або маєш борги? Муніципалітет допоможе тобі безкоштовно. Спершу ти маєш зустріч із кимось, хто допомагає тобі з грошима. Це може бути помічник або коуч. Разом ви дивитеся на твої гроші й складаєте план.'],
+        ],
         'vt-groep-nav': [
           ['nav-tools',      'Інструменти'],
           ['nav-over',       'Про нас'],
@@ -1887,6 +1931,13 @@
         ],
       },
       FA: {
+        'vt-groep-gv': [
+          ['gv-welkom',      'قرار ملاقات داری؟ من کمکت می‌کنم آماده شوی. این‌طور می‌دانی چه انتظاری داشته باشی و چه می‌توانی بگویی.'],
+          ['gv-disclaimer',  '🤖 کمکت می‌کنم برای قرار ملاقاتت آماده شوی. این مشورهٔ طبی نیست و مشورهٔ حقوقی هم نیست. نمبر BSN یا معلومات شخصی دیگر را به اشتراک نگذار.'],
+          ['gv-geld-naam',   'کمک هنگام نگرانی‌های مالی'],
+          ['gv-geld-titel',  'اولین گفتگو درباره بدهی‌ها یا نگرانی‌های مالی'],
+          ['gv-geld-hoe',    'دیگر نمی‌توانی خرجت را دربیاوری، یا بدهی داری؟ شهرداری رایگان به تو کمک می‌کند. اول با کسی که در امور پولت به تو کمک می‌کند گفتگو می‌کنی. او می‌تواند یک کمک‌کننده یا یک مربی باشد. با هم به پولت نگاه می‌کنید و یک برنامه می‌سازید.'],
+        ],
         'vt-groep-nav': [
           ['nav-tools',      'ابزارها'],
           ['nav-over',       'درباره ما'],
@@ -2109,6 +2160,13 @@
         ],
       },
       RO: {
+        'vt-groep-gv': [
+          ['gv-welkom',      'Ai o programare? Te ajut să te pregătești. Așa știi la ce să te aștepți și ce poți spune.'],
+          ['gv-disclaimer',  '🤖 Te ajut să te pregătești pentru programarea ta. Acesta nu este un sfat medical și nu este un sfat juridic. Nu împărtăși numărul BSN sau alte date personale.'],
+          ['gv-geld-naam',   'Ajutor la griji legate de bani'],
+          ['gv-geld-titel',  'Prima întâlnire despre datorii sau griji legate de bani'],
+          ['gv-geld-hoe',    'Nu mai reușești să te descurci cu banii sau ai datorii? Primăria te ajută gratuit. Mai întâi ai o întâlnire cu cineva care te ajută cu banii tăi. Poate fi o persoană de sprijin sau un coach. Împreună vă uitați la banii tăi și faceți un plan.'],
+        ],
         'vt-groep-nav': [
           ['nav-tools',      'Instrumente'],
           ['nav-over',       'Despre proiect'],
@@ -2332,6 +2390,13 @@
         ],
       },
       PL: {
+        'vt-groep-gv': [
+          ['gv-welkom',      'Masz przed sobą spotkanie lub wizytę? Pomogę ci się przygotować. Dzięki temu wiesz, czego się spodziewać i co możesz powiedzieć.'],
+          ['gv-disclaimer',  '🤖 Pomagam ci przygotować się do spotkania. To nie jest porada medyczna ani porada prawna. Nie podawaj numeru BSN ani innych danych osobowych.'],
+          ['gv-geld-naam',   'Pomoc przy problemach z pieniędzmi'],
+          ['gv-geld-titel',  'Pierwsza rozmowa o długach lub problemach z pieniędzmi'],
+          ['gv-geld-hoe',    'Nie możesz już związać końca z końcem albo masz długi? Gmina pomaga ci bezpłatnie. Najpierw masz rozmowę z kimś, kto pomaga ci z pieniędzmi. To może być osoba pomagająca lub coach. Razem patrzycie na twoje pieniądze i układacie plan.'],
+        ],
         'vt-groep-nav': [
           ['nav-tools',      'Narzędzia'],
           ['nav-over',       'O projekcie'],
