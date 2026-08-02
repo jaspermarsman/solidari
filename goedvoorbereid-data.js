@@ -377,7 +377,7 @@ window.GoedVoorbereidData = {
             'Begrijp je de uitleg niet meteen? Vraag of ze het opschrijven. Op de verpakking staat het ook.',
           ] },
           { kop: 'Vragen mag altijd', type: 'tekst',
-            tekst: 'De apotheker en de assistent weten veel over medicijnen. Je mag altijd vragen stellen, ook na je afspraak bij de dokter. Advies vragen kost niets.' },
+            tekst: 'De apotheker en de assistent weten veel over medicijnen. Je mag altijd vragen stellen, ook na je afspraak bij de dokter. Advies vragen kost niets. Wil je iets rustig of privé bespreken? Vraag of dat ergens apart kan, zodat anderen niet meeluisteren.' },
         ],
         situaties: [
           {
@@ -411,24 +411,26 @@ window.GoedVoorbereidData = {
             id: 'apotheek-zelfzorg', emoji: '🩹', titel: 'Advies bij een kleine klacht',
             blokken: [
               { kop: 'Hoe het werkt', type: 'tekst',
-                tekst: 'Voor een kleine klacht hoef je niet altijd naar de dokter. De apotheek geeft gratis advies. Denk aan pijn, verkoudheid, maagklachten of vitamines.\n\nDe assistent helpt je kiezen. Sommige medicijnen mag je zonder recept kopen. Die heten zelfzorgmedicijnen.' },
+                tekst: 'Voor een kleine klacht hoef je niet altijd naar de dokter. Bij de apotheek kun je vragen wat je het beste kunt doen. Dat advies is gratis.\n\nDe apotheek luistert naar je klacht en geeft advies. Dat kan een tip zijn zonder medicijn, een medicijn zonder recept (een zelfzorgmedicijn, zoals een pijnstiller), of het advies om toch naar de dokter te gaan.' },
               { kop: 'Waarvoor je terecht kunt', type: 'lijst', items: [
-                'Pijn, zoals hoofdpijn of spierpijn.',
+                'Hoofdpijn of spierpijn.',
                 'Verkoudheid, hoesten of keelpijn.',
                 'Maag en buik, zoals maagzuur of diarree.',
                 'Jeuk, een insectenbeet of een klein wondje.',
-                'Vitamines.',
+                'Een vraag over vitamines.',
               ] },
-              { kop: 'Wat de assistent gaat vragen', type: 'lijst', items: [
+              { kop: 'De apotheek let op je andere medicijnen', type: 'tekst',
+                tekst: 'Een zelfzorgmedicijn past niet altijd bij medicijnen die je al gebruikt. De apotheek controleert dit voor je. Vertel daarom welke medicijnen je gebruikt. Zo blijft het veilig.' },
+              { kop: 'Wat de apotheek gaat vragen', type: 'lijst', items: [
                 'Wat is de klacht en sinds wanneer heb je die?',
                 'Wat heb je al geprobeerd?',
                 'Voor wie is het? Voor jou, of voor je kind?',
                 'Gebruik je andere medicijnen?',
               ] },
               { kop: 'Wanneer je toch naar de dokter gaat', type: 'tekst',
-                tekst: 'Gaat de klacht na een paar dagen niet over, of wordt het erger? Heb je hoge koorts? Ga dan naar de huisarts.\n\nIs het voor een kind, ben je zwanger, of gebruik je andere medicijnen? Vraag dan altijd eerst advies.' },
+                tekst: 'Gaat de klacht na een paar dagen niet over, of wordt het erger? Heb je hoge koorts? Ga dan naar de huisarts.\n\nIs het voor een kind, ben je zwanger, of gebruik je andere medicijnen? Vraag dan eerst advies aan de apotheek of de dokter.' },
               { kop: 'Wat jij mag zeggen of vragen', type: 'lijst', items: [
-                { zeg: 'Ik heb een kleine klacht. Wat kan ik daarvoor nemen?' },
+                { zeg: 'Ik heb een kleine klacht. Welk medicijn kan mij helpen?' },
                 { zeg: 'Kan ik dit zonder recept kopen?' },
                 { zeg: 'Kan dit samen met mijn andere medicijnen?' },
                 { zeg: 'Wanneer moet ik wel naar de dokter?' },
