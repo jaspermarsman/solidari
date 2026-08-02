@@ -363,6 +363,81 @@ window.GoedVoorbereidData = {
         ],
       },
 
+      // ===================================================================
+      // DE APOTHEEK
+      // ===================================================================
+      {
+        id: 'apotheek',
+        emoji: '💊',
+        naam: 'De apotheek',
+        vasteBlokken: [
+          { kop: 'Als het gesprek moeilijk te volgen is', type: 'lijst', items: [
+            { intro: 'Vraag gerust:', zeg: 'Kunt u het langzamer of met makkelijkere woorden zeggen?' },
+            'Je mag iemand meenemen die je vertrouwt.',
+            'Begrijp je de uitleg niet meteen? Vraag of ze het opschrijven. Op de verpakking staat het ook.',
+          ] },
+          { kop: 'Vragen mag altijd', type: 'tekst',
+            tekst: 'De apotheker en de assistent weten veel over medicijnen. Je mag altijd vragen stellen, ook na je afspraak bij de dokter. Advies vragen kost niets.' },
+        ],
+        situaties: [
+          {
+            id: 'apotheek-ophalen', emoji: '💊', titel: 'Medicijnen ophalen',
+            blokken: [
+              { kop: 'Hoe het werkt', type: 'tekst',
+                tekst: 'De dokter schrijft een recept. Daarmee haal je je medicijnen bij de apotheek. De apotheker of de assistent legt uit hoe je ze gebruikt.\n\nKrijg je een medicijn voor het eerst? Dan krijg je meestal extra uitleg. Neem hier even de tijd voor.' },
+              { kop: 'Wordt het vergoed?', type: 'tekst',
+                tekst: 'Sommige medicijnen worden betaald door je zorgverzekering. Andere niet, of je betaalt een deel zelf. Dat kun je vooraf vragen. Zo weet je of er kosten zijn.' },
+              { kop: 'Wat de apotheek uitlegt', type: 'lijst', items: [
+                'Hoe vaak per dag je het medicijn neemt.',
+                'Hoeveel je per keer neemt (tabletten of ml).',
+                'Of je het met eten of water moet innemen.',
+                'Waar je op moet letten, bijvoorbeeld naast andere medicijnen.',
+              ] },
+              { kop: 'Vertel dit zelf ook', type: 'lijst', items: [
+                'Welke andere medicijnen je al gebruikt. Neem ze mee of schrijf de namen op.',
+                'Of je ergens allergisch voor bent.',
+                'Of je zwanger bent of borstvoeding geeft.',
+              ] },
+              { kop: 'Wat jij mag zeggen of vragen', type: 'lijst', items: [
+                { zeg: 'Wordt dit medicijn vergoed, of moet ik betalen?' },
+                { zeg: 'Hoe vaak per dag moet ik dit innemen?' },
+                { zeg: 'Moet ik dit met eten of met water innemen?' },
+                { zeg: 'Kan dit samen met mijn andere medicijnen?' },
+                { zeg: 'Ik begrijp het niet, kunt u het opschrijven?' },
+              ] },
+            ],
+          },
+          {
+            id: 'apotheek-zelfzorg', emoji: '🩹', titel: 'Advies bij een kleine klacht',
+            blokken: [
+              { kop: 'Hoe het werkt', type: 'tekst',
+                tekst: 'Voor een kleine klacht hoef je niet altijd naar de dokter. De apotheek geeft gratis advies. Denk aan pijn, verkoudheid, maagklachten of vitamines.\n\nDe assistent helpt je kiezen. Sommige medicijnen mag je zonder recept kopen. Die heten zelfzorgmedicijnen.' },
+              { kop: 'Waarvoor je terecht kunt', type: 'lijst', items: [
+                'Pijn, zoals hoofdpijn of spierpijn.',
+                'Verkoudheid, hoesten of keelpijn.',
+                'Maag en buik, zoals maagzuur of diarree.',
+                'Jeuk, een insectenbeet of een klein wondje.',
+                'Vitamines.',
+              ] },
+              { kop: 'Wat de assistent gaat vragen', type: 'lijst', items: [
+                'Wat is de klacht en sinds wanneer heb je die?',
+                'Wat heb je al geprobeerd?',
+                'Voor wie is het? Voor jou, of voor je kind?',
+                'Gebruik je andere medicijnen?',
+              ] },
+              { kop: 'Wanneer je toch naar de dokter gaat', type: 'tekst',
+                tekst: 'Gaat de klacht na een paar dagen niet over, of wordt het erger? Heb je hoge koorts? Ga dan naar de huisarts.\n\nIs het voor een kind, ben je zwanger, of gebruik je andere medicijnen? Vraag dan altijd eerst advies.' },
+              { kop: 'Wat jij mag zeggen of vragen', type: 'lijst', items: [
+                { zeg: 'Ik heb een kleine klacht. Wat kan ik daarvoor nemen?' },
+                { zeg: 'Kan ik dit zonder recept kopen?' },
+                { zeg: 'Kan dit samen met mijn andere medicijnen?' },
+                { zeg: 'Wanneer moet ik wel naar de dokter?' },
+              ] },
+            ],
+          },
+        ],
+      },
+
     ],
   },
 
