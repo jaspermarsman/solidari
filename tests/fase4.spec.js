@@ -17,7 +17,7 @@ async function laad(page, pagina, taal) {
 test('BP-01: nav-toolnamen + footer vertalen naar AR, chevron blijft', async ({ page }) => {
   await laad(page, 'index.html', 'AR');
   const r = await page.evaluate(() => {
-    const brief = document.querySelector('.dropdown-menu a[data-i18n="tool-brief-naam"]');
+    const brief = document.querySelector('.dropdown-menu [data-i18n="tool-brief-naam"]');
     const contact = document.querySelector('#solidari-footer-bar a[data-i18n="footer-contact"]');
     const chevron = document.querySelector('.nav-dropdown-trigger svg.chevron');
     const toolsLabel = document.querySelector('.nav-dropdown-trigger span[data-i18n="nav-tools"]');
@@ -37,10 +37,10 @@ test('BP-01: nav-toolnamen + footer vertalen naar AR, chevron blijft', async ({ 
 
 test('BP-01: EN-toolnamen; NL blijft Nederlands', async ({ page }) => {
   await laad(page, 'index.html', 'EN');
-  const en = await page.textContent('.dropdown-menu a[data-i18n="tool-loont-naam"]');
+  const en = await page.textContent('.dropdown-menu [data-i18n="tool-loont-naam"]');
   expect(en.trim()).toBe('Does Work Pay?');
   await laad(page, 'index.html', 'NL');
-  const nl = await page.textContent('.dropdown-menu a[data-i18n="tool-loont-naam"]');
+  const nl = await page.textContent('.dropdown-menu [data-i18n="tool-loont-naam"]');
   expect(nl.trim()).toBe('Loont Werken?');
 });
 

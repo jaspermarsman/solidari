@@ -98,7 +98,7 @@
     const toolsItems = TOOLS.map(t => {
       if (t.url) {
         const actief = pagina === t.url ? ' class="actief"' : '';
-        return `<li><a href="${ROOT}${t.url}"${actief} data-i18n="${t.i18n}">${t.naam}</a></li>`;
+        return `<li><a href="${ROOT}${t.url}"${actief}><span class="tool-emoji-nav" aria-hidden="true">${t.emoji}</span> <span data-i18n="${t.i18n}">${t.naam}</span></a></li>`;
       } else {
         return `<li><span class="tool-binnenkort" data-i18n="${t.i18n}">${t.naam}<span class="binnenkort-label">binnenkort</span></span></li>`;
       }
@@ -112,7 +112,7 @@
     const mobieleToolsItems = TOOLS.map(t => {
       if (t.url) {
         const actief = pagina === t.url ? ' class="actief"' : '';
-        return `<a href="${ROOT}${t.url}"${actief} data-i18n="${t.i18n}">${t.naam}</a>`;
+        return `<a href="${ROOT}${t.url}"${actief}><span class="tool-emoji-nav" aria-hidden="true">${t.emoji}</span> <span data-i18n="${t.i18n}">${t.naam}</span></a>`;
       } else {
         return `<span class="tool-binnenkort" data-i18n="${t.i18n}">${t.naam}<span class="binnenkort-label">binnenkort</span></span>`;
       }

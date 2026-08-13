@@ -14,7 +14,7 @@
   --groen-licht: #EBF3EE;
   --tekst: #1A1A18;
   --tekst-zacht: #5C5C58;
-  --tekst-licht: #9C9C98;
+  --tekst-licht: #6E6E69;   /* fase 6: van #9C9C98 → AA-contrast (4.9:1 op wit) */
   --rand: #E8E5DE;
 }
 

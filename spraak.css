@@ -81,6 +81,35 @@ body.sol-a11y-luistermodus [data-lees] {
   color: #fff;
 }
 
+/* ── Fase 6 — beeldtaal & raakvlakken ──────────────────────────────────── */
+/* Toolicoon in de nav-dropdown (consistent met index-kaarten en mobiel menu) */
+.tool-emoji-nav { display: inline-block; width: 1.5em; text-align: center; }
+
+/* Raakvlakken: zelfstandige bedienelementen minstens 44×44px (WCAG 2.5.5).
+   Inline tekstlinks vallen onder de WCAG-uitzondering en blijven ongemoeid. */
+.nav-links > li > a,
+.nav-dropdown-trigger,
+.dropdown-menu a,
+.taal-trigger,
+.taal-dd-btn,
+.mob-link,
+.mob-tools a,
+.mob-taal-btn,
+.footer-feedback,
+.knop-primair,
+.knop-secundair {
+  min-height: 44px;
+  min-width: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.nav-links > li > a, .dropdown-menu a, .mob-link, .mob-tools a { justify-content: flex-start; }
+.dropdown-menu a, .mob-tools a, .mob-link { gap: 0.4rem; }
+
+/* Statusbadge óók in vorm, niet alleen kleur: een vorm-icoon ervoor */
+.sol-vorm-badge::before { content: '● '; }
+
 /* Microfoonknop bij tekstvelden */
 .sol-a11y-mic {
   display: inline-flex;
