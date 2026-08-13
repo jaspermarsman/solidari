@@ -21,5 +21,6 @@ tools/audio/*.wav
 .hf-cache/
 tests/nulmeting-resultaat.json
 tests/nulmeting-screenshots/
+tests/eindmeting-resultaat.json
 tests/test-results/
 tests/playwright-report/
