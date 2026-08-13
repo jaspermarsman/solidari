@@ -57,6 +57,30 @@ body.sol-a11y-luistermodus [data-lees] {
   box-shadow: 0 0 0 3px var(--amber-licht, #FDF3E0);
 }
 
+/* Voorlezen-schakelaar in de nav (oor/luidspreker) */
+.sol-a11y-luister-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--rand, #E8E5DE);
+  border-radius: 10px;
+  background: var(--wit, #FAFAF7);
+  color: var(--tekst-zacht, #5C5C58);
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+.sol-a11y-luister-toggle svg { width: 22px; height: 22px; }
+.sol-a11y-luister-toggle:hover { background: var(--wit-warm, #F5F2EC); }
+.sol-a11y-luister-toggle:focus-visible { outline: 3px solid var(--amber, #E8A020); outline-offset: 2px; }
+.sol-a11y-luister-toggle.actief {
+  background: var(--groen, #2D5A3D);
+  border-color: var(--groen, #2D5A3D);
+  color: #fff;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .sol-a11y-knop.sol-a11y-leest { animation: none; }
   .sol-a11y-knop { transition: none; }

@@ -275,6 +275,14 @@
     return b;
   }
 
+  // Per-element beschikbaarheid: kan JUIST deze tekst geleverd worden?
+  // (principe 6: geen knop = geen kapotte staat, i.p.v. een dode knop.)
+  async function kanLeveren(tekst, taal) {
+    await ensureManifest(taal);
+    const hash = await hashVan(normaliseer(tekst));
+    return heeftBestand(taal, hash) || !!stemVoor(taal) || !!externeRoute;
+  }
+
   async function scan(root) {
     root = root || document;
     const els = [...root.querySelectorAll('[data-lees]')];
@@ -284,12 +292,35 @@
     for (const el of els) {
       if (el.dataset.solA11yKlaar) continue;
       const taal = (el.getAttribute('data-lees-taal') || actieveTaal()).toUpperCase();
-      if (!beschikbaar(taal)) continue;
       const tekst = el.getAttribute('data-lees') || el.textContent;
       if (!normaliseer(tekst)) continue;
+      if (!(await kanLeveren(tekst, taal))) { el.dataset.solA11yKlaar = 'leeg'; continue; }
       el.appendChild(knop(tekst, taal));
       el.dataset.solA11yKlaar = '1';
     }
+  }
+
+  // ── Auto-markering: zet data-lees op inhoudsblokken ────────────────────
+  const BLOK_SEL = 'p, h1, h2, h3, h4, li, blockquote, dt, dd, figcaption, .regel-zeg, .regel-intro, .regel-eigen, .regel-na';
+  const UITSLUIT_SEL = 'nav, footer, #solidari-nav, #solidari-footer, script, style, button, a, select, textarea, input, label, [data-lees], [data-geen-lees], [contenteditable="true"], .sol-a11y-knop, #sol-env-balk';
+  function autoMarkeer(root) {
+    root = root || document;
+    root.querySelectorAll(BLOK_SEL).forEach(el => {
+      if (el.closest(UITSLUIT_SEL)) return;
+      // alleen bladeren: geen container die zelf blokken bevat (voorkomt dubbel lezen)
+      if (el.querySelector(BLOK_SEL)) return;
+      const txt = normaliseer(el.textContent);
+      if (txt.length <= 40 && !el.classList.contains('regel-zeg')) return;
+      // de zeg-zinnen zijn Nederlands (D-07)
+      if (el.classList.contains('regel-zeg')) el.setAttribute('data-lees-taal', 'NL');
+      el.setAttribute('data-lees', '');
+    });
+  }
+
+  // autoMarkeer + scan in één; veilig herhaalbaar (idempotent via solA11yKlaar)
+  async function verwerk(root) {
+    autoMarkeer(root || document);
+    await scan(root || document);
   }
 
   // ── Luistermodus (tik-om-te-lezen) ─────────────────────────────────────
@@ -350,8 +381,52 @@
   // ── Publieke API (§4.3) ────────────────────────────────────────────────
   window.Solidari.spraak = {
     beschikbaar, zeg, stop, bezig, ontgrendel, stemVoor, splitsZinnen,
-    knop, scan, manifest, luistermodus, luister, registreerRoute,
+    knop, scan, autoMarkeer, verwerk, manifest, luistermodus, luister, registreerRoute,
     // testhaken (niet-openbaar bedoeld, wel handig in acceptatietests)
     _kiesLaag, _normaliseer: normaliseer, _hashVan: hashVan, _actieveTaal: actieveTaal,
   };
+
+  // ── Zelf-initialisatie ─────────────────────────────────────────────────
+  function eersteGebaarOntgrendel() {
+    ontgrendel();
+    document.removeEventListener('pointerdown', eersteGebaarOntgrendel, true);
+    document.removeEventListener('keydown', eersteGebaarOntgrendel, true);
+  }
+
+  let verwerkGepland = false;
+  function planVerwerk() {
+    if (verwerkGepland) return;
+    verwerkGepland = true;
+    setTimeout(() => { verwerkGepland = false; verwerk(document); }, 200);
+  }
+
+  function init() {
+    // iOS-ontgrendeling bij het eerste gebaar
+    document.addEventListener('pointerdown', eersteGebaarOntgrendel, true);
+    document.addEventListener('keydown', eersteGebaarOntgrendel, true);
+
+    // Eerste markering + knoppen
+    verwerk(document);
+
+    // Dynamisch bijgerenderde inhoud (chat, resultaten) automatisch meenemen.
+    try {
+      const obs = new MutationObserver((muts) => {
+        for (const m of muts) {
+          for (const n of m.addedNodes) {
+            if (n.nodeType === 1 && !n.classList.contains('sol-a11y-knop')) { planVerwerk(); return; }
+          }
+        }
+      });
+      obs.observe(document.body, { childList: true, subtree: true });
+    } catch (e) {}
+
+    // Luistermodus herstellen
+    try { if (localStorage.getItem('solidari-voorlezen') === 'aan') luistermodus.aan(); } catch (e) {}
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
 })();

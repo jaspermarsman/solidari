@@ -143,6 +143,9 @@
   </ul>
 
   <div class="nav-rechts">
+    <button class="sol-a11y-luister-toggle" aria-label="Voorlezen aan of uit" aria-pressed="false" title="Voorlezen">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path class="sol-a11y-golf" d="M15.5 8.5a5 5 0 0 1 0 7M19 5a9 9 0 0 1 0 14"/></svg>
+    </button>
     <div class="nav-taal-dropdown">
       <button class="taal-trigger" aria-label="Taal kiezen">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
@@ -329,6 +332,32 @@
     passTaalToe(actiefeTaal);
   }
 
+  // ── Voorlezen-schakelaar (luistermodus) ────────────────────────────────
+  function koppelLuisterToggle() {
+    const btn = document.querySelector('.sol-a11y-luister-toggle');
+    if (!btn) return;
+    const spraak = window.Solidari && Solidari.spraak;
+    if (!spraak) { btn.remove(); return; }   // geen spraak → geen knop (principe 6)
+
+    function verversLabel() {
+      const aan = spraak.luistermodus.staat();
+      btn.setAttribute('aria-pressed', aan ? 'true' : 'false');
+      btn.classList.toggle('actief', aan);
+      const sleutel = aan ? 'a11y-voorlezen-aan' : 'a11y-voorlezen-uit';
+      let label = aan ? 'Voorlezen aan' : 'Voorlezen uit';
+      try { if (Solidari.i18n && Solidari.i18n.t) label = Solidari.i18n.t(sleutel); } catch (e) {}
+      btn.setAttribute('aria-label', label);
+      btn.setAttribute('title', label);
+    }
+
+    btn.addEventListener('click', () => {
+      if (spraak.luistermodus.staat()) spraak.luistermodus.uit();
+      else { spraak.ontgrendel(); spraak.luistermodus.aan(); }
+      verversLabel();
+    });
+    verversLabel();
+  }
+
   // ── Init ───────────────────────────────────────────────────────────────
   function init() {
     detecteerOmgeving();
@@ -337,6 +366,7 @@
     koppelTaalDropdown();
     koppelHamburger();
     koppelTaalKnoppen();
+    koppelLuisterToggle();
   }
 
   if (document.readyState === 'loading') {

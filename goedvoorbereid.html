@@ -191,10 +191,10 @@ function itemHTML(item){
   if(typeof item === 'string') return escapeHTML(item);
   if(item && typeof item === 'object'){
     let h = '';
-    if(item.intro) h += '<span class="regel-intro">'+escapeHTML(item.intro)+'</span> ';
-    if(item.zeg)   h += '<span class="regel-zeg">'+escapeHTML(item.zeg)+'</span>';
-    if(item.eigen) h += '<span class="regel-eigen">'+escapeHTML(item.eigen)+'</span>';
-    if(item.na)    h += '<span class="regel-na">'+escapeHTML(item.na)+'</span>';
+    if(item.intro) h += '<span class="regel-intro" data-lees>'+escapeHTML(item.intro)+'</span> ';
+    if(item.zeg)   h += '<span class="regel-zeg" data-lees data-lees-taal="NL">'+escapeHTML(item.zeg)+'</span>';
+    if(item.eigen) h += '<span class="regel-eigen" data-lees>'+escapeHTML(item.eigen)+'</span>';
+    if(item.na)    h += '<span class="regel-na" data-lees>'+escapeHTML(item.na)+'</span>';
     if(item.url)   h += '<a class="regel-link" href="'+escapeHTML(item.url)+'" target="_blank" rel="noopener noreferrer">'+escapeHTML(item.linkTekst||item.url)+'</a>';
     if(!h){ const v = Object.values(item).find(x=>typeof x==='string'); h = escapeHTML(v||''); }
     return h;
