@@ -1,0 +1,63 @@
+/**
+ * Solidari — spraak.css (v2)
+ * Stijlen voor de voorleesknoppen en luistermodus. Nieuwe klassen `sol-a11y-*`,
+ * geen bestaande klassen hernoemd (D-14). Gebruikt de bestaande CSS-variabelen
+ * uit components.css waar mogelijk.
+ */
+
+/* Voorleesknop — raakvlak minstens 56×56 px (principe 4) */
+.sol-a11y-knop {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 56px;
+  min-height: 56px;
+  padding: 0;
+  margin: 0 0 0 0.4rem;
+  vertical-align: middle;
+  border: 2px solid var(--groen, #2D5A3D);
+  border-radius: 999px;
+  background: var(--groen-licht, #EBF3EE);
+  color: var(--groen, #2D5A3D);
+  font-size: 1.35rem;
+  line-height: 1;
+  cursor: pointer;
+  flex: 0 0 auto;
+  transition: background 0.15s, transform 0.1s;
+  -webkit-tap-highlight-color: transparent;
+}
+.sol-a11y-knop:hover { background: #dcece1; }
+.sol-a11y-knop:active { transform: scale(0.94); }
+
+/* Duidelijke focusring voor toetsenbord/schermlezer */
+.sol-a11y-knop:focus-visible {
+  outline: 3px solid var(--amber, #E8A020);
+  outline-offset: 2px;
+}
+
+/* Actief-staat: dit blok wordt nu voorgelezen */
+.sol-a11y-knop.sol-a11y-leest {
+  background: var(--amber, #E8A020);
+  border-color: var(--amber-diep, #C47F10);
+  color: #fff;
+  animation: sol-a11y-puls 1.1s ease-in-out infinite;
+}
+@keyframes sol-a11y-puls {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(232, 160, 32, 0.5); }
+  50%      { box-shadow: 0 0 0 6px rgba(232, 160, 32, 0); }
+}
+
+/* Luistermodus: tik-om-te-lezen — cursor en markering van het actieve blok */
+body.sol-a11y-luistermodus [data-lees] {
+  cursor: pointer;
+}
+.sol-a11y-leest-blok {
+  background: var(--amber-licht, #FDF3E0);
+  border-radius: 6px;
+  box-shadow: 0 0 0 3px var(--amber-licht, #FDF3E0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sol-a11y-knop.sol-a11y-leest { animation: none; }
+  .sol-a11y-knop { transition: none; }
+}
