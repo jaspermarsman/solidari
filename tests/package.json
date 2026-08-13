@@ -1,0 +1,13 @@
+{
+  "name": "solidari-a11y-tests",
+  "private": true,
+  "version": "2.0.0",
+  "description": "Playwright-acceptatietests voor het analfabeten-plan (buiten de site)",
+  "scripts": {
+    "test": "playwright test",
+    "serve": "bash serve.sh"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.62.1"
+  }
+}
