@@ -69,26 +69,26 @@
 
   // ── Tools lijst ────────────────────────────────────────────────────────
   const TOOLS = [
-    { naam: 'Brief Begrijper', url: 'brief.html' },
-    { naam: 'Budgethulp', url: 'budgethulp.html' },
-    { naam: 'Loont Werken?', url: 'loont-werken.html' },
-    { naam: 'Naturalisatie', url: 'naturalisatie.html' },
-    { naam: '18 Jaar', url: '18jaar.html' },
-    { naam: 'Rechten & Plichten', url: 'rechten.html' },
-    { naam: 'Goed Voorbereid', url: 'goedvoorbereid.html' },
+    { naam: 'Brief Begrijper', url: 'brief.html', i18n: 'tool-brief-naam', emoji: '📬' },
+    { naam: 'Budgethulp', url: 'budgethulp.html', i18n: 'tool-budget-naam', emoji: '💶' },
+    { naam: 'Loont Werken?', url: 'loont-werken.html', i18n: 'tool-loont-naam', emoji: '💼' },
+    { naam: 'Naturalisatie', url: 'naturalisatie.html', i18n: 'tool-naturalisatie-naam', emoji: '🌍' },
+    { naam: '18 Jaar', url: '18jaar.html', i18n: 'tool-18jaar-naam', emoji: '🎂' },
+    { naam: 'Rechten & Plichten', url: 'rechten.html', i18n: 'tool-rechten-naam', emoji: '⚖️' },
+    { naam: 'Goed Voorbereid', url: 'goedvoorbereid.html', i18n: 'tool-gv-naam', emoji: '📋' },
   ];
 
-  // ── Talen ──────────────────────────────────────────────────────────────
+  // ── Talen ── (naam = eigennaam in eigen schrift, §5) ────────────────────
   const TALEN = [
-    { code: 'NL', vlag: '🇳🇱', label: 'NL' },
-    { code: 'EN', vlag: '🇬🇧', label: 'EN' },
-    { code: 'AR', vlag: '🇸🇦', label: 'AR' },
-    { code: 'TR', vlag: '🇹🇷', label: 'TR' },
-    { code: 'TI', vlag: '🇪🇷', label: 'TI' },
-    { code: 'UK', vlag: '🇺🇦', label: 'UK' },
-    { code: 'FA', vlag: '🇦🇫', label: 'FA' },
-    { code: 'RO', vlag: '🇷🇴', label: 'RO' },
-    { code: 'PL', vlag: '🇵🇱', label: 'PL' },
+    { code: 'NL', vlag: '🇳🇱', label: 'NL', naam: 'Nederlands' },
+    { code: 'EN', vlag: '🇬🇧', label: 'EN', naam: 'English' },
+    { code: 'AR', vlag: '🇸🇦', label: 'AR', naam: 'العربية' },
+    { code: 'TR', vlag: '🇹🇷', label: 'TR', naam: 'Türkçe' },
+    { code: 'TI', vlag: '🇪🇷', label: 'TI', naam: 'ትግርኛ' },
+    { code: 'UK', vlag: '🇺🇦', label: 'UK', naam: 'Українська' },
+    { code: 'FA', vlag: '🇦🇫', label: 'FA', naam: 'دری' },
+    { code: 'RO', vlag: '🇷🇴', label: 'RO', naam: 'Română' },
+    { code: 'PL', vlag: '🇵🇱', label: 'PL', naam: 'Polski' },
   ];
 
   // ── NAV HTML ───────────────────────────────────────────────────────────
@@ -98,32 +98,32 @@
     const toolsItems = TOOLS.map(t => {
       if (t.url) {
         const actief = pagina === t.url ? ' class="actief"' : '';
-        return `<li><a href="${ROOT}${t.url}"${actief}>${t.naam}</a></li>`;
+        return `<li><a href="${ROOT}${t.url}"${actief} data-i18n="${t.i18n}">${t.naam}</a></li>`;
       } else {
-        return `<li><span class="tool-binnenkort">${t.naam}<span class="binnenkort-label">binnenkort</span></span></li>`;
+        return `<li><span class="tool-binnenkort" data-i18n="${t.i18n}">${t.naam}<span class="binnenkort-label">binnenkort</span></span></li>`;
       }
     }).join('');
 
     const taalItems = TALEN.map(t =>
-      `<button class="taal-dd-btn taal-btn" data-taal="${t.code}">${t.vlag} ${t.label}</button>`
+      `<button class="taal-dd-btn taal-btn" data-taal="${t.code}" data-naam="${t.naam}" lang="${t.code.toLowerCase()}">${t.vlag} ${t.naam}</button>`
     ).join('');
 
     // Mobiel menu: tools uitgeschreven + taalwisseling
     const mobieleToolsItems = TOOLS.map(t => {
       if (t.url) {
         const actief = pagina === t.url ? ' class="actief"' : '';
-        return `<a href="${ROOT}${t.url}"${actief}>${t.naam}</a>`;
+        return `<a href="${ROOT}${t.url}"${actief} data-i18n="${t.i18n}">${t.naam}</a>`;
       } else {
-        return `<span class="tool-binnenkort">${t.naam}<span class="binnenkort-label">binnenkort</span></span>`;
+        return `<span class="tool-binnenkort" data-i18n="${t.i18n}">${t.naam}<span class="binnenkort-label">binnenkort</span></span>`;
       }
     }).join('');
 
     const mobileTaalItems = TALEN.map(t =>
-      `<button class="taal-btn mob-taal-btn" data-taal="${t.code}">${t.vlag} ${t.label}</button>`
+      `<button class="taal-btn mob-taal-btn" data-taal="${t.code}" data-naam="${t.naam}" lang="${t.code.toLowerCase()}">${t.vlag} ${t.naam}</button>`
     ).join('');
 
     return `<nav id="solidari-nav-bar">
-  <a href="${ROOT}index.html" class="nav-logo">
+  <a href="${ROOT}index.html" class="nav-logo" aria-label="Solidari — home">
     ${LOGO_SVG}
     ${LOGO_NAAM}
   </a>
@@ -131,7 +131,7 @@
   <ul class="nav-links">
     <li class="nav-dropdown">
       <button class="nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true">
-        Tools <svg class="chevron" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span data-i18n="nav-tools">Tools</span> <svg class="chevron" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
       <ul class="dropdown-menu" role="menu">
         ${toolsItems}
@@ -165,18 +165,18 @@
 
 <div class="mob-menu" id="mob-menu" aria-hidden="true">
   <div class="mob-menu-sectie">
-    <div class="mob-menu-label">Tools</div>
+    <div class="mob-menu-label" data-i18n="nav-tools">Tools</div>
     <div class="mob-tools">
       ${mobieleToolsItems}
     </div>
   </div>
   <div class="mob-menu-sectie">
-    <a href="${ROOT}over.html" class="mob-link"${pagina === 'over.html' ? ' data-actief' : ''}>Over dit project</a>
-    <a href="${ROOT}feedback.html" class="mob-link"${pagina === 'feedback.html' ? ' data-actief' : ''}>Feedback</a>
-    <a href="${ROOT}over.html#privacy" class="mob-link">Privacy</a>
+    <a href="${ROOT}over.html" class="mob-link" data-i18n="nav-over"${pagina === 'over.html' ? ' data-actief' : ''}>Over dit project</a>
+    <a href="${ROOT}feedback.html" class="mob-link" data-i18n="nav-feedback"${pagina === 'feedback.html' ? ' data-actief' : ''}>Feedback</a>
+    <a href="${ROOT}over.html#privacy" class="mob-link" data-i18n="nav-privacy">Privacy</a>
   </div>
   <div class="mob-menu-sectie mob-talen">
-    <div class="mob-menu-label">Taal</div>
+    <div class="mob-menu-label" data-i18n="nav-taal">Taal</div>
     <div class="mob-taal-grid">
       ${mobileTaalItems}
     </div>
@@ -189,14 +189,14 @@
   function maakFooter() {
     return `<footer id="solidari-footer-bar">
   <div class="footer-inhoud">
-    <a href="${ROOT}index.html" class="footer-logo">
+    <a href="${ROOT}index.html" class="footer-logo" aria-label="Solidari — home">
       ${LOGO_SVG}
       <span class="footer-naam">Solid<span>a</span>r<span>i</span></span>
     </a>
     <div class="footer-midden">
-      <a href="${ROOT}over.html">Over dit project</a> ·
-      <a href="${ROOT}over.html#privacy">Privacy</a> ·
-      <a href="${ROOT}feedback.html">Contact</a> ·
+      <a href="${ROOT}over.html" data-i18n="nav-over">Over dit project</a> ·
+      <a href="${ROOT}over.html#privacy" data-i18n="nav-privacy">Privacy</a> ·
+      <a href="${ROOT}feedback.html" data-i18n="footer-contact">Contact</a> ·
       <a href="${ROOT}vertaalhulp.html" data-i18n="footer-vertaalhulp">Help mee vertalen</a><br>
       <span class="footer-cookies" data-i18n="footer-cookies">Geen cookies · Geen opslag · Geen advertenties</span>
     </div>
@@ -324,6 +324,12 @@
     document.querySelectorAll('.taal-btn[data-taal]').forEach(btn => {
       btn.addEventListener('click', () => {
         passTaalToe(btn.dataset.taal);
+        // Gesproken bevestiging: de taalnaam in díe taal (uit de clips)
+        const naam = btn.dataset.naam;
+        if (window.Solidari && Solidari.spraak && naam) {
+          Solidari.spraak.ontgrendel();
+          Solidari.spraak.zeg(naam, { taal: btn.dataset.taal });
+        }
         // Sluit taal-dropdown na keuze
         document.querySelector('.taal-dropdown-menu')?.classList.remove('open');
       });
@@ -358,6 +364,51 @@
     verversLabel();
   }
 
+  // ── Welkomstscherm (eerste bezoek): kies je taal, met stem ─────────────
+  function maakWelkom() {
+    let gezien = false;
+    try { gezien = localStorage.getItem('solidari-welkom-gezien') === '1'; } catch (e) {}
+    if (gezien) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'sol-a11y-welkom';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-label', 'Kies je taal — Choose your language');
+
+    const kaarten = TALEN.map(t =>
+      `<button class="sol-a11y-welkom-kaart taal-btn" data-taal="${t.code}" data-naam="${t.naam}" lang="${t.code.toLowerCase()}">
+         <span class="sol-a11y-welkom-vlag" aria-hidden="true">${t.vlag}</span>
+         <span class="sol-a11y-welkom-naam">${t.naam}</span>
+       </button>`).join('');
+
+    overlay.innerHTML = `
+      <div class="sol-a11y-welkom-doos">
+        <button class="sol-a11y-welkom-sluit" aria-label="Sluiten / Close">✕</button>
+        <div class="sol-a11y-welkom-titel">🌍 Kies je taal<br><span>Choose your language</span></div>
+        <div class="sol-a11y-welkom-raster">${kaarten}</div>
+      </div>`;
+
+    function sluit() {
+      try { localStorage.setItem('solidari-welkom-gezien', '1'); } catch (e) {}
+      overlay.remove();
+    }
+
+    overlay.querySelector('.sol-a11y-welkom-sluit').addEventListener('click', sluit);
+    overlay.querySelectorAll('.sol-a11y-welkom-kaart').forEach(kaart => {
+      kaart.addEventListener('click', () => {
+        const code = kaart.dataset.taal;
+        sluit(); // eerst sluiten: het scherm gaat altijd weg, wat er daarna ook gebeurt
+        if (window.Solidari && Solidari.spraak) Solidari.spraak.ontgrendel();
+        // hergebruik de bestaande taalknop-logica (schakelt + spreekt de naam)
+        const echt = document.querySelector(`#solidari-nav-bar .taal-btn[data-taal="${code}"]`);
+        if (echt) echt.click();
+        else if (window.Solidari && Solidari.i18n) Solidari.i18n.passToe(code);
+      });
+    });
+
+    document.body.appendChild(overlay);
+  }
+
   // ── Init ───────────────────────────────────────────────────────────────
   function init() {
     detecteerOmgeving();
@@ -367,6 +418,7 @@
     koppelHamburger();
     koppelTaalKnoppen();
     koppelLuisterToggle();
+    maakWelkom();
   }
 
   if (document.readyState === 'loading') {

@@ -8,9 +8,11 @@ const PAGES = [
 const TALEN = ['NL', 'EN', 'AR', 'TR', 'TI', 'UK', 'FA', 'RO', 'PL'];
 
 // Zet de taal vóór het laden via localStorage, zodat components.js hem toepast.
+// Zet ook het welkom-gezien-vlaggetje: het welkomstscherm mag de tests niet blokkeren
+// (de welkomstscherm-test zelf gebruikt metTaal niet).
 async function metTaal(page, taal) {
   await page.addInitScript((t) => {
-    try { localStorage.setItem('solidari-taal', t); } catch (e) {}
+    try { localStorage.setItem('solidari-taal', t); localStorage.setItem('solidari-welkom-gezien', '1'); } catch (e) {}
   }, taal);
 }
 

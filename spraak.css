@@ -81,6 +81,81 @@ body.sol-a11y-luistermodus [data-lees] {
   color: #fff;
 }
 
+/* Gesproken taalkiezer — native naam in eigen schrift */
+.taal-dd-btn.taal-btn, .mob-taal-btn { min-height: 44px; }
+
+/* Welkomstscherm (eerste bezoek) */
+.sol-a11y-welkom {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(26, 26, 24, 0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  overflow: auto;
+}
+.sol-a11y-welkom-doos {
+  position: relative;
+  background: var(--wit, #FAFAF7);
+  border-radius: 16px;
+  padding: 2rem 1.5rem 1.75rem;
+  max-width: 560px;
+  width: 100%;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+.sol-a11y-welkom-sluit {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  width: 44px;
+  height: 44px;
+  border: none;
+  background: transparent;
+  font-size: 1.25rem;
+  color: var(--tekst-zacht, #5C5C58);
+  cursor: pointer;
+  border-radius: 10px;
+}
+.sol-a11y-welkom-sluit:hover { background: var(--wit-warm, #F5F2EC); }
+.sol-a11y-welkom-titel {
+  text-align: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--tekst, #1A1A18);
+  margin-bottom: 1.25rem;
+  line-height: 1.35;
+}
+.sol-a11y-welkom-titel span { font-family: 'Source Sans 3', sans-serif; font-size: 1rem; font-weight: 400; color: var(--tekst-zacht, #5C5C58); }
+.sol-a11y-welkom-raster {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+}
+.sol-a11y-welkom-kaart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 84px;
+  padding: 0.75rem 0.5rem;
+  border: 2px solid var(--rand, #E8E5DE);
+  border-radius: 12px;
+  background: #fff;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.sol-a11y-welkom-kaart:hover { border-color: var(--groen, #2D5A3D); background: var(--groen-licht, #EBF3EE); }
+.sol-a11y-welkom-kaart:focus-visible { outline: 3px solid var(--amber, #E8A020); outline-offset: 2px; }
+.sol-a11y-welkom-vlag { font-size: 1.9rem; line-height: 1; }
+.sol-a11y-welkom-naam { font-size: 0.95rem; font-weight: 600; color: var(--tekst, #1A1A18); text-align: center; }
+
+@media (max-width: 380px) {
+  .sol-a11y-welkom-raster { grid-template-columns: repeat(2, 1fr); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .sol-a11y-knop.sol-a11y-leest { animation: none; }
   .sol-a11y-knop { transition: none; }
