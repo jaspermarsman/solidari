@@ -630,11 +630,17 @@
       knop.disabled = true;
       knop.textContent = '⏳ …';
 
+      // In de testomgeving het tool-veld markeren, zodat staging-feedback
+      // niet tussen de echte D1-inzendingen belandt.
+      const toolVeld = (window.Solidari && Solidari.omgeving === 'staging')
+        ? '[staging] ' + tool
+        : tool;
+
       try {
         const res = await fetch(WORKER_URL + '/api/feedback', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ tool, type, omschrijving, email: email || null, taal })
+          body: JSON.stringify({ tool: toolVeld, type, omschrijving, email: email || null, taal })
         });
         const data = await res.json();
 

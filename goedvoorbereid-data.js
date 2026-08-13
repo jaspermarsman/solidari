@@ -345,7 +345,7 @@ window.GoedVoorbereidData = {
               ] },
               { kop: 'Hoe je je voorbereidt', type: 'lijst', items: [
                 'Verzamel je post op één plek. Je hoeft het niet uit te zoeken, dat doen jullie samen.',
-                { intro: 'Wil je alvast overzicht van je geld? Dat kan nu al.', linkTekst: 'Maak een overzicht met Budgethulp', url: 'https://solidari.nl/budgethulp.html' },
+                { intro: 'Wil je alvast overzicht van je geld? Dat kan nu al.', linkTekst: 'Maak een overzicht met Budgethulp', url: 'budgethulp.html' },
                 'Je mag iemand meenemen die je vertrouwt.',
               ] },
               { kop: 'Voorbeelden van vragen die ze je kunnen stellen', type: 'lijst', items: [
@@ -778,7 +778,7 @@ window.GoedVoorbereidData = {
               ] },
               { kop: 'How to prepare', type: 'lijst', items: [
                 'Collect your mail in one place. You do not have to sort it out — you do that together.',
-                { intro: 'Would you like an overview of your money already? You can do that now.', linkTekst: 'Make an overview with Budget Help', url: 'https://solidari.nl/budgethulp.html' },
+                { intro: 'Would you like an overview of your money already? You can do that now.', linkTekst: 'Make an overview with Budget Help', url: 'budgethulp.html' },
                 'You may bring someone you trust.',
               ] },
               { kop: 'Examples of questions they may ask you', type: 'lijst', items: [
@@ -1134,7 +1134,7 @@ window.GoedVoorbereidData = {
               ] },
               { kop: 'كيف تستعد', type: 'lijst', items: [
                 'اجمع بريدك في مكان واحد. لا يلزم أن ترتبه بنفسك — تفعلان ذلك معًا.',
-                { intro: 'هل تريد نظرة عامة على مالك من الآن؟ يمكنك ذلك الآن.', linkTekst: 'أنشئ نظرة عامة مع مساعدة الميزانية', url: 'https://solidari.nl/budgethulp.html' },
+                { intro: 'هل تريد نظرة عامة على مالك من الآن؟ يمكنك ذلك الآن.', linkTekst: 'أنشئ نظرة عامة مع مساعدة الميزانية', url: 'budgethulp.html' },
                 'يمكنك أن تصطحب شخصًا تثق به.',
               ] },
               { kop: 'أمثلة على أسئلة قد يطرحونها عليك', type: 'lijst', items: [
@@ -1490,7 +1490,7 @@ window.GoedVoorbereidData = {
               ] },
               { kop: 'Nasıl hazırlanırsın', type: 'lijst', items: [
                 'Postanı tek bir yerde topla. Kendin düzenlemene gerek yok — bunu birlikte yaparsınız.',
-                { intro: 'Paran hakkında şimdiden genel bir görünüm ister misin? Bunu şimdi yapabilirsin.', linkTekst: 'Bütçe Yardımı ile bir özet oluştur', url: 'https://solidari.nl/budgethulp.html' },
+                { intro: 'Paran hakkında şimdiden genel bir görünüm ister misin? Bunu şimdi yapabilirsin.', linkTekst: 'Bütçe Yardımı ile bir özet oluştur', url: 'budgethulp.html' },
                 'Güvendiğin birini yanında getirebilirsin.',
               ] },
               { kop: 'Sana sorabilecekleri soru örnekleri', type: 'lijst', items: [
@@ -1846,7 +1846,7 @@ window.GoedVoorbereidData = {
               ] },
               { kop: 'ከመይ ትዳሎ', type: 'lijst', items: [
                 'ፖስታኻ ኣብ ሓደ ቦታ ኣኪብካ ኣቐምጦ። ባዕልኻ ክትፈልዮ ኣየድልየካን — ብሓባር ኢኹም ትገብርዎ።',
-                { intro: 'ብዛዕባ ገንዘብካ ካብ ሕጂ ሓፈሻዊ ትሕዝቶ ትደሊ ዲኻ? ካብ ሕጂ ክትገብሮ ትኽእል።', linkTekst: 'ብ Budgethulp ሓፈሻዊ ትሕዝቶ ግበር', url: 'https://solidari.nl/budgethulp.html' },
+                { intro: 'ብዛዕባ ገንዘብካ ካብ ሕጂ ሓፈሻዊ ትሕዝቶ ትደሊ ዲኻ? ካብ ሕጂ ክትገብሮ ትኽእል።', linkTekst: 'ብ Budgethulp ሓፈሻዊ ትሕዝቶ ግበር', url: 'budgethulp.html' },
                 'እትኣምኖ ሰብ ክትማላእ ትኽእል ኢኻ።',
               ] },
               { kop: 'ክሓቱኻ ዝኽእሉ ኣብነት ሕቶታት', type: 'lijst', items: [
@@ -2202,7 +2202,7 @@ window.GoedVoorbereidData = {
               ] },
               { kop: 'Як підготуватися', type: 'lijst', items: [
                 'Збери свою пошту в одному місці. Тобі не треба її розбирати — ви робите це разом.',
-                { intro: 'Хочеш уже зараз мати огляд своїх грошей? Це можна зробити зараз.', linkTekst: 'Зроби огляд за допомогою Budgethulp', url: 'https://solidari.nl/budgethulp.html' },
+                { intro: 'Хочеш уже зараз мати огляд своїх грошей? Це можна зробити зараз.', linkTekst: 'Зроби огляд за допомогою Budgethulp', url: 'budgethulp.html' },
                 'Ти можеш узяти з собою когось, кому довіряєш.',
               ] },
               { kop: 'Приклади запитань, які тобі можуть поставити', type: 'lijst', items: [
@@ -2558,7 +2558,7 @@ window.GoedVoorbereidData = {
               ] },
               { kop: 'چطور آماده شوی', type: 'lijst', items: [
                 'پست‌هایت را در یک جا جمع کن. لازم نیست خودت مرتبشان کنی — این کار را با هم انجام می‌دهید.',
-                { intro: 'می‌خواهی همین حالا نمای کلی از پولت داشته باشی؟ الان می‌توانی این کار را بکنی.', linkTekst: 'با کمک بودجه یک نمای کلی بساز', url: 'https://solidari.nl/budgethulp.html' },
+                { intro: 'می‌خواهی همین حالا نمای کلی از پولت داشته باشی؟ الان می‌توانی این کار را بکنی.', linkTekst: 'با کمک بودجه یک نمای کلی بساز', url: 'budgethulp.html' },
                 'می‌توانی کسی را که به او اعتماد داری همراه بیاوری.',
               ] },
               { kop: 'نمونه پرسش‌هایی که ممکن است از تو بپرسند', type: 'lijst', items: [
@@ -2914,7 +2914,7 @@ window.GoedVoorbereidData = {
               ] },
               { kop: 'Cum te pregătești', type: 'lijst', items: [
                 'Strânge-ți corespondența într-un singur loc. Nu trebuie să o sortezi singur — faceți asta împreună.',
-                { intro: 'Vrei deja o privire de ansamblu asupra banilor tăi? Poți face asta acum.', linkTekst: 'Fă o privire de ansamblu cu Ajutor buget', url: 'https://solidari.nl/budgethulp.html' },
+                { intro: 'Vrei deja o privire de ansamblu asupra banilor tăi? Poți face asta acum.', linkTekst: 'Fă o privire de ansamblu cu Ajutor buget', url: 'budgethulp.html' },
                 'Poți aduce pe cineva în care ai încredere.',
               ] },
               { kop: 'Exemple de întrebări pe care ți le pot pune', type: 'lijst', items: [
@@ -3270,7 +3270,7 @@ window.GoedVoorbereidData = {
               ] },
               { kop: 'Jak się przygotować', type: 'lijst', items: [
                 'Zbierz swoją pocztę w jednym miejscu. Nie musisz jej sam segregować — robicie to razem.',
-                { intro: 'Chcesz już teraz mieć przegląd swoich pieniędzy? Możesz to zrobić teraz.', linkTekst: 'Zrób przegląd z Pomocą budżetową', url: 'https://solidari.nl/budgethulp.html' },
+                { intro: 'Chcesz już teraz mieć przegląd swoich pieniędzy? Możesz to zrobić teraz.', linkTekst: 'Zrób przegląd z Pomocą budżetową', url: 'budgethulp.html' },
                 'Możesz przyprowadzić kogoś, komu ufasz.',
               ] },
               { kop: 'Przykłady pytań, które mogą ci zadać', type: 'lijst', items: [

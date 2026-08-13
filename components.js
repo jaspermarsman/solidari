@@ -34,6 +34,39 @@
 
   const ROOT = '';
 
+  // ── Omgevingsdetectie (productie vs. staging) ──────────────────────────
+  // Alles buiten solidari.nl geldt als testomgeving: geen indexering,
+  // een zichtbare balk, en Solidari.omgeving zodat tools zich anders
+  // kunnen gedragen (bv. feedback met [staging]-prefix).
+  function detecteerOmgeving() {
+    const host = window.location.hostname;
+    const isProductie = host === 'solidari.nl' || host === 'www.solidari.nl';
+
+    window.Solidari = window.Solidari || {};
+    Solidari.omgeving = isProductie ? 'productie' : 'staging';
+
+    if (isProductie) return;
+
+    // 1. noindex — houd de testomgeving uit zoekmachines
+    if (!document.querySelector('meta[name="robots"]')) {
+      const meta = document.createElement('meta');
+      meta.name = 'robots';
+      meta.content = 'noindex';
+      document.head.appendChild(meta);
+    }
+
+    // 2. Zichtbare testbalk bovenaan
+    if (!document.getElementById('sol-env-balk')) {
+      const balk = document.createElement('div');
+      balk.id = 'sol-env-balk';
+      balk.className = 'sol-env-balk';
+      balk.setAttribute('role', 'status');
+      balk.textContent = '⚠️ TESTOMGEVING — dit is niet de echte site (' + host + ')';
+      document.body.insertBefore(balk, document.body.firstChild);
+      document.documentElement.classList.add('sol-env-staging');
+    }
+  }
+
   // ── Tools lijst ────────────────────────────────────────────────────────
   const TOOLS = [
     { naam: 'Brief Begrijper', url: 'brief.html' },
@@ -298,6 +331,7 @@
 
   // ── Init ───────────────────────────────────────────────────────────────
   function init() {
+    detecteerOmgeving();
     inject();
     koppelToolsDropdown();
     koppelTaalDropdown();
