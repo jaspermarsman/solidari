@@ -1,0 +1,247 @@
+[
+  {
+    "hash": "69cf47bdcb0a384b",
+    "tekst": "الأدوات",
+    "bron": "ui:nav-tools",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "629d28fb52553290",
+    "tekst": "من نحن",
+    "bron": "ui:nav-over",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "480656340410cf17",
+    "tekst": "ملاحظات",
+    "bron": "ui:nav-feedback",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "201406352391dbae",
+    "tekst": "الخصوصية",
+    "bron": "ui:nav-privacy",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "87199877df0e8572",
+    "tekst": "بلا كوكيز · بلا تخزين · بلا إعلانات",
+    "bron": "ui:footer-cookies",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "3c84319cee0ebcc5",
+    "tekst": "ساعدنا في الترجمة",
+    "bron": "ui:footer-vertaalhulp",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "038ecfd8b5e55e18",
+    "tekst": "فاهم الرسائل",
+    "bron": "ui:tool-brief-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "e4399b036d3dbf78",
+    "tekst": "التقط صورة لرسالتك. نشرح لك ما تعنيه، وما يجب فعله ومتى.",
+    "bron": "ui:tool-brief-omschrijving",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "a498b177f7d47bef",
+    "tekst": "مساعدة الميزانية",
+    "bron": "ui:tool-budget-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "9eda9640e8d02d6a",
+    "tekst": "رتّب دخلك ونفقاتك خطوة بخطوة بلغة بسيطة. ثم حمّل ملخصًا.",
+    "bron": "ui:tool-budget-omschrijving",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "91bc238b14fa7968",
+    "tekst": "حاسبة الإعانات",
+    "bron": "ui:tool-toeslagen-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "60ba130869c27c87",
+    "tekst": "بلوغ سن 18",
+    "bron": "ui:tool-18jaar-naam",
+    "prioriteit": 1,
+    "cijfer": true
+  },
+  {
+    "hash": "406a33a573ca90d2",
+    "tekst": "فحص التجنيس",
+    "bron": "ui:tool-naturalisatie-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "559e6a821c9890a0",
+    "tekst": "هل يستحق العمل؟",
+    "bron": "ui:tool-loont-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "214654d2bb08b216",
+    "tekst": "الحقوق والواجبات",
+    "bron": "ui:tool-rechten-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "b598d178a85e26b5",
+    "tekst": "مساعدة رقمية",
+    "bron": "ui:tool-digi-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "0b90a8645442c6e8",
+    "tekst": "استعد جيدًا",
+    "bron": "ui:tool-gv-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "5c5308df1ab6b901",
+    "tekst": "استمع",
+    "bron": "ui:a11y-luister",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "0a390cb74aa0969f",
+    "tekst": "إيقاف",
+    "bron": "ui:a11y-stop",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "8899865b49cb1080",
+    "tekst": "القراءة الصوتية مفعّلة",
+    "bron": "ui:a11y-voorlezen-aan",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "d26f43c746576c84",
+    "tekst": "القراءة الصوتية متوقفة",
+    "bron": "ui:a11y-voorlezen-uit",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "81c7c9480e4f4fbb",
+    "tekst": "اضغط على النص للاستماع",
+    "bron": "ui:a11y-tik-om-te-luisteren",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "11a613e5b72a9fd4",
+    "tekst": "اختر لغتك",
+    "bron": "ui:a11y-kies-taal",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "4fcadd85142ac517",
+    "tekst": "القراءة الصوتية لا تعمل على هذا الجهاز",
+    "bron": "ui:a11y-geen-stem",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "2232823cfb67f146",
+    "tekst": "تحدث بدل الكتابة",
+    "bron": "ui:a11y-spreek",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "07943c660b947eb3",
+    "tekst": "أنا أستمع…",
+    "bron": "ui:a11y-luisteren-nu",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "91ff8d1ef9262fe8",
+    "tekst": "مرة أخرى",
+    "bron": "ui:a11y-opnieuw",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "328ddce5bbca254f",
+    "tekst": "رجوع",
+    "bron": "ui:a11y-terug",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "f8b3909ceed52e77",
+    "tekst": "ابدأ هنا",
+    "bron": "ui:a11y-begin",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "860bdb2e3e0f100f",
+    "tekst": "التقط صورة",
+    "bron": "ui:a11y-foto",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "2d421176c976deec",
+    "tekst": "مساعدة",
+    "bron": "ui:a11y-hulp",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "d76522a0353789cb",
+    "tekst": "اللغة",
+    "bron": "ui:nav-taal",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "c3721b0a955b1948",
+    "tekst": "اتصل بنا",
+    "bron": "ui:footer-contact",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "3a7ba029fd04e48b",
+    "tekst": "الصوت لبعض اللغات: مشروع MMS من Meta AI (CC-BY-NC 4.0)",
+    "bron": "ui:a11y-attributie",
+    "prioriteit": 1,
+    "cijfer": true
+  },
+  {
+    "hash": "9970632f55af4b1b",
+    "tekst": "العربية",
+    "bron": "taalnaam",
+    "prioriteit": 1,
+    "cijfer": false
+  }
+]

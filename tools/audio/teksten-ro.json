@@ -1,0 +1,247 @@
+[
+  {
+    "hash": "6b778935e2b3d323",
+    "tekst": "Instrumente",
+    "bron": "ui:nav-tools",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "ff5c0299fe3751b6",
+    "tekst": "Despre proiect",
+    "bron": "ui:nav-over",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "c8d7677e19495f21",
+    "tekst": "Feedback",
+    "bron": "ui:nav-feedback",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "a9831d39488fe710",
+    "tekst": "Confidențialitate",
+    "bron": "ui:nav-privacy",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "3c7d9126f26c81d9",
+    "tekst": "Fără cookie-uri · Fără stocare · Fără reclame",
+    "bron": "ui:footer-cookies",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "b7154eadafb4f116",
+    "tekst": "Ajută la traducere",
+    "bron": "ui:footer-vertaalhulp",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "c960445101b3ef6d",
+    "tekst": "Explicator de scrisori",
+    "bron": "ui:tool-brief-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "019e84bf3e66ef5e",
+    "tekst": "Fă o fotografie scrisorii tale. Explicăm ce înseamnă, ce trebuie să faci și până când.",
+    "bron": "ui:tool-brief-omschrijving",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "a85dfbe6f4d17f8a",
+    "tekst": "Ajutor buget",
+    "bron": "ui:tool-budget-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "b350d2880cec14b5",
+    "tekst": "Înregistrează veniturile și cheltuielile tale pas cu pas, în limbaj simplu. Descarcă apoi un rezumat.",
+    "bron": "ui:tool-budget-omschrijving",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "3a8723e9af7a21f0",
+    "tekst": "Calculator alocații",
+    "bron": "ui:tool-toeslagen-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "45ddff5df12f3ef2",
+    "tekst": "Împlinești 18 ani",
+    "bron": "ui:tool-18jaar-naam",
+    "prioriteit": 1,
+    "cijfer": true
+  },
+  {
+    "hash": "d226e851bf301d9d",
+    "tekst": "Verificator cetățenie",
+    "bron": "ui:tool-naturalisatie-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "445d04b0637cb9ae",
+    "tekst": "Merită să lucrezi?",
+    "bron": "ui:tool-loont-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "f26f65feb1a36754",
+    "tekst": "Drepturi și obligații",
+    "bron": "ui:tool-rechten-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "0e7da753e396a1d0",
+    "tekst": "Ajutor digital",
+    "bron": "ui:tool-digi-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "5d458c88609ba2c2",
+    "tekst": "Bine pregătit",
+    "bron": "ui:tool-gv-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "952c54580ae8518b",
+    "tekst": "Ascultă",
+    "bron": "ui:a11y-luister",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "906cc2c1c505cf7d",
+    "tekst": "Oprește",
+    "bron": "ui:a11y-stop",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "f1a6f5ed7895f822",
+    "tekst": "Citire cu voce pornită",
+    "bron": "ui:a11y-voorlezen-aan",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "bf15ca7bd922a85b",
+    "tekst": "Citire cu voce oprită",
+    "bron": "ui:a11y-voorlezen-uit",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "75a9b6332eafe35e",
+    "tekst": "Atinge textul ca să asculți",
+    "bron": "ui:a11y-tik-om-te-luisteren",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "3bad03259f6dd453",
+    "tekst": "Alege limba ta",
+    "bron": "ui:a11y-kies-taal",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "b178bd1ee9fcb632",
+    "tekst": "Citirea cu voce nu funcționează pe acest dispozitiv",
+    "bron": "ui:a11y-geen-stem",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "bdc7a66f8af87c84",
+    "tekst": "Vorbește în loc să scrii",
+    "bron": "ui:a11y-spreek",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "f6ac33817d2b2106",
+    "tekst": "Ascult…",
+    "bron": "ui:a11y-luisteren-nu",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "3060ae842a4e74d1",
+    "tekst": "Din nou",
+    "bron": "ui:a11y-opnieuw",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "45b72a263e116832",
+    "tekst": "Înapoi",
+    "bron": "ui:a11y-terug",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "94ab41081402492f",
+    "tekst": "Începe aici",
+    "bron": "ui:a11y-begin",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "ee27e135ce9be001",
+    "tekst": "Fă o fotografie",
+    "bron": "ui:a11y-foto",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "c9d6ae47f68b1f59",
+    "tekst": "Ajutor",
+    "bron": "ui:a11y-hulp",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "80b8c7e628fb354a",
+    "tekst": "Limbă",
+    "bron": "ui:nav-taal",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "b37456c4530be810",
+    "tekst": "Contact",
+    "bron": "ui:footer-contact",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "ae035f8fef49a022",
+    "tekst": "Voce pentru unele limbi: proiectul MMS al Meta AI (CC-BY-NC 4.0)",
+    "bron": "ui:a11y-attributie",
+    "prioriteit": 1,
+    "cijfer": true
+  },
+  {
+    "hash": "cac71941ad5bdf7c",
+    "tekst": "Română",
+    "bron": "taalnaam",
+    "prioriteit": 1,
+    "cijfer": false
+  }
+]

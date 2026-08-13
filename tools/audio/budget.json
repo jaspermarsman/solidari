@@ -1,0 +1,56 @@
+{
+  "NL": {
+    "clips": 69,
+    "tekens": 1945,
+    "schatSec": 130,
+    "schatKB": 778
+  },
+  "EN": {
+    "clips": 35,
+    "tekens": 660,
+    "schatSec": 44,
+    "schatKB": 264
+  },
+  "AR": {
+    "clips": 35,
+    "tekens": 568,
+    "schatSec": 38,
+    "schatKB": 227
+  },
+  "TR": {
+    "clips": 35,
+    "tekens": 671,
+    "schatSec": 45,
+    "schatKB": 268
+  },
+  "TI": {
+    "clips": 35,
+    "tekens": 392,
+    "schatSec": 26,
+    "schatKB": 157
+  },
+  "UK": {
+    "clips": 35,
+    "tekens": 679,
+    "schatSec": 45,
+    "schatKB": 272
+  },
+  "FA": {
+    "clips": 35,
+    "tekens": 613,
+    "schatSec": 41,
+    "schatKB": 245
+  },
+  "RO": {
+    "clips": 35,
+    "tekens": 764,
+    "schatSec": 51,
+    "schatKB": 306
+  },
+  "PL": {
+    "clips": 35,
+    "tekens": 731,
+    "schatSec": 49,
+    "schatKB": 292
+  }
+}

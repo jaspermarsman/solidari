@@ -1,0 +1,247 @@
+[
+  {
+    "hash": "6b3ed13f4f6edbe2",
+    "tekst": "Araçlar",
+    "bron": "ui:nav-tools",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "aaaa29d519f2295b",
+    "tekst": "Hakkımızda",
+    "bron": "ui:nav-over",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "1c9ad90f35a3db4f",
+    "tekst": "Geri Bildirim",
+    "bron": "ui:nav-feedback",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "9e93e2a49be8faca",
+    "tekst": "Gizlilik",
+    "bron": "ui:nav-privacy",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "732803fb0b7177c7",
+    "tekst": "Çerez yok · Verilerinizi Depolanması yok · Reklam yok",
+    "bron": "ui:footer-cookies",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "519de0900a98435f",
+    "tekst": "Çeviriye yardım et",
+    "bron": "ui:footer-vertaalhulp",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "095896bf39754ed4",
+    "tekst": "Mektup Açıklama Aracı",
+    "bron": "ui:tool-brief-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "0ed1fae9c23baf8a",
+    "tekst": "Mektubunuzun fotoğrafını çekin ve bizimle paylaşın. Mektubun içeriğini beraberce anlayalım.",
+    "bron": "ui:tool-brief-omschrijving",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "521358f7f538bd1a",
+    "tekst": "Bütçe Yardımı",
+    "bron": "ui:tool-budget-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "37c197e5cc04488f",
+    "tekst": "Gelir ve giderlerinizi adım adım listeleyin. Özeti indirin.",
+    "bron": "ui:tool-budget-omschrijving",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "8dab107943efc0da",
+    "tekst": "Yardım Hesaplayıcı",
+    "bron": "ui:tool-toeslagen-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "a009c0560bf79374",
+    "tekst": "18 Yaşına Girmek",
+    "bron": "ui:tool-18jaar-naam",
+    "prioriteit": 1,
+    "cijfer": true
+  },
+  {
+    "hash": "8cdd8e5b85d605dc",
+    "tekst": "Vatandaşlık Kontrolü",
+    "bron": "ui:tool-naturalisatie-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "68ee3de2a5baf514",
+    "tekst": "Çalışmaya Değer mi?",
+    "bron": "ui:tool-loont-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "cf97ede2baee97ac",
+    "tekst": "Haklar ve Görevler",
+    "bron": "ui:tool-rechten-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "05ea63485a448140",
+    "tekst": "Dijital Yardım",
+    "bron": "ui:tool-digi-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "6c812e4b11f67cef",
+    "tekst": "İyi Hazırlan",
+    "bron": "ui:tool-gv-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "05ab3aea76306170",
+    "tekst": "Dinle",
+    "bron": "ui:a11y-luister",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "acc8c9e36f296c77",
+    "tekst": "Durdur",
+    "bron": "ui:a11y-stop",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "96b993b05df18b91",
+    "tekst": "Sesli okuma açık",
+    "bron": "ui:a11y-voorlezen-aan",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "bc04874438d41fa9",
+    "tekst": "Sesli okuma kapalı",
+    "bron": "ui:a11y-voorlezen-uit",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "cf4245feec87e2ac",
+    "tekst": "Dinlemek için metne dokun",
+    "bron": "ui:a11y-tik-om-te-luisteren",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "601fc8aa12a18d07",
+    "tekst": "Dilini seç",
+    "bron": "ui:a11y-kies-taal",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "ace5ebe1bc24844d",
+    "tekst": "Bu cihazda sesli okuma çalışmıyor",
+    "bron": "ui:a11y-geen-stem",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "a47c2dc2a9ce59d4",
+    "tekst": "Yazmak yerine konuş",
+    "bron": "ui:a11y-spreek",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "1e12ec025b832774",
+    "tekst": "Dinliyorum…",
+    "bron": "ui:a11y-luisteren-nu",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "78aae24cf2c6aa86",
+    "tekst": "Tekrar",
+    "bron": "ui:a11y-opnieuw",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "4928cfc92f6403b1",
+    "tekst": "Geri",
+    "bron": "ui:a11y-terug",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "df6a1b2aefadae9e",
+    "tekst": "Buradan başla",
+    "bron": "ui:a11y-begin",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "d08df7eec51be6c3",
+    "tekst": "Fotoğraf çek",
+    "bron": "ui:a11y-foto",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "eaba0a794cbe128b",
+    "tekst": "Yardım",
+    "bron": "ui:a11y-hulp",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "e194b235675d0326",
+    "tekst": "Dil",
+    "bron": "ui:nav-taal",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "6a154a4d699673e6",
+    "tekst": "İletişim",
+    "bron": "ui:footer-contact",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "da0ee8c0466f9f95",
+    "tekst": "Bazı diller için ses: Meta AI'nin MMS projesi (CC-BY-NC 4.0)",
+    "bron": "ui:a11y-attributie",
+    "prioriteit": 1,
+    "cijfer": true
+  },
+  {
+    "hash": "efaad145ca777444",
+    "tekst": "Türkçe",
+    "bron": "taalnaam",
+    "prioriteit": 1,
+    "cijfer": false
+  }
+]

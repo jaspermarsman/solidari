@@ -1,0 +1,247 @@
+[
+  {
+    "hash": "81519dded07eb29f",
+    "tekst": "Narzędzia",
+    "bron": "ui:nav-tools",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "968e3c14efc38e8f",
+    "tekst": "O projekcie",
+    "bron": "ui:nav-over",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "3a12545ee9c2aa11",
+    "tekst": "Opinie",
+    "bron": "ui:nav-feedback",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "9284849667862f5a",
+    "tekst": "Prywatność",
+    "bron": "ui:nav-privacy",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "33a3aedb640294b9",
+    "tekst": "Bez ciasteczek · Bez przechowywania · Bez reklam",
+    "bron": "ui:footer-cookies",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "26e276bd98b3683b",
+    "tekst": "Pomóż w tłumaczeniu",
+    "bron": "ui:footer-vertaalhulp",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "9c74ef863e19bc19",
+    "tekst": "Tłumacz pism",
+    "bron": "ui:tool-brief-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "cf8c92a29606c6cf",
+    "tekst": "Zrób zdjęcie pisma. Wyjaśniamy co oznacza, co musisz zrobić i do kiedy.",
+    "bron": "ui:tool-brief-omschrijving",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "efd258086eec25d5",
+    "tekst": "Pomoc budżetowa",
+    "bron": "ui:tool-budget-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "b003e7d3caf7f060",
+    "tekst": "Zapisz swoje dochody i wydatki krok po kroku, w prostym języku. Pobierz podsumowanie.",
+    "bron": "ui:tool-budget-omschrijving",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "ef70239d057c5cf6",
+    "tekst": "Kalkulator zasiłków",
+    "bron": "ui:tool-toeslagen-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "904a4d174b593695",
+    "tekst": "Ukończenie 18 lat",
+    "bron": "ui:tool-18jaar-naam",
+    "prioriteit": 1,
+    "cijfer": true
+  },
+  {
+    "hash": "66a95122a1f16260",
+    "tekst": "Sprawdzanie obywatelstwa",
+    "bron": "ui:tool-naturalisatie-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "74f6898029dd5d46",
+    "tekst": "Czy praca się opłaca?",
+    "bron": "ui:tool-loont-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "dc04d59c610cc442",
+    "tekst": "Prawa i obowiązki",
+    "bron": "ui:tool-rechten-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "4c424e842093f68d",
+    "tekst": "Pomoc cyfrowa",
+    "bron": "ui:tool-digi-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "bbe24d22d3010c59",
+    "tekst": "Dobrze przygotowani",
+    "bron": "ui:tool-gv-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "53f4f0a0c55b8a86",
+    "tekst": "Słuchaj",
+    "bron": "ui:a11y-luister",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "3a581bf64885e939",
+    "tekst": "Zatrzymaj",
+    "bron": "ui:a11y-stop",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "cfe00704895c199a",
+    "tekst": "Czytanie na głos włączone",
+    "bron": "ui:a11y-voorlezen-aan",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "e7d767a53a98012f",
+    "tekst": "Czytanie na głos wyłączone",
+    "bron": "ui:a11y-voorlezen-uit",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "5d1ce9ad5e8ec095",
+    "tekst": "Dotknij tekstu, aby posłuchać",
+    "bron": "ui:a11y-tik-om-te-luisteren",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "168913de38180b13",
+    "tekst": "Wybierz swój język",
+    "bron": "ui:a11y-kies-taal",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "1014785bd3148c0d",
+    "tekst": "Czytanie na głos nie działa na tym urządzeniu",
+    "bron": "ui:a11y-geen-stem",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "0947ddc7152eac26",
+    "tekst": "Mów zamiast pisać",
+    "bron": "ui:a11y-spreek",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "dd6333cff8b889e9",
+    "tekst": "Słucham…",
+    "bron": "ui:a11y-luisteren-nu",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "63c0cee3f745bb41",
+    "tekst": "Jeszcze raz",
+    "bron": "ui:a11y-opnieuw",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "11d74dadd482b4d2",
+    "tekst": "Wstecz",
+    "bron": "ui:a11y-terug",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "ec0637838662642a",
+    "tekst": "Zacznij tutaj",
+    "bron": "ui:a11y-begin",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "083e40e8c1b66d3e",
+    "tekst": "Zrób zdjęcie",
+    "bron": "ui:a11y-foto",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "f5a26557e993799f",
+    "tekst": "Pomoc",
+    "bron": "ui:a11y-hulp",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "d86a603bac8abe4d",
+    "tekst": "Język",
+    "bron": "ui:nav-taal",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "a92b9bcb16656979",
+    "tekst": "Kontakt",
+    "bron": "ui:footer-contact",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "ff43b62887f0451c",
+    "tekst": "Głos dla niektórych języków: projekt MMS od Meta AI (CC-BY-NC 4.0)",
+    "bron": "ui:a11y-attributie",
+    "prioriteit": 1,
+    "cijfer": true
+  },
+  {
+    "hash": "fd2001151c989f84",
+    "tekst": "Polski",
+    "bron": "taalnaam",
+    "prioriteit": 1,
+    "cijfer": false
+  }
+]

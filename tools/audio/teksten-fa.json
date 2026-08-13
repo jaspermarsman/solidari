@@ -1,0 +1,247 @@
+[
+  {
+    "hash": "0c1584911f676b7b",
+    "tekst": "ابزارها",
+    "bron": "ui:nav-tools",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "02b1718b41d51ab2",
+    "tekst": "درباره ما",
+    "bron": "ui:nav-over",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "ee9a35fc4392aa85",
+    "tekst": "بازخورد",
+    "bron": "ui:nav-feedback",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "6149258b55dfbc41",
+    "tekst": "حریم خصوصی",
+    "bron": "ui:nav-privacy",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "0472de51fc32772b",
+    "tekst": "بدون کوکی · بدون ذخیره · بدون تبلیغات",
+    "bron": "ui:footer-cookies",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "1fb99a13f17cd68f",
+    "tekst": "به ترجمه کمک کنید",
+    "bron": "ui:footer-vertaalhulp",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "28a0ab15d7fb7cce",
+    "tekst": "توضیح نامه",
+    "bron": "ui:tool-brief-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "2560a163552a0f38",
+    "tekst": "از نامه‌تان عکس بگیرید. توضیح می‌دهیم چه می‌گوید و چه باید بکنید.",
+    "bron": "ui:tool-brief-omschrijving",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "431d67ceb7448079",
+    "tekst": "کمک بودجه",
+    "bron": "ui:tool-budget-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "4e2316b269f2f1d8",
+    "tekst": "درآمد و هزینه‌هایتان را گام به گام وارد کنید. خلاصه را دانلود کنید.",
+    "bron": "ui:tool-budget-omschrijving",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "6a3b9a3b8b61d2aa",
+    "tekst": "ماشین حساب کمک‌هزینه",
+    "bron": "ui:tool-toeslagen-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "39eb25c5abd1383c",
+    "tekst": "18 ساله شدن",
+    "bron": "ui:tool-18jaar-naam",
+    "prioriteit": 1,
+    "cijfer": true
+  },
+  {
+    "hash": "87f01e564be83ae3",
+    "tekst": "بررسی تابعیت",
+    "bron": "ui:tool-naturalisatie-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "4e0cea21ba882908",
+    "tekst": "آیا کار ارزش دارد؟",
+    "bron": "ui:tool-loont-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "d55642469286edab",
+    "tekst": "حقوق و وظایف",
+    "bron": "ui:tool-rechten-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "2ac4492eacc9b697",
+    "tekst": "کمک دیجیتال",
+    "bron": "ui:tool-digi-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "6209642f32287688",
+    "tekst": "خوب آماده شوید",
+    "bron": "ui:tool-gv-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "924afc5bf16a13cc",
+    "tekst": "گوش کن",
+    "bron": "ui:a11y-luister",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "bfc3318bde36322a",
+    "tekst": "توقف",
+    "bron": "ui:a11y-stop",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "b2e1483fff3b186c",
+    "tekst": "خواندن با صدا روشن",
+    "bron": "ui:a11y-voorlezen-aan",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "11d9ef358b2ed97f",
+    "tekst": "خواندن با صدا خاموش",
+    "bron": "ui:a11y-voorlezen-uit",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "e513c134853f6540",
+    "tekst": "برای شنیدن روی متن بزنید",
+    "bron": "ui:a11y-tik-om-te-luisteren",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "facab4767fd76ea2",
+    "tekst": "زبان خود را انتخاب کنید",
+    "bron": "ui:a11y-kies-taal",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "e1d1a6715380f878",
+    "tekst": "خواندن با صدا در این دستگاه کار نمی‌کند",
+    "bron": "ui:a11y-geen-stem",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "20a9a488dde56524",
+    "tekst": "به جای تایپ صحبت کنید",
+    "bron": "ui:a11y-spreek",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "9a48fdef72ef9ca9",
+    "tekst": "گوش می‌دهم…",
+    "bron": "ui:a11y-luisteren-nu",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "115e9f582f28a6cc",
+    "tekst": "دوباره",
+    "bron": "ui:a11y-opnieuw",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "972515c439c7b3ab",
+    "tekst": "بازگشت",
+    "bron": "ui:a11y-terug",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "3f83fc6d3da68d7e",
+    "tekst": "از اینجا شروع کنید",
+    "bron": "ui:a11y-begin",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "e370df4d3d243df1",
+    "tekst": "عکس بگیرید",
+    "bron": "ui:a11y-foto",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "53f0f8faab69f389",
+    "tekst": "کمک",
+    "bron": "ui:a11y-hulp",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "da186cba117c6dd3",
+    "tekst": "زبان",
+    "bron": "ui:nav-taal",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "68085282946150c4",
+    "tekst": "تماس",
+    "bron": "ui:footer-contact",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "4bbc9a6c7ca574ad",
+    "tekst": "صدا برای برخی زبان‌ها: پروژه MMS از Meta AI (CC-BY-NC 4.0)",
+    "bron": "ui:a11y-attributie",
+    "prioriteit": 1,
+    "cijfer": true
+  },
+  {
+    "hash": "2999aeb94ab2e2de",
+    "tekst": "دری",
+    "bron": "taalnaam",
+    "prioriteit": 1,
+    "cijfer": false
+  }
+]

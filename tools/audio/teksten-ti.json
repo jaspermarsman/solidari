@@ -1,0 +1,247 @@
+[
+  {
+    "hash": "02954f55eeb27585",
+    "tekst": "መሳርሒታት",
+    "bron": "ui:nav-tools",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "f5498dcde80bcfaf",
+    "tekst": "ብዛዕባና",
+    "bron": "ui:nav-over",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "682c4ea381043a7c",
+    "tekst": "ርእይቶ",
+    "bron": "ui:nav-feedback",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "e2d542ad2a8e0fd3",
+    "tekst": "ግልጽነት",
+    "bron": "ui:nav-privacy",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "077bd5e1d78bc18d",
+    "tekst": "ዋላ ኩኪ · ዋላ ምዕቃብ · ዋላ ወዛ",
+    "bron": "ui:footer-cookies",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "80ab95211a05d7a4",
+    "tekst": "ኣብ ትርጉም ሓግዘና",
+    "bron": "ui:footer-vertaalhulp",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "f9c03c1ed61511d7",
+    "tekst": "ደብዳቤ ኣብርሃዮ",
+    "bron": "ui:tool-brief-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "55bf9f525c2669a3",
+    "tekst": "ናይ ደብዳቤኻ ስእሊ ውሰድ። እንታይ ዝብልን እንታይ ክትገብርን ነብርህ።",
+    "bron": "ui:tool-brief-omschrijving",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "c28e774c1bf54b2b",
+    "tekst": "ሓገዝ ባጀት",
+    "bron": "ui:tool-budget-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "eeb4e7c533a9614d",
+    "tekst": "ኣታዊኻን ወጻኢኻን ስርዕ። ድምርካ ኣውርዶ።",
+    "bron": "ui:tool-budget-omschrijving",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "ac74149809961303",
+    "tekst": "ሓጋዚ ኣበርክቶ",
+    "bron": "ui:tool-toeslagen-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "1e1c60dfe005c198",
+    "tekst": "18 ዓመት ምዃን",
+    "bron": "ui:tool-18jaar-naam",
+    "prioriteit": 1,
+    "cijfer": true
+  },
+  {
+    "hash": "901f1c692e21e5ff",
+    "tekst": "ዜግነት ምርመራ",
+    "bron": "ui:tool-naturalisatie-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "ecbd20439f40e6c4",
+    "tekst": "ስራሕ ይሓይሽ ዶ?",
+    "bron": "ui:tool-loont-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "9170e203976f7f76",
+    "tekst": "መሰላትን ግዴታታትን",
+    "bron": "ui:tool-rechten-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "b6d86a23383e9da2",
+    "tekst": "ዲጂታል ሓገዝ",
+    "bron": "ui:tool-digi-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "8a9c9fbc2b79ee61",
+    "tekst": "ጽቡቕ ተዳሎ",
+    "bron": "ui:tool-gv-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "e6c232354439442d",
+    "tekst": "ስማዕ",
+    "bron": "ui:a11y-luister",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "5ee4fd4117ee7414",
+    "tekst": "ደው በል",
+    "bron": "ui:a11y-stop",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "553839b10c18959f",
+    "tekst": "ምንባብ ተኸፊቱ",
+    "bron": "ui:a11y-voorlezen-aan",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "9662ff7a50ef12d1",
+    "tekst": "ምንባብ ተዓጽዩ",
+    "bron": "ui:a11y-voorlezen-uit",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "018e5cb8a5aa1d40",
+    "tekst": "ንምስማዕ ኣብቲ ጽሑፍ ጠውቕ",
+    "bron": "ui:a11y-tik-om-te-luisteren",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "101e8b685622df69",
+    "tekst": "ቋንቋኻ ምረጽ",
+    "bron": "ui:a11y-kies-taal",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "809c0ec498158165",
+    "tekst": "ኣብዚ መሳርሒ ምንባብ ኣይሰርሕን",
+    "bron": "ui:a11y-geen-stem",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "0648cbc950036f0d",
+    "tekst": "ኣብ ክንዲ ምጽሓፍ ተዛረብ",
+    "bron": "ui:a11y-spreek",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "1bac30c992a4d479",
+    "tekst": "እሰምዕ ኣለኹ…",
+    "bron": "ui:a11y-luisteren-nu",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "364c0c9811fad9c0",
+    "tekst": "እንደገና",
+    "bron": "ui:a11y-opnieuw",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "5b01dba4fb127f45",
+    "tekst": "ተመለስ",
+    "bron": "ui:a11y-terug",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "3fff1e3fb176a1e0",
+    "tekst": "ካብዚ ጀምር",
+    "bron": "ui:a11y-begin",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "51f2824322d119b2",
+    "tekst": "ስእሊ ውሰድ",
+    "bron": "ui:a11y-foto",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "d63008fa9b40ad59",
+    "tekst": "ሓገዝ",
+    "bron": "ui:a11y-hulp",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "8a1e9f84d5d3aa82",
+    "tekst": "ቋንቋ",
+    "bron": "ui:nav-taal",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "b121d24338a4f10e",
+    "tekst": "ርክብ",
+    "bron": "ui:footer-contact",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "15f0388f8614e331",
+    "tekst": "ድምጺ ንገለ ቋንቋታት፦ MMS ፕሮጀክት ናይ Meta AI (CC-BY-NC 4.0)",
+    "bron": "ui:a11y-attributie",
+    "prioriteit": 1,
+    "cijfer": true
+  },
+  {
+    "hash": "772bb69a0216bc0e",
+    "tekst": "ትግርኛ",
+    "bron": "taalnaam",
+    "prioriteit": 1,
+    "cijfer": false
+  }
+]

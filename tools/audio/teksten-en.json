@@ -1,0 +1,247 @@
+[
+  {
+    "hash": "4fa8cc860c52b268",
+    "tekst": "Tools",
+    "bron": "ui:nav-tools",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "3ffb811f9be63cf3",
+    "tekst": "About us",
+    "bron": "ui:nav-over",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "c8d7677e19495f21",
+    "tekst": "Feedback",
+    "bron": "ui:nav-feedback",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "cf01481f626d5127",
+    "tekst": "Privacy",
+    "bron": "ui:nav-privacy",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "3b8065f9faf51b0f",
+    "tekst": "No cookies · No storage · No ads",
+    "bron": "ui:footer-cookies",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "cb9c221d108f34c1",
+    "tekst": "Help us translate",
+    "bron": "ui:footer-vertaalhulp",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "74f070172a0454e4",
+    "tekst": "Letter Explainer",
+    "bron": "ui:tool-brief-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "67048eb3d492caaf",
+    "tekst": "Take a photo of your letter. We explain what it says, what you need to do and when.",
+    "bron": "ui:tool-brief-omschrijving",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "a6d8b180773e30a0",
+    "tekst": "Budget Help",
+    "bron": "ui:tool-budget-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "3f8c2796d2d244c8",
+    "tekst": "Map out your income and expenses. Step by step, in plain language. Download a summary afterwards.",
+    "bron": "ui:tool-budget-omschrijving",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "6a2feb3fdec8988a",
+    "tekst": "Benefits Calculator",
+    "bron": "ui:tool-toeslagen-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "7fbdd4de11e3d429",
+    "tekst": "Turning 18",
+    "bron": "ui:tool-18jaar-naam",
+    "prioriteit": 1,
+    "cijfer": true
+  },
+  {
+    "hash": "75f578dc613e4f4f",
+    "tekst": "Naturalisation Checker",
+    "bron": "ui:tool-naturalisatie-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "ed2d749ccdce8012",
+    "tekst": "Does Work Pay?",
+    "bron": "ui:tool-loont-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "9948617d55f8af8f",
+    "tekst": "Rights & Duties",
+    "bron": "ui:tool-rechten-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "c47472edbe449e52",
+    "tekst": "Digital Help",
+    "bron": "ui:tool-digi-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "76a33d1c0bd4641a",
+    "tekst": "Well Prepared",
+    "bron": "ui:tool-gv-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "c518fb067439705f",
+    "tekst": "Listen",
+    "bron": "ui:a11y-luister",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "9e253470c876ee6d",
+    "tekst": "Stop",
+    "bron": "ui:a11y-stop",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "8e09b357cd6bb9b1",
+    "tekst": "Read aloud on",
+    "bron": "ui:a11y-voorlezen-aan",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "41b7edc874a79749",
+    "tekst": "Read aloud off",
+    "bron": "ui:a11y-voorlezen-uit",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "765959717ff760b6",
+    "tekst": "Tap text to listen",
+    "bron": "ui:a11y-tik-om-te-luisteren",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "1ee9cc3793a0d9c9",
+    "tekst": "Choose your language",
+    "bron": "ui:a11y-kies-taal",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "3b559f83c3dad9c5",
+    "tekst": "Read aloud does not work on this device",
+    "bron": "ui:a11y-geen-stem",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "320ac8c2e4aee03f",
+    "tekst": "Speak instead of typing",
+    "bron": "ui:a11y-spreek",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "e424e282a491b09e",
+    "tekst": "I'm listening…",
+    "bron": "ui:a11y-luisteren-nu",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "fcd761054089234d",
+    "tekst": "Again",
+    "bron": "ui:a11y-opnieuw",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "b52b36b7269fbfc5",
+    "tekst": "Back",
+    "bron": "ui:a11y-terug",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "54acc2806d4d9274",
+    "tekst": "Start here",
+    "bron": "ui:a11y-begin",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "2298471c0ebd1de0",
+    "tekst": "Take a photo",
+    "bron": "ui:a11y-foto",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "c47ae15370cfe1ed",
+    "tekst": "Help",
+    "bron": "ui:a11y-hulp",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "89b86ab0e66f5271",
+    "tekst": "Language",
+    "bron": "ui:nav-taal",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "b37456c4530be810",
+    "tekst": "Contact",
+    "bron": "ui:footer-contact",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "060efe458fd0186b",
+    "tekst": "Speech for some languages: Meta AI's MMS project (CC-BY-NC 4.0)",
+    "bron": "ui:a11y-attributie",
+    "prioriteit": 1,
+    "cijfer": true
+  },
+  {
+    "hash": "649df08a448ee3fa",
+    "tekst": "English",
+    "bron": "taalnaam",
+    "prioriteit": 1,
+    "cijfer": false
+  }
+]

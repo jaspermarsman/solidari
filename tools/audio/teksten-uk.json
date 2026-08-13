@@ -1,0 +1,247 @@
+[
+  {
+    "hash": "6fb0ae2625165d1a",
+    "tekst": "Інструменти",
+    "bron": "ui:nav-tools",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "ac6bf1547223e39f",
+    "tekst": "Про нас",
+    "bron": "ui:nav-over",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "ee742d1c37a60ad5",
+    "tekst": "Відгук",
+    "bron": "ui:nav-feedback",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "03d031451e00df93",
+    "tekst": "Конфіденційність",
+    "bron": "ui:nav-privacy",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "77c29bd023c94c12",
+    "tekst": "Без cookies · Без зберігання · Без реклами",
+    "bron": "ui:footer-cookies",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "ff6700803fc42178",
+    "tekst": "Допоможіть з перекладом",
+    "bron": "ui:footer-vertaalhulp",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "50826f11c0d729d2",
+    "tekst": "Пояснення листів",
+    "bron": "ui:tool-brief-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "4c9a4e094b23be69",
+    "tekst": "Сфотографуйте листа. Ми пояснимо що там написано і що робити.",
+    "bron": "ui:tool-brief-omschrijving",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "26ed70b93def8ec9",
+    "tekst": "Допомога з бюджетом",
+    "bron": "ui:tool-budget-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "aaa97cb1ddb77b34",
+    "tekst": "Внесіть доходи та витрати крок за кроком. Завантажте зведення.",
+    "bron": "ui:tool-budget-omschrijving",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "b84afc4b8ec9e16d",
+    "tekst": "Калькулятор пільг",
+    "bron": "ui:tool-toeslagen-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "6d13f5414fc81e70",
+    "tekst": "Повноліття",
+    "bron": "ui:tool-18jaar-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "4418ae6e905f7066",
+    "tekst": "Перевірка громадянства",
+    "bron": "ui:tool-naturalisatie-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "931127129e873250",
+    "tekst": "Чи вигідно працювати?",
+    "bron": "ui:tool-loont-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "eecbd453481043f4",
+    "tekst": "Права та обов'язки",
+    "bron": "ui:tool-rechten-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "569a1a4497b16e54",
+    "tekst": "Цифрова допомога",
+    "bron": "ui:tool-digi-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "a9c5054802e53536",
+    "tekst": "Добре підготовлені",
+    "bron": "ui:tool-gv-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "00d9985a956761e1",
+    "tekst": "Слухати",
+    "bron": "ui:a11y-luister",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "6d714e833d40b379",
+    "tekst": "Стоп",
+    "bron": "ui:a11y-stop",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "88d3c749a7043834",
+    "tekst": "Озвучення увімкнено",
+    "bron": "ui:a11y-voorlezen-aan",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "adb620888b0b82a4",
+    "tekst": "Озвучення вимкнено",
+    "bron": "ui:a11y-voorlezen-uit",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "1abfc3dd199e3f97",
+    "tekst": "Торкніться тексту, щоб послухати",
+    "bron": "ui:a11y-tik-om-te-luisteren",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "819911c68017a98f",
+    "tekst": "Виберіть свою мову",
+    "bron": "ui:a11y-kies-taal",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "d6a49b50886828d1",
+    "tekst": "Озвучення не працює на цьому пристрої",
+    "bron": "ui:a11y-geen-stem",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "751d153a3d9a58c1",
+    "tekst": "Говоріть замість друкувати",
+    "bron": "ui:a11y-spreek",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "80931e34e5809fc8",
+    "tekst": "Слухаю…",
+    "bron": "ui:a11y-luisteren-nu",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "8a8736c69e92fae4",
+    "tekst": "Ще раз",
+    "bron": "ui:a11y-opnieuw",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "f6dab074d7bbc4ac",
+    "tekst": "Назад",
+    "bron": "ui:a11y-terug",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "a6a1039e4f44bc3e",
+    "tekst": "Почніть тут",
+    "bron": "ui:a11y-begin",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "1ab14cb5b54b19b1",
+    "tekst": "Зробіть фото",
+    "bron": "ui:a11y-foto",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "127cc593fe3f0fd9",
+    "tekst": "Допомога",
+    "bron": "ui:a11y-hulp",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "fdb2f5951b52ad57",
+    "tekst": "Мова",
+    "bron": "ui:nav-taal",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "62f220e3a2ff5c67",
+    "tekst": "Контакт",
+    "bron": "ui:footer-contact",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "b18649c0ba3ecc70",
+    "tekst": "Озвучення для деяких мов: проєкт MMS від Meta AI (CC-BY-NC 4.0)",
+    "bron": "ui:a11y-attributie",
+    "prioriteit": 1,
+    "cijfer": true
+  },
+  {
+    "hash": "181bf512944dd9ac",
+    "tekst": "Українська",
+    "bron": "taalnaam",
+    "prioriteit": 1,
+    "cijfer": false
+  }
+]

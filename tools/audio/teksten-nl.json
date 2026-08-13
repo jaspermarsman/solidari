@@ -1,0 +1,485 @@
+[
+  {
+    "hash": "4fa8cc860c52b268",
+    "tekst": "Tools",
+    "bron": "ui:nav-tools",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "9bb5e7d116866c8e",
+    "tekst": "Over ons",
+    "bron": "ui:nav-over",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "c8d7677e19495f21",
+    "tekst": "Feedback",
+    "bron": "ui:nav-feedback",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "cf01481f626d5127",
+    "tekst": "Privacy",
+    "bron": "ui:nav-privacy",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "6f8de7b65226a4db",
+    "tekst": "Geen cookies · Geen opslag · Geen advertenties",
+    "bron": "ui:footer-cookies",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "fcf778882843cdcf",
+    "tekst": "Help mee vertalen",
+    "bron": "ui:footer-vertaalhulp",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "dbd6793e30c96158",
+    "tekst": "Brief Begrijper",
+    "bron": "ui:tool-brief-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "014e35cfa166d0e0",
+    "tekst": "Maak een foto van je brief. Wij leggen uit wat er staat, wat je moet doen en wanneer.",
+    "bron": "ui:tool-brief-omschrijving",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "b076c14730632570",
+    "tekst": "Budgethulp",
+    "bron": "ui:tool-budget-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "3a3100437a5f8784",
+    "tekst": "Breng je inkomsten en uitgaven in kaart. Stap voor stap, in gewone taal. Download daarna een overzicht.",
+    "bron": "ui:tool-budget-omschrijving",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "83658f350a76dea4",
+    "tekst": "Toeslagen Calculator",
+    "bron": "ui:tool-toeslagen-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "958020307b094527",
+    "tekst": "18 Jaar Worden",
+    "bron": "ui:tool-18jaar-naam",
+    "prioriteit": 1,
+    "cijfer": true
+  },
+  {
+    "hash": "f751542f142d92aa",
+    "tekst": "Naturalisatie Checker",
+    "bron": "ui:tool-naturalisatie-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "5a99598e4455bd27",
+    "tekst": "Loont Werken?",
+    "bron": "ui:tool-loont-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "82d0614a835f4c12",
+    "tekst": "Rechten & Plichten",
+    "bron": "ui:tool-rechten-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "1accf7704659074f",
+    "tekst": "Digi Hulp",
+    "bron": "ui:tool-digi-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "d2794d1234682a16",
+    "tekst": "Goed Voorbereid",
+    "bron": "ui:tool-gv-naam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "5fc93d683f3e8e1c",
+    "tekst": "Luister",
+    "bron": "ui:a11y-luister",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "9e253470c876ee6d",
+    "tekst": "Stop",
+    "bron": "ui:a11y-stop",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "8dcfec35b85f2f53",
+    "tekst": "Voorlezen aan",
+    "bron": "ui:a11y-voorlezen-aan",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "e4e95b8473961894",
+    "tekst": "Voorlezen uit",
+    "bron": "ui:a11y-voorlezen-uit",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "beda92df270f9120",
+    "tekst": "Tik op tekst om te luisteren",
+    "bron": "ui:a11y-tik-om-te-luisteren",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "6ebbd301ccb5c3da",
+    "tekst": "Kies je taal",
+    "bron": "ui:a11y-kies-taal",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "686f4a57c959cd2b",
+    "tekst": "Voorlezen werkt niet op dit toestel",
+    "bron": "ui:a11y-geen-stem",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "c8cf67c105512b2e",
+    "tekst": "Spreek in plaats van typen",
+    "bron": "ui:a11y-spreek",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "48bdb8075c67678b",
+    "tekst": "Ik luister…",
+    "bron": "ui:a11y-luisteren-nu",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "9c282facbf722442",
+    "tekst": "Opnieuw",
+    "bron": "ui:a11y-opnieuw",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "3856e3fbfc6decf6",
+    "tekst": "Terug",
+    "bron": "ui:a11y-terug",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "26a0ff1ef2d2ca6e",
+    "tekst": "Begin hier",
+    "bron": "ui:a11y-begin",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "50b4ad593c9c1266",
+    "tekst": "Maak een foto",
+    "bron": "ui:a11y-foto",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "ed5e1ddbc09a3188",
+    "tekst": "Hulp",
+    "bron": "ui:a11y-hulp",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "53eee21b7e415cbc",
+    "tekst": "Taal",
+    "bron": "ui:nav-taal",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "b37456c4530be810",
+    "tekst": "Contact",
+    "bron": "ui:footer-contact",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "87b388aef3d4a61a",
+    "tekst": "Spraak voor sommige talen: MMS-project van Meta AI (CC-BY-NC 4.0)",
+    "bron": "ui:a11y-attributie",
+    "prioriteit": 1,
+    "cijfer": true
+  },
+  {
+    "hash": "f61c54c1d70775fd",
+    "tekst": "Nederlands",
+    "bron": "taalnaam",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "67b7b9f5238a608b",
+    "tekst": "Kunt u het langzamer of met makkelijkere woorden zeggen?",
+    "bron": "zeg",
+    "prioriteit": 2,
+    "cijfer": false
+  },
+  {
+    "hash": "b246369555b41e37",
+    "tekst": "Ik begrijp het niet, kunt u het nog een keer uitleggen?",
+    "bron": "zeg",
+    "prioriteit": 2,
+    "cijfer": false
+  },
+  {
+    "hash": "e7bcaffea55eac39",
+    "tekst": "Wat kan ik zelf doen?",
+    "bron": "zeg",
+    "prioriteit": 2,
+    "cijfer": false
+  },
+  {
+    "hash": "84addd63b52a1918",
+    "tekst": "Wanneer moet ik terugkomen?",
+    "bron": "zeg",
+    "prioriteit": 2,
+    "cijfer": false
+  },
+  {
+    "hash": "42b80ff6b25c3579",
+    "tekst": "Neemt u nieuwe patiënten aan?",
+    "bron": "zeg",
+    "prioriteit": 2,
+    "cijfer": false
+  },
+  {
+    "hash": "115259d05f4067bc",
+    "tekst": "Waarom is een specialist nu nog niet nodig?",
+    "bron": "zeg",
+    "prioriteit": 2,
+    "cijfer": false
+  },
+  {
+    "hash": "9369b64d305acb92",
+    "tekst": "Wanneer moet ik terugkomen als het niet beter wordt?",
+    "bron": "zeg",
+    "prioriteit": 2,
+    "cijfer": false
+  },
+  {
+    "hash": "e2609242f606e29f",
+    "tekst": "Waar moet ik op letten?",
+    "bron": "zeg",
+    "prioriteit": 2,
+    "cijfer": false
+  },
+  {
+    "hash": "860b6dac69b30e88",
+    "tekst": "Wanneer moet ik terugkomen of bellen?",
+    "bron": "zeg",
+    "prioriteit": 2,
+    "cijfer": false
+  },
+  {
+    "hash": "e844a40524acdfde",
+    "tekst": "Dit is moeilijk voor mij om te vertellen.",
+    "bron": "zeg",
+    "prioriteit": 2,
+    "cijfer": false
+  },
+  {
+    "hash": "ff01ab5fcbb49d8b",
+    "tekst": "Met wie kan ik hierover verder praten?",
+    "bron": "zeg",
+    "prioriteit": 2,
+    "cijfer": false
+  },
+  {
+    "hash": "1c71bfc81e038b43",
+    "tekst": "Wat kost het?",
+    "bron": "zeg",
+    "prioriteit": 2,
+    "cijfer": false
+  },
+  {
+    "hash": "c2fd1ee980289a72",
+    "tekst": "Wanneer is het klaar?",
+    "bron": "zeg",
+    "prioriteit": 2,
+    "cijfer": false
+  },
+  {
+    "hash": "534c9ed614fa7785",
+    "tekst": "Ik begrijp het niet, kunt u het rustiger uitleggen?",
+    "bron": "zeg",
+    "prioriteit": 2,
+    "cijfer": false
+  },
+  {
+    "hash": "50e6d628fe534284",
+    "tekst": "Dit lukt mij niet meer alleen.",
+    "bron": "zeg",
+    "prioriteit": 2,
+    "cijfer": false
+  },
+  {
+    "hash": "f5a532575cb14e22",
+    "tekst": "Wat gebeurt er na dit gesprek?",
+    "bron": "zeg",
+    "prioriteit": 2,
+    "cijfer": false
+  },
+  {
+    "hash": "765884b1b5f4cdcc",
+    "tekst": "Kunt u opschrijven wat we hebben afgesproken?",
+    "bron": "zeg",
+    "prioriteit": 2,
+    "cijfer": false
+  },
+  {
+    "hash": "2e366b3c6036473d",
+    "tekst": "Wat betekent dit voor mijn uitkering?",
+    "bron": "zeg",
+    "prioriteit": 2,
+    "cijfer": false
+  },
+  {
+    "hash": "aaea67898c04ab1b",
+    "tekst": "Wat moet ik nu doen?",
+    "bron": "zeg",
+    "prioriteit": 2,
+    "cijfer": false
+  },
+  {
+    "hash": "a5b7074fe8058f39",
+    "tekst": "Hoe gaat het met lezen en rekenen?",
+    "bron": "zeg",
+    "prioriteit": 2,
+    "cijfer": false
+  },
+  {
+    "hash": "2a693baef0a60356",
+    "tekst": "Heeft mijn kind vriendjes en vriendinnetjes?",
+    "bron": "zeg",
+    "prioriteit": 2,
+    "cijfer": false
+  },
+  {
+    "hash": "4ab31836c1be1325",
+    "tekst": "Wat kan ik thuis doen om te helpen?",
+    "bron": "zeg",
+    "prioriteit": 2,
+    "cijfer": false
+  },
+  {
+    "hash": "af1f3cbc22671eab",
+    "tekst": "Ik begrijp het niet, kunt u het anders zeggen?",
+    "bron": "zeg",
+    "prioriteit": 2,
+    "cijfer": false
+  },
+  {
+    "hash": "5dfd414e5f09db29",
+    "tekst": "Ik kom er zelf niet meer uit.",
+    "bron": "zeg",
+    "prioriteit": 2,
+    "cijfer": false
+  },
+  {
+    "hash": "304925e4269a05cf",
+    "tekst": "Wat kan ik nu al doen?",
+    "bron": "zeg",
+    "prioriteit": 2,
+    "cijfer": false
+  },
+  {
+    "hash": "503aa654254bf7db",
+    "tekst": "Wordt dit medicijn vergoed, of moet ik betalen?",
+    "bron": "zeg",
+    "prioriteit": 2,
+    "cijfer": false
+  },
+  {
+    "hash": "aa5777cb18bf5e69",
+    "tekst": "Hoe vaak per dag moet ik dit innemen?",
+    "bron": "zeg",
+    "prioriteit": 2,
+    "cijfer": false
+  },
+  {
+    "hash": "b14629f6dc7f6763",
+    "tekst": "Moet ik dit met eten of met water innemen?",
+    "bron": "zeg",
+    "prioriteit": 2,
+    "cijfer": false
+  },
+  {
+    "hash": "8a524e04e7387540",
+    "tekst": "Kan dit samen met mijn andere medicijnen?",
+    "bron": "zeg",
+    "prioriteit": 2,
+    "cijfer": false
+  },
+  {
+    "hash": "71c6dcedf77846f0",
+    "tekst": "Ik begrijp het niet, kunt u het opschrijven?",
+    "bron": "zeg",
+    "prioriteit": 2,
+    "cijfer": false
+  },
+  {
+    "hash": "703791d9bb62d742",
+    "tekst": "Ik heb een kleine klacht. Welk medicijn kan mij helpen?",
+    "bron": "zeg",
+    "prioriteit": 2,
+    "cijfer": false
+  },
+  {
+    "hash": "3183acd7fded9a92",
+    "tekst": "Kan ik dit zonder recept kopen?",
+    "bron": "zeg",
+    "prioriteit": 2,
+    "cijfer": false
+  },
+  {
+    "hash": "fbabbf816795274b",
+    "tekst": "Wanneer moet ik wel naar de dokter?",
+    "bron": "zeg",
+    "prioriteit": 2,
+    "cijfer": false
+  },
+  {
+    "hash": "27e1290b946299ed",
+    "tekst": "Moet ik een afspraak maken om het op te halen?",
+    "bron": "zeg",
+    "prioriteit": 2,
+    "cijfer": false
+  }
+]
