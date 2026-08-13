@@ -18,7 +18,7 @@ Solidari helpt nieuwkomers, statushouders en laaggeletterden navigeren door brie
 | 🇳🇱 Naturalisatie Checker | ✓ Altijd | NL |
 | 🎂 18 Jaar Worden | ✓ Altijd | NL EN AR TR TI UK FA RO PL |
 | ⚖️ Rechten & Plichten | ✓ Altijd (Claude API) | NL EN AR TR TI UK FA RO PL |
-| 💻 Digi Hulp | ✓ Altijd (Claude API) | NL EN AR TR TI UK FA RO PL |
+| 📋 Goed Voorbereid | ✓ Altijd | NL EN AR TR TI UK FA RO PL |
 
 ---
 
@@ -40,7 +40,8 @@ Gebruiker → GitHub Pages (statisch, altijd aan)
 
 **AI-routing:**
 - Brief Begrijper: OCR en PII-redactie lokaal → geanonimiseerde tekst naar Claude API (Haiku)
-- Overige tools (Budgethulp, Rechten & Plichten, Digi Hulp): Claude API direct — geen privacygevoelige documenten
+- Overige tools (Budgethulp, Rechten & Plichten): Claude API direct — geen privacygevoelige documenten
+- *(Digi Hulp is verwijderd, besluit 2026-07-06.)*
 
 **Sleep-automatisering:** Home Assistant monitort zonneopbrengst (`sensor.electricity_meter_power_production`). Bij >400W wekt het de PC en blokkeert slaapstand via Flask-endpoint + systemd inhibit lock.
 
@@ -57,7 +58,8 @@ loont-werken.html       Loont Werken?
 naturalisatie.html      Naturalisatie Checker
 18jaar.html             18 Jaar Worden
 rechten.html            Rechten & Plichten
-digihulp.html           Digi Hulp
+goedvoorbereid.html     Goed Voorbereid
+vertaalhulp.html        Vertaalhulp (correctietool voor de 9 talen)
 feedback.html           Feedbackformulier
 feedback-analyse.html   Privétool: feedback exporteren en analyseren
 
@@ -69,8 +71,40 @@ lw-i18n.js              Vertalingen specifiek voor loont-werken.html
 18jaar-data-2.js        18-jaar data: TI, UK, FA
 18jaar-data-3.js        18-jaar data: RO, PL
 
+spraak.js               Voorlees- en spraakinvoermotor (gelaagd, §Toegankelijkheid)
+spraak.css              Stijlen voor 🔊-knoppen, mic, luistermodus, welkomstscherm
+audio/<TAAL>/*.mp3       Voorgegenereerde spraakclips per taal (349 stuks)
+audio/manifest-<taal>.json  hash → {duur} + generatorbron per taal
+tools/audio/            Pijplijn (extract.js, genereer_mms.py, genereer_gemini.py, valideer.js)
+tests/                  Playwright-acceptatietests (buiten de site)
+
 solidari-worker.js      Cloudflare Worker (Claude API proxy)
 ```
+
+---
+
+## Toegankelijkheid (spraak voor wie niet leest)
+
+De site is bruikbaar met **spraak-in en spraak-uit**, zodat ook wie niet kan lezen
+elke tool kan gebruiken. Eén gedeeld component (`spraak.js`, `spraak.css`) op elke pagina.
+
+**Voorlezen — gelaagd, per taal gekozen:**
+1. **Voorgegenereerd audiobestand** (`audio/<TAAL>/<hash>.mp3`) — instant, overal gelijk, ook offline. Standaardteksten (UI, toolnamen, taalnamen, `zeg`-zinnen) staan vooraf klaar in alle 9 talen.
+2. **Browser-`speechSynthesis`** — waar het toestel een stem heeft.
+3. **Worker-TTS (Gemini)** — voorbereid voor dynamische AI-antwoorden; activeert zodra er een sleutel staat (zie `bouwplannen/WORKER-UPGRADE.md`).
+
+Tigrinya heeft géén browserstem en geen cloud-TTS-dekking; daarom draait de audio via
+laag 1, vooraf gegenereerd met **Meta's MMS-model** (`facebook/mms-tts-*`, VITS + uroman).
+
+**Spreken:** microfoonknop bij tekstvelden (browser-`SpeechRecognition`); `brief.html`
+opent op mobiel direct de camera. Een `/api/stt`-route (Gemini) is voorbereid.
+
+**Verder:** runtime-taalkiezer met gesproken eigennaam, welkomstscherm bij eerste bezoek,
+luistermodus (tik-om-te-lezen), `noindex`/testbalk buiten `solidari.nl`, AA-contrast,
+raakvlakken ≥ 44 px. Audio-generatie: `python tools/audio/genereer_mms.py && node tools/audio/valideer.js`.
+
+> **Bevinding (buiten scope):** `brief.html` verwijst naar de backend `https://api.solidari.nl`
+> (Worker/Flask). Dat is de bestaande AI-backend en valt buiten dit toegankelijkheidswerk.
 
 ---
 
