@@ -40,6 +40,7 @@
   let bezigVlag = false;
   let gestopt = false;
   let heartbeat = null;
+  let audioToken = 0;   // invalideert callbacks van onderbroken bestand-afspelen
 
   // ── Hulpjes ────────────────────────────────────────────────────────────
   function t(sleutel, terugval) {
@@ -160,25 +161,37 @@
   }
   function stop() {
     gestopt = true;
+    audioToken++;                 // lopende bestand-callbacks worden ongeldig
     stopHeartbeat();
     try { if (window.speechSynthesis) speechSynthesis.cancel(); } catch (e) {}
-    try { if (audioEl) { audioEl.pause(); audioEl.removeAttribute('src'); } } catch (e) {}
+    try {
+      if (audioEl) {
+        audioEl.onended = null; audioEl.onerror = null;  // geen spurieuze error bij src verwijderen
+        audioEl.pause(); audioEl.removeAttribute('src');
+      }
+    } catch (e) {}
     bezigVlag = false;
   }
 
   function speelBestand(tekst, taal, hash, opties) {
     const el = audio();
+    const mij = ++audioToken;
     el.muted = false;
     el.src = 'audio/' + taal + '/' + hash + '.mp3';
     bezigVlag = true;
     if (opties.opStart) opties.opStart();
-    el.onended = () => { bezigVlag = false; if (opties.opEinde) opties.opEinde(); };
+    el.onended = () => { if (mij !== audioToken) return; bezigVlag = false; if (opties.opEinde) opties.opEinde(); };
     el.onerror = () => {
+      if (mij !== audioToken) return;
       bezigVlag = false;
       if (!gestopt && stemVoor(taal)) { speelStem(tekst, taal, opties); }
       else { fout(opties); }
     };
-    Promise.resolve(el.play && el.play()).catch(() => { if (el.onerror) el.onerror(); });
+    // Onderbroken door stop()/nieuwe zeg of geblokkeerde autoplay → stil negeren.
+    Promise.resolve(el.play && el.play()).catch((err) => {
+      if (mij !== audioToken || (err && err.name === 'AbortError')) return;
+      if (el.onerror) el.onerror();
+    });
   }
 
   function speelStem(tekst, taal, opties) {
