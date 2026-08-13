@@ -81,6 +81,37 @@ body.sol-a11y-luistermodus [data-lees] {
   color: #fff;
 }
 
+/* Microfoonknop bij tekstvelden */
+.sol-a11y-mic {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 56px;
+  min-height: 56px;
+  margin: 0.3rem 0 0.3rem 0.4rem;
+  vertical-align: middle;
+  border: 2px solid var(--groen, #2D5A3D);
+  border-radius: 999px;
+  background: var(--groen-licht, #EBF3EE);
+  color: var(--groen, #2D5A3D);
+  font-size: 1.3rem;
+  cursor: pointer;
+  flex: 0 0 auto;
+  -webkit-tap-highlight-color: transparent;
+}
+.sol-a11y-mic:focus-visible { outline: 3px solid var(--amber, #E8A020); outline-offset: 2px; }
+.sol-a11y-mic.sol-a11y-mic-luistert {
+  background: #B4231F;
+  border-color: #8f1b18;
+  color: #fff;
+  animation: sol-a11y-mic-puls 1s ease-in-out infinite;
+}
+@keyframes sol-a11y-mic-puls {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(180, 35, 31, 0.5); }
+  50%      { box-shadow: 0 0 0 7px rgba(180, 35, 31, 0); }
+}
+@media (prefers-reduced-motion: reduce) { .sol-a11y-mic.sol-a11y-mic-luistert { animation: none; } }
+
 /* Gesproken taalkiezer — native naam in eigen schrift */
 .taal-dd-btn.taal-btn, .mob-taal-btn { min-height: 44px; }
 

@@ -317,9 +317,55 @@
     });
   }
 
-  // autoMarkeer + scan in één; veilig herhaalbaar (idempotent via solA11yKlaar)
+  // ── Spraakinvoer: microfoonknop bij tekstvelden ───────────────────────
+  function heeftHerkenning() { return !!(window.SpeechRecognition || window.webkitSpeechRecognition); }
+
+  function micKnop(input, opties) {
+    opties = opties || {};
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'sol-a11y-mic';
+    b.setAttribute('aria-label', t('a11y-spreek', 'Spreek in plaats van typen'));
+    b.innerHTML = '<span aria-hidden="true">🎤</span>';
+    let herkenner = null;
+    function stopLuisteren() {
+      if (herkenner) { try { herkenner.stop(); } catch (e) {} herkenner = null; }
+      b.classList.remove('sol-a11y-mic-luistert');
+    }
+    b.addEventListener('click', (e) => {
+      e.preventDefault(); e.stopPropagation();
+      if (herkenner) { stopLuisteren(); return; }
+      const taal = opties.taal || (input.getAttribute('lang') || '').toUpperCase() || actieveTaal();
+      b.classList.add('sol-a11y-mic-luistert');
+      herkenner = luister({
+        taal,
+        opTekst: (tekst) => { input.value = tekst; input.dispatchEvent(new Event('input', { bubbles: true })); },
+        opEinde: () => { stopLuisteren(); input.dispatchEvent(new Event('change', { bubbles: true })); },
+        opFout: () => stopLuisteren(),
+      });
+      if (!herkenner) stopLuisteren();
+    });
+    return b;
+  }
+
+  function autoMic(root) {
+    root = root || document;
+    // Geen browserherkenning én geen actieve /api/stt-route → geen knop (principe 6).
+    // De MediaRecorder→/api/stt-route (§4.6) is voorbereid maar inactief tot de Worker
+    // hem beantwoordt; zolang dat niet zo is verschijnt de mic alleen bij browserherkenning.
+    if (!heeftHerkenning() && !externeRoute) return;
+    root.querySelectorAll('textarea, input[type="text"], input:not([type])').forEach(inp => {
+      if (inp.dataset.solMicKlaar) return;
+      if (inp.closest('#solidari-nav, nav, footer, [data-geen-mic]')) return;
+      inp.dataset.solMicKlaar = '1';
+      inp.insertAdjacentElement('afterend', micKnop(inp, {}));
+    });
+  }
+
+  // autoMarkeer + autoMic + scan in één; veilig herhaalbaar (idempotent via *Klaar-vlaggen)
   async function verwerk(root) {
     autoMarkeer(root || document);
+    autoMic(root || document);
     await scan(root || document);
   }
 
@@ -381,7 +427,7 @@
   // ── Publieke API (§4.3) ────────────────────────────────────────────────
   window.Solidari.spraak = {
     beschikbaar, zeg, stop, bezig, ontgrendel, stemVoor, splitsZinnen,
-    knop, scan, autoMarkeer, verwerk, manifest, luistermodus, luister, registreerRoute,
+    knop, scan, autoMarkeer, verwerk, micKnop, autoMic, manifest, luistermodus, luister, registreerRoute,
     // testhaken (niet-openbaar bedoeld, wel handig in acceptatietests)
     _kiesLaag, _normaliseer: normaliseer, _hashVan: hashVan, _actieveTaal: actieveTaal,
   };
