@@ -1,0 +1,14 @@
+# Werkbestanden — horen niet in de publieke repo
+solidari-backend/
+bouwplannen/
+_backup-*/
+PLAN-*.md
+linkedin-posts-solidari.md
+.claude/
+
+# Rommel
+*.log
+__pycache__/
+venv/
+*.pyc
+.env

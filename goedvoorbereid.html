@@ -18,7 +18,7 @@
     }
     *{margin:0;padding:0;box-sizing:border-box;}
     html,body{height:100%;}
-    body{background:var(--chat-bg);color:var(--tekst);font-family:'Source Sans 3',sans-serif;font-weight:400;display:flex;flex-direction:column;}
+    body{background:var(--chat-bg);color:var(--tekst);font-family:'Source Sans 3',sans-serif;font-weight:400;display:flex;flex-direction:column;-webkit-text-size-adjust:100%;text-size-adjust:100%;}
 
     /* ── Nav wordt volledig door components.css verzorgd (incl. mobiel hamburgermenu).
        Géén eigen nav-/.nav-links-/.taal-btn-regels hier: die overschreven de
@@ -33,7 +33,7 @@
     /* ── Berichten ── */
     .bericht-sol{display:flex;align-items:flex-end;gap:8px;max-width:90%;align-self:flex-start;animation:inSchuiven 0.25s ease both;}
     .sol-avatar{width:32px;height:32px;background:var(--groen);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;}
-    .bel-sol{background:white;border-radius:18px 18px 18px 4px;padding:12px 15px;font-size:0.95rem;line-height:1.55;color:var(--tekst);box-shadow:0 1px 2px rgba(0,0,0,0.06);white-space:pre-wrap;}
+    .bel-sol{background:white;border-radius:18px 18px 18px 4px;padding:12px 15px;font-size:0.95rem;line-height:1.55;color:var(--tekst);box-shadow:0 1px 2px rgba(0,0,0,0.06);white-space:pre-wrap;overflow-wrap:break-word;word-break:break-word;}
     .bel-sol .blok-kop{font-weight:600;color:var(--groen);margin-bottom:6px;font-size:1rem;}
     .bel-sol ul{list-style:none;display:flex;flex-direction:column;gap:7px;margin-top:2px;}
     .bel-sol li{padding-left:20px;position:relative;line-height:1.45;}
@@ -44,6 +44,7 @@
     .bel-sol .regel-zeg::after{content:'”';}
     .bel-sol .regel-eigen{display:block;color:var(--tekst-licht);font-size:0.85em;font-style:italic;}
     .bel-sol .regel-na{display:block;color:var(--tekst-zacht);font-size:0.9em;margin-top:2px;}
+    .bel-sol .regel-link{display:inline-block;margin-top:4px;color:var(--groen);font-weight:600;text-decoration:underline;}
     .bel-sol.disclaimer{background:var(--amber-licht);border:1px solid rgba(232,160,32,0.3);font-size:0.82rem;color:var(--amber-diep);}
     .bel-sol.fout{background:var(--rood-licht);border:1px solid rgba(220,38,38,0.15);font-size:0.85rem;color:var(--rood);}
 
@@ -84,7 +85,9 @@
     @keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.07);}}
     .tekst-wrap{flex:1;display:flex;align-items:flex-end;background:white;border:2px solid var(--rand);border-radius:20px;overflow:hidden;transition:border-color 0.2s;padding:4px 4px 4px 16px;}
     .tekst-wrap:focus-within{border-color:var(--groen);}
-    .tekst-invoer{flex:1;border:none;background:transparent;color:var(--tekst);outline:none;font-family:'Source Sans 3',sans-serif;font-size:0.95rem;resize:none;max-height:120px;line-height:1.5;padding:9px 0;}
+    /* font-size 16px: voorkomt dat iOS/Safari op de iPhone automatisch inzoomt bij
+       focus en daarna niet terugschaalt (waardoor tekst buiten beeld valt). */
+    .tekst-invoer{flex:1;border:none;background:transparent;color:var(--tekst);outline:none;font-family:'Source Sans 3',sans-serif;font-size:16px;resize:none;max-height:120px;line-height:1.5;padding:9px 0;}
     .tekst-invoer::placeholder{color:var(--tekst-licht);}
     .stuur-btn{width:40px;height:40px;background:var(--groen);border:none;border-radius:50%;cursor:pointer;color:white;font-size:1.1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.18s;}
     .stuur-btn:hover{background:#234830;}
@@ -190,6 +193,7 @@ function itemHTML(item){
     if(item.zeg)   h += '<span class="regel-zeg">'+escapeHTML(item.zeg)+'</span>';
     if(item.eigen) h += '<span class="regel-eigen">'+escapeHTML(item.eigen)+'</span>';
     if(item.na)    h += '<span class="regel-na">'+escapeHTML(item.na)+'</span>';
+    if(item.url)   h += '<a class="regel-link" href="'+escapeHTML(item.url)+'" target="_blank" rel="noopener noreferrer">'+escapeHTML(item.linkTekst||item.url)+'</a>';
     if(!h){ const v = Object.values(item).find(x=>typeof x==='string'); h = escapeHTML(v||''); }
     return h;
   }
