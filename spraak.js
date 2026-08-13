@@ -166,8 +166,8 @@
     try { if (window.speechSynthesis) speechSynthesis.cancel(); } catch (e) {}
     try {
       if (audioEl) {
-        audioEl.onended = null; audioEl.onerror = null;  // geen spurieuze error bij src verwijderen
-        audioEl.pause(); audioEl.removeAttribute('src');
+        audioEl.onended = null; audioEl.onerror = null;
+        audioEl.pause();   // alleen pauzeren; src NIET verwijderen (dat aborteert een load)
       }
     } catch (e) {}
     bezigVlag = false;
