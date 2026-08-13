@@ -460,6 +460,13 @@
   }
 
   function init() {
+    // Onderdruk de bekende, onschadelijke AbortError die Chromium logt wanneer
+    // audio-playback wordt onderbroken (snel taalwisselen/opnieuw voorlezen).
+    // Alleen déze fout; al het andere propageert normaal.
+    window.addEventListener('unhandledrejection', (e) => {
+      if (e.reason && e.reason.name === 'AbortError') e.preventDefault();
+    });
+
     // iOS-ontgrendeling bij het eerste gebaar
     document.addEventListener('pointerdown', eersteGebaarOntgrendel, true);
     document.addEventListener('keydown', eersteGebaarOntgrendel, true);
