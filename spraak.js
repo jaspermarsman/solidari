@@ -314,7 +314,7 @@
   }
 
   // ── Auto-markering: zet data-lees op inhoudsblokken ────────────────────
-  const BLOK_SEL = 'p, h1, h2, h3, h4, li, blockquote, dt, dd, figcaption, .regel-zeg, .regel-intro, .regel-eigen, .regel-na';
+  const BLOK_SEL = 'p, h1, h2, h3, h4, li, blockquote, dt, dd, figcaption, .regel-zeg, .regel-intro, .regel-eigen, .regel-na, .bel-sol';
   const UITSLUIT_SEL = 'nav, footer, #solidari-nav, #solidari-footer, script, style, button, a, select, textarea, input, label, [data-lees], [data-geen-lees], [contenteditable="true"], .sol-a11y-knop, #sol-env-balk';
   function autoMarkeer(root) {
     root = root || document;
@@ -323,7 +323,10 @@
       // alleen bladeren: geen container die zelf blokken bevat (voorkomt dubbel lezen)
       if (el.querySelector(BLOK_SEL)) return;
       const txt = normaliseer(el.textContent);
-      if (txt.length <= 40 && !el.classList.contains('regel-zeg')) return;
+      // Chatbubbels (.bel-sol) en zeg-zinnen zijn altijd voorleesbaar, ook kort:
+      // in een chat is elke vraag/knop-uitleg betekenisvol voor een niet-lezer.
+      const altijdLezen = el.classList.contains('regel-zeg') || el.classList.contains('bel-sol');
+      if (txt.length <= 40 && !altijdLezen) return;
       // de zeg-zinnen zijn Nederlands (D-07)
       if (el.classList.contains('regel-zeg')) el.setAttribute('data-lees-taal', 'NL');
       el.setAttribute('data-lees', '');
@@ -473,6 +476,21 @@
 
     // Eerste markering + knoppen
     verwerk(document);
+
+    // Browserstemmen laden asynchroon. Komen ze pas ná de eerste scan beschikbaar
+    // (voiceschanged), dan zijn blokken zonder audiobestand onterecht als 'leeg'
+    // gemarkeerd en verschijnt er geen 🔊-knop. Wis die markering en scan opnieuw
+    // zodra de stemmen er zijn, zodat de voorleesknoppen alsnog verschijnen.
+    try {
+      if (window.speechSynthesis && typeof speechSynthesis.addEventListener === 'function') {
+        speechSynthesis.addEventListener('voiceschanged', () => {
+          document.querySelectorAll('[data-lees]').forEach(el => {
+            if (el.dataset.solA11yKlaar === 'leeg') delete el.dataset.solA11yKlaar;
+          });
+          scan(document);
+        });
+      }
+    } catch (e) {}
 
     // Dynamisch bijgerenderde inhoud (chat, resultaten) automatisch meenemen.
     try {

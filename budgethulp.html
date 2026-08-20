@@ -210,9 +210,10 @@
 // ══════════════════════════════════════════════════════
 // BACKEND CONFIGURATIE (globaal beschikbaar)
 // ══════════════════════════════════════════════════════
-const API_BASE    = 'https://api.solidari.nl';
+// D-27: centrale Cloudflare Worker (dezelfde als rechten.html), niet de
+// uitgefaseerde zonne-server. Geen /api/status-ping meer.
+const API_BASE    = 'https://solidari-digi-hulp-worker.jaspermarsman.workers.dev';
 const ANALYSE_URL = API_BASE + '/api/analyse';
-const STATUS_URL  = API_BASE + '/api/status';
 
 // ══════════════════════════════════════════════════════
 // NIBUD MINIMUMVOORBEELDBEGROTINGEN JULI 2025
@@ -1591,7 +1592,7 @@ async function start(){
   if (_bezig) return;
   _bezig = true;
   const t=T[taal];
-  document.body.style.direction=taal==='ar'?'rtl':'ltr';
+  document.body.style.direction=(taal==='ar'||taal==='fa')?'rtl':'ltr';
   document.getElementById('berichten').innerHTML='';
   verbergInvoer(); stap=0; setVoortgang(0);
   Object.keys(A).forEach(k=>delete A[k]);
@@ -2128,60 +2129,27 @@ async function toonAiKaart(t) {
     if (wrap) wrap.remove();
   });
 
-  // Ping Flask-backend — is de PC aan én zon actief?
-  let pcOnline = false;
-  try {
-    const ping = await Promise.race([
-      fetch(STATUS_URL, {method:'GET', cache:'no-cache'}),
-      new Promise((_, r) => setTimeout(() => r(new Error('timeout')), 4000))
-    ]);
-    if (ping.ok) {
-      const status = await ping.json();
-      pcOnline = status.online === true && status.zon_actief === true;
-    }
-  } catch(e) { pcOnline = false; }
-
+  // D-27: de centrale Worker is altijd beschikbaar — geen zonne-statusping,
+  // geen offline-kaart. De AI-uitnodiging verschijnt gewoon.
   const aiKaart = document.createElement('div');
   aiKaart.className = 'bericht-sol';
   aiKaart.style.cssText = 'max-width:100%;width:100%;';
 
-  if (pcOnline) {
-    // ☀️ Online — toon uitnodiging
-    aiKaart.innerHTML = `<div class="ai-uitnodiging" id="ai-uitnodiging">
-      <div class="ai-header">
-        <span class="ai-zon">☀️</span>
-        <div class="ai-header-tekst">
-          <div class="ai-titel">${t.ai_uitnodiging_titel}</div>
-          <div class="ai-sub">${t.ai_uitnodiging_sub}</div>
-        </div>
+  aiKaart.innerHTML = `<div class="ai-uitnodiging" id="ai-uitnodiging">
+    <div class="ai-header">
+      <span class="ai-zon">☀️</span>
+      <div class="ai-header-tekst">
+        <div class="ai-titel">${t.ai_uitnodiging_titel}</div>
+        <div class="ai-sub">${t.ai_uitnodiging_sub}</div>
       </div>
-      <div style="padding:0 1.2rem 0.8rem;font-size:0.88rem;color:rgba(255,255,255,0.75);line-height:1.55;">${t.ai_uitnodiging_tekst}</div>
-      <div class="ai-privacy">\u{1F512} ${t.ai_privacy}</div>
-      <div class="ai-knoppen">
-        <button class="ai-ja-btn" onclick="startAiAnalyse()">${t.ai_ja}</button>
-        <button class="ai-nee-btn" onclick="this.closest('.ai-uitnodiging').style.opacity='0.4';this.disabled=true;this.previousElementSibling.disabled=true;">${t.ai_nee}</button>
-      </div>
-    </div>`;
-  } else {
-    // 🌙 Offline of te weinig zon — vriendelijke melding met herlaadknop
-    aiKaart.innerHTML = `<div class="ai-uitnodiging" id="ai-uitnodiging" style="opacity:0.85;">
-      <div class="ai-header">
-        <span class="ai-zon">🌙</span>
-        <div class="ai-header-tekst">
-          <div class="ai-titel">${t.ai_offline_titel}</div>
-          <div class="ai-sub">${t.ai_offline_sub}</div>
-        </div>
-      </div>
-      <div style="padding:0 1.2rem 0.6rem;font-size:0.88rem;color:rgba(255,255,255,0.7);line-height:1.6;">
-        ${t.ai_offline_tekst}
-      </div>
-      <div style="padding:0 1.2rem 1rem;">
-        <button onclick="toonAiKaart(T[taal])" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:8px 16px;color:rgba(255,255,255,0.7);font-size:0.82rem;cursor:pointer;font-family:'Source Sans 3',sans-serif;transition:all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">
-          🔄 Opnieuw controleren
-        </button>
-      </div>
-    </div>`;
-  }
+    </div>
+    <div style="padding:0 1.2rem 0.8rem;font-size:0.88rem;color:rgba(255,255,255,0.75);line-height:1.55;">${t.ai_uitnodiging_tekst}</div>
+    <div class="ai-privacy">\u{1F512} ${t.ai_privacy}</div>
+    <div class="ai-knoppen">
+      <button class="ai-ja-btn" onclick="startAiAnalyse()">${t.ai_ja}</button>
+      <button class="ai-nee-btn" onclick="this.closest('.ai-uitnodiging').style.opacity='0.4';this.disabled=true;this.previousElementSibling.disabled=true;">${t.ai_nee}</button>
+    </div>
+  </div>`;
   b.appendChild(aiKaart);
   scrollNaar();
 }
@@ -2552,7 +2520,7 @@ Sluit af met: Neem de Excel of PDF mee naar je begeleider.
 Maximaal 400 woorden.`
 
   // Timeout via Promise.race (AbortController werkt niet in sandboxed iframe)
-  // API_BASE, ANALYSE_URL en STATUS_URL zijn globaal gedefinieerd bovenaan het script
+  // API_BASE en ANALYSE_URL zijn globaal gedefinieerd bovenaan het script (D-27: centrale Worker)
 
   const fetchPromise = fetch(ANALYSE_URL, {
       method: 'POST',
@@ -2744,7 +2712,14 @@ let _gestart = false;
 function _init() {
   if (_gestart) return;
   _gestart = true;
-  if(window.Solidari && Solidari.i18n) Solidari.i18n.init();
+  if(window.Solidari && Solidari.i18n) {
+    Solidari.i18n.init();
+    // D-26: neem de opgeslagen sitetaal over vóór de eerste start(),
+    // zodat de welkomstboodschap meteen in de gekozen taal verschijnt
+    // (i18n.getTaal() geeft een hoofdlettercode terug; T{} gebruikt kleine letters).
+    const site = (Solidari.i18n.getTaal() || 'nl').toLowerCase();
+    if (T[site]) taal = site;
+  }
   start();
 }
 document.addEventListener('DOMContentLoaded', _init);
