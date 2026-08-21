@@ -1,0 +1,35 @@
+--- services/preprocessor.py	2026-08-21 20:00:44.422741217 +0000
++++ /home/claude/delta/solidari-backend/services/preprocessor.py	2026-08-21 20:11:56.780599902 +0000
+@@ -133,8 +133,23 @@
+     if postcode_regel_idx is None:
+         return tekst
+ 
+-    # Neem maximaal 3 regels rondom de postcode als adresblok
+-    start = max(0, postcode_regel_idx - 2)
++    # Neem de postcoderegel, de regel erna, en daarboven maximaal 2 NIET-LEGE regels
++    # (OCR zet vaak lege regels tussen naam en straat — v1.1: dan bleef de naam buiten het blok).
++    # Stop omhoog bij iets wat op een afzender/kop lijkt.
++    STOPWOORDEN = ('gemeente', 'afdeling', 'postbus', 'belastingdienst', 'uwv', 'svb', 'ind', 'duo', 'retouradres')
++    start = postcode_regel_idx
++    gevonden = 0
++    i = postcode_regel_idx - 1
++    while i >= 0 and gevonden < 2:
++        r = regels[i].strip()
++        if r == '':
++            i -= 1
++            continue
++        if r.startswith('[') or any(w in r.lower() for w in STOPWOORDEN):
++            break
++        start = i
++        gevonden += 1
++        i -= 1
+     eind = min(len(regels), postcode_regel_idx + 2)
+ 
+     adresblok = '\n'.join(regels[start:eind]).strip()
+@@ -211,5 +226,5 @@
+             overige = ', '.join(d['origineel'] for d in datums[1:-1])
+             label_blok += f"[OVERIGE DATUMS IN BRIEF: {overige}]\n"
+ 
+-    logger.info(f'Datums gelabeld: {[d["origineel"] for d in datums]}')
++    logger.info(f'Datums gelabeld: {len(datums)}')
+     return label_blok + '\n' + tekst

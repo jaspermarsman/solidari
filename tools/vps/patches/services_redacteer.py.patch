@@ -1,0 +1,97 @@
+--- services/redacteer.py	2026-08-21 20:00:45.114741229 +0000
++++ /home/claude/delta/solidari-backend/services/redacteer.py	2026-08-21 20:11:56.780891907 +0000
+@@ -30,7 +30,8 @@
+ 
+ # IBAN: NL + 2 cijfers + 4 letters + 10 cijfers (meest voorkomend)
+ # ook gemaskeerde varianten zoals NL**RABO*******895
+-IBAN = re.compile(r'\b[A-Z]{2}[\d*]{2}[\sA-Z\d*]{10,30}\b')
++# v1.1: OCR-tolerant — de letter O wordt vaak gelezen waar een 0 staat (NLO2ABNA…)
++IBAN = re.compile(r'\b[A-Z]{2}[\dO*]{2}\s?[A-Z]{4}\s?[\dO*\s]{8,24}\b|\b[A-Z]{2}[\d*]{2}[\sA-Z\d*]{10,30}\b')
+ 
+ # Aanslagnummer / subjectnummer / klantnummer: 6-10 cijfers op zichzelf
+ # Maar niet als het een postcode (4 cijfers) of telefoonnummer (10+ cijfers) is
+@@ -45,6 +46,10 @@
+     re.IGNORECASE
+ )
+ 
++# Aanhef met naam: "Geachte heer/mevrouw Jansen," / "Beste mevrouw De Vries," (v1.1)
++AANHEF = re.compile(
++    r'(?im)^(\s*(?:geachte|beste)\s+(?:heer/mevrouw|heer|mevrouw|dhr\.?|mw\.?|mevr\.?)?\s*)([^\n,]{2,60}),')
++
+ 
+ # ── Hoofd-entrypoint ──────────────────────────────────────────────────────────
+ 
+@@ -55,6 +60,9 @@
+     """
+     originele_lengte = len(tekst)
+ 
++    # 0. Naam van de ontvanger afleiden uit het adresblok (eerste regel) — vóór het blok verdwijnt
++    naam_varianten = _naam_uit_adresblok(tekst)
++
+     # 1. Ontvangeradres-blok volledig vervangen
+     tekst, n_adres = _vervang_patroon(
+         tekst, ONTVANGERADRES_BLOK,
+@@ -62,6 +70,9 @@
+         'ontvangeradres'
+     )
+ 
++    # 1b. Naam elders in de brief (aanhef, herhaling) → [NAAM]  (v1.1)
++    tekst, n_naam = _redacteer_naam(tekst, naam_varianten)
++
+     # 2. IBAN (vóór aanslagnummer, want IBAN bevat ook lange cijferreeksen)
+     tekst, n_iban = _vervang_patroon(
+         tekst, IBAN,
+@@ -81,7 +92,7 @@
+ 
+     logger.info(
+         f'Redactie klaar: {originele_lengte}→{len(tekst)} tekens, '
+-        f'adres={n_adres}, IBAN={n_iban}, BSN={n_bsn}'
++        f'adres={n_adres}, naam={n_naam}, IBAN={n_iban}, BSN={n_bsn}'
+     )
+     return tekst
+ 
+@@ -130,3 +141,44 @@
+         tekst = tekst.replace(sleutel, waarde)
+ 
+     return tekst
++
++
++# ── Naamredactie (v1.1) ───────────────────────────────────────────────────────
++
++def _naam_uit_adresblok(tekst: str) -> list[str]:
++    """Eerste niet-lege regel van het gelabelde adresblok is (vrijwel altijd) de naam.
++    Geeft varianten terug: de hele regel en de achternaam (laatste woord ≥ 4 letters)."""
++    m = ONTVANGERADRES_BLOK.search(tekst)
++    if not m:
++        return []
++    blok = m.group(0).split(':', 1)[-1].rstrip(']')
++    regels = [r.strip() for r in blok.splitlines() if r.strip()]
++    if not regels:
++        return []
++    naamregel = regels[0]
++    # Geen straat/postcode als naam aanzien
++    if re.search(r'\d', naamregel):
++        return []
++    varianten = [naamregel]
++    woorden = [w for w in re.split(r'[\s.]+', naamregel) if len(w) >= 4]
++    if woorden:
++        varianten.append(woorden[-1])
++    return varianten
++
++
++def _redacteer_naam(tekst: str, varianten: list[str]) -> tuple[str, int]:
++    n = 0
++    # a) aanhefregel: naam na "Geachte heer/mevrouw" altijd weg, ook zonder adresblok
++    def aanhef_sub(m):
++        nonlocal n
++        n += 1
++        return f'{m.group(1)}[NAAM],'
++    tekst = AANHEF.sub(aanhef_sub, tekst)
++    # b) naamvarianten uit het adresblok, overal in de tekst (hoofdletterongevoelig, hele woorden)
++    for v in varianten:
++        pat = re.compile(r'(?<![\w])' + re.escape(v) + r'(?![\w])', re.IGNORECASE)
++        tekst, k = pat.subn('[NAAM]', tekst)
++        n += k
++    if n:
++        logger.debug(f'Redacteer naam: {n} match(es)')
++    return tekst, n

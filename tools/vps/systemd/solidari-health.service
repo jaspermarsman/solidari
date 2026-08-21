@@ -1,0 +1,6 @@
+[Unit]
+Description=Solidari health check (PLAN-1 fase 5)
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/solidari-health-check

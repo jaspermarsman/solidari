@@ -1,0 +1,16 @@
+--- services/ai.py	2026-08-21 20:00:44.450741218 +0000
++++ /home/claude/delta/solidari-backend/services/ai.py	2026-08-21 20:07:11.482109524 +0000
+@@ -153,6 +153,13 @@
+     geredacteerde_tekst = redacteer_pii(brief_tekst)
+     logger.info(f'PII-redactie klaar: {len(brief_tekst)}→{len(geredacteerde_tekst)} tekens')
+ 
++    # Testhaak (PLAN-1 fase 3.6): alléén als SOLIDARI_DEBUG_REDACTIE exact '1' is, schrijf de
++    # geredigeerde tekst naar /tmp zodat de redactietest hem kan controleren. Nooit in de unit zetten.
++    import os
++    if os.getenv('SOLIDARI_DEBUG_REDACTIE') == '1':
++        with open('/tmp/redactie-test.txt', 'w', encoding='utf-8') as f:
++            f.write(geredacteerde_tekst)
++
+     prompt = _maak_prompt(geredacteerde_tekst, taal, extra_context)
+ 
+     # Stap 2: analyse via Claude API

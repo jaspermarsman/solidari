@@ -24,3 +24,11 @@ tests/nulmeting-screenshots/
 tests/eindmeting-resultaat.json
 tests/test-results/
 tests/playwright-report/
+
+# Werkdocumenten (lokaal, niet publiceren)
+_werkdocumenten/
+
+# Migratie v1.1 (aug 2026)
+_werkdocumenten/bouwplannen/bewijs/
+*.env
+tools/vps/server.json.bak

@@ -1,0 +1,50 @@
+--- app.py	2026-08-21 20:00:42.050741176 +0000
++++ /home/claude/delta/solidari-backend/app.py	2026-08-21 20:21:45.761175518 +0000
+@@ -23,13 +23,14 @@
+ from routes.analyse import analyse_bp
+ from routes.cursusblad import cursusblad_bp
+ from routes.inhibit import inhibit_bp
++from routes.tts import tts_bp
+ # ── Logging ──────────────────────────────────────────────────────
+ logging.basicConfig(
+     level=logging.INFO,
+     format='%(asctime)s [%(levelname)s] %(name)s: %(message)s',
+     handlers=[
+         logging.StreamHandler(),
+-        logging.FileHandler('solidari.log', encoding='utf-8')
++        logging.FileHandler(os.path.join(os.getenv('SOLIDARI_LOG_DIR', '.'), 'solidari.log'), encoding='utf-8')
+     ]
+ )
+ logger = logging.getLogger('solidari')
+@@ -38,6 +39,11 @@
+ app = Flask(__name__)
+ app.config.from_object(Config)
+ 
++# Achter nginx ziet Flask anders 127.0.0.1 als afzender → de rate limiter zou dan ÁLLE bezoekers
++# samen op 10/min zetten. ProxyFix leest X-Forwarded-For (één proxy-laag). (PLAN-1 v1.1, droogtest)
++from werkzeug.middleware.proxy_fix import ProxyFix
++app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
++
+ # CORS: alleen verzoeken van solidari.nl toestaan
+ CORS(app, origins=Config.ALLOWED_ORIGINS)
+ 
+@@ -55,12 +61,19 @@
+ app.register_blueprint(analyse_bp, url_prefix='/api')
+ app.register_blueprint(cursusblad_bp, url_prefix='/api')
+ app.register_blueprint(inhibit_bp, url_prefix='/api')
++app.register_blueprint(tts_bp, url_prefix='/api')
+ 
+ # ── Health check ──────────────────────────────────────────────────
+ @app.route('/api/ping')
+ def ping():
+     return {'ok': True, 'service': 'solidari-backend'}
+ 
++@app.route('/api/health')
++@limiter.exempt
++def health():
++    """Leeft-ik-route voor de health-timer (PLAN-1 fase 1.7/5.1). Geen AI, geen auth, geen rate limit."""
++    return {'status': 'ok'}
++
+ # ── Foutafhandeling ───────────────────────────────────────────────
+ @app.errorhandler(429)
+ def rate_limit_handler(e):

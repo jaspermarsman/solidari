@@ -1,0 +1,11 @@
+--- routes/brief.py	2026-08-21 20:00:42.766741188 +0000
++++ /home/claude/delta/solidari-backend/routes/brief.py	2026-08-21 20:07:11.481798031 +0000
+@@ -66,7 +66,7 @@
+         }), 422
+ 
+     logger.info(f'OCR succesvol: {len(bief_tekst)} tekens gelezen')
+-    logger.info(f'OCR-tekst:\n{bief_tekst}')  # ← TIJDELIJK
++    # Bewust GEEN logregel met de brieftekst zelf (privacybelofte: raakt nooit een logbestand).
+ 
+     # ── 4b. Preprocessor: structuur labelen, artefacten opruimen ─────────
+     bief_tekst = verwerk_ocr_tekst(bief_tekst)

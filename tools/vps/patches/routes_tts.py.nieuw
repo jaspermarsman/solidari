@@ -1,0 +1,89 @@
+"""
+Solidari — spraakuitvoer op de eigen server (PLAN-4 fase 3)
+
+POST /api/tts
+  JSON: { "tekst": "...", "taal": "TI" }
+  → audio/mpeg (mp3, mono, 16 kHz, 48 kbps)
+
+Voorlopig alleen Tigrinya (TI): eSpeak NG met de TigrinyaNLP-uitbreiding, lokaal, zonder externe partij.
+Andere talen → 400 (die lopen via voorgegenereerde bestanden of de browserstem).
+
+Harde regels (PLAN-4 fase 3):
+  - de tekst wordt NERGENS gelogd (hij is afgeleid van iemands brief)
+  - subprocess met argumentenlijst + stdin, nooit shell=True
+  - timeout 20 s, max 2000 tekens
+  - tijdelijke bestanden in (Private)Tmp en direct opgeruimd
+  - Cache-Control: no-store
+"""
+import logging
+import os
+import subprocess
+import tempfile
+from flask import Blueprint, request, jsonify, Response
+
+logger = logging.getLogger('solidari.tts')
+tts_bp = Blueprint('tts', __name__)
+
+MAX_TEKENS = 2000
+TIMEOUT_S = 20
+ONDERSTEUND = {'TI'}
+
+ESPEAK_BIN = os.getenv('ESPEAK_BIN', '/usr/bin/espeak-ng')
+ESPEAK_DATA = os.getenv('ESPEAK_DATA', '/opt/espeak-ti')
+TEMPO = int(os.getenv('ESPEAK_TEMPO_TI', '130'))  # woorden per minuut; startwaarde uit PLAN-0 F2
+
+STEM = {'TI': 'ti'}
+
+
+@tts_bp.route('/tts', methods=['POST'])
+def tts():
+    data = request.get_json(silent=True) or {}
+    tekst = data.get('tekst')
+    taal = str(data.get('taal', '')).upper()
+
+    if not isinstance(tekst, str) or not tekst.strip():
+        return jsonify({'fout': 'Geen tekst meegestuurd.'}), 400
+    if len(tekst) > MAX_TEKENS:
+        return jsonify({'fout': f'Tekst te lang (max {MAX_TEKENS} tekens).'}), 413
+    if taal not in ONDERSTEUND:
+        return jsonify({'fout': f'Taal {taal or "?"} wordt hier niet voorgelezen.'}), 400
+
+    # Bewust alleen lengte en taal loggen — nooit de tekst zelf.
+    logger.info(f'tts {taal}: {len(tekst)} tekens')
+
+    wav_fd, wav_pad = tempfile.mkstemp(suffix='.wav')
+    os.close(wav_fd)
+    mp3_fd, mp3_pad = tempfile.mkstemp(suffix='.mp3')
+    os.close(mp3_fd)
+    try:
+        subprocess.run(
+            [ESPEAK_BIN, f'--path={ESPEAK_DATA}', '-v', STEM[taal], '-s', str(TEMPO), '--stdin', '-w', wav_pad],
+            input=tekst.encode('utf-8'), check=True, timeout=TIMEOUT_S,
+            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+        )
+        subprocess.run(
+            ['ffmpeg', '-loglevel', 'error', '-y', '-i', wav_pad, '-ar', '16000', '-ac', '1', '-b:a', '48k', mp3_pad],
+            check=True, timeout=TIMEOUT_S, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+        )
+        with open(mp3_pad, 'rb') as f:
+            audio = f.read()
+    except subprocess.TimeoutExpired:
+        logger.warning(f'tts {taal}: time-out na {TIMEOUT_S}s')
+        return jsonify({'fout': 'Voorlezen duurde te lang.'}), 504
+    except (subprocess.CalledProcessError, OSError) as e:
+        logger.error(f'tts {taal}: mislukt ({type(e).__name__})')
+        return jsonify({'fout': 'Voorlezen is nu niet beschikbaar.'}), 503
+    finally:
+        for p in (wav_pad, mp3_pad):
+            try:
+                os.remove(p)
+            except OSError:
+                pass
+
+    if not audio:
+        return jsonify({'fout': 'Geen audio gegenereerd.'}), 503
+
+    return Response(audio, mimetype='audio/mpeg', headers={
+        'Cache-Control': 'no-store',
+        'Content-Length': str(len(audio)),
+    })

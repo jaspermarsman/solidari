@@ -1,0 +1,9 @@
+--- requirements.txt	2026-08-21 20:00:41.982741174 +0000
++++ /home/claude/delta/solidari-backend/requirements.txt	2026-08-21 20:21:36.278330690 +0000
+@@ -20,3 +20,6 @@
+ 
+ # Productie webserver
+ gunicorn>=21.2.0
++
++# PDF-cursusblad (routes/cursusblad.py) — ontbrak in deze lijst, stond wel in de draaiende venv (droogtest 21-08-2026)
++reportlab>=4.0.0

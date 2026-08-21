@@ -1,0 +1,12 @@
+[sshd]
+enabled = true
+maxretry = 5
+bantime = 1h
+
+[nginx-limit-req]
+enabled = true
+port = http,https
+logpath = /var/log/nginx/error.log
+maxretry = 30
+findtime = 10m
+bantime = 30m
