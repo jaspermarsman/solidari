@@ -231,11 +231,25 @@
     "cijfer": false
   },
   {
-    "hash": "4bbc9a6c7ca574ad",
-    "tekst": "صدا برای برخی زبان‌ها: پروژه MMS از Meta AI (CC-BY-NC 4.0)",
+    "hash": "09345ee144202cb4",
+    "tekst": "گفتار تیگرینیا: eSpeak NG با افزونهٔ تیگرینیای TigrinyaNLP (GPL-3.0)",
     "bron": "ui:a11y-attributie",
     "prioriteit": 1,
     "cijfer": true
+  },
+  {
+    "hash": "f393cfe2c793a6b7",
+    "tekst": "این یک دستیار هوش مصنوعی است، نه انسان. ممکن است توضیح اشتباه داشته باشد — اطلاعات مهم را از سازمان یا از مددکار خود بررسی کنید.",
+    "bron": "ui:ai-melding",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "e14ff83a98ac7669",
+    "tekst": "تولیدشده با هوش مصنوعی",
+    "bron": "ui:ai-gegenereerd",
+    "prioriteit": 1,
+    "cijfer": false
   },
   {
     "hash": "2999aeb94ab2e2de",

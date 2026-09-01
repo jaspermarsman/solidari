@@ -231,11 +231,25 @@
     "cijfer": false
   },
   {
-    "hash": "15f0388f8614e331",
-    "tekst": "ድምጺ ንገለ ቋንቋታት፦ MMS ፕሮጀክት ናይ Meta AI (CC-BY-NC 4.0)",
+    "hash": "222cd1ad5bed2078",
+    "tekst": "ናይ ትግርኛ ድምጺ፦ eSpeak NG ምስ ናይ TigrinyaNLP ትግርኛ መስፋሕፋሕቲ (GPL-3.0)",
     "bron": "ui:a11y-attributie",
     "prioriteit": 1,
     "cijfer": true
+  },
+  {
+    "hash": "d7e11a988f2b0d57",
+    "tekst": "እዚ ናይ AI ሓጋዚ እዩ፣ ሰብ ኣይኮነን። እቲ መብርሂ ጌጋ ክህልዎ ይኽእል እዩ — ኣገዳሲ ሓበሬታ ኣብቲ ትካል ወይ ኣብ ሓጋዚኻ ኣረጋግጽ።",
+    "bron": "ui:ai-melding",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "5763ee234b2241ef",
+    "tekst": "ብ AI ዝተፈጥረ",
+    "bron": "ui:ai-gegenereerd",
+    "prioriteit": 1,
+    "cijfer": false
   },
   {
     "hash": "772bb69a0216bc0e",

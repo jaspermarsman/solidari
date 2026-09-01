@@ -42,10 +42,17 @@ function main() {
     for (const h of Object.keys(items)) if (!bestandSet.has(h)) fouten.push(`${taal}: manifest-hash ${h} zonder mp3`);
     // 2. elk bestand staat in het manifest
     for (const h of bestandSet) if (!(h in items)) fouten.push(`${taal}: mp3 ${h} niet in manifest`);
-    // 3. prioriteit 1–2 volledig aanwezig
-    const prio12 = teksten.filter(t => t.prioriteit <= 2);
-    const ontbrekend = prio12.filter(t => !(t.hash in items));
-    if (ontbrekend.length) fouten.push(`${taal}: ${ontbrekend.length} prio1-2 teksten zonder audio (bv. "${ontbrekend[0].tekst.slice(0, 30)}")`);
+    // 3. prioriteit 1–2 volledig aanwezig — alleen voor talen die audio hóren te hebben.
+    //    Na de MMS-uitfasering (PLAN-3 fase 3) heeft alleen TI voorgegenereerde clips:
+    //    de andere acht talen hebben een browserstem en vallen daarop terug (besluit D-19/F1).
+    //    Een leeg manifest ("bron": null) is dus geen fout maar de bedoelde toestand.
+    if (manifest.bron) {
+      const prio12 = teksten.filter(t => t.prioriteit <= 2);
+      const ontbrekend = prio12.filter(t => !(t.hash in items));
+      if (ontbrekend.length) fouten.push(`${taal}: ${ontbrekend.length} prio1-2 teksten zonder audio (bv. "${ontbrekend[0].tekst.slice(0, 30)}")`);
+    } else if (Object.keys(items).length) {
+      fouten.push(`${taal}: manifest zonder bron, maar wel ${Object.keys(items).length} items`);
+    }
 
     // 4. steekproef 5 clips: duur > 0,5 s
     const hashes = Object.keys(items);
@@ -64,10 +71,15 @@ function main() {
     rijen.push(`  ${taal}: ${bestanden.length} clips, ${mb(bytes).toFixed(2)} MB, bron=${manifest.bron}`);
   }
 
-  // 5. TI-romanisatielog aanwezig
-  const uromanLog = path.join(TOOLS, 'uroman-ti.log');
-  if (!fs.existsSync(uromanLog) || !fs.readFileSync(uromanLog, 'utf8').trim()) {
-    fouten.push('TI: romanisatie-log (uroman-ti.log) ontbreekt of leeg');
+  // 5. TI moet audio hebben — dat is de taal zonder browserstem, dus zonder terugval.
+  //    (uroman is vervallen met MMS: eSpeak NG heeft eigen Ge'ez-regels, PLAN-4 fase 2.)
+  const tiManifest = path.join(AUDIO, 'manifest-ti.json');
+  if (fs.existsSync(tiManifest)) {
+    const ti = JSON.parse(fs.readFileSync(tiManifest, 'utf8'));
+    if (ti.bron !== 'espeak') fouten.push(`TI: manifest-bron is "${ti.bron}", verwacht "espeak"`);
+    if (!Object.keys(ti.items || {}).length) fouten.push('TI: geen clips — Tigrinya heeft geen browserstem als terugval');
+  } else {
+    fouten.push('TI: manifest-ti.json ontbreekt');
   }
 
   console.log('Validatie audiopijplijn:');

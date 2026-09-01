@@ -231,11 +231,25 @@
     "cijfer": false
   },
   {
-    "hash": "3a7ba029fd04e48b",
-    "tekst": "الصوت لبعض اللغات: مشروع MMS من Meta AI (CC-BY-NC 4.0)",
+    "hash": "472623b81bbf1632",
+    "tekst": "النطق بالتغرينية: eSpeak NG مع امتداد التغرينية من TigrinyaNLP (GPL-3.0)",
     "bron": "ui:a11y-attributie",
     "prioriteit": 1,
     "cijfer": true
+  },
+  {
+    "hash": "155181a60602d180",
+    "tekst": "هذا مساعد ذكاء اصطناعي، وليس إنسانًا. قد يحتوي الشرح على أخطاء — تحقق من المعلومات المهمة لدى الجهة المعنية أو لدى مرافقك.",
+    "bron": "ui:ai-melding",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "7db45a0d06446422",
+    "tekst": "أُنشئ بواسطة الذكاء الاصطناعي",
+    "bron": "ui:ai-gegenereerd",
+    "prioriteit": 1,
+    "cijfer": false
   },
   {
     "hash": "9970632f55af4b1b",

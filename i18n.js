@@ -55,7 +55,9 @@ Solidari.i18n = (function() {
       'a11y-hulp': 'Hulp',
       'nav-taal': 'Taal',
       'footer-contact': 'Contact',
-      'a11y-attributie': 'Spraak voor sommige talen: MMS-project van Meta AI (CC-BY-NC 4.0)',
+      'a11y-attributie': 'Tigrinya-spraak: eSpeak NG met de Tigrinya-uitbreiding van TigrinyaNLP (GPL-3.0)',
+      'ai-melding': 'Dit is een AI-assistent, geen mens. De uitleg kan fouten bevatten — controleer belangrijke informatie bij de instantie of bij je begeleider.',
+      'ai-gegenereerd': 'Gegenereerd met AI',
     },
     EN: {
       'nav-tools':    'Tools',
@@ -91,7 +93,9 @@ Solidari.i18n = (function() {
       'a11y-hulp': 'Help',
       'nav-taal': 'Language',
       'footer-contact': 'Contact',
-      'a11y-attributie': 'Speech for some languages: Meta AI\'s MMS project (CC-BY-NC 4.0)',
+      'a11y-attributie': 'Tigrinya speech: eSpeak NG with the Tigrinya extension by TigrinyaNLP (GPL-3.0)',
+      'ai-melding': 'This is an AI assistant, not a person. The explanation may contain mistakes — check important information with the organisation or with your support worker.',
+      'ai-gegenereerd': 'Generated with AI',
     },
     AR: {
       'nav-tools':    'الأدوات',
@@ -127,7 +131,9 @@ Solidari.i18n = (function() {
       'a11y-hulp': 'مساعدة',
       'nav-taal': 'اللغة',
       'footer-contact': 'اتصل بنا',
-      'a11y-attributie': 'الصوت لبعض اللغات: مشروع MMS من Meta AI (CC-BY-NC 4.0)',
+      'a11y-attributie': 'النطق بالتغرينية: eSpeak NG مع امتداد التغرينية من TigrinyaNLP (GPL-3.0)',
+      'ai-melding': 'هذا مساعد ذكاء اصطناعي، وليس إنسانًا. قد يحتوي الشرح على أخطاء — تحقق من المعلومات المهمة لدى الجهة المعنية أو لدى مرافقك.',
+      'ai-gegenereerd': 'أُنشئ بواسطة الذكاء الاصطناعي',
     },
     TR: {
       'nav-tools':    'Araçlar',
@@ -163,7 +169,9 @@ Solidari.i18n = (function() {
       'a11y-hulp': 'Yardım',
       'nav-taal': 'Dil',
       'footer-contact': 'İletişim',
-      'a11y-attributie': 'Bazı diller için ses: Meta AI\'nin MMS projesi (CC-BY-NC 4.0)',
+      'a11y-attributie': 'Tigrinya seslendirme: TigrinyaNLP\'nin Tigrinya eklentisiyle eSpeak NG (GPL-3.0)',
+      'ai-melding': 'Bu bir yapay zekâ asistanıdır, insan değildir. Açıklamada hata olabilir — önemli bilgileri kurumdan veya danışmanınızdan teyit edin.',
+      'ai-gegenereerd': 'Yapay zekâ ile oluşturuldu',
     },
     TI: {
       'nav-tools':    'መሳርሒታት',
@@ -199,7 +207,9 @@ Solidari.i18n = (function() {
       'a11y-hulp': 'ሓገዝ',
       'nav-taal': 'ቋንቋ',
       'footer-contact': 'ርክብ',
-      'a11y-attributie': 'ድምጺ ንገለ ቋንቋታት፦ MMS ፕሮጀክት ናይ Meta AI (CC-BY-NC 4.0)',
+      'a11y-attributie': 'ናይ ትግርኛ ድምጺ፦ eSpeak NG ምስ ናይ TigrinyaNLP ትግርኛ መስፋሕፋሕቲ (GPL-3.0)',
+      'ai-melding': 'እዚ ናይ AI ሓጋዚ እዩ፣ ሰብ ኣይኮነን። እቲ መብርሂ ጌጋ ክህልዎ ይኽእል እዩ — ኣገዳሲ ሓበሬታ ኣብቲ ትካል ወይ ኣብ ሓጋዚኻ ኣረጋግጽ።',
+      'ai-gegenereerd': 'ብ AI ዝተፈጥረ',
     },
     UK: {
       'nav-tools':    'Інструменти',
@@ -235,7 +245,9 @@ Solidari.i18n = (function() {
       'a11y-hulp': 'Допомога',
       'nav-taal': 'Мова',
       'footer-contact': 'Контакт',
-      'a11y-attributie': 'Озвучення для деяких мов: проєкт MMS від Meta AI (CC-BY-NC 4.0)',
+      'a11y-attributie': 'Озвучення тигринья: eSpeak NG із розширенням для тигринья від TigrinyaNLP (GPL-3.0)',
+      'ai-melding': 'Це ШІ-помічник, а не людина. Пояснення може містити помилки — перевіряйте важливу інформацію в установі або у свого куратора.',
+      'ai-gegenereerd': 'Створено за допомогою ШІ',
     },
     FA: {
       'nav-tools':    'ابزارها',
@@ -271,7 +283,9 @@ Solidari.i18n = (function() {
       'a11y-hulp': 'کمک',
       'nav-taal': 'زبان',
       'footer-contact': 'تماس',
-      'a11y-attributie': 'صدا برای برخی زبان‌ها: پروژه MMS از Meta AI (CC-BY-NC 4.0)',
+      'a11y-attributie': 'گفتار تیگرینیا: eSpeak NG با افزونهٔ تیگرینیای TigrinyaNLP (GPL-3.0)',
+      'ai-melding': 'این یک دستیار هوش مصنوعی است، نه انسان. ممکن است توضیح اشتباه داشته باشد — اطلاعات مهم را از سازمان یا از مددکار خود بررسی کنید.',
+      'ai-gegenereerd': 'تولیدشده با هوش مصنوعی',
     },
     RO: {
       'nav-tools':    'Instrumente',
@@ -307,7 +321,9 @@ Solidari.i18n = (function() {
       'a11y-hulp': 'Ajutor',
       'nav-taal': 'Limbă',
       'footer-contact': 'Contact',
-      'a11y-attributie': 'Voce pentru unele limbi: proiectul MMS al Meta AI (CC-BY-NC 4.0)',
+      'a11y-attributie': 'Voce pentru tigrinya: eSpeak NG cu extensia tigrinya de la TigrinyaNLP (GPL-3.0)',
+      'ai-melding': 'Acesta este un asistent AI, nu o persoană. Explicația poate conține erori — verificați informațiile importante la instituție sau la însoțitorul dumneavoastră.',
+      'ai-gegenereerd': 'Generat cu AI',
     },
     PL: {
       'nav-tools':    'Narzędzia',
@@ -343,7 +359,9 @@ Solidari.i18n = (function() {
       'a11y-hulp': 'Pomoc',
       'nav-taal': 'Język',
       'footer-contact': 'Kontakt',
-      'a11y-attributie': 'Głos dla niektórych języków: projekt MMS od Meta AI (CC-BY-NC 4.0)',
+      'a11y-attributie': 'Mowa w języku tigrinia: eSpeak NG z rozszerzeniem tigrinia od TigrinyaNLP (GPL-3.0)',
+      'ai-melding': 'To jest asystent AI, a nie człowiek. Wyjaśnienie może zawierać błędy — ważne informacje sprawdź w instytucji lub u swojego opiekuna.',
+      'ai-gegenereerd': 'Wygenerowano przez AI',
     },
   };
 

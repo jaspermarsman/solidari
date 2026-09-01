@@ -207,6 +207,29 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
+// AI Act art. 50 lid 4 — label onder een AI-antwoord (PLAN-3 fase 4.2, besluit D6)
+function aiLabelTekst(){
+  return (window.Solidari && Solidari.i18n && Solidari.i18n.t)
+    ? Solidari.i18n.t('ai-gegenereerd')
+    : 'Gegenereerd met AI';
+}
+function voegAILabel(ouder){
+  if (!ouder) return;
+  const l = document.createElement('div');
+  l.className = 'ai-label';
+  l.setAttribute('data-i18n', 'ai-gegenereerd');
+  l.style.cssText = 'margin:0.35rem 0 0.6rem 3rem;font-size:0.72rem;letter-spacing:0.02em;text-transform:uppercase;color:var(--tekst-zacht,#6b6559);';
+  l.textContent = aiLabelTekst();
+  ouder.appendChild(l);
+}
+
+// AI Act art. 50 lid 1 — de melding die bij het eerste contact getoond wordt (PLAN-3 fase 4.1)
+function aiMelding(){
+  return (window.Solidari && Solidari.i18n && Solidari.i18n.t)
+    ? Solidari.i18n.t('ai-melding')
+    : 'Dit is een AI-assistent, geen mens. De uitleg kan fouten bevatten — controleer belangrijke informatie bij de instantie of bij je begeleider.';
+}
+
 // ══════════════════════════════════════════════════════
 // BACKEND CONFIGURATIE (globaal beschikbaar)
 // ══════════════════════════════════════════════════════
@@ -1596,6 +1619,7 @@ async function start(){
   document.getElementById('berichten').innerHTML='';
   verbergInvoer(); stap=0; setVoortgang(0);
   Object.keys(A).forEach(k=>delete A[k]);
+  await sol('🤖 ' + aiMelding());   // AI Act art. 50 lid 1 — eerste contact
   await sol(t.welkom); await sol(t.start);
   _bezig = false;
   await stap_situatie();
@@ -2569,6 +2593,7 @@ Maximaal 400 woorden.`
       b.appendChild(wrap);
       await new Promise(r => setTimeout(r, 100));
     }
+    voegAILabel(b);                       // AI Act art. 50 lid 4
     scrollNaar();
 
     window._pdf.gemeente = gemeente;

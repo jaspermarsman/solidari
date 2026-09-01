@@ -231,11 +231,25 @@
     "cijfer": false
   },
   {
-    "hash": "b18649c0ba3ecc70",
-    "tekst": "Озвучення для деяких мов: проєкт MMS від Meta AI (CC-BY-NC 4.0)",
+    "hash": "ef05164c663dd978",
+    "tekst": "Озвучення тигринья: eSpeak NG із розширенням для тигринья від TigrinyaNLP (GPL-3.0)",
     "bron": "ui:a11y-attributie",
     "prioriteit": 1,
     "cijfer": true
+  },
+  {
+    "hash": "90bba764fe57ce4d",
+    "tekst": "Це ШІ-помічник, а не людина. Пояснення може містити помилки — перевіряйте важливу інформацію в установі або у свого куратора.",
+    "bron": "ui:ai-melding",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "f9812e2dfc4d68d3",
+    "tekst": "Створено за допомогою ШІ",
+    "bron": "ui:ai-gegenereerd",
+    "prioriteit": 1,
+    "cijfer": false
   },
   {
     "hash": "181bf512944dd9ac",

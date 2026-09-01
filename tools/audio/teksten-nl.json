@@ -231,11 +231,25 @@
     "cijfer": false
   },
   {
-    "hash": "87b388aef3d4a61a",
-    "tekst": "Spraak voor sommige talen: MMS-project van Meta AI (CC-BY-NC 4.0)",
+    "hash": "f1fb9e8a082bcf24",
+    "tekst": "Tigrinya-spraak: eSpeak NG met de Tigrinya-uitbreiding van TigrinyaNLP (GPL-3.0)",
     "bron": "ui:a11y-attributie",
     "prioriteit": 1,
     "cijfer": true
+  },
+  {
+    "hash": "e3e4a637b886208d",
+    "tekst": "Dit is een AI-assistent, geen mens. De uitleg kan fouten bevatten — controleer belangrijke informatie bij de instantie of bij je begeleider.",
+    "bron": "ui:ai-melding",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "0de14af4eb924d59",
+    "tekst": "Gegenereerd met AI",
+    "bron": "ui:ai-gegenereerd",
+    "prioriteit": 1,
+    "cijfer": false
   },
   {
     "hash": "f61c54c1d70775fd",

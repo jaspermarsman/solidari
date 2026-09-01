@@ -638,11 +638,19 @@
     </div>
   </div>
 
+  <!-- AI ACT art. 50 lid 1 — bekendmaken dat dit AI is (PLAN-3 fase 4.1) -->
+  <div id="ai-melding-blok" style="margin-bottom:1rem;display:flex;gap:0.7rem;align-items:flex-start;
+       background:var(--wit-warm);border:1px solid var(--rand,#e0dcd3);border-left:4px solid var(--groen);
+       border-radius:12px;padding:0.9rem 1.1rem;font-size:0.88rem;line-height:1.55;color:var(--tekst);">
+    <span aria-hidden="true" style="font-size:1.1rem;line-height:1.3;">🤖</span>
+    <span id="ai-melding" data-i18n="ai-melding" data-lees>Dit is een AI-assistent, geen mens. De uitleg kan fouten bevatten — controleer belangrijke informatie bij de instantie of bij je begeleider.</span>
+  </div>
+
   <!-- PRIVACYMELDING + AKKOORD -->
   <div id="privacy-akkoord-blok" style="margin-bottom:1.5rem;">
     <div style="background:var(--amber-licht);border:1px solid var(--amber);border-radius:12px;padding:1.1rem 1.3rem;font-size:0.88rem;color:var(--tekst);line-height:1.6;">
       <strong id="privacy-titel" style="color:var(--amber-diep);">🔒 Hoe gaan we om met je brief?</strong><br>
-      <span id="privacy-tekst">Je brief wordt op onze server ingelezen en omgezet naar tekst (OCR). Persoonsgegevens zoals je naam, adres, BSN en rekeningnummer worden daarna <strong>lokaal verwijderd</strong>. Alleen de inhoud van de brief — tekst, deadlines en instructies — wordt ter analyse doorgestuurd naar <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener" style="color:var(--amber-diep);">Anthropic (Claude API)</a>. De brief wordt nooit opgeslagen.</span>
+      <span id="privacy-tekst">Een brief kan gevoelige informatie bevatten, bijvoorbeeld over je gezondheid of je verblijfsstatus. Je naam, adres, BSN en rekeningnummer worden <strong>op onze eigen server verwijderd</strong>. Alleen de overgebleven tekst gaat naar de AI-dienst <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener" style="color:var(--amber-diep);">Anthropic (Claude API)</a>. Er wordt niets bewaard. Je kunt de tool ook niet gebruiken en de brief aan je begeleider laten zien.</span>
     </div>
     <div style="margin-top:0.9rem;display:flex;align-items:center;gap:0.6rem;">
       <input type="checkbox" id="privacy-checkbox" style="width:18px;height:18px;cursor:pointer;accent-color:var(--groen);">
@@ -743,6 +751,11 @@
       <div id="actiepunten-lijst"></div>
     </div>
 
+    <!-- AI Act art. 50 lid 4 — uitvoer herkenbaar maken (PLAN-3 fase 4.2, besluit D6) -->
+    <div class="ai-label" data-i18n="ai-gegenereerd"
+         style="margin:0.9rem 0 0.2rem;font-size:0.78rem;letter-spacing:0.02em;
+                color:var(--tekst-zacht,#6b6559);text-transform:uppercase;">Gegenereerd met AI</div>
+
     <div class="disclaimer">
       ⚠️ <strong>Let op:</strong> Dit is een automatische uitleg en kan fouten bevatten. Twijfel je? Neem contact op met het 
       <a href="https://www.juridischloket.nl" target="_blank">Juridisch Loket</a>, 
@@ -800,7 +813,7 @@ const TALEN = {
     verwerkFase3: 'Uitleg schrijven in het Nederlands…',
     headerSub: 'Maak een foto van je brief. Wij leggen uit wat er staat, wat je moet doen, en wanneer.',
     privacyTitel: '🔒 Hoe gaan we om met je brief?',
-    privacyTekst: 'Je brief wordt op onze server ingelezen en omgezet naar tekst (OCR). Persoonsgegevens zoals je naam, adres, BSN en rekeningnummer worden daarna <strong>lokaal verwijderd</strong>. Alleen de inhoud van de brief — tekst, deadlines en instructies — wordt ter analyse doorgestuurd naar <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener" style="color:var(--amber-diep);">Anthropic (Claude API)</a>. De brief wordt nooit opgeslagen.',
+    privacyTekst: 'Een brief kan gevoelige informatie bevatten, bijvoorbeeld over je gezondheid of je verblijfsstatus. Je naam, adres, BSN en rekeningnummer worden <strong>op onze eigen server verwijderd</strong>. Alleen de overgebleven tekst gaat naar de AI-dienst <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener" style="color:var(--amber-diep);">Anthropic (Claude API)</a>. Er wordt niets bewaard. Je kunt de tool ook niet gebruiken en de brief aan je begeleider laten zien.',
     privacyAkkoord: 'Ik begrijp dit en ga akkoord',
   },
   en: {
@@ -813,7 +826,7 @@ const TALEN = {
     verwerkFase3: 'Writing explanation in English…',
     headerSub: 'Take a photo of your letter. We explain what it says, what you need to do, and when.',
     privacyTitel: '🔒 How do we handle your letter?',
-    privacyTekst: 'Your letter is read on our server and converted to text (OCR). Personal data such as your name, address, BSN and bank account number are then <strong>removed locally</strong>. Only the content of the letter — text, deadlines and instructions — is sent for analysis to <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener" style="color:var(--amber-diep);">Anthropic (Claude API)</a>. The letter is never stored.',
+    privacyTekst: 'A letter can contain sensitive information, for example about your health or your residence status. Your name, address, BSN and bank account number are <strong>removed on our own server</strong>. Only the remaining text goes to the AI service <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener" style="color:var(--amber-diep);">Anthropic (Claude API)</a>. Nothing is stored. You can also choose not to use this tool and show the letter to your support worker instead.',
     privacyAkkoord: 'I understand this and agree',
   },
   ar: {
@@ -826,7 +839,7 @@ const TALEN = {
     verwerkFase3: 'كتابة الشرح بالعربية…',
     headerSub: 'التقط صورة لرسالتك. سنشرح ما تقوله، وما يجب عليك فعله، ومتى.',
     privacyTitel: '🔒 كيف نتعامل مع رسالتك؟',
-    privacyTekst: 'يتم قراءة رسالتك على خادمنا وتحويلها إلى نص (OCR). ثم يتم <strong>حذف البيانات الشخصية</strong> مثل اسمك وعنوانك ورقم BSN ورقم حسابك المصرفي محلياً. يُرسَل فقط محتوى الرسالة — النص والمواعيد النهائية والتعليمات — للتحليل إلى <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener" style="color:var(--amber-diep);">Anthropic (Claude API)</a>. لا يتم تخزين الرسالة أبداً.',
+    privacyTekst: 'قد تحتوي الرسالة على معلومات حساسة، مثل معلومات عن صحتك أو وضع إقامتك. يتم <strong>حذف</strong> اسمك وعنوانك ورقم BSN ورقم حسابك المصرفي <strong>على خادمنا الخاص</strong>. يُرسَل النص المتبقي فقط إلى خدمة الذكاء الاصطناعي <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener" style="color:var(--amber-diep);">Anthropic (Claude API)</a>. لا يتم تخزين أي شيء. يمكنك أيضاً عدم استخدام هذه الأداة وعرض الرسالة على مرافقك.',
     privacyAkkoord: 'أفهم هذا وأوافق',
   },
   ti: {
@@ -839,7 +852,7 @@ const TALEN = {
     verwerkFase3: 'ምብርሃን ብትግርኛ ምጽሓፍ…',
     headerSub: 'ናይ ደብዳቤኻ ፎቶ ውሰድ። ዝብሎ፡ እንታይ ክትገብር ከምዘለካ፡ መዓስ ከም ዘለካ ነብርህ።',
     privacyTitel: '🔒 ደብዳቤኻ ብኸመይ ንጥቀመሉ?',
-    privacyTekst: 'ደብዳቤኻ ኣብ ሰርቨርና ይንበብ ናብ ጽሑፍ ይቕየር (OCR). ከም ስምካ፡ ኣድራሻ፡ BSN ናይ ባንኪ ቁጽሪ ዝኣመሰለ ውልቃዊ ሓበሬታ ድሕሪኡ <strong>ሃናጺ ይድምሰስ</strong>. ናይ ደብዳቤ ትሕዝቶ ጥራይ — ጽሑፍ፡ ዕለታትን መምርሒታትን — ናብ <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener" style="color:var(--amber-diep);">Anthropic (Claude API)</a> ይለኣኽ። ደብዳቤ ኣይትቐዘን።',
+    privacyTekst: 'ደብዳቤ ተኣፋፊ ሓበሬታ ክሕዝ ይኽእል እዩ፣ ንኣብነት ብዛዕባ ጥዕናኻ ወይ ናይ መንበሪ ኵነታትካ። ስምካ፣ ኣድራሻኻ፣ BSN ከምኡውን ቁጽሪ ባንክኻ <strong>ኣብ ናትና ሰርቨር ይድምሰስ</strong>። እቲ ዝተረፈ ጽሑፍ ጥራይ ናብ ናይ AI ኣገልግሎት <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener" style="color:var(--amber-diep);">Anthropic (Claude API)</a> ይኸይድ። ዝኾነ ነገር ኣይዕቀብን። ነዚ መሳርሒ ዘይትጥቀም ኴንካ እውን እታ ደብዳቤ ንሓጋዚኻ ከተርእያ ትኽእል ኢኻ።',
     privacyAkkoord: 'እዚ ተረዲኤ ይቕበሎ',
   },
   tr: {
@@ -852,7 +865,7 @@ const TALEN = {
     verwerkFase3: 'Türkçe açıklama yazılıyor…',
     headerSub: 'Mektubunuzun bir fotoğrafını çekin. Ne yazdığını, ne yapmanız gerektiğini ve ne zaman açıklıyoruz.',
     privacyTitel: '🔒 Mektubunuzu nasıl işliyoruz?',
-    privacyTekst: 'Mektubunuz sunucumuzda okunur ve metne dönüştürülür (OCR). Adınız, adresiniz, BSN ve banka hesap numaranız gibi kişisel veriler daha sonra <strong>yerel olarak silinir</strong>. Yalnızca mektubun içeriği — metin, son tarihler ve talimatlar — analiz için <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener" style="color:var(--amber-diep);">Anthropic (Claude API)</a> adresine gönderilir. Mektup hiçbir zaman saklanmaz.',
+    privacyTekst: 'Bir mektup hassas bilgiler içerebilir, örneğin sağlığınız veya oturum durumunuz hakkında. Adınız, adresiniz, BSN numaranız ve banka hesap numaranız <strong>kendi sunucumuzda silinir</strong>. Yalnızca geriye kalan metin yapay zekâ hizmetine <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener" style="color:var(--amber-diep);">Anthropic (Claude API)</a> gönderilir. Hiçbir şey saklanmaz. Bu aracı kullanmamayı ve mektubu danışmanınıza göstermeyi de seçebilirsiniz.',
     privacyAkkoord: 'Bunu anlıyorum ve kabul ediyorum',
   },
   uk: {
@@ -865,7 +878,7 @@ const TALEN = {
     verwerkFase3: 'Написання пояснення українською…',
     headerSub: 'Сфотографуйте свій лист. Ми пояснимо, що там написано, що потрібно зробити і коли.',
     privacyTitel: '🔒 Як ми обробляємо ваш лист?',
-    privacyTekst: 'Ваш лист зчитується на нашому сервері та перетворюється на текст (OCR). Персональні дані, такі як ваше ім\'я, адреса, BSN і номер банківського рахунку, потім <strong>видаляються локально</strong>. До аналізу надсилається лише зміст листа — текст, терміни та інструкції — до <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener" style="color:var(--amber-diep);">Anthropic (Claude API)</a>. Лист ніколи не зберігається.',
+    privacyTekst: 'Лист може містити чутливу інформацію, наприклад про ваше здоров’я або ваш статус перебування. Ваше ім’я, адреса, BSN і номер банківського рахунку <strong>видаляються на нашому власному сервері</strong>. До сервісу ШІ <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener" style="color:var(--amber-diep);">Anthropic (Claude API)</a> потрапляє лише текст, що залишився. Нічого не зберігається. Ви також можете не користуватися цим інструментом і показати лист своєму куратору.',
     privacyAkkoord: 'Я розумію це і погоджуюся',
   },
   fa: {
@@ -878,7 +891,7 @@ const TALEN = {
     verwerkFase3: 'نوشتن توضیح به دری…',
     headerSub: 'از نامه‌تان عکس بگیرید. ما توضیح می‌دهیم که چه می‌گوید، چه باید انجام دهید و چه وقت.',
     privacyTitel: '🔒 نامه شما چگونه پردازش می‌شود؟',
-    privacyTekst: 'نامه شما در سرور ما خوانده شده و به متن تبدیل می‌شود (OCR). اطلاعات شخصی مانند نام، آدرس، BSN و شماره حساب بانکی شما سپس <strong>به صورت محلی حذف می‌شوند</strong>. فقط محتوای نامه — متن، مهلت‌ها و دستورالعمل‌ها — برای تحلیل به <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener" style="color:var(--amber-diep);">Anthropic (Claude API)</a> ارسال می‌شود. نامه هرگز ذخیره نمی‌شود.',
+    privacyTekst: 'یک نامه ممکن است اطلاعات حساس داشته باشد، مثلاً درباره سلامتی یا وضعیت اقامت شما. نام، نشانی، شماره BSN و شماره حساب بانکی شما <strong>روی سرور خودمان حذف می‌شود</strong>. فقط متن باقی‌مانده به سرویس هوش مصنوعی <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener" style="color:var(--amber-diep);">Anthropic (Claude API)</a> فرستاده می‌شود. هیچ چیزی ذخیره نمی‌شود. می‌توانید از این ابزار استفاده نکنید و نامه را به مددکار خود نشان دهید.',
     privacyAkkoord: 'این را می‌فهمم و موافقم',
   },
   ro: {
@@ -891,7 +904,7 @@ const TALEN = {
     verwerkFase3: 'Scriere explicație în română…',
     headerSub: 'Fă o fotografie scrisorii tale. Explicăm ce înseamnă, ce trebuie să faci și până când.',
     privacyTitel: '🔒 Cum procesăm scrisoarea ta?',
-    privacyTekst: 'Scrisoarea ta este citită pe serverul nostru și convertită în text (OCR). Datele personale precum numele, adresa, BSN și numărul de cont bancar sunt apoi <strong>șterse local</strong>. Doar conținutul scrisorii — text, termene și instrucțiuni — este trimis pentru analiză la <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener" style="color:var(--amber-diep);">Anthropic (Claude API)</a>. Scrisoarea nu este niciodată stocată.',
+    privacyTekst: 'O scrisoare poate conține informații sensibile, de exemplu despre sănătatea dumneavoastră sau despre statutul de ședere. Numele, adresa, BSN-ul și numărul de cont bancar sunt <strong>șterse pe serverul nostru</strong>. Doar textul rămas ajunge la serviciul AI <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener" style="color:var(--amber-diep);">Anthropic (Claude API)</a>. Nu se păstrează nimic. Puteți alege și să nu folosiți acest instrument și să arătați scrisoarea însoțitorului dumneavoastră.',
     privacyAkkoord: 'Înțeleg acest lucru și sunt de acord',
   },
   pl: {
@@ -904,7 +917,7 @@ const TALEN = {
     verwerkFase3: 'Pisanie wyjaśnienia po polsku…',
     headerSub: 'Zrób zdjęcie swojego pisma. Wyjaśniamy co oznacza, co musisz zrobić i do kiedy.',
     privacyTitel: '🔒 Jak przetwarzamy twoje pismo?',
-    privacyTekst: 'Twoje pismo jest odczytywane na naszym serwerze i konwertowane na tekst (OCR). Dane osobowe takie jak imię i nazwisko, adres, BSN i numer konta bankowego są następnie <strong>usuwane lokalnie</strong>. Do analizy wysyłana jest tylko treść pisma — tekst, terminy i instrukcje — do <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener" style="color:var(--amber-diep);">Anthropic (Claude API)</a>. Pismo nigdy nie jest przechowywane.',
+    privacyTekst: 'List może zawierać informacje wrażliwe, na przykład o Twoim zdrowiu albo statusie pobytu. Twoje imię i nazwisko, adres, numer BSN i numer konta są <strong>usuwane na naszym własnym serwerze</strong>. Do usługi AI <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener" style="color:var(--amber-diep);">Anthropic (Claude API)</a> trafia tylko pozostały tekst. Nic nie jest przechowywane. Możesz też nie korzystać z tego narzędzia i pokazać list swojemu opiekunowi.',
     privacyAkkoord: 'Rozumiem to i zgadzam się',
   },
 };

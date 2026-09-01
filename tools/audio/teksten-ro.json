@@ -231,11 +231,25 @@
     "cijfer": false
   },
   {
-    "hash": "ae035f8fef49a022",
-    "tekst": "Voce pentru unele limbi: proiectul MMS al Meta AI (CC-BY-NC 4.0)",
+    "hash": "3212fc7a6507ab81",
+    "tekst": "Voce pentru tigrinya: eSpeak NG cu extensia tigrinya de la TigrinyaNLP (GPL-3.0)",
     "bron": "ui:a11y-attributie",
     "prioriteit": 1,
     "cijfer": true
+  },
+  {
+    "hash": "eb751e47393b0b82",
+    "tekst": "Acesta este un asistent AI, nu o persoană. Explicația poate conține erori — verificați informațiile importante la instituție sau la însoțitorul dumneavoastră.",
+    "bron": "ui:ai-melding",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "936b75030c90350c",
+    "tekst": "Generat cu AI",
+    "bron": "ui:ai-gegenereerd",
+    "prioriteit": 1,
+    "cijfer": false
   },
   {
     "hash": "cac71941ad5bdf7c",

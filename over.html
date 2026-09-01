@@ -546,7 +546,7 @@
           Taalmodellen zijn goed in precies dit: complexe tekst toegankelijk maken, in elke taal, op elk moment van de dag. Die mogelijkheid bleef te lang onbenut voor mensen die er het meeste baat bij hebben. Solidari is een poging om dat te veranderen — niet als vervanging van hulpverleners of beleid, maar als laagdrempelige eerste stap.
         </p>
         <p>
-          Solidari is een onafhankelijk project, gebouwd vanuit vakinhoudelijke ervaring met hoe mensen vastlopen op het snijvlak van taal, regelgeving en digitale systemen. Geen subsidie, geen organisatie — wel een concrete visie op hoe AI publieke waarde kan hebben.
+          Solidari begon als het project van één persoon: officiële brieven en communicatie begrijpelijk maken voor iedereen die daarop vastloopt. Gebouwd vanuit vakinhoudelijke ervaring met het snijvlak van taal, regelgeving en digitale systemen. Solidari wordt onderhouden vanuit Marsman Sociale Innovatie. Geen subsidie, geen advertenties, geen verdienmodel — de tools zijn en blijven gratis.
         </p>
       </div>
     </section>
@@ -573,7 +573,7 @@
             <div class="principe-icoon">🔒</div>
             <div class="principe-titel">Privacy by design</div>
             <p class="principe-tekst">
-              Brieven bevatten persoonlijke informatie. De Brief Begrijper verwijdert persoonsgegevens lokaal vóórdat de brief wordt geanalyseerd. Naam, adres, BSN en rekeningnummer verlaten het systeem nooit. Geen opslag, geen logging, geen profiel.
+              Brieven bevatten persoonlijke informatie. De Brief Begrijper verwijdert persoonsgegevens op onze eigen server, vóórdat de brief naar de AI gaat. Naam, adres, BSN en rekeningnummer gaan nooit naar de AI. Geen opslag, geen logging, geen profiel.
             </p>
           </div>
           <div class="principe-kaart">
@@ -585,9 +585,9 @@
           </div>
           <div class="principe-kaart">
             <div class="principe-icoon">☀️</div>
-            <div class="principe-titel">Zonne-energie als sturing</div>
+            <div class="principe-titel">Zuinig en groen gehost</div>
             <p class="principe-tekst">
-              De backend draait op een gewone pc thuis, alleen actief bij zonne-overschot. Dat begrenst de beschikbaarheid bewust — en zorgt dat de AI-tools gratis blijven zonder een cloudrekening die oploopt.
+              De backend draait op een kleine eigen server in een Europees datacenter dat op waterkracht draait. De tools zijn bewust licht gebouwd: geen framework, geen tracking, geen zware pagina's. Dat is goedkoper, sneller en zuiniger tegelijk.
             </p>
           </div>
           <div class="principe-kaart">
@@ -644,15 +644,15 @@
               </div>
             </div>
           </div>
-          <div class="arch-pijl">↓ bij zonne-overschot actief</div>
+          <div class="arch-pijl">↓ bij AI-analyse</div>
           <div class="arch-laag">
             <div class="arch-laag-icoon">🖥️</div>
             <div class="arch-laag-inhoud">
-              <div class="arch-laag-naam">Lokale backend — Lenovo pc thuis</div>
+              <div class="arch-laag-naam">Eigen backend — server in Duitsland (EU)</div>
               <div class="arch-laag-detail">
-                Intel Core i7-7700, 16 GB RAM, GTX 1060 3GB (CUDA). Linux Mint, Flask/Gunicorn, nginx, Let's Encrypt HTTPS.
+                Een kleine server bij Hetzner in Neurenberg. Debian, Flask/Gunicorn, nginx, Let's Encrypt HTTPS.
                 Systemd-service onder een dedicated gebruiker <span class="code-badge">solidari</span> zonder root-rechten.
-                De backend is alleen actief bij voldoende zonne-overschot.
+                De backend is 24 uur per dag bereikbaar.
               </div>
             </div>
           </div>
@@ -661,7 +661,7 @@
             <div class="arch-laag-inhoud">
               <div class="arch-laag-naam">AI-laag — Claude API (Anthropic)</div>
               <div class="arch-laag-detail">
-                Brief Begrijper gebruikt <span class="code-badge">Claude Haiku</span> via de Anthropic API. OCR en PII-redactie draaien lokaal; alleen de geanonimiseerde brieftekst wordt naar de API gestuurd. Andere tools (Budgethulp, Rechten & Plichten, Digi Hulp) gebruiken Claude API direct — zonder privacygevoelige documenten.
+                Brief Begrijper gebruikt <span class="code-badge">Claude Haiku</span> via de Anthropic API. OCR en PII-redactie draaien op onze eigen server; alleen de geanonimiseerde brieftekst wordt naar de API gestuurd. Andere tools (Budgethulp, Rechten &amp; Plichten) gebruiken Claude API direct — zonder privacygevoelige documenten.
               </div>
             </div>
           </div>
@@ -673,10 +673,10 @@
             <div>
               <div class="arch-uitleg-titel">Brieven worden nooit opgeslagen</div>
               <p class="arch-uitleg-tekst">
-                De Brief Begrijper is de enige tool die privacygevoelige documenten verwerkt. Een geüploade brief wordt in het geheugen van de server gelezen en omgezet naar tekst (OCR). Daarna worden persoonsgegevens — naam, adres, BSN, rekeningnummer, kenmerknummers — lokaal vervangen door neutrale placeholders. Alleen de inhoud van de brief (tekst, deadlines, instructies) wordt ter analyse doorgestuurd naar de Claude API. Het bestand raakt nooit een schijf, database of logbestand.
+                De Brief Begrijper is de enige tool die privacygevoelige documenten verwerkt. Een geüploade brief wordt in het geheugen van de server gelezen en omgezet naar tekst (OCR). Daarna worden persoonsgegevens — naam, adres, BSN, rekeningnummer, kenmerknummers — op onze eigen server vervangen door neutrale placeholders. Alleen de inhoud van de brief (tekst, deadlines, instructies) wordt ter analyse doorgestuurd naar de Claude API. Het bestand raakt nooit een schijf, database of logbestand.
               </p>
               <p class="arch-uitleg-tekst">
-                De gebruiker geeft expliciet toestemming vóór de upload. Solidari heeft een verwerkersovereenkomst afgesloten met Anthropic. Brief Begrijper is alleen beschikbaar als de lokale pc actief is — er is bewust geen alternatieve route gebouwd.
+                De gebruiker geeft expliciet toestemming vóór de upload. Solidari heeft een verwerkersovereenkomst afgesloten met Anthropic. Gaat onze server plat, dan is Brief Begrijper tijdelijk niet bereikbaar — er is bewust geen alternatieve route gebouwd waarbij de onbewerkte brief alsnog naar een AI-dienst zou gaan.
               </p>
             </div>
           </div>
@@ -750,13 +750,13 @@
           <div class="privacy-kaart">
             <div class="privacy-kaart-titel">Brief Begrijper — geanonimiseerd</div>
             <p class="privacy-kaart-tekst">
-              OCR en PII-redactie (naam, adres, BSN, rekeningnummer) draaien lokaal. Alleen de geanonimiseerde brieftekst wordt naar de Claude API gestuurd. De brief wordt nooit opgeslagen. Je geeft expliciet toestemming vóór de upload.
+              OCR en PII-redactie (naam, adres, BSN, rekeningnummer) draaien op onze eigen server. Alleen de geanonimiseerde brieftekst wordt naar de Claude API gestuurd. De brief wordt nooit opgeslagen. Je geeft expliciet toestemming vóór de upload.
             </p>
           </div>
           <div class="privacy-kaart">
             <div class="privacy-kaart-titel">Claude API</div>
             <p class="privacy-kaart-tekst">
-              Sommige tools (Budgethulp, Rechten & Plichten, Digi Hulp) en de Brief Begrijper maken gebruik van de Claude API van Anthropic. Anthropic hanteert een bewaartermijn van 30 dagen voor API-verwerking — daarna wordt de data verwijderd. Feedbackdeling met Anthropic is uitgeschakeld. Er worden geen persoonlijke documenten via de andere tools verwerkt; voor Brief Begrijper geldt dat persoonsgegevens lokaal worden verwijderd vóór verzending.
+              Sommige tools (Budgethulp, Rechten & Plichten) en de Brief Begrijper maken gebruik van de Claude API van Anthropic. Feedbackdeling met Anthropic is uitgeschakeld (zie ook “Waar je gegevens langskomen” hieronder). Er worden geen persoonlijke documenten via de andere tools verwerkt; voor Brief Begrijper geldt dat persoonsgegevens op onze eigen server worden verwijderd vóór verzending.
             </p>
           </div>
           <div class="privacy-kaart">
@@ -768,7 +768,28 @@
           <div class="privacy-kaart">
             <div class="privacy-kaart-titel">AVG / GDPR</div>
             <p class="privacy-kaart-tekst">
-              Solidari slaat geen persoonsgegevens op en valt daarmee buiten de meldplicht. Voor het gebruik van de Claude API is een verwerkersovereenkomst met Anthropic van toepassing.
+              Brieven worden niet opgeslagen. Voor het gebruik van de Claude API is een verwerkersovereenkomst met Anthropic van toepassing, en voor de server een verwerkersovereenkomst met Hetzner.
+            </p>
+          </div>
+
+          <div class="privacy-kaart">
+            <div class="privacy-kaart-titel">Wie is verantwoordelijk</div>
+            <p class="privacy-kaart-tekst">
+              Marsman Sociale Innovatie B.V., KvK [INVULLEN], Bottertweg 12, 8171 NP Vaassen.
+              Vragen over je gegevens: <a href="mailto:privacy@solidari.nl">privacy@solidari.nl</a>.
+              Je kunt een klacht indienen bij de Autoriteit Persoonsgegevens.
+            </p>
+          </div>
+
+          <div class="privacy-kaart">
+            <div class="privacy-kaart-titel">Waar je gegevens langskomen</div>
+            <p class="privacy-kaart-tekst">
+              De server waarop brieven worden verwerkt staat in een datacenter van Hetzner in Duitsland (EU).
+              De geanonimiseerde tekst wordt verwerkt door Anthropic (Verenigde Staten) op grond van
+              [INVULLEN: het EU-US Data Privacy Framework / standaardcontractbepalingen]; Anthropic bewaart
+              die tekst maximaal 30 dagen en gebruikt hem niet voor training.
+              Feedback die je via het feedbackformulier stuurt wordt wél bewaard, in een database bij
+              Cloudflare, [INVULLEN: bewaartermijn] — schrijf daarin geen persoonlijke gegevens.
             </p>
           </div>
         </div>
@@ -786,13 +807,13 @@
           ook in het Tigrinya.
         </p>
         <p class="privacy-kaart-tekst" data-lees>
-          <strong>Wat nog niet werkt:</strong> dynamische AI-antwoorden worden voorgelezen door de
-          stem van je toestel; heeft je toestel die taal niet, dan gebeurt dat (nog) niet — voor het
-          Tigrinya is er nog geen voorlezen van AI-antwoorden en geen spraakherkenning. Daar wordt
-          aan gewerkt.
+          <strong>Wat nog niet overal werkt:</strong> AI-antwoorden worden voorgelezen door de
+          stem van je toestel; heeft je toestel die taal niet, dan gebeurt dat (nog) niet.
+          Voor het Tigrinya doet onze eigen server het voorlezen, omdat geen enkel toestel
+          die stem heeft. Spraakherkenning in het Tigrinya is er nog niet. Daar wordt aan gewerkt.
         </p>
         <p class="privacy-kaart-tekst" style="font-size:0.85rem;color:var(--tekst-zacht);" data-i18n="a11y-attributie">
-          Spraak voor sommige talen: MMS-project van Meta AI (CC-BY-NC 4.0)
+          Tigrinya-spraak: eSpeak NG met de Tigrinya-uitbreiding van TigrinyaNLP (GPL-3.0)
         </p>
       </div>
     </section>

@@ -231,11 +231,25 @@
     "cijfer": false
   },
   {
-    "hash": "ff43b62887f0451c",
-    "tekst": "Głos dla niektórych języków: projekt MMS od Meta AI (CC-BY-NC 4.0)",
+    "hash": "21cca9a9725b1584",
+    "tekst": "Mowa w języku tigrinia: eSpeak NG z rozszerzeniem tigrinia od TigrinyaNLP (GPL-3.0)",
     "bron": "ui:a11y-attributie",
     "prioriteit": 1,
     "cijfer": true
+  },
+  {
+    "hash": "ccfa9579ea821b94",
+    "tekst": "To jest asystent AI, a nie człowiek. Wyjaśnienie może zawierać błędy — ważne informacje sprawdź w instytucji lub u swojego opiekuna.",
+    "bron": "ui:ai-melding",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "2ca7e6a44f4a6895",
+    "tekst": "Wygenerowano przez AI",
+    "bron": "ui:ai-gegenereerd",
+    "prioriteit": 1,
+    "cijfer": false
   },
   {
     "hash": "fd2001151c989f84",

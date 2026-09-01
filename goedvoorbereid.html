@@ -121,6 +121,13 @@
 <script src="spraak.js"></script>
 <script src="goedvoorbereid-data.js"></script>
 <script>
+// AI Act art. 50 lid 1 — de melding die bij het eerste contact getoond wordt (PLAN-3 fase 4.1)
+function aiMelding(){
+  return (window.Solidari && Solidari.i18n && Solidari.i18n.t)
+    ? Solidari.i18n.t('ai-melding')
+    : 'Dit is een AI-assistent, geen mens. De uitleg kan fouten bevatten — controleer belangrijke informatie bij de instantie of bij je begeleider.';
+}
+
 // ── Configuratie ────────────────────────────────────────────────────────────
 const WORKER_URL = 'https://solidari-digi-hulp-worker.jaspermarsman.workers.dev';
 
@@ -305,7 +312,9 @@ function toonVolgendBlok(){
 function naarAIModus(){
   const d=data();
   aiModus = true;
-  solMetTyping(escapeHTML(d.ui.aiUitnodiging), '', toonAIInvoer);
+  // AI Act art. 50 lid 1 — pas hier begint het AI-deel, dus hier hoort de melding
+  solMetTyping('🤖 ' + escapeHTML(aiMelding()), '', () =>
+    solMetTyping(escapeHTML(d.ui.aiUitnodiging), '', toonAIInvoer));
 }
 
 function toonAIInvoer(){

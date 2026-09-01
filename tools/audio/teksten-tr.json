@@ -231,11 +231,25 @@
     "cijfer": false
   },
   {
-    "hash": "da0ee8c0466f9f95",
-    "tekst": "Bazı diller için ses: Meta AI'nin MMS projesi (CC-BY-NC 4.0)",
+    "hash": "dc2a14354872acff",
+    "tekst": "Tigrinya seslendirme: TigrinyaNLP'nin Tigrinya eklentisiyle eSpeak NG (GPL-3.0)",
     "bron": "ui:a11y-attributie",
     "prioriteit": 1,
     "cijfer": true
+  },
+  {
+    "hash": "733b28bd41a8786f",
+    "tekst": "Bu bir yapay zekâ asistanıdır, insan değildir. Açıklamada hata olabilir — önemli bilgileri kurumdan veya danışmanınızdan teyit edin.",
+    "bron": "ui:ai-melding",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "4ab5daf6479a0300",
+    "tekst": "Yapay zekâ ile oluşturuldu",
+    "bron": "ui:ai-gegenereerd",
+    "prioriteit": 1,
+    "cijfer": false
   },
   {
     "hash": "efaad145ca777444",

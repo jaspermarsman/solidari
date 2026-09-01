@@ -10,15 +10,17 @@ Solidari helpt nieuwkomers, statushouders en laaggeletterden navigeren door brie
 
 ## Tools
 
-| Tool | Beschikbaarheid | Talen |
+Alle tools zijn 24 uur per dag beschikbaar.
+
+| Tool | AI | Talen |
 |---|---|---|
-| 📬 Brief Begrijper | ☀️ Bij zon (Claude API + lokale PII-redactie) | NL EN AR TR TI UK FA RO PL |
-| 💬 Budgethulp | ☀️ Bij zon (Claude API) | NL EN AR TR TI UK FA RO PL |
-| 💶 Loont Werken? | ✓ Altijd | NL EN AR TR TI UK FA RO PL |
-| 🇳🇱 Naturalisatie Checker | ✓ Altijd | NL |
-| 🎂 18 Jaar Worden | ✓ Altijd | NL EN AR TR TI UK FA RO PL |
-| ⚖️ Rechten & Plichten | ✓ Altijd (Claude API) | NL EN AR TR TI UK FA RO PL |
-| 📋 Goed Voorbereid | ✓ Altijd | NL EN AR TR TI UK FA RO PL |
+| 📬 Brief Begrijper | Claude API + PII-redactie op eigen server | NL EN AR TR TI UK FA RO PL |
+| 💬 Budgethulp | Claude API | NL EN AR TR TI UK FA RO PL |
+| 💶 Loont Werken? | — | NL EN AR TR TI UK FA RO PL |
+| 🇳🇱 Naturalisatie Checker | — | NL |
+| 🎂 18 Jaar Worden | — | NL EN AR TR TI UK FA RO PL |
+| ⚖️ Rechten & Plichten | Claude API | NL EN AR TR TI UK FA RO PL |
+| 📋 Goed Voorbereid | — | NL EN AR TR TI UK FA RO PL |
 
 ---
 
@@ -77,7 +79,7 @@ spraak.js               Voorlees- en spraakinvoermotor (gelaagd, §Toegankelijkh
 spraak.css              Stijlen voor 🔊-knoppen, mic, luistermodus, welkomstscherm
 audio/<TAAL>/*.mp3       Voorgegenereerde spraakclips per taal (349 stuks)
 audio/manifest-<taal>.json  hash → {duur} + generatorbron per taal
-tools/audio/            Pijplijn (extract.js, genereer_mms.py, genereer_gemini.py, valideer.js)
+tools/audio/            Pijplijn (extract.js, genereer_espeak.py, genereer_gemini.py, valideer.js)
 tests/                  Playwright-acceptatietests (buiten de site)
 
 solidari-worker.js      Cloudflare Worker (Claude API proxy)
@@ -93,20 +95,24 @@ elke tool kan gebruiken. Eén gedeeld component (`spraak.js`, `spraak.css`) op e
 **Voorlezen — gelaagd, per taal gekozen:**
 1. **Voorgegenereerd audiobestand** (`audio/<TAAL>/<hash>.mp3`) — instant, overal gelijk, ook offline. Standaardteksten (UI, toolnamen, taalnamen, `zeg`-zinnen) staan vooraf klaar in alle 9 talen.
 2. **Browser-`speechSynthesis`** — waar het toestel een stem heeft.
-3. **Worker-TTS (Gemini)** — voorbereid voor dynamische AI-antwoorden; activeert zodra er een sleutel staat (zie `bouwplannen/WORKER-UPGRADE.md`).
+3. **`/api/tts` op onze eigen server** — voor dynamische AI-antwoorden in het Tigrinya.
 
-Tigrinya heeft géén browserstem en geen cloud-TTS-dekking; daarom draait de audio via
-laag 1, vooraf gegenereerd met **Meta's MMS-model** (`facebook/mms-tts-*`, VITS + uroman).
+Tigrinya heeft géén browserstem en geen enkele commerciële TTS-dekking. Daarom gebruiken
+we **eSpeak NG met de Tigrinya-uitbreiding van TigrinyaNLP** (`-v ti`, GPL-3.0), die op
+onze eigen server draait — vooraf gegenereerd voor vaste teksten, en live via `/api/tts`
+voor AI-antwoorden. Formantsynthese klinkt robotachtig, maar het is dezelfde techniek
+waarop schermlezers wereldwijd draaien: verstaanbaar gaat hier vóór mooi. De tekst
+verlaat de server niet.
 
 **Spreken:** microfoonknop bij tekstvelden (browser-`SpeechRecognition`); `brief.html`
 opent op mobiel direct de camera. Een `/api/stt`-route (Gemini) is voorbereid.
 
 **Verder:** runtime-taalkiezer met gesproken eigennaam, welkomstscherm bij eerste bezoek,
 luistermodus (tik-om-te-lezen), `noindex`/testbalk buiten `solidari.nl`, AA-contrast,
-raakvlakken ≥ 44 px. Audio-generatie: `python tools/audio/genereer_mms.py && node tools/audio/valideer.js`.
+raakvlakken ≥ 44 px. Audio-generatie: `python tools/audio/genereer_espeak.py && node tools/audio/valideer.js`.
 
-> **Bevinding (buiten scope):** `brief.html` verwijst naar de backend `https://api.solidari.nl`
-> (Worker/Flask). Dat is de bestaande AI-backend en valt buiten dit toegankelijkheidswerk.
+`brief.html` praat rechtstreeks met `https://api.solidari.nl` — de eigen server, niet de Worker,
+omdat OCR en PII-redactie dáár draaien.
 
 ---
 
@@ -162,8 +168,13 @@ ANTHROPIC_API_KEY=sk-ant-...
 
 [Jasper Marsman](https://www.linkedin.com/in/jaspermarsman/) — civic tech, AI in de publieke sector.
 
-Solidari is een onafhankelijk project. Geen bedrijf, geen subsidie. Gebouwd op de overtuiging dat goede informatie voor iedereen toegankelijk moet zijn.
+Solidari begon als het project van één persoon en wordt onderhouden vanuit Marsman Sociale Innovatie. Geen subsidie, geen advertenties, geen verdienmodel. Gebouwd op de overtuiging dat goede informatie voor iedereen toegankelijk moet zijn.
 
 ---
 
-*Geen rechten voorbehouden — vrij te delen en te hergebruiken.*
+## Licentie
+
+De **code** staat onder de [MIT-licentie](LICENSE). De **inhoud** — teksten, uitleg en vertalingen —
+staat onder [CC BY 4.0](CONTENT-LICENSE.md): vrij te delen en te bewerken, mits met naamsvermelding.
+
+De naam **Solidari** en het logo vallen niet onder deze licenties.

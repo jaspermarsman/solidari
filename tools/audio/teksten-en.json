@@ -231,11 +231,25 @@
     "cijfer": false
   },
   {
-    "hash": "060efe458fd0186b",
-    "tekst": "Speech for some languages: Meta AI's MMS project (CC-BY-NC 4.0)",
+    "hash": "44d9a9d8ce6143d1",
+    "tekst": "Tigrinya speech: eSpeak NG with the Tigrinya extension by TigrinyaNLP (GPL-3.0)",
     "bron": "ui:a11y-attributie",
     "prioriteit": 1,
     "cijfer": true
+  },
+  {
+    "hash": "d9f3924df6f5e2be",
+    "tekst": "This is an AI assistant, not a person. The explanation may contain mistakes — check important information with the organisation or with your support worker.",
+    "bron": "ui:ai-melding",
+    "prioriteit": 1,
+    "cijfer": false
+  },
+  {
+    "hash": "83e40d9f9102c0a1",
+    "tekst": "Generated with AI",
+    "bron": "ui:ai-gegenereerd",
+    "prioriteit": 1,
+    "cijfer": false
   },
   {
     "hash": "649df08a448ee3fa",

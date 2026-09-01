@@ -1,56 +1,56 @@
 {
   "NL": {
-    "clips": 69,
-    "tekens": 1945,
-    "schatSec": 130,
-    "schatKB": 778
+    "clips": 71,
+    "tekens": 2118,
+    "schatSec": 141,
+    "schatKB": 847
   },
   "EN": {
-    "clips": 35,
-    "tekens": 660,
-    "schatSec": 44,
-    "schatKB": 264
+    "clips": 37,
+    "tekens": 849,
+    "schatSec": 57,
+    "schatKB": 340
   },
   "AR": {
-    "clips": 35,
-    "tekens": 568,
-    "schatSec": 38,
-    "schatKB": 227
+    "clips": 37,
+    "tekens": 737,
+    "schatSec": 49,
+    "schatKB": 295
   },
   "TR": {
-    "clips": 35,
-    "tekens": 671,
-    "schatSec": 45,
-    "schatKB": 268
+    "clips": 37,
+    "tekens": 848,
+    "schatSec": 57,
+    "schatKB": 339
   },
   "TI": {
-    "clips": 35,
-    "tekens": 392,
-    "schatSec": 26,
-    "schatKB": 157
+    "clips": 37,
+    "tekens": 503,
+    "schatSec": 34,
+    "schatKB": 201
   },
   "UK": {
-    "clips": 35,
-    "tekens": 679,
-    "schatSec": 45,
-    "schatKB": 272
+    "clips": 37,
+    "tekens": 848,
+    "schatSec": 57,
+    "schatKB": 339
   },
   "FA": {
-    "clips": 35,
-    "tekens": 613,
-    "schatSec": 41,
-    "schatKB": 245
+    "clips": 37,
+    "tekens": 773,
+    "schatSec": 52,
+    "schatKB": 309
   },
   "RO": {
-    "clips": 35,
-    "tekens": 764,
-    "schatSec": 51,
-    "schatKB": 306
+    "clips": 37,
+    "tekens": 951,
+    "schatSec": 63,
+    "schatKB": 380
   },
   "PL": {
-    "clips": 35,
-    "tekens": 731,
-    "schatSec": 49,
-    "schatKB": 292
+    "clips": 37,
+    "tekens": 901,
+    "schatSec": 60,
+    "schatKB": 360
   }
 }
