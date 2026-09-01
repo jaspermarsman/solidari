@@ -12,6 +12,7 @@ EnvironmentFile=-/etc/solidari/espeak.conf
 Environment=SOLIDARI_LOG_DIR=/var/log/solidari
 ExecStart=/opt/solidari-backend/venv/bin/gunicorn \
   --bind 127.0.0.1:5000 --workers 2 --threads 1 \
+  --no-control-socket \
   --timeout 120 --graceful-timeout 30 \
   --access-logfile /var/log/solidari/access.log \
   --error-logfile /var/log/solidari/error.log \

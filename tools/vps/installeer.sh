@@ -85,8 +85,20 @@ chmod 644 "$ENVDIR/espeak.conf"
 if (( ALLEEN_SYSTEEM == 0 )); then
   # ── 1.3 Venv en dependencies ───────────────────────────────────────────────
   [[ -f "$APP/app.py" ]] || { log "geen app.py in $APP — eerst rsync (fase 3.2)"; exit 4; }
+  # Eigendom vóór de venv: de rsync zet root-eigendom (en soms mode 600) op de code,
+  # waardoor `sudo -u solidari pip install -r requirements.txt` niet eens kan lezen.
+  chown -R "$GEBRUIKER:$GEBRUIKER" "$APP"
+  # Rechten alleen op de code — nooit op venv/ (dat zou pip en python hun x-bit afnemen).
+  find "$APP" -path "$APP/venv" -prune -o -type d -exec chmod 750 {} +
+  find "$APP" -path "$APP/venv" -prune -o -type f -name '*.py' -exec chmod 640 {} +
+  find "$APP" -path "$APP/venv" -prune -o -type f -name '*.sh' -exec chmod 750 {} +
+  chmod 640 "$APP/requirements.txt" "$APP/README.md" 2>/dev/null || true
   log "venv"
-  [[ -x "$APP/venv/bin/python" ]] || sudo -u "$GEBRUIKER" python3 -m venv "$APP/venv"
+  # Een halve venv (bijv. van een afgebroken run) is erger dan geen venv: opruimen en opnieuw.
+  if [[ ! -x "$APP/venv/bin/python" || ! -x "$APP/venv/bin/pip" ]]; then
+    rm -rf "$APP/venv"
+    sudo -u "$GEBRUIKER" python3 -m venv "$APP/venv"
+  fi
   REQ="$APP/requirements.lock.txt"; [[ -f "$REQ" ]] || REQ="$APP/requirements.txt"
   sudo -u "$GEBRUIKER" "$APP/venv/bin/pip" install -q --upgrade pip wheel >/dev/null
   if ! sudo -u "$GEBRUIKER" "$APP/venv/bin/pip" install -q --only-binary=:all: -r "$REQ" 2>/tmp/pip-binary.log; then
