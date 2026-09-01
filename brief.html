@@ -775,7 +775,11 @@ const CONFIG = {
   // Eigen server (Hetzner, EU) — BEWUST niet via de Cloudflare Worker: OCR en PII-redactie
   // draaien server-side vóórdat iets naar de AI gaat (privacybelofte op over.html#privacy).
   // De backend is 24/7 bereikbaar; er is geen statusping of zonne-afhankelijkheid meer (PLAN-2, aug 2026).
-  BACKEND_URL: 'https://api.solidari.nl/api/analyseer',
+  // Staging (github.io) praat met de staging-ingang van dezelfde server; productie met api.
+  // Eén server, twee hostnamen (besluit S-3, PLAN-1 fase 3.7).
+  BACKEND_URL: (location.hostname.endsWith('github.io')
+    ? 'https://api-test.solidari.nl/api/analyseer'
+    : 'https://api.solidari.nl/api/analyseer'),
   DEMO_MODUS: false, // true = voorbeeldresultaat tonen zonder server (stubtest)
   MAX_BESTAND_MB: 10,
   // Beeldcompressie vóór verzending (PLAN-2 fase 1.5): langste zijde en doelgrootte
