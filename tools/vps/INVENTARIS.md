@@ -59,12 +59,27 @@ Wat wél kon staat hieronder; de rest staat bij "Wat Jasper moet doen" in `LOG-v
 
 DNS bij aanvang (terugvalpad fase 4.4): `api.solidari.nl` **A = 185.117.111.55**, **geen AAAA-record**, `api-test.solidari.nl` bestaat niet.
 
-## C. Nieuwe situatie (VPS) — INVULLEN in fase 6
+## C. Nieuwe situatie (VPS) — ingevuld 02-09-2026 (PLAN-1 fase 6)
 
-```
-server.json:
-uname -m / os-release:
-espeak.conf:
-tesseract --list-langs:
-certbot certificates:
-```
+| | |
+|---|---|
+| `server.json` | `solidari-api`, id **164242449**, type **cx23** (terugval uit besluit A1 — `cax11` was in geen enkele locatie te bestellen), image `debian-13`, locatie `nbg1`, IPv4 **94.130.226.240**, IPv6 **2a01:4f8:c0c:ea61::1** |
+| `uname -m` / os-release | `x86_64` · `Debian GNU/Linux 13 (trixie)` · hostname `solidari-api` · tijdzone `Europe/Amsterdam` |
+| Python | **3.13.5** in `/opt/solidari-backend/venv`; alle 40 pakketten als wheel geïnstalleerd, geen bronbouw. `requirements.lock.txt` in de repo (o.a. `anthropic==1.3.0`, `gunicorn 26.2.0`, `Flask`, `reportlab`) |
+| `espeak.conf` | `ESPEAK_BIN=/usr/bin/espeak-ng`, `ESPEAK_DATA=/opt/espeak-ti` — **route a**: de Debian-binary met de TigrinyaNLP-datamap ernaast, checksum gecontroleerd. Bronbouw (route b) was niet nodig |
+| `tesseract --list-langs` | `ara eng fas nld osd tur ukr` — gelijk aan de thuis-pc, precies wat `services/ocr.py` kan aanvragen |
+| `certbot certificates` | één certificaat, `Domains: api.solidari.nl api-test.solidari.nl`, geldig t/m **30-11-2026**; `certbot.timer` enabled |
+| Firewall | Hetzner cloud-firewall `solidari-fw` (11558991): 22, 80, 443, icmp open. Daarnaast `ufw` op de server met dezelfde poorten, default deny incoming |
+| Hardening | key-only SSH (`PasswordAuthentication no`, `PermitRootLogin prohibit-password`), fail2ban (sshd + nginx-limit-req), unattended-upgrades met **automatische reboot 05:00** (besluit A5) |
+| systemd | `solidari.service` — gunicorn 2 workers, `--no-control-socket`, `--timeout 120`, `MemoryMax=2500M`, `ProtectSystem=strict`, `ProtectHome`, `PrivateTmp`, `NoNewPrivileges`; logs naar `/var/log/solidari/` |
+| Waarnemen | `solidari-health.timer` elke 5 min (3 fouten → herstart, max 3/uur) · wekelijkse schijf- en espeak-controle · **AI-dagteller** `/var/log/solidari/ai-teller.json` met drempel 300 (fase 5.2) · logrotate 14 dagen |
+| Backups | Hetzner-backups **aan** (besluit A6), venster **18–22 uur**, zeven dagelijkse kopieën |
+| `/etc/solidari/.env` | `solidari:solidari 600`, 178 bytes, één sleutel: `ANTHROPIC_API_KEY` |
+| Gemeten | health 0,03 s (lokaal) / 0,07 s (via https) · brief-analyse **8,7–11,1 s** · OCR jpg 4,8 s, pdf 3,8 s · **MemoryPeak 314 MB** bij twee gelijktijdige brieven · rate limit 429 vanaf het vierde verzoek |
+
+### Wat er op jasper-pc nog staat (fase 7 ruimt dit op)
+
+`/opt/solidari-backend` en de service `solidari` draaien **nog** — bewust, tot ≥ 24 u na de cutover (regel 0.6).
+Ook nog open: de FRITZ!Box-vrijgave voor 443, het certbot-renewal voor `api.solidari.nl` op de thuis-pc,
+de Home Assistant-zonneautomatisering en de WOL/slaapstand-werkstroom.
+En **`/opt/solidari-backend/solidari.log`**, die volgens afwijking A-1 ruwe brieftekst bevat — zie `LOG-vps.md`.

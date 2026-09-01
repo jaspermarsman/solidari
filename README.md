@@ -26,24 +26,26 @@ Solidari helpt nieuwkomers, statushouders en laaggeletterden navigeren door brie
 
 ```
 Gebruiker → GitHub Pages (statisch, altijd aan)
-                ↓ API-verzoek bij AI-tools
-        Cloudflare Worker (proxy, rate limiting)
-                ↓ bij zonne-overschot
-         Lenovo PC thuis (Flask + Gunicorn)
-         ├── OCR + PII-redactie (lokaal)
-         └── Claude API (Haiku) — geanonimiseerde brieftekst
+                ↓
+    ┌───────────┴────────────────────────────┐
+    │                                        │
+Cloudflare Worker                    api.solidari.nl
+(Budgethulp, Rechten,                Hetzner VPS, 24/7
+ Vertaalhulp, Feedback)              (Flask + Gunicorn achter nginx)
+    ↓                                ├── OCR + PII-redactie (op de server zelf)
+Claude API                           └── Claude API (Haiku) — geanonimiseerde brieftekst
 ```
 
 **Frontend:** Statische HTML/CSS/JS — geen buildstap, geen framework. Gedeelde architectuur via `components.js`, `components.css` en `i18n.js`.
 
-**Backend:** Flask op Ubuntu (Linux Mint 22.3), nginx reverse proxy, Let's Encrypt HTTPS. Draait als `solidari` systeemgebruiker zonder root-rechten.
+**Backend:** Flask op Debian 13, nginx reverse proxy, Let's Encrypt HTTPS, op een eigen server bij Hetzner (Neurenberg, EU). Draait als `solidari` systeemgebruiker zonder root-rechten, met `ProtectSystem=strict`, ufw en fail2ban. De server is 24/7 bereikbaar; er is geen thuis-pc en geen zonne-afhankelijkheid meer in de keten. Naast `api.solidari.nl` luistert dezelfde server op `api-test.solidari.nl`, de staging-ingang waar wijzigingen eerst getest worden.
 
 **AI-routing:**
 - Brief Begrijper: OCR en PII-redactie lokaal → geanonimiseerde tekst naar Claude API (Haiku)
 - Overige tools (Budgethulp, Rechten & Plichten): Claude API direct — geen privacygevoelige documenten
 - *(Digi Hulp is verwijderd, besluit 2026-07-06.)*
 
-**Sleep-automatisering:** Home Assistant monitort zonneopbrengst (`sensor.electricity_meter_power_production`). Bij >400W wekt het de PC en blokkeert slaapstand via Flask-endpoint + systemd inhibit lock.
+**Beschikbaarheid:** een health-controle draait elke vijf minuten en herstart de dienst na drie mislukte pogingen (maximaal drie keer per uur). Beveiligingsupdates worden automatisch geïnstalleerd, met een herstartvenster om 05:00. Dagelijkse backups bij Hetzner.
 
 ---
 
@@ -129,7 +131,7 @@ raakvlakken ≥ 44 px. Audio-generatie: `python tools/audio/genereer_mms.py && n
 - Geen opslag van persoonsgegevens — alles in RAM, direct vernietigd na verwerking
 - Geen cookies, geen tracking, geen analytics
 - Brief Begrijper: OCR en PII-redactie (BSN, IBAN, adres, kenmerknummers) lokaal — alleen geanonimiseerde brieftekst naar Claude API
-- Geen cloud-fallback voor Brief Begrijper bij offline backend
+- Brief Begrijper heeft geen cloud-fallback: gaat de eigen server plat, dan is de tool tijdelijk niet bereikbaar — de onbewerkte brief gaat nooit alsnog naar een AI-leverancier
 - Gebruiker geeft expliciete toestemming vóór upload (akkoordcheckbox)
 - AVG-compliant; DPA met Anthropic van toepassing via Commercial Terms of Service (effectief 24 feb 2025)
 - Anthropic bewaart API-data maximaal 30 dagen; feedbackdeling uitgeschakeld
@@ -143,8 +145,8 @@ raakvlakken ≥ 44 px. Audio-generatie: `python tools/audio/genereer_mms.py && n
 # Open index.html direct in de browser, of gebruik een eenvoudige HTTP-server:
 python3 -m http.server 8080
 
-# Backend (vereist Linux, Python 3.11+)
-cd /opt/solidari-backend
+# Backend (vereist Linux, Python 3.11+). Op de server: /opt/solidari-backend
+cd solidari-backend
 pip install -r requirements.txt
 gunicorn --bind 0.0.0.0:5000 app:app
 ```

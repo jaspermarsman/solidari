@@ -3,6 +3,23 @@
 Alles wat nodig is om `api.solidari.nl` vanaf nul op te bouwen, te beheren en terug te draaien.
 Context en volgorde: `_werkdocumenten/bouwplannen/UITVOERING-autonoom.md` en `PLAN-1-vps-migratie.md`.
 
+## De server zoals hij nu draait (02-09-2026)
+
+| | |
+|---|---|
+| Naam / id | `solidari-api` · 164242449 · Hetzner project **Solidari** |
+| Type | **cx23** (x86, 2 vCPU / 4 GB / 40 GB) — **niet** cax11: ARM was bij het aanmaken in geen enkele locatie te bestellen (`available: false` in fsn1, nbg1 én hel1) |
+| Locatie | `nbg1` (Neurenberg, DE) |
+| Besturingssysteem | Debian 13 (trixie), Python 3.13.5 |
+| IPv4 / IPv6 | 94.130.226.240 · 2a01:4f8:c0c:ea61::1 |
+| Hostnamen | `api.solidari.nl` (productie) én `api-test.solidari.nl` (staging-ingang, besluit S-3) — **één server, één certificaat, één rate-limit-zone** |
+| SSH | `ssh solidari-vps` (key `id_ed25519`, "lenovo"); host key `SHA256:vTV29oB0XGvsJn1rMGzmOM6Y5/jcSYAw9E3aGaGonPo` |
+| Backups | Hetzner, aan, venster 18–22 uur, zeven dagelijkse kopieën |
+| Kosten | server €6,64/mnd bruto + backups ±20 % |
+
+`api-test` is een staging-**ingang**, geen aparte omgeving: zelfde code, zelfde sleutel, zelfde limieten.
+`brief.html` kiest op hostname — draait de pagina op `github.io`, dan `api-test`, anders `api`.
+
 | Bestand | Draait op | Doet |
 |---|---|---|
 | `aanmaak.sh` | jasper-pc | Server, cloud-firewall en SSH-key aanmaken via de Hetzner-API (`HCLOUD_TOKEN` uit `~/.config/solidari/geheimen.env`). Schrijft `server.json` en host `solidari-vps` in `~/.ssh/config`. Idempotent. `--dry-run` toont alleen de commando's. |
@@ -19,18 +36,28 @@ Context en volgorde: `_werkdocumenten/bouwplannen/UITVOERING-autonoom.md` en `PL
 
 ```bash
 tools/vps/aanmaak.sh                                   # 3.0  server
-ssh solidari-vps 'cat /etc/os-release; uname -m'       # 3.1  trixie / aarch64
-sudo rsync -a --exclude venv --exclude __pycache__ --exclude '*.pyc' --exclude '.env' \
-      --exclude 'sleep-fix' --exclude '*.save*' --exclude 'ai.oud' \
-      /opt/solidari-backend/ solidari-vps:/opt/solidari-backend/    # 3.2  code (vanaf jasper-pc) — mét de patches uit PLAN-1 fase 0.8
-rsync -a tools/ solidari-vps:/opt/solidari-backend/tools/           #      scripts + tests mee
+ssh solidari-vps 'cat /etc/os-release; uname -m'       # 3.1  trixie / x86_64
+# 3.2  code. Bron is de repo-kopie solidari-backend/ (die heeft de zeven patches uit
+#      tools/vps/patches/ en is met redactie_test.py geverifieerd). Sluit .env, .oud
+#      en .save* expliciet uit — .env.oud bevat de oude sleutel en een HA-token.
+rsync -a --delete --exclude venv --exclude __pycache__ --exclude '*.pyc' \
+      --exclude '.env' --exclude '.env.*' --exclude '*.env' \
+      --exclude '*.save' --exclude '*.save.1' --exclude '*.oud' \
+      solidari-backend/ solidari-vps:/opt/solidari-backend/
+rsync -a tools/vps/ solidari-vps:/opt/solidari-backend/tools/vps/    #      scripts mee
+rsync -a tools/test/nepbrief.jpg tools/test/nepbrief.pdf tools/test/redactie_test.py \
+      solidari-vps:/opt/solidari-backend/tools/test/                 #      testmateriaal mee
 ssh solidari-vps 'bash /opt/solidari-backend/tools/vps/installeer.sh'        # 3.3
 ssh solidari-vps 'bash /opt/solidari-backend/tools/vps/installeer.sh'        # 3.4  idempotentie
 # 3.5 sleutel — zie PLAN-1 fase 3.5 (heredoc via ssh, nooit als argument)
 ssh solidari-vps 'cd /opt/solidari-backend && ./venv/bin/python tools/test/redactie_test.py'   # 3.6 HARDE POORT
 curl -s -H 'Host: api.solidari.nl' http://<IPv4>/api/health                                    # 3.6
-# 4.0 DNS via Chrome (Antagonist) → 4.1 dig pollen → 4.2:
-ssh solidari-vps 'certbot --nginx -d api.solidari.nl --staging --dry-run && certbot --nginx -d api.solidari.nl --non-interactive --agree-tos -m <e-mail> --redirect'
+# 3.7 api-test: DNS A+AAAA via Chrome (oneHome), dan
+ssh solidari-vps 'certbot --nginx -d api-test.solidari.nl --non-interactive --agree-tos -m <e-mail> --redirect'
+# 4.0 DNS api via Chrome (oneHome) → 4.1 dig pollen → 4.2 certificaat uitbreiden:
+ssh solidari-vps 'certbot certonly --nginx -d api.solidari.nl -d api-test.solidari.nl --expand --staging --dry-run'
+ssh solidari-vps 'certbot --nginx -d api.solidari.nl -d api-test.solidari.nl --expand --non-interactive --agree-tos -m <e-mail> --redirect'
+# Let op: --dry-run werkt alleen met certonly/renew, niet met de `run`-vorm.
 ```
 
 ## Beheer
@@ -39,6 +66,7 @@ ssh solidari-vps 'certbot --nginx -d api.solidari.nl --staging --dry-run && cert
 ssh solidari-vps systemctl status solidari            # draait hij
 ssh solidari-vps journalctl -u solidari -n 50         # laatste logregels
 ssh solidari-vps tail -n 20 /var/log/solidari/health.log
+ssh solidari-vps cat /var/log/solidari/ai-teller.json  # AI-aanroepen per dag (fase 5.2; drempel 300)
 ssh solidari-vps 'systemctl restart solidari'
 ssh solidari-vps 'apt-get update && apt-get -y dist-upgrade'   # handmatig; security-updates gaan automatisch, reboot 05:00
 hcloud server enable-backup solidari-api              # dagelijkse backups (≈ €0,90/mnd)
@@ -55,4 +83,11 @@ hcloud server enable-backup solidari-api              # dagelijkse backups (≈ 
 - `requirements.txt` mist `reportlab` (gebruikt door `routes/cursusblad.py`); `installeer.sh` gebruikt `requirements.lock.txt` als die bestaat — maak die in PLAN-1 fase 0 met `pip freeze` van de draaiende venv. Tot die tijd staat reportlab expliciet in `requirements.txt`.
 - Tesseract-talen volgen `services/ocr.py` (`nld eng ara tur ukr fas`), niet de aanname "alleen nld+eng" uit PLAN-1 v1.0.
 - OCR van een A4-scan kost ≈ 8–10 s op x86; compressie naar 1568 px scheelt vooral upload, niet OCR-tijd. Op arm64 meten (fase 3.6).
-- De backend-map in de repo (`solidari-backend/`) is een kopie; de draaiende versie staat in `/opt/solidari-backend` op jasper-pc. PLAN-1 fase 0 stelt vast of ze gelijk zijn (`diff -r`) vóór de patches worden overgezet.
+- De backend-map in de repo (`solidari-backend/`) is de **bron** geworden voor de VPS. Op 02-09-2026 kon `/opt/solidari-backend` op jasper-pc niet gelezen worden (`sudo` vraagt een wachtwoord dat de agent niet heeft), dus is de vergelijking `diff -r` nooit gemaakt. De repo-kopie is wél aantoonbaar de geteste tak: alle zeven patches uit `patches/` zijn reverse-toepasbaar, en de redactietest op de VPS is groen.
+
+## Eigenaardigheden die tijdens de uitrol boven kwamen (02-09-2026)
+
+- **`installeer.sh` deed de `chown` te laat.** De rsync zet root-eigendom (en soms mode 600) op de code; `sudo -u solidari pip install -r requirements.txt` kon dat niet eens lezen. De chown/chmod staat nu vóór de venv. De chmod slaat `venv/` over — een blanket `chmod 640` neemt `venv/bin/pip` zijn x-bit af en de installatie loopt daarna vast op "command not found".
+- **gunicorn 26 opent een control-socket in de werkmap.** Met `ProtectSystem=strict` geeft dat bij elke start `[ERROR] Control server error: Read-only file system: '.gunicorn'`. Opgelost met `--no-control-socket` in de unit.
+- **Een halve venv is erger dan geen venv.** Breekt een run af, dan bestaat `venv/bin/python` wel en `venv/bin/pip` niet; de guard controleert nu beide en gooit de map anders weg.
+- **oneHome (Antagonist):** het formulier wist Naam en Doel-IP zodra je het recordtype wisselt — kies eerst het type, vul daarna de velden. En de recordlijst toont een nieuw record pas na een herlaad, ook al meldt het paneel "succesvol opgeslagen".
