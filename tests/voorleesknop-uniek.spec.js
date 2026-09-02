@@ -114,6 +114,38 @@ test.describe('voorleesknop: precies één per blok', () => {
     expect(n).toBe(1);
   });
 
+  test('na een taalwissel staat er nog steeds precies één knop', async ({ page }) => {
+    // i18n.passToe() zet de innerHTML van [data-i18n]-elementen opnieuw en gooit daarmee
+    // de voorleesknop weg. Stond de klaar-vlag nog op '1', dan kwam die knop pas terug na
+    // een harde herlaad — precies de gebruiker die vaak van taal wisselt, raakte hem kwijt.
+    await metTaal(page, 'NL');
+    await page.addInitScript(STUB_STEMMEN);
+    await page.addInitScript(() => {
+      try { localStorage.setItem('solidari-voorlezen', 'aan'); } catch (e) {}
+    });
+    await vertraagManifest(page);
+    await page.goto('/brief.html');
+    await page.waitForFunction(() => document.querySelectorAll('.sol-a11y-knop').length > 0, null, { timeout: 15000 });
+    await page.waitForTimeout(1200);
+
+    const voor = await knoppenPerElement(page);
+    expect(voor.metKnop).toBeGreaterThan(0);
+
+    // drie keer wisselen, inclusief een RTL-taal en Tigrinya
+    for (const taal of ['ar', 'ti', 'nl']) {
+      await page.evaluate((t) => {
+        const knop = document.querySelector(`.talen-inhoud .taal-item[data-taal="${t}"]`);
+        if (knop) knop.click();
+      }, taal);
+      await page.waitForTimeout(600);
+    }
+    await page.waitForTimeout(1200);
+
+    const na = await knoppenPerElement(page);
+    expect(na.dubbel, 'blokken met meer dan één knop na taalwissel').toEqual([]);
+    expect(na.metKnop, 'na een taalwissel is de voorleesknop verdwenen').toBe(voor.metKnop);
+  });
+
   test('dynamisch toegevoegde alinea krijgt één knop', async ({ page }) => {
     await metTaal(page, 'NL');
     await page.addInitScript(STUB_STEMMEN);

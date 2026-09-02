@@ -316,6 +316,13 @@
     const talen = new Set(els.map(el => (el.getAttribute('data-lees-taal') || actieveTaal()).toUpperCase()));
     await Promise.all([...talen].map(ensureManifest));
     for (const el of els) {
+      // Bij een taalwissel zet i18n.passToe() de innerHTML van [data-i18n]-elementen
+      // opnieuw; de knop die erin stond verdwijnt daarmee, maar de vlag bleef staan —
+      // en dan kwam de voorleesknop tot een harde herlaad niet meer terug. Stond de vlag
+      // op klaar maar is de knop weg, dan hoort hij opnieuw geplaatst te worden.
+      if (el.dataset.solA11yKlaar === '1' && !el.querySelector(':scope > .sol-a11y-knop')) {
+        delete el.dataset.solA11yKlaar;
+      }
       if (el.dataset.solA11yKlaar) continue;
       if (el.querySelector(':scope > .sol-a11y-knop')) { el.dataset.solA11yKlaar = '1'; continue; }
       const taal = (el.getAttribute('data-lees-taal') || actieveTaal()).toUpperCase();
