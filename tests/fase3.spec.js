@@ -86,8 +86,10 @@ test('TI prio-1 tekst speelt uit bestand (laag 1), ook zonder TI-stem', async ({
   expect(res.heeftKnop).toBe(true);
 });
 
-test('principe 6: geen bestand én geen stem → geen knop, geen fout', async ({ page }) => {
-  // TI zonder stem, tekst die niet in het manifest staat
+test('Tigrinya krijgt wél een knop voor dynamische tekst (/api/tts, D-25 vervalt)', async ({ page }) => {
+  // De keerzijde van de test hieronder: TI heeft geen browserstem en dynamische AI-tekst
+  // staat per definitie niet in het manifest. Vóór /api/tts bleef die tekst stom — dat was
+  // besluit D-25. Nu bedient de eigen server hem, dus hoort er een knop te staan.
   await page.addInitScript(() => {
     Object.defineProperty(window, 'speechSynthesis', { configurable: true, get: () => ({ getVoices: () => [], speak() {}, cancel() {}, pause() {}, resume() {}, speaking: false }) });
   });
@@ -96,12 +98,41 @@ test('principe 6: geen bestand én geen stem → geen knop, geen fout', async ({
   page.on('pageerror', e => fouten.push(String(e.message)));
   await page.goto('/index.html', { waitUntil: 'networkidle' });
   await page.waitForFunction(() => window.Solidari && window.Solidari.spraak);
-  const heeftKnop = await page.evaluate(async () => {
+  const r = await page.evaluate(async () => {
     const s = Solidari.spraak;
     const el = document.createElement('p');
     el.setAttribute('data-lees', '');
     el.setAttribute('data-lees-taal', 'TI');
-    el.textContent = 'Dit is een lange zin die zeker niet in het Tigrinya-manifest voorkomt en geen stem heeft.';
+    el.textContent = 'ናይ ኤአይ መልሲ ብዛዕባ ደብዳቤኻ፣ ኣብ መዝገብ ዘየሎ ሓድሽ ጽሑፍ እዩ።';
+    document.body.appendChild(el);
+    await s.verwerk(el.parentElement);
+    return { knop: !!el.querySelector('.sol-a11y-knop'), laag: await s._kiesLaag(el.textContent, 'TI') };
+  });
+  expect(r.knop, 'TI-tekst zonder clip hoort een knop te krijgen via /api/tts').toBe(true);
+  expect(r.laag).toBe('route');
+  expect(fouten).toEqual([]);
+});
+
+test('principe 6: geen bestand, geen stem én geen route → geen knop, geen fout', async ({ page }) => {
+  // Bijgewerkt 02-09-2026 (PLAN-4 fase 4): Tigrinya is geen geldig voorbeeld meer voor
+  // "niets beschikbaar". Sinds /api/tts bestaat kán dynamische TI-tekst wél voorgelezen
+  // worden — dat was juist het gat dat besluit D-25 openliet en dat nu dicht is. Het
+  // principe zelf verandert niet, dus toetsen we het nu met Roemeens: geen browserstem,
+  // geen voorgegenereerde clips, en de TTS-route bedient die taal bewust niet.
+  await page.addInitScript(() => {
+    Object.defineProperty(window, 'speechSynthesis', { configurable: true, get: () => ({ getVoices: () => [], speak() {}, cancel() {}, pause() {}, resume() {}, speaking: false }) });
+  });
+  await metTaal(page, 'RO');
+  const fouten = [];
+  page.on('pageerror', e => fouten.push(String(e.message)));
+  await page.goto('/index.html', { waitUntil: 'networkidle' });
+  await page.waitForFunction(() => window.Solidari && window.Solidari.spraak);
+  const heeftKnop = await page.evaluate(async () => {
+    const s = Solidari.spraak;
+    const el = document.createElement('p');
+    el.setAttribute('data-lees', '');
+    el.setAttribute('data-lees-taal', 'RO');
+    el.textContent = 'Dit is een lange zin die zeker niet in het Roemeense manifest voorkomt en geen stem heeft.';
     document.body.appendChild(el);
     await s.verwerk(el.parentElement);
     return !!el.querySelector('.sol-a11y-knop');

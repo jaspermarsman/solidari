@@ -36,7 +36,9 @@
   const manifestCache = {};   // taal → manifest-object | null
   const manifestBezig = {};   // taal → Promise
   let audioEl = null;
-  let externeRoute = null;
+  let externeRoute = null;   // uitvoer: tekst → audio (bv. /api/tts)
+  let routeTalen = null;     // null = alle talen; anders alleen deze
+  let invoerRoute = null;    // invoer: audio → tekst (bv. /api/stt) — nog niet in gebruik
   let bezigVlag = false;
   let gestopt = false;
   let heartbeat = null;
@@ -113,7 +115,7 @@
     if (bestandBeschikbaar && bestandEerst) return 'bestand';
     if (stemVoor(taal)) return 'stem';
     if (bestandBeschikbaar) return 'bestand';
-    if (externeRoute) return 'route';
+    if (externeRoute && routeKan(taal)) return 'route';
     return null;
   }
   // Testhaak: welke laag zou gekozen worden voor deze tekst/taal?
@@ -254,7 +256,7 @@
 
   function beschikbaar(taal) {
     taal = taal || actieveTaal();
-    return !!stemVoor(taal) || heeftBestanden(taal) || !!externeRoute;
+    return !!stemVoor(taal) || heeftBestanden(taal) || routeKan(taal);
   }
 
   function ontgrendel() {
@@ -293,7 +295,7 @@
   async function kanLeveren(tekst, taal) {
     await ensureManifest(taal);
     const hash = await hashVan(normaliseer(tekst));
-    return heeftBestand(taal, hash) || !!stemVoor(taal) || !!externeRoute;
+    return heeftBestand(taal, hash) || !!stemVoor(taal) || routeKan(taal);
   }
 
   // scan() is async: tussen de controle op solA11yKlaar en het toevoegen van de knop
@@ -406,7 +408,9 @@
     // Geen browserherkenning én geen actieve /api/stt-route → geen knop (principe 6).
     // De MediaRecorder→/api/stt-route (§4.6) is voorbereid maar inactief tot de Worker
     // hem beantwoordt; zolang dat niet zo is verschijnt de mic alleen bij browserherkenning.
-    if (!heeftHerkenning() && !externeRoute) return;
+    // LET OP: dit gaat over spraak-ín. De uitvoerroute (/api/tts) zegt daar niets over —
+    // die twee door elkaar halen levert een microfoonknop op die niets doet.
+    if (!heeftHerkenning() && !invoerRoute) return;
     root.querySelectorAll('textarea, input[type="text"], input:not([type])').forEach(inp => {
       if (inp.dataset.solMicKlaar) return;
       if (inp.closest('#solidari-nav, nav, footer, [data-geen-mic]')) return;
@@ -475,12 +479,24 @@
     return r;
   }
 
-  function registreerRoute(fn) { externeRoute = (typeof fn === 'function') ? fn : null; }
+  // Een externe route bedient niet per se alle talen. /api/tts doet alleen Tigrinya
+  // (besluit F3), dus zonder deze filter zou de knop ook verschijnen bij talen waar de
+  // route een 400 teruggeeft — een dode knop, en dat is precies wat principe 6 verbiedt.
+  function routeKan(taal) {
+    if (!externeRoute) return false;
+    if (!routeTalen) return true;
+    return routeTalen.indexOf(String(taal).toUpperCase()) !== -1;
+  }
+  function registreerInvoerRoute(fn) { invoerRoute = (typeof fn === 'function') ? fn : null; }
+  function registreerRoute(fn, talen) {
+    externeRoute = (typeof fn === 'function') ? fn : null;
+    routeTalen = Array.isArray(talen) ? talen.map(t => String(t).toUpperCase()) : null;
+  }
 
   // ── Publieke API (§4.3) ────────────────────────────────────────────────
   window.Solidari.spraak = {
     beschikbaar, zeg, stop, bezig, ontgrendel, stemVoor, splitsZinnen,
-    knop, scan, autoMarkeer, verwerk, micKnop, autoMic, manifest, luistermodus, luister, registreerRoute,
+    knop, scan, autoMarkeer, verwerk, micKnop, autoMic, manifest, luistermodus, luister, registreerRoute, registreerInvoerRoute,
     // testhaken (niet-openbaar bedoeld, wel handig in acceptatietests)
     _kiesLaag, _normaliseer: normaliseer, _hashVan: hashVan, _actieveTaal: actieveTaal,
   };
@@ -499,6 +515,34 @@
     setTimeout(() => { verwerkGepland = false; verwerk(document); }, 200);
   }
 
+  // ── /api/tts: Tigrinya voor dynamische tekst (PLAN-4 fase 3/4, besluit D-25 vervalt) ──
+  // Alleen TI: dat is de enige taal zonder browserstem én zonder cloud-dekking, en de
+  // route doet bewust niets anders (besluit F3 — geen gebruikerstekst naar een derde partij).
+  // De tekst gaat naar onze eigen server, dezelfde waar de PII-redactie draait; verder nergens heen.
+  const TTS_MAX = 2000;                       // de route weigert boven deze lengte (413)
+  function ttsBasis() {
+    return location.hostname.endsWith('github.io')
+      ? 'https://api-test.solidari.nl'        // staging praat met de staging-ingang
+      : 'https://api.solidari.nl';
+  }
+  async function ttsRoute(tekst, taal) {
+    if (String(taal).toUpperCase() !== 'TI') return null;
+    const t = String(tekst || '').trim();
+    if (!t || t.length > TTS_MAX) return null;
+    const r = await fetch(ttsBasis() + '/api/tts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tekst: t, taal: 'TI' }),
+      signal: AbortSignal.timeout(40000),
+    });
+    if (!r.ok) return null;                   // 4xx/5xx → geen knop, geen kapotte staat
+    const blob = await r.blob();
+    if (ttsObjectUrl) { try { URL.revokeObjectURL(ttsObjectUrl); } catch (e) {} }
+    ttsObjectUrl = URL.createObjectURL(blob);
+    return ttsObjectUrl;
+  }
+  let ttsObjectUrl = null;
+
   function init() {
     // Onderdruk de bekende, onschadelijke AbortError die Chromium logt wanneer
     // audio-playback wordt onderbroken (snel taalwisselen/opnieuw voorlezen).
@@ -510,6 +554,10 @@
     // iOS-ontgrendeling bij het eerste gebaar
     document.addEventListener('pointerdown', eersteGebaarOntgrendel, true);
     document.addEventListener('keydown', eersteGebaarOntgrendel, true);
+
+    // Tigrinya-route voor dynamische tekst registreren vóór de eerste scan, zodat
+    // TI-blokken meteen een knop krijgen in plaats van pas na de volgende scan.
+    registreerRoute(ttsRoute, ['TI']);
 
     // Eerste markering + knoppen
     verwerk(document);
