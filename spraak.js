@@ -296,7 +296,20 @@
     return heeftBestand(taal, hash) || !!stemVoor(taal) || !!externeRoute;
   }
 
-  async function scan(root) {
+  // scan() is async: tussen de controle op solA11yKlaar en het toevoegen van de knop
+  // zit een await. Twee scans die elkaar overlappen — init() doet er een, en het
+  // voiceschanged-event doet er direct daarna nog een zodra de browserstemmen laden —
+  // kwamen dan allebei door de controle heen en zetten allebei een knop neer.
+  // Vandaar drie sloten: de scans staan in de rij, een element wordt vóór de eerste
+  // await geclaimd, en er komt sowieso geen tweede knop bij een element dat er al een heeft.
+  let scanKetting = Promise.resolve();
+
+  function scan(root) {
+    scanKetting = scanKetting.then(() => scanEen(root)).catch(() => {});
+    return scanKetting;
+  }
+
+  async function scanEen(root) {
     root = root || document;
     const els = [...root.querySelectorAll('[data-lees]')];
     if (!els.length) return;
@@ -304,11 +317,21 @@
     await Promise.all([...talen].map(ensureManifest));
     for (const el of els) {
       if (el.dataset.solA11yKlaar) continue;
+      if (el.querySelector(':scope > .sol-a11y-knop')) { el.dataset.solA11yKlaar = '1'; continue; }
       const taal = (el.getAttribute('data-lees-taal') || actieveTaal()).toUpperCase();
       const tekst = el.getAttribute('data-lees') || el.textContent;
       if (!normaliseer(tekst)) continue;
-      if (!(await kanLeveren(tekst, taal))) { el.dataset.solA11yKlaar = 'leeg'; continue; }
-      el.appendChild(knop(tekst, taal));
+      // Claim het element vóór de await, anders glipt een gelijktijdige scan erlangs.
+      el.dataset.solA11yKlaar = 'bezig';
+      let leverbaar = false;
+      try {
+        leverbaar = await kanLeveren(tekst, taal);
+      } catch (e) {
+        delete el.dataset.solA11yKlaar;   // mislukt: laat een volgende scan het opnieuw proberen
+        continue;
+      }
+      if (!leverbaar) { el.dataset.solA11yKlaar = 'leeg'; continue; }
+      if (!el.querySelector(':scope > .sol-a11y-knop')) el.appendChild(knop(tekst, taal));
       el.dataset.solA11yKlaar = '1';
     }
   }
@@ -485,7 +508,8 @@
       if (window.speechSynthesis && typeof speechSynthesis.addEventListener === 'function') {
         speechSynthesis.addEventListener('voiceschanged', () => {
           document.querySelectorAll('[data-lees]').forEach(el => {
-            if (el.dataset.solA11yKlaar === 'leeg') delete el.dataset.solA11yKlaar;
+            const v = el.dataset.solA11yKlaar;
+            if (v === 'leeg' || v === 'bezig') delete el.dataset.solA11yKlaar;
           });
           scan(document);
         });

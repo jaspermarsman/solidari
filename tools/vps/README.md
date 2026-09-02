@@ -14,8 +14,8 @@ Context en volgorde: `_werkdocumenten/bouwplannen/UITVOERING-autonoom.md` en `PL
 | IPv4 / IPv6 | 94.130.226.240 · 2a01:4f8:c0c:ea61::1 |
 | Hostnamen | `api.solidari.nl` (productie) én `api-test.solidari.nl` (staging-ingang, besluit S-3) — **één server, één certificaat, één rate-limit-zone** |
 | SSH | `ssh solidari-vps` (key `id_ed25519`, "lenovo"); host key `SHA256:vTV29oB0XGvsJn1rMGzmOM6Y5/jcSYAw9E3aGaGonPo` |
-| Backups | Hetzner, aan, venster 18–22 uur, zeven dagelijkse kopieën |
-| Kosten | server €6,64/mnd bruto + backups ±20 % |
+| Backups | **uit** (besluit A6 herzien bij W-A, 02-09-2026) — de server is stateless; zie "Snapshot en herstel" |
+| Kosten | server **€6,64/mnd bruto** — verder niets |
 
 `api-test` is een staging-**ingang**, geen aparte omgeving: zelfde code, zelfde sleutel, zelfde limieten.
 `brief.html` kiest op hostname — draait de pagina op `github.io`, dan `api-test`, anders `api`.
@@ -69,12 +69,39 @@ ssh solidari-vps tail -n 20 /var/log/solidari/health.log
 ssh solidari-vps cat /var/log/solidari/ai-teller.json  # AI-aanroepen per dag (fase 5.2; drempel 300)
 ssh solidari-vps 'systemctl restart solidari'
 ssh solidari-vps 'apt-get update && apt-get -y dist-upgrade'   # handmatig; security-updates gaan automatisch, reboot 05:00
-hcloud server enable-backup solidari-api              # dagelijkse backups (≈ €0,90/mnd)
+hcloud server create-image --type snapshot --description "solidari-api na fase 8" solidari-api
 ```
+
+## Snapshot en herstel
+
+**Er staan geen dagelijkse backups aan** (besluit A6, herzien bij W-A op 02-09-2026). Reden: deze
+server is stateless. Alles erop is reproduceerbaar uit deze repo — `aanmaak.sh` + `rsync` +
+`installeer.sh` zetten hem in ongeveer een kwartier opnieuw neer. Het enige dat níét in de repo
+staat is `/etc/solidari/.env`, en dat is één regel met de Anthropic-sleutel; die staat ook in de
+Anthropic Console. Zeven dagelijkse kopieën betalen van iets wat je in vijftien minuten opnieuw
+bouwt, is weggegooid geld.
+
+Wat er wél is: **één snapshot als vast terugvalpunt**, gemaakt ná PLAN-1 fase 8 (dus als de server
+compleet en stabiel is).
+
+```bash
+# maken (eenmalig, na fase 8)
+hcloud server create-image --type snapshot \
+    --description "solidari-api na fase 8" --label project=solidari solidari-api
+hcloud image list --type snapshot            # id noteren
+
+# terugzetten — LET OP: overschrijft de schijf van de draaiende server
+hcloud server rebuild solidari-api --image <snapshot-id>
+# daarna de sleutel opnieuw plaatsen (PLAN-1 fase 3.5) en health controleren
+```
+
+Kosten van een snapshot: €0,0119 per GB per maand over het *gebruikte* deel van de schijf —
+bij ±3 GB is dat ongeveer **€0,04 per maand**. Verwijder een oude snapshot voordat je een
+nieuwe maakt (`hcloud image delete <id>`), anders stapelen ze op.
 
 ## Herstel en terugvallen
 
-- **VPS onbereikbaar:** `hcloud server reboot solidari-api`; daarna health. Blijft hij stuk: herbouw uit backup (`hcloud server rebuild`), of vanaf nul met de stappen hierboven (≈ 15 min) — de code staat op jasper-pc (`solidari-backend/` in de werkmap, gitignored), de sleutel in het geheimenbestand of in Anthropic Console.
+- **VPS onbereikbaar:** `hcloud server reboot solidari-api`; daarna health. Blijft hij stuk: herbouw uit de snapshot (`hcloud server rebuild`), of vanaf nul met de stappen hierboven (≈ 15 min) — de code staat op jasper-pc (`solidari-backend/` in de werkmap, gitignored), de sleutel in het geheimenbestand of in Anthropic Console.
 - **Terug naar de thuis-pc (alleen vóór PLAN-1 fase 7):** DNS `api` A/AAAA terug naar het oude IP (staat in `LOG-vps.md` fase 4.0), FRITZ!Box-vrijgave 443 weer aan, `sudo systemctl start solidari` thuis.
 - **Server weg:** `hcloud server delete solidari-api` (firewall en ssh-key mogen blijven). Kost daarna niets meer.
 
