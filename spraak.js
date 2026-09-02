@@ -316,20 +316,26 @@
     const talen = new Set(els.map(el => (el.getAttribute('data-lees-taal') || actieveTaal()).toUpperCase()));
     await Promise.all([...talen].map(ensureManifest));
     for (const el of els) {
-      // Bij een taalwissel zet i18n.passToe() de innerHTML van [data-i18n]-elementen
-      // opnieuw; de knop die erin stond verdwijnt daarmee, maar de vlag bleef staan —
-      // en dan kwam de voorleesknop tot een harde herlaad niet meer terug. Stond de vlag
-      // op klaar maar is de knop weg, dan hoort hij opnieuw geplaatst te worden.
+      const taal = (el.getAttribute('data-lees-taal') || actieveTaal()).toUpperCase();
+      // Twee dingen maken een eerder oordeel ongeldig bij een taalwissel:
+      //   1. de inhoud is vervangen (i18n.passToe zet innerHTML, brief.html zet textContent)
+      //      en heeft de knop meegenomen, terwijl de vlag op '1' bleef staan;
+      //   2. 'leeg' betekende "voor díé taal is er niets" — Tigrinya heeft geen browserstem,
+      //      dus daar valt het oordeel anders uit dan voor Nederlands. Wie van TI terugging
+      //      naar NL hield het oude 'leeg' en kreeg zijn knop pas na een harde herlaad terug.
       if (el.dataset.solA11yKlaar === '1' && !el.querySelector(':scope > .sol-a11y-knop')) {
         delete el.dataset.solA11yKlaar;
       }
+      if (el.dataset.solA11yKlaar && el.dataset.solA11yTaal && el.dataset.solA11yTaal !== taal) {
+        delete el.dataset.solA11yKlaar;
+      }
       if (el.dataset.solA11yKlaar) continue;
-      if (el.querySelector(':scope > .sol-a11y-knop')) { el.dataset.solA11yKlaar = '1'; continue; }
-      const taal = (el.getAttribute('data-lees-taal') || actieveTaal()).toUpperCase();
+      if (el.querySelector(':scope > .sol-a11y-knop')) { el.dataset.solA11yKlaar = '1'; el.dataset.solA11yTaal = taal; continue; }
       const tekst = el.getAttribute('data-lees') || el.textContent;
       if (!normaliseer(tekst)) continue;
       // Claim het element vóór de await, anders glipt een gelijktijdige scan erlangs.
       el.dataset.solA11yKlaar = 'bezig';
+      el.dataset.solA11yTaal = taal;
       let leverbaar = false;
       try {
         leverbaar = await kanLeveren(tekst, taal);
@@ -337,9 +343,10 @@
         delete el.dataset.solA11yKlaar;   // mislukt: laat een volgende scan het opnieuw proberen
         continue;
       }
-      if (!leverbaar) { el.dataset.solA11yKlaar = 'leeg'; continue; }
+      if (!leverbaar) { el.dataset.solA11yKlaar = 'leeg'; el.dataset.solA11yTaal = taal; continue; }
       if (!el.querySelector(':scope > .sol-a11y-knop')) el.appendChild(knop(tekst, taal));
       el.dataset.solA11yKlaar = '1';
+      el.dataset.solA11yTaal = taal;
     }
   }
 
@@ -527,12 +534,22 @@
     try {
       const obs = new MutationObserver((muts) => {
         for (const m of muts) {
+          // Een taalwissel vervangt tekst, geen elementen: i18n.passToe() zet innerHTML
+          // opnieuw en brief.html zet textContent van zijn eigen sleutels. Beide leveren
+          // een tekstnode of een characterData-mutatie op, geen element — daarom keek de
+          // observer daar vroeger overheen en kwam de voorleesknop niet terug.
+          if (m.type === 'characterData') { planVerwerk(); return; }
+          for (const n of m.removedNodes) {
+            // onze eigen knop is weggegooid door zo'n vervanging → opnieuw plaatsen
+            if (n.nodeType === 1 && n.classList && n.classList.contains('sol-a11y-knop')) { planVerwerk(); return; }
+          }
           for (const n of m.addedNodes) {
             if (n.nodeType === 1 && !n.classList.contains('sol-a11y-knop')) { planVerwerk(); return; }
+            if (n.nodeType === 3 && n.textContent && n.textContent.trim()) { planVerwerk(); return; }
           }
         }
       });
-      obs.observe(document.body, { childList: true, subtree: true });
+      obs.observe(document.body, { childList: true, subtree: true, characterData: true });
     } catch (e) {}
 
     // Luistermodus herstellen

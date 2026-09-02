@@ -55,11 +55,11 @@ async function vertraagManifest(page) {
 
 async function knoppenPerElement(page) {
   return page.evaluate(() => {
-    const uit = { max: 0, elementen: 0, metKnop: 0, dubbel: [] };
+    const uit = { max: 0, elementen: 0, metKnop: 0, dubbel: [], ids: [] };
     for (const el of document.querySelectorAll('[data-lees]')) {
       const n = el.querySelectorAll(':scope > .sol-a11y-knop').length;
       uit.elementen++;
-      if (n > 0) uit.metKnop++;
+      if (n > 0) { uit.metKnop++; uit.ids.push(el.id || (el.textContent || '').trim().slice(0, 40)); }
       if (n > uit.max) uit.max = n;
       if (n > 1) uit.dubbel.push({ n, tekst: (el.textContent || '').trim().slice(0, 60) });
     }
@@ -131,19 +131,37 @@ test.describe('voorleesknop: precies één per blok', () => {
     const voor = await knoppenPerElement(page);
     expect(voor.metKnop).toBeGreaterThan(0);
 
-    // drie keer wisselen, inclusief een RTL-taal en Tigrinya
+    // Drie keer wisselen, inclusief een RTL-taal en Tigrinya. De taalkiezer zit op mobiel
+    // in een ander blok dan op desktop, dus we controleren dat de wissel echt gebeurd is —
+    // een klik die niets doet zou deze test stilzwijgend groen maken.
     for (const taal of ['ar', 'ti', 'nl']) {
-      await page.evaluate((t) => {
-        const knop = document.querySelector(`.talen-inhoud .taal-item[data-taal="${t}"]`);
-        if (knop) knop.click();
+      const gewisseld = await page.evaluate((t) => {
+        const knop = document.querySelector(`.talen-inhoud .taal-item[data-taal="${t}"]`)
+          || document.querySelector(`.taal-btn[data-taal="${t.toUpperCase()}"]`);
+        if (!knop) return false;
+        knop.click();
+        return true;
       }, taal);
-      await page.waitForTimeout(600);
+      expect(gewisseld, `taalknop voor ${taal} niet gevonden`).toBe(true);
+      await page.waitForTimeout(700);
+      const nu = await page.evaluate(() => (typeof huidigeTaal !== 'undefined' ? huidigeTaal : document.documentElement.lang));
+      expect(String(nu).toLowerCase(), `taal is niet naar ${taal} gewisseld`).toBe(taal);
     }
-    await page.waitForTimeout(1200);
+    await page.waitForTimeout(1500);
 
     const na = await knoppenPerElement(page);
     expect(na.dubbel, 'blokken met meer dan één knop na taalwissel').toEqual([]);
-    expect(na.metKnop, 'na een taalwissel is de voorleesknop verdwenen').toBe(voor.metKnop);
+
+    // Aantallen vergelijken is niet genoeg: als het ene blok zijn knop verliest en een
+    // ander er een krijgt, klopt het totaal nog steeds. Daarom per element toetsen.
+    const kwijt = await page.evaluate((idsVoor) => {
+      const nu = new Set();
+      for (const el of document.querySelectorAll('[data-lees]')) {
+        if (el.querySelectorAll(':scope > .sol-a11y-knop').length) nu.add(el.id || (el.textContent || '').trim().slice(0, 40));
+      }
+      return idsVoor.filter(id => !nu.has(id));
+    }, voor.ids);
+    expect(kwijt, 'deze blokken raakten hun voorleesknop kwijt na een taalwissel').toEqual([]);
   });
 
   test('dynamisch toegevoegde alinea krijgt één knop', async ({ page }) => {
