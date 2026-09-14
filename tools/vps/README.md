@@ -84,6 +84,13 @@ bouwt, is weggegooid geld.
 Wat er wél is: **één snapshot als vast terugvalpunt**, gemaakt ná PLAN-1 fase 8 (dus als de server
 compleet en stabiel is).
 
+> **Gemaakt op 14-09-2026:** snapshot **431964302**, omschrijving `solidari-api na fase 8`,
+> label `project=solidari`, 1,09 GB van 40 GB schijf. Bevat de server inclusief eSpeak-Tigrinya,
+> `/api/tts` en de fase 7.2-opruiming (geen `cursusblad`- en `inhibit`-routes meer).
+> Kosten ±**€0,01 per maand**. Dit is het enige terugvalpunt — er staan geen dagelijkse backups aan.
+> Let op: het snapshot bevat óók `/etc/solidari/.env`, dus de Anthropic-sleutel. Wie het snapshot
+> kan lezen, kan de sleutel lezen; verwijder het snapshot als de sleutel ooit geroteerd wordt.
+
 ```bash
 # maken (eenmalig, na fase 8)
 hcloud server create-image --type snapshot \
@@ -91,18 +98,18 @@ hcloud server create-image --type snapshot \
 hcloud image list --type snapshot            # id noteren
 
 # terugzetten — LET OP: overschrijft de schijf van de draaiende server
-hcloud server rebuild solidari-api --image <snapshot-id>
+hcloud server rebuild solidari-api --image 431964302   # het snapshot van 14-09-2026
 # daarna de sleutel opnieuw plaatsen (PLAN-1 fase 3.5) en health controleren
 ```
 
 Kosten van een snapshot: €0,0119 per GB per maand over het *gebruikte* deel van de schijf —
-bij ±3 GB is dat ongeveer **€0,04 per maand**. Verwijder een oude snapshot voordat je een
+gemeten 1,09 GB, dus ongeveer **€0,01 per maand**. Verwijder een oude snapshot voordat je een
 nieuwe maakt (`hcloud image delete <id>`), anders stapelen ze op.
 
 ## Herstel en terugvallen
 
 - **VPS onbereikbaar:** `hcloud server reboot solidari-api`; daarna health. Blijft hij stuk: herbouw uit de snapshot (`hcloud server rebuild`), of vanaf nul met de stappen hierboven (≈ 15 min) — de code staat op jasper-pc (`solidari-backend/` in de werkmap, gitignored), de sleutel in het geheimenbestand of in Anthropic Console.
-- **Terug naar de thuis-pc (alleen vóór PLAN-1 fase 7):** DNS `api` A/AAAA terug naar het oude IP (staat in `LOG-vps.md` fase 4.0), FRITZ!Box-vrijgave 443 weer aan, `sudo systemctl start solidari` thuis.
+- **Terug naar de thuis-pc:** dit pad is sinds fase 7 (14-09-2026) *dicht* — de FRITZ!Box-vrijgaven voor 80 en 443 naar Jasper-PC staan uit (uitgevinkt, niet verwijderd). Wil je er toch heen: vrijgaven 80/443 weer aanvinken, `sudo systemctl start solidari` thuis, DNS `api` A terug naar 185.117.111.55 en de AAAA weghalen (`LOG-vps.md` fase 4.0). Het snapshot hierboven is het normale terugvalpad; dit niet.
 - **Server weg:** `hcloud server delete solidari-api` (firewall en ssh-key mogen blijven). Kost daarna niets meer.
 
 ## Bekende eigenaardigheden (uit de droogtest van 21-08-2026)

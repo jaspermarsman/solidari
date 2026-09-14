@@ -27,6 +27,7 @@ tests/playwright-report/
 
 # Werkdocumenten (lokaal, niet publiceren)
 _werkdocumenten/
+INSTRUCTIES.md
 
 # Migratie v1.1 (aug 2026)
 _werkdocumenten/bouwplannen/bewijs/

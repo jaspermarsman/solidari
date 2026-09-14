@@ -1,0 +1,26 @@
+--- app.py.oud
++++ app.py
+@@ -21,8 +21,12 @@
+ from routes.status import status_bp
+ from config import Config
+ from routes.analyse import analyse_bp
+-from routes.cursusblad import cursusblad_bp
+-from routes.inhibit import inhibit_bp
++# PLAN-1 fase 7.2 (14-09-2026): cursusblad en inhibit zijn vervallen.
++#   - /api/cursusblad hoorde bij Digi Hulp, in juli 2026 opgeheven; de route kreeg in twaalf
++#     dagen op de VPS nul aanroepen.
++#   - /api/inhibit/* blokkeerde de slaapstand van de thuis-pc bij zonneoverschot; die pc is
++#     uit de keten. Nul aanroepen.
++# De bestanden routes/cursusblad.py en routes/inhibit.py blijven staan als referentie.
+ from routes.tts import tts_bp
+ # ── Logging ──────────────────────────────────────────────────────
+ logging.basicConfig(
+@@ -59,8 +63,6 @@
+ app.register_blueprint(brief_bp, url_prefix='/api')
+ app.register_blueprint(status_bp, url_prefix='/api')
+ app.register_blueprint(analyse_bp, url_prefix='/api')
+-app.register_blueprint(cursusblad_bp, url_prefix='/api')
+-app.register_blueprint(inhibit_bp, url_prefix='/api')
+ app.register_blueprint(tts_bp, url_prefix='/api')
+ 
+ # ── Health check ──────────────────────────────────────────────────

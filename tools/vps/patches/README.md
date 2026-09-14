@@ -19,3 +19,7 @@ sudo chown -R solidari:solidari . 2>/dev/null || true
 | `services_redacteer.py` | IBAN OCR-tolerant (O/0); naam uit adresblok + aanhef → `[NAAM]` | IBAN en naam lekten in de droogtest |
 | `requirements.txt` | reportlab | cursusblad.py importeert het; gunicorn startte niet |
 | `routes_tts.py.nieuw` | nieuwe route `/api/tts` (PLAN-4 fase 3) | Tigrinya-voorlezen op de eigen server |
+| `app.py.fase7` | blueprints `cursusblad` en `inhibit` niet meer registreren | PLAN-1 fase 7.2 — Digi Hulp bestaat niet meer, de thuis-pc is uit de keten; beide routes hadden nul aanroepen in twaalf dagen |
+
+**Volgorde:** `app.py.patch` eerst, `app.py.fase7.patch` daarna (de tweede bouwt voort op de eerste).
+Sinds 14-09-2026 draait de VPS-code al mét `app.py.fase7`; de patch staat hier voor herbouw vanaf nul.
