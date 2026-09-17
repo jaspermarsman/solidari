@@ -4,7 +4,8 @@ const fs = require('fs');
 const path = require('path');
 const { PAGES, metTaal } = require('./helpers');
 
-// Stub: een toestel mét browserstemmen voor 8 talen (NIET Tigrinya — die leunt op laag 1).
+// Stub: een toestel mét browserstemmen voor 8 talen (NIET Tigrinya — die wordt sinds
+// besluit S-7 helemaal niet voorgelezen).
 const STUB_STEMMEN = () => {
   const VOICES = [
     ['nl-NL', 'NL'], ['en-GB', 'EN'], ['ar-SA', 'AR'], ['tr-TR', 'TR'],
@@ -69,7 +70,10 @@ test('auto-markering dekt ≥90% van de tekstblokken (over.html)', async ({ page
   expect(dekking.gemarkeerd / dekking.totaal).toBeGreaterThanOrEqual(0.9);
 });
 
-test('TI prio-1 tekst speelt uit bestand (laag 1), ook zonder TI-stem', async ({ page }) => {
+test('TI-tekst krijgt geen knop, ook niet bij een vaste UI-tekst (S-7)', async ({ page }) => {
+  // Was: "TI prio-1 tekst speelt uit bestand (laag 1)". Deze tekst hád een clip; die is
+  // met besluit S-7 verwijderd. De alinea blijft staan en blijft gemarkeerd — alleen de
+  // knop komt er niet meer bij.
   await laad(page, 'index.html', 'TI');
   const res = await page.evaluate(async () => {
     const s = Solidari.spraak;
@@ -80,16 +84,17 @@ test('TI prio-1 tekst speelt uit bestand (laag 1), ook zonder TI-stem', async ({
     document.querySelector('main, body').appendChild(el);
     await s.verwerk(el.parentElement);
     const laag = await s._kiesLaag('መሳርሒታት', 'TI');
-    return { laag, heeftKnop: !!el.querySelector('.sol-a11y-knop') };
+    return { laag, heeftKnop: !!el.querySelector('.sol-a11y-knop'), staatErNog: !!el.isConnected };
   });
-  expect(res.laag).toBe('bestand');
-  expect(res.heeftKnop).toBe(true);
+  expect(res.laag).toBeNull();
+  expect(res.heeftKnop).toBe(false);
+  expect(res.staatErNog, 'de tekst zelf hoort te blijven staan').toBe(true);
 });
 
-test('Tigrinya krijgt wél een knop voor dynamische tekst (/api/tts, D-25 vervalt)', async ({ page }) => {
-  // De keerzijde van de test hieronder: TI heeft geen browserstem en dynamische AI-tekst
-  // staat per definitie niet in het manifest. Vóór /api/tts bleef die tekst stom — dat was
-  // besluit D-25. Nu bedient de eigen server hem, dus hoort er een knop te staan.
+test('dynamische TI-tekst krijgt geen knop meer (S-7 vervangt /api/tts)', async ({ page }) => {
+  // Was: "Tigrinya krijgt wél een knop voor dynamische tekst (/api/tts)". Die route bedient
+  // dynamische AI-tekst in het Tigrinya, maar met dezelfde eSpeak-stem die bij W-B is
+  // afgewezen — dus roept de frontend hem niet meer aan. De route blijft wel op de VPS.
   await page.addInitScript(() => {
     Object.defineProperty(window, 'speechSynthesis', { configurable: true, get: () => ({ getVoices: () => [], speak() {}, cancel() {}, pause() {}, resume() {}, speaking: false }) });
   });
@@ -108,17 +113,16 @@ test('Tigrinya krijgt wél een knop voor dynamische tekst (/api/tts, D-25 verval
     await s.verwerk(el.parentElement);
     return { knop: !!el.querySelector('.sol-a11y-knop'), laag: await s._kiesLaag(el.textContent, 'TI') };
   });
-  expect(r.knop, 'TI-tekst zonder clip hoort een knop te krijgen via /api/tts').toBe(true);
-  expect(r.laag).toBe('route');
+  expect(r.knop, 'TI-tekst hoort geen knop meer te krijgen').toBe(false);
+  expect(r.laag).toBeNull();
   expect(fouten).toEqual([]);
 });
 
 test('principe 6: geen bestand, geen stem én geen route → geen knop, geen fout', async ({ page }) => {
-  // Bijgewerkt 02-09-2026 (PLAN-4 fase 4): Tigrinya is geen geldig voorbeeld meer voor
-  // "niets beschikbaar". Sinds /api/tts bestaat kán dynamische TI-tekst wél voorgelezen
-  // worden — dat was juist het gat dat besluit D-25 openliet en dat nu dicht is. Het
-  // principe zelf verandert niet, dus toetsen we het nu met Roemeens: geen browserstem,
-  // geen voorgegenereerde clips, en de TTS-route bedient die taal bewust niet.
+  // Getoetst met Roemeens: geen browserstem op dit gesimuleerde toestel, geen
+  // voorgegenereerde clips en geen route. Tigrinya zou nu ook voldoen (S-7), maar dat is
+  // een besluit en geen gebrek — daarom blijft dit principe op een taal getoetst waar het
+  // puur om beschikbaarheid gaat. De TI-kant staat in tigrinya-geen-spraak.spec.js.
   await page.addInitScript(() => {
     Object.defineProperty(window, 'speechSynthesis', { configurable: true, get: () => ({ getVoices: () => [], speak() {}, cancel() {}, pause() {}, resume() {}, speaking: false }) });
   });

@@ -231,13 +231,6 @@
     "cijfer": false
   },
   {
-    "hash": "09345ee144202cb4",
-    "tekst": "گفتار تیگرینیا: eSpeak NG با افزونهٔ تیگرینیای TigrinyaNLP (GPL-3.0)",
-    "bron": "ui:a11y-attributie",
-    "prioriteit": 1,
-    "cijfer": true
-  },
-  {
     "hash": "f393cfe2c793a6b7",
     "tekst": "این یک دستیار هوش مصنوعی است، نه انسان. ممکن است توضیح اشتباه داشته باشد — اطلاعات مهم را از سازمان یا از مددکار خود بررسی کنید.",
     "bron": "ui:ai-melding",

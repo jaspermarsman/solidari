@@ -52,7 +52,7 @@ test('Solidari.spraak bestaat op alle 11 paginas + 0 console-errors op 11×9', a
   expect(echt, 'onverwachte console-errors: ' + echt.join(' | ')).toEqual([]);
 });
 
-test('D-19 laagkeuze: mms→stem-eerst, gemini→bestand-eerst, TI→bestand-eerst', async ({ page }) => {
+test('D-19 laagkeuze: mms→stem-eerst, gemini→bestand-eerst, TI→niets (S-7)', async ({ page }) => {
   await laad(page, 'index.html');
 
   // A. NL, mms + bestand aanwezig + nl-stem → 'stem'
@@ -75,15 +75,18 @@ test('D-19 laagkeuze: mms→stem-eerst, gemini→bestand-eerst, TI→bestand-eer
   });
   expect(laag).toBe('bestand');
 
-  // C. TI, mms + bestand aanwezig, geen stem → 'bestand' (altijd bestand-eerst)
+  // C. TI → null, wát er ook beschikbaar is. Was: 'bestand' (altijd bestand-eerst).
+  //    Besluit S-7 (17-09-2026) zet Tigrinya uit na de review door een moedertaalspreker;
+  //    we voeren hier expres zowel een clip als een ti-stem op om te laten zien dat de
+  //    taal daar niet meer op terugvalt. Zie tests/tigrinya-geen-spraak.spec.js.
   laag = await page.evaluate(async () => {
-    window.__voices = [];
+    window.__voices = [{ lang: 'ti-ET', name: 'TI', localService: true }];
     const s = Solidari.spraak, txt = 'ሰላም ዓለም።';
     const h = await s._hashVan(s._normaliseer(txt));
-    window.__manifest = { bron: 'mms', items: { [h]: { d: 1 } } };
+    window.__manifest = { bron: 'espeak', items: { [h]: { d: 1 } } };
     return s._kiesLaag(txt, 'TI');
   });
-  expect(laag).toBe('bestand');
+  expect(laag).toBeNull();
 });
 
 test('stemVoor(UK) is null bij alleen ru-RU (nooit terugval op Russisch)', async ({ page }) => {

@@ -58,15 +58,17 @@ test('nav-logo heeft aria-label op alle 11 paginas; footer-logo waar footer best
   }
 });
 
-test('gesproken taalkiezer: 9 talen met eigen naam; TI-naam speelt uit bestand', async ({ page }) => {
+test('gesproken taalkiezer: 9 talen met eigen naam; TI-naam klinkt niet meer (S-7)', async ({ page }) => {
   await laad(page, 'index.html', 'NL');
   const namen = await page.evaluate(() =>
     [...document.querySelectorAll('.taal-dropdown-menu .taal-dd-btn')].map(b => b.dataset.naam));
   expect(namen).toContain('ትግርኛ');
   expect(namen).toContain('العربية');
   expect(namen.filter(Boolean).length).toBe(9);
+  // De taalnaam werd uitgesproken uit een voorgegenereerde clip. Die clip is met besluit
+  // S-7 verwijderd; de kaart blijft staan en de wissel werkt, er klinkt alleen niets meer.
   const laag = await page.evaluate(() => Solidari.spraak._kiesLaag('ትግርኛ', 'TI'));
-  expect(await laag).toBe('bestand');
+  expect(await laag).toBeNull();
 });
 
 test('welkomstscherm: verschijnt bij eerste bezoek, 9 kaarten, en blijft weg na keuze', async ({ page }) => {

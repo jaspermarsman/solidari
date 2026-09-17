@@ -231,13 +231,6 @@
     "cijfer": false
   },
   {
-    "hash": "ef05164c663dd978",
-    "tekst": "Озвучення тигринья: eSpeak NG із розширенням для тигринья від TigrinyaNLP (GPL-3.0)",
-    "bron": "ui:a11y-attributie",
-    "prioriteit": 1,
-    "cijfer": true
-  },
-  {
     "hash": "90bba764fe57ce4d",
     "tekst": "Це ШІ-помічник, а не людина. Пояснення може містити помилки — перевіряйте важливу інформацію в установі або у свого куратора.",
     "bron": "ui:ai-melding",

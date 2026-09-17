@@ -231,13 +231,6 @@
     "cijfer": false
   },
   {
-    "hash": "21cca9a9725b1584",
-    "tekst": "Mowa w języku tigrinia: eSpeak NG z rozszerzeniem tigrinia od TigrinyaNLP (GPL-3.0)",
-    "bron": "ui:a11y-attributie",
-    "prioriteit": 1,
-    "cijfer": true
-  },
-  {
     "hash": "ccfa9579ea821b94",
     "tekst": "To jest asystent AI, a nie człowiek. Wyjaśnienie może zawierać błędy — ważne informacje sprawdź w instytucji lub u swojego opiekuna.",
     "bron": "ui:ai-melding",

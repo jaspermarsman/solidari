@@ -77,8 +77,7 @@ lw-i18n.js              Vertalingen specifiek voor loont-werken.html
 
 spraak.js               Voorlees- en spraakinvoermotor (gelaagd, §Toegankelijkheid)
 spraak.css              Stijlen voor 🔊-knoppen, mic, luistermodus, welkomstscherm
-audio/<TAAL>/*.mp3       Voorgegenereerde spraakclips per taal (349 stuks)
-audio/manifest-<taal>.json  hash → {duur} + generatorbron per taal
+audio/manifest-<taal>.json  hash → {duur} + generatorbron per taal (nu alle negen leeg)
 tools/audio/            Pijplijn (extract.js, genereer_espeak.py, genereer_gemini.py, valideer.js)
 tests/                  Playwright-acceptatietests (buiten de site)
 
@@ -93,23 +92,26 @@ De site is bruikbaar met **spraak-in en spraak-uit**, zodat ook wie niet kan lez
 elke tool kan gebruiken. Eén gedeeld component (`spraak.js`, `spraak.css`) op elke pagina.
 
 **Voorlezen — gelaagd, per taal gekozen:**
-1. **Voorgegenereerd audiobestand** (`audio/<TAAL>/<hash>.mp3`) — instant, overal gelijk, ook offline. Standaardteksten (UI, toolnamen, taalnamen, `zeg`-zinnen) staan vooraf klaar in alle 9 talen.
-2. **Browser-`speechSynthesis`** — waar het toestel een stem heeft.
-3. **`/api/tts` op onze eigen server** — voor dynamische AI-antwoorden in het Tigrinya.
+1. **Voorgegenereerd audiobestand** (`audio/<TAAL>/<hash>.mp3`) — instant, overal gelijk, ook offline. Op dit moment staan er geen clips; de laag blijft in `spraak.js` zitten.
+2. **Browser-`speechSynthesis`** — waar het toestel een stem heeft. Dit is nu de enige laag die daadwerkelijk klinkt.
+3. **Externe route** (`registreerRoute`) — voorbereid, niets geregistreerd.
 
-Tigrinya heeft géén browserstem en geen enkele commerciële TTS-dekking. Daarom gebruiken
-we **eSpeak NG met de Tigrinya-uitbreiding van TigrinyaNLP** (`-v ti`, GPL-3.0), die op
-onze eigen server draait — vooraf gegenereerd voor vaste teksten, en live via `/api/tts`
-voor AI-antwoorden. Formantsynthese klinkt robotachtig, maar het is dezelfde techniek
-waarop schermlezers wereldwijd draaien: verstaanbaar gaat hier vóór mooi. De tekst
-verlaat de server niet.
+**Tigrinya wordt niet voorgelezen** (besluit S-7, 17-09-2026). Er is voor die taal maar
+één beschikbare stem — eSpeak NG met de Tigrinya-uitbreiding van TigrinyaNLP — en een
+moedertaalspreker beoordeelde die als niet goed genoeg om aan te bieden. De voorgegenereerde
+clips zijn verwijderd en de frontend roept `/api/tts` niet meer aan; die route blijft wél op
+de server staan voor als er ooit een betere stem is. Tekst, vertaling en weergave in het
+Tigrinya werken onveranderd — alleen de 🔊-knop blijft weg, zonder foutmelding. Vervolg in
+`_werkdocumenten/bouwplannen/BACKLOG-tigrinya-stem.md`.
 
 **Spreken:** microfoonknop bij tekstvelden (browser-`SpeechRecognition`); `brief.html`
 opent op mobiel direct de camera. Een `/api/stt`-route (Gemini) is voorbereid.
 
 **Verder:** runtime-taalkiezer met gesproken eigennaam, welkomstscherm bij eerste bezoek,
 luistermodus (tik-om-te-lezen), `noindex`/testbalk buiten `solidari.nl`, AA-contrast,
-raakvlakken ≥ 44 px. Audio-generatie: `python tools/audio/genereer_espeak.py && node tools/audio/valideer.js`.
+raakvlakken ≥ 44 px. De audiopijplijn in `tools/audio/` blijft bruikbaar
+(`node tools/audio/extract.js && node tools/audio/valideer.js`), maar genereert op dit
+moment niets: `valideer.js` bewaakt juist dat er géén TI-clips terugkomen.
 
 `brief.html` praat rechtstreeks met `https://api.solidari.nl` — de eigen server, niet de Worker,
 omdat OCR en PII-redactie dáár draaien.

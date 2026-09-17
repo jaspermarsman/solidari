@@ -231,13 +231,6 @@
     "cijfer": false
   },
   {
-    "hash": "44d9a9d8ce6143d1",
-    "tekst": "Tigrinya speech: eSpeak NG with the Tigrinya extension by TigrinyaNLP (GPL-3.0)",
-    "bron": "ui:a11y-attributie",
-    "prioriteit": 1,
-    "cijfer": true
-  },
-  {
     "hash": "d9f3924df6f5e2be",
     "tekst": "This is an AI assistant, not a person. The explanation may contain mistakes — check important information with the organisation or with your support worker.",
     "bron": "ui:ai-melding",

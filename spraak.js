@@ -7,6 +7,9 @@
  *   2. browser speechSynthesis
  *   3. externe route (registreerRoute) — bv. Worker-TTS voor dynamische tekst
  *
+ * Talen in GEEN_SPRAAK slaan alle drie de lagen over: geen knop, geen geluid, geen fout
+ * (besluit S-7, 17-09-2026 — Tigrinya).
+ *
  * Insluiten ná i18n.js, vóór components.js:
  *   <script src="i18n.js"></script>
  *   <script src="spraak.js"></script>
@@ -23,14 +26,31 @@
     EN: ['en-GB', 'en-US', 'en'],
     AR: ['ar-SA', 'ar-EG', 'ar'],
     TR: ['tr-TR', 'tr'],
-    TI: ['ti-ET', 'ti-ER'],          // daarna niets (browser)
+    TI: ['ti-ET', 'ti-ER'],          // alleen nog voor spraak-ín (zie GEEN_SPRAAK)
     UK: ['uk-UA', 'uk'],             // NOOIT ru
     FA: ['fa-IR', 'fa-AF', 'fa'],
     RO: ['ro-RO', 'ro'],
     PL: ['pl-PL', 'pl'],
   };
   // Talen die altijd bestand-eerst spelen, ongeacht manifestbron (D-19).
-  const BESTAND_EERST = { TI: true, FA: true };
+  const BESTAND_EERST = { FA: true };
+
+  // ── Talen zonder voorlezen (besluit S-7, 17-09-2026) ───────────────────
+  // Tigrinya krijgt geen voorleesknop meer. Een moedertaalspreker beoordeelde de
+  // eSpeak-stem (W-B) en het antwoord was nee — dat oordeel geldt voor alle drie de
+  // lagen, want ze klonken alle drie hetzelfde: de voorgegenereerde clips kwamen uit
+  // eSpeak, /api/tts draait eSpeak, en de "browserstem" voor ti- op Linux is óók
+  // eSpeak via speech-dispatcher. Daarom staat de taal hier hard uit in plaats van
+  // dat we op een lege laag vertrouwen.
+  //
+  // Dit gaat alleen over voorlezen. Tekst, vertaling, RTL en spraakinvoer blijven
+  // ongemoeid, en het verdwijnen gebeurt stil: geen dode knop en geen foutmelding
+  // (principe 6). Komt er ooit een stem die wél deugt, dan is deze regel de knop om
+  // hem weer aan te zetten — zie BACKLOG-tigrinya-stem.md.
+  const GEEN_SPRAAK = { TI: true };
+  function geenSpraak(taal) {
+    return !!GEEN_SPRAAK[String(taal || '').toUpperCase()];
+  }
 
   // ── Interne staat ──────────────────────────────────────────────────────
   const manifestCache = {};   // taal → manifest-object | null
@@ -109,6 +129,7 @@
 
   // ── Laagkeuze (D-19) ───────────────────────────────────────────────────
   function kiesLaag(taal, hash) {
+    if (geenSpraak(taal)) return null;      // besluit S-7: geen laag, dus geen knop
     const m = manifestCache[taal];
     const bestandBeschikbaar = heeftBestand(taal, hash);
     const bestandEerst = !!BESTAND_EERST[taal] || (m && m.bron === 'gemini');
@@ -239,6 +260,10 @@
   async function zeg(tekst, opties) {
     opties = opties || {};
     const taal = (opties.taal || actieveTaal());
+    // Stil terug, zonder fout(): er hoort voor deze taal geen knop te staan, en wie
+    // hier tóch komt (luistermodus, gesproken taalbevestiging) mag geen trilling of
+    // foutmelding krijgen voor iets wat we bewust niet aanbieden.
+    if (geenSpraak(taal)) return;
     stop();
     gestopt = false;
     const genorm = normaliseer(tekst);
@@ -256,6 +281,7 @@
 
   function beschikbaar(taal) {
     taal = taal || actieveTaal();
+    if (geenSpraak(taal)) return false;
     return !!stemVoor(taal) || heeftBestanden(taal) || routeKan(taal);
   }
 
@@ -293,6 +319,7 @@
   // Per-element beschikbaarheid: kan JUIST deze tekst geleverd worden?
   // (principe 6: geen knop = geen kapotte staat, i.p.v. een dode knop.)
   async function kanLeveren(tekst, taal) {
+    if (geenSpraak(taal)) return false;
     await ensureManifest(taal);
     const hash = await hashVan(normaliseer(tekst));
     return heeftBestand(taal, hash) || !!stemVoor(taal) || routeKan(taal);
@@ -332,7 +359,18 @@
         delete el.dataset.solA11yKlaar;
       }
       if (el.dataset.solA11yKlaar) continue;
-      if (el.querySelector(':scope > .sol-a11y-knop')) { el.dataset.solA11yKlaar = '1'; el.dataset.solA11yTaal = taal; continue; }
+      const bestaande = el.querySelector(':scope > .sol-a11y-knop');
+      if (bestaande) {
+        // Staat er al een knop voor déze taal, dan is het oordeel al geveld — klaar.
+        if (el.dataset.solA11yTaal === taal) { el.dataset.solA11yKlaar = '1'; continue; }
+        // Anders is er van taal gewisseld zonder dat de inhoud verving (de knop
+        // overleefde dus), en moet het oordeel opnieuw. Zonder dit bleven bij een wissel
+        // naar een taal zonder voorlezen (Tigrinya, S-7) alle knoppen staan — precies de
+        // dode knop die principe 6 verbiedt. Weg ermee; hieronder komt er alleen een
+        // nieuwe voor terug als die taal wél geleverd kan worden.
+        if (bestaande.classList.contains('sol-a11y-leest')) stop();
+        bestaande.remove();
+      }
       const tekst = el.getAttribute('data-lees') || el.textContent;
       if (!normaliseer(tekst)) continue;
       // Claim het element vóór de await, anders glipt een gelijktijdige scan erlangs.
@@ -433,6 +471,8 @@
     if (!el) return;
     if (e.target.closest('.sol-a11y-knop')) return; // knop doet z'n eigen ding
     const taal = (el.getAttribute('data-lees-taal') || actieveTaal()).toUpperCase();
+    // Geen oplichtend blok voor een taal die toch niet gelezen wordt (S-7).
+    if (geenSpraak(taal)) return;
     const tekst = el.getAttribute('data-lees') || el.textContent;
     document.querySelectorAll('.sol-a11y-leest-blok').forEach(x => x.classList.remove('sol-a11y-leest-blok'));
     el.classList.add('sol-a11y-leest-blok');
@@ -479,9 +519,10 @@
     return r;
   }
 
-  // Een externe route bedient niet per se alle talen. /api/tts doet alleen Tigrinya
-  // (besluit F3), dus zonder deze filter zou de knop ook verschijnen bij talen waar de
-  // route een 400 teruggeeft — een dode knop, en dat is precies wat principe 6 verbiedt.
+  // Een externe route bedient niet per se alle talen: zonder deze filter zou de knop
+  // ook verschijnen bij talen waar de route een 400 teruggeeft — een dode knop, en dat
+  // is precies wat principe 6 verbiedt. Er is op dit moment geen route geregistreerd
+  // (S-7), dus routeKan() geeft altijd false.
   function routeKan(taal) {
     if (!externeRoute) return false;
     if (!routeTalen) return true;
@@ -497,6 +538,7 @@
   window.Solidari.spraak = {
     beschikbaar, zeg, stop, bezig, ontgrendel, stemVoor, splitsZinnen,
     knop, scan, autoMarkeer, verwerk, micKnop, autoMic, manifest, luistermodus, luister, registreerRoute, registreerInvoerRoute,
+    geenSpraak,
     // testhaken (niet-openbaar bedoeld, wel handig in acceptatietests)
     _kiesLaag, _normaliseer: normaliseer, _hashVan: hashVan, _actieveTaal: actieveTaal,
   };
@@ -515,33 +557,12 @@
     setTimeout(() => { verwerkGepland = false; verwerk(document); }, 200);
   }
 
-  // ── /api/tts: Tigrinya voor dynamische tekst (PLAN-4 fase 3/4, besluit D-25 vervalt) ──
-  // Alleen TI: dat is de enige taal zonder browserstem én zonder cloud-dekking, en de
-  // route doet bewust niets anders (besluit F3 — geen gebruikerstekst naar een derde partij).
-  // De tekst gaat naar onze eigen server, dezelfde waar de PII-redactie draait; verder nergens heen.
-  const TTS_MAX = 2000;                       // de route weigert boven deze lengte (413)
-  function ttsBasis() {
-    return location.hostname.endsWith('github.io')
-      ? 'https://api-test.solidari.nl'        // staging praat met de staging-ingang
-      : 'https://api.solidari.nl';
-  }
-  async function ttsRoute(tekst, taal) {
-    if (String(taal).toUpperCase() !== 'TI') return null;
-    const t = String(tekst || '').trim();
-    if (!t || t.length > TTS_MAX) return null;
-    const r = await fetch(ttsBasis() + '/api/tts', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ tekst: t, taal: 'TI' }),
-      signal: AbortSignal.timeout(40000),
-    });
-    if (!r.ok) return null;                   // 4xx/5xx → geen knop, geen kapotte staat
-    const blob = await r.blob();
-    if (ttsObjectUrl) { try { URL.revokeObjectURL(ttsObjectUrl); } catch (e) {} }
-    ttsObjectUrl = URL.createObjectURL(blob);
-    return ttsObjectUrl;
-  }
-  let ttsObjectUrl = null;
+  // ── /api/tts is uit de frontend gehaald (besluit S-7, 17-09-2026) ──────
+  // Hier stond de aanroep van onze eigen TTS-route voor dynamische Tigrinya-tekst.
+  // Na de native review (W-B: nee) roept geen enkele pagina hem nog aan. De route
+  // zelf blijft draaien op de VPS en in nginx — zie INSTRUCTIES.md — zodat hij er nog
+  // is als er ooit een stem komt die wél deugt. Terugzetten is dan: deze aanroep
+  // opnieuw registreren via registreerRoute(fn, ['TI']) en TI uit GEEN_SPRAAK halen.
 
   function init() {
     // Onderdruk de bekende, onschadelijke AbortError die Chromium logt wanneer
@@ -555,9 +576,8 @@
     document.addEventListener('pointerdown', eersteGebaarOntgrendel, true);
     document.addEventListener('keydown', eersteGebaarOntgrendel, true);
 
-    // Tigrinya-route voor dynamische tekst registreren vóór de eerste scan, zodat
-    // TI-blokken meteen een knop krijgen in plaats van pas na de volgende scan.
-    registreerRoute(ttsRoute, ['TI']);
+    // Er wordt geen uitvoerroute meer geregistreerd (S-7). registreerRoute() blijft
+    // bestaan als haak; zonder aanroep staat laag 3 eenvoudigweg uit.
 
     // Eerste markering + knoppen
     verwerk(document);

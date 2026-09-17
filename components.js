@@ -319,6 +319,7 @@
         window.setTaal(taal.toLowerCase(), btn);
       }
       try { localStorage.setItem('solidari-taal', taal); } catch(e) {}
+      verversLuisterToggle();   // taal zonder voorlezen → schakelaar weg (S-7)
     }
 
     document.querySelectorAll('.taal-btn[data-taal]').forEach(btn => {
@@ -339,6 +340,22 @@
   }
 
   // ── Voorlezen-schakelaar (luistermodus) ────────────────────────────────
+  // Voor een taal die niet voorgelezen wordt (Tigrinya, besluit S-7) hoort ook deze
+  // schakelaar weg te blijven: hij zou de luistermodus aanzetten waarna er niets
+  // klinkt — precies de dode knop die principe 6 verbiedt. Verbergen, niet
+  // verwijderen: bij een wissel terug naar een taal mét stem moet hij er weer staan.
+  function verversLuisterToggle() {
+    const btn = document.querySelector('.sol-a11y-luister-toggle');
+    if (!btn) return;
+    const spraak = window.Solidari && Solidari.spraak;
+    if (!spraak || typeof spraak.geenSpraak !== 'function') return;
+    let taal = 'NL';
+    try { taal = localStorage.getItem('solidari-taal') || 'NL'; } catch (e) {}
+    const uit = spraak.geenSpraak(taal);
+    if (uit && spraak.luistermodus.staat()) spraak.luistermodus.uit();
+    btn.hidden = uit;
+  }
+
   function koppelLuisterToggle() {
     const btn = document.querySelector('.sol-a11y-luister-toggle');
     if (!btn) return;
@@ -362,6 +379,7 @@
       verversLabel();
     });
     verversLabel();
+    verversLuisterToggle();
   }
 
   // ── Welkomstscherm (eerste bezoek): kies je taal, met stem ─────────────

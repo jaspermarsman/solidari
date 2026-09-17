@@ -71,13 +71,16 @@ function main() {
     rijen.push(`  ${taal}: ${bestanden.length} clips, ${mb(bytes).toFixed(2)} MB, bron=${manifest.bron}`);
   }
 
-  // 5. TI moet audio hebben — dat is de taal zonder browserstem, dus zonder terugval.
-  //    (uroman is vervallen met MMS: eSpeak NG heeft eigen Ge'ez-regels, PLAN-4 fase 2.)
+  // 5. TI moet juist GEEN audio hebben (besluit S-7, 17-09-2026). De eSpeak-stem is na
+  //    de review door een moedertaalspreker afgewezen; er staan geen clips meer en de
+  //    taal krijgt geen voorleesknop. Was: "TI moet audio hebben". Zou er per ongeluk
+  //    opnieuw gegenereerd worden, dan valt de validatie daar nu over.
   const tiManifest = path.join(AUDIO, 'manifest-ti.json');
   if (fs.existsSync(tiManifest)) {
     const ti = JSON.parse(fs.readFileSync(tiManifest, 'utf8'));
-    if (ti.bron !== 'espeak') fouten.push(`TI: manifest-bron is "${ti.bron}", verwacht "espeak"`);
-    if (!Object.keys(ti.items || {}).length) fouten.push('TI: geen clips — Tigrinya heeft geen browserstem als terugval');
+    if (ti.bron) fouten.push(`TI: manifest-bron is "${ti.bron}", verwacht leeg (S-7: geen TI-spraak)`);
+    if (Object.keys(ti.items || {}).length) fouten.push('TI: er staan weer clips in het manifest — besluit S-7 zegt geen TI-spraak');
+    if (fs.existsSync(path.join(AUDIO, 'TI'))) fouten.push('TI: audio/TI/ bestaat weer — besluit S-7 zegt geen TI-spraak');
   } else {
     fouten.push('TI: manifest-ti.json ontbreekt');
   }

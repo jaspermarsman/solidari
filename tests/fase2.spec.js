@@ -1,9 +1,10 @@
 // Fase 2 — acceptatietest audiopijplijn.
 //
-// Bijgewerkt 02-09-2026 (AMENDEMENT-a11y-tts.md): MMS is uitgefaseerd. Alleen Tigrinya heeft
-// nog voorgegenereerde clips — met eSpeak NG op de eigen server, omdat er voor die taal geen
-// browserstem bestaat. De andere acht talen vallen terug op de browserstem en hebben bewust
-// een leeg manifest ("bron": null). Een leeg manifest is daar dus de bedoelde toestand.
+// Bijgewerkt 17-09-2026 (besluit S-7): ook Tigrinya heeft geen voorgegenereerde clips meer.
+// De eSpeak-stem is na de review door een moedertaalspreker (W-B) afgewezen, dus zijn de
+// 37 clips verwijderd en is manifest-ti.json leeggemaakt. Alle negen manifesten zijn nu leeg:
+// de acht talen mét browserstem gebruiken die, en Tigrinya wordt niet voorgelezen.
+// Eerder (02-09-2026, AMENDEMENT-a11y-tts.md) was MMS al uitgefaseerd ten gunste van eSpeak.
 const { test, expect } = require('@playwright/test');
 const fs = require('fs');
 const path = require('path');
@@ -16,27 +17,23 @@ function teksten(taal) {
   return JSON.parse(fs.readFileSync(p, 'utf8'));
 }
 
-test('elke taal heeft een manifest; TI heeft clips, de rest is bewust leeg', async () => {
+test('elke taal heeft een manifest en alle negen zijn bewust leeg', async () => {
   for (const taal of TALEN) {
     const man = path.join(AUDIO, `manifest-${taal.toLowerCase()}.json`);
     expect(fs.existsSync(man), `manifest ${taal} ontbreekt`).toBe(true);
     const m = JSON.parse(fs.readFileSync(man, 'utf8'));
     const n = Object.keys(m.items || {}).length;
-    if (taal === 'TI') {
-      expect(m.bron, 'TI moet op eSpeak draaien').toBe('espeak');
-      expect(n, 'TI manifest leeg — die taal heeft geen browserstem als terugval').toBeGreaterThan(0);
-      // elk manifest-item heeft ook echt een bestand
-      for (const hash of Object.keys(m.items)) {
-        expect(fs.existsSync(path.join(AUDIO, 'TI', `${hash}.mp3`)), `TI mp3 ${hash} ontbreekt`).toBe(true);
-      }
-    } else {
-      expect(m.bron, `${taal} hoort geen generatorbron te hebben`).toBeFalsy();
-      expect(n, `${taal} hoort geen clips te hebben (browserstem)`).toBe(0);
-    }
+    expect(m.bron, `${taal} hoort geen generatorbron te hebben`).toBeFalsy();
+    expect(n, `${taal} hoort geen clips te hebben`).toBe(0);
+    // Geen manifestregel zonder bestand, en ook geen taalmap zonder manifestregels.
+    expect(fs.existsSync(path.join(AUDIO, taal)), `audio/${taal}/ hoort niet te bestaan`).toBe(false);
   }
 });
 
-test('spraak.js speelt een echte TI-clip via laag 1 (bestand)', async ({ page }) => {
+test('de TI-clips zijn echt weg: geen laag, geen bestand (S-7)', async ({ page }) => {
+  // Was: "spraak.js speelt een echte TI-clip via laag 1". De keerzijde van hetzelfde
+  // mechanisme, want dit is de test die moest omslaan toen W-B nee werd. De teksten
+  // blijven bestaan (ze staan in de vertaalbestanden), alleen de audio niet.
   const ti = teksten('TI')[0];
   await metTaal(page, 'TI');
   await page.goto('/index.html', { waitUntil: 'domcontentloaded' });
@@ -45,15 +42,12 @@ test('spraak.js speelt een echte TI-clip via laag 1 (bestand)', async ({ page })
   const res = await page.evaluate(async ({ tekst, hash }) => {
     const s = Solidari.spraak;
     const laag = await s._kiesLaag(tekst, 'TI');
-    const url = 'audio/TI/' + hash + '.mp3';
-    const r = await fetch(url);
-    const blob = await r.blob();
-    return { laag, status: r.status, grootte: blob.size };
+    const r = await fetch('audio/TI/' + hash + '.mp3');
+    return { laag, status: r.status };
   }, ti);
 
-  expect(res.laag, 'TI moet bestand-eerst zijn').toBe('bestand');
-  expect(res.status, 'TI-mp3 moet 200 geven').toBe(200);
-  expect(res.grootte, 'TI-mp3 moet niet-triviaal zijn').toBeGreaterThan(500);
+  expect(res.laag, 'TI hoort geen laag meer te kiezen').toBeNull();
+  expect(res.status, 'de TI-clip hoort er niet meer te zijn').toBe(404);
 });
 
 test('een NL zeg-zin valt terug op de browserstem (geen bestand meer)', async ({ page }) => {

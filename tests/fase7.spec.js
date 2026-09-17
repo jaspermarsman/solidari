@@ -102,21 +102,20 @@ test('live staging rooktest: audio laadt, testbalk + noindex, geen productielink
     const balk = document.getElementById('sol-env-balk');
     const badLinks = [...document.querySelectorAll('a[href]')].map(a => a.getAttribute('href'))
       .filter(h => /solidari\.nl/i.test(h) && !/^mailto:/i.test(h) && !/api\.solidari\.nl/i.test(h));
-    // audio echt bereikbaar?
-    const man = await fetch('audio/manifest-ti.json').then(x => x.ok ? x.json() : null).catch(() => null);
-    const eersteHash = man && Object.keys(man.items || {})[0];
-    const clip = eersteHash ? (await fetch('audio/TI/' + eersteHash + '.mp3')).status : 0;
+    // Manifest bereikbaar? De inhoud toetsen we hier niet: staging loopt achter op main
+    // tot Jasper hem bijwerkt, en sinds besluit S-7 staan er hoe dan ook geen clips meer
+    // in. Wat hier telt is dat de laag bereikbaar is en de pagina niet stukloopt.
+    const manOk = await fetch('audio/manifest-ti.json').then(x => x.ok).catch(() => false);
     return {
       noindex: robots && robots.content, testbalk: !!balk,
       omgeving: window.Solidari.omgeving, badLinks: badLinks.length,
-      manifestItems: man ? Object.keys(man.items || {}).length : 0, clipStatus: clip,
+      manOk,
     };
   });
   expect(r.noindex).toBe('noindex');
   expect(r.testbalk).toBe(true);
   expect(r.omgeving).toBe('staging');
   expect(r.badLinks).toBe(0);
-  expect(r.manifestItems).toBeGreaterThan(0);
-  expect(r.clipStatus).toBe(200);
+  expect(r.manOk, 'manifest niet bereikbaar op staging').toBe(true);
   expect(errors, errors.join(' | ')).toEqual([]);
 });

@@ -231,13 +231,6 @@
     "cijfer": false
   },
   {
-    "hash": "dc2a14354872acff",
-    "tekst": "Tigrinya seslendirme: TigrinyaNLP'nin Tigrinya eklentisiyle eSpeak NG (GPL-3.0)",
-    "bron": "ui:a11y-attributie",
-    "prioriteit": 1,
-    "cijfer": true
-  },
-  {
     "hash": "733b28bd41a8786f",
     "tekst": "Bu bir yapay zekâ asistanıdır, insan değildir. Açıklamada hata olabilir — önemli bilgileri kurumdan veya danışmanınızdan teyit edin.",
     "bron": "ui:ai-melding",

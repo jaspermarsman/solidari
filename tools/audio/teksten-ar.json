@@ -231,13 +231,6 @@
     "cijfer": false
   },
   {
-    "hash": "472623b81bbf1632",
-    "tekst": "النطق بالتغرينية: eSpeak NG مع امتداد التغرينية من TigrinyaNLP (GPL-3.0)",
-    "bron": "ui:a11y-attributie",
-    "prioriteit": 1,
-    "cijfer": true
-  },
-  {
     "hash": "155181a60602d180",
     "tekst": "هذا مساعد ذكاء اصطناعي، وليس إنسانًا. قد يحتوي الشرح على أخطاء — تحقق من المعلومات المهمة لدى الجهة المعنية أو لدى مرافقك.",
     "bron": "ui:ai-melding",

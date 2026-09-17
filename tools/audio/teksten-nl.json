@@ -231,13 +231,6 @@
     "cijfer": false
   },
   {
-    "hash": "f1fb9e8a082bcf24",
-    "tekst": "Tigrinya-spraak: eSpeak NG met de Tigrinya-uitbreiding van TigrinyaNLP (GPL-3.0)",
-    "bron": "ui:a11y-attributie",
-    "prioriteit": 1,
-    "cijfer": true
-  },
-  {
     "hash": "e3e4a637b886208d",
     "tekst": "Dit is een AI-assistent, geen mens. De uitleg kan fouten bevatten — controleer belangrijke informatie bij de instantie of bij je begeleider.",
     "bron": "ui:ai-melding",
