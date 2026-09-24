@@ -1,14 +1,14 @@
 #!/usr/bin/env node
-// check.js — controleert naturalisatie-data.js (fase 3 van
+// check.js — controleert naturalisatie-data.js (fase 3 en 4 van
 // PLAN-naturalisatie-migratiepact.md). Exit 1 bij een fout.
 //
 // Gebruik:
 //   node tools/naturalisatie/check.js --taal NL   (één taal)
 //   node tools/naturalisatie/check.js             (alle talen in _NAT)
 //
-// Fase 3 draait dit alleen met --taal NL. Fase 4 breidt dit bestand uit
-// met een pariteitscontrole over alle negen talen (zie §7 fase 4.2 van
-// het plan) — dat is hier nog niet geïmplementeerd.
+// Fase 4 (§7 fase 4.2): elke niet-NL-taal wordt ook tegen NL gecontroleerd
+// op pariteit (zie checkPariteit hieronder), en de §8-scenario's draaien in
+// alle gecontroleerde talen.
 
 const fs = require('fs');
 const path = require('path');
@@ -29,8 +29,8 @@ function fail(msg) { FOUTEN.push(msg); }
 // ── §8 scenariotabel ──────────────────────────────────────────────────────
 // Elk pad is een lijst van [vraagId, antwoordIndex]. Dit is taal-onafhankelijk
 // zolang de structuur (aantal/volgorde antwoorden, volgende-doelen) gelijk
-// blijft aan NL — precies wat N-9/§6 eist. Nu (fase 3) alleen tegen NL gedraaid,
-// omdat de andere talen deze vraag-ID's nog niet hebben (dat is fase 4).
+// blijft aan NL — precies wat N-9/§6 eist (en wat checkPariteit afdwingt).
+// Draait sinds fase 4 in elke gecontroleerde taal.
 const SCENARIOS = {
   'S-1': {
     pad: [['v1', 0], ['v1b', 1], ['v2', 0], ['v3', 1], ['v4a', 0], ['v5', 0], ['v6', 0], ['v7', 0], ['v8', 0]],
@@ -84,28 +84,31 @@ const SCENARIOS = {
   },
 };
 
-function simuleerScenario(id, scenario, vragen, resultaten) {
+function simuleerScenario(taal, id, scenario, vragen, resultaten) {
+  const sfail = msg => fail(`[${taal}] ${msg}`);
   let huidig = 'v1';
   for (const [vraagId, idx] of scenario.pad) {
     if (huidig !== vraagId) {
-      fail(`${id}: verwachtte dat we bij vraag ${vraagId} zouden staan, maar staan op ${huidig}`);
+      sfail(`${id}: verwachtte dat we bij vraag ${vraagId} zouden staan, maar staan op ${huidig}`);
       return;
     }
     const v = vragen[vraagId];
-    if (!v) { fail(`${id}: vraag ${vraagId} bestaat niet`); return; }
+    if (!v) { sfail(`${id}: vraag ${vraagId} bestaat niet`); return; }
     const a = (v.antwoorden || [])[idx];
-    if (!a) { fail(`${id}: antwoord[${idx}] bestaat niet bij vraag ${vraagId}`); return; }
+    if (!a) { sfail(`${id}: antwoord[${idx}] bestaat niet bij vraag ${vraagId}`); return; }
     huidig = a.volgende;
   }
   if (huidig !== scenario.verwacht) {
-    fail(`${id}: pad kwam uit op "${huidig}", verwacht was "${scenario.verwacht}"`);
+    sfail(`${id}: pad kwam uit op "${huidig}", verwacht was "${scenario.verwacht}"`);
     return;
   }
   if (scenario.verbiedt) {
     const res = resultaten[huidig] || {};
     const tekst = JSON.stringify(res).toLowerCase();
-    scenario.verbiedt.forEach(zin => {
-      if (tekst.includes(zin.toLowerCase())) fail(`${id}: resultaat ${huidig} bevat verboden zin "${zin}"`);
+    // `verbiedt` bevat NL-zinnen; alleen zinvol in NL. Voor andere talen
+    // dekt checkPariteit dit af (r_te_kort heeft dezelfde structuur als NL).
+    if (taal === 'NL') scenario.verbiedt.forEach(zin => {
+      if (tekst.includes(zin.toLowerCase())) sfail(`${id}: resultaat ${huidig} bevat verboden zin "${zin}"`);
     });
   }
 }
@@ -194,6 +197,120 @@ function checkVerbodenZinnen(taal, taalData) {
   });
 }
 
+// ── Pariteit met NL (fase 4.2) ───────────────────────────────────────────
+// Velden die geen vertaalbare tekst zijn: die moeten exact gelijk zijn aan NL.
+const NIET_TEKST = new Set(['icoon', 'klasse', 'volgende', 'type', 'link', 'naar', 'nr']);
+
+function bladeren(o, pad = [], uit = {}) {
+  if (o && typeof o === 'object') {
+    Object.keys(o).forEach(k => bladeren(o[k], pad.concat(k), uit));
+  } else {
+    uit[pad.join('.')] = o;
+  }
+  return uit;
+}
+
+// Oosters-Arabische (٠-٩) en Perzische (۰-۹) cijfers → 0-9; URL's in href
+// tellen niet mee (die worden apart vergeleken).
+function cijfers(tekst) {
+  const t = String(tekst)
+    .replace(/href="[^"]*"/g, '')
+    .replace(/[٠-٩]/g, c => String(c.charCodeAt(0) - 0x0660))
+    .replace(/[۰-۹]/g, c => String(c.charCodeAt(0) - 0x06F0));
+  return [...new Set(t.match(/\d+/g) || [])].sort();
+}
+
+function hrefs(tekst) {
+  return [...String(tekst).matchAll(/href="([^"]*)"/g)].map(m => m[1]).sort();
+}
+
+// Platte tekst zonder HTML en zonder alles tussen haakjes (daar mogen de
+// Nederlandse systeemtermen staan, §6).
+function plat(tekst) {
+  return String(tekst)
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/\([^()]*\)/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase();
+}
+
+// Nederlandse zinnen van ≥ 6 woorden uit een NL-tekstveld.
+function nlZinnen(tekst) {
+  return plat(tekst)
+    .split(/[.!?:;—]+/)
+    .map(z => z.replace(/^[\s,"'→↺⚠️🗓️💡✈️🇪🇺]+|[\s,"']+$/gu, '').trim())
+    .filter(z => z.split(/\s+/).filter(Boolean).length >= 6);
+}
+
+function checkPariteit(taal, taalData, nlData) {
+  const nl = bladeren(nlData);
+  const x = bladeren(taalData);
+  const ontbreekt = Object.keys(nl).filter(p => !(p in x));
+  const extra = Object.keys(x).filter(p => !(p in nl));
+  ontbreekt.forEach(p => fail(`[${taal}] pariteit: veld "${p}" ontbreekt (bestaat wel in NL)`));
+  extra.forEach(p => fail(`[${taal}] pariteit: veld "${p}" bestaat niet in NL`));
+
+  Object.keys(nl).forEach(p => {
+    if (!(p in x)) return;
+    const sleutel = p.split('.').pop();
+    const a = nl[p];
+    const b = x[p];
+    if (NIET_TEKST.has(sleutel)) {
+      if (a !== b) fail(`[${taal}] pariteit: ${p} = ${JSON.stringify(b)}, NL = ${JSON.stringify(a)}`);
+      return;
+    }
+    if (typeof b !== 'string' || b.trim() === '') {
+      fail(`[${taal}] pariteit: ${p} is leeg of geen tekst`);
+      return;
+    }
+    const ca = cijfers(a).join(',');
+    const cb = cijfers(b).join(',');
+    if (ca !== cb) fail(`[${taal}] pariteit: cijfers in ${p} zijn {${cb}}, NL heeft {${ca}}`);
+    if (hrefs(a).join(' ') !== hrefs(b).join(' ')) fail(`[${taal}] pariteit: links (href) in ${p} wijken af van NL`);
+    const pb = plat(b);
+    nlZinnen(a).forEach(z => {
+      if (pb.includes(z)) fail(`[${taal}] pariteit: Nederlandse zin in ${p}: "${z}"`);
+    });
+  });
+}
+
+function checkLegeStrings(taal, taalData) {
+  Object.entries(bladeren(taalData)).forEach(([p, v]) => {
+    if (typeof v === 'string' && v.trim() === '') fail(`[${taal}] leeg tekstveld: ${p}`);
+  });
+}
+
+// ── Verplichte zinnen per vertaalde taal ─────────────────────────────────
+// De NL-controle hieronder (checkVerplichteZinnenNL) werkt op Nederlandse
+// tekst. Voor de andere talen geldt hetzelfde principe (§2.2, §6): elk
+// resultaat met het KABINET-blok en r_inkomen zegt "nog geen wet", en
+// r_eu_li_eerst zegt "niet online" — in de vertaalde bewoording hieronder.
+const VERPLICHT = {
+  EN: { nogGeenWet: 'not yet law', nietOnline: 'not online' },
+  AR: { nogGeenWet: 'ليست قانوناً بعد', nietOnline: 'ليس عبر الإنترنت' },
+  TR: { nogGeenWet: 'henüz yasa değil', nietOnline: 'internet üzerinden değil' },
+  UK: { nogGeenWet: 'ще не закон', nietOnline: 'не онлайн' },
+  FA: { nogGeenWet: 'هنوز قانون نیست', nietOnline: 'نه آنلاین' },
+  TI: { nogGeenWet: 'ገና ሕጊ ኣይኮነን', nietOnline: 'ብኦንላይን ኣይኮነን' },
+  RO: { nogGeenWet: 'încă nu este lege', nietOnline: 'nu online' },
+  PL: { nogGeenWet: 'jeszcze nie jest prawem', nietOnline: 'nie online' },
+};
+
+function checkVerplichteZinnenTaal(taal, resultaten, nlResultaten) {
+  const v = VERPLICHT[taal];
+  if (!v) { fail(`[${taal}] geen verplichte-zinnenset in check.js (VERPLICHT)`); return; }
+  const bevat = (obj, zin) => JSON.stringify(obj || {}).toLowerCase().includes(zin.toLowerCase());
+  if (!bevat(resultaten.r_inkomen, v.nogGeenWet)) fail(`[${taal}] r_inkomen bevat niet "${v.nogGeenWet}"`);
+  // Welke resultaten het KABINET-blok hebben, bepaalt NL.
+  Object.entries(nlResultaten).forEach(([id, r]) => {
+    if (/plan van het kabinet/i.test(JSON.stringify(r)) && !bevat(resultaten[id], v.nogGeenWet)) {
+      fail(`[${taal}] resultaat "${id}" hoort het KABINET-blok te hebben, maar bevat niet "${v.nogGeenWet}"`);
+    }
+  });
+  if (!bevat(resultaten.r_eu_li_eerst, v.nietOnline)) fail(`[${taal}] r_eu_li_eerst bevat niet "${v.nietOnline}"`);
+}
+
 // ── Verplichte zinnen NL ──────────────────────────────────────────────────
 function checkVerplichteZinnenNL(vragen, resultaten) {
   const rInkomen = JSON.stringify(resultaten.r_inkomen || {});
@@ -232,11 +349,17 @@ function main() {
     if (!NAT[taal]) { fail(`taal "${taal}" bestaat niet in _NAT`); return; }
     const { vragen, resultaten } = checkTaal(taal, NAT[taal]);
     checkVerbodenZinnen(taal, NAT[taal]);
+    checkLegeStrings(taal, NAT[taal]);
 
     if (taal === 'NL') {
       checkVerplichteZinnenNL(vragen, resultaten);
-      Object.entries(SCENARIOS).forEach(([id, scenario]) => simuleerScenario(id, scenario, vragen, resultaten));
+    } else if (NAT.NL) {
+      checkPariteit(taal, NAT[taal], NAT.NL);
+      checkVerplichteZinnenTaal(taal, resultaten, NAT.NL.resultaten || {});
+    } else {
+      fail(`[${taal}] pariteit niet te controleren: _NAT.NL ontbreekt`);
     }
+    Object.entries(SCENARIOS).forEach(([id, scenario]) => simuleerScenario(taal, id, scenario, vragen, resultaten));
   });
 
   if (FOUTEN.length) {
