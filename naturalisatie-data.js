@@ -20,8 +20,8 @@ window._NAT = {
     "header": {
       "badge": "🇳🇱 Naturalisatie Checker",
       "titel": "Kom ik in aanmerking voor een Nederlands paspoort?",
-      "sub": "Beantwoord een paar vragen en zie direct of je naturalisatie kunt aanvragen — op basis van de IND-voorwaarden van 2026, inclusief de nieuwe asielregels.",
-      "disclaimer": "⚠️ Deze checker geeft een indicatie op basis van de IND-voorwaarden van 2026, inclusief het tweestatusstelsel dat sinds 12 juni 2026 geldt. Een paar aangekondigde maatregelen (zoals de naturalisatietermijn van 5 naar 10 jaar en taalniveau B1) zijn nog niet definitief. Er zijn altijd uitzonderingen en persoonlijke omstandigheden. Raadpleeg altijd een medewerker van de gemeente of VluchtelingenWerk voor persoonlijk advies.",
+      "sub": "Beantwoord een paar vragen en zie of je Nederlander kunt worden. Op basis van de regels van 2026, ook de nieuwe asielregels sinds 12 juni 2026.",
+      "disclaimer": "⚠️ Deze checker geeft een indicatie, geen besluit. Gecontroleerd in september 2026 (IND, Stimulansz). Sinds 12 juni 2026 is er geen asielvergunning voor onbepaalde tijd meer. Nieuwe statushouders moeten daarom eerst EU-langdurig ingezetene worden voordat ze kunnen naturaliseren. Aangekondigde plannen van het kabinet zijn nog geen wet. Vraag altijd advies aan de gemeente of VluchtelingenWerk.",
       "vwnLabel": "Twijfel je over jouw situatie?",
       "vwnTekst": "Naturalisatieregels veranderen snel en jouw situatie kan anders liggen dan de checker aangeeft. VluchtelingenWerk heeft spreekuren en begeleiding bij naturalisatie — kijk op <a href=\"https://www.vluchtelingenwerk.nl/over-ons/locaties\" target=\"_blank\" style=\"color:inherit;\">vluchtelingenwerk.nl/over-ons/locaties</a> voor een locatie bij jou in de buurt."
     },
@@ -38,7 +38,6 @@ window._NAT = {
     },
     "vragen": {
       "v1": {
-        "stap": "Stap 1 van 9",
         "tekst": "Ben je 18 jaar of ouder?",
         "uitleg": "Naturalisatie kan alleen worden aangevraagd door meerderjarigen. Voor minderjarige kinderen gelden aparte regels via de ouders.",
         "antwoorden": [
@@ -57,19 +56,24 @@ window._NAT = {
         ]
       },
       "v1b": {
-        "stap": "Stap 2 van 9",
-        "tekst": "Wat is je huidige verblijfsstatus in Nederland?",
-        "uitleg": "De manier waarop je in Nederland verblijft, bepaalt welke route van toepassing is. EU-burgers verblijven op basis van EU-recht — niet via een Nederlandse verblijfsvergunning.",
+        "tekst": "Wat voor verblijf heb je in Nederland?",
+        "uitleg": "Het soort vergunning bepaalt je route naar het Nederlanderschap. EU-burgers wonen hier op basis van EU-recht.",
         "antwoorden": [
           {
-            "tekst": "Ik heb een Nederlandse verblijfsvergunning",
-            "sub": "Of een asielstatus (IND type III, IV of V)",
+            "tekst": "Ik heb een asielvergunning (statushouder)",
+            "icoon": "🛡️",
+            "klasse": "ja",
+            "volgende": "v_asiel"
+          },
+          {
+            "tekst": "Ik heb een andere verblijfsvergunning",
+            "sub": "Bijvoorbeeld voor gezin, werk of studie",
             "icoon": "📄",
             "klasse": "ja",
             "volgende": "v2"
           },
           {
-            "tekst": "Ik ben EU-burger (bijv. Roemeens of Pools paspoort)",
+            "tekst": "Ik ben EU-burger",
             "sub": "Of burger van EER/Zwitserland",
             "icoon": "🇪🇺",
             "klasse": "anders",
@@ -79,14 +83,171 @@ window._NAT = {
             "tekst": "Ik weet het niet zeker",
             "icoon": "❓",
             "klasse": "anders",
+            "volgende": "v_asiel_wn"
+          }
+        ]
+      },
+      "v_asiel": {
+        "tekst": "Welke asielvergunning heb je nu?",
+        "uitleg": "Sinds 12 juni 2026 zijn de regels veranderd. Voor naturalisatie maakt het uit wanneer je je huidige vergunning hebt gekregen.",
+        "antwoorden": [
+          {
+            "tekst": "Asiel voor onbepaalde tijd",
+            "sub": "Gekregen vóór 12 juni 2026",
+            "icoon": "✓",
+            "klasse": "ja",
+            "volgende": "v2"
+          },
+          {
+            "tekst": "Asiel voor 5 jaar, gekregen vóór 12 juni 2026",
+            "icoon": "📅",
+            "klasse": "ja",
+            "volgende": "v_asiel5"
+          },
+          {
+            "tekst": "Asiel gekregen of verlengd op of na 12 juni 2026",
+            "sub": "Meestal 3 jaar geldig",
+            "icoon": "🆕",
+            "klasse": "anders",
+            "volgende": "e1"
+          },
+          {
+            "tekst": "Ik ben al EU-langdurig ingezetene",
+            "icoon": "🇪🇺",
+            "klasse": "ja",
+            "volgende": "v2"
+          },
+          {
+            "tekst": "Ik weet het niet",
+            "icoon": "❓",
+            "klasse": "anders",
+            "volgende": "v_asiel_wn"
+          }
+        ]
+      },
+      "v_asiel5": {
+        "tekst": "Goed nieuws: jouw vergunning valt onder de oude regels",
+        "uitleg": "Je hebt je asielvergunning van 5 jaar gekregen vóór 12 juni 2026. Daarmee kun je nog naturaliseren op de oude manier.<br><br>⚠️ <strong>Let op:</strong> verlengt de IND je vergunning na 12 juni 2026, dan krijg je een vergunning volgens de nieuwe regels. Dan moet je eerst EU-langdurig ingezetene worden. <strong>Voldoe je aan de voorwaarden? Vraag naturalisatie dan aan terwijl je huidige pas nog geldig is.</strong>",
+        "antwoorden": [
+          {
+            "tekst": "Ik begrijp het — ga verder",
+            "icoon": "→",
+            "klasse": "ja",
             "volgende": "v2"
           }
         ]
       },
+      "v_asiel_wn": {
+        "tekst": "Zo zie je welke vergunning je hebt",
+        "uitleg": "Kijk op je verblijfspas, bij 'Type document en bijzonderheden' (het typenummer en de tekst ernaast), of in de brief van de IND. Let op twee dingen:<br><br>1. Staat er <strong>asiel</strong> of een ander doel (zoals gezin of werk)?<br>2. Wanneer heb je deze pas gekregen: <strong>vóór of na 12 juni 2026</strong>? En hoe lang is hij geldig?<br><br>Kom je er niet uit? Vraag het je begeleider bij de gemeente of VluchtelingenWerk.",
+        "antwoorden": [
+          {
+            "tekst": "Ik heb het gevonden — terug naar de vraag",
+            "icoon": "↩",
+            "klasse": "ja",
+            "volgende": "v1b"
+          },
+          {
+            "tekst": "Ik kan het niet nagaan",
+            "icoon": "❓",
+            "klasse": "anders",
+            "volgende": "r_asiel_onbekend"
+          }
+        ]
+      },
+      "e1": {
+        "tekst": "Woon je al 5 jaar of langer achter elkaar in Nederland met een geldige vergunning?",
+        "uitleg": "Met een nieuwe asielvergunning kun je pas Nederlander worden als je eerst EU-langdurig ingezetene bent. Daarvoor moet je minstens 5 jaar achter elkaar in Nederland wonen met een geldige vergunning. De jaren met een asielvergunning tellen mee. Of de tijd in de asielprocedure meetelt, bepaalt de IND.",
+        "antwoorden": [
+          {
+            "tekst": "Ja, 5 jaar of langer",
+            "icoon": "✓",
+            "klasse": "ja",
+            "volgende": "e2"
+          },
+          {
+            "tekst": "Nee, korter dan 5 jaar",
+            "icoon": "⏳",
+            "klasse": "nee",
+            "volgende": "r_te_kort_nieuw"
+          }
+        ]
+      },
+      "e2": {
+        "tekst": "Ben je in die 5 jaar lang in het buitenland geweest?",
+        "uitleg": "Voor EU-langdurig ingezetene mag je niet langer dan 6 maanden achter elkaar buiten Nederland zijn geweest. In totaal mag het niet meer dan 10 maanden zijn.",
+        "antwoorden": [
+          {
+            "tekst": "Nee, nooit zo lang",
+            "icoon": "✓",
+            "klasse": "ja",
+            "volgende": "e3"
+          },
+          {
+            "tekst": "Ja, langer dan 6 maanden achter elkaar, of meer dan 10 maanden in totaal",
+            "icoon": "✗",
+            "klasse": "nee",
+            "volgende": "r_eu_li_afwezig"
+          },
+          {
+            "tekst": "Dat weet ik niet precies",
+            "icoon": "❓",
+            "klasse": "anders",
+            "volgende": "e3"
+          }
+        ]
+      },
+      "e3": {
+        "tekst": "Heb je genoeg eigen inkomen om van te leven?",
+        "uitleg": "Voor EU-langdurig ingezetene moet je genoeg eigen inkomen hebben. Dat moet zelfstandig zijn (niet van een uitkering) en duurzaam (het blijft). Je hebt ook een zorgverzekering nodig.",
+        "antwoorden": [
+          {
+            "tekst": "Ja, uit werk of een eigen bedrijf",
+            "icoon": "💼",
+            "klasse": "ja",
+            "volgende": "e4"
+          },
+          {
+            "tekst": "Ja, maar pas kort of met een tijdelijk contract",
+            "icoon": "⚠️",
+            "klasse": "anders",
+            "volgende": "e4"
+          },
+          {
+            "tekst": "Nee, ik heb een uitkering of geen eigen inkomen",
+            "icoon": "✗",
+            "klasse": "nee",
+            "volgende": "r_inkomen"
+          }
+        ]
+      },
+      "e4": {
+        "tekst": "Hoe staat het met je inburgering?",
+        "uitleg": "Voor EU-langdurig ingezetene moet je voldoen aan de inburgeringseis. Dat kan via de B1-route, de onderwijsroute of de Z-route.",
+        "antwoorden": [
+          {
+            "tekst": "Klaar via de B1-route of onderwijsroute, of ik heb vrijstelling",
+            "icoon": "✓",
+            "klasse": "ja",
+            "volgende": "r_eu_li_eerst"
+          },
+          {
+            "tekst": "Klaar via de Z-route",
+            "icoon": "🌱",
+            "klasse": "ja",
+            "volgende": "r_eu_li_eerst_z"
+          },
+          {
+            "tekst": "Ik ben nog bezig",
+            "icoon": "⏳",
+            "klasse": "anders",
+            "volgende": "r_eu_li_inburgering_bezig"
+          }
+        ]
+      },
       "v2": {
-        "stap": "Stap 3 van 9",
         "tekst": "Heb je een geldige verblijfsvergunning?",
-        "uitleg": "Je hebt een geldige verblijfsvergunning nodig. Een asielstatus (verblijfsvergunning asiel bepaalde of onbepaalde duur) telt ook mee.<br><br>📌 <strong>Sinds 12 juni 2026 (tweestatusstelsel):</strong> nieuwe asielvergunningen gelden nog maximaal 3 jaar in plaats van 5, en de asielvergunning voor onbepaalde tijd wordt niet meer afgegeven. <em>Overgangsrecht:</em> had je op 12 juni 2026 al een asielvergunning (5 jaar of onbepaalde tijd)? Dan behoud je die rechten zolang het document geldig is. Voor naturalisatie blijft het belangrijkste dat je verblijf <strong>ononderbroken</strong> is — verleng je 3-jarige vergunning dus altijd op tijd.",
+        "uitleg": "Je hebt een geldige verblijfsvergunning nodig die niet tijdelijk is. Denk aan een vergunning voor onbepaalde tijd, EU-langdurig ingezetene, of een asielvergunning van vóór 12 juni 2026. Verleng je vergunning altijd op tijd, zodat je verblijf ononderbroken blijft.",
         "antwoorden": [
           {
             "tekst": "Ja, ik heb een geldige verblijfsvergunning",
@@ -104,7 +265,6 @@ window._NAT = {
         ]
       },
       "v3": {
-        "stap": "Stap 4 van 9",
         "tekst": "Hoe lang woon je ononderbroken in Nederland?",
         "uitleg": "Je moet op dit moment minimaal 5 jaar aaneengesloten in Nederland wonen. Korte reizen naar het buitenland breken dit niet.<br><br>⚠️ <strong>Let op — mogelijke wijziging:</strong> het kabinet wil deze termijn verlengen van 5 naar 10 jaar (en voor partners van Nederlanders van 3 naar 5 jaar). Dit voorstel is nog niet aangenomen, dus juridisch geldt nu nog 5 jaar — maar houd er rekening mee dat de eis kan veranderen. Houd je verblijf hoe dan ook ononderbroken.",
         "antwoorden": [
@@ -124,7 +284,6 @@ window._NAT = {
         ]
       },
       "v4a": {
-        "stap": "Stap 5 van 9 — Inburgering",
         "tekst": "Hoe staat het met jouw inburgering?",
         "uitleg": "Voor naturalisatie moet je aantonen dat je bent ingeburgerd. Er zijn meerdere manieren.",
         "antwoorden": [
@@ -166,7 +325,6 @@ window._NAT = {
         ]
       },
       "v4a_z": {
-        "stap": "Stap 5 van 9 — Z-route",
         "tekst": "Je hebt de Z-route afgerond — er is nog één extra stap nodig voor naturalisatie",
         "uitleg": "De Z-route sluit af met een eindgesprek en certificaat, maar voor naturalisatie gelden aanvullende taaleisen vanuit de IND. Er zijn drie paden om toch te kunnen naturaliseren:<br><br><strong>Pad A — Alsnog examen halen op A2-niveau</strong><br>Haal alle taalexamens op A2 (lezen, luisteren, schrijven, spreken) én het KNM-examen. Let op: nu de Z-route is afgerond zijn examenpogingen niet langer kosteloos.<br><br><strong>Pad B — 600 uur taalles + minimaal 3 pogingen per onderdeel</strong><br>Minstens 600 uur taalles op A2-niveau bij een Blik op Werk instelling én 3 pogingen per onderdeel? Dan kan DUO een ontheffingsadvies geven.<br><br><strong>Pad C — 600 uur alfabetisering + DUO-toets (€150)</strong><br>Minstens 600 uur alfabetisering en blijkt A2 niet haalbaar? Dan volgt een ontheffing via DUO-toets (€150).<br><br><em>Mogelijk in de toekomst:</em> het kabinet wil de taaleis voor naturalisatie verhogen van A2 naar B1. Dit is nog niet aangenomen — op dit moment geldt nog A2.<br><br>💡 Overleg met jouw gemeente of VluchtelingenWerk welk pad het beste past.",
         "antwoorden": [
@@ -179,7 +337,6 @@ window._NAT = {
         ]
       },
       "v4b": {
-        "stap": "Stap 5 van 9 — Leerroute",
         "tekst": "Welke inburgeringsroute volg je?",
         "uitleg": "De gemeente bepaalt jouw leerroute op basis van je leerbaarheid. Er zijn drie routes: B1, Onderwijsroute en Z-route.",
         "antwoorden": [
@@ -213,7 +370,6 @@ window._NAT = {
         ]
       },
       "v4b_z": {
-        "stap": "Stap 5 van 9 — Z-route",
         "tekst": "Hoe ver ben je in de Z-route?",
         "uitleg": "De Z-route sluit af met een eindgesprek bij de gemeente en een positief DUO-advies. Dit is vereist voor naturalisatie.",
         "antwoorden": [
@@ -234,7 +390,6 @@ window._NAT = {
         ]
       },
       "v5": {
-        "stap": "Stap 6 van 9",
         "tekst": "Ben je in de afgelopen 5 jaar veroordeeld voor een misdrijf?",
         "uitleg": "Een strafrechtelijke veroordeling kan naturalisatie blokkeren. Verkeersboetes en kleine overtredingen tellen meestal niet mee.",
         "antwoorden": [
@@ -259,7 +414,6 @@ window._NAT = {
         ]
       },
       "v6": {
-        "stap": "Stap 7 van 9",
         "tekst": "Heb je op dit moment je hoofdverblijf in Nederland?",
         "uitleg": "Je moet je hoofdverblijf in Nederland hebben. Af en toe op reis gaan is geen probleem.",
         "antwoorden": [
@@ -278,7 +432,6 @@ window._NAT = {
         ]
       },
       "v7": {
-        "stap": "Stap 8 van 9",
         "tekst": "Ben je bereid afstand te doen van je huidige nationaliteit?",
         "uitleg": "Nederland staat in principe geen dubbele nationaliteit toe. Uitzondering: erkende vluchtelingen (statushouders) mogen beide nationaliteiten houden.",
         "antwoorden": [
@@ -304,7 +457,6 @@ window._NAT = {
         ]
       },
       "v8": {
-        "stap": "Stap 9 van 9",
         "tekst": "Ben je op de hoogte van de kosten van naturalisatie?",
         "uitleg": "De aanvraag kost €1.139 voor één persoon en €1.454 met partner (tarieven 2026). Voor asielstatushouders en staatlozen geldt een verlaagd tarief van €847 (alleen) of €1.163 (met partner). De procedure duurt gemiddeld 6–12 maanden.",
         "antwoorden": [
@@ -352,7 +504,7 @@ window._NAT = {
             "tekst": "<strong>Naturalisatieceremonie:</strong> na goedkeuring ontvang je een uitnodiging voor de ceremonie bij de gemeente."
           }
         ],
-        "link": "https://ind.nl/nl/nederlander-worden/naturalisatie",
+        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
         "linkTekst": "→ Meer informatie op ind.nl"
       },
       "r_eu_burger": {
@@ -384,7 +536,7 @@ window._NAT = {
             "tekst": "<strong>Wil je verder?</strong> Doorloop de checker opnieuw en kies bij de verblijfsstatus voor \"verblijfsvergunning\" — de overige voorwaarden gelden ook voor EU-burgers."
           }
         ],
-        "link": "https://ind.nl/nl/nederlander-worden/naturalisatie",
+        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
         "linkTekst": "→ Naturalisatie-informatie op ind.nl"
       },
       "r_minderjarig": {
@@ -410,7 +562,7 @@ window._NAT = {
             "tekst": "Als je in Nederland geboren bent, kun je soms via \"optie\" Nederlander worden."
           }
         ],
-        "link": "https://ind.nl/nl/nederlander-worden",
+        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
         "linkTekst": "→ Meer informatie op ind.nl"
       },
       "r_geen_vergunning": {
@@ -450,8 +602,8 @@ window._NAT = {
             "tekst": "Nieuwe asielvergunningen gelden nog maximaal 3 jaar; verleng dus op tijd. Komt er een \"verblijfsgat\" — een periode tussen twee vergunningen waarin je geen geldige vergunning hebt — dan telt die tijd niet als rechtmatig verblijf, en kan de 5-jaarstelling voor naturalisatie opnieuw gaan lopen. Vraag verlenging daarom uiterlijk binnen 4 weken na afloop aan: dan ziet de IND het niet als verblijfsgat."
           },
           {
-            "naam": "Geen onbepaalde tijd meer",
-            "tekst": "De asielvergunning voor onbepaalde tijd wordt niet meer afgegeven. Geen probleem voor naturalisatie: je kunt straks naturaliseren vanuit een geldige tijdelijke vergunning."
+            "naam": "Verloopt je asielvergunning eerder?",
+            "tekst": "Heb je een asielvergunning van 5 jaar van vóór 12 juni 2026, en verloopt die voordat je 5 jaar in Nederland woont? Dan krijg je bij verlenging een vergunning volgens de nieuwe regels. Dan loopt je route via EU-langdurig ingezetene, en daarvoor geldt een inkomenseis."
           },
           {
             "naam": "Naturalisatietermijn: mogelijk 10 jaar",
@@ -459,7 +611,7 @@ window._NAT = {
           },
           {
             "naam": "Alternatief: EU-langdurig ingezetene",
-            "tekst": "Nu de asiel-onbepaalde-tijd vervalt, is \"EU-langdurig ingezetene\" na 5 jaar een belangrijk alternatief: je houdt je eigen nationaliteit en krijgt sterke verblijfsrechten. <strong>Belangrijk: hiervoor geldt wél een inkomenseis</strong> — werk en een stabiel, voldoende eigen inkomen wegen hier zwaar mee. Bekijk de blauwe knop hieronder."
+            "tekst": "EU-langdurig ingezetene geeft na 5 jaar een blijvend verblijfsrecht, en je houdt je eigen nationaliteit. <strong>Hiervoor geldt wél een inkomenseis.</strong>"
           },
           {
             "naam": "Inburgering afronden",
@@ -468,6 +620,10 @@ window._NAT = {
           {
             "naam": "Documenten verzamelen",
             "tekst": "Vraag alvast officiële documenten op uit je land van herkomst en werk aan je Nederlands, bijvoorbeeld via een taalcursus bij een instelling met het Blik op Werk keurmerk."
+          },
+          {
+            "naam": "Plan van het kabinet (nog geen wet)",
+            "tekst": "statushouders die twee keer een tijdelijke asielvergunning hebben gekregen en Nederlands op niveau B1 halen, zouden na 6 jaar Nederlander kunnen worden, ook zonder EU-langdurig ingezetene. Voor wie B1 niet kan halen komt een uitzondering. Er is nog geen wetsvoorstel. Tot die wet er is, gelden de regels hierboven."
           }
         ],
         "interneLink": {
@@ -506,7 +662,7 @@ window._NAT = {
             "tekst": "<strong>Na behalen diploma:</strong> stuur het bewijs door naar de gemeente/IND — dan kan de beslissing worden genomen."
           }
         ],
-        "link": "https://ind.nl/nl/nederlander-worden/naturalisatie",
+        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
         "linkTekst": "→ Meer informatie op ind.nl"
       },
       "r_bezig_onderwijs": {
@@ -542,7 +698,7 @@ window._NAT = {
             "tekst": "<strong>Na behalen diploma:</strong> stuur het bewijs door naar de gemeente/IND."
           }
         ],
-        "link": "https://ind.nl/nl/nederlander-worden/naturalisatie",
+        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
         "linkTekst": "→ Meer informatie op ind.nl"
       },
       "r_bezig_z": {
@@ -679,7 +835,7 @@ window._NAT = {
             "tekst": "Vraag bij je gemeente naar de exacte eisen voor de woonplaats."
           }
         ],
-        "link": "https://ind.nl/nl/nederlander-worden/naturalisatie",
+        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
         "linkTekst": "→ Meer informatie op ind.nl"
       },
       "r_nationaliteit": {
@@ -713,14 +869,14 @@ window._NAT = {
           "naar": "r_eu_langdurig",
           "tekst": "🇪🇺 Bekijk: EU-langdurig ingezetene (nationaliteit behouden)"
         },
-        "link": "https://ind.nl/nl/nederlander-worden/naturalisatie",
+        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
         "linkTekst": "→ Alle uitzonderingen op ind.nl"
       },
       "r_eu_langdurig": {
         "type": "eu",
         "icoon": "🇪🇺",
         "titel": "EU-langdurig ingezetene — permanent blijven zonder je nationaliteit op te geven",
-        "sub": "Een permanente verblijfsstatus na 5 jaar legaal verblijf. Je houdt je eigen nationaliteit en krijgt sterke, blijvende verblijfsrechten. Nu de asielvergunning voor onbepaalde tijd is afgeschaft, is dit vaak het belangrijkste alternatief voor naturalisatie.",
+        "sub": "Een blijvende verblijfsvergunning na 5 jaar. Je houdt je eigen nationaliteit. Voor nieuwe statushouders is dit sinds 12 juni 2026 ook de verplichte tussenstap op weg naar naturalisatie.",
         "infoBoxen": [
           {
             "type": "info",
@@ -728,7 +884,11 @@ window._NAT = {
           },
           {
             "type": "amber",
-            "tekst": "⚠️ <strong>Belangrijk verschil met naturalisatie:</strong> voor deze status geldt wél een <strong>inkomenseis</strong> (zelfstandig, duurzaam en voldoende inkomen). Leef je van een uitkering, dan haal je die eis vaak niet — en dan is juist naturalisatie toegankelijker, want daarvoor geldt géén inkomenseis."
+            "tekst": "⚠️ <strong>Inkomenseis:</strong> je moet genoeg eigen, duurzaam inkomen hebben en een zorgverzekering. Met een uitkering lukt dat meestal niet. Let op: heb je een nieuwe asielvergunning (na 12 juni 2026), dan heb je EU-langdurig ingezetene nodig om later te kunnen naturaliseren. De inkomenseis geldt dan dus ook voor jouw weg naar het Nederlanderschap."
+          },
+          {
+            "type": "info",
+            "tekst": "✈️ Je mag in de 5 jaar niet langer dan 6 maanden achter elkaar, en niet meer dan 10 maanden in totaal, buiten Nederland zijn."
           }
         ],
         "stappen": [
@@ -738,18 +898,18 @@ window._NAT = {
           },
           {
             "nr": 2,
-            "tekst": "<strong>Of:</strong> nu de asielvergunning voor onbepaalde tijd verdwijnt, is dit de route van een tijdelijke (3-jaars) vergunning naar een blijvend verblijfsrecht."
+            "tekst": "<strong>Nieuwe asielvergunning?</strong> Dan is dit de enige weg naar een blijvende vergunning, en daarna naar naturalisatie."
           },
           {
             "nr": 3,
-            "tekst": "<strong>Voorwaarden:</strong> 5 jaar onafgebroken legaal verblijf (asieljaren tellen mee), geslaagde inburgering (minimaal A2), een geldig paspoort én voldoende eigen, duurzaam inkomen."
+            "tekst": "<strong>Voorwaarden:</strong> 5 jaar achter elkaar legaal in Nederland, niet te lang in het buitenland, genoeg eigen en duurzaam inkomen, een zorgverzekering, en je inburgering afgerond (B1-route, onderwijsroute of Z-route)."
           },
           {
             "nr": 4,
-            "tekst": "<strong>Aanvragen:</strong> bij de IND. Vraag je een vergunning voor onbepaalde tijd aan, dan kijkt de IND automatisch of je ook EU-langdurig ingezetene kunt krijgen."
+            "tekst": "<strong>Aanvragen:</strong> bij de IND. Vraag je een vergunning voor onbepaalde tijd aan, dan kijkt de IND automatisch of je ook EU-langdurig ingezetene kunt krijgen. Met een asielvergunning kun je alleen op papier aanvragen, niet online."
           }
         ],
-        "link": "https://ind.nl/nl/permanent-wonen/eu-langdurig-ingezetene",
+        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
         "linkTekst": "→ Lees meer over EU-langdurig ingezetene op ind.nl"
       },
       "r_kosten": {
@@ -777,6 +937,248 @@ window._NAT = {
         ],
         "link": "https://www.vluchtelingenwerk.nl",
         "linkTekst": "→ Hulp bij kosten via VluchtelingenWerk"
+      },
+      "r_eu_li_eerst": {
+        "type": "route",
+        "icoon": "🪜",
+        "titel": "Je kunt Nederlander worden — in twee stappen",
+        "sub": "Met een nieuwe asielvergunning moet je eerst EU-langdurig ingezetene worden. Daarna kun je naturalisatie aanvragen.",
+        "infoBoxen": [
+          {
+            "type": "amber",
+            "tekst": "⚠️ <strong>Inkomen:</strong> de IND kijkt of je inkomen genoeg is en of het blijft (bij een contract in loondienst moet dat nog minstens 12 maanden geldig zijn). Heb je pas kort werk of een tijdelijk contract? Laat dan eerst checken of je aanvraag kans maakt."
+          },
+          {
+            "type": "blauw",
+            "tekst": "🗓️ <strong>Plan van het kabinet — nog geen wet:</strong> statushouders die twee keer een tijdelijke asielvergunning hebben gekregen en Nederlands op niveau B1 halen, zouden na 6 jaar Nederlander kunnen worden, ook zonder EU-langdurig ingezetene. Voor wie B1 niet kan halen komt een uitzondering. Er is nog geen wetsvoorstel. Tot die wet er is, gelden de regels hierboven."
+          }
+        ],
+        "stappen": [
+          {
+            "nr": 1,
+            "tekst": "<strong>Vraag EU-langdurig ingezetene aan bij de IND.</strong> Met een asielvergunning kan dat alleen op papier, niet online. De aanvraag kost € 254."
+          },
+          {
+            "nr": 2,
+            "tekst": "<strong>Verzamel bewijs:</strong> je arbeidscontract en loonstroken, je zorgverzekering, en je inburgeringsdiploma of -besluit. Het formulier van de IND zegt precies wat nodig is."
+          },
+          {
+            "nr": 3,
+            "tekst": "<strong>Verleng intussen je asielvergunning op tijd.</strong> Zo blijft je verblijf ononderbroken."
+          },
+          {
+            "nr": 4,
+            "tekst": "<strong>Ben je EU-langdurig ingezetene? Vraag dan naturalisatie aan bij je gemeente.</strong> Dan gelden de gewone voorwaarden: inburgering voor naturalisatie, geen strafblad en je woont vast in Nederland. Als erkend vluchteling hoef je meestal geen afstand te doen van je nationaliteit."
+          }
+        ],
+        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
+        "linkTekst": "→ Lees meer over EU-langdurig ingezetene op ind.nl"
+      },
+      "r_eu_li_eerst_z": {
+        "type": "route",
+        "icoon": "🪜",
+        "titel": "Je kunt EU-langdurig ingezetene worden — voor naturalisatie is daarna een extra stap nodig",
+        "sub": "Met de Z-route voldoe je aan de inburgeringseis voor EU-langdurig ingezetene. Voor naturalisatie is dat niet genoeg: daarvoor gelden extra taaleisen.",
+        "infoBoxen": [
+          {
+            "type": "amber",
+            "tekst": "⚠️ <strong>Inkomen:</strong> de IND kijkt of je inkomen genoeg is en of het blijft (bij een contract in loondienst moet dat nog minstens 12 maanden geldig zijn). Heb je pas kort werk of een tijdelijk contract? Laat dan eerst checken of je aanvraag kans maakt."
+          },
+          {
+            "type": "blauw",
+            "tekst": "🗓️ <strong>Plan van het kabinet — nog geen wet:</strong> statushouders die twee keer een tijdelijke asielvergunning hebben gekregen en Nederlands op niveau B1 halen, zouden na 6 jaar Nederlander kunnen worden, ook zonder EU-langdurig ingezetene. Voor wie B1 niet kan halen komt een uitzondering. Er is nog geen wetsvoorstel. Tot die wet er is, gelden de regels hierboven."
+          }
+        ],
+        "padenTitel": "Na EU-langdurig ingezetene: drie paden naar naturalisatie vanuit de Z-route",
+        "paden": [
+          {
+            "nr": "A",
+            "titel": "Alsnog het inburgeringsexamen halen op A2-niveau",
+            "tekst": "Haal alle taalexamens op A2-niveau (lezen, luisteren, schrijven, spreken) én het KNM-examen. Na een geslaagd examen heb je een DUO-diploma en voldoe je aan het inburgeringsvereiste voor naturalisatie."
+          },
+          {
+            "nr": "B",
+            "titel": "600 uur taalles (A2) + minimaal 3 pogingen per examenonderdeel",
+            "tekst": "Minstens 600 uur taalles op A2-niveau bij een Blik op Werk instelling én minimaal 3 pogingen per onderdeel (waarvan minstens 1 A2-examen)? Dan kan DUO een ontheffingsadvies afgeven — ook zonder geslaagd examen."
+          },
+          {
+            "nr": "C",
+            "titel": "600 uur alfabetisering of taalles + DUO-toets (geen leervermogen) — €150",
+            "tekst": "Minstens 600 uur alfabetisering gevolgd bij een Blik op Werk instelling en blijkt uit een DUO-toets dat A2 niet haalbaar is? Dan volgt een ontheffing. De DUO-toets kost €150."
+          }
+        ],
+        "stappen": [
+          {
+            "nr": 1,
+            "tekst": "<strong>Vraag EU-langdurig ingezetene aan bij de IND.</strong> Met een asielvergunning kan dat alleen op papier, niet online. De aanvraag kost € 254."
+          },
+          {
+            "nr": 2,
+            "tekst": "<strong>Verzamel bewijs:</strong> je arbeidscontract en loonstroken, je zorgverzekering, en je inburgeringsdiploma of -besluit. Het formulier van de IND zegt precies wat nodig is."
+          },
+          {
+            "nr": 3,
+            "tekst": "<strong>Verleng intussen je asielvergunning op tijd.</strong> Zo blijft je verblijf ononderbroken."
+          },
+          {
+            "nr": 4,
+            "tekst": "<strong>Ben je EU-langdurig ingezetene? Kies dan een van de paden hierboven en vraag daarna naturalisatie aan bij je gemeente.</strong>"
+          }
+        ],
+        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
+        "linkTekst": "→ Lees meer over EU-langdurig ingezetene op ind.nl"
+      },
+      "r_eu_li_inburgering_bezig": {
+        "type": "route",
+        "icoon": "📚",
+        "titel": "Maak eerst je inburgering af",
+        "sub": "Je woont lang genoeg in Nederland en hebt inkomen. Wat nog ontbreekt, is je inburgering. Daarna kun je EU-langdurig ingezetene aanvragen, en later naturalisatie.",
+        "infoBoxen": [
+          {
+            "type": "blauw",
+            "tekst": "💡 De B1-route, de onderwijsroute en de Z-route tellen alle drie voor EU-langdurig ingezetene. Voor naturalisatie is de Z-route alleen niet genoeg."
+          },
+          {
+            "type": "blauw",
+            "tekst": "🗓️ <strong>Plan van het kabinet — nog geen wet:</strong> statushouders die twee keer een tijdelijke asielvergunning hebben gekregen en Nederlands op niveau B1 halen, zouden na 6 jaar Nederlander kunnen worden, ook zonder EU-langdurig ingezetene. Voor wie B1 niet kan halen komt een uitzondering. Er is nog geen wetsvoorstel. Tot die wet er is, gelden de regels hierboven."
+          }
+        ],
+        "stappen": [
+          {
+            "nr": 1,
+            "tekst": "<strong>Rond je inburgeringsroute af.</strong> Vraag je gemeente hoe lang je nog nodig hebt."
+          },
+          {
+            "nr": 2,
+            "tekst": "<strong>Houd je werk en je zorgverzekering aan.</strong> Die heb je nodig voor de aanvraag."
+          },
+          {
+            "nr": 3,
+            "tekst": "<strong>Verleng je asielvergunning op tijd.</strong>"
+          },
+          {
+            "nr": 4,
+            "tekst": "<strong>Doe deze check opnieuw</strong> als je inburgering klaar is."
+          }
+        ],
+        "interneLink": {
+          "naar": "r_eu_langdurig",
+          "tekst": "🇪🇺 Wat is EU-langdurig ingezetene?"
+        }
+      },
+      "r_inkomen": {
+        "type": "wacht",
+        "icoon": "🧭",
+        "titel": "Je inkomen is nu de drempel",
+        "sub": "Met een asielvergunning van na 12 juni 2026 kun je alleen Nederlander worden als je eerst EU-langdurig ingezetene bent. Daarvoor heb je genoeg eigen inkomen nodig. Met een uitkering lukt dat nu nog niet. Dit is eerlijk gezegd een grote verandering.",
+        "alternatieven": [
+          {
+            "naam": "Werk of meer uren",
+            "tekst": "Een baan, of meer uren werken, kan de weg openen. Bekijk met de tool Loont werken wat werken jou oplevert."
+          },
+          {
+            "naam": "Je mag blijven",
+            "tekst": "Je asielvergunning blijft gewoon geldig. Verleng hem altijd op tijd."
+          },
+          {
+            "naam": "Maak je inburgering af",
+            "tekst": "Die heb je nodig voor EU-langdurig ingezetene en voor naturalisatie."
+          },
+          {
+            "naam": "Partner of uitzondering?",
+            "tekst": "Het inkomen van je partner kan meetellen, als jullie samenwonen en je partner Nederlander is of een verblijfsvergunning heeft. Een uitzondering geldt als je de AOW-leeftijd hebt bereikt, of als je blijvend en volledig arbeidsongeschikt bent en dat kunt bewijzen."
+          },
+          {
+            "naam": "Plan van het kabinet (nog geen wet)",
+            "tekst": "statushouders die twee keer een tijdelijke asielvergunning hebben gekregen en Nederlands op niveau B1 halen, zouden na 6 jaar Nederlander kunnen worden, ook zonder EU-langdurig ingezetene. Voor wie B1 niet kan halen komt een uitzondering. Er is nog geen wetsvoorstel. Tot die wet er is, gelden de regels hierboven."
+          }
+        ],
+        "link": "loont-werken.html",
+        "linkTekst": "→ Bereken wat werken jou oplevert"
+      },
+      "r_eu_li_afwezig": {
+        "type": "wacht",
+        "icoon": "✈️",
+        "titel": "Je bent misschien te lang in het buitenland geweest",
+        "sub": "Voor EU-langdurig ingezetene mag je niet langer dan 6 maanden achter elkaar en niet meer dan 10 maanden in totaal buiten Nederland zijn geweest. De 5 jaar kunnen daardoor opnieuw gaan tellen.",
+        "alternatieven": [
+          {
+            "naam": "Tel je reizen na",
+            "tekst": "Zoek de data op van je reizen: stempels, tickets of je aanvraag voor een reisdocument."
+          },
+          {
+            "naam": "Laat het checken",
+            "tekst": "VluchtelingenWerk of je gemeente kan met je uitrekenen vanaf wanneer je weer 5 jaar hebt."
+          },
+          {
+            "naam": "Blijf voortaan korter weg",
+            "tekst": "Plan lange reizen zo dat je onder de grens blijft."
+          },
+          {
+            "naam": "Plan van het kabinet (nog geen wet)",
+            "tekst": "statushouders die twee keer een tijdelijke asielvergunning hebben gekregen en Nederlands op niveau B1 halen, zouden na 6 jaar Nederlander kunnen worden, ook zonder EU-langdurig ingezetene. Voor wie B1 niet kan halen komt een uitzondering. Er is nog geen wetsvoorstel. Tot die wet er is, gelden de regels hierboven."
+          }
+        ],
+        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
+        "linkTekst": "→ Lees meer over EU-langdurig ingezetene op ind.nl"
+      },
+      "r_te_kort_nieuw": {
+        "type": "wacht",
+        "icoon": "⏳",
+        "titel": "Nog niet lang genoeg in Nederland",
+        "sub": "Met een nieuwe asielvergunning moet je eerst 5 jaar in Nederland wonen. Daarna kun je EU-langdurig ingezetene worden, en dan pas Nederlander. Je kunt de tijd tot dan goed gebruiken.",
+        "alternatieven": [
+          {
+            "naam": "Verleng op tijd",
+            "tekst": "Nieuwe asielvergunningen gelden nog maximaal 3 jaar; verleng dus op tijd. Komt er een \"verblijfsgat\" — een periode tussen twee vergunningen waarin je geen geldige vergunning hebt — dan telt die tijd niet als rechtmatig verblijf, en kan de 5-jaarstelling voor naturalisatie opnieuw gaan lopen. Vraag verlenging daarom uiterlijk binnen 4 weken na afloop aan: dan ziet de IND het niet als verblijfsgat."
+          },
+          {
+            "naam": "Werk aan je inkomen",
+            "tekst": "Voor EU-langdurig ingezetene heb je later genoeg eigen inkomen nodig. Werk nu al aan een baan of aan meer uren."
+          },
+          {
+            "naam": "Rond je inburgering af",
+            "tekst": "De B1-route, de onderwijsroute en de Z-route tellen voor EU-langdurig ingezetene."
+          },
+          {
+            "naam": "Blijf niet te lang weg",
+            "tekst": "Ga niet langer dan 6 maanden achter elkaar naar het buitenland, en niet meer dan 10 maanden in totaal."
+          },
+          {
+            "naam": "Plan van het kabinet (nog geen wet)",
+            "tekst": "statushouders die twee keer een tijdelijke asielvergunning hebben gekregen en Nederlands op niveau B1 halen, zouden na 6 jaar Nederlander kunnen worden, ook zonder EU-langdurig ingezetene. Voor wie B1 niet kan halen komt een uitzondering. Er is nog geen wetsvoorstel. Tot die wet er is, gelden de regels hierboven."
+          }
+        ],
+        "interneLink": {
+          "naar": "r_eu_langdurig",
+          "tekst": "🇪🇺 Wat is EU-langdurig ingezetene?"
+        }
+      },
+      "r_asiel_onbekend": {
+        "type": "wacht",
+        "icoon": "🔍",
+        "titel": "Laat eerst checken welke vergunning je hebt",
+        "sub": "Je route naar het Nederlanderschap hangt af van je vergunning. Met een asielvergunning van vóór 12 juni 2026 is die korter dan met een nieuwe.",
+        "alternatieven": [
+          {
+            "naam": "Oude asielvergunning",
+            "tekst": "Onbepaalde tijd, of 5 jaar gekregen vóór 12 juni 2026: je kunt naturaliseren op de oude manier."
+          },
+          {
+            "naam": "Nieuwe asielvergunning",
+            "tekst": "Gekregen of verlengd op of na 12 juni 2026: eerst EU-langdurig ingezetene (met inkomenseis), daarna naturalisatie."
+          },
+          {
+            "naam": "Andere vergunning",
+            "tekst": "Voor gezin, werk of studie: de oude regels gelden nog."
+          },
+          {
+            "naam": "Wie kan helpen?",
+            "tekst": "Je begeleider bij de gemeente of VluchtelingenWerk kan samen met jou je pas bekijken."
+          }
+        ],
+        "link": "https://www.vluchtelingenwerk.nl/over-ons/locaties",
+        "linkTekst": "→ Vind een VluchtelingenWerk-locatie bij jou"
       }
     }
   },
