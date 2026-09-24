@@ -3518,25 +3518,24 @@ window._NAT = {
     "header": {
       "badge": "🇳🇱 Vatandaşlık Denetleyicisi",
       "titel": "Hollanda pasaportu için uygun muyum?",
-      "sub": "Birkaç soruyu yanıtlayın ve vatandaşlık başvurusu yapıp yapamayacağınızı hemen görün — 2026 IND koşullarına ve yeni iltica kurallarına göre.",
-      "disclaimer": "⚠️ Bu araç, 12 Haziran 2026'dan itibaren geçerli olan çift statü sistemi dahil 2026 IND koşullarına dayalı bir gösterge sunmaktadır. Açıklanan bazı önlemler (5'ten 10 yıla uzayan vatandaşlık süresi ve B1 dil seviyesi gibi) henüz kesinleşmemiştir. Her zaman istisnalar ve kişisel koşullar söz konusu olabilir. Kişisel tavsiye için her zaman bir belediye çalışanına veya VluchtelingenWerk'e başvurun.",
+      "sub": "Birkaç soruyu yanıtlayın ve Hollanda vatandaşı olup olamayacağınızı görün. 2026 kurallarına dayanır; 12 Haziran 2026'dan bu yana geçerli yeni iltica kuralları da dahildir.",
+      "disclaimer": "⚠️ Bu araç bir fikir verir, karar değildir. Eylül 2026'da kontrol edildi (IND, Stimulansz). 12 Haziran 2026'dan bu yana süresiz iltica oturma izni artık yok. Bu nedenle yeni statü sahipleri, vatandaşlığa geçebilmek (naturalisatie) için önce AB uzun süreli mukimi (EU-langdurig ingezetene) olmalıdır. Hükümetin açıkladığı planlar henüz yasa değil. Her zaman belediyeden veya VluchtelingenWerk'ten tavsiye isteyin.",
       "vwnLabel": "Durumunuzdan emin değil misiniz?",
       "vwnTekst": "Vatandaşlık kuralları hızla değişmektedir ve durumunuz aracın gösterdiğinden farklı olabilir. VluchtelingenWerk Nederland, vatandaşlık konusunda ücretsiz danışma saatleri ve rehberlik sunmaktadır — <a href=\"https://www.vluchtelingenwerk.nl/over-ons/locaties\" target=\"_blank\" style=\"color:inherit;\">vluchtelingenwerk.nl/over-ons/locaties</a> adresinden size yakın bir merkezi bulun."
     },
     "ui": {
       "volgendeStappen": "Sonraki adımlar",
-      "watKunJeDoen": "Ne yapabilirsin?",
-      "watKunJeNuDoen": "Şimdi ne yapabilirsin?",
-      "opnieuw": "↺ Yeniden başla",
-      "laatChecken": "Durumunu kontrol ettir",
+      "watKunJeDoen": "Ne yapabilirsiniz?",
+      "watKunJeNuDoen": "Şimdi ne yapabilirsiniz?",
+      "opnieuw": "↺ Baştan başla",
+      "laatChecken": "Durumunuzu kontrol ettirin",
       "vraagLabel": "Soru {n}",
-      "jeKuntKiezen": "Seçebilirsin:",
-      "ladenMislukt": "Bu sayfa yüklenirken bir hata oluştu. Sayfayı yenile veya daha sonra tekrar dene.",
+      "jeKuntKiezen": "Seçebilirsiniz:",
+      "ladenMislukt": "Bu sayfa yüklenirken bir hata oluştu. Sayfayı yenileyin veya daha sonra tekrar deneyin.",
       "driePaden": "Z-rotasından vatandaşlığa üç yol"
     },
     "vragen": {
       "v1": {
-        "stap": "Adım 1 / 9",
         "tekst": "18 yaşında veya daha büyük müsünüz?",
         "uitleg": "Vatandaşlık başvurusu yalnızca yetişkinler tarafından yapılabilir. Reşit olmayan çocuklar için ebeveynler aracılığıyla ayrı kurallar geçerlidir.",
         "antwoorden": [
@@ -3555,20 +3554,25 @@ window._NAT = {
         ]
       },
       "v1b": {
-        "stap": "Adım 2 / 9",
-        "tekst": "Hollanda'daki mevcut ikamet statünüz nedir?",
-        "uitleg": "Hollanda'da ikamet biçiminiz hangi yolun geçerli olduğunu belirler. AB vatandaşları AB hukuku kapsamında ikamet eder — Hollanda ikamet izniyle değil.",
+        "tekst": "Hollanda'da ne tür bir ikametiniz var?",
+        "uitleg": "İzninizin türü, Hollanda vatandaşlığına giden yolunuzu belirler. AB vatandaşları burada AB hukukuna göre yaşar.",
         "antwoorden": [
           {
-            "tekst": "Hollanda ikamet iznim var",
-            "sub": "Ya da sığınmacı statüsü (IND tip III, IV veya V)",
+            "tekst": "İltica oturma iznim var (statü sahibi)",
+            "icoon": "🛡️",
+            "klasse": "ja",
+            "volgende": "v_asiel"
+          },
+          {
+            "tekst": "Başka bir oturma iznim var",
+            "sub": "Örneğin aile, iş veya öğrenim için",
             "icoon": "📄",
             "klasse": "ja",
             "volgende": "v2"
           },
           {
-            "tekst": "AB vatandaşıyım (örn. Romanya veya Polonya pasaportu)",
-            "sub": "Ya da AEA / İsviçre vatandaşı",
+            "tekst": "AB vatandaşıyım",
+            "sub": "Ya da AEA/İsviçre vatandaşıyım",
             "icoon": "🇪🇺",
             "klasse": "anders",
             "volgende": "r_eu_burger"
@@ -3577,14 +3581,171 @@ window._NAT = {
             "tekst": "Emin değilim",
             "icoon": "❓",
             "klasse": "anders",
+            "volgende": "v_asiel_wn"
+          }
+        ]
+      },
+      "v_asiel": {
+        "tekst": "Şu anda hangi iltica izniniz var?",
+        "uitleg": "12 Haziran 2026'dan bu yana kurallar değişti. Vatandaşlığa geçiş (naturalisatie) için mevcut izninizi ne zaman aldığınız önemlidir.",
+        "antwoorden": [
+          {
+            "tekst": "Süresiz iltica",
+            "sub": "12 Haziran 2026'dan önce alındı",
+            "icoon": "✓",
+            "klasse": "ja",
+            "volgende": "v2"
+          },
+          {
+            "tekst": "5 yıllık iltica, 12 Haziran 2026'dan önce alındı",
+            "icoon": "📅",
+            "klasse": "ja",
+            "volgende": "v_asiel5"
+          },
+          {
+            "tekst": "12 Haziran 2026'da veya sonrasında alınan ya da uzatılan iltica",
+            "sub": "Genellikle 3 yıl geçerli",
+            "icoon": "🆕",
+            "klasse": "anders",
+            "volgende": "e1"
+          },
+          {
+            "tekst": "Zaten AB uzun süreli mukimiyim",
+            "icoon": "🇪🇺",
+            "klasse": "ja",
+            "volgende": "v2"
+          },
+          {
+            "tekst": "Bilmiyorum",
+            "icoon": "❓",
+            "klasse": "anders",
+            "volgende": "v_asiel_wn"
+          }
+        ]
+      },
+      "v_asiel5": {
+        "tekst": "İyi haber: izniniz eski kurallara tabi",
+        "uitleg": "5 yıllık iltica izninizi 12 Haziran 2026'dan önce aldınız. Bununla hâlâ eski yoldan vatandaşlığa geçebilirsiniz (naturalisatie).<br><br>⚠️ <strong>Dikkat:</strong> IND izninizi 12 Haziran 2026'dan sonra uzatırsa, yeni kurallara göre bir izin alırsınız. O zaman önce AB uzun süreli mukimi (EU-langdurig ingezetene) olmanız gerekir. <strong>Şartları karşılıyor musunuz? O hâlde mevcut kartınız hâlâ geçerliyken vatandaşlık başvurusu yapın.</strong>",
+        "antwoorden": [
+          {
+            "tekst": "Anladım — devam et",
+            "icoon": "→",
+            "klasse": "ja",
             "volgende": "v2"
           }
         ]
       },
+      "v_asiel_wn": {
+        "tekst": "Hangi izne sahip olduğunuzu böyle görürsünüz",
+        "uitleg": "Oturma kartınızda 'Type document en bijzonderheden' (belge türü ve özel notlar: tip numarası ve yanındaki metin) alanına veya IND'nin mektubuna bakın. İki şeye dikkat edin:<br><br>1. Orada <strong>iltica</strong> (asiel) mı yazıyor, yoksa başka bir amaç mı (aile veya iş gibi)?<br>2. Bu kartı ne zaman aldınız: <strong>12 Haziran 2026'dan önce mi, sonra mı</strong>? Ve ne kadar süre geçerli?<br><br>Anlayamadınız mı? Belediyedeki danışmanınıza veya VluchtelingenWerk'e sorun.",
+        "antwoorden": [
+          {
+            "tekst": "Buldum — soruya geri dön",
+            "icoon": "↩",
+            "klasse": "ja",
+            "volgende": "v1b"
+          },
+          {
+            "tekst": "Bunu kontrol edemiyorum",
+            "icoon": "❓",
+            "klasse": "anders",
+            "volgende": "r_asiel_onbekend"
+          }
+        ]
+      },
+      "e1": {
+        "tekst": "Hollanda'da geçerli bir izinle 5 yıl veya daha uzun süredir aralıksız mı yaşıyorsunuz?",
+        "uitleg": "Yeni bir iltica oturma izniyle (verblijfsvergunning asiel) ancak önce AB uzun süreli mukimi (EU-langdurig ingezetene) olursanız Hollanda vatandaşı olabilirsiniz. Bunun için Hollanda'da geçerli bir izinle en az 5 yıl aralıksız yaşamış olmanız gerekir. İltica izniyle geçen yıllar sayılır. İltica sürecinde geçen sürenin sayılıp sayılmadığına IND karar verir.",
+        "antwoorden": [
+          {
+            "tekst": "Evet, 5 yıl veya daha uzun",
+            "icoon": "✓",
+            "klasse": "ja",
+            "volgende": "e2"
+          },
+          {
+            "tekst": "Hayır, 5 yıldan kısa",
+            "icoon": "⏳",
+            "klasse": "nee",
+            "volgende": "r_te_kort_nieuw"
+          }
+        ]
+      },
+      "e2": {
+        "tekst": "Bu 5 yıl içinde uzun süre yurt dışında bulundunuz mu?",
+        "uitleg": "AB uzun süreli mukimi (EU-langdurig ingezetene) olmak için art arda 6 aydan uzun süre Hollanda dışında bulunmamış olmanız gerekir. Toplamda da 10 ayı geçmemelidir.",
+        "antwoorden": [
+          {
+            "tekst": "Hayır, hiç bu kadar uzun değil",
+            "icoon": "✓",
+            "klasse": "ja",
+            "volgende": "e3"
+          },
+          {
+            "tekst": "Evet, art arda 6 aydan uzun veya toplamda 10 aydan fazla",
+            "icoon": "✗",
+            "klasse": "nee",
+            "volgende": "r_eu_li_afwezig"
+          },
+          {
+            "tekst": "Tam olarak bilmiyorum",
+            "icoon": "❓",
+            "klasse": "anders",
+            "volgende": "e3"
+          }
+        ]
+      },
+      "e3": {
+        "tekst": "Geçinmeye yetecek kendi geliriniz var mı?",
+        "uitleg": "AB uzun süreli mukimi (EU-langdurig ingezetene) olmak için yeterli kendi gelirinizin olması gerekir. Bu gelir bağımsız (sosyal yardımdan değil) ve sürekli (devam eden) olmalıdır. Ayrıca sağlık sigortanız olmalıdır.",
+        "antwoorden": [
+          {
+            "tekst": "Evet, işten veya kendi işletmemden",
+            "icoon": "💼",
+            "klasse": "ja",
+            "volgende": "e4"
+          },
+          {
+            "tekst": "Evet, ama yeni başladım veya geçici sözleşmem var",
+            "icoon": "⚠️",
+            "klasse": "anders",
+            "volgende": "e4"
+          },
+          {
+            "tekst": "Hayır, sosyal yardım alıyorum veya kendi gelirim yok",
+            "icoon": "✗",
+            "klasse": "nee",
+            "volgende": "r_inkomen"
+          }
+        ]
+      },
+      "e4": {
+        "tekst": "Entegrasyonunuz ne durumda?",
+        "uitleg": "AB uzun süreli mukimi (EU-langdurig ingezetene) olmak için entegrasyon şartını (inburgering) karşılamanız gerekir. Bu, B1 rotası (B1-route), eğitim rotası (onderwijsroute) veya Z-rotası (Z-route) ile olabilir.",
+        "antwoorden": [
+          {
+            "tekst": "B1 rotası veya eğitim rotası ile tamamladım ya da muafiyetim var",
+            "icoon": "✓",
+            "klasse": "ja",
+            "volgende": "r_eu_li_eerst"
+          },
+          {
+            "tekst": "Z-rotası ile tamamladım",
+            "icoon": "🌱",
+            "klasse": "ja",
+            "volgende": "r_eu_li_eerst_z"
+          },
+          {
+            "tekst": "Hâlâ devam ediyorum",
+            "icoon": "⏳",
+            "klasse": "anders",
+            "volgende": "r_eu_li_inburgering_bezig"
+          }
+        ]
+      },
       "v2": {
-        "stap": "Adım 3 / 9",
         "tekst": "Geçerli bir ikamet izniniz var mı?",
-        "uitleg": "Geçerli bir oturma izniniz olmalıdır. İltica statüsü (belirli veya belirsiz süreli iltica oturma izni) de sayılır.<br><br>📌 <strong>12 Haziran 2026'dan itibaren (iki statülü sistem):</strong> yeni iltica izinleri artık 5 yıl yerine en fazla 3 yıl geçerlidir ve belirsiz süreli iltica izni artık verilmemektedir. <em>Geçiş hükmü:</em> 12 Haziran 2026'da zaten bir iltica izniniz (5 yıllık veya belirsiz süreli) var mıydı? O hâlde belge geçerli olduğu sürece bu hakları korursunuz. Vatandaşlık için en önemlisi ikametinizin <strong>kesintisiz</strong> olmasıdır — bu yüzden 3 yıllık izninizi her zaman zamanında yenileyin.",
+        "uitleg": "Geçici olmayan, geçerli bir oturma izniniz olmalıdır. Örneğin süresiz bir izin, AB uzun süreli mukimi (EU-langdurig ingezetene) statüsü veya 12 Haziran 2026'dan önce alınmış bir iltica izni. İzninizi her zaman zamanında yenileyin, böylece ikametiniz kesintisiz kalır.",
         "antwoorden": [
           {
             "tekst": "Evet, geçerli bir ikamet iznim var",
@@ -3602,7 +3763,6 @@ window._NAT = {
         ]
       },
       "v3": {
-        "stap": "Adım 4 / 9",
         "tekst": "Hollanda'da kesintisiz ne kadar süredir ikamet ediyorsunuz?",
         "uitleg": "Şu anda Hollanda'da en az 5 yıl aralıksız yaşamış olmanız gerekir. Yurt dışına kısa seyahatler bunu bozmaz.<br><br>⚠️ <strong>Dikkat — olası değişiklik:</strong> hükümet bu süreyi 5 yıldan 10 yıla çıkarmak istiyor (Hollandalı eşler için 3 yıldan 5 yıla). Bu teklif henüz kabul edilmedi, dolayısıyla yasal olarak hâlâ 5 yıl geçerli — ancak koşulun değişebileceğini göz önünde bulundurun. Her durumda ikametinizi kesintisiz tutun.",
         "antwoorden": [
@@ -3622,7 +3782,6 @@ window._NAT = {
         ]
       },
       "v4a": {
-        "stap": "Adım 5 / 9 — Entegrasyon",
         "tekst": "Entegrasyon (inburgering) durumunuz nedir?",
         "uitleg": "Vatandaşlık için entegre olduğunuzu kanıtlamanız gerekir. Bunun birden fazla yolu vardır.",
         "antwoorden": [
@@ -3664,7 +3823,6 @@ window._NAT = {
         ]
       },
       "v4a_z": {
-        "stap": "Adım 5 / 9 — Z-rotası",
         "tekst": "Z-rotasını tamamladınız — vatandaşlık için bir ek adım gerekiyor",
         "uitleg": "Z-rotası bir kapanış görüşmesi ve sertifika ile sona erer, ancak vatandaşlık için IND ek dil koşulları uygular. Yine de vatandaşlık alabilmek için üç yol vardır:<br><br><strong>Yol A — A2 seviyesinde sınavı yine de geçmek</strong><br>Tüm dil sınavlarını A2 seviyesinde (okuma, dinleme, yazma, konuşma) ve KNM sınavını geçin. Dikkat: Z-rotası tamamlandığı için sınav denemeleri artık ücretsiz değildir.<br><br><strong>Yol B — 600 saat dil dersi + her bölümde en az 3 deneme</strong><br>Blik op Werk belgeli bir kurumda en az 600 saat A2 seviyesinde dil dersi ve her bölümde 3 deneme? O zaman DUO bir muafiyet tavsiyesi verebilir.<br><br><strong>Yol C — 600 saat okuma-yazma + DUO testi (€150)</strong><br>En az 600 saat okuma-yazma eğitimi ve A2'nin ulaşılamaz olduğu anlaşılırsa? O zaman DUO testi (€150) ile muafiyet verilir.<br><br><em>Gelecekte mümkün:</em> hükümet vatandaşlık için dil koşulunu A2'den B1'e yükseltmek istiyor. Bu henüz kabul edilmedi — şu anda hâlâ A2 geçerli.<br><br>💡 Hangi yolun size en uygun olduğunu belediyenizle veya VluchtelingenWerk ile görüşün.",
         "antwoorden": [
@@ -3677,7 +3835,6 @@ window._NAT = {
         ]
       },
       "v4b": {
-        "stap": "Adım 5 / 9 — Öğrenme rotası",
         "tekst": "Hangi entegrasyon rotasını izliyorsunuz?",
         "uitleg": "Belediye, öğrenme kapasitenize göre rotanızı belirler. Üç rota vardır: B1, Eğitim rotası ve Z-rotası.",
         "antwoorden": [
@@ -3711,7 +3868,6 @@ window._NAT = {
         ]
       },
       "v4b_z": {
-        "stap": "Adım 5 / 9 — Z-rotası",
         "tekst": "Z-rotasında ne kadar ilerlettiniz?",
         "uitleg": "Z-rotası, belediyede yapılan son görüşme ve DUO'nun olumlu tavsiyesiyle tamamlanır. İkisi de vatandaşlık için gereklidir.",
         "antwoorden": [
@@ -3732,7 +3888,6 @@ window._NAT = {
         ]
       },
       "v5": {
-        "stap": "Adım 6 / 9",
         "tekst": "Son 5 yılda suçtan mahkûm oldunuz mu?",
         "uitleg": "Cezai mahkûmiyet vatandaşlığı engelleyebilir. Trafik para cezaları ve küçük ihlaller genellikle sayılmaz.",
         "antwoorden": [
@@ -3757,7 +3912,6 @@ window._NAT = {
         ]
       },
       "v6": {
-        "stap": "Adım 7 / 9",
         "tekst": "Şu anda ana ikamet yeriniz Hollanda mı?",
         "uitleg": "Ana ikametinizin Hollanda'da olması gerekir. Ara sıra yurt dışına çıkmak sorun değil.",
         "antwoorden": [
@@ -3776,7 +3930,6 @@ window._NAT = {
         ]
       },
       "v7": {
-        "stap": "Adım 8 / 9",
         "tekst": "Mevcut vatandaşlığınızdan vazgeçmeye hazır mısınız?",
         "uitleg": "Hollanda kural olarak çifte vatandaşlığa izin vermez. İstisna: tanınmış mülteciler (statü sahipleri) her iki vatandaşlığı koruyabilir.",
         "antwoorden": [
@@ -3802,7 +3955,6 @@ window._NAT = {
         ]
       },
       "v8": {
-        "stap": "Adım 9 / 9",
         "tekst": "Vatandaşlık masraflarından haberdar mısınız?",
         "uitleg": "Başvuru bir kişi için €1.139, eşle birlikte €1.454 tutar (2026 tarifeleri). İltica statüsü sahipleri ve vatansızlar için indirimli tarife geçerlidir: €847 (tek) veya €1.163 (eşle). İşlem ortalama 6–12 ay sürer.",
         "antwoorden": [
@@ -3850,7 +4002,7 @@ window._NAT = {
             "tekst": "<strong>Vatandaşlık töreni:</strong> onaydan sonra belediyede düzenlenen törence davet alacaksınız."
           }
         ],
-        "link": "https://ind.nl/nl/nederlander-worden/naturalisatie",
+        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
         "linkTekst": "→ ind.nl'de daha fazla bilgi"
       },
       "r_eu_burger": {
@@ -3882,7 +4034,7 @@ window._NAT = {
             "tekst": "<strong>Devam etmek ister misiniz?</strong> Denetleyiciyi yeniden çalıştırın ve ikamet statüsünde \"ikamet izni\" seçeneğini seçin — diğer şartlar AB vatandaşları için de geçerlidir."
           }
         ],
-        "link": "https://ind.nl/nl/nederlander-worden/naturalisatie",
+        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
         "linkTekst": "→ ind.nl'de vatandaşlık bilgisi"
       },
       "r_minderjarig": {
@@ -3908,7 +4060,7 @@ window._NAT = {
             "tekst": "Hollanda'da doğduysanız bazen \"opsiyon\" yoluyla Hollandalı olabilirsiniz."
           }
         ],
-        "link": "https://ind.nl/nl/nederlander-worden",
+        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
         "linkTekst": "→ ind.nl'de daha fazla bilgi"
       },
       "r_geen_vergunning": {
@@ -3948,8 +4100,8 @@ window._NAT = {
             "tekst": "Yeni iltica izinleri en fazla 3 yıl geçerlidir; bu yüzden zamanında yenileyin. İki izin arasında geçerli izniniz olmayan bir \"ikamet boşluğu\" (verblijfsgat) oluşursa, o süre yasal ikamet sayılmaz ve vatandaşlık için 5 yıl sayacı yeniden başlayabilir. Bu yüzden yenilemeyi en geç bitiş tarihinden sonraki 4 hafta içinde yapın: o zaman IND bunu ikamet boşluğu saymaz."
           },
           {
-            "naam": "Artık belirsiz süre yok",
-            "tekst": "Belirsiz süreli iltica izni artık verilmiyor. Vatandaşlık için sorun değil: geçerli geçici bir izinle vatandaşlığa başvurabilirsiniz."
+            "naam": "İltica izninizin süresi daha önce mi doluyor?",
+            "tekst": "12 Haziran 2026'dan önce alınmış 5 yıllık bir iltica oturma izniniz (verblijfsvergunning asiel) var ve Hollanda'da 5 yılınızı doldurmadan süresi mi doluyor? O zaman uzatmada yeni kurallara göre bir izin alırsınız. Yolunuz bu durumda AB uzun süreli mukimi (EU-langdurig ingezetene) statüsünden geçer ve bunun için gelir şartı vardır."
           },
           {
             "naam": "Vatandaşlık süresi: muhtemelen 10 yıl",
@@ -3957,7 +4109,7 @@ window._NAT = {
           },
           {
             "naam": "Alternatif: AB uzun süreli mukimi",
-            "tekst": "Belirsiz süreli iltica izni kaldırıldığı için, 5 yıldan sonra \"AB uzun süreli mukimi\" önemli bir alternatiftir: kendi vatandaşlığınızı korur ve güçlü ikamet hakları kazanırsınız. <strong>Önemli: bunun için bir gelir koşulu vardır</strong> — iş ve istikrarlı, yeterli kendi geliriniz burada önemli rol oynar. Aşağıdaki mavi düğmeye bakın."
+            "tekst": "AB uzun süreli mukimi (EU-langdurig ingezetene) statüsü 5 yıl sonra kalıcı oturma hakkı verir ve kendi vatandaşlığınızı korursunuz. <strong>Ancak bunun için gelir şartı vardır.</strong>"
           },
           {
             "naam": "Entegrasyonu tamamlayın",
@@ -3966,13 +4118,17 @@ window._NAT = {
           {
             "naam": "Belge toplayın",
             "tekst": "Menşe ülkenizden resmi belgeleri önceden talep edin ve Hollandacanızı geliştirin, örneğin Blik op Werk belgeli bir kurumda dil kursuyla."
+          },
+          {
+            "naam": "Hükümet planı (henüz yasa değil)",
+            "tekst": "İki kez geçici iltica izni almış ve Hollandacada B1 seviyesine ulaşmış statü sahipleri, AB uzun süreli mukimi (EU-langdurig ingezetene) olmadan da 6 yıl sonra Hollanda vatandaşı olabilecek. B1'e ulaşamayanlar için bir istisna gelecek. Henüz bir yasa tasarısı yok. Bu yasa çıkana kadar yukarıdaki kurallar geçerlidir."
           }
         ],
         "interneLink": {
           "naar": "r_eu_langdurig",
           "tekst": "🇪🇺 İncele: AB uzun süreli mukimi (5 yıldan sonra kalıcı ikamet)"
         },
-        "link": "https://ind.nl/en/asiel-en-nareis-het-migratiepact-en-andere-ontwikkelingen/new-laws-and-regulations-on-asylum-and-family-reunification",
+        "link": "https://ind.nl/nl/asiel-en-nareis-het-migratiepact-en-andere-ontwikkelingen/nieuwe-wetten-en-regels-asiel-en-nareis",
         "linkTekst": "→ 2026 yeni iltica kurallarını ind.nl üzerinde görün"
       },
       "r_bezig_b1": {
@@ -4004,7 +4160,7 @@ window._NAT = {
             "tekst": "<strong>Diploma alındıktan sonra:</strong> kanıtı belediyeye / IND'ye gönderin — ardından karar alınabilir."
           }
         ],
-        "link": "https://ind.nl/nl/nederlander-worden/naturalisatie",
+        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
         "linkTekst": "→ ind.nl'de daha fazla bilgi"
       },
       "r_bezig_onderwijs": {
@@ -4040,7 +4196,7 @@ window._NAT = {
             "tekst": "<strong>Diploma alındıktan sonra:</strong> kanıtı belediyeye / IND'ye gönderin."
           }
         ],
-        "link": "https://ind.nl/nl/nederlander-worden/naturalisatie",
+        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
         "linkTekst": "→ ind.nl'de daha fazla bilgi"
       },
       "r_bezig_z": {
@@ -4177,7 +4333,7 @@ window._NAT = {
             "tekst": "İkamet şartlarının ayrıntıları için belediyenize danışın."
           }
         ],
-        "link": "https://ind.nl/nl/nederlander-worden/naturalisatie",
+        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
         "linkTekst": "→ ind.nl'de daha fazla bilgi"
       },
       "r_nationaliteit": {
@@ -4207,18 +4363,58 @@ window._NAT = {
             "tekst": "Durumunuzu değerlendirtin — bazen düşündüğünüzden fazlası mümkündür."
           }
         ],
-        "link": "https://ind.nl/en/permanent-wonen/eu-langdurig-ingezetene",
-        "linkTekst": "→ AB uzun süreli mukimi hakkında ind.nl üzerinde daha fazla bilgi",
         "interneLink": {
           "naar": "r_eu_langdurig",
           "tekst": "🇪🇺 İncele: AB uzun süreli mukimi (vatandaşlığı koruma)"
-        }
+        },
+        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "linkTekst": "→ AB uzun süreli mukimi hakkında ind.nl üzerinde daha fazla bilgi"
+      },
+      "r_eu_langdurig": {
+        "type": "eu",
+        "icoon": "🇪🇺",
+        "titel": "AB uzun süreli mukimi — vatandaşlığınızdan vazgeçmeden kalıcı kalma",
+        "sub": "5 yıl sonra kalıcı bir oturma izni. Kendi vatandaşlığınızı korursunuz. 12 Haziran 2026'dan bu yana bu, yeni statü sahipleri için vatandaşlığa geçişte (naturalisatie) zorunlu ara adımdır.",
+        "infoBoxen": [
+          {
+            "type": "info",
+            "tekst": "🇪🇺 <strong>Nedir:</strong> Hollanda'da süresiz oturabilir ve serbestçe çalışabilirsiniz, ayrıca diğer AB ülkelerinde daha kolay taşınıp çalışabilirsiniz. İltica yıllarınız 5 yıla sayılır; öğrenim yılları %50 sayılır."
+          },
+          {
+            "type": "amber",
+            "tekst": "⚠️ <strong>Gelir şartı:</strong> yeterli ve sürekli kendi gelirinizin ve sağlık sigortanızın olması gerekir. Sosyal yardımla bu genellikle mümkün olmaz. Dikkat: 12 Haziran 2026'dan sonra alınmış yeni bir iltica oturma izniniz (verblijfsvergunning asiel) varsa, ileride vatandaşlığa geçebilmek için AB uzun süreli mukimi (EU-langdurig ingezetene) statüsüne ihtiyacınız var. Yani gelir şartı Hollanda vatandaşlığına giden yolunuz için de geçerlidir."
+          },
+          {
+            "type": "info",
+            "tekst": "✈️ 5 yıl boyunca art arda 6 aydan uzun ve toplamda 10 aydan fazla Hollanda dışında bulunamazsınız."
+          }
+        ],
+        "stappen": [
+          {
+            "nr": 1,
+            "tekst": "<strong>Sizin için ne zaman ilginç?</strong> İlk vatandaşlığınızdan vazgeçmek istemiyor veya vazgeçemiyorsanız — vatandaşlık için ilke olarak gerekir, burada gerekmez."
+          },
+          {
+            "nr": 2,
+            "tekst": "<strong>Yeni iltica izni mi?</strong> O hâlde kalıcı bir izne ve ardından vatandaşlığa (naturalisatie) giden tek yol budur."
+          },
+          {
+            "nr": 3,
+            "tekst": "<strong>Şartlar:</strong> Hollanda'da 5 yıl aralıksız yasal ikamet, yurt dışında çok uzun kalmamak, yeterli ve sürekli kendi gelir, sağlık sigortası ve B1 rotası, eğitim rotası veya Z-rotası ile tamamlanmış entegrasyon (inburgering)."
+          },
+          {
+            "nr": 4,
+            "tekst": "<strong>Başvuru:</strong> IND'ye. Belirsiz süreli bir izin için başvurursanız, IND otomatik olarak AB uzun süreli mukimi statüsü alıp alamayacağınızı kontrol eder. İltica izniyle yalnızca kâğıt üzerinde başvurabilirsiniz, internet üzerinden değil."
+          }
+        ],
+        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
+        "linkTekst": "→ AB uzun süreli mukimi hakkında ind.nl üzerinde daha fazla bilgi"
       },
       "r_kosten": {
         "type": "wacht",
         "icoon": "💶",
         "titel": "Maliyetleri düşürmek için bazı yöntemler mevcut.",
-        "sub": "Vatandaşlık bir kişi için €1.139, eşle €1.454 tutar — 2026 tarifeleri; iltica statüsü sahipleri/vatansızlar için indirimli tarife €847/€1.163. Bunu uygun fiyatlı hâle getirmenin yolları var.",
+        "sub": "Vatandaşlığa geçiş bir kişi için €1.139, partnerle €1.454 tutar (2026 tarifeleri) — ancak bunu karşılanabilir hâle getirmenin yolları var.",
         "alternatieven": [
           {
             "naam": "İndirimli tarife iltica/vatansız",
@@ -4240,41 +4436,247 @@ window._NAT = {
         "link": "https://www.vluchtelingenwerk.nl",
         "linkTekst": "→ VluchtelingenWerk aracılığıyla maliyet yardımı"
       },
-      "r_eu_langdurig": {
-        "type": "eu",
-        "icoon": "🇪🇺",
-        "titel": "AB uzun süreli mukimi — vatandaşlığınızdan vazgeçmeden kalıcı kalma",
-        "sub": "5 yıllık yasal ikametten sonra kalıcı bir ikamet statüsü. Kendi vatandaşlığınızı korur ve güçlü, kalıcı ikamet hakları kazanırsınız. Belirsiz süreli iltica izni kaldırıldığı için bu genellikle vatandaşlığa en önemli alternatiftir.",
+      "r_eu_li_eerst": {
+        "type": "route",
+        "icoon": "🪜",
+        "titel": "Hollanda vatandaşı olabilirsiniz — iki adımda",
+        "sub": "Yeni bir iltica oturma izniyle (verblijfsvergunning asiel) önce AB uzun süreli mukimi (EU-langdurig ingezetene) olmanız gerekir. Ardından vatandaşlığa geçiş (naturalisatie) başvurusu yapabilirsiniz.",
         "infoBoxen": [
           {
-            "type": "info",
-            "tekst": "🇪🇺 <strong>Nedir:</strong> Hollanda'da süresiz oturabilir ve serbestçe çalışabilirsiniz, ayrıca diğer AB ülkelerinde daha kolay taşınıp çalışabilirsiniz. İltica yıllarınız 5 yıla sayılır; öğrenim yılları %50 sayılır."
+            "type": "amber",
+            "tekst": "⚠️ <strong>Gelir:</strong> IND gelirinizin yeterli olup olmadığına ve devam edip etmeyeceğine bakar (iş sözleşmesi en az 12 ay daha geçerli olmalıdır). Yeni mi işe başladınız veya geçici sözleşmeniz mi var? O zaman önce başvurunuzun şansı olup olmadığını kontrol ettirin."
           },
           {
-            "type": "amber",
-            "tekst": "⚠️ <strong>Vatandaşlıktan önemli fark:</strong> bu statü için bir <strong>gelir koşulu</strong> vardır (bağımsız, sürdürülebilir ve yeterli gelir). Sosyal yardımla geçiniyorsanız bunu çoğu zaman karşılayamazsınız — o zaman vatandaşlık aslında daha erişilebilirdir, çünkü onun gelir koşulu yoktur."
+            "type": "blauw",
+            "tekst": "🗓️ <strong>Hükümet planı — henüz yasa değil:</strong> iki kez geçici iltica izni almış ve Hollandacada B1 seviyesine ulaşmış statü sahipleri, AB uzun süreli mukimi (EU-langdurig ingezetene) olmadan da 6 yıl sonra Hollanda vatandaşı olabilecek. B1'e ulaşamayanlar için bir istisna gelecek. Henüz bir yasa tasarısı yok. Bu yasa çıkana kadar yukarıdaki kurallar geçerlidir."
           }
         ],
         "stappen": [
           {
             "nr": 1,
-            "tekst": "<strong>Sizin için ne zaman ilginç?</strong> İlk vatandaşlığınızdan vazgeçmek istemiyor veya vazgeçemiyorsanız — vatandaşlık için ilke olarak gerekir, burada gerekmez."
+            "tekst": "<strong>IND'ye AB uzun süreli mukimi (EU-langdurig ingezetene) başvurusu yapın.</strong> İltica izniyle bu yalnızca kâğıt üzerinde mümkündür, internet üzerinden değil. Başvuru € 254 tutar."
           },
           {
             "nr": 2,
-            "tekst": "<strong>Veya:</strong> belirsiz süreli iltica izni kalktığı için bu, geçici (3 yıllık) bir izinden kalıcı ikamet hakkına giden yoldur."
+            "tekst": "<strong>Kanıt toplayın:</strong> iş sözleşmeniz ve maaş bordrolarınız, sağlık sigortanız ve entegrasyon diplomanız veya kararınız. IND formu tam olarak neyin gerektiğini söyler."
           },
           {
             "nr": 3,
-            "tekst": "<strong>Koşullar:</strong> 5 yıl kesintisiz yasal ikamet (iltica yılları sayılır), geçilmiş entegrasyon (en az A2), geçerli bir pasaport ve yeterli bağımsız, sürdürülebilir gelir."
+            "tekst": "<strong>Bu arada iltica izninizi zamanında uzatın.</strong> Böylece ikametiniz kesintisiz kalır."
           },
           {
             "nr": 4,
-            "tekst": "<strong>Başvuru:</strong> IND'ye. Belirsiz süreli bir izin için başvurursanız, IND otomatik olarak AB uzun süreli mukimi statüsü alıp alamayacağınızı kontrol eder."
+            "tekst": "<strong>AB uzun süreli mukimi oldunuz mu? O zaman belediyenizde vatandaşlığa geçiş (naturalisatie) başvurusu yapın.</strong> O zaman olağan şartlar geçerlidir: vatandaşlık için entegrasyon (inburgering), sabıka kaydının olmaması ve Hollanda'da kalıcı olarak yaşamanız. Tanınmış mülteci olarak genellikle vatandaşlığınızdan vazgeçmeniz gerekmez."
           }
         ],
-        "link": "https://ind.nl/en/residence-permits/long-term-eu-residency/apply-for-a-residence-permit-for-long-term-eu-residents",
+        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
         "linkTekst": "→ AB uzun süreli mukimi hakkında ind.nl üzerinde daha fazla bilgi"
+      },
+      "r_eu_li_eerst_z": {
+        "type": "route",
+        "icoon": "🪜",
+        "titel": "AB uzun süreli mukimi olabilirsiniz — vatandaşlık için ardından ek bir adım gerekir",
+        "sub": "Z-rotası (Z-route) ile AB uzun süreli mukimi (EU-langdurig ingezetene) için entegrasyon şartını (inburgering) karşılarsınız. Vatandaşlığa geçiş (naturalisatie) için bu yeterli değildir: bunun için ek dil şartları vardır.",
+        "infoBoxen": [
+          {
+            "type": "amber",
+            "tekst": "⚠️ <strong>Gelir:</strong> IND gelirinizin yeterli olup olmadığına ve devam edip etmeyeceğine bakar (iş sözleşmesi en az 12 ay daha geçerli olmalıdır). Yeni mi işe başladınız veya geçici sözleşmeniz mi var? O zaman önce başvurunuzun şansı olup olmadığını kontrol ettirin."
+          },
+          {
+            "type": "blauw",
+            "tekst": "🗓️ <strong>Hükümet planı — henüz yasa değil:</strong> iki kez geçici iltica izni almış ve Hollandacada B1 seviyesine ulaşmış statü sahipleri, AB uzun süreli mukimi (EU-langdurig ingezetene) olmadan da 6 yıl sonra Hollanda vatandaşı olabilecek. B1'e ulaşamayanlar için bir istisna gelecek. Henüz bir yasa tasarısı yok. Bu yasa çıkana kadar yukarıdaki kurallar geçerlidir."
+          }
+        ],
+        "padenTitel": "AB uzun süreli mukimi olduktan sonra: Z-rotasından vatandaşlığa üç yol",
+        "paden": [
+          {
+            "nr": "A",
+            "titel": "A2 düzeyinde sınava girerek entegrasyon sınavını geçmek",
+            "tekst": "Tüm dil sınavlarından A2 düzeyinde geçin (okuma, dinleme, yazma, konuşma) ve KNM sınavını geçin. Geçtikten sonra DUO diplomasına sahip olursunuz ve vatandaşlık için entegrasyon şartını karşılarsınız."
+          },
+          {
+            "nr": "B",
+            "titel": "600 saat dil dersi (A2) + her sınav bileşeni için en az 3 deneme",
+            "tekst": "Blik op Werk onaylı bir kurumda en az 600 saatlik A2 düzeyinde dil dersi ve bileşen başına en az 3 deneme (en az 1 A2 sınavı dahil)? DUO, sınavı geçmeden muafiyet tavsiyesi verebilir."
+          },
+          {
+            "nr": "C",
+            "titel": "600 saat okuryazarlık veya dil dersi + DUO testi (öğrenme kapasitesi yok) — 150 €",
+            "tekst": "Blik op Werk onaylı bir kurumda en az 600 saatlik okuryazarlık eğitimi ve DUO testinin A2'nin ulaşılamaz olduğunu göstermesi? Muafiyet verilir. DUO testi 150 € tutar."
+          }
+        ],
+        "stappen": [
+          {
+            "nr": 1,
+            "tekst": "<strong>IND'ye AB uzun süreli mukimi (EU-langdurig ingezetene) başvurusu yapın.</strong> İltica izniyle bu yalnızca kâğıt üzerinde mümkündür, internet üzerinden değil. Başvuru € 254 tutar."
+          },
+          {
+            "nr": 2,
+            "tekst": "<strong>Kanıt toplayın:</strong> iş sözleşmeniz ve maaş bordrolarınız, sağlık sigortanız ve entegrasyon diplomanız veya kararınız. IND formu tam olarak neyin gerektiğini söyler."
+          },
+          {
+            "nr": 3,
+            "tekst": "<strong>Bu arada iltica izninizi zamanında uzatın.</strong> Böylece ikametiniz kesintisiz kalır."
+          },
+          {
+            "nr": 4,
+            "tekst": "<strong>AB uzun süreli mukimi oldunuz mu? O zaman yukarıdaki yollardan birini seçin ve ardından belediyenizde vatandaşlığa geçiş (naturalisatie) başvurusu yapın.</strong>"
+          }
+        ],
+        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
+        "linkTekst": "→ AB uzun süreli mukimi hakkında ind.nl üzerinde daha fazla bilgi"
+      },
+      "r_eu_li_inburgering_bezig": {
+        "type": "route",
+        "icoon": "📚",
+        "titel": "Önce entegrasyonunuzu tamamlayın",
+        "sub": "Hollanda'da yeterince uzun süredir yaşıyorsunuz ve geliriniz var. Eksik olan, entegrasyonunuz (inburgering). Ardından AB uzun süreli mukimi (EU-langdurig ingezetene) başvurusu, daha sonra da vatandaşlığa geçiş (naturalisatie) başvurusu yapabilirsiniz.",
+        "infoBoxen": [
+          {
+            "type": "blauw",
+            "tekst": "💡 B1 rotası (B1-route), eğitim rotası (onderwijsroute) ve Z-rotası (Z-route) üçü de AB uzun süreli mukimi (EU-langdurig ingezetene) için sayılır. Vatandaşlığa geçiş (naturalisatie) için ise yalnızca Z-rotası yeterli değildir."
+          },
+          {
+            "type": "blauw",
+            "tekst": "🗓️ <strong>Hükümet planı — henüz yasa değil:</strong> iki kez geçici iltica izni almış ve Hollandacada B1 seviyesine ulaşmış statü sahipleri, AB uzun süreli mukimi (EU-langdurig ingezetene) olmadan da 6 yıl sonra Hollanda vatandaşı olabilecek. B1'e ulaşamayanlar için bir istisna gelecek. Henüz bir yasa tasarısı yok. Bu yasa çıkana kadar yukarıdaki kurallar geçerlidir."
+          }
+        ],
+        "stappen": [
+          {
+            "nr": 1,
+            "tekst": "<strong>Entegrasyon rotanızı tamamlayın.</strong> Belediyenize daha ne kadar süreye ihtiyacınız olduğunu sorun."
+          },
+          {
+            "nr": 2,
+            "tekst": "<strong>İşinizi ve sağlık sigortanızı sürdürün.</strong> Başvuru için bunlara ihtiyacınız var."
+          },
+          {
+            "nr": 3,
+            "tekst": "<strong>İltica izninizi zamanında uzatın.</strong>"
+          },
+          {
+            "nr": 4,
+            "tekst": "<strong>Bu kontrolü yeniden yapın</strong>, entegrasyonunuz bittiğinde."
+          }
+        ],
+        "interneLink": {
+          "naar": "r_eu_langdurig",
+          "tekst": "🇪🇺 AB uzun süreli mukimi nedir?"
+        }
+      },
+      "r_inkomen": {
+        "type": "wacht",
+        "icoon": "🧭",
+        "titel": "Şu anda engel geliriniz",
+        "sub": "12 Haziran 2026'dan sonra alınmış bir iltica oturma izniyle (verblijfsvergunning asiel) ancak önce AB uzun süreli mukimi (EU-langdurig ingezetene) olursanız Hollanda vatandaşı olabilirsiniz. Bunun için yeterli kendi gelirinizin olması gerekir. Sosyal yardımla bu şu anda mümkün değil. Açıkçası bu büyük bir değişiklik.",
+        "alternatieven": [
+          {
+            "naam": "İş veya daha fazla saat",
+            "tekst": "Bir iş veya daha fazla saat çalışmak yolu açabilir. Loont werken aracıyla çalışmanın size ne kazandıracağına bakın."
+          },
+          {
+            "naam": "Kalabilirsiniz",
+            "tekst": "İltica izniniz geçerli kalır. Her zaman zamanında uzatın."
+          },
+          {
+            "naam": "Entegrasyonunuzu tamamlayın",
+            "tekst": "Entegrasyona (inburgering) hem AB uzun süreli mukimi (EU-langdurig ingezetene) hem de vatandaşlığa geçiş (naturalisatie) için ihtiyacınız var."
+          },
+          {
+            "naam": "Partner mi, istisna mı?",
+            "tekst": "Birlikte yaşıyorsanız ve partneriniz Hollanda vatandaşıysa veya oturma izni varsa, partnerinizin geliri sayılabilir. AOW yaşına (AOW-leeftijd) ulaştıysanız veya kalıcı ve tamamen çalışamaz durumdaysanız ve bunu kanıtlayabiliyorsanız bir istisna geçerlidir."
+          },
+          {
+            "naam": "Hükümet planı (henüz yasa değil)",
+            "tekst": "İki kez geçici iltica izni almış ve Hollandacada B1 seviyesine ulaşmış statü sahipleri, AB uzun süreli mukimi (EU-langdurig ingezetene) olmadan da 6 yıl sonra Hollanda vatandaşı olabilecek. B1'e ulaşamayanlar için bir istisna gelecek. Henüz bir yasa tasarısı yok. Bu yasa çıkana kadar yukarıdaki kurallar geçerlidir."
+          }
+        ],
+        "link": "loont-werken.html",
+        "linkTekst": "→ Çalışmanın size ne kazandıracağını hesaplayın"
+      },
+      "r_eu_li_afwezig": {
+        "type": "wacht",
+        "icoon": "✈️",
+        "titel": "Belki çok uzun süre yurt dışında kaldınız",
+        "sub": "AB uzun süreli mukimi (EU-langdurig ingezetene) olmak için art arda 6 aydan uzun ve toplamda 10 aydan fazla Hollanda dışında bulunmamış olmanız gerekir. Bu nedenle 5 yıl yeniden saymaya başlayabilir.",
+        "alternatieven": [
+          {
+            "naam": "Seyahatlerinizi sayın",
+            "tekst": "Seyahatlerinizin tarihlerini bulun: damgalar, biletler veya seyahat belgesi başvurunuz."
+          },
+          {
+            "naam": "Kontrol ettirin",
+            "tekst": "VluchtelingenWerk veya belediyeniz, ne zamandan itibaren yeniden 5 yılınızın dolacağını sizinle birlikte hesaplayabilir."
+          },
+          {
+            "naam": "Bundan sonra daha kısa süre uzak kalın",
+            "tekst": "Uzun seyahatleri sınırın altında kalacak şekilde planlayın."
+          },
+          {
+            "naam": "Hükümet planı (henüz yasa değil)",
+            "tekst": "İki kez geçici iltica izni almış ve Hollandacada B1 seviyesine ulaşmış statü sahipleri, AB uzun süreli mukimi (EU-langdurig ingezetene) olmadan da 6 yıl sonra Hollanda vatandaşı olabilecek. B1'e ulaşamayanlar için bir istisna gelecek. Henüz bir yasa tasarısı yok. Bu yasa çıkana kadar yukarıdaki kurallar geçerlidir."
+          }
+        ],
+        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
+        "linkTekst": "→ AB uzun süreli mukimi hakkında ind.nl üzerinde daha fazla bilgi"
+      },
+      "r_te_kort_nieuw": {
+        "type": "wacht",
+        "icoon": "⏳",
+        "titel": "Hollanda'da henüz yeterince uzun değil",
+        "sub": "Yeni bir iltica oturma izniyle (verblijfsvergunning asiel) önce Hollanda'da 5 yıl yaşamanız gerekir. Ardından AB uzun süreli mukimi (EU-langdurig ingezetene) olabilirsiniz ve ancak o zaman Hollanda vatandaşı. O zamana kadarki süreyi iyi değerlendirebilirsiniz.",
+        "alternatieven": [
+          {
+            "naam": "Zamanında uzatın",
+            "tekst": "Yeni iltica izinleri en fazla 3 yıl geçerlidir; bu yüzden zamanında yenileyin. İki izin arasında geçerli izniniz olmayan bir \"ikamet boşluğu\" (verblijfsgat) oluşursa, o süre yasal ikamet sayılmaz ve vatandaşlık için 5 yıl sayacı yeniden başlayabilir. Bu yüzden yenilemeyi en geç bitiş tarihinden sonraki 4 hafta içinde yapın: o zaman IND bunu ikamet boşluğu saymaz."
+          },
+          {
+            "naam": "Gelirinizi geliştirin",
+            "tekst": "AB uzun süreli mukimi (EU-langdurig ingezetene) olmak için ileride yeterli kendi gelirinize ihtiyacınız olacak. Şimdiden bir iş veya daha fazla çalışma saati için uğraşın."
+          },
+          {
+            "naam": "Entegrasyonunuzu tamamlayın",
+            "tekst": "B1 rotası (B1-route), eğitim rotası (onderwijsroute) ve Z-rotası (Z-route), AB uzun süreli mukimi (EU-langdurig ingezetene) için sayılır."
+          },
+          {
+            "naam": "Çok uzun süre uzak kalmayın",
+            "tekst": "Art arda 6 aydan uzun ve toplamda 10 aydan fazla yurt dışına gitmeyin."
+          },
+          {
+            "naam": "Hükümet planı (henüz yasa değil)",
+            "tekst": "İki kez geçici iltica izni almış ve Hollandacada B1 seviyesine ulaşmış statü sahipleri, AB uzun süreli mukimi (EU-langdurig ingezetene) olmadan da 6 yıl sonra Hollanda vatandaşı olabilecek. B1'e ulaşamayanlar için bir istisna gelecek. Henüz bir yasa tasarısı yok. Bu yasa çıkana kadar yukarıdaki kurallar geçerlidir."
+          }
+        ],
+        "interneLink": {
+          "naar": "r_eu_langdurig",
+          "tekst": "🇪🇺 AB uzun süreli mukimi nedir?"
+        }
+      },
+      "r_asiel_onbekend": {
+        "type": "wacht",
+        "icoon": "🔍",
+        "titel": "Önce hangi izne sahip olduğunuzu kontrol ettirin",
+        "sub": "Hollanda vatandaşlığına giden yolunuz izninize bağlıdır. 12 Haziran 2026'dan önceki bir iltica izniyle bu yol, yeni bir izne göre daha kısadır.",
+        "alternatieven": [
+          {
+            "naam": "Eski iltica izni",
+            "tekst": "Süresiz veya 12 Haziran 2026'dan önce alınmış 5 yıllık: eski yoldan vatandaşlığa geçebilirsiniz (naturalisatie)."
+          },
+          {
+            "naam": "Yeni iltica izni",
+            "tekst": "12 Haziran 2026'da veya sonrasında alınmış ya da uzatılmış: önce AB uzun süreli mukimi (EU-langdurig ingezetene), gelir şartıyla, ardından vatandaşlığa geçiş (naturalisatie)."
+          },
+          {
+            "naam": "Başka bir izin",
+            "tekst": "Aile, iş veya öğrenim için: eski kurallar hâlâ geçerlidir."
+          },
+          {
+            "naam": "Kim yardım edebilir?",
+            "tekst": "Belediyedeki danışmanınız veya VluchtelingenWerk kartınıza sizinle birlikte bakabilir."
+          }
+        ],
+        "link": "https://www.vluchtelingenwerk.nl/over-ons/locaties",
+        "linkTekst": "→ Size yakın bir VluchtelingenWerk merkezi bulun"
       }
     }
   },
