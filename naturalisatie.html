@@ -126,6 +126,55 @@ function updateHeader() {
   if (subEl)   subEl.textContent   = h.sub;
 }
 
+// ── Voorleeshulp (N-6): tekst zonder HTML, en veilig in een attribuut ────
+function naarPlatteTekst(html) {
+  const tmp = document.createElement('div');
+  tmp.innerHTML = html == null ? '' : String(html);
+  return (tmp.textContent || '').replace(/\s+/g, ' ').trim();
+}
+function escAttr(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+// data-lees voor een vraag: de vraagtekst + "je kunt kiezen:" + elk antwoord.
+function bouwVraagLees(v, ui) {
+  const stukken = [naarPlatteTekst(v.tekst) + '.'];
+  if (ui.jeKuntKiezen) stukken.push(ui.jeKuntKiezen);
+  (v.antwoorden || []).forEach(a => stukken.push(naarPlatteTekst(a.tekst) + '.'));
+  return escAttr(stukken.join(' '));
+}
+
+// ── Voortgang (N-5): "Vraag {n}" + balk op basis van het langste resterende pad ──
+// Cycli-veilig: de enige toegestane cyclus is v_asiel_wn → v1b (fase 3, check.js).
+// Een node die al in het huidige pad staat levert 0 extra stappen op (geen oneindige lus).
+function langsteRest(id, vragenMap, resultatenMap, bezoek) {
+  if (resultatenMap[id]) return 0;
+  const v = vragenMap[id];
+  if (!v) return 0;
+  bezoek = bezoek || new Set();
+  if (bezoek.has(id)) return 0;
+  const volgendeBezoek = new Set(bezoek);
+  volgendeBezoek.add(id);
+  let max = 0;
+  (v.antwoorden || []).forEach(a => {
+    const rest = 1 + langsteRest(a.volgende, vragenMap, resultatenMap, volgendeBezoek);
+    if (rest > max) max = rest;
+  });
+  return max;
+}
+
+// F-6: geen _NAT beschikbaar → één foutmelding, geen stille lege pagina.
+function toonLaadfout() {
+  const hoofd = document.getElementById('hoofd');
+  const natNL = window._NAT && window._NAT.NL;
+  const tekst = (natNL && natNL.ui && natNL.ui.ladenMislukt)
+    || 'Er ging iets mis bij het laden van deze pagina. Vernieuw de pagina of probeer het later opnieuw.';
+  hoofd.innerHTML = `<div class="vraag-kaart"><div class="vraag-header">
+    <div class="vraag-tekst" data-lees="${escAttr(tekst)}">${tekst}</div>
+  </div></div>`;
+}
+
 // Luister naar taalwisselingen vanuit components.js
 document.addEventListener('solidari:taalGewijzigd', function() {
   updateHeader();
@@ -141,325 +190,12 @@ window.setTaal = function() {
   document.dispatchEvent(new CustomEvent('solidari:taalGewijzigd'));
 };
 
-// Legacy vragen/resultaten — worden niet meer direct gebruikt maar blijven
-// voor terugwaartse compatibiliteit (de functies pakken nu uit _NAT)
-const vragen = {
-  v1: {
-    stap: 'Stap 1 van 9',
-    tekst: 'Ben je 18 jaar of ouder?',
-    uitleg: 'Naturalisatie kan alleen worden aangevraagd door meerderjarigen. Voor minderjarige kinderen gelden aparte regels via de ouders.',
-    antwoorden: [
-      { tekst: 'Ja, ik ben 18 jaar of ouder', icoon: '✓', klasse: 'ja', volgende: 'v1b' },
-      { tekst: 'Nee, ik ben jonger dan 18', icoon: '✗', klasse: 'nee', volgende: 'r_minderjarig' },
-    ]
-  },
-  v1b: {
-    stap: 'Stap 2 van 9',
-    tekst: 'Wat is je huidige verblijfsstatus in Nederland?',
-    uitleg: 'De manier waarop je in Nederland verblijft, bepaalt welke route van toepassing is. EU-burgers verblijven op basis van EU-recht — niet via een Nederlandse verblijfsvergunning.',
-    antwoorden: [
-      { tekst: 'Ik heb een Nederlandse verblijfsvergunning', sub: 'Of een asielstatus (IND type III, IV of V)', icoon: '📄', klasse: 'ja', volgende: 'v2' },
-      { tekst: 'Ik ben EU-burger (bijv. Roemeens of Pools paspoort)', sub: 'Of burger van EER/Zwitserland', icoon: '🇪🇺', klasse: 'anders', volgende: 'r_eu_burger' },
-      { tekst: 'Ik weet het niet zeker', icoon: '❓', klasse: 'anders', volgende: 'v2' },
-    ]
-  },
-  v2: {
-    stap: 'Stap 3 van 9',
-    tekst: 'Heb je een geldige verblijfsvergunning?',
-    uitleg: 'Je hebt een geldige verblijfsvergunning nodig. Een asielstatus (verblijfsvergunning asiel bepaalde of onbepaalde duur) telt ook mee.',
-    antwoorden: [
-      { tekst: 'Ja, ik heb een geldige verblijfsvergunning', sub: 'Of een asielstatus (IND type III, IV of V)', icoon: '✓', klasse: 'ja', volgende: 'v3' },
-      { tekst: 'Nee, ik heb geen geldige verblijfsvergunning', icoon: '✗', klasse: 'nee', volgende: 'r_geen_vergunning' },
-    ]
-  },
-  v3: {
-    stap: 'Stap 4 van 9',
-    tekst: 'Hoe lang woon je ononderbroken in Nederland?',
-    uitleg: 'Je moet normaal gesproken minimaal 5 jaar aaneengesloten in Nederland wonen. Korte reizen naar het buitenland breken dit niet.',
-    antwoorden: [
-      { tekst: 'Minder dan 5 jaar', icoon: '⏳', klasse: 'nee', volgende: 'r_te_kort' },
-      { tekst: '5 jaar of langer', sub: 'Ononderbroken in Nederland gewoond', icoon: '✓', klasse: 'ja', volgende: 'v4a' },
-    ]
-  },
-  v4a: {
-    stap: 'Stap 5 van 9 — Inburgering',
-    tekst: 'Hoe staat het met jouw inburgering?',
-    uitleg: 'Voor naturalisatie moet je aantonen dat je bent ingeburgerd. Er zijn meerdere manieren.',
-    antwoorden: [
-      { tekst: 'Ik heb het inburgeringsexamen gehaald (B1- of onderwijsroute)', sub: 'DUO-diploma inburgering aanwezig', icoon: '✓', klasse: 'ja', volgende: 'v5' },
-      { tekst: 'Ik heb een Nederlandstalig mbo 2, 3 of 4 diploma — of hbo / wo diploma', sub: 'Dit geeft blijvende vrijstelling van de inburgeringsplicht', icoon: '🎓', klasse: 'ja', volgende: 'v5' },
-      { tekst: 'Ik ben vrijgesteld of ontheven van inburgering', sub: 'Bijv. door leeftijd (65+), medische reden of aantoonbare inspanning', icoon: '✓', klasse: 'ja', volgende: 'v5' },
-      { tekst: 'Ik heb de Z-route afgerond (eindgesprek + certificaat)', sub: 'Let op: dit geeft niet automatisch recht op naturalisatie — bekijk je opties', icoon: '🌱', klasse: 'anders', volgende: 'v4a_z' },
-      { tekst: 'Ik ben nog bezig met inburgering', sub: 'Ik heb nog geen diploma of vrijstelling', icoon: '⏳', klasse: 'anders', volgende: 'v4b' },
-    ]
-  },
-  v4a_z: {
-    stap: 'Stap 5 van 9 — Z-route',
-    tekst: 'Je hebt de Z-route afgerond — er is nog één extra stap nodig voor naturalisatie',
-    uitleg: `De Z-route sluit af met een eindgesprek en certificaat, maar voor naturalisatie gelden aanvullende taaleisen vanuit de IND. Er zijn drie paden om toch te kunnen naturaliseren:<br><br>
-<strong>Pad A — Alsnog examen halen op A2-niveau</strong><br>
-Haal alle taalexamens op A2 (lezen, luisteren, schrijven, spreken) én het KNM-examen. Na een geslaagd examen heb je een DUO-diploma en voldoe je aan de inburgeringseis. Let op: nu de Z-route is afgerond zijn examenpogingen niet langer kosteloos — je meldt je aan via duo.nl.<br><br>
-<strong>Pad B — 600 uur taalles + minimaal 3 pogingen per onderdeel</strong><br>
-Heb je minstens 600 uur taalles op A2-niveau gevolgd bij een instelling met het Blik op Werk keurmerk, én per onderdeel minimaal 3 keer geprobeerd (waarvan minstens 1 keer een A2-examen)? Dan kan DUO een ontheffingsadvies afgeven — ook zonder geslaagd examen. Alfabetiseringsuren tellen mee tot maximaal 400 van de 600 uur.<br><br>
-<strong>Pad C — 600 uur alfabetisering + DUO-toets (€150)</strong><br>
-Heb je minstens 600 uur alfabetisering of taalles gevolgd bij een instelling met het Blik op Werk keurmerk, en blijkt uit een DUO-toets dat A2 niet haalbaar is? Dan volgt een ontheffing. De toets kost €150 en vraag je aan via duo.nl.<br><br>
-💡 Overleg met jouw gemeente of VluchtelingenWerk welk pad het beste past. Vraag ook of de kosten vergoed kunnen worden via bijzondere bijstand.`,
-    antwoorden: [
-      { tekst: 'Ik begrijp dit — ga verder met de overige voorwaarden', icoon: '→', klasse: 'ja', volgende: 'v5' },
-    ]
-  },
-  v4b: {
-    stap: 'Stap 5 van 9 — Leerroute',
-    tekst: 'Welke inburgeringsroute volg je?',
-    uitleg: 'De gemeente bepaalt jouw leerroute op basis van je leerbaarheid. Er zijn drie routes: B1, Onderwijsroute en Z-route.',
-    antwoorden: [
-      { tekst: 'B1-route', sub: 'Taalexamen op niveau B1 + KNM-examen', icoon: '📖', klasse: 'info', volgende: 'r_bezig_b1' },
-      { tekst: 'Onderwijsroute', sub: 'Taalschakeltraject 1,5–2 jaar — voorbereiding op mbo/hbo/wo instroom', icoon: '🏫', klasse: 'info', volgende: 'r_bezig_onderwijs' },
-      { tekst: 'Z-route (Zelfredzaamheidsroute)', sub: 'Voor mensen voor wie B1 niet haalbaar is', icoon: '🌱', klasse: 'anders', volgende: 'v4b_z' },
-      { tekst: 'Ik weet het niet / ik heb nog geen route', icoon: '❓', klasse: 'anders', volgende: 'r_geen_inburgering' },
-    ]
-  },
-  v4b_z: {
-    stap: 'Stap 5 van 9 — Z-route',
-    tekst: 'Hoe ver ben je in de Z-route?',
-    uitleg: 'De Z-route sluit af met een eindgesprek bij de gemeente en een positief DUO-advies. Dit is vereist voor naturalisatie.',
-    antwoorden: [
-      { tekst: 'Ik ben klaar met de Z-route (DUO-positief advies ontvangen)', sub: 'Eindgesprek met gemeente afgerond', icoon: '✓', klasse: 'ja', volgende: 'v4a_z' },
-      { tekst: 'Ik ben nog bezig met de Z-route', sub: 'Nog niet klaar met de 800 uur taalles / participatie', icoon: '⏳', klasse: 'anders', volgende: 'r_bezig_z' },
-    ]
-  },
-  v5: {
-    stap: 'Stap 6 van 9',
-    tekst: 'Ben je in de afgelopen 5 jaar veroordeeld voor een misdrijf?',
-    uitleg: 'Een strafrechtelijke veroordeling kan naturalisatie blokkeren. Verkeersboetes en kleine overtredingen tellen meestal niet mee.',
-    antwoorden: [
-      { tekst: 'Nee, ik heb geen strafblad', icoon: '✓', klasse: 'ja', volgende: 'v6' },
-      { tekst: 'Ja, ik ben veroordeeld voor een misdrijf', icoon: '✗', klasse: 'nee', volgende: 'r_strafblad' },
-      { tekst: 'Ik weet het niet zeker', icoon: '❓', klasse: 'anders', volgende: 'r_strafblad_check' },
-    ]
-  },
-  v6: {
-    stap: 'Stap 7 van 9',
-    tekst: 'Heb je op dit moment je hoofdverblijf in Nederland?',
-    uitleg: 'Je moet je hoofdverblijf in Nederland hebben. Af en toe op reis gaan is geen probleem.',
-    antwoorden: [
-      { tekst: 'Ja, ik woon vast in Nederland', icoon: '✓', klasse: 'ja', volgende: 'v7' },
-      { tekst: 'Nee, ik woon grotendeels in het buitenland', icoon: '✗', klasse: 'nee', volgende: 'r_geen_verblijf' },
-    ]
-  },
-  v7: {
-    stap: 'Stap 8 van 9',
-    tekst: 'Ben je bereid afstand te doen van je huidige nationaliteit?',
-    uitleg: 'Nederland staat in principe geen dubbele nationaliteit toe. Uitzondering: erkende vluchtelingen (statushouders) mogen beide nationaliteiten houden.',
-    antwoorden: [
-      { tekst: 'Ja, ik doe afstand van mijn nationaliteit', icoon: '✓', klasse: 'ja', volgende: 'v8' },
-      { tekst: 'Ik ben erkend vluchteling (statushouder)', sub: 'Statushouders mogen dubbele nationaliteit houden', icoon: '✓', klasse: 'ja', volgende: 'v8' },
-      { tekst: 'Nee, ik wil mijn nationaliteit houden', icoon: '✗', klasse: 'nee', volgende: 'r_nationaliteit' },
-    ]
-  },
-  v8: {
-    stap: 'Stap 9 van 9',
-    tekst: 'Ben je op de hoogte van de kosten van naturalisatie?',
-    uitleg: 'De aanvraag kost €1.139 (één persoon) of €1.454 (met partner) — tarieven 2026. Asielstatushouders/staatlozen betalen een verlaagd tarief van €847 (alleen) of €1.163 (met partner). De procedure duurt gemiddeld 6–12 maanden.',
-    antwoorden: [
-      { tekst: 'Ja, ik weet dit en wil doorgaan', icoon: '✓', klasse: 'ja', volgende: 'r_positief' },
-      { tekst: 'Dat is te duur — zijn er vergoedingen?', icoon: '💡', klasse: 'anders', volgende: 'r_kosten' },
-    ]
-  },
-};
-
-const resultaten = {
-  r_positief: {
-    type: 'positief', icoon: '🎉',
-    titel: 'Je komt waarschijnlijk in aanmerking!',
-    sub: 'Op basis van jouw antwoorden voldoe je aan de belangrijkste voorwaarden voor naturalisatie. De volgende stap is een officiële aanvraag bij jouw gemeente.',
-    info: '💡 Statushouders (erkende vluchtelingen) hoeven in de meeste gevallen geen afstand te doen van hun oorspronkelijke nationaliteit.',
-    stappen: [
-      { nr: 1, tekst: '<strong>Maak een afspraak bij jouw gemeente</strong> — afdeling burgerzaken. Zeg dat je naturalisatie wilt aanvragen.' },
-      { nr: 2, tekst: '<strong>Verzamel documenten:</strong> geldig paspoort, verblijfsvergunning, bewijs van inburgering, geboorteakte (zo nodig gelegaliseerd).' },
-      { nr: 3, tekst: '<strong>Betaal de leges:</strong> €1.139 (één persoon) of €1.454 (met partner) bij indiening — tarieven 2026; verlaagd tarief €847/€1.163 voor asielstatushouders/staatlozen. Vraag bij de gemeente of er een bijdrageregeling is.' },
-      { nr: 4, tekst: '<strong>Wacht op de beslissing</strong> van de IND. Dit duurt gemiddeld 6–12 maanden.' },
-      { nr: 5, tekst: '<strong>Naturalisatieceremonie:</strong> na goedkeuring ontvang je een uitnodiging voor de ceremonie bij de gemeente.' },
-    ],
-    link: 'https://ind.nl/nl/nederlander-worden/naturalisatie', linkTekst: '→ Meer informatie op ind.nl',
-  },
-  r_eu_burger: {
-    type: 'eu', icoon: '🇪🇺',
-    titel: 'Als EU-burger heb je andere rechten',
-    sub: 'Naturalisatie tot Nederlander is mogelijk, maar je hoeft het Nederlanderschap niet te hebben om hier te wonen en werken. Als EU-burger heb je al vergaande rechten in Nederland.',
-    infoBoxen: [
-      { type: 'info', tekst: '🇪🇺 <strong>EU-burgerrecht:</strong> Als Roemeens of Pools staatsburger heb je het recht om in Nederland te wonen, werken en studeren — zonder verblijfsvergunning. Je registreert je bij de gemeente (BRP), maar een IND-vergunning is niet nodig.' },
-      { type: 'amber', tekst: '⚠️ <strong>Let op dubbele nationaliteit:</strong> Als je naturaliseert tot Nederlander, moet je in principe afstand doen van je Roemeense of Poolse nationaliteit. Roemenië en Polen staan dit in sommige gevallen niet toe. Vraag dit na bij de ambassade voordat je start.' },
-    ],
-    stappen: [
-      { nr: 1, tekst: '<strong>Wil je toch naturaliseren?</strong> De standaardvoorwaarden gelden ook voor EU-burgers: 5 jaar ononderbroken verblijf, inburgering, geen strafblad, afstand van nationaliteit.' },
-      { nr: 2, tekst: '<strong>Dubbele nationaliteit:</strong> Informeer bij de Roemeense of Poolse ambassade of jij je nationaliteit kunt houden na naturalisatie. De regels per land verschillen.' },
-      { nr: 3, tekst: '<strong>Wil je verder?</strong> Doorloop de checker opnieuw en kies bij de verblijfsstatus voor "verblijfsvergunning" — de overige voorwaarden gelden ook voor EU-burgers.' },
-    ],
-    link: 'https://ind.nl/nl/nederlander-worden/naturalisatie', linkTekst: '→ Naturalisatie-informatie op ind.nl',
-  },
-  r_minderjarig: {
-    type: 'wacht', icoon: '🎂',
-    titel: 'Naturalisatie voor kinderen gaat via de ouders',
-    sub: 'Minderjarige kinderen kunnen meenaturaliseren als een ouder de Nederlandse nationaliteit aanvraagt of al heeft.',
-    alternatieven: [
-      { naam: 'Meenaturaliseren', tekst: 'Als jouw ouder naturaliseert, kun jij automatisch meenaturaliseren.' },
-      { naam: 'Via de rechter', tekst: 'In sommige gevallen is aparte naturalisatie voor minderjarigen mogelijk.' },
-      { naam: 'Wachten op 18', tekst: 'Op je 18e kun je zelfstandig een aanvraag indienen.' },
-      { naam: 'Optie', tekst: 'Als je in Nederland geboren bent, kun je soms via "optie" Nederlander worden.' },
-    ],
-    link: 'https://ind.nl/nl/nederlander-worden', linkTekst: '→ Meer informatie op ind.nl',
-  },
-  r_geen_vergunning: {
-    type: 'negatief', icoon: '📋',
-    titel: 'Je hebt eerst een verblijfsvergunning nodig',
-    sub: 'Naturalisatie is alleen mogelijk als je legaal in Nederland verblijft. Zorg eerst voor een geldige verblijfsvergunning.',
-    alternatieven: [
-      { naam: 'Asielaanvraag', tekst: 'Als je bescherming nodig hebt, kun je een asielaanvraag indienen bij de IND.' },
-      { naam: 'Reguliere vergunning', tekst: 'Voor werk, studie of gezinshereniging zijn er reguliere vergunningen.' },
-      { naam: 'Juridische hulp', tekst: 'Neem contact op met een vluchtelingenorganisatie of advocaat.' },
-      { naam: 'VluchtelingenWerk', tekst: 'Gratis juridische ondersteuning voor asielzoekers en statushouders.' },
-    ],
-    link: 'https://www.vluchtelingenwerk.nl', linkTekst: '→ Neem contact op met VluchtelingenWerk',
-  },
-  r_te_kort: {
-    type: 'wacht', icoon: '⏳',
-    titel: 'Nog niet lang genoeg in Nederland',
-    sub: 'Je moet minimaal 5 jaar aaneengesloten in Nederland wonen. Je kunt de wachttijd goed benutten.',
-    alternatieven: [
-      { naam: 'Inburgering afronden', tekst: 'Gebruik de wachttijd om je inburgeringsexamen te halen.' },
-      { naam: 'Documenten verzamelen', tekst: 'Vraag alvast officiële documenten op uit je land van herkomst.' },
-      { naam: 'Taalles volgen', tekst: 'Werk aan je Nederlands via een taalcursus bij een instelling met het Blik op Werk keurmerk.' },
-      { naam: 'Kortere wachttijd?', tekst: 'Met een Nederlandse partner kan de termijn korter zijn. Vraag dit na bij de gemeente.' },
-    ],
-    link: 'https://ind.nl/nl/nederlander-worden/naturalisatie', linkTekst: '→ Controleer de voorwaarden op ind.nl',
-  },
-  r_bezig_b1: {
-    type: 'route', icoon: '📖',
-    titel: 'Je kunt je naturalisatie alvast voorbereiden',
-    sub: 'Je volgt de B1-route maar hebt het examen nog niet afgerond. Je kunt de naturalisatieprocedure al opstarten — het diploma moet klaar zijn vóór de IND een beslissing neemt.',
-    infoBoxen: [
-      { type: 'blauw', tekst: '💡 <strong>Tip:</strong> Vraag bij jouw gemeente of je de naturalisatieaanvraag alvast kunt indienen terwijl je de B1-route nog afrondt.' },
-    ],
-    stappen: [
-      { nr: 1, tekst: '<strong>Ga door met de B1-route:</strong> haal het taalexamen (B1, of A2 na aantoonbare inspanning) én het KNM-examen.' },
-      { nr: 2, tekst: '<strong>Vraag alvast documenten op:</strong> paspoort, geboorteakte, verblijfsvergunning.' },
-      { nr: 3, tekst: '<strong>Informeer bij jouw gemeente</strong> of je de aanvraag al kunt indienen terwijl je nog bezig bent.' },
-      { nr: 4, tekst: '<strong>Na behalen diploma:</strong> stuur het bewijs door naar de gemeente/IND — dan kan de beslissing worden genomen.' },
-    ],
-    link: 'https://ind.nl/nl/nederlander-worden/naturalisatie', linkTekst: '→ Meer informatie op ind.nl',
-  },
-  r_bezig_onderwijs: {
-    type: 'route', icoon: '🏫',
-    titel: 'Je kunt je naturalisatie alvast voorbereiden',
-    sub: 'Je volgt de Onderwijsroute — een intensief taalschakeltraject van 1,5 tot 2 jaar gericht op instroom in mbo, hbo of wo.',
-    infoBoxen: [
-      { type: 'amber', tekst: '⚠️ <strong>Let op:</strong> De Onderwijsroute is géén mbo- of hbo-diploma en geeft geen vrijstelling van inburgering. Je moet het centrale inburgeringsexamen (B1 taalexamen + KNM) halen om aan je inburgeringsplicht te voldoen.' },
-      { type: 'blauw', tekst: '💡 <strong>Tip:</strong> Je kunt de naturalisatieprocedure alvast opstarten. Het inburgeringsdiploma moet klaar zijn vóór de IND een beslissing neemt.' },
-    ],
-    stappen: [
-      { nr: 1, tekst: '<strong>Rond de Onderwijsroute af:</strong> haal het taalexamen (B1 op lezen, luisteren, schrijven en spreken) én het KNM-examen.' },
-      { nr: 2, tekst: '<strong>Vraag alvast documenten op:</strong> paspoort, geboorteakte, verblijfsvergunning.' },
-      { nr: 3, tekst: '<strong>Informeer bij jouw gemeente</strong> of je de aanvraag al kunt indienen terwijl je nog bezig bent.' },
-      { nr: 4, tekst: '<strong>Na behalen diploma:</strong> stuur het bewijs door naar de gemeente/IND.' },
-    ],
-    link: 'https://ind.nl/nl/nederlander-worden/naturalisatie', linkTekst: '→ Meer informatie op ind.nl',
-  },
-  r_bezig_z: {
-    type: 'route', icoon: '🌱',
-    titel: 'Naturaliseren vanuit de Z-route — belangrijk verschil',
-    sub: 'Let op: afronden van de Z-route betekent niet automatisch dat je aan het inburgeringsvereiste voor naturalisatie voldoet. De Z-route sluit af met een eindgesprek en certificaat, maar voor naturalisatie moet je ook voldoen aan de taaleis (A2 of hoger). Er zijn drie paden via DUO.',
-    infoBoxen: [
-      { type: 'amber', tekst: '⚠️ <strong>Belangrijk:</strong> De Z-route heeft geen examenverplichting maar een inspanningsverplichting (800 uur taalles + eindgesprek). Afronden van de Z-route geeft dus <em>geen</em> automatisch recht op naturalisatie. Je hebt aanvullend een DUO-ontheffingsadvies of een geslaagd A2-examen nodig.' },
-    ],
-    paden: [
-      { nr: 'A', titel: 'Alsnog het inburgeringsexamen halen op A2-niveau', tekst: 'Haal alle taalexamens op A2-niveau (lezen, luisteren, schrijven, spreken) én het KNM-examen. Na een geslaagd examen heb je een DUO-diploma en voldoe je aan het inburgeringsvereiste voor naturalisatie. Zolang je nog in de Z-route zit, zijn 2 examenpogingen per onderdeel kosteloos.' },
-      { nr: 'B', titel: '600 uur taalles (A2) + minimaal 3 pogingen per examenonderdeel', tekst: 'Heb je minstens 600 uur taalles op A2-niveau of hoger gevolgd bij een instelling met het Blik op Werk keurmerk, én per examenonderdeel minimaal 3 keer geprobeerd (waarvan minstens 1 keer een A2-examen)? Dan kan DUO een ontheffingsadvies afgeven — ook zonder geslaagd examen. Alfabetiseringsuren tellen mee tot maximaal 400 van de 600 uur.' },
-      { nr: 'C', titel: '600 uur alfabetisering of taalles + DUO-toets (geen leervermogen) — €150', tekst: 'Heb je minstens 600 uur alfabetisering gevolgd (pad C1), of minstens 600 uur taalles waarvan 300 uur alfabetisering (pad C2), bij een instelling met Blik op Werk keurmerk? En blijkt uit een toets van DUO dat je het taalniveau A2 niet kunt bereiken? Dan volgt een ontheffing. Deze DUO-toets kost €150.' },
-    ],
-    info: '📞 <strong>Advies:</strong> Overleg met jouw gemeente of VluchtelingenWerk welk pad het beste bij jouw situatie past.',
-    link: 'https://www.vluchtelingenwerk.nl', linkTekst: '→ Hulp via VluchtelingenWerk',
-  },
-  r_geen_inburgering: {
-    type: 'wacht', icoon: '📚',
-    titel: 'Je hebt inburgering nodig voor naturalisatie',
-    sub: 'Zonder inburgeringsdiploma of vrijstelling kun je geen naturalisatie aanvragen. Begin nu — dan ben je over 1 tot 3 jaar klaar.',
-    alternatieven: [
-      { naam: 'Vraag je leerroute op', tekst: 'Ga naar je gemeente om te weten welke route bij jou past (B1, Onderwijsroute of Z-route).' },
-      { naam: 'Start met taalles', tekst: 'Volg taalles bij een instelling met het Blik op Werk keurmerk. Vraag je gemeente naar de mogelijkheden en een eventuele vergoeding.' },
-      { naam: 'Examen aanvragen', tekst: 'Als je al voldoende Nederlands spreekt, kun je direct het examen aanvragen via DUO.' },
-      { naam: 'Vrijstelling mogelijk?', tekst: 'Vraag na of jij in aanmerking komt voor vrijstelling (65+, medische reden, of een vrijstellend diploma).' },
-    ],
-    link: 'https://www.inburgeren.nl', linkTekst: '→ Meer over inburgering op inburgeren.nl',
-  },
-  r_strafblad: {
-    type: 'negatief', icoon: '⚖️',
-    titel: 'Een strafblad kan naturalisatie blokkeren',
-    sub: 'Afhankelijk van het type veroordeling en hoe lang geleden, kan dit een belemmering zijn. Laat dit beoordelen door een specialist.',
-    alternatieven: [
-      { naam: 'Juridisch advies', tekst: 'Vraag een juridisch adviseur of jouw situatie een bezwaar vormt voor naturalisatie.' },
-      { naam: 'VluchtelingenWerk', tekst: 'Gratis juridische hulp voor statushouders.' },
-      { naam: 'Wachttijd', tekst: 'Na een bepaalde wachttijd (afhankelijk van het vonnis) kun je opnieuw aanvragen.' },
-      { naam: 'Kleine boetes', tekst: 'Verkeersboetes en kleine overtredingen tellen in de meeste gevallen NIET mee.' },
-    ],
-    link: 'https://www.vluchtelingenwerk.nl', linkTekst: '→ Neem contact op met VluchtelingenWerk',
-  },
-  r_strafblad_check: {
-    type: 'wacht', icoon: '🔍',
-    titel: 'Controleer of je een strafblad hebt',
-    sub: 'Je kunt een Verklaring Omtrent Gedrag (VOG) aanvragen om te zien wat er geregistreerd staat.',
-    alternatieven: [
-      { naam: 'VOG aanvragen', tekst: 'Vraag een Verklaring Omtrent Gedrag aan via justis.nl.' },
-      { naam: 'Gratis voor bijstandsgerechtigden', tekst: 'Als je een uitkering hebt, kan de VOG gratis zijn.' },
-      { naam: 'Kleine boetes tellen niet', tekst: 'Verkeersboetes en kleine overtredingen tellen meestal NIET mee.' },
-      { naam: 'Juridisch advies', tekst: 'Bij twijfel: raadpleeg een juridisch adviseur of VluchtelingenWerk.' },
-    ],
-    link: 'https://www.justis.nl/producten/vog', linkTekst: '→ VOG aanvragen op justis.nl',
-  },
-  r_geen_verblijf: {
-    type: 'negatief', icoon: '🏠',
-    titel: 'Je hoofdverblijf moet in Nederland zijn',
-    sub: 'Als je grotendeels in het buitenland woont, voldoe je niet aan de wooneis voor naturalisatie.',
-    alternatieven: [
-      { naam: 'Hoofdverblijf verplaatsen', tekst: 'Verplaats je officiële hoofdverblijf naar Nederland.' },
-      { naam: 'BRP-inschrijving', tekst: 'Zorg dat je ingeschreven staat in de BRP bij je gemeente.' },
-      { naam: 'Reizen is OK', tekst: 'Af en toe naar het buitenland reizen is geen probleem, als je Nederland als basis hebt.' },
-      { naam: 'Meer informatie', tekst: 'Vraag bij je gemeente naar de exacte eisen voor de woonplaats.' },
-    ],
-    link: 'https://ind.nl/nl/nederlander-worden/naturalisatie', linkTekst: '→ Meer informatie op ind.nl',
-  },
-  r_nationaliteit: {
-    type: 'wacht', icoon: '🌍',
-    titel: 'Afstand doen van nationaliteit is een grote stap',
-    sub: 'Nederland staat meestal geen dubbele nationaliteit toe. Er zijn wel uitzonderingen — lees dit goed door voordat je beslist.',
-    alternatieven: [
-      { naam: 'Uitzondering statushouders', tekst: 'Als erkend vluchteling hoef je GEEN afstand te doen van je nationaliteit.' },
-      { naam: 'Uitzondering: onmogelijk', tekst: 'Als afstand doen onmogelijk of gevaarlijk is, kan er een uitzondering zijn.' },
-      { naam: 'Uitzondering: NL partner', tekst: 'Ben je getrouwd met een Nederlander? Dan gelden speciale regels.' },
-      { naam: 'Juridisch advies', tekst: 'Laat jouw situatie beoordelen — soms is er meer mogelijk dan je denkt.' },
-    ],
-    link: 'https://ind.nl/nl/nederlander-worden/naturalisatie', linkTekst: '→ Alle uitzonderingen op ind.nl',
-  },
-  r_kosten: {
-    type: 'wacht', icoon: '💶',
-    titel: 'Er zijn mogelijkheden om de kosten te verlagen',
-    sub: 'De naturalisatiekosten zijn €1.139 (alleen) of €1.454 (met partner) — tarieven 2026; verlaagd tarief €847/€1.163 voor asielstatushouders/staatlozen. Er zijn manieren om dit betaalbaar te maken.',
-    alternatieven: [
-      { naam: 'Gemeentelijk fonds', tekst: 'Sommige gemeenten vergoeden de kosten (deels) voor statushouders.' },
-      { naam: 'Bijzondere bijstand', tekst: 'Vraag bijzondere bijstand aan bij je gemeente voor de legeskosten.' },
-      { naam: 'VluchtelingenWerk', tekst: 'Zij weten welke fondsen beschikbaar zijn in jouw gemeente.' },
-      { naam: 'Sparen', tekst: 'Spaar het bedrag terwijl je de overige documenten verzamelt.' },
-    ],
-    link: 'https://www.vluchtelingenwerk.nl', linkTekst: '→ Hulp bij kosten via VluchtelingenWerk',
-  },
-};
-
 let geschiedenis = [];
 let huidigVraagId = 'v1';
-const totaalStappen = 9;
 
 function render() {
   const hoofd = document.getElementById('hoofd');
+  if (!window._NAT) { toonLaadfout(); return; }
   hoofd.innerHTML = '';
   geschiedenis.forEach(item => {
     const el = document.createElement('div');
@@ -473,18 +209,26 @@ function render() {
   if (geschiedenis.length > 0) setTimeout(() => hoofd.lastElementChild?.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
 }
 
+// F-8/N-5: geen vaste "Stap X van 9" meer. Label = ui.vraagLabel met n =
+// geschiedenis.length + 1. Voortgang = n / (n + langsteRest(id)).
 function toonVraag(id) {
   const nat = getNATdata();
-  const v = (nat && nat.vragen ? nat.vragen : vragen)[id]; if (!v) return;
-  const stapNr = parseInt(v.stap.match(/\d+/)?.[0]) || 1;
-  document.getElementById('voortgang').style.width = ((stapNr / totaalStappen) * 100) + '%';
+  if (!nat) { toonLaadfout(); return; }
+  const ui = nat.ui || {};
+  const v = nat.vragen[id]; if (!v) return;
+  const n = geschiedenis.length + 1;
+  const rest = langsteRest(id, nat.vragen, nat.resultaten);
+  const voortgangPct = Math.round((n / (n + rest)) * 100);
+  document.getElementById('voortgang').style.width = voortgangPct + '%';
+  const label = (ui.vraagLabel || 'Vraag {n}').replace('{n}', n);
+  const leesAttr = bouwVraagLees(v, ui);
   const kaart = document.createElement('div');
   kaart.className = 'vraag-kaart';
   kaart.innerHTML = `
     <div class="vraag-header">
-      <div class="vraag-stap">${v.stap}</div>
-      <div class="vraag-tekst">${v.tekst}</div>
-      ${v.uitleg ? `<div class="vraag-uitleg">${v.uitleg}</div>` : ''}
+      <div class="vraag-stap">${label}</div>
+      <div class="vraag-tekst" data-lees="${leesAttr}">${v.tekst}</div>
+      ${v.uitleg ? `<div class="vraag-uitleg" data-lees="">${v.uitleg}</div>` : ''}
     </div>
     <div class="antwoorden">
       ${v.antwoorden.map((a, i) => `
@@ -502,58 +246,66 @@ function toonVraag(id) {
   if (geschiedenis.length > 0) {
     const opnieuw = document.createElement('div');
     opnieuw.style.cssText = 'text-align:center;margin-top:0.5rem;';
-    opnieuw.innerHTML = `<button class="knop-secundair" onclick="opnieuwBeginnen()" style="font-size:0.8rem;padding:7px 16px;">↺ Opnieuw beginnen</button>`;
+    opnieuw.innerHTML = `<button class="knop-secundair" onclick="opnieuwBeginnen()" style="font-size:0.8rem;padding:7px 16px;">${ui.opnieuw || '↺'}</button>`;
     document.getElementById('hoofd').appendChild(opnieuw);
   }
 }
 
 function toonResultaat(id) {
   const nat = getNATdata();
-  const res = (nat && nat.resultaten ? nat.resultaten : resultaten)[id]; if (!res) return;
+  if (!nat) { toonLaadfout(); return; }
+  const ui = nat.ui || {};
+  const res = nat.resultaten[id]; if (!res) return;
   document.getElementById('voortgang').style.width = '100%';
   const kaart = document.createElement('div');
   kaart.className = `resultaat-kaart resultaat-${res.type}`;
-  const taal = huidigeTaal();
-  const vwnTekstFallback = taal === 'NL'
-    ? `Naturalisatieregels veranderen snel en jouw situatie kan anders liggen dan de checker aangeeft. VluchtelingenWerk heeft spreekuren en begeleiding bij naturalisatie — kijk op <a href="https://www.vluchtelingenwerk.nl/over-ons/locaties" target="_blank" style="color:inherit;">vluchtelingenwerk.nl/over-ons/locaties</a> voor een locatie bij jou in de buurt.`
-    : `VluchtelingenWerk Nederland (VWN) biedt gratis hulp bij naturalisatie, ook in jouw taal. Zoek een locatie via <a href="https://www.vluchtelingenwerk.nl/over-ons/locaties" target="_blank" style="color:inherit;">vluchtelingenwerk.nl/over-ons/locaties</a>.`;
-  const vwnTekst = (nat && nat.vwnTekst) ? nat.vwnTekst : vwnTekstFallback;
-  const disclaimerTekst = (nat && nat.disclaimer) ? nat.disclaimer : '⚠️ Deze checker geeft een indicatie op basis van de IND-voorwaarden van 2026, inclusief het tweestatusstelsel dat sinds 12 juni 2026 geldt. Een paar aangekondigde maatregelen (zoals de naturalisatietermijn van 5 naar 10 jaar en taalniveau B1) zijn nog niet definitief. Er zijn altijd uitzonderingen en persoonlijke omstandigheden. Raadpleeg altijd een medewerker van de gemeente of VluchtelingenWerk voor persoonlijk advies.';
-  const disclaimer = `<div class="disclaimer">${disclaimerTekst}<br><br>💬 ${vwnTekst}</div>`;
+  // Bugfix (gevonden bij F-7): disclaimer/vwnTekst/vwnLabel staan onder
+  // nat.header.*, niet op nat zelf — anders viel elke taal terug op de
+  // Nederlandse/Engelse vaste tekst hieronder.
+  const h = nat.header || {};
+  const vwnTekst = h.vwnTekst || '';
+  const disclaimerTekst = h.disclaimer || '';
+  const vwnLabel = h.vwnLabel || '';
+  const disclaimer = `<div class="disclaimer" data-lees="">${disclaimerTekst}${vwnTekst ? `<br><br>💬 ${vwnTekst}` : ''}</div>`;
   const interneBtn = res.interneLink ? `<button class="knop-primair" style="background:var(--blauw);" onclick="gaNaarResultaat('${res.interneLink.naar}')">${res.interneLink.tekst}</button>` : '';
-  const externeBtn = res.link ? `<a href="${res.link}" target="_blank" class="${res.interneLink ? 'knop-secundair' : 'knop-primair'}">${res.linkTekst}</a>` : '';
-  const knoppen = `<div class="actie-knoppen">${interneBtn}${externeBtn}<button class="knop-secundair" onclick="opnieuwBeginnen()">↺ Opnieuw beginnen</button></div>`;
-  const vwnLabel = (nat && nat.vwnLabel) || 'Twijfel je over jouw situatie?';
-  const vwnBox = `<div class="amber-box" style="margin-top:1rem;">💬 <strong>${vwnLabel}</strong> ${vwnTekst}</div>`;
+  // N-10: alleen externe (http…) links openen in een nieuw tabblad.
+  const isExtern = res.link && /^https?:\/\//i.test(res.link);
+  const externeBtn = res.link ? `<a href="${res.link}"${isExtern ? ' target="_blank"' : ''} class="${res.interneLink ? 'knop-secundair' : 'knop-primair'}">${res.linkTekst||''}</a>` : '';
+  const knoppen = `<div class="actie-knoppen">${interneBtn}${externeBtn}<button class="knop-secundair" onclick="opnieuwBeginnen()">${ui.opnieuw || '↺'}</button></div>`;
+  const vwnBox = vwnTekst ? `<div class="amber-box" style="margin-top:1rem;" data-lees="">💬 ${vwnLabel ? `<strong>${vwnLabel}</strong> ` : ''}${vwnTekst}</div>` : '';
   let body = '';
   if (res.type === 'positief') {
-    const vwnStap = { nr: res.stappen.length + 1, tekst: `<strong>Laat je situatie checken</strong> — ${vwnTekst}` };
-    const alleStappen = [...res.stappen, vwnStap];
+    const alleStappen = vwnTekst
+      ? [...res.stappen, { nr: res.stappen.length + 1, tekst: `<strong>${ui.laatChecken || ''}</strong> — ${vwnTekst}` }]
+      : res.stappen;
     body = `<div class="resultaat-body">
-      ${res.info?`<div class="info-box">${res.info}</div>`:''}
-      <div class="sectie-label">Volgende stappen</div>
+      ${res.info?`<div class="info-box" data-lees="">${res.info}</div>`:''}
+      <div class="sectie-label">${ui.volgendeStappen || ''}</div>
       <ul class="stap-lijst">${alleStappen.map(s=>`<li class="stap-item-res"><span class="stap-nr-res">${s.nr}</span><span class="stap-tekst-res">${s.tekst}</span></li>`).join('')}</ul>
       ${knoppen}${disclaimer}</div>`;
   } else if (res.type === 'eu') {
-    let infoH = (res.infoBoxen||[]).map(b=>`<div class="${b.type==='amber'?'amber-box':'info-box'}">${b.tekst}</div>`).join('');
-    let stappenH = res.stappen ? `<div class="sectie-label">Wat kun je doen?</div><ul class="stap-lijst">${res.stappen.map(s=>`<li class="stap-item-res"><span class="stap-nr-res">${s.nr}</span><span class="stap-tekst-res">${s.tekst}</span></li>`).join('')}</ul>` : '';
+    let infoH = (res.infoBoxen||[]).map(b=>`<div class="${b.type==='amber'?'amber-box':'info-box'}" data-lees="">${b.tekst}</div>`).join('');
+    let stappenH = res.stappen ? `<div class="sectie-label">${ui.watKunJeDoen || ''}</div><ul class="stap-lijst">${res.stappen.map(s=>`<li class="stap-item-res"><span class="stap-nr-res">${s.nr}</span><span class="stap-tekst-res">${s.tekst}</span></li>`).join('')}</ul>` : '';
     body = `<div class="resultaat-body">${infoH}${stappenH}${knoppen}${disclaimer}</div>`;
   } else if (res.type === 'route') {
-    let infoH = (res.infoBoxen||[]).map(b=>`<div class="${b.type==='amber'?'amber-box':'info-box'}">${b.tekst}</div>`).join('');
-    if (res.info) infoH += `<div class="info-box">${res.info}</div>`;
-    let padenH = res.paden ? `<div class="sectie-label">De drie paden voor naturalisatie vanuit de Z-route</div><div class="route-paden">${res.paden.map(p=>`<div class="route-pad"><div class="route-pad-header"><div class="route-pad-nr">${p.nr}</div><div class="route-pad-titel">${p.titel}</div></div><div class="route-pad-tekst">${p.tekst}</div></div>`).join('')}</div>` : '';
-    let stappenH = res.stappen ? `<div class="sectie-label" style="margin-top:1rem;">Wat kun je nu doen?</div><ul class="stap-lijst">${res.stappen.map(s=>`<li class="stap-item-res"><span class="stap-nr-res">${s.nr}</span><span class="stap-tekst-res">${s.tekst}</span></li>`).join('')}</ul>` : '';
+    let infoH = (res.infoBoxen||[]).map(b=>`<div class="${b.type==='amber'?'amber-box':'info-box'}" data-lees="">${b.tekst}</div>`).join('');
+    if (res.info) infoH += `<div class="info-box" data-lees="">${res.info}</div>`;
+    // N-6 paden-titel: res.padenTitel, terugval ui.driePaden.
+    const padenTitel = res.padenTitel || ui.driePaden || '';
+    let padenH = res.paden ? `<div class="sectie-label">${padenTitel}</div><div class="route-paden">${res.paden.map(p=>`<div class="route-pad" data-lees=""><div class="route-pad-header"><div class="route-pad-nr">${p.nr}</div><div class="route-pad-titel">${p.titel}</div></div><div class="route-pad-tekst">${p.tekst}</div></div>`).join('')}</div>` : '';
+    let stappenH = res.stappen ? `<div class="sectie-label" style="margin-top:1rem;">${ui.watKunJeNuDoen || ''}</div><ul class="stap-lijst">${res.stappen.map(s=>`<li class="stap-item-res"><span class="stap-nr-res">${s.nr}</span><span class="stap-tekst-res">${s.tekst}</span></li>`).join('')}</ul>` : '';
     body = `<div class="resultaat-body">${infoH}${padenH}${stappenH}${knoppen}${disclaimer}</div>`;
   } else {
-    body = `<div class="resultaat-body"><div class="alternatief-grid">${res.alternatieven.map(a=>`<div class="alternatief-item"><div class="alternatief-naam">${a.naam}</div><div class="alternatief-tekst">${a.tekst}</div></div>`).join('')}</div>${vwnBox}${knoppen}${disclaimer}</div>`;
+    body = `<div class="resultaat-body"><div class="alternatief-grid">${res.alternatieven.map(a=>`<div class="alternatief-item" data-lees=""><div class="alternatief-naam">${a.naam}</div><div class="alternatief-tekst">${a.tekst}</div></div>`).join('')}</div>${vwnBox}${knoppen}${disclaimer}</div>`;
   }
-  kaart.innerHTML = `<div class="resultaat-header"><div class="resultaat-icoon-groot">${res.icoon}</div><div class="resultaat-titel">${res.titel}</div><div class="resultaat-sub">${res.sub}</div></div>${body}`;
+  kaart.innerHTML = `<div class="resultaat-header" data-lees=""><div class="resultaat-icoon-groot">${res.icoon}</div><div class="resultaat-titel">${res.titel}</div><div class="resultaat-sub">${res.sub}</div></div>${body}`;
   document.getElementById('hoofd').appendChild(kaart);
 }
 
 function kiesAntwoord(vraagId, i) {
   const nat = getNATdata();
-  const v = (nat && nat.vragen ? nat.vragen : vragen)[vraagId], a = v.antwoorden[i];
+  if (!nat) return;
+  const v = nat.vragen[vraagId], a = v.antwoorden[i];
   geschiedenis.push({ vraagId, vraagTekst: v.tekst, antwoordTekst: a.tekst, klasse: a.klasse });
   huidigVraagId = a.volgende;
   render();

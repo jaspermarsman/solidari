@@ -25,6 +25,17 @@ window._NAT = {
       "vwnLabel": "Twijfel je over jouw situatie?",
       "vwnTekst": "Naturalisatieregels veranderen snel en jouw situatie kan anders liggen dan de checker aangeeft. VluchtelingenWerk heeft spreekuren en begeleiding bij naturalisatie — kijk op <a href=\"https://www.vluchtelingenwerk.nl/over-ons/locaties\" target=\"_blank\" style=\"color:inherit;\">vluchtelingenwerk.nl/over-ons/locaties</a> voor een locatie bij jou in de buurt."
     },
+    "ui": {
+      "volgendeStappen": "Volgende stappen",
+      "watKunJeDoen": "Wat kun je doen?",
+      "watKunJeNuDoen": "Wat kun je nu doen?",
+      "opnieuw": "↺ Opnieuw beginnen",
+      "laatChecken": "Laat je situatie checken",
+      "vraagLabel": "Vraag {n}",
+      "jeKuntKiezen": "Je kunt kiezen:",
+      "ladenMislukt": "Er ging iets mis bij het laden van deze pagina. Vernieuw de pagina of probeer het later opnieuw.",
+      "driePaden": "De drie paden voor naturalisatie vanuit de Z-route"
+    },
     "vragen": {
       "v1": {
         "stap": "Stap 1 van 9",
@@ -538,6 +549,7 @@ window._NAT = {
         "type": "route",
         "icoon": "🌱",
         "titel": "Naturaliseren vanuit de Z-route — belangrijk verschil",
+        "padenTitel": "De drie paden voor naturalisatie vanuit de Z-route",
         "sub": "Afronden van de Z-route betekent niet automatisch dat je aan het inburgeringsvereiste voor naturalisatie voldoet. Er zijn drie paden via DUO.",
         "infoBoxen": [
           {
@@ -776,6 +788,17 @@ window._NAT = {
       "disclaimer": "⚠️ This checker provides an indication based on IND requirements for 2026, including the two-status system that has been in effect since 12 June 2026. A number of announced measures (such as the naturalisation period from 5 to 10 years and language level B1) are not yet final. There are always exceptions and personal circumstances. Always consult a municipality employee or VluchtelingenWerk for personal advice.",
       "vwnLabel": "Not sure about your situation?",
       "vwnTekst": "Naturalisation rules change quickly and your situation may differ from what the checker indicates. VluchtelingenWerk offers drop-in sessions and guidance on naturalisation — find a location near you at <a href=\"https://www.vluchtelingenwerk.nl/over-ons/locaties\" target=\"_blank\" style=\"color:inherit;\">vluchtelingenwerk.nl/over-ons/locaties</a>."
+    },
+    "ui": {
+      "volgendeStappen": "Next steps",
+      "watKunJeDoen": "What can you do?",
+      "watKunJeNuDoen": "What can you do now?",
+      "opnieuw": "↺ Start over",
+      "laatChecken": "Get your situation checked",
+      "vraagLabel": "Question {n}",
+      "jeKuntKiezen": "You can choose:",
+      "ladenMislukt": "Something went wrong loading this page. Refresh the page or try again later.",
+      "driePaden": "The three paths to naturalisation from the Z-route"
     },
     "vragen": {
       "v1": {
@@ -1290,6 +1313,7 @@ window._NAT = {
         "type": "route",
         "icoon": "🌱",
         "titel": "Naturalising via the Z-route — an important difference",
+        "padenTitel": "The three paths to naturalisation from the Z-route",
         "sub": "Completing the Z-route does not automatically mean you meet the integration requirement for naturalisation. There are three paths via DUO.",
         "infoBoxen": [
           {
@@ -1528,6 +1552,17 @@ window._NAT = {
       "disclaimer": "⚠️ تُقدّم هذه الأداة تقديراً استناداً إلى شروط دائرة الهجرة (IND) لعام 2026، بما يشمل نظام الوضعين المزدوج الساري منذ 12 يونيو 2026. بعض الإجراءات المُعلنة (كمدة التجنيس من 5 إلى 10 سنوات ومستوى اللغة B1) لم تُقرَّ بعد. دائماً ما توجد استثناءات وظروف شخصية. استشر دائماً موظفاً في البلدية أو منظمة VluchtelingenWerk للحصول على مشورة شخصية.",
       "vwnLabel": "هل تتردد في أمر وضعك؟",
       "vwnTekst": "قواعد التجنيس تتغير بسرعة وقد تختلف حالتك عما تُظهره الأداة. تُقدّم منظمة VluchtelingenWerk Nederland جلسات إرشادية ومساعدة مجانية في التجنيس — ابحث عن موقع قريب منك على <a href=\"https://www.vluchtelingenwerk.nl/over-ons/locaties\" target=\"_blank\" style=\"color:inherit;\">vluchtelingenwerk.nl/over-ons/locaties</a>."
+    },
+    "ui": {
+      "volgendeStappen": "الخطوات التالية",
+      "watKunJeDoen": "ما الذي يمكنك فعله؟",
+      "watKunJeNuDoen": "ما الذي يمكنك فعله الآن؟",
+      "opnieuw": "↺ البدء من جديد",
+      "laatChecken": "تحقق من وضعك",
+      "vraagLabel": "السؤال {n}",
+      "jeKuntKiezen": "يمكنك الاختيار:",
+      "ladenMislukt": "حدث خطأ أثناء تحميل هذه الصفحة. حدّث الصفحة أو حاول مرة أخرى لاحقاً.",
+      "driePaden": "الطرق الثلاثة للتجنيس عبر مسار Z"
     },
     "vragen": {
       "v1": {
@@ -2042,6 +2077,7 @@ window._NAT = {
         "type": "route",
         "icoon": "🌱",
         "titel": "التجنيس عبر مسار Z — فرق مهم",
+        "padenTitel": "الطرق الثلاثة للتجنيس عبر مسار Z",
         "sub": "إتمام مسار Z لا يعني تلقائياً استيفاء شرط الاندماج للتجنيس. هناك ثلاثة مسارات عبر DUO.",
         "infoBoxen": [
           {
@@ -2280,6 +2316,17 @@ window._NAT = {
       "disclaimer": "⚠️ Bu araç, 12 Haziran 2026'dan itibaren geçerli olan çift statü sistemi dahil 2026 IND koşullarına dayalı bir gösterge sunmaktadır. Açıklanan bazı önlemler (5'ten 10 yıla uzayan vatandaşlık süresi ve B1 dil seviyesi gibi) henüz kesinleşmemiştir. Her zaman istisnalar ve kişisel koşullar söz konusu olabilir. Kişisel tavsiye için her zaman bir belediye çalışanına veya VluchtelingenWerk'e başvurun.",
       "vwnLabel": "Durumunuzdan emin değil misiniz?",
       "vwnTekst": "Vatandaşlık kuralları hızla değişmektedir ve durumunuz aracın gösterdiğinden farklı olabilir. VluchtelingenWerk Nederland, vatandaşlık konusunda ücretsiz danışma saatleri ve rehberlik sunmaktadır — <a href=\"https://www.vluchtelingenwerk.nl/over-ons/locaties\" target=\"_blank\" style=\"color:inherit;\">vluchtelingenwerk.nl/over-ons/locaties</a> adresinden size yakın bir merkezi bulun."
+    },
+    "ui": {
+      "volgendeStappen": "Sonraki adımlar",
+      "watKunJeDoen": "Ne yapabilirsin?",
+      "watKunJeNuDoen": "Şimdi ne yapabilirsin?",
+      "opnieuw": "↺ Yeniden başla",
+      "laatChecken": "Durumunu kontrol ettir",
+      "vraagLabel": "Soru {n}",
+      "jeKuntKiezen": "Seçebilirsin:",
+      "ladenMislukt": "Bu sayfa yüklenirken bir hata oluştu. Sayfayı yenile veya daha sonra tekrar dene.",
+      "driePaden": "Z-rotasından vatandaşlığa üç yol"
     },
     "vragen": {
       "v1": {
@@ -2794,6 +2841,7 @@ window._NAT = {
         "type": "route",
         "icoon": "🌱",
         "titel": "Z-rotasından vatandaşlığa — önemli bir fark",
+        "padenTitel": "Z-rotasından vatandaşlığa üç yol",
         "sub": "Z-rotasını tamamlamak, vatandaşlık için entegrasyon şartını otomatik olarak karşıladığınız anlamına gelmez. DUO aracılığıyla üç yol vardır.",
         "infoBoxen": [
           {
@@ -3032,6 +3080,17 @@ window._NAT = {
       "disclaimer": "⚠️ Цей інструмент надає орієнтовну інформацію на основі умов IND 2026 року, включно з системою двох статусів, що діє з 12 червня 2026 року. Деякі оголошені заходи (зокрема подовження терміну натуралізації з 5 до 10 років та рівень мови B1) ще не є остаточними. Завжди можуть бути винятки та індивідуальні обставини. Завжди звертайтеся до співробітника муніципалітету або VluchtelingenWerk за особистою консультацією.",
       "vwnLabel": "Не впевнені у своїй ситуації?",
       "vwnTekst": "Правила натуралізації швидко змінюються, і ваша ситуація може відрізнятися від того, що показує інструмент. VluchtelingenWerk Nederland пропонує безкоштовні консультації та підтримку щодо натуралізації — знайдіть найближче місце на <a href=\"https://www.vluchtelingenwerk.nl/over-ons/locaties\" target=\"_blank\" style=\"color:inherit;\">vluchtelingenwerk.nl/over-ons/locaties</a>."
+    },
+    "ui": {
+      "volgendeStappen": "Наступні кроки",
+      "watKunJeDoen": "Що ти можеш зробити?",
+      "watKunJeNuDoen": "Що ти можеш зробити зараз?",
+      "opnieuw": "↺ Почати знову",
+      "laatChecken": "Перевір свою ситуацію",
+      "vraagLabel": "Питання {n}",
+      "jeKuntKiezen": "Ти можеш вибрати:",
+      "ladenMislukt": "Під час завантаження цієї сторінки щось пішло не так. Оновіть сторінку або спробуйте пізніше.",
+      "driePaden": "Три шляхи до натуралізації через Z-маршрут"
     },
     "vragen": {
       "v1": {
@@ -3546,6 +3605,7 @@ window._NAT = {
         "type": "route",
         "icoon": "🌱",
         "titel": "Натуралізація через Z-маршрут — важлива відмінність",
+        "padenTitel": "Три шляхи до натуралізації через Z-маршрут",
         "sub": "Завершення Z-маршруту не означає автоматично, що ви відповідаєте вимозі інтеграції для натуралізації. Є три шляхи через DUO.",
         "infoBoxen": [
           {
@@ -3784,6 +3844,17 @@ window._NAT = {
       "disclaimer": "⚠️ این ابزار بر اساس شرایط IND سال 2026، از جمله سیستم دو وضعیتی که از 12 ژوئن 2026 اجرایی شده، یک تخمین ارائه می‌دهد. برخی از اقدامات اعلام‌شده (مانند افزایش مدت تابعیت از 5 به 10 سال و سطح زبانی B1) هنوز قطعی نشده‌اند. همیشه استثناها و شرایط شخصی وجود دارد. برای مشاوره شخصی همیشه با یک کارمند شهرداری یا VluchtelingenWerk مشورت کنید.",
       "vwnLabel": "در مورد وضعیت خود مطمئن نیستید؟",
       "vwnTekst": "قوانین تابعیت به سرعت تغییر می‌کنند و وضعیت شما ممکن است با آنچه این ابزار نشان می‌دهد متفاوت باشد. VluchtelingenWerk Nederland ساعات مشاوره رایگان و راهنمایی در زمینه تابعیت ارائه می‌دهد — محلی نزدیک به خود را در <a href=\"https://www.vluchtelingenwerk.nl/over-ons/locaties\" target=\"_blank\" style=\"color:inherit;\">vluchtelingenwerk.nl/over-ons/locaties</a> پیدا کنید."
+    },
+    "ui": {
+      "volgendeStappen": "مراحل بعدی",
+      "watKunJeDoen": "چه کاری می‌توانید انجام دهید؟",
+      "watKunJeNuDoen": "حالا چه کاری می‌توانید انجام دهید؟",
+      "opnieuw": "↺ شروع دوباره",
+      "laatChecken": "وضعیت خود را بررسی کنید",
+      "vraagLabel": "سؤال {n}",
+      "jeKuntKiezen": "می‌توانید انتخاب کنید:",
+      "ladenMislukt": "در بارگذاری این صفحه مشکلی پیش آمد. صفحه را تازه کنید یا بعداً دوباره تلاش کنید.",
+      "driePaden": "سه مسیر به‌سوی تابعیت از طریق مسیر Z"
     },
     "vragen": {
       "v1": {
@@ -4298,6 +4369,7 @@ window._NAT = {
         "type": "route",
         "icoon": "🌱",
         "titel": "تابعیت از طریق مسیر Z — تفاوت مهم",
+        "padenTitel": "سه مسیر به‌سوی تابعیت از طریق مسیر Z",
         "sub": "تکمیل مسیر Z به این معنا نیست که شرط ادغام برای تابعیت را به‌طور خودکار برآورده کرده‌اید. سه مسیر از طریق DUO وجود دارد.",
         "infoBoxen": [
           {
@@ -4536,6 +4608,17 @@ window._NAT = {
       "disclaimer": "⚠️ እዚ መርሚሪ ካብ 12 ሰነ 2026 ዝጸንሐ ስርዓት ክልተ-ደረጃ ሓዊሱ ናይ IND ኩነታት 2026 ዝምርኰሰ ምልክታ ይህብ። ዝቐርቡ ዘለዉ ሓደ ሓደ ስጉምቲታት (ናይ ዜግነት ማሕለኻ ካብ 5 ናብ 10 ዓመት ምንዋሕን ደረጃ ቋንቋ B1ን) ገና ናይ መወዳእታ ኣይኮነን። ሎሚ ኩሉ ጊዜ ምትሕልላፋትን ናይ ውልቀ-ሰብ ኩነታትን ኣሎ። ናይ ውልቀ-ሰብ ምኽሪ ንምርካብ ሎሚ ኩሉ ጊዜ ናብ ናይ ምምሕዳር ሰራሕተኛ ወይ VluchtelingenWerk ተወከሱ።",
       "vwnLabel": "ብዛዕባ ኩነታትካ/ኪ ርግጽ ዘይኮንካ/ኪ?",
       "vwnTekst": "ናይ ዜግነት ሕግታት ቀልጢፈን ይቕየራ፡ ኩነታትካ/ኪ ካብ ዘርኢ ዘሎ ፍልይ ክብል ይኽእል። VluchtelingenWerk Nederland ብናጻ ናይ ምኽሪ ሰዓታትን ናብ ዜግነት ምቕራብ ሓገዝን ይህብ — ኣብ <a href=\"https://www.vluchtelingenwerk.nl/over-ons/locaties\" target=\"_blank\" style=\"color:inherit;\">vluchtelingenwerk.nl/over-ons/locaties</a> ቀረባ ቦታ ድለዩ።"
+    },
+    "ui": {
+      "volgendeStappen": "ዝቕጽል ስጉምትታት",
+      "watKunJeDoen": "እንታይ ክትገብር ትኽእል?",
+      "watKunJeNuDoen": "ሕጂ እንታይ ክትገብር ትኽእል?",
+      "opnieuw": "↺ ብሓድሽ ጀምር",
+      "laatChecken": "ኩነታትካ/ኪ ኣረጋግጽ",
+      "vraagLabel": "ሕቶ {n}",
+      "jeKuntKiezen": "ክትመርጽ ትኽእል፦",
+      "ladenMislukt": "እዚ ገጽ ክጽዓን ከሎ ጸገም ኣጋጢሙ። እቲ ገጽ ኣሓድስ ወይ ደሓር ደግም ፈትን።",
+      "driePaden": "ካብ Z-መስመር ናብ ዜግነት ዝወስዱ ሰለስተ መንገድታት"
     },
     "vragen": {
       "v1": {
@@ -5050,6 +5133,7 @@ window._NAT = {
         "type": "route",
         "icoon": "🌱",
         "titel": "ካብ Z-መስርሕ ዜጋነት — ኣዚዩ ዘገምደ ፍልልይ",
+        "padenTitel": "ካብ Z-መስመር ናብ ዜግነት ዝወስዱ ሰለስተ መንገድታት",
         "sub": "Z-መስርሕ ምዝዛም ናይ ዜጋነት ናይ ምውህሃድ ጠለብ ብኣውቶማቲክ ዘሟልእ ኣይኮነን። ብ DUO ሰለስተ መንገድታት ኣለዉ።",
         "infoBoxen": [
           {
@@ -5288,6 +5372,17 @@ window._NAT = {
       "disclaimer": "⚠️ Acest instrument oferă o indicație bazată pe condițiile IND din 2026, inclusiv sistemul cu două statute în vigoare din 12 iunie 2026. Câteva măsuri anunțate (cum ar fi prelungirea perioadei de naturalizare de la 5 la 10 ani și nivelul de limbă B1) nu sunt încă definitive. Există întotdeauna excepții și circumstanțe personale. Consultați întotdeauna un angajat al primăriei sau VluchtelingenWerk pentru sfaturi personale.",
       "vwnLabel": "Nu ești sigur/ă de situația ta?",
       "vwnTekst": "Regulile de naturalizare se schimbă rapid și situația ta poate fi diferită de ce arată instrumentul. VluchtelingenWerk Nederland oferă consultații gratuite și îndrumare pentru naturalizare — găsește o locație apropiată pe <a href=\"https://www.vluchtelingenwerk.nl/over-ons/locaties\" target=\"_blank\" style=\"color:inherit;\">vluchtelingenwerk.nl/over-ons/locaties</a>."
+    },
+    "ui": {
+      "volgendeStappen": "Pașii următori",
+      "watKunJeDoen": "Ce poți face?",
+      "watKunJeNuDoen": "Ce poți face acum?",
+      "opnieuw": "↺ Începe din nou",
+      "laatChecken": "Verifică-ți situația",
+      "vraagLabel": "Întrebarea {n}",
+      "jeKuntKiezen": "Poți alege:",
+      "ladenMislukt": "A apărut o problemă la încărcarea acestei pagini. Reîncarcă pagina sau încearcă din nou mai târziu.",
+      "driePaden": "Cele trei căi spre naturalizare din ruta Z"
     },
     "vragen": {
       "v1": {
@@ -5802,6 +5897,7 @@ window._NAT = {
         "type": "route",
         "icoon": "🌱",
         "titel": "Naturalizare prin ruta Z — o diferență importantă",
+        "padenTitel": "Cele trei căi spre naturalizare din ruta Z",
         "sub": "Finalizarea rutei Z nu înseamnă automat că îndeplinești cerința de integrare pentru naturalizare. Există trei căi prin DUO.",
         "infoBoxen": [
           {
@@ -6040,6 +6136,17 @@ window._NAT = {
       "disclaimer": "⚠️ To narzędzie daje orientację na podstawie warunków IND z 2026 roku, w tym systemu dwóch statusów obowiązującego od 12 czerwca 2026 r. Niektóre ogłoszone środki (jak wydłużenie okresu naturalizacji z 5 do 10 lat i poziom językowy B1) nie są jeszcze ostateczne. Zawsze mogą wystąpić wyjątki i indywidualne okoliczności. W celu uzyskania osobistej porady zawsze skonsultuj się z pracownikiem gminy lub organizacją VluchtelingenWerk.",
       "vwnLabel": "Nie masz pewności co do swojej sytuacji?",
       "vwnTekst": "Przepisy dotyczące naturalizacji szybko się zmieniają, a Twoja sytuacja może się różnić od tego, co wskazuje narzędzie. VluchtelingenWerk Nederland oferuje bezpłatne dyżury i wsparcie w kwestiach naturalizacji — znajdź pobliskie miejsce na <a href=\"https://www.vluchtelingenwerk.nl/over-ons/locaties\" target=\"_blank\" style=\"color:inherit;\">vluchtelingenwerk.nl/over-ons/locaties</a>."
+    },
+    "ui": {
+      "volgendeStappen": "Następne kroki",
+      "watKunJeDoen": "Co możesz zrobić?",
+      "watKunJeNuDoen": "Co możesz teraz zrobić?",
+      "opnieuw": "↺ Zacznij od nowa",
+      "laatChecken": "Sprawdź swoją sytuację",
+      "vraagLabel": "Pytanie {n}",
+      "jeKuntKiezen": "Możesz wybrać:",
+      "ladenMislukt": "Podczas ładowania tej strony coś poszło nie tak. Odśwież stronę lub spróbuj później.",
+      "driePaden": "Trzy ścieżki do naturalizacji ze ścieżki Z"
     },
     "vragen": {
       "v1": {
@@ -6554,6 +6661,7 @@ window._NAT = {
         "type": "route",
         "icoon": "🌱",
         "titel": "Naturalizacja przez trasę Z — ważna różnica",
+        "padenTitel": "Trzy ścieżki do naturalizacji ze ścieżki Z",
         "sub": "Ukończenie trasy Z nie oznacza automatycznie spełnienia wymogu integracji do naturalizacji. Przez DUO istnieją trzy ścieżki.",
         "infoBoxen": [
           {
