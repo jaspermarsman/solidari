@@ -4,12 +4,14 @@
 
 window._NAT_CONFIG = {
   "jaar": 2026,
+  "gecontroleerd": "2026-09",
   "leges": {
     "enkel": "€1.139",
     "metPartner": "€1.454",
     "verlaagdAsiel": "€847",
     "verlaagdAsielPartner": "€1.163",
-    "kind": "€168"
+    "kind": "€168",
+    "euLangdurig": "€254"
   }
 };
 
