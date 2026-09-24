@@ -370,4 +370,11 @@ function main() {
   console.log(`✅ check.js groen (${talen.join(', ')})`);
 }
 
-main();
+// Fase 5 (§7): tests/naturalisatie.spec.js hergebruikt de vaste
+// [vraagId, antwoordIndex]-scenariopaden hieronder in plaats van op tekst te
+// zoeken. `main()` draait alleen bij CLI-gebruik, niet bij `require()`.
+module.exports = { SCENARIOS, laadData };
+
+if (require.main === module) {
+  main();
+}

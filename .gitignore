@@ -22,6 +22,7 @@ tools/audio/*.wav
 tests/nulmeting-resultaat.json
 tests/nulmeting-screenshots/
 tests/eindmeting-resultaat.json
+tests/naturalisatie-linkcheck.json
 tests/test-results/
 tests/playwright-report/
 
