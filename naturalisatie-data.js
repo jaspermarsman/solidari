@@ -9348,8 +9348,8 @@ window._NAT = {
     "header": {
       "badge": "🇳🇱 Sprawdzanie Naturalizacji",
       "titel": "Czy mam prawo do holenderskiego paszportu?",
-      "sub": "Odpowiedz na kilka pytań i od razu dowiedz się, czy możesz złożyć wniosek o naturalizację — na podstawie warunków IND z 2026 roku, w tym nowych przepisów azylowych.",
-      "disclaimer": "⚠️ To narzędzie daje orientację na podstawie warunków IND z 2026 roku, w tym systemu dwóch statusów obowiązującego od 12 czerwca 2026 r. Niektóre ogłoszone środki (jak wydłużenie okresu naturalizacji z 5 do 10 lat i poziom językowy B1) nie są jeszcze ostateczne. Zawsze mogą wystąpić wyjątki i indywidualne okoliczności. W celu uzyskania osobistej porady zawsze skonsultuj się z pracownikiem gminy lub organizacją VluchtelingenWerk.",
+      "sub": "Odpowiedz na kilka pytań i sprawdź, czy możesz zostać obywatelem Holandii. Na podstawie przepisów z 2026 roku, w tym nowych przepisów azylowych obowiązujących od 12 czerwca 2026 r.",
+      "disclaimer": "⚠️ To narzędzie daje orientację, a nie decyzję. Sprawdzone we wrześniu 2026 r. (IND, Stimulansz). Od 12 czerwca 2026 r. nie ma już zezwolenia azylowego na czas nieokreślony. Dlatego nowe osoby z ochroną muszą najpierw zostać rezydentem długoterminowym UE (EU-langdurig ingezetene), zanim będą mogły się naturalizować (naturalisatie). Zapowiedziane plany rządu jeszcze nie są prawem. Zawsze proś o radę gminę lub VluchtelingenWerk.",
       "vwnLabel": "Nie masz pewności co do swojej sytuacji?",
       "vwnTekst": "Przepisy dotyczące naturalizacji szybko się zmieniają, a Twoja sytuacja może się różnić od tego, co wskazuje narzędzie. VluchtelingenWerk Nederland oferuje bezpłatne dyżury i wsparcie w kwestiach naturalizacji — znajdź pobliskie miejsce na <a href=\"https://www.vluchtelingenwerk.nl/over-ons/locaties\" target=\"_blank\" style=\"color:inherit;\">vluchtelingenwerk.nl/over-ons/locaties</a>."
     },
@@ -9358,15 +9358,14 @@ window._NAT = {
       "watKunJeDoen": "Co możesz zrobić?",
       "watKunJeNuDoen": "Co możesz teraz zrobić?",
       "opnieuw": "↺ Zacznij od nowa",
-      "laatChecken": "Sprawdź swoją sytuację",
+      "laatChecken": "Poproś o sprawdzenie swojej sytuacji",
       "vraagLabel": "Pytanie {n}",
       "jeKuntKiezen": "Możesz wybrać:",
       "ladenMislukt": "Podczas ładowania tej strony coś poszło nie tak. Odśwież stronę lub spróbuj później.",
-      "driePaden": "Trzy ścieżki do naturalizacji ze ścieżki Z"
+      "driePaden": "Trzy ścieżki do naturalizacji z trasy Z"
     },
     "vragen": {
       "v1": {
-        "stap": "Krok 1 z 9",
         "tekst": "Czy masz 18 lat lub więcej?",
         "uitleg": "Wniosek o naturalizację mogą składać tylko osoby pełnoletnie. Dla małoletnich dzieci obowiązują odrębne przepisy przez rodziców.",
         "antwoorden": [
@@ -9385,20 +9384,25 @@ window._NAT = {
         ]
       },
       "v1b": {
-        "stap": "Krok 2 z 9",
-        "tekst": "Jaki jest Twój aktualny status pobytowy w Holandii?",
-        "uitleg": "Sposób zamieszkania w Holandii określa, która ścieżka ma zastosowanie. Obywatele UE zamieszkują na podstawie prawa UE — nie zezwolenia na pobyt holenderski.",
+        "tekst": "Jaki masz pobyt w Holandii?",
+        "uitleg": "Rodzaj zezwolenia decyduje o Twojej drodze do obywatelstwa holenderskiego. Obywatele UE mieszkają tu na podstawie prawa UE.",
         "antwoorden": [
           {
-            "tekst": "Posiadam holenderskie zezwolenie na pobyt",
-            "sub": "Lub status azylanta (IND typ III, IV lub V)",
+            "tekst": "Mam zezwolenie na pobyt azylowy (osoba z ochroną)",
+            "icoon": "🛡️",
+            "klasse": "ja",
+            "volgende": "v_asiel"
+          },
+          {
+            "tekst": "Mam inne zezwolenie na pobyt",
+            "sub": "Na przykład w celu rodzinnym, pracy lub nauki",
             "icoon": "📄",
             "klasse": "ja",
             "volgende": "v2"
           },
           {
-            "tekst": "Jestem obywatelem/ką UE (np. paszport rumuński lub polski)",
-            "sub": "Lub obywatel/ka EOG/Szwajcarii",
+            "tekst": "Jestem obywatelem/ką UE",
+            "sub": "Lub obywatelem/ką EOG/Szwajcarii",
             "icoon": "🇪🇺",
             "klasse": "anders",
             "volgende": "r_eu_burger"
@@ -9407,14 +9411,171 @@ window._NAT = {
             "tekst": "Nie jestem pewny/a",
             "icoon": "❓",
             "klasse": "anders",
+            "volgende": "v_asiel_wn"
+          }
+        ]
+      },
+      "v_asiel": {
+        "tekst": "Jakie zezwolenie azylowe masz teraz?",
+        "uitleg": "Od 12 czerwca 2026 r. przepisy się zmieniły. Dla naturalizacji (naturalisatie) ważne jest, kiedy otrzymałeś/aś obecne zezwolenie.",
+        "antwoorden": [
+          {
+            "tekst": "Azyl na czas nieokreślony",
+            "sub": "Otrzymany przed 12 czerwca 2026 r.",
+            "icoon": "✓",
+            "klasse": "ja",
+            "volgende": "v2"
+          },
+          {
+            "tekst": "Azyl na 5 lat, otrzymany przed 12 czerwca 2026 r.",
+            "icoon": "📅",
+            "klasse": "ja",
+            "volgende": "v_asiel5"
+          },
+          {
+            "tekst": "Azyl otrzymany lub przedłużony 12 czerwca 2026 r. lub później",
+            "sub": "Zwykle ważny 3 lata",
+            "icoon": "🆕",
+            "klasse": "anders",
+            "volgende": "e1"
+          },
+          {
+            "tekst": "Jestem już rezydentem długoterminowym UE",
+            "icoon": "🇪🇺",
+            "klasse": "ja",
+            "volgende": "v2"
+          },
+          {
+            "tekst": "Nie wiem",
+            "icoon": "❓",
+            "klasse": "anders",
+            "volgende": "v_asiel_wn"
+          }
+        ]
+      },
+      "v_asiel5": {
+        "tekst": "Dobra wiadomość: Twoje zezwolenie podlega starym przepisom",
+        "uitleg": "Otrzymałeś/aś 5-letnie zezwolenie azylowe przed 12 czerwca 2026 r. Dzięki niemu nadal możesz się naturalizować (naturalisatie) na starych zasadach.<br><br>⚠️ <strong>Uwaga:</strong> jeśli IND przedłuży Twoje zezwolenie po 12 czerwca 2026 r., otrzymasz zezwolenie według nowych przepisów. Wtedy musisz najpierw zostać rezydentem długoterminowym UE (EU-langdurig ingezetene). <strong>Spełniasz warunki? To złóż wniosek o naturalizację, dopóki Twoja obecna karta jest jeszcze ważna.</strong>",
+        "antwoorden": [
+          {
+            "tekst": "Rozumiem — dalej",
+            "icoon": "→",
+            "klasse": "ja",
             "volgende": "v2"
           }
         ]
       },
+      "v_asiel_wn": {
+        "tekst": "Tak sprawdzisz, jakie masz zezwolenie",
+        "uitleg": "Zajrzyj na swoją kartę pobytu, do pola 'Type document en bijzonderheden' (rodzaj dokumentu i uwagi: numer typu i tekst obok niego), albo do listu z IND. Zwróć uwagę na dwie rzeczy:<br><br>1. Czy jest tam napisane <strong>azyl</strong> (asiel), czy inny cel (np. rodzina lub praca)?<br>2. Kiedy dostałeś/aś tę kartę: <strong>przed czy po 12 czerwca 2026 r.</strong>? I jak długo jest ważna?<br><br>Nie wiesz? Zapytaj swojego opiekuna w gminie lub VluchtelingenWerk.",
+        "antwoorden": [
+          {
+            "tekst": "Znalazłem/am — wróć do pytania",
+            "icoon": "↩",
+            "klasse": "ja",
+            "volgende": "v1b"
+          },
+          {
+            "tekst": "Nie mogę tego sprawdzić",
+            "icoon": "❓",
+            "klasse": "anders",
+            "volgende": "r_asiel_onbekend"
+          }
+        ]
+      },
+      "e1": {
+        "tekst": "Czy mieszkasz w Holandii nieprzerwanie od 5 lat lub dłużej z ważnym zezwoleniem?",
+        "uitleg": "Z nowym zezwoleniem na pobyt azylowy (verblijfsvergunning asiel) możesz zostać obywatelem Holandii dopiero wtedy, gdy najpierw zostaniesz rezydentem długoterminowym UE (EU-langdurig ingezetene). W tym celu musisz mieszkać w Holandii nieprzerwanie co najmniej 5 lat z ważnym zezwoleniem. Lata z zezwoleniem azylowym się liczą. O tym, czy liczy się czas procedury azylowej, decyduje IND.",
+        "antwoorden": [
+          {
+            "tekst": "Tak, 5 lat lub dłużej",
+            "icoon": "✓",
+            "klasse": "ja",
+            "volgende": "e2"
+          },
+          {
+            "tekst": "Nie, krócej niż 5 lat",
+            "icoon": "⏳",
+            "klasse": "nee",
+            "volgende": "r_te_kort_nieuw"
+          }
+        ]
+      },
+      "e2": {
+        "tekst": "Czy w ciągu tych 5 lat długo przebywałeś/aś za granicą?",
+        "uitleg": "Aby uzyskać status rezydenta długoterminowego UE (EU-langdurig ingezetene), nie możesz przebywać poza Holandią dłużej niż 6 miesięcy bez przerwy. Łącznie nie może to być więcej niż 10 miesięcy.",
+        "antwoorden": [
+          {
+            "tekst": "Nie, nigdy tak długo",
+            "icoon": "✓",
+            "klasse": "ja",
+            "volgende": "e3"
+          },
+          {
+            "tekst": "Tak, dłużej niż 6 miesięcy bez przerwy lub łącznie ponad 10 miesięcy",
+            "icoon": "✗",
+            "klasse": "nee",
+            "volgende": "r_eu_li_afwezig"
+          },
+          {
+            "tekst": "Nie wiem dokładnie",
+            "icoon": "❓",
+            "klasse": "anders",
+            "volgende": "e3"
+          }
+        ]
+      },
+      "e3": {
+        "tekst": "Czy masz wystarczający własny dochód, aby z niego żyć?",
+        "uitleg": "Aby uzyskać status rezydenta długoterminowego UE (EU-langdurig ingezetene), musisz mieć wystarczający własny dochód. Musi on być samodzielny (nie z zasiłku) i trwały (utrzymuje się). Potrzebujesz też ubezpieczenia zdrowotnego.",
+        "antwoorden": [
+          {
+            "tekst": "Tak, z pracy lub własnej firmy",
+            "icoon": "💼",
+            "klasse": "ja",
+            "volgende": "e4"
+          },
+          {
+            "tekst": "Tak, ale od niedawna lub na umowę tymczasową",
+            "icoon": "⚠️",
+            "klasse": "anders",
+            "volgende": "e4"
+          },
+          {
+            "tekst": "Nie, mam zasiłek lub nie mam własnego dochodu",
+            "icoon": "✗",
+            "klasse": "nee",
+            "volgende": "r_inkomen"
+          }
+        ]
+      },
+      "e4": {
+        "tekst": "Jak wygląda Twoja integracja obywatelska?",
+        "uitleg": "Aby uzyskać status rezydenta długoterminowego UE (EU-langdurig ingezetene), musisz spełnić wymóg integracji obywatelskiej (inburgering). Możesz to zrobić trasą B1 (B1-route), trasą edukacyjną (onderwijsroute) lub trasą Z (Z-route).",
+        "antwoorden": [
+          {
+            "tekst": "Ukończona trasą B1 lub edukacyjną albo mam zwolnienie",
+            "icoon": "✓",
+            "klasse": "ja",
+            "volgende": "r_eu_li_eerst"
+          },
+          {
+            "tekst": "Ukończona trasą Z",
+            "icoon": "🌱",
+            "klasse": "ja",
+            "volgende": "r_eu_li_eerst_z"
+          },
+          {
+            "tekst": "Nadal jestem w trakcie",
+            "icoon": "⏳",
+            "klasse": "anders",
+            "volgende": "r_eu_li_inburgering_bezig"
+          }
+        ]
+      },
       "v2": {
-        "stap": "Krok 3 z 9",
         "tekst": "Czy posiadasz ważne zezwolenie na pobyt?",
-        "uitleg": "Potrzebujesz ważnego zezwolenia na pobyt. Status azylowy (zezwolenie na pobyt azylowy na czas określony lub nieokreślony) również się liczy.<br><br>📌 <strong>Od 12 czerwca 2026 (system dwóch statusów):</strong> nowe zezwolenia azylowe są teraz ważne maksymalnie 3 lata zamiast 5, a bezterminowe zezwolenie azylowe nie jest już wydawane. <em>Przepis przejściowy:</em> czy 12 czerwca 2026 miałeś już zezwolenie azylowe (5-letnie lub bezterminowe)? Wtedy zachowujesz te prawa tak długo, jak dokument jest ważny. Dla naturalizacji najważniejsze jest, aby Twój pobyt był <strong>nieprzerwany</strong> — dlatego zawsze przedłużaj swoje 3-letnie zezwolenie na czas.",
+        "uitleg": "Potrzebujesz ważnego zezwolenia na pobyt, które nie jest tymczasowe. Na przykład zezwolenia na czas nieokreślony, statusu rezydenta długoterminowego UE (EU-langdurig ingezetene) albo zezwolenia azylowego otrzymanego przed 12 czerwca 2026 r. Zawsze przedłużaj zezwolenie na czas, aby Twój pobyt był nieprzerwany.",
         "antwoorden": [
           {
             "tekst": "Tak, posiadam ważne zezwolenie na pobyt",
@@ -9432,7 +9593,6 @@ window._NAT = {
         ]
       },
       "v3": {
-        "stap": "Krok 4 z 9",
         "tekst": "Jak długo nieprzerwanie mieszkasz w Holandii?",
         "uitleg": "Obecnie musisz mieszkać w Holandii nieprzerwanie co najmniej 5 lat. Krótkie wyjazdy za granicę tego nie przerywają.<br><br>⚠️ <strong>Uwaga — możliwa zmiana:</strong> rząd chce wydłużyć ten okres z 5 do 10 lat (a dla partnerów obywateli holenderskich z 3 do 5 lat). Ta propozycja nie została jeszcze przyjęta, więc prawnie nadal obowiązuje 5 lat — ale weź pod uwagę, że wymóg może się zmienić. W każdym razie zachowaj nieprzerwany pobyt.",
         "antwoorden": [
@@ -9452,7 +9612,6 @@ window._NAT = {
         ]
       },
       "v4a": {
-        "stap": "Krok 5 z 9 — Integracja",
         "tekst": "Jaki jest status Twojej integracji obywatelskiej (inburgering)?",
         "uitleg": "Do naturalizacji musisz udowodnić, że jesteś zintegrowny/a. Istnieje kilka sposobów.",
         "antwoorden": [
@@ -9494,7 +9653,6 @@ window._NAT = {
         ]
       },
       "v4a_z": {
-        "stap": "Krok 5 z 9 — Trasa Z",
         "tekst": "Ukończyłeś/aś trasę Z — potrzebny jest jeszcze jeden dodatkowy krok do naturalizacji",
         "uitleg": "Ścieżka Z kończy się rozmową końcową i certyfikatem, ale do naturalizacji IND stosuje dodatkowe wymogi językowe. Istnieją trzy drogi, aby mimo to się naturalizować:<br><br><strong>Droga A — Mimo to zdać egzamin na poziomie A2</strong><br>Zdaj wszystkie egzaminy językowe na poziomie A2 (czytanie, słuchanie, pisanie, mówienie) oraz egzamin KNM. Uwaga: teraz, gdy ścieżka Z została ukończona, podejścia do egzaminu nie są już bezpłatne.<br><br><strong>Droga B — 600 godzin lekcji języka + co najmniej 3 podejścia na część</strong><br>Co najmniej 600 godzin lekcji na poziomie A2 w placówce z certyfikatem Blik op Werk i 3 podejścia na część? Wtedy DUO może wydać rekomendację wyłączenia.<br><br><strong>Droga C — 600 godzin alfabetyzacji + test DUO (€150)</strong><br>Co najmniej 600 godzin alfabetyzacji i okazuje się, że A2 jest nieosiągalny? Wtedy następuje wyłączenie poprzez test DUO (€150).<br><br><em>Możliwe w przyszłości:</em> rząd chce podnieść wymóg językowy do naturalizacji z A2 do B1. Nie zostało to jeszcze przyjęte — obecnie nadal obowiązuje A2.<br><br>💡 Omów ze swoją gminą lub VluchtelingenWerk, która droga najlepiej Ci odpowiada.",
         "antwoorden": [
@@ -9507,7 +9665,6 @@ window._NAT = {
         ]
       },
       "v4b": {
-        "stap": "Krok 5 z 9 — Trasa nauki",
         "tekst": "Jaką trasę integracji realizujesz?",
         "uitleg": "Gmina określa Twoją trasę nauki na podstawie zdolności uczenia się. Istnieją trzy trasy: B1, trasa edukacyjna i trasa Z.",
         "antwoorden": [
@@ -9541,7 +9698,6 @@ window._NAT = {
         ]
       },
       "v4b_z": {
-        "stap": "Krok 5 z 9 — Trasa Z",
         "tekst": "Jak zaawansowany/a jesteś w trasie Z?",
         "uitleg": "Trasa Z kończy się wywiadem końcowym w gminie i pozytywną rekomendacją DUO. Oba są wymagane do naturalizacji.",
         "antwoorden": [
@@ -9562,7 +9718,6 @@ window._NAT = {
         ]
       },
       "v5": {
-        "stap": "Krok 6 z 9",
         "tekst": "Czy zostałeś/aś skazany/a za przestępstwo karne w ciągu ostatnich 5 lat?",
         "uitleg": "Skazanie karne może zablokować naturalizację. Mandaty drogowe i drobne wykroczenia zazwyczaj się nie liczą.",
         "antwoorden": [
@@ -9587,7 +9742,6 @@ window._NAT = {
         ]
       },
       "v6": {
-        "stap": "Krok 7 z 9",
         "tekst": "Czy Twoje główne miejsce zamieszkania jest obecnie w Holandii?",
         "uitleg": "Musisz mieć główne miejsce zamieszkania w Holandii. Okazjonalne wyjazdy za granicę nie stanowią problemu.",
         "antwoorden": [
@@ -9606,7 +9760,6 @@ window._NAT = {
         ]
       },
       "v7": {
-        "stap": "Krok 8 z 9",
         "tekst": "Czy jesteś gotowy/a do zrzeczenia się obecnego obywatelstwa?",
         "uitleg": "Holandia zasadniczo nie zezwala na podwójne obywatelstwo. Wyjątek: uznani uchodźcy mogą zachować oba obywatelstwa.",
         "antwoorden": [
@@ -9632,7 +9785,6 @@ window._NAT = {
         ]
       },
       "v8": {
-        "stap": "Krok 9 z 9",
         "tekst": "Czy jesteś świadomy/a kosztów naturalizacji?",
         "uitleg": "Wniosek kosztuje €1.139 dla jednej osoby i €1.454 z partnerem (taryfy 2026). Dla posiadaczy statusu azylowego i bezpaństwowców obowiązuje obniżona taryfa: €847 (pojedynczo) lub €1.163 (z partnerem). Procedura trwa średnio 6–12 miesięcy.",
         "antwoorden": [
@@ -9680,7 +9832,7 @@ window._NAT = {
             "tekst": "<strong>Ceremonia naturalizacji:</strong> po zatwierdzeniu otrzymasz zaproszenie na ceremonię w gminie."
           }
         ],
-        "link": "https://ind.nl/nl/nederlander-worden/naturalisatie",
+        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
         "linkTekst": "→ Więcej informacji na ind.nl"
       },
       "r_eu_burger": {
@@ -9712,7 +9864,7 @@ window._NAT = {
             "tekst": "<strong>Chcesz kontynuować?</strong> Przejdź przez weryfikator ponownie i wybierz \"zezwolenie na pobyt\"."
           }
         ],
-        "link": "https://ind.nl/nl/nederlander-worden/naturalisatie",
+        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
         "linkTekst": "→ Informacje na ind.nl"
       },
       "r_minderjarig": {
@@ -9738,7 +9890,7 @@ window._NAT = {
             "tekst": "Jeśli urodziłeś/aś się w Holandii, czasem możesz zostać Holendrem/Holenderką przez procedurę \"opcji\"."
           }
         ],
-        "link": "https://ind.nl/nl/nederlander-worden",
+        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
         "linkTekst": "→ Więcej informacji na ind.nl"
       },
       "r_geen_vergunning": {
@@ -9778,8 +9930,8 @@ window._NAT = {
             "tekst": "Nowe zezwolenia azylowe są ważne maksymalnie 3 lata; dlatego przedłużaj na czas. Jeśli powstanie \"luka pobytowa\" (verblijfsgat) — okres między dwoma zezwoleniami, w którym nie masz ważnego zezwolenia — ten czas nie liczy się jako legalny pobyt, a odliczanie 5 lat do naturalizacji może zacząć się od nowa. Dlatego złóż wniosek o przedłużenie najpóźniej w ciągu 4 tygodni po wygaśnięciu: wtedy IND nie uzna tego za lukę pobytową."
           },
           {
-            "naam": "Nie ma już czasu nieokreślonego",
-            "tekst": "Bezterminowe zezwolenie azylowe nie jest już wydawane. Dla naturalizacji to nie problem: możesz się naturalizować z ważnego zezwolenia tymczasowego."
+            "naam": "Czy Twoje zezwolenie azylowe wygasa wcześniej?",
+            "tekst": "Masz 5-letnie zezwolenie na pobyt azylowy (verblijfsvergunning asiel) sprzed 12 czerwca 2026 r., które wygasa, zanim będziesz mieszkać w Holandii 5 lat? Wtedy przy przedłużeniu dostaniesz zezwolenie według nowych przepisów. Twoja droga prowadzi wtedy przez status rezydenta długoterminowego UE (EU-langdurig ingezetene), a do niego obowiązuje wymóg dochodowy."
           },
           {
             "naam": "Okres naturalizacji: możliwe 10 lat",
@@ -9787,7 +9939,7 @@ window._NAT = {
           },
           {
             "naam": "Alternatywa: rezydent długoterminowy UE",
-            "tekst": "Teraz, gdy bezterminowe zezwolenie azylowe jest wycofywane, status \"rezydenta długoterminowego UE\" po 5 latach jest ważną alternatywą: zachowujesz własne obywatelstwo i uzyskujesz silne prawa pobytowe. <strong>Ważne: obowiązuje tu wymóg dochodowy</strong> — praca i stabilny, wystarczający własny dochód mają tu duże znaczenie. Zobacz niebieski przycisk poniżej."
+            "tekst": "Status rezydenta długoterminowego UE (EU-langdurig ingezetene) daje po 5 latach stałe prawo pobytu, a Ty zachowujesz własne obywatelstwo. <strong>Obowiązuje jednak wymóg dochodowy.</strong>"
           },
           {
             "naam": "Ukończ integrację",
@@ -9796,13 +9948,17 @@ window._NAT = {
           {
             "naam": "Zbierz dokumenty",
             "tekst": "Z wyprzedzeniem zamów oficjalne dokumenty z kraju pochodzenia i pracuj nad holenderskim, na przykład poprzez kurs językowy w placówce z certyfikatem Blik op Werk."
+          },
+          {
+            "naam": "Plan rządu (jeszcze nie jest prawem)",
+            "tekst": "Osoby z ochroną, które dwa razy otrzymały tymczasowe zezwolenie azylowe i osiągną niderlandzki na poziomie B1, mogłyby zostać obywatelami Holandii po 6 latach, nawet bez statusu rezydenta długoterminowego UE (EU-langdurig ingezetene). Dla osób, które nie mogą osiągnąć B1, będzie wyjątek. Nie ma jeszcze projektu ustawy. Dopóki takiej ustawy nie ma, obowiązują powyższe przepisy."
           }
         ],
         "interneLink": {
           "naar": "r_eu_langdurig",
           "tekst": "🇪🇺 Zobacz: rezydent długoterminowy UE (stały pobyt po 5 latach)"
         },
-        "link": "https://ind.nl/en/asiel-en-nareis-het-migratiepact-en-andere-ontwikkelingen/new-laws-and-regulations-on-asylum-and-family-reunification",
+        "link": "https://ind.nl/nl/asiel-en-nareis-het-migratiepact-en-andere-ontwikkelingen/nieuwe-wetten-en-regels-asiel-en-nareis",
         "linkTekst": "→ Zobacz nowe przepisy azylowe 2026 na ind.nl"
       },
       "r_bezig_b1": {
@@ -9819,7 +9975,7 @@ window._NAT = {
         "stappen": [
           {
             "nr": 1,
-            "tekst": "<strong>Kontynuuj trasę B1:</strong> zdaj egzamin językowy i egzamin KNM."
+            "tekst": "<strong>Kontynuuj trasę B1:</strong> zdaj egzamin językowy (B1 lub A2 po udokumentowanym wysiłku) i egzamin KNM."
           },
           {
             "nr": 2,
@@ -9834,7 +9990,7 @@ window._NAT = {
             "tekst": "<strong>Po uzyskaniu dyplomu:</strong> wyślij dowód do gminy/IND."
           }
         ],
-        "link": "https://ind.nl/nl/nederlander-worden/naturalisatie",
+        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
         "linkTekst": "→ Więcej informacji na ind.nl"
       },
       "r_bezig_onderwijs": {
@@ -9870,7 +10026,7 @@ window._NAT = {
             "tekst": "<strong>Po uzyskaniu dyplomu:</strong> wyślij dowód do gminy/IND."
           }
         ],
-        "link": "https://ind.nl/nl/nederlander-worden/naturalisatie",
+        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
         "linkTekst": "→ Więcej informacji na ind.nl"
       },
       "r_bezig_z": {
@@ -9894,7 +10050,7 @@ window._NAT = {
           {
             "nr": "B",
             "titel": "600 godzin kursów językowych (A2) + co najmniej 3 próby na komponent egzaminu",
-            "tekst": "600 godzin kursów na poziomie A2 w instytucji Blik op Werk i 3 próby na komponent. DUO może wydać rekomendację zwolnienia bez zdanego egzaminu."
+            "tekst": "Co najmniej 600 godzin lekcji języka na poziomie A2 w instytucji Blik op Werk i co najmniej 3 próby na każdą część egzaminu (w tym co najmniej 1 egzamin A2)? Wtedy DUO może wydać rekomendację zwolnienia — nawet bez zdanego egzaminu."
           },
           {
             "nr": "C",
@@ -10007,7 +10163,7 @@ window._NAT = {
             "tekst": "Zapytaj w gminie o dokładne wymagania dotyczące zamieszkania."
           }
         ],
-        "link": "https://ind.nl/nl/nederlander-worden/naturalisatie",
+        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
         "linkTekst": "→ Więcej informacji na ind.nl"
       },
       "r_nationaliteit": {
@@ -10037,18 +10193,58 @@ window._NAT = {
             "tekst": "Zleć ocenę swojej sytuacji — czasem możliwe jest więcej, niż myślisz."
           }
         ],
-        "link": "https://ind.nl/en/permanent-wonen/eu-langdurig-ingezetene",
-        "linkTekst": "→ Przeczytaj więcej o rezydencie długoterminowym UE na ind.nl",
         "interneLink": {
           "naar": "r_eu_langdurig",
           "tekst": "🇪🇺 Zobacz: rezydent długoterminowy UE (zachowaj obywatelstwo)"
-        }
+        },
+        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "linkTekst": "→ Przeczytaj więcej o rezydencie długoterminowym UE na ind.nl"
+      },
+      "r_eu_langdurig": {
+        "type": "eu",
+        "icoon": "🇪🇺",
+        "titel": "Rezydent długoterminowy UE — zostań na stałe bez rezygnacji z obywatelstwa",
+        "sub": "Stałe zezwolenie na pobyt po 5 latach. Zachowujesz własne obywatelstwo. Od 12 czerwca 2026 r. dla nowych osób z ochroną jest to także obowiązkowy krok pośredni w drodze do naturalizacji (naturalisatie).",
+        "infoBoxen": [
+          {
+            "type": "info",
+            "tekst": "🇪🇺 <strong>Co to jest:</strong> możesz mieszkać w Holandii bezterminowo i swobodnie pracować, a także łatwiej przeprowadzać się i pracować w innych krajach UE. Twoje lata azylowe liczą się do 5 lat; lata studiów liczą się w 50%."
+          },
+          {
+            "type": "amber",
+            "tekst": "⚠️ <strong>Wymóg dochodowy:</strong> musisz mieć wystarczający i trwały własny dochód oraz ubezpieczenie zdrowotne. Z zasiłkiem zwykle się to nie udaje. Uwaga: jeśli masz nowe zezwolenie na pobyt azylowy (verblijfsvergunning asiel) wydane po 12 czerwca 2026 r., potrzebujesz statusu rezydenta długoterminowego UE (EU-langdurig ingezetene), aby później móc się naturalizować. Wymóg dochodowy dotyczy więc także Twojej drogi do obywatelstwa holenderskiego."
+          },
+          {
+            "type": "info",
+            "tekst": "✈️ W ciągu 5 lat nie możesz przebywać poza Holandią dłużej niż 6 miesięcy bez przerwy ani łącznie dłużej niż 10 miesięcy."
+          }
+        ],
+        "stappen": [
+          {
+            "nr": 1,
+            "tekst": "<strong>Kiedy jest to dla Ciebie interesujące?</strong> Jeśli nie chcesz lub nie możesz zrezygnować z pierwszego obywatelstwa — do naturalizacji co do zasady musisz, tutaj nie."
+          },
+          {
+            "nr": 2,
+            "tekst": "<strong>Nowe zezwolenie azylowe?</strong> Wtedy to jedyna droga do stałego zezwolenia, a potem do naturalizacji (naturalisatie)."
+          },
+          {
+            "nr": 3,
+            "tekst": "<strong>Warunki:</strong> 5 lat nieprzerwanego legalnego pobytu w Holandii, niezbyt długie pobyty za granicą, wystarczający i trwały własny dochód, ubezpieczenie zdrowotne oraz ukończona integracja obywatelska (inburgering) trasą B1, trasą edukacyjną lub trasą Z."
+          },
+          {
+            "nr": 4,
+            "tekst": "<strong>Składanie wniosku:</strong> w IND. Jeśli składasz wniosek o zezwolenie bezterminowe, IND automatycznie sprawdza, czy możesz też uzyskać status rezydenta długoterminowego UE. Z zezwoleniem azylowym wniosek można złożyć tylko na papierze, nie online."
+          }
+        ],
+        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
+        "linkTekst": "→ Przeczytaj więcej o rezydencie długoterminowym UE na ind.nl"
       },
       "r_kosten": {
         "type": "wacht",
         "icoon": "💶",
         "titel": "Istnieją sposoby na obniżenie kosztów",
-        "sub": "Naturalizacja kosztuje €1.139 (jedna osoba) lub €1.454 (z partnerem) — taryfy 2026; obniżona taryfa €847/€1.163 dla posiadaczy statusu azylowego/bezpaństwowców. Istnieją sposoby, aby uczynić to przystępnym.",
+        "sub": "Naturalizacja kosztuje €1.139 dla jednej osoby i €1.454 z partnerem (taryfy 2026) — ale istnieją sposoby, aby była przystępna.",
         "alternatieven": [
           {
             "naam": "Obniżona taryfa azyl/bezpaństwowiec",
@@ -10070,41 +10266,247 @@ window._NAT = {
         "link": "https://www.vluchtelingenwerk.nl",
         "linkTekst": "→ Pomoc z kosztami przez VluchtelingenWerk"
       },
-      "r_eu_langdurig": {
-        "type": "eu",
-        "icoon": "🇪🇺",
-        "titel": "Rezydent długoterminowy UE — zostań na stałe bez rezygnacji z obywatelstwa",
-        "sub": "Stały status pobytu po 5 latach legalnego pobytu. Zachowujesz własne obywatelstwo i uzyskujesz silne, trwałe prawa pobytowe. Teraz, gdy bezterminowe zezwolenie azylowe jest znoszone, jest to często najważniejsza alternatywa dla naturalizacji.",
+      "r_eu_li_eerst": {
+        "type": "route",
+        "icoon": "🪜",
+        "titel": "Możesz zostać obywatelem Holandii — w dwóch krokach",
+        "sub": "Z nowym zezwoleniem na pobyt azylowy (verblijfsvergunning asiel) musisz najpierw zostać rezydentem długoterminowym UE (EU-langdurig ingezetene). Potem możesz złożyć wniosek o naturalizację (naturalisatie).",
         "infoBoxen": [
           {
-            "type": "info",
-            "tekst": "🇪🇺 <strong>Co to jest:</strong> możesz mieszkać w Holandii bezterminowo i swobodnie pracować, a także łatwiej przeprowadzać się i pracować w innych krajach UE. Twoje lata azylowe liczą się do 5 lat; lata studiów liczą się w 50%."
+            "type": "amber",
+            "tekst": "⚠️ <strong>Dochód:</strong> IND sprawdza, czy Twój dochód jest wystarczający i czy się utrzyma (umowa o pracę musi być ważna jeszcze co najmniej 12 miesięcy). Pracujesz od niedawna albo masz umowę tymczasową? Wtedy najpierw poproś o sprawdzenie, czy Twój wniosek ma szanse."
           },
           {
-            "type": "amber",
-            "tekst": "⚠️ <strong>Ważna różnica względem naturalizacji:</strong> dla tego statusu obowiązuje <strong>wymóg dochodowy</strong> (samodzielny, trwały i wystarczający dochód). Jeśli utrzymujesz się z zasiłku, często go nie spełnisz — a wtedy naturalizacja jest właściwie bardziej dostępna, bo nie ma wymogu dochodowego."
+            "type": "blauw",
+            "tekst": "🗓️ <strong>Plan rządu — jeszcze nie jest prawem:</strong> osoby z ochroną, które dwa razy otrzymały tymczasowe zezwolenie azylowe i osiągną niderlandzki na poziomie B1, mogłyby zostać obywatelami Holandii po 6 latach, nawet bez statusu rezydenta długoterminowego UE (EU-langdurig ingezetene). Dla osób, które nie mogą osiągnąć B1, będzie wyjątek. Nie ma jeszcze projektu ustawy. Dopóki takiej ustawy nie ma, obowiązują powyższe przepisy."
           }
         ],
         "stappen": [
           {
             "nr": 1,
-            "tekst": "<strong>Kiedy jest to dla Ciebie interesujące?</strong> Jeśli nie chcesz lub nie możesz zrezygnować z pierwszego obywatelstwa — do naturalizacji co do zasady musisz, tutaj nie."
+            "tekst": "<strong>Złóż w IND wniosek o status rezydenta długoterminowego UE (EU-langdurig ingezetene).</strong> Z zezwoleniem azylowym można to zrobić tylko na papierze, nie online. Wniosek kosztuje € 254."
           },
           {
             "nr": 2,
-            "tekst": "<strong>Albo:</strong> teraz, gdy bezterminowe zezwolenie azylowe znika, jest to droga od tymczasowego (3-letniego) zezwolenia do trwałego prawa pobytu."
+            "tekst": "<strong>Zbierz dowody:</strong> umowę o pracę i paski wynagrodzeń, ubezpieczenie zdrowotne oraz dyplom lub decyzję w sprawie integracji. Formularz IND mówi dokładnie, co jest potrzebne."
           },
           {
             "nr": 3,
-            "tekst": "<strong>Wymogi:</strong> 5 lat nieprzerwanego legalnego pobytu (lata azylowe się liczą), zdana integracja (co najmniej A2), ważny paszport i wystarczający samodzielny, trwały dochód."
+            "tekst": "<strong>W międzyczasie przedłużaj na czas swoje zezwolenie azylowe.</strong> Dzięki temu Twój pobyt pozostaje nieprzerwany."
           },
           {
             "nr": 4,
-            "tekst": "<strong>Składanie wniosku:</strong> w IND. Jeśli składasz wniosek o zezwolenie bezterminowe, IND automatycznie sprawdza, czy możesz też uzyskać status rezydenta długoterminowego UE."
+            "tekst": "<strong>Jesteś rezydentem długoterminowym UE? Wtedy złóż wniosek o naturalizację (naturalisatie) w swojej gminie.</strong> Obowiązują wtedy zwykłe warunki: integracja obywatelska (inburgering) do naturalizacji, brak karalności i stałe zamieszkanie w Holandii. Jako uznany uchodźca zwykle nie musisz zrzekać się swojego obywatelstwa."
           }
         ],
-        "link": "https://ind.nl/en/residence-permits/long-term-eu-residency/apply-for-a-residence-permit-for-long-term-eu-residents",
+        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
         "linkTekst": "→ Przeczytaj więcej o rezydencie długoterminowym UE na ind.nl"
+      },
+      "r_eu_li_eerst_z": {
+        "type": "route",
+        "icoon": "🪜",
+        "titel": "Możesz zostać rezydentem długoterminowym UE — do naturalizacji potrzebny jest potem dodatkowy krok",
+        "sub": "Trasą Z (Z-route) spełniasz wymóg integracji obywatelskiej (inburgering) do statusu rezydenta długoterminowego UE (EU-langdurig ingezetene). Do naturalizacji (naturalisatie) to nie wystarczy: obowiązują dodatkowe wymogi językowe.",
+        "infoBoxen": [
+          {
+            "type": "amber",
+            "tekst": "⚠️ <strong>Dochód:</strong> IND sprawdza, czy Twój dochód jest wystarczający i czy się utrzyma (umowa o pracę musi być ważna jeszcze co najmniej 12 miesięcy). Pracujesz od niedawna albo masz umowę tymczasową? Wtedy najpierw poproś o sprawdzenie, czy Twój wniosek ma szanse."
+          },
+          {
+            "type": "blauw",
+            "tekst": "🗓️ <strong>Plan rządu — jeszcze nie jest prawem:</strong> osoby z ochroną, które dwa razy otrzymały tymczasowe zezwolenie azylowe i osiągną niderlandzki na poziomie B1, mogłyby zostać obywatelami Holandii po 6 latach, nawet bez statusu rezydenta długoterminowego UE (EU-langdurig ingezetene). Dla osób, które nie mogą osiągnąć B1, będzie wyjątek. Nie ma jeszcze projektu ustawy. Dopóki takiej ustawy nie ma, obowiązują powyższe przepisy."
+          }
+        ],
+        "padenTitel": "Po uzyskaniu statusu rezydenta długoterminowego UE: trzy ścieżki do naturalizacji z trasy Z",
+        "paden": [
+          {
+            "nr": "A",
+            "titel": "Zdanie egzaminu integracyjnego na poziomie A2",
+            "tekst": "Zdaj wszystkie egzaminy językowe na poziomie A2 i egzamin KNM. Po zdaniu masz dyplom DUO i spełniasz wymóg integracji."
+          },
+          {
+            "nr": "B",
+            "titel": "600 godzin kursów językowych (A2) + co najmniej 3 próby na komponent egzaminu",
+            "tekst": "Co najmniej 600 godzin lekcji języka na poziomie A2 w instytucji Blik op Werk i co najmniej 3 próby na każdą część egzaminu (w tym co najmniej 1 egzamin A2)? Wtedy DUO może wydać rekomendację zwolnienia — nawet bez zdanego egzaminu."
+          },
+          {
+            "nr": "C",
+            "titel": "600 godzin alfabetyzacji + test DUO — 150 €",
+            "tekst": "600 godzin alfabetyzacji w instytucji Blik op Werk i test DUO pokazuje, że A2 jest nieosiągalne. Przyznawane jest zwolnienie. Test kosztuje 150 €."
+          }
+        ],
+        "stappen": [
+          {
+            "nr": 1,
+            "tekst": "<strong>Złóż w IND wniosek o status rezydenta długoterminowego UE (EU-langdurig ingezetene).</strong> Z zezwoleniem azylowym można to zrobić tylko na papierze, nie online. Wniosek kosztuje € 254."
+          },
+          {
+            "nr": 2,
+            "tekst": "<strong>Zbierz dowody:</strong> umowę o pracę i paski wynagrodzeń, ubezpieczenie zdrowotne oraz dyplom lub decyzję w sprawie integracji. Formularz IND mówi dokładnie, co jest potrzebne."
+          },
+          {
+            "nr": 3,
+            "tekst": "<strong>W międzyczasie przedłużaj na czas swoje zezwolenie azylowe.</strong> Dzięki temu Twój pobyt pozostaje nieprzerwany."
+          },
+          {
+            "nr": 4,
+            "tekst": "<strong>Jesteś rezydentem długoterminowym UE? Wtedy wybierz jedną ze ścieżek powyżej, a potem złóż wniosek o naturalizację (naturalisatie) w swojej gminie.</strong>"
+          }
+        ],
+        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
+        "linkTekst": "→ Przeczytaj więcej o rezydencie długoterminowym UE na ind.nl"
+      },
+      "r_eu_li_inburgering_bezig": {
+        "type": "route",
+        "icoon": "📚",
+        "titel": "Najpierw ukończ integrację obywatelską",
+        "sub": "Mieszkasz w Holandii wystarczająco długo i masz dochód. Brakuje jeszcze integracji obywatelskiej (inburgering). Potem możesz złożyć wniosek o status rezydenta długoterminowego UE (EU-langdurig ingezetene), a później o naturalizację (naturalisatie).",
+        "infoBoxen": [
+          {
+            "type": "blauw",
+            "tekst": "💡 Trasa B1 (B1-route), trasa edukacyjna (onderwijsroute) i trasa Z (Z-route) — wszystkie trzy liczą się do statusu rezydenta długoterminowego UE (EU-langdurig ingezetene). Do naturalizacji (naturalisatie) sama trasa Z nie wystarczy."
+          },
+          {
+            "type": "blauw",
+            "tekst": "🗓️ <strong>Plan rządu — jeszcze nie jest prawem:</strong> osoby z ochroną, które dwa razy otrzymały tymczasowe zezwolenie azylowe i osiągną niderlandzki na poziomie B1, mogłyby zostać obywatelami Holandii po 6 latach, nawet bez statusu rezydenta długoterminowego UE (EU-langdurig ingezetene). Dla osób, które nie mogą osiągnąć B1, będzie wyjątek. Nie ma jeszcze projektu ustawy. Dopóki takiej ustawy nie ma, obowiązują powyższe przepisy."
+          }
+        ],
+        "stappen": [
+          {
+            "nr": 1,
+            "tekst": "<strong>Ukończ swoją trasę integracji.</strong> Zapytaj gminę, ile czasu jeszcze potrzebujesz."
+          },
+          {
+            "nr": 2,
+            "tekst": "<strong>Utrzymaj pracę i ubezpieczenie zdrowotne.</strong> Są potrzebne do wniosku."
+          },
+          {
+            "nr": 3,
+            "tekst": "<strong>Przedłużaj na czas swoje zezwolenie azylowe.</strong>"
+          },
+          {
+            "nr": 4,
+            "tekst": "<strong>Zrób ten test ponownie</strong>, gdy ukończysz integrację."
+          }
+        ],
+        "interneLink": {
+          "naar": "r_eu_langdurig",
+          "tekst": "🇪🇺 Czym jest status rezydenta długoterminowego UE?"
+        }
+      },
+      "r_inkomen": {
+        "type": "wacht",
+        "icoon": "🧭",
+        "titel": "Twoja przeszkoda to teraz dochód",
+        "sub": "Z zezwoleniem na pobyt azylowy (verblijfsvergunning asiel) wydanym po 12 czerwca 2026 r. możesz zostać obywatelem Holandii tylko wtedy, gdy najpierw zostaniesz rezydentem długoterminowym UE (EU-langdurig ingezetene). Do tego potrzebujesz wystarczającego własnego dochodu. Z zasiłkiem teraz to się nie uda. Szczerze mówiąc, to duża zmiana.",
+        "alternatieven": [
+          {
+            "naam": "Praca lub więcej godzin",
+            "tekst": "Praca albo więcej godzin pracy może otworzyć drogę. Sprawdź w narzędziu Loont werken, co da Ci praca."
+          },
+          {
+            "naam": "Możesz zostać",
+            "tekst": "Twoje zezwolenie azylowe pozostaje ważne. Zawsze przedłużaj je na czas."
+          },
+          {
+            "naam": "Ukończ integrację",
+            "tekst": "Integracja obywatelska (inburgering) jest Ci potrzebna do statusu rezydenta długoterminowego UE (EU-langdurig ingezetene) i do naturalizacji (naturalisatie)."
+          },
+          {
+            "naam": "Partner lub wyjątek?",
+            "tekst": "Dochód Twojego partnera może się liczyć, jeśli mieszkacie razem, a partner jest obywatelem Holandii lub ma zezwolenie na pobyt. Wyjątek obowiązuje, jeśli osiągnąłeś/aś wiek emerytalny AOW (AOW-leeftijd) albo jesteś trwale i całkowicie niezdolny/a do pracy i możesz to udowodnić."
+          },
+          {
+            "naam": "Plan rządu (jeszcze nie jest prawem)",
+            "tekst": "Osoby z ochroną, które dwa razy otrzymały tymczasowe zezwolenie azylowe i osiągną niderlandzki na poziomie B1, mogłyby zostać obywatelami Holandii po 6 latach, nawet bez statusu rezydenta długoterminowego UE (EU-langdurig ingezetene). Dla osób, które nie mogą osiągnąć B1, będzie wyjątek. Nie ma jeszcze projektu ustawy. Dopóki takiej ustawy nie ma, obowiązują powyższe przepisy."
+          }
+        ],
+        "link": "loont-werken.html",
+        "linkTekst": "→ Oblicz, co da Ci praca"
+      },
+      "r_eu_li_afwezig": {
+        "type": "wacht",
+        "icoon": "✈️",
+        "titel": "Być może zbyt długo przebywałeś/aś za granicą",
+        "sub": "Aby uzyskać status rezydenta długoterminowego UE (EU-langdurig ingezetene), nie możesz przebywać poza Holandią dłużej niż 6 miesięcy bez przerwy ani łącznie dłużej niż 10 miesięcy. Przez to 5 lat może zacząć się liczyć od nowa.",
+        "alternatieven": [
+          {
+            "naam": "Policz swoje podróże",
+            "tekst": "Znajdź daty swoich podróży: pieczątki, bilety lub wniosek o dokument podróży."
+          },
+          {
+            "naam": "Poproś o sprawdzenie",
+            "tekst": "VluchtelingenWerk lub Twoja gmina mogą razem z Tobą policzyć, od kiedy znowu będziesz mieć 5 lat."
+          },
+          {
+            "naam": "Od teraz wyjeżdżaj na krócej",
+            "tekst": "Planuj długie podróże tak, aby nie przekroczyć limitu."
+          },
+          {
+            "naam": "Plan rządu (jeszcze nie jest prawem)",
+            "tekst": "Osoby z ochroną, które dwa razy otrzymały tymczasowe zezwolenie azylowe i osiągną niderlandzki na poziomie B1, mogłyby zostać obywatelami Holandii po 6 latach, nawet bez statusu rezydenta długoterminowego UE (EU-langdurig ingezetene). Dla osób, które nie mogą osiągnąć B1, będzie wyjątek. Nie ma jeszcze projektu ustawy. Dopóki takiej ustawy nie ma, obowiązują powyższe przepisy."
+          }
+        ],
+        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
+        "linkTekst": "→ Przeczytaj więcej o rezydencie długoterminowym UE na ind.nl"
+      },
+      "r_te_kort_nieuw": {
+        "type": "wacht",
+        "icoon": "⏳",
+        "titel": "Jeszcze nie mieszkasz wystarczająco długo w Holandii",
+        "sub": "Z nowym zezwoleniem na pobyt azylowy (verblijfsvergunning asiel) musisz najpierw mieszkać w Holandii 5 lat. Potem możesz zostać rezydentem długoterminowym UE (EU-langdurig ingezetene), a dopiero wtedy obywatelem Holandii. Możesz dobrze wykorzystać czas do tego momentu.",
+        "alternatieven": [
+          {
+            "naam": "Przedłużaj na czas",
+            "tekst": "Nowe zezwolenia azylowe są ważne maksymalnie 3 lata; dlatego przedłużaj na czas. Jeśli powstanie \"luka pobytowa\" (verblijfsgat) — okres między dwoma zezwoleniami, w którym nie masz ważnego zezwolenia — ten czas nie liczy się jako legalny pobyt, a odliczanie 5 lat do naturalizacji może zacząć się od nowa. Dlatego złóż wniosek o przedłużenie najpóźniej w ciągu 4 tygodni po wygaśnięciu: wtedy IND nie uzna tego za lukę pobytową."
+          },
+          {
+            "naam": "Pracuj nad dochodem",
+            "tekst": "Do statusu rezydenta długoterminowego UE (EU-langdurig ingezetene) będziesz później potrzebować wystarczającego własnego dochodu. Już teraz pracuj nad znalezieniem pracy lub większą liczbą godzin."
+          },
+          {
+            "naam": "Ukończ integrację",
+            "tekst": "Trasa B1 (B1-route), trasa edukacyjna (onderwijsroute) i trasa Z (Z-route) liczą się do statusu rezydenta długoterminowego UE (EU-langdurig ingezetene)."
+          },
+          {
+            "naam": "Nie wyjeżdżaj na zbyt długo",
+            "tekst": "Nie wyjeżdżaj za granicę na dłużej niż 6 miesięcy bez przerwy ani łącznie na dłużej niż 10 miesięcy."
+          },
+          {
+            "naam": "Plan rządu (jeszcze nie jest prawem)",
+            "tekst": "Osoby z ochroną, które dwa razy otrzymały tymczasowe zezwolenie azylowe i osiągną niderlandzki na poziomie B1, mogłyby zostać obywatelami Holandii po 6 latach, nawet bez statusu rezydenta długoterminowego UE (EU-langdurig ingezetene). Dla osób, które nie mogą osiągnąć B1, będzie wyjątek. Nie ma jeszcze projektu ustawy. Dopóki takiej ustawy nie ma, obowiązują powyższe przepisy."
+          }
+        ],
+        "interneLink": {
+          "naar": "r_eu_langdurig",
+          "tekst": "🇪🇺 Czym jest status rezydenta długoterminowego UE?"
+        }
+      },
+      "r_asiel_onbekend": {
+        "type": "wacht",
+        "icoon": "🔍",
+        "titel": "Najpierw poproś o sprawdzenie, jakie masz zezwolenie",
+        "sub": "Twoja droga do obywatelstwa holenderskiego zależy od Twojego zezwolenia. Z zezwoleniem azylowym sprzed 12 czerwca 2026 r. jest krótsza niż z nowym.",
+        "alternatieven": [
+          {
+            "naam": "Stare zezwolenie azylowe",
+            "tekst": "Na czas nieokreślony albo na 5 lat, otrzymane przed 12 czerwca 2026 r.: możesz się naturalizować (naturalisatie) na starych zasadach."
+          },
+          {
+            "naam": "Nowe zezwolenie azylowe",
+            "tekst": "Otrzymane lub przedłużone 12 czerwca 2026 r. lub później: najpierw status rezydenta długoterminowego UE (EU-langdurig ingezetene), z wymogiem dochodowym, potem naturalizacja (naturalisatie)."
+          },
+          {
+            "naam": "Inne zezwolenie",
+            "tekst": "W celu rodzinnym, pracy lub nauki: nadal obowiązują stare przepisy."
+          },
+          {
+            "naam": "Kto może pomóc?",
+            "tekst": "Twój opiekun w gminie lub VluchtelingenWerk może razem z Tobą obejrzeć Twoją kartę."
+          }
+        ],
+        "link": "https://www.vluchtelingenwerk.nl/over-ons/locaties",
+        "linkTekst": "→ Znajdź placówkę VluchtelingenWerk w pobliżu"
       }
     }
   }
