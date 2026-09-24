@@ -1,0 +1,61 @@
+=== NL ===
+[V] v1: Ben je 18 jaar of ouder?
+   [0] (ja) → V:v1b   "Ja, ik ben 18 jaar of ouder"
+   [1] (nee) → R:r_minderjarig   "Nee, ik ben jonger dan 18"
+[V] v1b: Wat is je huidige verblijfsstatus in Nederland?
+   [0] (ja) → V:v2   "Ik heb een Nederlandse verblijfsvergunning"
+   [1] (anders) → R:r_eu_burger   "Ik ben EU-burger (bijv. Roemeens of Pools paspoort)"
+   [2] (anders) → V:v2   "Ik weet het niet zeker"
+[V] v2: Heb je een geldige verblijfsvergunning?
+   [0] (ja) → V:v3   "Ja, ik heb een geldige verblijfsvergunning"
+   [1] (nee) → R:r_geen_vergunning   "Nee, ik heb geen geldige verblijfsvergunning"
+[V] v3: Hoe lang woon je ononderbroken in Nederland?
+   [0] (nee) → R:r_te_kort   "Minder dan 5 jaar"
+   [1] (ja) → V:v4a   "5 jaar of langer"
+[V] v4a: Hoe staat het met jouw inburgering?
+   [0] (ja) → V:v5   "Ik heb het inburgeringsexamen gehaald (B1- of onderwijsroute"
+   [1] (ja) → V:v5   "Ik heb een Nederlandstalig mbo 2, 3 of 4 diploma — of hbo / "
+   [2] (ja) → V:v5   "Ik ben vrijgesteld of ontheven van inburgering"
+   [3] (anders) → V:v4a_z   "Ik heb de Z-route afgerond (eindgesprek + certificaat)"
+   [4] (anders) → V:v4b   "Ik ben nog bezig met inburgering"
+[V] v4a_z: Je hebt de Z-route afgerond — er is nog één extra stap nodig voor naturalisatie
+   [0] (ja) → V:v5   "Ik begrijp dit — ga verder met de overige voorwaarden"
+[V] v4b: Welke inburgeringsroute volg je?
+   [0] (info) → R:r_bezig_b1   "B1-route"
+   [1] (info) → R:r_bezig_onderwijs   "Onderwijsroute"
+   [2] (anders) → V:v4b_z   "Z-route (Zelfredzaamheidsroute)"
+   [3] (anders) → R:r_geen_inburgering   "Ik weet het niet / ik heb nog geen route"
+[V] v4b_z: Hoe ver ben je in de Z-route?
+   [0] (ja) → V:v4a_z   "Ik ben klaar met de Z-route (DUO-positief advies ontvangen)"
+   [1] (anders) → R:r_bezig_z   "Ik ben nog bezig met de Z-route"
+[V] v5: Ben je in de afgelopen 5 jaar veroordeeld voor een misdrijf?
+   [0] (ja) → V:v6   "Nee, ik heb geen strafblad"
+   [1] (nee) → R:r_strafblad   "Ja, ik ben veroordeeld voor een misdrijf"
+   [2] (anders) → R:r_strafblad_check   "Ik weet het niet zeker"
+[V] v6: Heb je op dit moment je hoofdverblijf in Nederland?
+   [0] (ja) → V:v7   "Ja, ik woon vast in Nederland"
+   [1] (nee) → R:r_geen_verblijf   "Nee, ik woon grotendeels in het buitenland"
+[V] v7: Ben je bereid afstand te doen van je huidige nationaliteit?
+   [0] (ja) → V:v8   "Ja, ik doe afstand van mijn nationaliteit"
+   [1] (ja) → V:v8   "Ik ben erkend vluchteling (statushouder)"
+   [2] (nee) → R:r_nationaliteit   "Nee, ik wil mijn nationaliteit houden"
+[V] v8: Ben je op de hoogte van de kosten van naturalisatie?
+   [0] (ja) → R:r_positief   "Ja, ik weet dit en wil doorgaan"
+   [1] (anders) → R:r_kosten   "Dat is te duur — zijn er vergoedingen?"
+
+[R] r_bezig_b1: type=route icoon=📖 titel="Je kunt je naturalisatie alvast voorbereiden"
+[R] r_bezig_onderwijs: type=route icoon=🏫 titel="Je kunt je naturalisatie alvast voorbereiden"
+[R] r_bezig_z: type=route icoon=🌱 titel="Naturaliseren vanuit de Z-route — belangrijk verschil"
+[R] r_eu_burger: type=eu icoon=🇪🇺 titel="Als EU-burger heb je andere rechten"
+[R] r_eu_langdurig: type=eu icoon=🇪🇺 titel="EU-langdurig ingezetene — permanent blijven zonder je nationaliteit op"
+[R] r_geen_inburgering: type=wacht icoon=📚 titel="Je hebt inburgering nodig voor naturalisatie"
+[R] r_geen_verblijf: type=negatief icoon=🏠 titel="Je hoofdverblijf moet in Nederland zijn"
+[R] r_geen_vergunning: type=negatief icoon=📋 titel="Je hebt eerst een verblijfsvergunning nodig"
+[R] r_kosten: type=wacht icoon=💶 titel="Er zijn mogelijkheden om de kosten te verlagen"
+[R] r_minderjarig: type=wacht icoon=🎂 titel="Naturalisatie voor kinderen gaat via de ouders"
+[R] r_nationaliteit: type=wacht icoon=🌍 titel="Afstand doen van nationaliteit is een grote stap" interneLink→r_eu_langdurig
+[R] r_positief: type=positief icoon=🎉 titel="Je komt waarschijnlijk in aanmerking!"
+[R] r_strafblad: type=negatief icoon=⚖️ titel="Een strafblad kan naturalisatie blokkeren"
+[R] r_strafblad_check: type=wacht icoon=🔍 titel="Controleer of je een strafblad hebt"
+[R] r_te_kort: type=wacht icoon=⏳ titel="Nog niet lang genoeg in Nederland" interneLink→r_eu_langdurig
+
