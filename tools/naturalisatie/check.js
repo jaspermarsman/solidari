@@ -278,9 +278,28 @@ const VERBODEN = [
   'gekregen of verlengd op of na',
 ];
 
+// Correctie 1, C4: de vertalingen van dezelfde vier zinnen (§4 punt 3), zoals
+// ze vóór Correctie 1 in elk taalbestand stonden (git show 9725bd7). Zo smal
+// gekozen dat ze niet vallen over NL-tekst die Correctie 1 bewust laat staan
+// (header.sub "de nieuwe asielregels", r_eu_langdurig.sub "nieuwe statushouders").
+const VERBODEN_TAAL = {
+  EN: ['the old way', 'old rules', 'new asylum permit', 'new asylum residence permit', 'received or renewed on or after'],
+  AR: ['بالطريقة القديمة', 'القواعد القديمة', 'لجوء جديد', 'تصاريح اللجوء الجديدة', 'أو جُدّد في', 'أو مجدّد في'],
+  TR: ['eski yoldan', 'eski kurallar', 'yeni bir iltica oturma', 'yeni iltica izni', 'yeni iltica izinleri', 'ya da uzatılan', 'ya da uzatılmış'],
+  UK: ['старими правилами', 'старі правила', 'новий дозвіл на притулок', 'новим дозволом', 'нові дозволи на притулок', 'отримано або подовжено', 'отриманий або подовжений'],
+  FA: ['به روش قدیم', 'قوانین قدیم', 'پناهندگی جدید', '(verblijfsvergunning asiel) جدید', 'اجازه‌های پناهندگی جدید', 'گرفته‌شده یا تمدیدشده'],
+  TI: ['ናይ ቀደም መንገዲ', 'ናይ ቀደም ሕግታት', 'ሓድሽ ናይ ዑቕባ', 'ሓደስቲ ናይ ዑቕባ', 'ዝተረኽበ ወይ ዝተሓደሰ'],
+  RO: ['pe calea veche', 'regulile vechi', 'nou permis de', 'permis de azil nou', 'noile permise', 'primit sau reînnoit'],
+  PL: ['na starych zasadach', 'stare przepisy', 'starym przepisom', 'nowe zezwolenie azylowe', 'nowym zezwoleniem', 'nowe zezwolenia azylowe', 'otrzymany lub przedłużony', 'otrzymane lub przedłużone'],
+};
+
 function checkVerbodenZinnen(taal, taalData) {
   const heleTekst = JSON.stringify(taalData);
   const heleTekstLower = heleTekst.toLowerCase();
+  if (taal !== 'NL' && !VERBODEN_TAAL[taal]) fail(`[${taal}] geen verboden-zinnenlijst in check.js (VERBODEN_TAAL)`);
+  (VERBODEN_TAAL[taal] || []).forEach(zin => {
+    if (heleTekstLower.includes(zin.toLowerCase())) fail(`[${taal}] verboden zin gevonden: "${zin}"`);
+  });
   VERBODEN.forEach(zin => {
     if (typeof zin === 'string') {
       if (heleTekstLower.includes(zin.toLowerCase())) fail(`[${taal}] verboden zin gevonden: "${zin}"`);
@@ -301,12 +320,38 @@ function checkVerbodenZinnen(taal, taalData) {
 // deze specifieke "regulier-route"-doorloop niet gevolgd, want dat zou een
 // nieuwe, aparte route starten — buiten de scope van déze controle).
 //
-// Alleen talen met een eigen patroon in PAD_VERBODEN worden gecontroleerd
-// (na Correctie 1 C4 komen daar de andere 8 talen bij — zie de correctie §4:
-// "Doe dit voor NL, en na C4 voor alle talen met de zoekwoorden per taal.").
+// Sinds Correctie 1 C4 heeft elke taal een eigen patroon in PAD_VERBODEN
+// (§4: "Doe dit voor NL, en na C4 voor alle talen met de zoekwoorden per
+// taal."). Een taal zonder patroon is een fout, geen stille overslag.
 const PAD_VERBODEN = {
   NL: /asiel(?!status(houders)? en staatlozen)|statushouder|vluchteling(?!enwerk)|VluchtelingenWerk/i,
+  // Correctie 1, C4: per taal de woorden die dát taalbestand zelf gebruikt
+  // voor asiel, statushouder en vluchteling (stammen, zodat verbuigingen
+  // meetellen), plus VluchtelingenWerk (wordt nooit vertaald).
+  EN: /asylum|status[- ]holder|refugee|VluchtelingenWerk/i,
+  AR: /لجوء|لاجئ|VluchtelingenWerk/,
+  // Turks: geen /i, want 'İ'.toLowerCase() is niet 'i' — hoofdletters expliciet.
+  TR: /[iİ]ltica|[mM]ülteci|[sS]tatü sahib|VluchtelingenWerk/,
+  UK: /притул|біжен|власник\S* статусу|VluchtelingenWerk/i,
+  FA: /پناهند|پناهجو|دارند(ه|گان) وضعیت|VluchtelingenWerk/,
+  TI: /ዑቕ|ሃለዋት ዋና|VluchtelingenWerk/,
+  RO: /azil|refugia|beneficiar\S* de protecție|deținător\S* de statut|VluchtelingenWerk/i,
+  PL: /azyl|uchodź|uciekinier|osob\S* z ochroną|posiadacz\S* statusu|VluchtelingenWerk/i,
 };
+
+// Nederlandse systeemtermen tussen haakjes (§6, bijv. "(verblijfsvergunning
+// asiel)") zijn ook getoonde tekst. Keuze C4: haakjestekst wordt NIET
+// genegeerd. In elke niet-NL-taal draait daarom naast het eigen patroon ook
+// het NL-patroon over de hele tekst, inclusief haakjes. Een NL-term als
+// "(verblijfsvergunning asiel)" staat alleen naast een asielwoord in de eigen
+// taal en hoort op het reguliere pad dus niet thuis. Het NL-patroon heeft zelf
+// al de uitzonderingen "asielstatushouders en staatlozen" en "VluchtelingenWerk".
+// Er is geen extra uitzondering nodig gebleken (zie LOG, C4).
+function padPatronen(taal) {
+  const eigen = PAD_VERBODEN[taal];
+  if (!eigen) return null;
+  return taal === 'NL' ? [eigen] : [eigen, PAD_VERBODEN.NL];
+}
 
 // Knopen die als GEHEEL zijn uitgezonderd van de padzuiverheidscan (§4: "de
 // leges-zinnen ...; v7.uitleg; r_eu_langdurig (algemene informatiepagina)"),
@@ -334,8 +379,8 @@ const PADZUIVERHEID_VELD_UITGESLOTEN = { v7: ['uitleg'], v8: ['uitleg'] };
 const PADZUIVERHEID_STAP_UITGESLOTEN = { r_positief: [2] };
 
 function checkPadzuiverheid(taal, vragen, resultaten) {
-  const patroon = PAD_VERBODEN[taal];
-  if (!patroon) return; // nog niet vertaald/uitgebreid voor deze taal (C4)
+  const patronen = padPatronen(taal);
+  if (!patronen) { fail(`[${taal}] padzuiverheid: geen patroon in PAD_VERBODEN`); return; }
 
   const v1b = vragen.v1b;
   if (!v1b) return; // structuurfout wordt al elders gemeld
@@ -348,7 +393,7 @@ function checkPadzuiverheid(taal, vragen, resultaten) {
   const bezocht = new Set();
   function scan(nodeId, veld, tekst) {
     if (typeof tekst !== 'string' || !tekst) return;
-    if (patroon.test(tekst)) fail(`[${taal}] padzuiverheid: ${nodeId}.${veld} bevat verboden taal op het reguliere pad: "${tekst.slice(0, 160)}"`);
+    if (patronen.some(p => p.test(tekst))) fail(`[${taal}] padzuiverheid: ${nodeId}.${veld} bevat verboden taal op het reguliere pad: "${tekst.slice(0, 160)}"`);
   }
 
   function bezoek(id, pad) {
