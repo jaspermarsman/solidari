@@ -8554,9 +8554,11 @@ window._NAT = {
       "badge": "🇳🇱 Verificator Naturalizare",
       "titel": "Am dreptul la un pașaport olandez?",
       "sub": "Răspunde la câteva întrebări și vezi dacă poți deveni cetățean olandez. Pe baza regulilor din 2026, inclusiv noile reguli de azil de la 12 iunie 2026.",
-      "disclaimer": "⚠️ Acest instrument oferă o indicație, nu o decizie. Verificat în septembrie 2026 (IND, Stimulansz). De la 12 iunie 2026 nu mai există permis de azil pe durată nedeterminată. De aceea, noii beneficiari de protecție trebuie să devină mai întâi rezident UE pe termen lung (EU-langdurig ingezetene) înainte de a se putea naturaliza (naturalisatie). Planurile anunțate de guvern încă nu sunt lege. Cere întotdeauna sfatul primăriei sau al VluchtelingenWerk.",
+      "disclaimer": "⚠️ Acest instrument oferă o indicație, nu o decizie. Verificat în septembrie 2026 (IND, Stimulansz). De la 12 iunie 2026 nu mai există permis de azil pe durată nedeterminată. De aceea, beneficiarii de protecție cu permis de ședere pentru azil pe durată determinată (verblijfsvergunning asiel) trebuie să devină mai întâi rezident UE pe termen lung (EU-langdurig ingezetene) înainte de a se putea naturaliza (naturalisatie). Planurile anunțate de guvern încă nu sunt lege. Cere întotdeauna sfatul primăriei sau al VluchtelingenWerk.",
       "vwnLabel": "Nu ești sigur/ă de situația ta?",
-      "vwnTekst": "Regulile de naturalizare se schimbă rapid și situația ta poate fi diferită de ce arată instrumentul. VluchtelingenWerk Nederland oferă consultații gratuite și îndrumare pentru naturalizare — găsește o locație apropiată pe <a href=\"https://www.vluchtelingenwerk.nl/over-ons/locaties\" target=\"_blank\" style=\"color:inherit;\">vluchtelingenwerk.nl/over-ons/locaties</a>."
+      "vwnTekst": "Regulile de naturalizare se schimbă rapid și situația ta poate fi diferită de ce arată instrumentul. VluchtelingenWerk Nederland oferă consultații gratuite și îndrumare pentru naturalizare — găsește o locație apropiată pe <a href=\"https://www.vluchtelingenwerk.nl/over-ons/locaties\" target=\"_blank\" style=\"color:inherit;\">vluchtelingenwerk.nl/over-ons/locaties</a>.",
+      "hulpRegulierLabel": "Nu ești sigur/ă de situația ta?",
+      "hulpRegulierTekst": "Biroul de consiliere juridică (Juridisch Loket) oferă sfaturi gratuite despre permisul tău de ședere și despre naturalizare (naturalisatie). Intră pe <a href=\"https://www.juridischloket.nl\" target=\"_blank\" style=\"color:inherit;\">juridischloket.nl</a> sau întreabă la primăria ta."
     },
     "ui": {
       "volgendeStappen": "Pașii următori",
@@ -8596,14 +8598,16 @@ window._NAT = {
             "tekst": "Am un permis de ședere pentru azil (beneficiar de protecție)",
             "icoon": "🛡️",
             "klasse": "ja",
-            "volgende": "v_asiel"
+            "volgende": "v_asiel",
+            "pad": "asiel"
           },
           {
             "tekst": "Am un alt permis de ședere",
             "sub": "De exemplu pentru familie, muncă sau studii",
             "icoon": "📄",
             "klasse": "ja",
-            "volgende": "v2"
+            "volgende": "v_regulier",
+            "pad": "regulier"
           },
           {
             "tekst": "Sunt cetățean UE",
@@ -8622,27 +8626,21 @@ window._NAT = {
       },
       "v_asiel": {
         "tekst": "Ce permis de azil ai acum?",
-        "uitleg": "De la 12 iunie 2026 regulile s-au schimbat. Pentru naturalizare (naturalisatie) contează când ai primit permisul actual.",
+        "uitleg": "Uită-te pe cardul de ședere: scrie 'durată nedeterminată' (onbepaalde tijd) sau apare o dată de expirare?",
         "antwoorden": [
           {
             "tekst": "Azil pe durată nedeterminată",
-            "sub": "Primit înainte de 12 iunie 2026",
+            "sub": "Pe card nu apare nicio dată de expirare pentru dreptul tău de ședere",
             "icoon": "✓",
             "klasse": "ja",
             "volgende": "v2"
           },
           {
-            "tekst": "Azil pe 5 ani, primit înainte de 12 iunie 2026",
+            "tekst": "Azil pe durată determinată",
+            "sub": "Valabil 3 sau 5 ani, chiar dacă l-ai primit înainte de 12 iunie 2026",
             "icoon": "📅",
-            "klasse": "ja",
-            "volgende": "v_asiel5"
-          },
-          {
-            "tekst": "Azil primit sau reînnoit la 12 iunie 2026 sau după",
-            "sub": "De obicei valabil 3 ani",
-            "icoon": "🆕",
             "klasse": "anders",
-            "volgende": "e1"
+            "volgende": "v_asiel5"
           },
           {
             "tekst": "Sunt deja rezident UE pe termen lung",
@@ -8659,20 +8657,20 @@ window._NAT = {
         ]
       },
       "v_asiel5": {
-        "tekst": "Vești bune: permisul tău intră sub regulile vechi",
-        "uitleg": "Ai primit permisul de azil pe 5 ani înainte de 12 iunie 2026. Cu el te poți naturaliza (naturalisatie) încă pe calea veche.<br><br>⚠️ <strong>Atenție:</strong> dacă IND îți reînnoiește permisul după 12 iunie 2026, primești un permis după regulile noi. Atunci trebuie să devii mai întâi rezident UE pe termen lung (EU-langdurig ingezetene). <strong>Îndeplinești condițiile? Atunci cere naturalizarea cât timp cardul tău actual este încă valabil.</strong>",
+        "tekst": "Permisul tău rămâne valabil — dar drumul spre cetățenia olandeză trece printr-o etapă intermediară",
+        "uitleg": "Permisul tău de azil rămâne valabil până la data de pe card. Dar cu un permis de ședere pentru azil pe durată determinată (verblijfsvergunning asiel) nu poți cere naturalizarea (naturalisatie). Asta este valabil și dacă ai primit permisul înainte de 12 iunie 2026. De la 12 iunie 2026 permisul de azil pe durată nedeterminată nu mai există.<br><br>De aceea trebuie să devii mai întâi <strong>rezident UE pe termen lung</strong> (EU-langdurig ingezetene). După aceea poți cere naturalizarea. Următoarele întrebări arată dacă acest lucru este deja posibil pentru tine.",
         "antwoorden": [
           {
             "tekst": "Am înțeles — continuă",
             "icoon": "→",
             "klasse": "ja",
-            "volgende": "v2"
+            "volgende": "e1"
           }
         ]
       },
       "v_asiel_wn": {
         "tekst": "Așa vezi ce permis ai",
-        "uitleg": "Uită-te pe cardul de ședere, la rubrica 'Type document en bijzonderheden' (tipul documentului și mențiuni: numărul tipului și textul de lângă el), sau în scrisoarea de la IND. Fii atent/ă la două lucruri:<br><br>1. Scrie <strong>azil</strong> (asiel) sau alt scop (cum ar fi familie sau muncă)?<br>2. Când ai primit acest card: <strong>înainte sau după 12 iunie 2026</strong>? Și cât timp este valabil?<br><br>Nu te descurci? Întreabă-ți îndrumătorul de la primărie sau VluchtelingenWerk.",
+        "uitleg": "Uită-te pe cardul de ședere, la rubrica 'Type document en bijzonderheden' (tipul documentului și mențiuni: numărul tipului și textul de lângă el), sau în scrisoarea de la IND. Fii atent/ă la două lucruri:<br><br>1. Scrie <strong>azil</strong> (asiel) sau alt scop (cum ar fi familie sau muncă)?<br>2. Scrie '<strong>durată nedeterminată</strong>' (onbepaalde tijd) sau apare o <strong>dată de expirare</strong>?<br><br>Nu te descurci? Întreabă-ți îndrumătorul de la primărie sau VluchtelingenWerk.",
         "antwoorden": [
           {
             "tekst": "L-am găsit — înapoi la întrebare",
@@ -8688,9 +8686,40 @@ window._NAT = {
           }
         ]
       },
+      "v_regulier": {
+        "tekst": "Ce fel de permis de ședere ai?",
+        "uitleg": "Pentru naturalizare (naturalisatie) ai nevoie de un permis pe durată nedeterminată sau de un permis pentru un scop care nu este temporar, cum ar fi traiul cu partenerul sau munca. Pe cardul de ședere scrie scopul și dacă există o dată de expirare.",
+        "antwoorden": [
+          {
+            "tekst": "Pe durată nedeterminată",
+            "icoon": "✓",
+            "klasse": "ja",
+            "volgende": "v2"
+          },
+          {
+            "tekst": "Pe durată determinată — pentru familie, partener sau muncă",
+            "icoon": "👨‍👩‍👧",
+            "klasse": "ja",
+            "volgende": "v2"
+          },
+          {
+            "tekst": "Pe durată determinată — pentru studii sau altă ședere temporară",
+            "sub": "De exemplu muncă sezonieră, tratament medical, program de schimb sau anul de căutare a unui loc de muncă pentru persoane cu studii superioare",
+            "icoon": "🎓",
+            "klasse": "nee",
+            "volgende": "r_regulier_tijdelijk"
+          },
+          {
+            "tekst": "Nu știu",
+            "icoon": "❓",
+            "klasse": "anders",
+            "volgende": "v_asiel_wn"
+          }
+        ]
+      },
       "e1": {
         "tekst": "Locuiești de 5 ani sau mai mult fără întrerupere în Olanda, cu un permis valabil?",
-        "uitleg": "Cu un nou permis de ședere pentru azil (verblijfsvergunning asiel) poți deveni cetățean olandez doar după ce devii mai întâi rezident UE pe termen lung (EU-langdurig ingezetene). Pentru asta trebuie să fi locuit cel puțin 5 ani fără întrerupere în Olanda, cu un permis valabil. Anii cu permis de azil se socotesc. Dacă se socotește și timpul din procedura de azil decide IND.",
+        "uitleg": "Cu un permis de ședere pentru azil pe durată determinată (verblijfsvergunning asiel) poți deveni cetățean olandez doar după ce devii mai întâi rezident UE pe termen lung (EU-langdurig ingezetene). Pentru asta trebuie să fi locuit cel puțin 5 ani fără întrerupere în Olanda, cu un permis valabil. Anii cu permis de azil se socotesc. Dacă se socotește și timpul din procedura de azil decide IND.",
         "antwoorden": [
           {
             "tekst": "Da, 5 ani sau mai mult",
@@ -8779,18 +8808,17 @@ window._NAT = {
         ]
       },
       "v2": {
-        "tekst": "Ai permis de ședere valabil?",
-        "uitleg": "Ai nevoie de un permis de ședere valabil care să nu fie temporar. De exemplu un permis pe durată nedeterminată, statutul de rezident UE pe termen lung (EU-langdurig ingezetene) sau un permis de azil primit înainte de 12 iunie 2026. Reînnoiește-ți întotdeauna permisul la timp, ca șederea ta să rămână neîntreruptă.",
+        "tekst": "Permisul tău de ședere este valabil acum?",
+        "uitleg": "Permisul tău trebuie să fie valabil când ceri naturalizarea (naturalisatie) și să rămână valabil până la decizie. Reînnoiește-l întotdeauna la timp, ca șederea ta să rămână neîntreruptă.",
         "antwoorden": [
           {
-            "tekst": "Da, am permis de ședere valabil",
-            "sub": "Sau statut de azil (IND tip III, IV sau V)",
+            "tekst": "Da, permisul meu este valabil",
             "icoon": "✓",
             "klasse": "ja",
             "volgende": "v3"
           },
           {
-            "tekst": "Nu, nu am permis de ședere valabil",
+            "tekst": "Nu, permisul meu a expirat sau nu am permis",
             "icoon": "✗",
             "klasse": "nee",
             "volgende": "r_geen_vergunning"
@@ -8859,7 +8887,7 @@ window._NAT = {
       },
       "v4a_z": {
         "tekst": "Ai finalizat ruta Z — mai este nevoie de un pas suplimentar pentru naturalizare",
-        "uitleg": "Ruta Z se încheie cu un interviu final și un certificat, dar pentru naturalizare IND aplică cerințe lingvistice suplimentare. Există trei căi pentru a te putea totuși naturaliza:<br><br><strong>Calea A — Promovează totuși examenul la nivel A2</strong><br>Promovează toate examenele de limbă la nivel A2 (citit, ascultat, scris, vorbit) și examenul KNM. Atenție: acum că ruta Z s-a încheiat, încercările de examen nu mai sunt gratuite.<br><br><strong>Calea B — 600 de ore de cursuri de limbă + cel puțin 3 încercări per componentă</strong><br>Cel puțin 600 de ore de cursuri de nivel A2 la o instituție certificată Blik op Werk și 3 încercări per componentă? Atunci DUO poate emite o recomandare de exceptare.<br><br><strong>Calea C — 600 de ore de alfabetizare + test DUO (€150)</strong><br>Cel puțin 600 de ore de alfabetizare și se dovedește că A2 nu este realizabil? Atunci urmează o exceptare prin testul DUO (€150).<br><br><em>Posibil în viitor:</em> guvernul vrea să ridice cerința de limbă pentru naturalizare de la A2 la B1. Acest lucru nu a fost încă adoptat — în prezent se aplică încă A2.<br><br>💡 Discută cu primăria ta sau cu VluchtelingenWerk care cale ți se potrivește cel mai bine.",
+        "uitleg": "Ruta Z se încheie cu un interviu final și un certificat, dar pentru naturalizare IND aplică cerințe lingvistice suplimentare. Există trei căi pentru a te putea totuși naturaliza:<br><br><strong>Calea A — Promovează totuși examenul la nivel A2</strong><br>Promovează toate examenele de limbă la nivel A2 (citit, ascultat, scris, vorbit) și examenul KNM. Atenție: acum că ruta Z s-a încheiat, încercările de examen nu mai sunt gratuite.<br><br><strong>Calea B — 600 de ore de cursuri de limbă + cel puțin 3 încercări per componentă</strong><br>Cel puțin 600 de ore de cursuri de nivel A2 la o instituție certificată Blik op Werk și 3 încercări per componentă? Atunci DUO poate emite o recomandare de exceptare.<br><br><strong>Calea C — 600 de ore de alfabetizare + test DUO (€150)</strong><br>Cel puțin 600 de ore de alfabetizare și se dovedește că A2 nu este realizabil? Atunci urmează o exceptare prin testul DUO (€150).<br><br><em>Posibil în viitor:</em> guvernul vrea să ridice cerința de limbă pentru naturalizare de la A2 la B1. Acest lucru nu a fost încă adoptat — în prezent se aplică încă A2.<br><br>💡 Discută cu primăria ta care cale ți se potrivește cel mai bine.",
         "antwoorden": [
           {
             "tekst": "Am înțeles — continuă cu celelalte condiții",
@@ -8966,7 +8994,7 @@ window._NAT = {
       },
       "v7": {
         "tekst": "Ești dispus/ă să renunți la cetățenia actuală?",
-        "uitleg": "Olanda nu permite în general dubla cetățenie. Excepție: refugiații recunoscuți pot păstra ambele cetățenii.",
+        "uitleg": "Olanda nu permite în general dubla cetățenie. Există excepții, de exemplu pentru refugiații recunoscuți.",
         "antwoorden": [
           {
             "tekst": "Da, voi renunța la cetățenia mea",
@@ -8979,7 +9007,8 @@ window._NAT = {
             "sub": "Deținătorii de statut pot păstra dubla cetățenie",
             "icoon": "✓",
             "klasse": "ja",
-            "volgende": "v8"
+            "volgende": "v8",
+            "alleenPad": "asiel"
           },
           {
             "tekst": "Nu, vreau să-mi păstrez cetățenia",
@@ -9014,7 +9043,8 @@ window._NAT = {
         "icoon": "🎉",
         "titel": "Probabil ești eligibil/ă!",
         "sub": "Pe baza răspunsurilor tale îndeplinești condițiile principale pentru naturalizare. Următorul pas este o cerere oficială la primăria ta.",
-        "info": "💡 Deținătorii de statut (refugiații recunoscuți) în general nu trebuie să renunțe la cetățenia originală.",
+        "info": "💡 Ești refugiat/ă recunoscut/ă? Atunci de obicei nu trebuie să renunți la cetățenia ta de origine.",
+        "infoAlleenPad": "asiel",
         "stappen": [
           {
             "nr": 1,
@@ -9106,7 +9136,8 @@ window._NAT = {
         "alternatieven": [
           {
             "naam": "Cerere de azil",
-            "tekst": "Dacă ai nevoie de protecție, poți depune o cerere de azil la IND."
+            "tekst": "Dacă ai nevoie de protecție, poți depune o cerere de azil la IND.",
+            "alleenPad": "asiel"
           },
           {
             "naam": "Permis obișnuit",
@@ -9114,29 +9145,26 @@ window._NAT = {
           },
           {
             "naam": "Ajutor juridic",
-            "tekst": "Contactează o organizație pentru refugiați sau un avocat."
+            "tekst": "Contactează un avocat sau Biroul de consiliere juridică (Juridisch Loket)."
           },
           {
             "naam": "VluchtelingenWerk",
-            "tekst": "Sprijin juridic gratuit pentru solicitanții de azil și deținătorii de statut."
+            "tekst": "Sprijin juridic gratuit pentru solicitanții de azil și deținătorii de statut.",
+            "alleenPad": "asiel"
           }
         ],
-        "link": "https://www.vluchtelingenwerk.nl",
-        "linkTekst": "→ Contactează VluchtelingenWerk"
+        "link": "https://www.juridischloket.nl",
+        "linkTekst": "→ Ajutor prin Juridisch Loket"
       },
       "r_te_kort": {
         "type": "wacht",
         "icoon": "⏳",
         "titel": "Încă nu ai locuit suficient de mult în Olanda",
-        "sub": "În prezent trebuie să fi locuit în Olanda cel puțin 5 ani consecutivi cu ședere valabilă. De la noile reguli de azil din 2026 sunt câteva lucruri de care să ții cont în timpul așteptării. Poți folosi bine perioada de așteptare.",
+        "sub": "Trebuie să locuiești în Olanda cel puțin 5 ani fără întrerupere. Poți folosi bine perioada de așteptare.",
         "alternatieven": [
           {
             "naam": "Reînnoiește permisul la timp",
-            "tekst": "Noile permise de azil sunt valabile maximum 3 ani; așa că reînnoiește la timp. Dacă apare un \"gol de ședere\" (verblijfsgat) — o perioadă între două permise în care nu ai un permis valabil — acel timp nu contează ca ședere legală, iar numărătoarea de 5 ani pentru naturalizare poate reîncepe. Așa că depune cererea de reînnoire cel târziu în 4 săptămâni de la expirare: atunci IND nu o consideră gol de ședere."
-          },
-          {
-            "naam": "Îți expiră permisul de azil mai devreme?",
-            "tekst": "Ai un permis de ședere pentru azil (verblijfsvergunning asiel) pe 5 ani de dinainte de 12 iunie 2026 care expiră înainte să ai 5 ani în Olanda? Atunci la reînnoire primești un permis după regulile noi. Drumul tău trece atunci prin statutul de rezident UE pe termen lung (EU-langdurig ingezetene), iar pentru acesta există o cerință de venit."
+            "tekst": "Dacă apare o perioadă fără permis valabil — un \"gol de ședere\" (verblijfsgat) — acel timp nu se socotește. Cei 5 ani pot începe atunci din nou. De aceea cere reînnoirea la timp, cel târziu în 4 săptămâni de la expirare: atunci IND nu o consideră gol de ședere."
           },
           {
             "naam": "Termen de naturalizare: posibil 10 ani",
@@ -9156,15 +9184,38 @@ window._NAT = {
           },
           {
             "naam": "Planul guvernului (încă nu este lege)",
-            "tekst": "Beneficiarii de protecție care au primit de două ori un permis de azil temporar și ating nivelul B1 la limba olandeză ar putea deveni cetățeni olandezi după 6 ani, chiar și fără statutul de rezident UE pe termen lung (EU-langdurig ingezetene). Pentru cei care nu pot atinge B1 va exista o excepție. Nu există încă un proiect de lege. Până când legea există, se aplică regulile de mai sus."
+            "tekst": "Beneficiarii de protecție care au primit de două ori un permis de azil temporar și ating nivelul B1 la limba olandeză ar putea deveni cetățeni olandezi după 6 ani, chiar și fără statutul de rezident UE pe termen lung (EU-langdurig ingezetene). Pentru cei care nu pot atinge B1 va exista o excepție. Nu există încă un proiect de lege. Până când legea există, se aplică regulile de mai sus.",
+            "alleenPad": "asiel"
           }
         ],
         "interneLink": {
           "naar": "r_eu_langdurig",
           "tekst": "🇪🇺 Vezi: rezident UE pe termen lung (ședere permanentă după 5 ani)"
         },
-        "link": "https://ind.nl/en/asylum-and-family-reunification-the-migration-pact-and-other-developments/new-laws-and-regulations-for-asylum-and-family-reunification",
-        "linkTekst": "→ Vezi noile reguli de azil 2026 pe ind.nl"
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
+        "linkTekst": "→ Mai multe informații pe ind.nl"
+      },
+      "r_regulier_tijdelijk": {
+        "type": "wacht",
+        "icoon": "🎓",
+        "titel": "Cu acest permis nu poți deveni încă cetățean olandez",
+        "sub": "Pentru naturalizare (naturalisatie) ai nevoie de un permis pe durată nedeterminată sau de un permis pentru un scop care nu este temporar. Un permis pentru studii sau altă ședere temporară nu se socotește.",
+        "alternatieven": [
+          {
+            "naam": "Se schimbă situația ta?",
+            "tekst": "Începi de exemplu să lucrezi sau te muți la partenerul tău? Atunci poți cere un alt permis. După aceea, fă din nou această verificare."
+          },
+          {
+            "naam": "Cum se socotește șederea ta?",
+            "tekst": "Dacă anii cu permisul actual se socotesc pentru cei 5 ani depinde de situația ta. Cere să fie verificat acest lucru."
+          },
+          {
+            "naam": "Lucrează de acum la limba olandeză",
+            "tekst": "Pentru naturalizare (naturalisatie) va trebui mai târziu să ai integrarea (inburgering) încheiată. Un curs de limbă te ajută încă de acum."
+          }
+        ],
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
+        "linkTekst": "→ Mai multe informații pe ind.nl"
       },
       "r_bezig_b1": {
         "type": "route",
@@ -9263,9 +9314,9 @@ window._NAT = {
             "tekst": "600 ore de alfabetizare și testul DUO arată că A2 nu este realizabil. Se acordă scutire. Testul costă 150 €."
           }
         ],
-        "info": "📞 <strong>Sfat:</strong> Consultați primăria sau VluchtelingenWerk.",
-        "link": "https://www.vluchtelingenwerk.nl",
-        "linkTekst": "→ Ajutor prin VluchtelingenWerk"
+        "info": "📞 <strong>Sfat:</strong> Discută cu primăria ta care cale se potrivește cel mai bine situației tale.",
+        "link": "https://www.juridischloket.nl",
+        "linkTekst": "→ Ajutor prin Juridisch Loket"
       },
       "r_geen_inburgering": {
         "type": "wacht",
@@ -9305,7 +9356,8 @@ window._NAT = {
           },
           {
             "naam": "VluchtelingenWerk",
-            "tekst": "Ajutor juridic gratuit pentru deținătorii de statut."
+            "tekst": "Ajutor juridic gratuit pentru deținătorii de statut.",
+            "alleenPad": "asiel"
           },
           {
             "naam": "Perioadă de așteptare",
@@ -9316,8 +9368,8 @@ window._NAT = {
             "tekst": "Amenzile de trafic și contravențiile minore de obicei NU se iau în calcul."
           }
         ],
-        "link": "https://www.vluchtelingenwerk.nl",
-        "linkTekst": "→ Contactează VluchtelingenWerk"
+        "link": "https://www.juridischloket.nl",
+        "linkTekst": "→ Ajutor prin Juridisch Loket"
       },
       "r_strafblad_check": {
         "type": "wacht",
@@ -9339,7 +9391,7 @@ window._NAT = {
           },
           {
             "naam": "Consiliere juridică",
-            "tekst": "În caz de îndoială consultați un consilier juridic sau VluchtelingenWerk."
+            "tekst": "În caz de îndoială: consultă un consilier juridic sau Biroul de consiliere juridică (Juridisch Loket)."
           }
         ],
         "link": "https://www.justis.nl/producten/vog",
@@ -9379,7 +9431,8 @@ window._NAT = {
         "alternatieven": [
           {
             "naam": "Excepție pentru deținătorii de statut",
-            "tekst": "Ca refugiat recunoscut NU trebuie să renunți la cetățenia ta."
+            "tekst": "Ca refugiat recunoscut NU trebuie să renunți la cetățenia ta.",
+            "alleenPad": "asiel"
           },
           {
             "naam": "Excepție: imposibil",
@@ -9417,7 +9470,7 @@ window._NAT = {
           },
           {
             "type": "amber",
-            "tekst": "⚠️ <strong>Cerința de venit:</strong> trebuie să ai destul venit propriu și durabil, plus o asigurare de sănătate. Cu ajutor social de obicei nu merge. Atenție: dacă ai un nou permis de ședere pentru azil (verblijfsvergunning asiel) de după 12 iunie 2026, ai nevoie de statutul de rezident UE pe termen lung (EU-langdurig ingezetene) ca să te poți naturaliza mai târziu. Deci cerința de venit se aplică și drumului tău spre cetățenia olandeză."
+            "tekst": "⚠️ <strong>Cerința de venit:</strong> trebuie să ai destul venit propriu și durabil, plus o asigurare de sănătate. Cu ajutor social de obicei nu merge. Dacă ai un permis de ședere pentru azil pe durată determinată (verblijfsvergunning asiel), ai nevoie de statutul de rezident UE pe termen lung (EU-langdurig ingezetene) ca să te poți naturaliza mai târziu. Deci cerința de venit se aplică și drumului tău spre cetățenia olandeză."
           },
           {
             "type": "info",
@@ -9431,7 +9484,7 @@ window._NAT = {
           },
           {
             "nr": 2,
-            "tekst": "<strong>Permis de azil nou?</strong> Atunci acesta este singurul drum spre un permis permanent și apoi spre naturalizare (naturalisatie)."
+            "tekst": "<strong>Permis de azil pe durată determinată?</strong> Atunci acesta este singurul drum spre un permis permanent și apoi spre naturalizare (naturalisatie)."
           },
           {
             "nr": 3,
@@ -9475,7 +9528,7 @@ window._NAT = {
         "type": "route",
         "icoon": "🪜",
         "titel": "Poți deveni cetățean olandez — în doi pași",
-        "sub": "Cu un nou permis de ședere pentru azil (verblijfsvergunning asiel) trebuie să devii mai întâi rezident UE pe termen lung (EU-langdurig ingezetene). După aceea poți cere naturalizarea (naturalisatie).",
+        "sub": "Cu un permis de ședere pentru azil pe durată determinată (verblijfsvergunning asiel) trebuie să devii mai întâi rezident UE pe termen lung (EU-langdurig ingezetene). După aceea poți cere naturalizarea (naturalisatie).",
         "infoBoxen": [
           {
             "type": "amber",
@@ -9603,7 +9656,7 @@ window._NAT = {
         "type": "wacht",
         "icoon": "🧭",
         "titel": "Venitul tău este acum obstacolul",
-        "sub": "Cu un permis de ședere pentru azil (verblijfsvergunning asiel) de după 12 iunie 2026 poți deveni cetățean olandez doar dacă devii mai întâi rezident UE pe termen lung (EU-langdurig ingezetene). Pentru asta ai nevoie de destul venit propriu. Cu ajutor social acum nu se poate. Sincer, aceasta este o schimbare mare.",
+        "sub": "Cu un permis de ședere pentru azil pe durată determinată (verblijfsvergunning asiel) poți deveni cetățean olandez doar dacă devii mai întâi rezident UE pe termen lung (EU-langdurig ingezetene). Pentru asta ai nevoie de destul venit propriu. Cu ajutor social deocamdată nu se poate. Sincer, aceasta este o schimbare mare.",
         "alternatieven": [
           {
             "naam": "Muncă sau mai multe ore",
@@ -9659,11 +9712,11 @@ window._NAT = {
         "type": "wacht",
         "icoon": "⏳",
         "titel": "Încă nu ai locuit suficient de mult în Olanda",
-        "sub": "Cu un nou permis de ședere pentru azil (verblijfsvergunning asiel) trebuie să locuiești mai întâi 5 ani în Olanda. După aceea poți deveni rezident UE pe termen lung (EU-langdurig ingezetene), și abia apoi cetățean olandez. Poți folosi bine timpul până atunci.",
+        "sub": "Cu un permis de ședere pentru azil pe durată determinată (verblijfsvergunning asiel) trebuie să locuiești mai întâi 5 ani în Olanda. După aceea poți deveni rezident UE pe termen lung (EU-langdurig ingezetene), și abia apoi cetățean olandez. Poți folosi bine timpul până atunci.",
         "alternatieven": [
           {
             "naam": "Reînnoiește la timp",
-            "tekst": "Noile permise de azil sunt valabile maximum 3 ani; așa că reînnoiește la timp. Dacă apare un \"gol de ședere\" (verblijfsgat) — o perioadă între două permise în care nu ai un permis valabil — acel timp nu contează ca ședere legală, iar numărătoarea de 5 ani pentru naturalizare poate reîncepe. Așa că depune cererea de reînnoire cel târziu în 4 săptămâni de la expirare: atunci IND nu o consideră gol de ședere."
+            "tekst": "Permisele de azil pe durată determinată sunt valabile maximum 3 ani; așa că reînnoiește la timp. Dacă apare un \"gol de ședere\" (verblijfsgat) — o perioadă între două permise în care nu ai un permis valabil — acel timp nu contează ca ședere legală, iar numărătoarea de 5 ani pentru naturalizare poate reîncepe. Așa că depune cererea de reînnoire cel târziu în 4 săptămâni de la expirare: atunci IND nu o consideră gol de ședere."
           },
           {
             "naam": "Lucrează la venitul tău",
@@ -9691,19 +9744,19 @@ window._NAT = {
         "type": "wacht",
         "icoon": "🔍",
         "titel": "Cere mai întâi să se verifice ce permis ai",
-        "sub": "Drumul tău spre cetățenia olandeză depinde de permisul tău. Cu un permis de azil de dinainte de 12 iunie 2026 este mai scurt decât cu unul nou.",
+        "sub": "Drumul tău spre cetățenia olandeză depinde de permisul tău.",
         "alternatieven": [
           {
-            "naam": "Permis de azil vechi",
-            "tekst": "Pe durată nedeterminată sau pe 5 ani, primit înainte de 12 iunie 2026: te poți naturaliza (naturalisatie) pe calea veche."
+            "naam": "Azil pe durată nedeterminată",
+            "tekst": "Te poți naturaliza (naturalisatie) dacă îndeplinești celelalte condiții."
           },
           {
-            "naam": "Permis de azil nou",
-            "tekst": "Primit sau reînnoit la 12 iunie 2026 sau după: mai întâi statutul de rezident UE pe termen lung (EU-langdurig ingezetene), cu cerință de venit, apoi naturalizarea (naturalisatie)."
+            "naam": "Azil pe durată determinată (3 sau 5 ani)",
+            "tekst": "Mai întâi statutul de rezident UE pe termen lung (EU-langdurig ingezetene), cu cerință de venit, apoi naturalizarea (naturalisatie). Și dacă ai primit permisul înainte de 12 iunie 2026."
           },
           {
             "naam": "Alt permis",
-            "tekst": "Pentru familie, muncă sau studii: regulile vechi se aplică în continuare."
+            "tekst": "Pentru familie, partener sau muncă: naturalizarea este de obicei posibilă după 5 ani. Pentru studii sau altă ședere temporară, încă nu."
           },
           {
             "naam": "Cine te poate ajuta?",
