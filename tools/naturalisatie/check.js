@@ -642,7 +642,11 @@ function main() {
 // Fase 5 (§7): tests/naturalisatie.spec.js hergebruikt de vaste
 // [vraagId, antwoordIndex]-scenariopaden hieronder in plaats van op tekst te
 // zoeken. `main()` draait alleen bij CLI-gebruik, niet bij `require()`.
-module.exports = { SCENARIOS, laadData };
+// Correctie 1, C5: `PAD_VERBODEN` (de padzuiverheids-woordenlijst per taal,
+// §4 punt 2) wordt ook geëxporteerd, zodat de voorleestest in
+// naturalisatie.spec.js dezelfde woordenlijst gebruikt in plaats van er een
+// eigen kopie van te maken.
+module.exports = { SCENARIOS, laadData, PAD_VERBODEN };
 
 if (require.main === module) {
   main();

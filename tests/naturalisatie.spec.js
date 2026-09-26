@@ -8,7 +8,7 @@ const { test, expect } = require('@playwright/test');
 const fs = require('fs');
 const path = require('path');
 const { metTaal } = require('./helpers');
-const { SCENARIOS, laadData } = require('../tools/naturalisatie/check.js');
+const { SCENARIOS, laadData, PAD_VERBODEN } = require('../tools/naturalisatie/check.js');
 
 const NAT = laadData()._NAT;
 const TALEN9 = ['NL', 'EN', 'AR', 'TR', 'UK', 'FA', 'TI', 'RO', 'PL'];
@@ -54,28 +54,51 @@ async function loopPad(page, pad) {
   }
 }
 
-test.describe('5.1 — Scenario\'s (§8) in NL', () => {
+test.describe('5.1 — Scenario\'s (Correctie 1, §4) in NL', () => {
   for (const [id, scenario] of Object.entries(SCENARIOS)) {
-    test(`${id} → ${scenario.verwacht}`, async ({ page }) => {
+    // Correctie 1: S-14/S-15 eindigen bij een VRAAG (v7), niet bij een
+    // resultaat — hun acceptatie is "v7 toont N zichtbare antwoorden", dus
+    // die twee krijgen hier een ander testlichaam dan de resultaat-scenario's.
+    const naam = scenario.eindVraag
+      ? `${id} → vraag ${scenario.eindVraag} toont ${scenario.verwachtAntwoorden} antwoorden`
+      : `${id} → ${scenario.verwacht}`;
+    test(naam, async ({ page }) => {
       await metTaal(page, 'NL');
       await page.addInitScript(STUB_STEMMEN);
       await page.goto('/naturalisatie.html');
       await loopPad(page, scenario.pad);
-      const titel = await page.locator('.resultaat-titel').textContent();
-      expect(titel).toBe(NAT.NL.resultaten[scenario.verwacht].titel);
-      if (scenario.verbiedt) {
-        const lichaam = await page.locator('.resultaat-kaart').innerText();
-        scenario.verbiedt.forEach(zin => {
-          expect(lichaam.toLowerCase()).not.toContain(zin.toLowerCase());
-        });
+      if (scenario.eindVraag) {
+        const knoppen = page.locator('.antwoord-knop');
+        await expect(knoppen).toHaveCount(scenario.verwachtAntwoorden);
+        const onclick0 = await knoppen.first().getAttribute('onclick');
+        expect(onclick0, `verwachtte vraag "${scenario.eindVraag}"`).toContain(`kiesAntwoord('${scenario.eindVraag}',`);
+      } else {
+        const titel = await page.locator('.resultaat-titel').textContent();
+        expect(titel).toBe(NAT.NL.resultaten[scenario.verwacht].titel);
+        if (scenario.verbiedt) {
+          const lichaam = await page.locator('.resultaat-kaart').innerText();
+          scenario.verbiedt.forEach(zin => {
+            expect(lichaam.toLowerCase()).not.toContain(zin.toLowerCase());
+          });
+        }
+        // Correctie 1, §3.1.6/S-1/S-16: op pad "regulier" linkt het hulpblok
+        // naar het Juridisch Loket, nooit naar vluchtelingenwerk.nl. Let op:
+        // `header.disclaimer` zelf noemt "VluchtelingenWerk" als vaste,
+        // padonafhankelijke slotzin (zie LOG-naturalisatie.md, C3: die
+        // afwijking is bewust — de disclaimer telt niet mee als "hulpblok"),
+        // dus deze check test het hulpblok-linkdoel, niet het woord zelf.
+        if (scenario.verwachtPad === 'regulier') {
+          const html = await page.locator('.resultaat-kaart').innerHTML();
+          expect(html.toLowerCase()).not.toContain('vluchtelingenwerk.nl');
+        }
       }
     });
   }
 });
 
-test.describe('5.2 — S-3, S-5, S-9 in alle negen talen', () => {
+test.describe('5.2 — S-1, S-5 en S-13 in alle negen talen (Correctie 1, §4)', () => {
   for (const taal of TALEN9) {
-    for (const id of ['S-3', 'S-5', 'S-9']) {
+    for (const id of ['S-1', 'S-5', 'S-13']) {
       test(`${id} in ${taal}`, async ({ page }) => {
         const scenario = SCENARIOS[id];
         const errors = [];
@@ -181,4 +204,59 @@ test('5.4 — Linkcheck (alleen lokaal, niet in CI): elke unieke externe link ge
   }
   fs.writeFileSync(path.join(__dirname, 'naturalisatie-linkcheck.json'), JSON.stringify(uitkomsten, null, 2));
   expect(fouten, fouten.join('\n')).toEqual([]);
+});
+
+// Correctie 1, §3.1.3/§4: `kiesAntwoord` moet de OORSPRONKELIJKE antwoordindex
+// gebruiken, niet de positie in de gefilterde (getoonde) lijst. S-14 (v7 op
+// pad "regulier") toont maar 2 van de 3 antwoorden ("erkend vluchteling" is
+// alleenPad: "asiel"), dus het tweede zichtbare antwoord is het DERDE
+// antwoord in de data ("Nee, ik wil mijn nationaliteit houden"). Deze test
+// klikt dat tweede zichtbare antwoord en controleert dat de geschiedenis het
+// juiste antwoord toont — niet het antwoord op de gefilterde positie 1.
+test.describe('5.5 — S-14: indexfix bij v7 op pad regulier (Correctie 1, §3.1.3)', () => {
+  test('tweede zichtbare antwoord bij v7 → geschiedenis toont "Nee, ik wil …"', async ({ page }) => {
+    await metTaal(page, 'NL');
+    await page.addInitScript(STUB_STEMMEN);
+    await page.goto('/naturalisatie.html');
+    await loopPad(page, SCENARIOS['S-14'].pad);
+
+    // Zichtbaar op pad "regulier" (mirroring padOk() in naturalisatie.html /
+    // checkPadzuiverheid in check.js): alleen antwoorden zonder alleenPad, of
+    // met alleenPad === "regulier".
+    const v7 = NAT.NL.vragen.v7;
+    const zichtbaar = v7.antwoorden.filter(a => !a.alleenPad || a.alleenPad === 'regulier');
+    expect(zichtbaar.length).toBe(2);
+    expect(zichtbaar[1].tekst).toContain('Nee, ik wil');
+
+    const knoppen = page.locator('.antwoord-knop');
+    await expect(knoppen).toHaveCount(2);
+    const onclick1 = await knoppen.nth(1).getAttribute('onclick');
+    expect(onclick1, 'nog steeds op vraag v7').toContain("kiesAntwoord('v7',");
+
+    await knoppen.nth(1).click();
+
+    const laatsteAntwoord = await page.locator('.geschiedenis-antwoord').last().textContent();
+    expect(laatsteAntwoord).toBe(zichtbaar[1].tekst);
+    expect(laatsteAntwoord).toContain('Nee, ik wil');
+  });
+});
+
+// Correctie 1, §4: op pad "regulier" mag `data-lees` van v7 geen
+// vluchteling-woord bevatten (de "erkend vluchteling"-antwoordtekst is daar
+// gefilterd, en v7.uitleg zelf zit niet in data-lees — zie bouwVraagLees()).
+// Gebruikt dezelfde PAD_VERBODEN-woordenlijst per taal als check.js
+// (padzuiverheid, §4 punt 2), zodat er geen tweede woordenlijst ontstaat.
+test.describe('5.6 — Voorleestest padzuiverheid (Correctie 1, §4): data-lees van v7 op pad regulier', () => {
+  for (const taal of ['NL', 'EN', 'AR']) {
+    test(`v7 op pad regulier bevat geen asiel/vluchteling-woord — ${taal}`, async ({ page }) => {
+      await metTaal(page, taal);
+      await page.addInitScript(STUB_STEMMEN);
+      await page.goto('/naturalisatie.html', { waitUntil: 'networkidle' });
+      await loopPad(page, SCENARIOS['S-14'].pad);
+
+      const leesAttr = await page.locator('.vraag-tekst').first().getAttribute('data-lees');
+      expect(leesAttr, `geen data-lees gevonden bij v7 (${taal})`).toBeTruthy();
+      expect(PAD_VERBODEN[taal].test(leesAttr), `data-lees van v7 (${taal}) bevat verboden taal: "${leesAttr}"`).toBe(false);
+    });
+  }
 });
