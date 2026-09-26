@@ -7485,7 +7485,7 @@ window._NAT = {
           },
           {
             "tekst": "ናይ ውሱን ግዜ — ንትምህርቲ ወይ ንካልእ ግዝያዊ መንበሪ",
-            "sub": "ንኣብነት ወቕታዊ ስራሕ፡ ሕክምና፡ ምልውዋጥ (uitwisseling) ወይ ንልዑል ትምህርቲ ዘለዎም ናይ ስራሕ ምድላይ ዓመት (zoekjaar hoogopgeleiden)",
+            "sub": "ንኣብነት ናይ ወቕቲ ስራሕ (seizoenarbeid)፡ ሕክምና፡ ምልውዋጥ (uitwisseling) ወይ ንልዑል ትምህርቲ ዘለዎም ናይ ስራሕ ምድላይ ዓመት (zoekjaar hoogopgeleiden)",
             "icoon": "🎓",
             "klasse": "nee",
             "volgende": "r_regulier_tijdelijk"
