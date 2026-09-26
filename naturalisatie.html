@@ -137,12 +137,38 @@ function escAttr(s) {
     .replace(/&/g, '&amp;').replace(/"/g, '&quot;')
     .replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
-// data-lees voor een vraag: de vraagtekst + "je kunt kiezen:" + elk antwoord.
-function bouwVraagLees(v, ui) {
+// data-lees voor een vraag: de vraagtekst + "je kunt kiezen:" + elk getoond antwoord.
+// Correctie 1, §3.1.4: alleen de getoonde (niet door alleenPad weggefilterde) antwoorden.
+function bouwVraagLees(v, ui, antwoordenGetoond) {
   const stukken = [naarPlatteTekst(v.tekst) + '.'];
   if (ui.jeKuntKiezen) stukken.push(ui.jeKuntKiezen);
-  (v.antwoorden || []).forEach(a => stukken.push(naarPlatteTekst(a.tekst) + '.'));
+  (antwoordenGetoond || []).forEach(a => stukken.push(naarPlatteTekst(a.tekst) + '.'));
   return escAttr(stukken.join(' '));
+}
+
+// ── Correctie 1, §3.1: route (`pad`) en `alleenPad`/`infoAlleenPad` ───────
+// Het huidige pad is het `pad` van het laatst gekozen antwoord in `geschiedenis`
+// dat er één heeft. "Opnieuw beginnen" wist `geschiedenis` en dus het pad.
+// Terug via v_asiel_wn → v1b mag het pad opnieuw zetten: dat gebeurt vanzelf
+// zodra daarna weer een antwoord met `pad` wordt gekozen.
+function huidigPad() {
+  for (let i = geschiedenis.length - 1; i >= 0; i--) {
+    if (geschiedenis[i].pad) return geschiedenis[i].pad;
+  }
+  return null;
+}
+// Zonder `alleenPad` altijd tonen. Met `alleenPad`: alleen tonen als het gelijk
+// is aan het huidige pad. Zonder huidig pad (null) worden elementen met
+// `alleenPad` dus NIET getoond (§3.1.2).
+function padOk(alleenPad, pad) {
+  return !alleenPad || alleenPad === pad;
+}
+function filterPad(lijst, pad) {
+  return (lijst || []).filter(el => padOk(el.alleenPad, pad));
+}
+// §3.1.5: stapnummers van gefilterde stappen opnieuw doornummeren.
+function hernummerStappen(stappen) {
+  return (stappen || []).map((s, i) => Object.assign({}, s, { nr: i + 1 }));
 }
 
 // ── Voortgang (N-5): "Vraag {n}" + balk op basis van het langste resterende pad ──
@@ -216,12 +242,18 @@ function toonVraag(id) {
   if (!nat) { toonLaadfout(); return; }
   const ui = nat.ui || {};
   const v = nat.vragen[id]; if (!v) return;
+  const pad = huidigPad();
+  // §3.1.3: kiesAntwoord gebruikt de oorspronkelijke index, dus eerst indexeren
+  // en pas daarna filteren op `alleenPad`.
+  const getoond = (v.antwoorden || [])
+    .map((a, i) => ({ a, i }))
+    .filter(({ a }) => padOk(a.alleenPad, pad));
   const n = geschiedenis.length + 1;
   const rest = langsteRest(id, nat.vragen, nat.resultaten);
   const voortgangPct = Math.round((n / (n + rest)) * 100);
   document.getElementById('voortgang').style.width = voortgangPct + '%';
   const label = (ui.vraagLabel || 'Vraag {n}').replace('{n}', n);
-  const leesAttr = bouwVraagLees(v, ui);
+  const leesAttr = bouwVraagLees(v, ui, getoond.map(({ a }) => a));
   const kaart = document.createElement('div');
   kaart.className = 'vraag-kaart';
   kaart.innerHTML = `
@@ -231,7 +263,7 @@ function toonVraag(id) {
       ${v.uitleg ? `<div class="vraag-uitleg" data-lees="">${v.uitleg}</div>` : ''}
     </div>
     <div class="antwoorden">
-      ${v.antwoorden.map((a, i) => `
+      ${getoond.map(({ a, i }) => `
         <button class="antwoord-knop ${a.klasse||''}" onclick="kiesAntwoord('${id}',${i})">
           <div class="antwoord-icoon" style="background:${a.klasse==='ja'?'var(--groen-licht)':a.klasse==='nee'?'var(--rood-licht)':a.klasse==='info'?'var(--blauw-licht)':'var(--amber-licht)'}">
             ${a.icoon}
@@ -256,6 +288,7 @@ function toonResultaat(id) {
   if (!nat) { toonLaadfout(); return; }
   const ui = nat.ui || {};
   const res = nat.resultaten[id]; if (!res) return;
+  const pad = huidigPad();
   document.getElementById('voortgang').style.width = '100%';
   const kaart = document.createElement('div');
   kaart.className = `resultaat-kaart resultaat-${res.type}`;
@@ -263,40 +296,53 @@ function toonResultaat(id) {
   // nat.header.*, niet op nat zelf — anders viel elke taal terug op de
   // Nederlandse/Engelse vaste tekst hieronder.
   const h = nat.header || {};
-  const vwnTekst = h.vwnTekst || '';
+  // Correctie 1, §3.1.6: op pad "regulier" toont het hulpblok het Juridisch
+  // Loket (header.hulpRegulierLabel/-Tekst) i.p.v. het VWN-blok. Dat geldt
+  // overal waar het VWN-blok stond: de disclaimerregel, de extra stap van
+  // r_positief, en het amber-blok bij de alternatieven-resultaten.
+  const hulpTekst = pad === 'regulier' ? (h.hulpRegulierTekst || '') : (h.vwnTekst || '');
+  const hulpLabel = pad === 'regulier' ? (h.hulpRegulierLabel || '') : (h.vwnLabel || '');
   const disclaimerTekst = h.disclaimer || '';
-  const vwnLabel = h.vwnLabel || '';
-  const disclaimer = `<div class="disclaimer" data-lees="">${disclaimerTekst}${vwnTekst ? `<br><br>💬 ${vwnTekst}` : ''}</div>`;
+  const disclaimer = `<div class="disclaimer" data-lees="">${disclaimerTekst}${hulpTekst ? `<br><br>💬 ${hulpTekst}` : ''}</div>`;
   const interneBtn = res.interneLink ? `<button class="knop-primair" style="background:var(--blauw);" onclick="gaNaarResultaat('${res.interneLink.naar}')">${res.interneLink.tekst}</button>` : '';
   // N-10: alleen externe (http…) links openen in een nieuw tabblad.
   const isExtern = res.link && /^https?:\/\//i.test(res.link);
   const externeBtn = res.link ? `<a href="${res.link}"${isExtern ? ' target="_blank"' : ''} class="${res.interneLink ? 'knop-secundair' : 'knop-primair'}">${res.linkTekst||''}</a>` : '';
   const knoppen = `<div class="actie-knoppen">${interneBtn}${externeBtn}<button class="knop-secundair" onclick="opnieuwBeginnen()">${ui.opnieuw || '↺'}</button></div>`;
-  const vwnBox = vwnTekst ? `<div class="amber-box" style="margin-top:1rem;" data-lees="">💬 ${vwnLabel ? `<strong>${vwnLabel}</strong> ` : ''}${vwnTekst}</div>` : '';
+  const vwnBox = hulpTekst ? `<div class="amber-box" style="margin-top:1rem;" data-lees="">💬 ${hulpLabel ? `<strong>${hulpLabel}</strong> ` : ''}${hulpTekst}</div>` : '';
+  // Correctie 1, §3.1.2: het losse `info`-veld (bijv. r_positief.info) volgt
+  // `infoAlleenPad`, net als `alleenPad` bij infoBoxen/alternatieven/stappen.
+  const infoGetoond = padOk(res.infoAlleenPad, pad) ? res.info : '';
   let body = '';
   if (res.type === 'positief') {
-    const alleStappen = vwnTekst
-      ? [...res.stappen, { nr: res.stappen.length + 1, tekst: `<strong>${ui.laatChecken || ''}</strong> — ${vwnTekst}` }]
-      : res.stappen;
+    const stappenGetoond = hernummerStappen(filterPad(res.stappen, pad));
+    const alleStappen = hulpTekst
+      ? [...stappenGetoond, { nr: stappenGetoond.length + 1, tekst: `<strong>${ui.laatChecken || ''}</strong> — ${hulpTekst}` }]
+      : stappenGetoond;
     body = `<div class="resultaat-body">
-      ${res.info?`<div class="info-box" data-lees="">${res.info}</div>`:''}
+      ${infoGetoond?`<div class="info-box" data-lees="">${infoGetoond}</div>`:''}
       <div class="sectie-label">${ui.volgendeStappen || ''}</div>
       <ul class="stap-lijst">${alleStappen.map(s=>`<li class="stap-item-res"><span class="stap-nr-res">${s.nr}</span><span class="stap-tekst-res">${s.tekst}</span></li>`).join('')}</ul>
       ${knoppen}${disclaimer}</div>`;
   } else if (res.type === 'eu') {
-    let infoH = (res.infoBoxen||[]).map(b=>`<div class="${b.type==='amber'?'amber-box':'info-box'}" data-lees="">${b.tekst}</div>`).join('');
-    let stappenH = res.stappen ? `<div class="sectie-label">${ui.watKunJeDoen || ''}</div><ul class="stap-lijst">${res.stappen.map(s=>`<li class="stap-item-res"><span class="stap-nr-res">${s.nr}</span><span class="stap-tekst-res">${s.tekst}</span></li>`).join('')}</ul>` : '';
+    const infoBoxenGetoond = filterPad(res.infoBoxen, pad);
+    const stappenGetoond = hernummerStappen(filterPad(res.stappen, pad));
+    let infoH = infoBoxenGetoond.map(b=>`<div class="${b.type==='amber'?'amber-box':'info-box'}" data-lees="">${b.tekst}</div>`).join('');
+    let stappenH = res.stappen ? `<div class="sectie-label">${ui.watKunJeDoen || ''}</div><ul class="stap-lijst">${stappenGetoond.map(s=>`<li class="stap-item-res"><span class="stap-nr-res">${s.nr}</span><span class="stap-tekst-res">${s.tekst}</span></li>`).join('')}</ul>` : '';
     body = `<div class="resultaat-body">${infoH}${stappenH}${knoppen}${disclaimer}</div>`;
   } else if (res.type === 'route') {
-    let infoH = (res.infoBoxen||[]).map(b=>`<div class="${b.type==='amber'?'amber-box':'info-box'}" data-lees="">${b.tekst}</div>`).join('');
-    if (res.info) infoH += `<div class="info-box" data-lees="">${res.info}</div>`;
+    const infoBoxenGetoond = filterPad(res.infoBoxen, pad);
+    const stappenGetoond = hernummerStappen(filterPad(res.stappen, pad));
+    let infoH = infoBoxenGetoond.map(b=>`<div class="${b.type==='amber'?'amber-box':'info-box'}" data-lees="">${b.tekst}</div>`).join('');
+    if (infoGetoond) infoH += `<div class="info-box" data-lees="">${infoGetoond}</div>`;
     // N-6 paden-titel: res.padenTitel, terugval ui.driePaden.
     const padenTitel = res.padenTitel || ui.driePaden || '';
     let padenH = res.paden ? `<div class="sectie-label">${padenTitel}</div><div class="route-paden">${res.paden.map(p=>`<div class="route-pad" data-lees=""><div class="route-pad-header"><div class="route-pad-nr">${p.nr}</div><div class="route-pad-titel">${p.titel}</div></div><div class="route-pad-tekst">${p.tekst}</div></div>`).join('')}</div>` : '';
-    let stappenH = res.stappen ? `<div class="sectie-label" style="margin-top:1rem;">${ui.watKunJeNuDoen || ''}</div><ul class="stap-lijst">${res.stappen.map(s=>`<li class="stap-item-res"><span class="stap-nr-res">${s.nr}</span><span class="stap-tekst-res">${s.tekst}</span></li>`).join('')}</ul>` : '';
+    let stappenH = res.stappen ? `<div class="sectie-label" style="margin-top:1rem;">${ui.watKunJeNuDoen || ''}</div><ul class="stap-lijst">${stappenGetoond.map(s=>`<li class="stap-item-res"><span class="stap-nr-res">${s.nr}</span><span class="stap-tekst-res">${s.tekst}</span></li>`).join('')}</ul>` : '';
     body = `<div class="resultaat-body">${infoH}${padenH}${stappenH}${knoppen}${disclaimer}</div>`;
   } else {
-    body = `<div class="resultaat-body"><div class="alternatief-grid">${res.alternatieven.map(a=>`<div class="alternatief-item" data-lees=""><div class="alternatief-naam">${a.naam}</div><div class="alternatief-tekst">${a.tekst}</div></div>`).join('')}</div>${vwnBox}${knoppen}${disclaimer}</div>`;
+    const altGetoond = filterPad(res.alternatieven, pad);
+    body = `<div class="resultaat-body"><div class="alternatief-grid">${altGetoond.map(a=>`<div class="alternatief-item" data-lees=""><div class="alternatief-naam">${a.naam}</div><div class="alternatief-tekst">${a.tekst}</div></div>`).join('')}</div>${vwnBox}${knoppen}${disclaimer}</div>`;
   }
   kaart.innerHTML = `<div class="resultaat-header" data-lees=""><div class="resultaat-icoon-groot">${res.icoon}</div><div class="resultaat-titel">${res.titel}</div><div class="resultaat-sub">${res.sub}</div></div>${body}`;
   document.getElementById('hoofd').appendChild(kaart);
@@ -306,7 +352,8 @@ function kiesAntwoord(vraagId, i) {
   const nat = getNATdata();
   if (!nat) return;
   const v = nat.vragen[vraagId], a = v.antwoorden[i];
-  geschiedenis.push({ vraagId, vraagTekst: v.tekst, antwoordTekst: a.tekst, klasse: a.klasse });
+  // Correctie 1, §3.1.1: pad opslaan in het geschiedenis-item.
+  geschiedenis.push({ vraagId, vraagTekst: v.tekst, antwoordTekst: a.tekst, klasse: a.klasse, pad: a.pad || null });
   huidigVraagId = a.volgende;
   render();
 }
