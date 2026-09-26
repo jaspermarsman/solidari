@@ -511,7 +511,7 @@ window._NAT = {
         "titel": "Je komt waarschijnlijk in aanmerking!",
         "sub": "Op basis van jouw antwoorden voldoe je aan de belangrijkste voorwaarden voor naturalisatie. De volgende stap is een officiële aanvraag bij jouw gemeente.",
         "info": "💡 Ben je erkend vluchteling? Dan hoef je meestal geen afstand te doen van je oorspronkelijke nationaliteit.",
-  "infoAlleenPad": "asiel",
+        "infoAlleenPad": "asiel",
         "stappen": [
           {
             "nr": 1,
@@ -1240,9 +1240,11 @@ window._NAT = {
       "badge": "🇳🇱 Naturalisation Checker",
       "titel": "Am I eligible for a Dutch passport?",
       "sub": "Answer a few questions and see whether you can become Dutch. Based on the 2026 rules, including the new asylum rules since 12 June 2026.",
-      "disclaimer": "⚠️ This checker gives an indication, not a decision. Checked in September 2026 (IND, Stimulansz). Since 12 June 2026 there is no longer an asylum permit for an indefinite period. New status holders must therefore first become an EU long-term resident (EU-langdurig ingezetene) before they can naturalise (naturalisatie). Announced government plans are not yet law. Always ask the municipality or VluchtelingenWerk for advice.",
+      "disclaimer": "⚠️ This checker gives an indication, not a decision. Checked in September 2026 (IND, Stimulansz). Since 12 June 2026 there is no longer an asylum permit for an indefinite period. Status holders with an asylum residence permit (verblijfsvergunning asiel) for a fixed period must therefore first become an EU long-term resident (EU-langdurig ingezetene) before they can naturalise (naturalisatie). Announced government plans are not yet law. Always ask the municipality or VluchtelingenWerk for advice.",
       "vwnLabel": "Not sure about your situation?",
-      "vwnTekst": "Naturalisation rules change quickly and your situation may differ from what the checker indicates. VluchtelingenWerk offers drop-in sessions and guidance on naturalisation — find a location near you at <a href=\"https://www.vluchtelingenwerk.nl/over-ons/locaties\" target=\"_blank\" style=\"color:inherit;\">vluchtelingenwerk.nl/over-ons/locaties</a>."
+      "vwnTekst": "Naturalisation rules change quickly and your situation may differ from what the checker indicates. VluchtelingenWerk offers drop-in sessions and guidance on naturalisation — find a location near you at <a href=\"https://www.vluchtelingenwerk.nl/over-ons/locaties\" target=\"_blank\" style=\"color:inherit;\">vluchtelingenwerk.nl/over-ons/locaties</a>.",
+      "hulpRegulierLabel": "Not sure about your situation?",
+      "hulpRegulierTekst": "The Legal Services Counter (Juridisch Loket) gives free advice about your residence permit and naturalisation (naturalisatie). Go to <a href=\"https://www.juridischloket.nl\" target=\"_blank\" style=\"color:inherit;\">juridischloket.nl</a> or ask your municipality."
     },
     "ui": {
       "volgendeStappen": "Next steps",
@@ -1282,14 +1284,16 @@ window._NAT = {
             "tekst": "I have an asylum residence permit (status holder)",
             "icoon": "🛡️",
             "klasse": "ja",
-            "volgende": "v_asiel"
+            "volgende": "v_asiel",
+            "pad": "asiel"
           },
           {
             "tekst": "I have another residence permit",
             "sub": "For example for family, work or study",
             "icoon": "📄",
             "klasse": "ja",
-            "volgende": "v2"
+            "volgende": "v_regulier",
+            "pad": "regulier"
           },
           {
             "tekst": "I am an EU citizen",
@@ -1308,27 +1312,21 @@ window._NAT = {
       },
       "v_asiel": {
         "tekst": "Which asylum permit do you have now?",
-        "uitleg": "The rules changed on 12 June 2026. For naturalisation (naturalisatie) it matters when you got your current permit.",
+        "uitleg": "Look at your residence card: does it say 'indefinite period' (onbepaalde tijd), or is there an end date?",
         "antwoorden": [
           {
             "tekst": "Asylum for an indefinite period",
-            "sub": "Received before 12 June 2026",
+            "sub": "Your card shows no end date for your right of residence",
             "icoon": "✓",
             "klasse": "ja",
             "volgende": "v2"
           },
           {
-            "tekst": "Asylum for 5 years, received before 12 June 2026",
+            "tekst": "Asylum for a fixed period",
+            "sub": "Valid for 3 or 5 years, also if you got it before 12 June 2026",
             "icoon": "📅",
-            "klasse": "ja",
-            "volgende": "v_asiel5"
-          },
-          {
-            "tekst": "Asylum received or renewed on or after 12 June 2026",
-            "sub": "Usually valid for 3 years",
-            "icoon": "🆕",
             "klasse": "anders",
-            "volgende": "e1"
+            "volgende": "v_asiel5"
           },
           {
             "tekst": "I am already an EU long-term resident",
@@ -1345,20 +1343,20 @@ window._NAT = {
         ]
       },
       "v_asiel5": {
-        "tekst": "Good news: your permit falls under the old rules",
-        "uitleg": "You received your 5-year asylum permit before 12 June 2026. With it you can still naturalise (naturalisatie) the old way.<br><br>⚠️ <strong>Please note:</strong> if the IND renews your permit after 12 June 2026, you will get a permit under the new rules. Then you must first become an EU long-term resident (EU-langdurig ingezetene). <strong>Do you meet the conditions? Then apply for naturalisation while your current residence card is still valid.</strong>",
+        "tekst": "Your permit stays valid — but becoming Dutch involves an extra step",
+        "uitleg": "Your asylum permit stays valid until the date on your card. But with an asylum residence permit (verblijfsvergunning asiel) for a fixed period you cannot apply for naturalisation (naturalisatie). This also applies if you got the permit before 12 June 2026. Since 12 June 2026 the asylum permit for an indefinite period no longer exists.<br><br>That is why you must first become an <strong>EU long-term resident</strong> (EU-langdurig ingezetene). After that you can apply for naturalisation. The next questions show whether that is already possible for you.",
         "antwoorden": [
           {
             "tekst": "I understand — continue",
             "icoon": "→",
             "klasse": "ja",
-            "volgende": "v2"
+            "volgende": "e1"
           }
         ]
       },
       "v_asiel_wn": {
         "tekst": "How to see which permit you have",
-        "uitleg": "Look on your residence card, under 'Type document en bijzonderheden' (type of document and remarks: the type number and the text next to it), or in the letter from the IND. Check two things:<br><br>1. Does it say <strong>asylum</strong> (asiel) or another purpose (such as family or work)?<br>2. When did you get this card: <strong>before or after 12 June 2026</strong>? And how long is it valid?<br><br>Can't work it out? Ask your support worker at the municipality or VluchtelingenWerk.",
+        "uitleg": "Look on your residence card, under 'Type document en bijzonderheden' (type of document and remarks: the type number and the text next to it), or in the letter from the IND. Check two things:<br><br>1. Does it say <strong>asylum</strong> (asiel) or another purpose (such as family or work)?<br>2. Does it say '<strong>indefinite period</strong>' (onbepaalde tijd), or is there an <strong>end date</strong>?<br><br>Can't work it out? Ask your support worker at the municipality or VluchtelingenWerk.",
         "antwoorden": [
           {
             "tekst": "I found it — back to the question",
@@ -1374,9 +1372,40 @@ window._NAT = {
           }
         ]
       },
+      "v_regulier": {
+        "tekst": "What kind of residence permit do you have?",
+        "uitleg": "For naturalisation (naturalisatie) you need a permit for an indefinite period, or for a purpose that is not temporary, such as living with your partner or work. Your residence card shows the purpose and whether there is an end date.",
+        "antwoorden": [
+          {
+            "tekst": "For an indefinite period",
+            "icoon": "✓",
+            "klasse": "ja",
+            "volgende": "v2"
+          },
+          {
+            "tekst": "For a fixed period — for family, partner or work",
+            "icoon": "👨‍👩‍👧",
+            "klasse": "ja",
+            "volgende": "v2"
+          },
+          {
+            "tekst": "For a fixed period — for study or another temporary stay",
+            "sub": "For example seasonal work, medical treatment, exchange or the orientation year for highly educated persons",
+            "icoon": "🎓",
+            "klasse": "nee",
+            "volgende": "r_regulier_tijdelijk"
+          },
+          {
+            "tekst": "I don't know",
+            "icoon": "❓",
+            "klasse": "anders",
+            "volgende": "v_asiel_wn"
+          }
+        ]
+      },
       "e1": {
         "tekst": "Have you lived in the Netherlands for 5 years or longer in a row with a valid permit?",
-        "uitleg": "With a new asylum residence permit (verblijfsvergunning asiel) you can only become Dutch after you have first become an EU long-term resident (EU-langdurig ingezetene). For that you must have lived in the Netherlands for at least 5 years in a row with a valid permit. The years with an asylum permit count. Whether the time in the asylum procedure counts is decided by the IND.",
+        "uitleg": "With an asylum residence permit (verblijfsvergunning asiel) for a fixed period you can only become Dutch after you have first become an EU long-term resident (EU-langdurig ingezetene). For that you must have lived in the Netherlands for at least 5 years in a row with a valid permit. The years with an asylum permit count. Whether the time in the asylum procedure counts is decided by the IND.",
         "antwoorden": [
           {
             "tekst": "Yes, 5 years or longer",
@@ -1465,18 +1494,17 @@ window._NAT = {
         ]
       },
       "v2": {
-        "tekst": "Do you have a valid residence permit?",
-        "uitleg": "You need a valid residence permit that is not temporary. For example a permit for an indefinite period, EU long-term resident (EU-langdurig ingezetene), or an asylum permit from before 12 June 2026. Always renew your permit on time, so that your residence stays uninterrupted.",
+        "tekst": "Is your residence permit valid now?",
+        "uitleg": "Your permit must be valid when you apply for naturalisation (naturalisatie), and stay valid until the decision. Always renew it on time, so that your residence stays uninterrupted.",
         "antwoorden": [
           {
-            "tekst": "Yes, I have a valid residence permit",
-            "sub": "Or an asylum status (IND type III, IV or V)",
+            "tekst": "Yes, my permit is valid",
             "icoon": "✓",
             "klasse": "ja",
             "volgende": "v3"
           },
           {
-            "tekst": "No, I do not have a valid residence permit",
+            "tekst": "No, my permit has expired or I don't have one",
             "icoon": "✗",
             "klasse": "nee",
             "volgende": "r_geen_vergunning"
@@ -1545,7 +1573,7 @@ window._NAT = {
       },
       "v4a_z": {
         "tekst": "You have completed the Z-route — one extra step is needed for naturalisation",
-        "uitleg": "The Z-route ends with a final interview and a certificate, but for naturalisation the IND applies additional language requirements. There are three paths to still be able to naturalise:<br><br><strong>Path A — Still pass the exam at A2 level</strong><br>Pass all language exams at A2 (reading, listening, writing, speaking) and the KNM exam. Note: now that the Z-route is finished, exam attempts are no longer free.<br><br><strong>Path B — 600 hours of language lessons + at least 3 attempts per component</strong><br>At least 600 hours of A2-level lessons at a Blik op Werk certified provider and 3 attempts per component? Then DUO can issue a dispensation recommendation.<br><br><strong>Path C — 600 hours of literacy + DUO test (€150)</strong><br>At least 600 hours of literacy training and it turns out A2 is not achievable? Then a dispensation follows via a DUO test (€150).<br><br><em>Possible in the future:</em> the government wants to raise the language requirement for naturalisation from A2 to B1. This has not yet been adopted — at the moment A2 still applies.<br><br>💡 Discuss with your municipality or VluchtelingenWerk which path suits you best.",
+        "uitleg": "The Z-route ends with a final interview and a certificate, but for naturalisation the IND applies additional language requirements. There are three paths to still be able to naturalise:<br><br><strong>Path A — Still pass the exam at A2 level</strong><br>Pass all language exams at A2 (reading, listening, writing, speaking) and the KNM exam. Note: now that the Z-route is finished, exam attempts are no longer free.<br><br><strong>Path B — 600 hours of language lessons + at least 3 attempts per component</strong><br>At least 600 hours of A2-level lessons at a Blik op Werk certified provider and 3 attempts per component? Then DUO can issue a dispensation recommendation.<br><br><strong>Path C — 600 hours of literacy + DUO test (€150)</strong><br>At least 600 hours of literacy training and it turns out A2 is not achievable? Then a dispensation follows via a DUO test (€150).<br><br><em>Possible in the future:</em> the government wants to raise the language requirement for naturalisation from A2 to B1. This has not yet been adopted — at the moment A2 still applies.<br><br>💡 Discuss with your municipality which path suits you best.",
         "antwoorden": [
           {
             "tekst": "I understand — continue to the remaining requirements",
@@ -1652,7 +1680,7 @@ window._NAT = {
       },
       "v7": {
         "tekst": "Are you willing to renounce your current nationality?",
-        "uitleg": "The Netherlands generally does not allow dual nationality. Exception: recognised refugees (status holders) may keep both nationalities.",
+        "uitleg": "The Netherlands generally does not allow dual nationality. There are exceptions, for example for recognised refugees.",
         "antwoorden": [
           {
             "tekst": "Yes, I will renounce my nationality",
@@ -1665,7 +1693,8 @@ window._NAT = {
             "sub": "Status holders may keep dual nationality",
             "icoon": "✓",
             "klasse": "ja",
-            "volgende": "v8"
+            "volgende": "v8",
+            "alleenPad": "asiel"
           },
           {
             "tekst": "No, I want to keep my nationality",
@@ -1700,7 +1729,8 @@ window._NAT = {
         "icoon": "🎉",
         "titel": "You are likely eligible!",
         "sub": "Based on your answers you meet the main requirements for naturalisation. The next step is an official application at your municipality.",
-        "info": "💡 Status holders (recognised refugees) generally do not have to renounce their original nationality.",
+        "info": "💡 Are you a recognised refugee? Then you usually do not have to give up your original nationality.",
+        "infoAlleenPad": "asiel",
         "stappen": [
           {
             "nr": 1,
@@ -1792,7 +1822,8 @@ window._NAT = {
         "alternatieven": [
           {
             "naam": "Asylum application",
-            "tekst": "If you need protection, you can submit an asylum application to the IND."
+            "tekst": "If you need protection, you can submit an asylum application to the IND.",
+            "alleenPad": "asiel"
           },
           {
             "naam": "Regular permit",
@@ -1800,29 +1831,26 @@ window._NAT = {
           },
           {
             "naam": "Legal help",
-            "tekst": "Contact a refugee organisation or lawyer."
+            "tekst": "Contact a lawyer or the Legal Services Counter (Juridisch Loket)."
           },
           {
             "naam": "VluchtelingenWerk",
-            "tekst": "Free legal support for asylum seekers and status holders."
+            "tekst": "Free legal support for asylum seekers and status holders.",
+            "alleenPad": "asiel"
           }
         ],
-        "link": "https://www.vluchtelingenwerk.nl",
-        "linkTekst": "→ Contact VluchtelingenWerk"
+        "link": "https://www.juridischloket.nl",
+        "linkTekst": "→ Help from the Juridisch Loket"
       },
       "r_te_kort": {
         "type": "wacht",
         "icoon": "⏳",
         "titel": "Not long enough in the Netherlands yet",
-        "sub": "Right now you must have lived in the Netherlands for at least 5 consecutive years with valid residence. Since the new 2026 asylum rules there are a few things to watch during the wait. You can put the waiting time to good use.",
+        "sub": "You must live in the Netherlands for at least 5 consecutive years. You can put the waiting time to good use.",
         "alternatieven": [
           {
             "naam": "Renew your permit on time",
-            "tekst": "New asylum permits are valid for a maximum of 3 years; so renew on time. If a \"residence gap\" (verblijfsgat) arises — a period between two permits in which you have no valid permit — that time does not count as lawful residence, and the 5-year count for naturalisation may restart. So apply for renewal within 4 weeks of expiry at the latest: then the IND does not treat it as a residence gap."
-          },
-          {
-            "naam": "Does your asylum permit expire earlier?",
-            "tekst": "Do you have a 5-year asylum residence permit (verblijfsvergunning asiel) from before 12 June 2026, and does it expire before you have lived in the Netherlands for 5 years? Then on renewal you will get a permit under the new rules. Your route then goes via EU long-term residence (EU-langdurig ingezetene), and that has an income requirement."
+            "tekst": "If there is a period without a valid permit — a \"residence gap\" (verblijfsgat) — that time does not count. The 5 years may then start counting again. So apply for renewal on time, at the latest within 4 weeks of expiry: then the IND does not treat it as a residence gap."
           },
           {
             "naam": "Naturalisation term: possibly 10 years",
@@ -1842,15 +1870,38 @@ window._NAT = {
           },
           {
             "naam": "Government plan (not yet law)",
-            "tekst": "Status holders who have been granted a temporary asylum permit twice and reach Dutch at level B1 could become Dutch after 6 years, even without EU long-term residence (EU-langdurig ingezetene). There will be an exception for people who cannot reach B1. There is no bill yet. Until that law exists, the rules above apply."
+            "tekst": "Status holders who have been granted a temporary asylum permit twice and reach Dutch at level B1 could become Dutch after 6 years, even without EU long-term residence (EU-langdurig ingezetene). There will be an exception for people who cannot reach B1. There is no bill yet. Until that law exists, the rules above apply.",
+            "alleenPad": "asiel"
           }
         ],
         "interneLink": {
           "naar": "r_eu_langdurig",
           "tekst": "🇪🇺 View: EU long-term resident (permanent residence after 5 years)"
         },
-        "link": "https://ind.nl/en/asylum-and-family-reunification-the-migration-pact-and-other-developments/new-laws-and-regulations-for-asylum-and-family-reunification",
-        "linkTekst": "→ See the new 2026 asylum rules on ind.nl"
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
+        "linkTekst": "→ More information at ind.nl"
+      },
+      "r_regulier_tijdelijk": {
+        "type": "wacht",
+        "icoon": "🎓",
+        "titel": "With this permit you cannot become Dutch yet",
+        "sub": "For naturalisation (naturalisatie) you need a permit for an indefinite period, or for a purpose that is not temporary. A permit for study or another temporary stay does not count.",
+        "alternatieven": [
+          {
+            "naam": "Is your situation changing?",
+            "tekst": "Are you going to work, for example, or live with your partner? Then you can apply for a different permit. After that, do this check again."
+          },
+          {
+            "naam": "How does your stay count?",
+            "tekst": "Whether the years with your current permit count towards the 5 years depends on your situation. Have this checked."
+          },
+          {
+            "naam": "Start working on your Dutch now",
+            "tekst": "For naturalisation (naturalisatie) you will later need to have completed civic integration (inburgering). A language course already helps now."
+          }
+        ],
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
+        "linkTekst": "→ More information at ind.nl"
       },
       "r_bezig_b1": {
         "type": "route",
@@ -1949,9 +2000,9 @@ window._NAT = {
             "tekst": "At least 600 hours of literacy training at a Blik op Werk certified institution and a DUO test showing A2 is not achievable? An exemption follows. The DUO test costs €150."
           }
         ],
-        "info": "📞 <strong>Advice:</strong> Consult your municipality or VluchtelingenWerk about which path best suits your situation.",
-        "link": "https://www.vluchtelingenwerk.nl",
-        "linkTekst": "→ Help via VluchtelingenWerk"
+        "info": "📞 <strong>Advice:</strong> Consult your municipality about which path best suits your situation.",
+        "link": "https://www.juridischloket.nl",
+        "linkTekst": "→ Help from the Juridisch Loket"
       },
       "r_geen_inburgering": {
         "type": "wacht",
@@ -1991,7 +2042,8 @@ window._NAT = {
           },
           {
             "naam": "VluchtelingenWerk",
-            "tekst": "Free legal help for status holders."
+            "tekst": "Free legal help for status holders.",
+            "alleenPad": "asiel"
           },
           {
             "naam": "Waiting period",
@@ -2002,8 +2054,8 @@ window._NAT = {
             "tekst": "Traffic fines and minor offences generally do NOT count."
           }
         ],
-        "link": "https://www.vluchtelingenwerk.nl",
-        "linkTekst": "→ Contact VluchtelingenWerk"
+        "link": "https://www.juridischloket.nl",
+        "linkTekst": "→ Help from the Juridisch Loket"
       },
       "r_strafblad_check": {
         "type": "wacht",
@@ -2025,7 +2077,7 @@ window._NAT = {
           },
           {
             "naam": "Legal advice",
-            "tekst": "If in doubt: consult a legal adviser or VluchtelingenWerk."
+            "tekst": "If in doubt: consult a legal adviser or the Legal Services Counter (Juridisch Loket)."
           }
         ],
         "link": "https://www.justis.nl/producten/vog",
@@ -2065,7 +2117,8 @@ window._NAT = {
         "alternatieven": [
           {
             "naam": "Exception for status holders",
-            "tekst": "As a recognised refugee you do NOT have to renounce your nationality."
+            "tekst": "As a recognised refugee you do NOT have to renounce your nationality.",
+            "alleenPad": "asiel"
           },
           {
             "naam": "Exception: impossible",
@@ -2103,7 +2156,7 @@ window._NAT = {
           },
           {
             "type": "amber",
-            "tekst": "⚠️ <strong>Income requirement:</strong> you must have enough lasting income of your own, plus health insurance. With benefits this is usually not possible. Please note: if you have a new asylum residence permit (verblijfsvergunning asiel) from after 12 June 2026, you need EU long-term residence (EU-langdurig ingezetene) to be able to naturalise later. So the income requirement then also applies to your path to Dutch citizenship."
+            "tekst": "⚠️ <strong>Income requirement:</strong> you must have enough lasting income of your own, plus health insurance. With benefits this is usually not possible. If you have an asylum residence permit (verblijfsvergunning asiel) for a fixed period, you need EU long-term residence (EU-langdurig ingezetene) to be able to naturalise later. So the income requirement then also applies to your path to Dutch citizenship."
           },
           {
             "type": "info",
@@ -2117,7 +2170,7 @@ window._NAT = {
           },
           {
             "nr": 2,
-            "tekst": "<strong>New asylum permit?</strong> Then this is the only way to a permanent permit, and after that to naturalisation (naturalisatie)."
+            "tekst": "<strong>Asylum permit for a fixed period?</strong> Then this is the only way to a permanent permit, and after that to naturalisation (naturalisatie)."
           },
           {
             "nr": 3,
@@ -2161,7 +2214,7 @@ window._NAT = {
         "type": "route",
         "icoon": "🪜",
         "titel": "You can become Dutch — in two steps",
-        "sub": "With a new asylum residence permit (verblijfsvergunning asiel) you must first become an EU long-term resident (EU-langdurig ingezetene). After that you can apply for naturalisation (naturalisatie).",
+        "sub": "With an asylum residence permit (verblijfsvergunning asiel) for a fixed period you must first become an EU long-term resident (EU-langdurig ingezetene). After that you can apply for naturalisation (naturalisatie).",
         "infoBoxen": [
           {
             "type": "amber",
@@ -2289,7 +2342,7 @@ window._NAT = {
         "type": "wacht",
         "icoon": "🧭",
         "titel": "Your income is now the obstacle",
-        "sub": "With an asylum residence permit (verblijfsvergunning asiel) from after 12 June 2026 you can only become Dutch if you first become an EU long-term resident (EU-langdurig ingezetene). For that you need enough income of your own. With benefits that is not possible right now. To be honest, this is a big change.",
+        "sub": "With an asylum residence permit (verblijfsvergunning asiel) for a fixed period you can only become Dutch if you first become an EU long-term resident (EU-langdurig ingezetene). For that you need enough income of your own. With benefits that is not possible yet. To be honest, this is a big change.",
         "alternatieven": [
           {
             "naam": "Work or more hours",
@@ -2345,11 +2398,11 @@ window._NAT = {
         "type": "wacht",
         "icoon": "⏳",
         "titel": "Not long enough in the Netherlands yet",
-        "sub": "With a new asylum residence permit (verblijfsvergunning asiel) you must first live in the Netherlands for 5 years. After that you can become an EU long-term resident (EU-langdurig ingezetene), and only then Dutch. You can make good use of the time until then.",
+        "sub": "With an asylum residence permit (verblijfsvergunning asiel) for a fixed period you must first live in the Netherlands for 5 years. After that you can become an EU long-term resident (EU-langdurig ingezetene), and only then Dutch. You can make good use of the time until then.",
         "alternatieven": [
           {
             "naam": "Renew on time",
-            "tekst": "New asylum permits are valid for a maximum of 3 years; so renew on time. If a \"residence gap\" (verblijfsgat) arises — a period between two permits in which you have no valid permit — that time does not count as lawful residence, and the 5-year count for naturalisation may restart. So apply for renewal within 4 weeks of expiry at the latest: then the IND does not treat it as a residence gap."
+            "tekst": "Asylum permits for a fixed period are valid for a maximum of 3 years; so renew on time. If a \"residence gap\" (verblijfsgat) arises — a period between two permits in which you have no valid permit — that time does not count as lawful residence, and the 5-year count for naturalisation may restart. So apply for renewal within 4 weeks of expiry at the latest: then the IND does not treat it as a residence gap."
           },
           {
             "naam": "Work on your income",
@@ -2377,19 +2430,19 @@ window._NAT = {
         "type": "wacht",
         "icoon": "🔍",
         "titel": "First have your permit type checked",
-        "sub": "Your route to Dutch citizenship depends on your permit. With an asylum permit from before 12 June 2026 it is shorter than with a new one.",
+        "sub": "Your route to Dutch citizenship depends on your permit.",
         "alternatieven": [
           {
-            "naam": "Old asylum permit",
-            "tekst": "Indefinite period, or 5 years received before 12 June 2026: you can naturalise (naturalisatie) the old way."
+            "naam": "Asylum for an indefinite period",
+            "tekst": "You can naturalise (naturalisatie) if you meet the other conditions."
           },
           {
-            "naam": "New asylum permit",
-            "tekst": "Received or renewed on or after 12 June 2026: first EU long-term residence (EU-langdurig ingezetene), with an income requirement, then naturalisation (naturalisatie)."
+            "naam": "Asylum for a fixed period (3 or 5 years)",
+            "tekst": "First EU long-term resident (EU-langdurig ingezetene), with an income requirement, then naturalisation (naturalisatie). Also if you got the permit before 12 June 2026."
           },
           {
             "naam": "Another permit",
-            "tekst": "For family, work or study: the old rules still apply."
+            "tekst": "For family, partner or work: naturalisation is usually possible after 5 years. For study or another temporary stay, not yet."
           },
           {
             "naam": "Who can help?",
