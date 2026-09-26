@@ -1670,7 +1670,7 @@ window._NAT = {
             "tekst": "<strong>Naturalisation ceremony:</strong> after approval you will receive an invitation to the ceremony at your municipality."
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ More information at ind.nl"
       },
       "r_eu_burger": {
@@ -1702,7 +1702,7 @@ window._NAT = {
             "tekst": "<strong>Want to continue?</strong> Go through the checker again and choose \"residence permit\" for the residence status question — the other requirements also apply to EU citizens."
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ Naturalisation information at ind.nl"
       },
       "r_minderjarig": {
@@ -1728,7 +1728,7 @@ window._NAT = {
             "tekst": "If you were born in the Netherlands, you can sometimes become Dutch via the \"option\" procedure."
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ More information at ind.nl"
       },
       "r_geen_vergunning": {
@@ -1796,7 +1796,7 @@ window._NAT = {
           "naar": "r_eu_langdurig",
           "tekst": "🇪🇺 View: EU long-term resident (permanent residence after 5 years)"
         },
-        "link": "https://ind.nl/nl/asiel-en-nareis-het-migratiepact-en-andere-ontwikkelingen/nieuwe-wetten-en-regels-asiel-en-nareis",
+        "link": "https://ind.nl/en/asylum-and-family-reunification-the-migration-pact-and-other-developments/new-laws-and-regulations-for-asylum-and-family-reunification",
         "linkTekst": "→ See the new 2026 asylum rules on ind.nl"
       },
       "r_bezig_b1": {
@@ -1828,7 +1828,7 @@ window._NAT = {
             "tekst": "<strong>After obtaining the diploma:</strong> send the proof to the municipality/IND — then the decision can be made."
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ More information at ind.nl"
       },
       "r_bezig_onderwijs": {
@@ -1864,7 +1864,7 @@ window._NAT = {
             "tekst": "<strong>After obtaining the diploma:</strong> send the proof to the municipality/IND."
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ More information at ind.nl"
       },
       "r_bezig_z": {
@@ -2001,7 +2001,7 @@ window._NAT = {
             "tekst": "Ask your municipality about the exact residence requirements."
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ More information at ind.nl"
       },
       "r_nationaliteit": {
@@ -2035,7 +2035,7 @@ window._NAT = {
           "naar": "r_eu_langdurig",
           "tekst": "🇪🇺 View: EU long-term resident (keep your nationality)"
         },
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ Read more about EU long-term resident on ind.nl"
       },
       "r_eu_langdurig": {
@@ -2075,7 +2075,7 @@ window._NAT = {
             "tekst": "<strong>Applying:</strong> at the IND. If you apply for a permit for an indefinite period, the IND automatically checks whether you can also get EU long-term resident status. With an asylum permit you can only apply on paper, not online."
           }
         ],
-        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
+        "link": "https://ind.nl/en/residence-permits/long-term-eu-residency/apply-for-a-residence-permit-for-long-term-eu-residents",
         "linkTekst": "→ Read more about EU long-term resident on ind.nl"
       },
       "r_kosten": {
@@ -2137,7 +2137,7 @@ window._NAT = {
             "tekst": "<strong>Are you an EU long-term resident? Then apply for naturalisation (naturalisatie) at your municipality.</strong> The usual conditions then apply: civic integration (inburgering) for naturalisation, no criminal record, and you live permanently in the Netherlands. As a recognised refugee you usually do not have to give up your nationality."
           }
         ],
-        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
+        "link": "https://ind.nl/en/residence-permits/long-term-eu-residency/apply-for-a-residence-permit-for-long-term-eu-residents",
         "linkTekst": "→ Read more about EU long-term resident on ind.nl"
       },
       "r_eu_li_eerst_z": {
@@ -2191,7 +2191,7 @@ window._NAT = {
             "tekst": "<strong>Are you an EU long-term resident? Then choose one of the paths above, and after that apply for naturalisation (naturalisatie) at your municipality.</strong>"
           }
         ],
-        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
+        "link": "https://ind.nl/en/residence-permits/long-term-eu-residency/apply-for-a-residence-permit-for-long-term-eu-residents",
         "linkTekst": "→ Read more about EU long-term resident on ind.nl"
       },
       "r_eu_li_inburgering_bezig": {
@@ -2285,7 +2285,7 @@ window._NAT = {
             "tekst": "Status holders who have been granted a temporary asylum permit twice and reach Dutch at level B1 could become Dutch after 6 years, even without EU long-term residence (EU-langdurig ingezetene). There will be an exception for people who cannot reach B1. There is no bill yet. Until that law exists, the rules above apply."
           }
         ],
-        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
+        "link": "https://ind.nl/en/residence-permits/long-term-eu-residency/apply-for-a-residence-permit-for-long-term-eu-residents",
         "linkTekst": "→ Read more about EU long-term resident on ind.nl"
       },
       "r_te_kort_nieuw": {
@@ -2836,7 +2836,7 @@ window._NAT = {
             "tekst": "<strong>حفل التجنيس:</strong> بعد الموافقة ستتلقى دعوة لحضور حفل التجنيس في البلدية."
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ مزيد من المعلومات على ind.nl"
       },
       "r_eu_burger": {
@@ -2868,7 +2868,7 @@ window._NAT = {
             "tekst": "<strong>تريد المتابعة؟</strong> أعد استخدام الأداة واختر \"تصريح إقامة\" — الشروط الأخرى تنطبق أيضاً على مواطني الاتحاد الأوروبي."
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ معلومات التجنيس على ind.nl"
       },
       "r_minderjarig": {
@@ -2894,7 +2894,7 @@ window._NAT = {
             "tekst": "إذا وُلدت في هولندا يمكنك أحياناً التجنيس عبر \"خيار\" (optie)."
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ مزيد من المعلومات على ind.nl"
       },
       "r_geen_vergunning": {
@@ -2962,7 +2962,7 @@ window._NAT = {
           "naar": "r_eu_langdurig",
           "tekst": "🇪🇺 اطّلع: مقيم طويل الأمد في الاتحاد الأوروبي (إقامة دائمة بعد 5 سنوات)"
         },
-        "link": "https://ind.nl/nl/asiel-en-nareis-het-migratiepact-en-andere-ontwikkelingen/nieuwe-wetten-en-regels-asiel-en-nareis",
+        "link": "https://ind.nl/en/asylum-and-family-reunification-the-migration-pact-and-other-developments/new-laws-and-regulations-for-asylum-and-family-reunification",
         "linkTekst": "→ اطّلع على قواعد اللجوء الجديدة 2026 على ind.nl"
       },
       "r_bezig_b1": {
@@ -2994,7 +2994,7 @@ window._NAT = {
             "tekst": "<strong>بعد الحصول على الدبلوم:</strong> أرسل الإثبات إلى البلدية / IND — عندها يمكن اتخاذ القرار."
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ مزيد من المعلومات على ind.nl"
       },
       "r_bezig_onderwijs": {
@@ -3030,7 +3030,7 @@ window._NAT = {
             "tekst": "<strong>بعد الحصول على الدبلوم:</strong> أرسل الإثبات إلى البلدية / IND."
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ مزيد من المعلومات على ind.nl"
       },
       "r_bezig_z": {
@@ -3167,7 +3167,7 @@ window._NAT = {
             "tekst": "استفسر من بلديتك عن الشروط الدقيقة للإقامة."
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ مزيد من المعلومات على ind.nl"
       },
       "r_nationaliteit": {
@@ -3201,7 +3201,7 @@ window._NAT = {
           "naar": "r_eu_langdurig",
           "tekst": "🇪🇺 اطّلع: مقيم طويل الأمد في الاتحاد الأوروبي (الاحتفاظ بالجنسية)"
         },
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ اقرأ المزيد عن المقيم طويل الأمد في الاتحاد الأوروبي على ind.nl"
       },
       "r_eu_langdurig": {
@@ -3241,7 +3241,7 @@ window._NAT = {
             "tekst": "<strong>التقديم:</strong> لدى دائرة الهجرة. إذا قدّمت طلباً لتصريح غير محدّد المدة، تتحقق دائرة الهجرة تلقائياً مما إذا كان بإمكانك أيضاً الحصول على وضع المقيم طويل الأمد في الاتحاد الأوروبي. مع تصريح لجوء يمكنك التقديم ورقياً فقط، وليس عبر الإنترنت."
           }
         ],
-        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
+        "link": "https://ind.nl/en/residence-permits/long-term-eu-residency/apply-for-a-residence-permit-for-long-term-eu-residents",
         "linkTekst": "→ اقرأ المزيد عن المقيم طويل الأمد في الاتحاد الأوروبي على ind.nl"
       },
       "r_kosten": {
@@ -3303,7 +3303,7 @@ window._NAT = {
             "tekst": "<strong>هل أصبحت مقيم طويل الأمد في الاتحاد الأوروبي؟ إذاً قدّم طلب التجنيس (naturalisatie) لدى بلديتك.</strong> عندها تسري الشروط العادية: الاندماج (inburgering) للتجنيس، وعدم وجود سجل جنائي، وأن تكون مقيماً بشكل دائم في هولندا. بصفتك لاجئاً معترفاً به، لا يتعيّن عليك عادةً التخلّي عن جنسيتك."
           }
         ],
-        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
+        "link": "https://ind.nl/en/residence-permits/long-term-eu-residency/apply-for-a-residence-permit-for-long-term-eu-residents",
         "linkTekst": "→ اقرأ المزيد عن المقيم طويل الأمد في الاتحاد الأوروبي على ind.nl"
       },
       "r_eu_li_eerst_z": {
@@ -3357,7 +3357,7 @@ window._NAT = {
             "tekst": "<strong>هل أصبحت مقيم طويل الأمد في الاتحاد الأوروبي؟ إذاً اختر أحد الطرق أعلاه، ثم قدّم طلب التجنيس (naturalisatie) لدى بلديتك.</strong>"
           }
         ],
-        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
+        "link": "https://ind.nl/en/residence-permits/long-term-eu-residency/apply-for-a-residence-permit-for-long-term-eu-residents",
         "linkTekst": "→ اقرأ المزيد عن المقيم طويل الأمد في الاتحاد الأوروبي على ind.nl"
       },
       "r_eu_li_inburgering_bezig": {
@@ -3451,7 +3451,7 @@ window._NAT = {
             "tekst": "حاملو تصريح اللجوء الذين حصلوا مرتين على تصريح لجوء مؤقت ووصلوا في اللغة الهولندية إلى المستوى B1، قد يصبحون هولنديين بعد 6 سنوات، حتى بدون صفة المقيم طويل الأمد في الاتحاد الأوروبي (EU-langdurig ingezetene). وسيكون هناك استثناء لمن لا يستطيع الوصول إلى المستوى B1. لا يوجد بعد مشروع قانون. وإلى أن يصدر هذا القانون، تسري القواعد المذكورة أعلاه."
           }
         ],
-        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
+        "link": "https://ind.nl/en/residence-permits/long-term-eu-residency/apply-for-a-residence-permit-for-long-term-eu-residents",
         "linkTekst": "→ اقرأ المزيد عن المقيم طويل الأمد في الاتحاد الأوروبي على ind.nl"
       },
       "r_te_kort_nieuw": {
@@ -4002,7 +4002,7 @@ window._NAT = {
             "tekst": "<strong>Vatandaşlık töreni:</strong> onaydan sonra belediyede düzenlenen törence davet alacaksınız."
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ ind.nl'de daha fazla bilgi"
       },
       "r_eu_burger": {
@@ -4034,7 +4034,7 @@ window._NAT = {
             "tekst": "<strong>Devam etmek ister misiniz?</strong> Denetleyiciyi yeniden çalıştırın ve ikamet statüsünde \"ikamet izni\" seçeneğini seçin — diğer şartlar AB vatandaşları için de geçerlidir."
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ ind.nl'de vatandaşlık bilgisi"
       },
       "r_minderjarig": {
@@ -4060,7 +4060,7 @@ window._NAT = {
             "tekst": "Hollanda'da doğduysanız bazen \"opsiyon\" yoluyla Hollandalı olabilirsiniz."
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ ind.nl'de daha fazla bilgi"
       },
       "r_geen_vergunning": {
@@ -4128,7 +4128,7 @@ window._NAT = {
           "naar": "r_eu_langdurig",
           "tekst": "🇪🇺 İncele: AB uzun süreli mukimi (5 yıldan sonra kalıcı ikamet)"
         },
-        "link": "https://ind.nl/nl/asiel-en-nareis-het-migratiepact-en-andere-ontwikkelingen/nieuwe-wetten-en-regels-asiel-en-nareis",
+        "link": "https://ind.nl/en/asylum-and-family-reunification-the-migration-pact-and-other-developments/new-laws-and-regulations-for-asylum-and-family-reunification",
         "linkTekst": "→ 2026 yeni iltica kurallarını ind.nl üzerinde görün"
       },
       "r_bezig_b1": {
@@ -4160,7 +4160,7 @@ window._NAT = {
             "tekst": "<strong>Diploma alındıktan sonra:</strong> kanıtı belediyeye / IND'ye gönderin — ardından karar alınabilir."
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ ind.nl'de daha fazla bilgi"
       },
       "r_bezig_onderwijs": {
@@ -4196,7 +4196,7 @@ window._NAT = {
             "tekst": "<strong>Diploma alındıktan sonra:</strong> kanıtı belediyeye / IND'ye gönderin."
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ ind.nl'de daha fazla bilgi"
       },
       "r_bezig_z": {
@@ -4333,7 +4333,7 @@ window._NAT = {
             "tekst": "İkamet şartlarının ayrıntıları için belediyenize danışın."
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ ind.nl'de daha fazla bilgi"
       },
       "r_nationaliteit": {
@@ -4367,7 +4367,7 @@ window._NAT = {
           "naar": "r_eu_langdurig",
           "tekst": "🇪🇺 İncele: AB uzun süreli mukimi (vatandaşlığı koruma)"
         },
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ AB uzun süreli mukimi hakkında ind.nl üzerinde daha fazla bilgi"
       },
       "r_eu_langdurig": {
@@ -4407,7 +4407,7 @@ window._NAT = {
             "tekst": "<strong>Başvuru:</strong> IND'ye. Belirsiz süreli bir izin için başvurursanız, IND otomatik olarak AB uzun süreli mukimi statüsü alıp alamayacağınızı kontrol eder. İltica izniyle yalnızca kâğıt üzerinde başvurabilirsiniz, internet üzerinden değil."
           }
         ],
-        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
+        "link": "https://ind.nl/en/residence-permits/long-term-eu-residency/apply-for-a-residence-permit-for-long-term-eu-residents",
         "linkTekst": "→ AB uzun süreli mukimi hakkında ind.nl üzerinde daha fazla bilgi"
       },
       "r_kosten": {
@@ -4469,7 +4469,7 @@ window._NAT = {
             "tekst": "<strong>AB uzun süreli mukimi oldunuz mu? O zaman belediyenizde vatandaşlığa geçiş (naturalisatie) başvurusu yapın.</strong> O zaman olağan şartlar geçerlidir: vatandaşlık için entegrasyon (inburgering), sabıka kaydının olmaması ve Hollanda'da kalıcı olarak yaşamanız. Tanınmış mülteci olarak genellikle vatandaşlığınızdan vazgeçmeniz gerekmez."
           }
         ],
-        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
+        "link": "https://ind.nl/en/residence-permits/long-term-eu-residency/apply-for-a-residence-permit-for-long-term-eu-residents",
         "linkTekst": "→ AB uzun süreli mukimi hakkında ind.nl üzerinde daha fazla bilgi"
       },
       "r_eu_li_eerst_z": {
@@ -4523,7 +4523,7 @@ window._NAT = {
             "tekst": "<strong>AB uzun süreli mukimi oldunuz mu? O zaman yukarıdaki yollardan birini seçin ve ardından belediyenizde vatandaşlığa geçiş (naturalisatie) başvurusu yapın.</strong>"
           }
         ],
-        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
+        "link": "https://ind.nl/en/residence-permits/long-term-eu-residency/apply-for-a-residence-permit-for-long-term-eu-residents",
         "linkTekst": "→ AB uzun süreli mukimi hakkında ind.nl üzerinde daha fazla bilgi"
       },
       "r_eu_li_inburgering_bezig": {
@@ -4617,7 +4617,7 @@ window._NAT = {
             "tekst": "İki kez geçici iltica izni almış ve Hollandacada B1 seviyesine ulaşmış statü sahipleri, AB uzun süreli mukimi (EU-langdurig ingezetene) olmadan da 6 yıl sonra Hollanda vatandaşı olabilecek. B1'e ulaşamayanlar için bir istisna gelecek. Henüz bir yasa tasarısı yok. Bu yasa çıkana kadar yukarıdaki kurallar geçerlidir."
           }
         ],
-        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
+        "link": "https://ind.nl/en/residence-permits/long-term-eu-residency/apply-for-a-residence-permit-for-long-term-eu-residents",
         "linkTekst": "→ AB uzun süreli mukimi hakkında ind.nl üzerinde daha fazla bilgi"
       },
       "r_te_kort_nieuw": {
@@ -5168,7 +5168,7 @@ window._NAT = {
             "tekst": "<strong>Церемонія натуралізації:</strong> після схвалення ви отримаєте запрошення на церемонію у муніципалітеті."
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ Більше інформації на ind.nl"
       },
       "r_eu_burger": {
@@ -5200,7 +5200,7 @@ window._NAT = {
             "tekst": "<strong>Хочете продовжити?</strong> Пройдіть перевірку знову і виберіть \"дозвіл на проживання\" — решта вимог також застосовується до громадян ЄС."
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ Інформація про натуралізацію на ind.nl"
       },
       "r_minderjarig": {
@@ -5226,7 +5226,7 @@ window._NAT = {
             "tekst": "Якщо ви народились у Нідерландах, ви іноді можете стати нідерландцем через процедуру \"опції\"."
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ Більше інформації на ind.nl"
       },
       "r_geen_vergunning": {
@@ -5294,7 +5294,7 @@ window._NAT = {
           "naar": "r_eu_langdurig",
           "tekst": "🇪🇺 Переглянути: довгостроковий резидент ЄС (постійне проживання після 5 років)"
         },
-        "link": "https://ind.nl/nl/asiel-en-nareis-het-migratiepact-en-andere-ontwikkelingen/nieuwe-wetten-en-regels-asiel-en-nareis",
+        "link": "https://ind.nl/en/asylum-and-family-reunification-the-migration-pact-and-other-developments/new-laws-and-regulations-for-asylum-and-family-reunification",
         "linkTekst": "→ Переглянути нові правила щодо притулку 2026 на ind.nl"
       },
       "r_bezig_b1": {
@@ -5326,7 +5326,7 @@ window._NAT = {
             "tekst": "<strong>Після отримання диплома:</strong> надішліть підтвердження до муніципалітету/IND — тоді може бути прийнято рішення."
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ Більше інформації на ind.nl"
       },
       "r_bezig_onderwijs": {
@@ -5362,7 +5362,7 @@ window._NAT = {
             "tekst": "<strong>Після отримання диплома:</strong> надішліть підтвердження до муніципалітету/IND."
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ Більше інформації на ind.nl"
       },
       "r_bezig_z": {
@@ -5499,7 +5499,7 @@ window._NAT = {
             "tekst": "Запитайте у вашого муніципалітету про точні вимоги до місця проживання."
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ Більше інформації на ind.nl"
       },
       "r_nationaliteit": {
@@ -5533,7 +5533,7 @@ window._NAT = {
           "naar": "r_eu_langdurig",
           "tekst": "🇪🇺 Переглянути: довгостроковий резидент ЄС (зберегти громадянство)"
         },
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ Докладніше про довгострокового резидента ЄС на ind.nl"
       },
       "r_eu_langdurig": {
@@ -5573,7 +5573,7 @@ window._NAT = {
             "tekst": "<strong>Подання:</strong> до IND. Якщо ви подаєте на безстрокову посвідку, IND автоматично перевіряє, чи можете ви також отримати статус довгострокового резидента ЄС. З дозволом на притулок подати заяву можна лише на папері, не онлайн."
           }
         ],
-        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
+        "link": "https://ind.nl/en/residence-permits/long-term-eu-residency/apply-for-a-residence-permit-for-long-term-eu-residents",
         "linkTekst": "→ Докладніше про довгострокового резидента ЄС на ind.nl"
       },
       "r_kosten": {
@@ -5635,7 +5635,7 @@ window._NAT = {
             "tekst": "<strong>Ви довгостроковий резидент ЄС? Тоді подайте заяву на натуралізацію (naturalisatie) у своєму муніципалітеті.</strong> Тоді діють звичайні умови: громадянська інтеграція (inburgering) для натуралізації, відсутність судимості та постійне проживання в Нідерландах. Як визнаний біженець ви зазвичай не мусите відмовлятися від свого громадянства."
           }
         ],
-        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
+        "link": "https://ind.nl/en/residence-permits/long-term-eu-residency/apply-for-a-residence-permit-for-long-term-eu-residents",
         "linkTekst": "→ Докладніше про довгострокового резидента ЄС на ind.nl"
       },
       "r_eu_li_eerst_z": {
@@ -5689,7 +5689,7 @@ window._NAT = {
             "tekst": "<strong>Ви довгостроковий резидент ЄС? Тоді оберіть один зі шляхів вище, а потім подайте заяву на натуралізацію (naturalisatie) у своєму муніципалітеті.</strong>"
           }
         ],
-        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
+        "link": "https://ind.nl/en/residence-permits/long-term-eu-residency/apply-for-a-residence-permit-for-long-term-eu-residents",
         "linkTekst": "→ Докладніше про довгострокового резидента ЄС на ind.nl"
       },
       "r_eu_li_inburgering_bezig": {
@@ -5734,7 +5734,7 @@ window._NAT = {
         "type": "wacht",
         "icoon": "🧭",
         "titel": "Зараз перешкода — ваш дохід",
-        "sub": "З дозволом на проживання у зв'язку з притулком (verblijfsvergunning asiel), виданим після 12 червня 2026 року, ви можете стати громадянином Нідерландів, лише якщо спершу станете довгостроковим резидентом ЄС (EU-langdurig ingezetene). Для цього потрібен достатній власний дохід. З допомогою це зараз неможливо. Чесно кажучи, це велика зміна.",
+        "sub": "З дозволом на проживання у зв'язку з притулком (verblijfsvergunning asiel), виданим після 12 червня 2026 року, ви можете стати громадянином Нідерландів, лише якщо спершу станете довгостроковим резидентом ЄС (EU-langdurig ingezetene). Для цього потрібен достатній власний дохід. З допомогою це поки що не вдається. Чесно кажучи, це велика зміна.",
         "alternatieven": [
           {
             "naam": "Робота або більше годин",
@@ -5783,7 +5783,7 @@ window._NAT = {
             "tekst": "Власники статусу, які двічі отримали тимчасовий дозвіл на притулок і складуть нідерландську на рівні B1, могли б стати громадянами Нідерландів через 6 років, навіть без статусу довгострокового резидента ЄС (EU-langdurig ingezetene). Для тих, хто не може досягти B1, буде виняток. Законопроєкту ще немає. Доки такого закону немає, діють наведені вище правила."
           }
         ],
-        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
+        "link": "https://ind.nl/en/residence-permits/long-term-eu-residency/apply-for-a-residence-permit-for-long-term-eu-residents",
         "linkTekst": "→ Докладніше про довгострокового резидента ЄС на ind.nl"
       },
       "r_te_kort_nieuw": {
@@ -5850,8 +5850,8 @@ window._NAT = {
     "header": {
       "badge": "🇳🇱 بررسی تابعیت",
       "titel": "آیا واجد شرایط پاسپورت هلندی هستم؟",
-      "sub": "به چند سؤال پاسخ دهید و ببینید آیا می‌توانید تابعیت هلند را بگیرید. بر اساس قوانین سال 2026، از جمله قوانین جدید پناهندگی از 12 ژوئن 2026.",
-      "disclaimer": "⚠️ این ابزار یک برآورد می‌دهد، نه یک تصمیم. بررسی‌شده در سپتامبر 2026 (IND، Stimulansz). از 12 ژوئن 2026 دیگر اجازه اقامت پناهندگی با مدت نامعین وجود ندارد. به همین دلیل دارندگان جدید وضعیت پناهندگی باید اول مقیم بلندمدت اتحادیه اروپا (EU-langdurig ingezetene) شوند، پیش از آنکه بتوانند تابعیت (naturalisatie) بگیرند. برنامه‌های اعلام‌شده دولت هنوز قانون نیست. همیشه از شهرداری یا VluchtelingenWerk مشوره بخواهید.",
+      "sub": "به چند سؤال پاسخ دهید و ببینید آیا می‌توانید تابعیت هلند را بگیرید. بر اساس قوانین سال 2026، از جمله قوانین جدید پناهندگی از 12 جون 2026.",
+      "disclaimer": "⚠️ این ابزار یک برآورد می‌دهد، نه یک تصمیم. بررسی‌شده در سپتمبر 2026 (IND، Stimulansz). از 12 جون 2026 دیگر اجازه اقامت پناهندگی با مدت نامعین وجود ندارد. به همین دلیل دارندگان جدید وضعیت پناهندگی باید اول مقیم بلندمدت اتحادیه اروپا (EU-langdurig ingezetene) شوند، پیش از آنکه بتوانند تابعیت (naturalisatie) بگیرند. برنامه‌های اعلام‌شده دولت هنوز قانون نیست. همیشه از شهرداری یا VluchtelingenWerk مشوره بخواهید.",
       "vwnLabel": "در مورد وضعیت خود مطمئن نیستید؟",
       "vwnTekst": "قوانین تابعیت به سرعت تغییر می‌کنند و وضعیت شما ممکن است با آنچه این ابزار نشان می‌دهد متفاوت باشد. VluchtelingenWerk Nederland ساعات مشاوره رایگان و راهنمایی در زمینه تابعیت ارائه می‌دهد — محلی نزدیک به خود را در <a href=\"https://www.vluchtelingenwerk.nl/over-ons/locaties\" target=\"_blank\" style=\"color:inherit;\">vluchtelingenwerk.nl/over-ons/locaties</a> پیدا کنید."
     },
@@ -5919,23 +5919,23 @@ window._NAT = {
       },
       "v_asiel": {
         "tekst": "اکنون کدام اجازه اقامت پناهندگی را دارید؟",
-        "uitleg": "از 12 ژوئن 2026 قوانین تغییر کرده‌اند. برای تابعیت (naturalisatie) مهم است که اجازه اقامت فعلی خود را چه زمانی گرفته‌اید.",
+        "uitleg": "از 12 جون 2026 قوانین تغییر کرده‌اند. برای تابعیت (naturalisatie) مهم است که اجازه اقامت فعلی خود را چه زمانی گرفته‌اید.",
         "antwoorden": [
           {
             "tekst": "پناهندگی با مدت نامعین",
-            "sub": "گرفته‌شده پیش از 12 ژوئن 2026",
+            "sub": "گرفته‌شده پیش از 12 جون 2026",
             "icoon": "✓",
             "klasse": "ja",
             "volgende": "v2"
           },
           {
-            "tekst": "پناهندگی 5 ساله، گرفته‌شده پیش از 12 ژوئن 2026",
+            "tekst": "پناهندگی 5 ساله، گرفته‌شده پیش از 12 جون 2026",
             "icoon": "📅",
             "klasse": "ja",
             "volgende": "v_asiel5"
           },
           {
-            "tekst": "پناهندگی گرفته‌شده یا تمدیدشده در 12 ژوئن 2026 یا پس از آن",
+            "tekst": "پناهندگی گرفته‌شده یا تمدیدشده در 12 جون 2026 یا پس از آن",
             "sub": "معمولاً 3 سال معتبر است",
             "icoon": "🆕",
             "klasse": "anders",
@@ -5957,7 +5957,7 @@ window._NAT = {
       },
       "v_asiel5": {
         "tekst": "خبر خوب: اجازه اقامت شما تحت قوانین قدیم است",
-        "uitleg": "شما اجازه اقامت پناهندگی 5 ساله خود را پیش از 12 ژوئن 2026 گرفته‌اید. با آن هنوز می‌توانید به روش قدیم تابعیت (naturalisatie) بگیرید.<br><br>⚠️ <strong>توجه:</strong> اگر IND اجازه اقامت شما را پس از 12 ژوئن 2026 تمدید کند، اجازه‌ای طبق قوانین جدید می‌گیرید. در آن صورت باید اول مقیم بلندمدت اتحادیه اروپا (EU-langdurig ingezetene) شوید. <strong>آیا شرایط را دارید؟ پس درخواست تابعیت را تا زمانی که کارت اقامت فعلی شما هنوز معتبر است ارائه دهید.</strong>",
+        "uitleg": "شما اجازه اقامت پناهندگی 5 ساله خود را پیش از 12 جون 2026 گرفته‌اید. با آن هنوز می‌توانید به روش قدیم تابعیت (naturalisatie) بگیرید.<br><br>⚠️ <strong>توجه:</strong> اگر IND اجازه اقامت شما را پس از 12 جون 2026 تمدید کند، اجازه‌ای طبق قوانین جدید می‌گیرید. در آن صورت باید اول مقیم بلندمدت اتحادیه اروپا (EU-langdurig ingezetene) شوید. <strong>آیا شرایط را دارید؟ پس درخواست تابعیت را تا زمانی که کارت اقامت فعلی شما هنوز معتبر است ارائه دهید.</strong>",
         "antwoorden": [
           {
             "tekst": "فهمیدم — ادامه",
@@ -5969,7 +5969,7 @@ window._NAT = {
       },
       "v_asiel_wn": {
         "tekst": "این‌طور می‌بینید که کدام اجازه اقامت را دارید",
-        "uitleg": "به کارت اقامت خود، در قسمت 'Type document en bijzonderheden' (نوع سند و جزئیات: شماره نوع و متن کنار آن)، یا به نامه IND نگاه کنید. به دو چیز توجه کنید:<br><br>1. آیا نوشته شده <strong>پناهندگی</strong> (asiel) یا هدف دیگری (مانند خانواده یا کار)؟<br>2. این کارت را چه زمانی گرفته‌اید: <strong>پیش یا پس از 12 ژوئن 2026</strong>؟ و تا چه مدت معتبر است؟<br><br>نمی‌توانید بفهمید؟ از راهنمای خود در شهرداری یا از VluchtelingenWerk بپرسید.",
+        "uitleg": "به کارت اقامت خود، در قسمت 'Type document en bijzonderheden' (نوع سند و جزئیات: شماره نوع و متن کنار آن)، یا به نامه IND نگاه کنید. به دو چیز توجه کنید:<br><br>1. آیا نوشته شده <strong>پناهندگی</strong> (asiel) یا هدف دیگری (مانند خانواده یا کار)؟<br>2. این کارت را چه زمانی گرفته‌اید: <strong>پیش یا پس از 12 جون 2026</strong>؟ و تا چه مدت معتبر است؟<br><br>نمی‌توانید بفهمید؟ از راهنمای خود در شهرداری یا از VluchtelingenWerk بپرسید.",
         "antwoorden": [
           {
             "tekst": "پیدا کردم — بازگشت به سؤال",
@@ -6077,7 +6077,7 @@ window._NAT = {
       },
       "v2": {
         "tekst": "آیا مجوز اقامت معتبر دارید؟",
-        "uitleg": "شما به یک اجازه اقامت معتبر نیاز دارید که موقت نباشد. مثلاً اجازه اقامت با مدت نامعین، وضعیت مقیم بلندمدت اتحادیه اروپا (EU-langdurig ingezetene)، یا اجازه اقامت پناهندگی که پیش از 12 ژوئن 2026 گرفته‌اید. اجازه اقامت خود را همیشه به‌موقع تمدید کنید تا اقامت شما بدون وقفه بماند.",
+        "uitleg": "شما به یک اجازه اقامت معتبر نیاز دارید که موقت نباشد. مثلاً اجازه اقامت با مدت نامعین، وضعیت مقیم بلندمدت اتحادیه اروپا (EU-langdurig ingezetene)، یا اجازه اقامت پناهندگی که پیش از 12 جون 2026 گرفته‌اید. اجازه اقامت خود را همیشه به‌موقع تمدید کنید تا اقامت شما بدون وقفه بماند.",
         "antwoorden": [
           {
             "tekst": "بله، مجوز اقامت معتبر دارم",
@@ -6334,7 +6334,7 @@ window._NAT = {
             "tekst": "<strong>مراسم تابعیت:</strong> پس از تأیید، دعوتنامه مراسم در شهرداری دریافت خواهید کرد."
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ اطلاعات بیشتر در ind.nl"
       },
       "r_eu_burger": {
@@ -6366,7 +6366,7 @@ window._NAT = {
             "tekst": "<strong>می‌خواهید ادامه دهید؟</strong> دوباره چک‌لیست را طی کنید و در قسمت وضعیت اقامت \"مجوز اقامت\" را انتخاب کنید — سایر شرایط برای شهروندان اروپایی هم صدق می‌کند."
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ اطلاعات تابعیت در ind.nl"
       },
       "r_minderjarig": {
@@ -6392,7 +6392,7 @@ window._NAT = {
             "tekst": "اگر در هلند متولد شده‌اید گاهی می‌توانید از طریق \"گزینه\" هلندی شوید."
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ اطلاعات بیشتر در ind.nl"
       },
       "r_geen_vergunning": {
@@ -6433,7 +6433,7 @@ window._NAT = {
           },
           {
             "naam": "آیا اجازه اقامت پناهندگی شما زودتر تمام می‌شود؟",
-            "tekst": "آیا یک اجازه اقامت پناهندگی (verblijfsvergunning asiel) 5 ساله از پیش از 12 ژوئن 2026 دارید که پیش از آنکه 5 سال در هلند زندگی کنید تمام می‌شود؟ در این صورت هنگام تمدید، اجازه‌ای طبق قوانین جدید می‌گیرید. آنگاه مسیر شما از مقیم بلندمدت اتحادیه اروپا (EU-langdurig ingezetene) می‌گذرد و برای آن شرط درآمد وجود دارد."
+            "tekst": "آیا یک اجازه اقامت پناهندگی (verblijfsvergunning asiel) 5 ساله از پیش از 12 جون 2026 دارید که پیش از آنکه 5 سال در هلند زندگی کنید تمام می‌شود؟ در این صورت هنگام تمدید، اجازه‌ای طبق قوانین جدید می‌گیرید. آنگاه مسیر شما از مقیم بلندمدت اتحادیه اروپا (EU-langdurig ingezetene) می‌گذرد و برای آن شرط درآمد وجود دارد."
           },
           {
             "naam": "مدت تابعیت: احتمالاً 10 سال",
@@ -6460,7 +6460,7 @@ window._NAT = {
           "naar": "r_eu_langdurig",
           "tekst": "🇪🇺 ببینید: مقیم بلندمدت اتحادیه اروپا (اقامت دائم پس از 5 سال)"
         },
-        "link": "https://ind.nl/nl/asiel-en-nareis-het-migratiepact-en-andere-ontwikkelingen/nieuwe-wetten-en-regels-asiel-en-nareis",
+        "link": "https://ind.nl/en/asylum-and-family-reunification-the-migration-pact-and-other-developments/new-laws-and-regulations-for-asylum-and-family-reunification",
         "linkTekst": "→ قوانین جدید پناهندگی 2026 را در ind.nl ببینید"
       },
       "r_bezig_b1": {
@@ -6492,7 +6492,7 @@ window._NAT = {
             "tekst": "<strong>پس از دریافت مدرک:</strong> تأییدیه را به شهرداری/IND بفرستید — سپس تصمیم گرفته می‌شود."
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ اطلاعات بیشتر در ind.nl"
       },
       "r_bezig_onderwijs": {
@@ -6528,7 +6528,7 @@ window._NAT = {
             "tekst": "<strong>پس از دریافت مدرک:</strong> تأییدیه را به شهرداری/IND بفرستید."
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ اطلاعات بیشتر در ind.nl"
       },
       "r_bezig_z": {
@@ -6665,7 +6665,7 @@ window._NAT = {
             "tekst": "از شهرداری‌تان درباره شرایط دقیق اقامت بپرسید."
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ اطلاعات بیشتر در ind.nl"
       },
       "r_nationaliteit": {
@@ -6699,14 +6699,14 @@ window._NAT = {
           "naar": "r_eu_langdurig",
           "tekst": "🇪🇺 ببینید: مقیم بلندمدت اتحادیه اروپا (حفظ تابعیت)"
         },
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ درباره مقیم بلندمدت اتحادیه اروپا در ind.nl بیشتر بخوانید"
       },
       "r_eu_langdurig": {
         "type": "eu",
         "icoon": "🇪🇺",
         "titel": "مقیم بلندمدت اتحادیه اروپا — اقامت دائم بدون چشم‌پوشی از تابعیت",
-        "sub": "یک اجازه اقامت دائمی پس از 5 سال. تابعیت خود را حفظ می‌کنید. از 12 ژوئن 2026 این برای دارندگان جدید وضعیت پناهندگی گام میانی اجباری در راه تابعیت (naturalisatie) نیز هست.",
+        "sub": "یک اجازه اقامت دائمی پس از 5 سال. تابعیت خود را حفظ می‌کنید. از 12 جون 2026 این برای دارندگان جدید وضعیت پناهندگی گام میانی اجباری در راه تابعیت (naturalisatie) نیز هست.",
         "infoBoxen": [
           {
             "type": "info",
@@ -6714,7 +6714,7 @@ window._NAT = {
           },
           {
             "type": "amber",
-            "tekst": "⚠️ <strong>شرط درآمد:</strong> باید درآمد شخصی کافی و پایدار و بیمه صحی داشته باشید. با کمک‌هزینه دولتی معمولاً ممکن نیست. توجه: اگر یک اجازه اقامت پناهندگی (verblijfsvergunning asiel) جدید (پس از 12 ژوئن 2026) دارید، برای اینکه بعداً بتوانید تابعیت بگیرید به مقیم بلندمدت اتحادیه اروپا نیاز دارید. پس شرط درآمد برای راه شما به‌سوی تابعیت هلند هم اعتبار دارد."
+            "tekst": "⚠️ <strong>شرط درآمد:</strong> باید درآمد شخصی کافی و پایدار و بیمه صحی داشته باشید. با کمک‌هزینه دولتی معمولاً ممکن نیست. توجه: اگر یک اجازه اقامت پناهندگی (verblijfsvergunning asiel) جدید (پس از 12 جون 2026) دارید، برای اینکه بعداً بتوانید تابعیت بگیرید به مقیم بلندمدت اتحادیه اروپا نیاز دارید. پس شرط درآمد برای راه شما به‌سوی تابعیت هلند هم اعتبار دارد."
           },
           {
             "type": "info",
@@ -6739,7 +6739,7 @@ window._NAT = {
             "tekst": "<strong>درخواست:</strong> در IND. اگر برای یک اجازه نامعین درخواست دهید، IND به‌طور خودکار بررسی می‌کند که آیا می‌توانید وضعیت مقیم بلندمدت اتحادیه اروپا را هم بگیرید. با اجازه اقامت پناهندگی فقط به‌صورت کاغذی می‌توانید درخواست دهید، نه آنلاین."
           }
         ],
-        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
+        "link": "https://ind.nl/en/residence-permits/long-term-eu-residency/apply-for-a-residence-permit-for-long-term-eu-residents",
         "linkTekst": "→ درباره مقیم بلندمدت اتحادیه اروپا در ind.nl بیشتر بخوانید"
       },
       "r_kosten": {
@@ -6801,7 +6801,7 @@ window._NAT = {
             "tekst": "<strong>مقیم بلندمدت اتحادیه اروپا شده‌اید؟ پس درخواست تابعیت (naturalisatie) را در شهرداری خود بدهید.</strong> آنگاه شرایط معمول اعتبار دارند: ادغام اجتماعی (inburgering) برای تابعیت، نداشتن سابقه کیفری، و زندگی دائمی در هلند. به‌عنوان پناهنده به‌رسمیت‌شناخته‌شده معمولاً لازم نیست از تابعیت خود صرف‌نظر کنید."
           }
         ],
-        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
+        "link": "https://ind.nl/en/residence-permits/long-term-eu-residency/apply-for-a-residence-permit-for-long-term-eu-residents",
         "linkTekst": "→ درباره مقیم بلندمدت اتحادیه اروپا در ind.nl بیشتر بخوانید"
       },
       "r_eu_li_eerst_z": {
@@ -6855,7 +6855,7 @@ window._NAT = {
             "tekst": "<strong>مقیم بلندمدت اتحادیه اروپا شده‌اید؟ پس یکی از مسیرهای بالا را انتخاب کنید و پس از آن درخواست تابعیت (naturalisatie) را در شهرداری خود بدهید.</strong>"
           }
         ],
-        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
+        "link": "https://ind.nl/en/residence-permits/long-term-eu-residency/apply-for-a-residence-permit-for-long-term-eu-residents",
         "linkTekst": "→ درباره مقیم بلندمدت اتحادیه اروپا در ind.nl بیشتر بخوانید"
       },
       "r_eu_li_inburgering_bezig": {
@@ -6900,7 +6900,7 @@ window._NAT = {
         "type": "wacht",
         "icoon": "🧭",
         "titel": "اکنون درآمد شما مانع است",
-        "sub": "با اجازه اقامت پناهندگی (verblijfsvergunning asiel) پس از 12 ژوئن 2026 فقط وقتی می‌توانید تابعیت هلند را بگیرید که اول مقیم بلندمدت اتحادیه اروپا (EU-langdurig ingezetene) شوید. برای این کار به درآمد شخصی کافی نیاز دارید. با کمک‌هزینه دولتی این فعلاً ممکن نیست. صادقانه بگوییم، این یک تغییر بزرگ است.",
+        "sub": "با اجازه اقامت پناهندگی (verblijfsvergunning asiel) پس از 12 جون 2026 فقط وقتی می‌توانید تابعیت هلند را بگیرید که اول مقیم بلندمدت اتحادیه اروپا (EU-langdurig ingezetene) شوید. برای این کار به درآمد شخصی کافی نیاز دارید. با کمک‌هزینه دولتی این فعلاً ممکن نیست. صادقانه بگوییم، این یک تغییر بزرگ است.",
         "alternatieven": [
           {
             "naam": "کار یا ساعت‌های بیشتر",
@@ -6949,7 +6949,7 @@ window._NAT = {
             "tekst": "دارندگان وضعیت پناهندگی که دو بار اجازه اقامت پناهندگی موقت گرفته‌اند و زبان هلندی را در سطح B1 قبول شوند، ممکن است پس از 6 سال تابعیت هلند را بگیرند، حتی بدون مقیم بلندمدت اتحادیه اروپا (EU-langdurig ingezetene). برای کسانی که نمی‌توانند به B1 برسند یک استثنا در نظر گرفته می‌شود. هنوز هیچ لایحه قانونی وجود ندارد. تا زمانی که آن قانون تصویب نشده، قوانین بالا اعتبار دارند."
           }
         ],
-        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
+        "link": "https://ind.nl/en/residence-permits/long-term-eu-residency/apply-for-a-residence-permit-for-long-term-eu-residents",
         "linkTekst": "→ درباره مقیم بلندمدت اتحادیه اروپا در ind.nl بیشتر بخوانید"
       },
       "r_te_kort_nieuw": {
@@ -6988,15 +6988,15 @@ window._NAT = {
         "type": "wacht",
         "icoon": "🔍",
         "titel": "اول بخواهید بررسی شود که کدام اجازه اقامت را دارید",
-        "sub": "مسیر شما به‌سوی تابعیت هلند به اجازه اقامت شما بستگی دارد. با اجازه اقامت پناهندگی از پیش از 12 ژوئن 2026 این مسیر کوتاه‌تر از اجازه جدید است.",
+        "sub": "مسیر شما به‌سوی تابعیت هلند به اجازه اقامت شما بستگی دارد. با اجازه اقامت پناهندگی از پیش از 12 جون 2026 این مسیر کوتاه‌تر از اجازه جدید است.",
         "alternatieven": [
           {
             "naam": "اجازه اقامت پناهندگی قدیم",
-            "tekst": "مدت نامعین، یا 5 ساله گرفته‌شده پیش از 12 ژوئن 2026: می‌توانید به روش قدیم تابعیت (naturalisatie) بگیرید."
+            "tekst": "مدت نامعین، یا 5 ساله گرفته‌شده پیش از 12 جون 2026: می‌توانید به روش قدیم تابعیت (naturalisatie) بگیرید."
           },
           {
             "naam": "اجازه اقامت پناهندگی جدید",
-            "tekst": "گرفته‌شده یا تمدیدشده در 12 ژوئن 2026 یا پس از آن: اول مقیم بلندمدت اتحادیه اروپا (EU-langdurig ingezetene)، با شرط درآمد، سپس تابعیت (naturalisatie)."
+            "tekst": "گرفته‌شده یا تمدیدشده در 12 جون 2026 یا پس از آن: اول مقیم بلندمدت اتحادیه اروپا (EU-langdurig ingezetene)، با شرط درآمد، سپس تابعیت (naturalisatie)."
           },
           {
             "naam": "اجازه اقامت دیگر",
@@ -7500,7 +7500,7 @@ window._NAT = {
             "tekst": "<strong>ናይ ዜጋነት ሓፈሻ፡</strong> ምስ ተቐበለ ናይ ሓፈሻ ዕድመ ካብ ምምሕዳር ከቲ ትቕበሎ/ሊ።"
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ ኣብ ind.nl ዝያዳ ሓበሬታ"
       },
       "r_eu_burger": {
@@ -7532,7 +7532,7 @@ window._NAT = {
             "tekst": "<strong>ቀጺልካ ምምስርሕ ትደሊ/ሊ?</strong> ናይ ምምርማር ኣሳሒ ብምጥቃም ናይ ምቕማጥ ሃለዋት ኣብ \"ፍቓደ-ምቕማጥ\" ምምራጽ — ዝተረፉ ኩነታት ናይ ኤሮጳ ዜጋ ድማ ይምልከቶም።"
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ ናይ ዜጋነት ሓበሬታ ኣብ ind.nl"
       },
       "r_minderjarig": {
@@ -7558,7 +7558,7 @@ window._NAT = {
             "tekst": "ኣብ ሆላንድ ምስ ትወለድ/ዲ ሓደ ሓደ ግዜ \"ምምራጽ\" ብምጥቃም ናይ ሆላንዳዊ ምዃን ይከኣሎ።"
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ ኣብ ind.nl ዝያዳ ሓበሬታ"
       },
       "r_geen_vergunning": {
@@ -7626,7 +7626,7 @@ window._NAT = {
           "naar": "r_eu_langdurig",
           "tekst": "🇪🇺 ርአ: ናይ ኤውሮጳ ሕብረት ነዊሕ-ግዜ ነባሪ (ድሕሪ 5 ዓመት ቀዋሚ መንበሪ)"
         },
-        "link": "https://ind.nl/nl/asiel-en-nareis-het-migratiepact-en-andere-ontwikkelingen/nieuwe-wetten-en-regels-asiel-en-nareis",
+        "link": "https://ind.nl/en/asylum-and-family-reunification-the-migration-pact-and-other-developments/new-laws-and-regulations-for-asylum-and-family-reunification",
         "linkTekst": "→ ናይ 2026 ሓደስቲ ሕግታት ዑቕባ ኣብ ind.nl ርአ"
       },
       "r_bezig_b1": {
@@ -7658,7 +7658,7 @@ window._NAT = {
             "tekst": "<strong>ዲፕሎማ ምስ ተቐበልካ/ዊ፡</strong> ምስክር ናብ ምምሕዳር ከቲ / IND ለዓዮ/ዪ — ዉሳኔ ምስ ዝምጻእ ክወሃብ ይኽእሎ።"
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ ኣብ ind.nl ዝያዳ ሓበሬታ"
       },
       "r_bezig_onderwijs": {
@@ -7694,7 +7694,7 @@ window._NAT = {
             "tekst": "<strong>ዲፕሎማ ምስ ተቐበልካ/ዊ፡</strong> ምስክር ናብ ምምሕዳር ከቲ / IND ለዓዮ/ዪ።"
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ ኣብ ind.nl ዝያዳ ሓበሬታ"
       },
       "r_bezig_z": {
@@ -7831,7 +7831,7 @@ window._NAT = {
             "tekst": "ናይ ምቕማጥ ኩነታት ብዝምልከት ምምሕዳር ከቲ ሕቱ/ቲ።"
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ ኣብ ind.nl ዝያዳ ሓበሬታ"
       },
       "r_nationaliteit": {
@@ -7865,7 +7865,7 @@ window._NAT = {
           "naar": "r_eu_langdurig",
           "tekst": "🇪🇺 ርአ: ናይ ኤውሮጳ ሕብረት ነዊሕ-ግዜ ነባሪ (ዜግነት ምሓዝ)"
         },
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ ብዛዕባ ናይ ኤውሮጳ ሕብረት ነዊሕ-ግዜ ነባሪ ኣብ ind.nl ዝያዳ ኣንብብ"
       },
       "r_eu_langdurig": {
@@ -7905,7 +7905,7 @@ window._NAT = {
             "tekst": "<strong>ምልክታ:</strong> ኣብ IND። ንዘይውሱን ግዜ ፍቓድ ምልክታ እንተኣእቲኻ፡ IND ብኣውቶማቲክ ናይ ኤውሮጳ ሕብረት ነዊሕ-ግዜ ነባሪ ኩነታት ክትረክብ ትኽእል ምዃንካ ይምርምር። ብናይ ዑቕባ ፍቓድ ብወረቐት ጥራይ ክትሓትት ትኽእል፡ ብኦንላይን ኣይኮነን።"
           }
         ],
-        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
+        "link": "https://ind.nl/en/residence-permits/long-term-eu-residency/apply-for-a-residence-permit-for-long-term-eu-residents",
         "linkTekst": "→ ብዛዕባ ናይ ኤውሮጳ ሕብረት ነዊሕ-ግዜ ነባሪ ኣብ ind.nl ዝያዳ ኣንብብ"
       },
       "r_kosten": {
@@ -7967,7 +7967,7 @@ window._NAT = {
             "tekst": "<strong>ናይ ኤውሮጳ ሕብረት ነዊሕ-ግዜ ነባሪ ኮይንካ ዶ? እምበኣር ኣብ ምምሕዳርካ ዜግነት (naturalisatie) ሕተት።</strong> ሽዑ እቶም ልሙዳት ቅድመ-ኩነታት ይሰርሑ፦ ንዜግነት ዝኸውን ምውህሃድ (inburgering)፡ ገበናዊ መዝገብ ዘይምህላው፡ ከምኡ እውን ብቐዋምነት ኣብ ሆላንድ ምንባር። ከም ኣፍልጦ ዝተዋህቦ ስደተኛ መብዛሕትኡ ግዜ ዜግነትካ ክትሓድግ ኣየድልየካን።"
           }
         ],
-        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
+        "link": "https://ind.nl/en/residence-permits/long-term-eu-residency/apply-for-a-residence-permit-for-long-term-eu-residents",
         "linkTekst": "→ ብዛዕባ ናይ ኤውሮጳ ሕብረት ነዊሕ-ግዜ ነባሪ ኣብ ind.nl ዝያዳ ኣንብብ"
       },
       "r_eu_li_eerst_z": {
@@ -8021,7 +8021,7 @@ window._NAT = {
             "tekst": "<strong>ናይ ኤውሮጳ ሕብረት ነዊሕ-ግዜ ነባሪ ኮይንካ ዶ? እምበኣር ሓደ ካብቶም ኣብ ላዕሊ ዘለዉ መንገድታት ምረጽ፡ ድሕሪኡ ኣብ ምምሕዳርካ ዜግነት (naturalisatie) ሕተት።</strong>"
           }
         ],
-        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
+        "link": "https://ind.nl/en/residence-permits/long-term-eu-residency/apply-for-a-residence-permit-for-long-term-eu-residents",
         "linkTekst": "→ ብዛዕባ ናይ ኤውሮጳ ሕብረት ነዊሕ-ግዜ ነባሪ ኣብ ind.nl ዝያዳ ኣንብብ"
       },
       "r_eu_li_inburgering_bezig": {
@@ -8115,7 +8115,7 @@ window._NAT = {
             "tekst": "ክልተ ግዜ ግዝያዊ ናይ ዑቕባ ፍቓድ ዝረኸቡን ሆላንድኛ ብደረጃ B1 ዝሓለፉን ዋናታት ዑቕባ፡ ብዘይ ናይ ኤውሮጳ ሕብረት ነዊሕ-ግዜ ነባሪ (EU-langdurig ingezetene) እውን ድሕሪ 6 ዓመት ሆላንዳውያን ዜጋታት ክኾኑ ምኽኣሉ። ን B1 ክበጽሑ ዘይክእሉ ፍሉይ ኩነታት ክህሉ እዩ። ገና ረቂቕ ሕጊ የለን። እቲ ሕጊ ክሳዕ ዝወጽእ፡ እቶም ኣብ ላዕሊ ዘለዉ ሕግታት ይሰርሑ።"
           }
         ],
-        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
+        "link": "https://ind.nl/en/residence-permits/long-term-eu-residency/apply-for-a-residence-permit-for-long-term-eu-residents",
         "linkTekst": "→ ብዛዕባ ናይ ኤውሮጳ ሕብረት ነዊሕ-ግዜ ነባሪ ኣብ ind.nl ዝያዳ ኣንብብ"
       },
       "r_te_kort_nieuw": {
@@ -8666,7 +8666,7 @@ window._NAT = {
             "tekst": "<strong>Ceremonia de naturalizare:</strong> după aprobare vei primi o invitație la ceremonie la primărie."
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ Mai multe informații pe ind.nl"
       },
       "r_eu_burger": {
@@ -8698,7 +8698,7 @@ window._NAT = {
             "tekst": "<strong>Vrei să continui?</strong> Parcurge din nou verificatorul și alege \"permis de ședere\"."
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ Informații pe ind.nl"
       },
       "r_minderjarig": {
@@ -8724,7 +8724,7 @@ window._NAT = {
             "tekst": "Dacă te-ai născut în Olanda, uneori poți deveni olandez/ă prin procedura \"opțiunii\"."
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ Mai multe informații pe ind.nl"
       },
       "r_geen_vergunning": {
@@ -8792,7 +8792,7 @@ window._NAT = {
           "naar": "r_eu_langdurig",
           "tekst": "🇪🇺 Vezi: rezident UE pe termen lung (ședere permanentă după 5 ani)"
         },
-        "link": "https://ind.nl/nl/asiel-en-nareis-het-migratiepact-en-andere-ontwikkelingen/nieuwe-wetten-en-regels-asiel-en-nareis",
+        "link": "https://ind.nl/en/asylum-and-family-reunification-the-migration-pact-and-other-developments/new-laws-and-regulations-for-asylum-and-family-reunification",
         "linkTekst": "→ Vezi noile reguli de azil 2026 pe ind.nl"
       },
       "r_bezig_b1": {
@@ -8824,7 +8824,7 @@ window._NAT = {
             "tekst": "<strong>După obținerea diplomei:</strong> trimite dovada la primărie/IND."
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ Mai multe informații pe ind.nl"
       },
       "r_bezig_onderwijs": {
@@ -8860,7 +8860,7 @@ window._NAT = {
             "tekst": "<strong>După obținerea diplomei:</strong> trimite dovada la primărie/IND."
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ Mai multe informații pe ind.nl"
       },
       "r_bezig_z": {
@@ -8997,7 +8997,7 @@ window._NAT = {
             "tekst": "Întreabă la primăria ta despre cerințele exacte de reședință."
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ Mai multe informații pe ind.nl"
       },
       "r_nationaliteit": {
@@ -9031,7 +9031,7 @@ window._NAT = {
           "naar": "r_eu_langdurig",
           "tekst": "🇪🇺 Vezi: rezident UE pe termen lung (păstrează-ți cetățenia)"
         },
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ Citește mai mult despre rezident UE pe termen lung pe ind.nl"
       },
       "r_eu_langdurig": {
@@ -9071,7 +9071,7 @@ window._NAT = {
             "tekst": "<strong>Depunere:</strong> la IND. Dacă depui cerere pentru un permis pe durată nedeterminată, IND verifică automat dacă poți obține și statutul de rezident UE pe termen lung. Cu un permis de azil poți depune cererea doar pe hârtie, nu online."
           }
         ],
-        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
+        "link": "https://ind.nl/en/residence-permits/long-term-eu-residency/apply-for-a-residence-permit-for-long-term-eu-residents",
         "linkTekst": "→ Citește mai mult despre rezident UE pe termen lung pe ind.nl"
       },
       "r_kosten": {
@@ -9133,7 +9133,7 @@ window._NAT = {
             "tekst": "<strong>Ești rezident UE pe termen lung? Atunci cere naturalizarea (naturalisatie) la primăria ta.</strong> Atunci se aplică condițiile obișnuite: integrarea civică (inburgering) pentru naturalizare, fără cazier și locuiești permanent în Olanda. Ca refugiat recunoscut, de obicei nu trebuie să renunți la cetățenia ta."
           }
         ],
-        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
+        "link": "https://ind.nl/en/residence-permits/long-term-eu-residency/apply-for-a-residence-permit-for-long-term-eu-residents",
         "linkTekst": "→ Citește mai mult despre rezident UE pe termen lung pe ind.nl"
       },
       "r_eu_li_eerst_z": {
@@ -9187,7 +9187,7 @@ window._NAT = {
             "tekst": "<strong>Ești rezident UE pe termen lung? Atunci alege una dintre căile de mai sus și apoi cere naturalizarea (naturalisatie) la primăria ta.</strong>"
           }
         ],
-        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
+        "link": "https://ind.nl/en/residence-permits/long-term-eu-residency/apply-for-a-residence-permit-for-long-term-eu-residents",
         "linkTekst": "→ Citește mai mult despre rezident UE pe termen lung pe ind.nl"
       },
       "r_eu_li_inburgering_bezig": {
@@ -9281,7 +9281,7 @@ window._NAT = {
             "tekst": "Beneficiarii de protecție care au primit de două ori un permis de azil temporar și ating nivelul B1 la limba olandeză ar putea deveni cetățeni olandezi după 6 ani, chiar și fără statutul de rezident UE pe termen lung (EU-langdurig ingezetene). Pentru cei care nu pot atinge B1 va exista o excepție. Nu există încă un proiect de lege. Până când legea există, se aplică regulile de mai sus."
           }
         ],
-        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
+        "link": "https://ind.nl/en/residence-permits/long-term-eu-residency/apply-for-a-residence-permit-for-long-term-eu-residents",
         "linkTekst": "→ Citește mai mult despre rezident UE pe termen lung pe ind.nl"
       },
       "r_te_kort_nieuw": {
@@ -9832,7 +9832,7 @@ window._NAT = {
             "tekst": "<strong>Ceremonia naturalizacji:</strong> po zatwierdzeniu otrzymasz zaproszenie na ceremonię w gminie."
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ Więcej informacji na ind.nl"
       },
       "r_eu_burger": {
@@ -9864,7 +9864,7 @@ window._NAT = {
             "tekst": "<strong>Chcesz kontynuować?</strong> Przejdź przez weryfikator ponownie i wybierz \"zezwolenie na pobyt\"."
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ Informacje na ind.nl"
       },
       "r_minderjarig": {
@@ -9890,7 +9890,7 @@ window._NAT = {
             "tekst": "Jeśli urodziłeś/aś się w Holandii, czasem możesz zostać Holendrem/Holenderką przez procedurę \"opcji\"."
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ Więcej informacji na ind.nl"
       },
       "r_geen_vergunning": {
@@ -9958,7 +9958,7 @@ window._NAT = {
           "naar": "r_eu_langdurig",
           "tekst": "🇪🇺 Zobacz: rezydent długoterminowy UE (stały pobyt po 5 latach)"
         },
-        "link": "https://ind.nl/nl/asiel-en-nareis-het-migratiepact-en-andere-ontwikkelingen/nieuwe-wetten-en-regels-asiel-en-nareis",
+        "link": "https://ind.nl/en/asylum-and-family-reunification-the-migration-pact-and-other-developments/new-laws-and-regulations-for-asylum-and-family-reunification",
         "linkTekst": "→ Zobacz nowe przepisy azylowe 2026 na ind.nl"
       },
       "r_bezig_b1": {
@@ -9990,7 +9990,7 @@ window._NAT = {
             "tekst": "<strong>Po uzyskaniu dyplomu:</strong> wyślij dowód do gminy/IND."
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ Więcej informacji na ind.nl"
       },
       "r_bezig_onderwijs": {
@@ -10026,7 +10026,7 @@ window._NAT = {
             "tekst": "<strong>Po uzyskaniu dyplomu:</strong> wyślij dowód do gminy/IND."
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ Więcej informacji na ind.nl"
       },
       "r_bezig_z": {
@@ -10163,7 +10163,7 @@ window._NAT = {
             "tekst": "Zapytaj w gminie o dokładne wymagania dotyczące zamieszkania."
           }
         ],
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ Więcej informacji na ind.nl"
       },
       "r_nationaliteit": {
@@ -10197,7 +10197,7 @@ window._NAT = {
           "naar": "r_eu_langdurig",
           "tekst": "🇪🇺 Zobacz: rezydent długoterminowy UE (zachowaj obywatelstwo)"
         },
-        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
         "linkTekst": "→ Przeczytaj więcej o rezydencie długoterminowym UE na ind.nl"
       },
       "r_eu_langdurig": {
@@ -10237,7 +10237,7 @@ window._NAT = {
             "tekst": "<strong>Składanie wniosku:</strong> w IND. Jeśli składasz wniosek o zezwolenie bezterminowe, IND automatycznie sprawdza, czy możesz też uzyskać status rezydenta długoterminowego UE. Z zezwoleniem azylowym wniosek można złożyć tylko na papierze, nie online."
           }
         ],
-        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
+        "link": "https://ind.nl/en/residence-permits/long-term-eu-residency/apply-for-a-residence-permit-for-long-term-eu-residents",
         "linkTekst": "→ Przeczytaj więcej o rezydencie długoterminowym UE na ind.nl"
       },
       "r_kosten": {
@@ -10299,7 +10299,7 @@ window._NAT = {
             "tekst": "<strong>Jesteś rezydentem długoterminowym UE? Wtedy złóż wniosek o naturalizację (naturalisatie) w swojej gminie.</strong> Obowiązują wtedy zwykłe warunki: integracja obywatelska (inburgering) do naturalizacji, brak karalności i stałe zamieszkanie w Holandii. Jako uznany uchodźca zwykle nie musisz zrzekać się swojego obywatelstwa."
           }
         ],
-        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
+        "link": "https://ind.nl/en/residence-permits/long-term-eu-residency/apply-for-a-residence-permit-for-long-term-eu-residents",
         "linkTekst": "→ Przeczytaj więcej o rezydencie długoterminowym UE na ind.nl"
       },
       "r_eu_li_eerst_z": {
@@ -10353,7 +10353,7 @@ window._NAT = {
             "tekst": "<strong>Jesteś rezydentem długoterminowym UE? Wtedy wybierz jedną ze ścieżek powyżej, a potem złóż wniosek o naturalizację (naturalisatie) w swojej gminie.</strong>"
           }
         ],
-        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
+        "link": "https://ind.nl/en/residence-permits/long-term-eu-residency/apply-for-a-residence-permit-for-long-term-eu-residents",
         "linkTekst": "→ Przeczytaj więcej o rezydencie długoterminowym UE na ind.nl"
       },
       "r_eu_li_inburgering_bezig": {
@@ -10447,7 +10447,7 @@ window._NAT = {
             "tekst": "Osoby z ochroną, które dwa razy otrzymały tymczasowe zezwolenie azylowe i osiągną niderlandzki na poziomie B1, mogłyby zostać obywatelami Holandii po 6 latach, nawet bez statusu rezydenta długoterminowego UE (EU-langdurig ingezetene). Dla osób, które nie mogą osiągnąć B1, będzie wyjątek. Nie ma jeszcze projektu ustawy. Dopóki takiej ustawy nie ma, obowiązują powyższe przepisy."
           }
         ],
-        "link": "https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene",
+        "link": "https://ind.nl/en/residence-permits/long-term-eu-residency/apply-for-a-residence-permit-for-long-term-eu-residents",
         "linkTekst": "→ Przeczytaj więcej o rezydencie długoterminowym UE na ind.nl"
       },
       "r_te_kort_nieuw": {

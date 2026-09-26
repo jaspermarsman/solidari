@@ -201,6 +201,17 @@ function checkVerbodenZinnen(taal, taalData) {
 // Velden die geen vertaalbare tekst zijn: die moeten exact gelijk zijn aan NL.
 const NIET_TEKST = new Set(['icoon', 'klasse', 'volgende', 'type', 'link', 'naar', 'nr']);
 
+// IND heeft alleen NL en EN. NL linkt naar de Nederlandse pagina, alle andere
+// talen naar de Engelse tegenhanger (hreflang="en" op de NL-pagina, 26-09-2026).
+const IND_EN = {
+  'https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie':
+    'https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation',
+  'https://ind.nl/nl/verblijfsvergunningen/langdurig-ingezetene-eu/verblijfsvergunning-eu-langdurig-ingezetene':
+    'https://ind.nl/en/residence-permits/long-term-eu-residency/apply-for-a-residence-permit-for-long-term-eu-residents',
+  'https://ind.nl/nl/asiel-en-nareis-het-migratiepact-en-andere-ontwikkelingen/nieuwe-wetten-en-regels-asiel-en-nareis':
+    'https://ind.nl/en/asylum-and-family-reunification-the-migration-pact-and-other-developments/new-laws-and-regulations-for-asylum-and-family-reunification',
+};
+
 function bladeren(o, pad = [], uit = {}) {
   if (o && typeof o === 'object') {
     Object.keys(o).forEach(k => bladeren(o[k], pad.concat(k), uit));
@@ -257,7 +268,12 @@ function checkPariteit(taal, taalData, nlData) {
     const a = nl[p];
     const b = x[p];
     if (NIET_TEKST.has(sleutel)) {
-      if (a !== b) fail(`[${taal}] pariteit: ${p} = ${JSON.stringify(b)}, NL = ${JSON.stringify(a)}`);
+      if (sleutel === 'link' && /^https:\/\/ind\.nl\//.test(a) && !IND_EN[a]) {
+        fail(`[NL] ${p}: IND-link ${a} staat niet in IND_EN`);
+        return;
+      }
+      const verwacht = sleutel === 'link' && IND_EN[a] ? IND_EN[a] : a;
+      if (verwacht !== b) fail(`[${taal}] pariteit: ${p} = ${JSON.stringify(b)}, verwacht ${JSON.stringify(verwacht)}`);
       return;
     }
     if (typeof b !== 'string' || b.trim() === '') {
