@@ -9773,9 +9773,11 @@ window._NAT = {
       "badge": "🇳🇱 Sprawdzanie Naturalizacji",
       "titel": "Czy mam prawo do holenderskiego paszportu?",
       "sub": "Odpowiedz na kilka pytań i sprawdź, czy możesz zostać obywatelem Holandii. Na podstawie przepisów z 2026 roku, w tym nowych przepisów azylowych obowiązujących od 12 czerwca 2026 r.",
-      "disclaimer": "⚠️ To narzędzie daje orientację, a nie decyzję. Sprawdzone we wrześniu 2026 r. (IND, Stimulansz). Od 12 czerwca 2026 r. nie ma już zezwolenia azylowego na czas nieokreślony. Dlatego nowe osoby z ochroną muszą najpierw zostać rezydentem długoterminowym UE (EU-langdurig ingezetene), zanim będą mogły się naturalizować (naturalisatie). Zapowiedziane plany rządu jeszcze nie są prawem. Zawsze proś o radę gminę lub VluchtelingenWerk.",
+      "disclaimer": "⚠️ To narzędzie daje orientację, a nie decyzję. Sprawdzone we wrześniu 2026 r. (IND, Stimulansz). Od 12 czerwca 2026 r. nie ma już zezwolenia azylowego na czas nieokreślony. Dlatego osoby z ochroną, które mają zezwolenie na pobyt azylowy na czas określony (verblijfsvergunning asiel), muszą najpierw zostać rezydentem długoterminowym UE (EU-langdurig ingezetene), zanim będą mogły się naturalizować (naturalisatie). Zapowiedziane plany rządu jeszcze nie są prawem. Zawsze proś o radę gminę lub VluchtelingenWerk.",
       "vwnLabel": "Nie masz pewności co do swojej sytuacji?",
-      "vwnTekst": "Przepisy dotyczące naturalizacji szybko się zmieniają, a Twoja sytuacja może się różnić od tego, co wskazuje narzędzie. VluchtelingenWerk Nederland oferuje bezpłatne dyżury i wsparcie w kwestiach naturalizacji — znajdź pobliskie miejsce na <a href=\"https://www.vluchtelingenwerk.nl/over-ons/locaties\" target=\"_blank\" style=\"color:inherit;\">vluchtelingenwerk.nl/over-ons/locaties</a>."
+      "vwnTekst": "Przepisy dotyczące naturalizacji szybko się zmieniają, a Twoja sytuacja może się różnić od tego, co wskazuje narzędzie. VluchtelingenWerk Nederland oferuje bezpłatne dyżury i wsparcie w kwestiach naturalizacji — znajdź pobliskie miejsce na <a href=\"https://www.vluchtelingenwerk.nl/over-ons/locaties\" target=\"_blank\" style=\"color:inherit;\">vluchtelingenwerk.nl/over-ons/locaties</a>.",
+      "hulpRegulierLabel": "Nie masz pewności co do swojej sytuacji?",
+      "hulpRegulierTekst": "Punkt porad prawnych (Juridisch Loket) udziela bezpłatnych porad na temat Twojego zezwolenia na pobyt i naturalizacji (naturalisatie). Zajrzyj na <a href=\"https://www.juridischloket.nl\" target=\"_blank\" style=\"color:inherit;\">juridischloket.nl</a> albo zapytaj w swojej gminie."
     },
     "ui": {
       "volgendeStappen": "Następne kroki",
@@ -9815,14 +9817,16 @@ window._NAT = {
             "tekst": "Mam zezwolenie na pobyt azylowy (osoba z ochroną)",
             "icoon": "🛡️",
             "klasse": "ja",
-            "volgende": "v_asiel"
+            "volgende": "v_asiel",
+            "pad": "asiel"
           },
           {
             "tekst": "Mam inne zezwolenie na pobyt",
             "sub": "Na przykład w celu rodzinnym, pracy lub nauki",
             "icoon": "📄",
             "klasse": "ja",
-            "volgende": "v2"
+            "volgende": "v_regulier",
+            "pad": "regulier"
           },
           {
             "tekst": "Jestem obywatelem/ką UE",
@@ -9841,27 +9845,21 @@ window._NAT = {
       },
       "v_asiel": {
         "tekst": "Jakie zezwolenie azylowe masz teraz?",
-        "uitleg": "Od 12 czerwca 2026 r. przepisy się zmieniły. Dla naturalizacji (naturalisatie) ważne jest, kiedy otrzymałeś/aś obecne zezwolenie.",
+        "uitleg": "Zajrzyj na swoją kartę pobytu: czy jest tam napisane 'na czas nieokreślony' (onbepaalde tijd), czy jest data końcowa?",
         "antwoorden": [
           {
             "tekst": "Azyl na czas nieokreślony",
-            "sub": "Otrzymany przed 12 czerwca 2026 r.",
+            "sub": "Na karcie nie ma daty końcowej Twojego prawa pobytu",
             "icoon": "✓",
             "klasse": "ja",
             "volgende": "v2"
           },
           {
-            "tekst": "Azyl na 5 lat, otrzymany przed 12 czerwca 2026 r.",
+            "tekst": "Azyl na czas określony",
+            "sub": "Ważny 3 lub 5 lat, także jeśli otrzymałeś/aś go przed 12 czerwca 2026 r.",
             "icoon": "📅",
-            "klasse": "ja",
-            "volgende": "v_asiel5"
-          },
-          {
-            "tekst": "Azyl otrzymany lub przedłużony 12 czerwca 2026 r. lub później",
-            "sub": "Zwykle ważny 3 lata",
-            "icoon": "🆕",
             "klasse": "anders",
-            "volgende": "e1"
+            "volgende": "v_asiel5"
           },
           {
             "tekst": "Jestem już rezydentem długoterminowym UE",
@@ -9878,20 +9876,20 @@ window._NAT = {
         ]
       },
       "v_asiel5": {
-        "tekst": "Dobra wiadomość: Twoje zezwolenie podlega starym przepisom",
-        "uitleg": "Otrzymałeś/aś 5-letnie zezwolenie azylowe przed 12 czerwca 2026 r. Dzięki niemu nadal możesz się naturalizować (naturalisatie) na starych zasadach.<br><br>⚠️ <strong>Uwaga:</strong> jeśli IND przedłuży Twoje zezwolenie po 12 czerwca 2026 r., otrzymasz zezwolenie według nowych przepisów. Wtedy musisz najpierw zostać rezydentem długoterminowym UE (EU-langdurig ingezetene). <strong>Spełniasz warunki? To złóż wniosek o naturalizację, dopóki Twoja obecna karta jest jeszcze ważna.</strong>",
+        "tekst": "Twoje zezwolenie pozostaje ważne — ale droga do obywatelstwa holenderskiego prowadzi przez etap pośredni",
+        "uitleg": "Twoje zezwolenie azylowe pozostaje ważne do daty na karcie. Ale z zezwoleniem na pobyt azylowy na czas określony (verblijfsvergunning asiel) nie możesz złożyć wniosku o naturalizację (naturalisatie). Dotyczy to także sytuacji, gdy otrzymałeś/aś zezwolenie przed 12 czerwca 2026 r. Od 12 czerwca 2026 r. zezwolenie azylowe na czas nieokreślony już nie istnieje.<br><br>Dlatego musisz najpierw zostać <strong>rezydentem długoterminowym UE</strong> (EU-langdurig ingezetene). Potem możesz złożyć wniosek o naturalizację. Kolejne pytania pokażą, czy jest to dla Ciebie już możliwe.",
         "antwoorden": [
           {
             "tekst": "Rozumiem — dalej",
             "icoon": "→",
             "klasse": "ja",
-            "volgende": "v2"
+            "volgende": "e1"
           }
         ]
       },
       "v_asiel_wn": {
         "tekst": "Tak sprawdzisz, jakie masz zezwolenie",
-        "uitleg": "Zajrzyj na swoją kartę pobytu, do pola 'Type document en bijzonderheden' (rodzaj dokumentu i uwagi: numer typu i tekst obok niego), albo do listu z IND. Zwróć uwagę na dwie rzeczy:<br><br>1. Czy jest tam napisane <strong>azyl</strong> (asiel), czy inny cel (np. rodzina lub praca)?<br>2. Kiedy dostałeś/aś tę kartę: <strong>przed czy po 12 czerwca 2026 r.</strong>? I jak długo jest ważna?<br><br>Nie wiesz? Zapytaj swojego opiekuna w gminie lub VluchtelingenWerk.",
+        "uitleg": "Zajrzyj na swoją kartę pobytu, do pola 'Type document en bijzonderheden' (rodzaj dokumentu i uwagi: numer typu i tekst obok niego), albo do listu z IND. Zwróć uwagę na dwie rzeczy:<br><br>1. Czy jest tam napisane <strong>azyl</strong> (asiel), czy inny cel (np. rodzina lub praca)?<br>2. Czy jest tam napisane '<strong>na czas nieokreślony</strong>' (onbepaalde tijd), czy jest <strong>data końcowa</strong>?<br><br>Nie wiesz? Zapytaj swojego opiekuna w gminie lub VluchtelingenWerk.",
         "antwoorden": [
           {
             "tekst": "Znalazłem/am — wróć do pytania",
@@ -9907,9 +9905,40 @@ window._NAT = {
           }
         ]
       },
+      "v_regulier": {
+        "tekst": "Jakie masz zezwolenie na pobyt?",
+        "uitleg": "Do naturalizacji (naturalisatie) potrzebujesz zezwolenia na czas nieokreślony albo zezwolenia w celu, który nie jest tymczasowy, np. zamieszkanie z partnerem lub praca. Na karcie pobytu jest podany cel oraz to, czy jest data końcowa.",
+        "antwoorden": [
+          {
+            "tekst": "Na czas nieokreślony",
+            "icoon": "✓",
+            "klasse": "ja",
+            "volgende": "v2"
+          },
+          {
+            "tekst": "Na czas określony — w celu rodzinnym, z partnerem lub do pracy",
+            "icoon": "👨‍👩‍👧",
+            "klasse": "ja",
+            "volgende": "v2"
+          },
+          {
+            "tekst": "Na czas określony — na studia lub inny pobyt tymczasowy",
+            "sub": "Na przykład praca sezonowa, leczenie, wymiana lub rok na poszukiwanie pracy dla osób z wyższym wykształceniem",
+            "icoon": "🎓",
+            "klasse": "nee",
+            "volgende": "r_regulier_tijdelijk"
+          },
+          {
+            "tekst": "Nie wiem",
+            "icoon": "❓",
+            "klasse": "anders",
+            "volgende": "v_asiel_wn"
+          }
+        ]
+      },
       "e1": {
         "tekst": "Czy mieszkasz w Holandii nieprzerwanie od 5 lat lub dłużej z ważnym zezwoleniem?",
-        "uitleg": "Z nowym zezwoleniem na pobyt azylowy (verblijfsvergunning asiel) możesz zostać obywatelem Holandii dopiero wtedy, gdy najpierw zostaniesz rezydentem długoterminowym UE (EU-langdurig ingezetene). W tym celu musisz mieszkać w Holandii nieprzerwanie co najmniej 5 lat z ważnym zezwoleniem. Lata z zezwoleniem azylowym się liczą. O tym, czy liczy się czas procedury azylowej, decyduje IND.",
+        "uitleg": "Z zezwoleniem na pobyt azylowy na czas określony (verblijfsvergunning asiel) możesz zostać obywatelem Holandii dopiero wtedy, gdy najpierw zostaniesz rezydentem długoterminowym UE (EU-langdurig ingezetene). W tym celu musisz mieszkać w Holandii nieprzerwanie co najmniej 5 lat z ważnym zezwoleniem. Lata z zezwoleniem azylowym się liczą. O tym, czy liczy się czas procedury azylowej, decyduje IND.",
         "antwoorden": [
           {
             "tekst": "Tak, 5 lat lub dłużej",
@@ -9998,18 +10027,17 @@ window._NAT = {
         ]
       },
       "v2": {
-        "tekst": "Czy posiadasz ważne zezwolenie na pobyt?",
-        "uitleg": "Potrzebujesz ważnego zezwolenia na pobyt, które nie jest tymczasowe. Na przykład zezwolenia na czas nieokreślony, statusu rezydenta długoterminowego UE (EU-langdurig ingezetene) albo zezwolenia azylowego otrzymanego przed 12 czerwca 2026 r. Zawsze przedłużaj zezwolenie na czas, aby Twój pobyt był nieprzerwany.",
+        "tekst": "Czy Twoje zezwolenie na pobyt jest teraz ważne?",
+        "uitleg": "Twoje zezwolenie musi być ważne, gdy składasz wniosek o naturalizację (naturalisatie), i pozostać ważne aż do decyzji. Zawsze przedłużaj je na czas, aby Twój pobyt był nieprzerwany.",
         "antwoorden": [
           {
-            "tekst": "Tak, posiadam ważne zezwolenie na pobyt",
-            "sub": "Lub status azylanta (IND typ III, IV lub V)",
+            "tekst": "Tak, moje zezwolenie jest ważne",
             "icoon": "✓",
             "klasse": "ja",
             "volgende": "v3"
           },
           {
-            "tekst": "Nie, nie posiadam ważnego zezwolenia na pobyt",
+            "tekst": "Nie, moje zezwolenie wygasło albo go nie mam",
             "icoon": "✗",
             "klasse": "nee",
             "volgende": "r_geen_vergunning"
@@ -10078,7 +10106,7 @@ window._NAT = {
       },
       "v4a_z": {
         "tekst": "Ukończyłeś/aś trasę Z — potrzebny jest jeszcze jeden dodatkowy krok do naturalizacji",
-        "uitleg": "Ścieżka Z kończy się rozmową końcową i certyfikatem, ale do naturalizacji IND stosuje dodatkowe wymogi językowe. Istnieją trzy drogi, aby mimo to się naturalizować:<br><br><strong>Droga A — Mimo to zdać egzamin na poziomie A2</strong><br>Zdaj wszystkie egzaminy językowe na poziomie A2 (czytanie, słuchanie, pisanie, mówienie) oraz egzamin KNM. Uwaga: teraz, gdy ścieżka Z została ukończona, podejścia do egzaminu nie są już bezpłatne.<br><br><strong>Droga B — 600 godzin lekcji języka + co najmniej 3 podejścia na część</strong><br>Co najmniej 600 godzin lekcji na poziomie A2 w placówce z certyfikatem Blik op Werk i 3 podejścia na część? Wtedy DUO może wydać rekomendację wyłączenia.<br><br><strong>Droga C — 600 godzin alfabetyzacji + test DUO (€150)</strong><br>Co najmniej 600 godzin alfabetyzacji i okazuje się, że A2 jest nieosiągalny? Wtedy następuje wyłączenie poprzez test DUO (€150).<br><br><em>Możliwe w przyszłości:</em> rząd chce podnieść wymóg językowy do naturalizacji z A2 do B1. Nie zostało to jeszcze przyjęte — obecnie nadal obowiązuje A2.<br><br>💡 Omów ze swoją gminą lub VluchtelingenWerk, która droga najlepiej Ci odpowiada.",
+        "uitleg": "Ścieżka Z kończy się rozmową końcową i certyfikatem, ale do naturalizacji IND stosuje dodatkowe wymogi językowe. Istnieją trzy drogi, aby mimo to się naturalizować:<br><br><strong>Droga A — Mimo to zdać egzamin na poziomie A2</strong><br>Zdaj wszystkie egzaminy językowe na poziomie A2 (czytanie, słuchanie, pisanie, mówienie) oraz egzamin KNM. Uwaga: teraz, gdy ścieżka Z została ukończona, podejścia do egzaminu nie są już bezpłatne.<br><br><strong>Droga B — 600 godzin lekcji języka + co najmniej 3 podejścia na część</strong><br>Co najmniej 600 godzin lekcji na poziomie A2 w placówce z certyfikatem Blik op Werk i 3 podejścia na część? Wtedy DUO może wydać rekomendację wyłączenia.<br><br><strong>Droga C — 600 godzin alfabetyzacji + test DUO (€150)</strong><br>Co najmniej 600 godzin alfabetyzacji i okazuje się, że A2 jest nieosiągalny? Wtedy następuje wyłączenie poprzez test DUO (€150).<br><br><em>Możliwe w przyszłości:</em> rząd chce podnieść wymóg językowy do naturalizacji z A2 do B1. Nie zostało to jeszcze przyjęte — obecnie nadal obowiązuje A2.<br><br>💡 Omów ze swoją gminą, która droga najlepiej Ci odpowiada.",
         "antwoorden": [
           {
             "tekst": "Rozumiem — kontynuuj do pozostałych warunków",
@@ -10185,7 +10213,7 @@ window._NAT = {
       },
       "v7": {
         "tekst": "Czy jesteś gotowy/a do zrzeczenia się obecnego obywatelstwa?",
-        "uitleg": "Holandia zasadniczo nie zezwala na podwójne obywatelstwo. Wyjątek: uznani uchodźcy mogą zachować oba obywatelstwa.",
+        "uitleg": "Holandia zasadniczo nie zezwala na podwójne obywatelstwo. Są wyjątki, na przykład dla uznanych uchodźców.",
         "antwoorden": [
           {
             "tekst": "Tak, zrzeknę się obywatelstwa",
@@ -10198,7 +10226,8 @@ window._NAT = {
             "sub": "Posiadacze statusu mogą zachować podwójne obywatelstwo",
             "icoon": "✓",
             "klasse": "ja",
-            "volgende": "v8"
+            "volgende": "v8",
+            "alleenPad": "asiel"
           },
           {
             "tekst": "Nie, chcę zachować moje obywatelstwo",
@@ -10233,7 +10262,8 @@ window._NAT = {
         "icoon": "🎉",
         "titel": "Prawdopodobnie spełniasz warunki!",
         "sub": "Na podstawie Twoich odpowiedzi spełniasz główne wymagania naturalizacji. Następnym krokiem jest oficjalny wniosek w Twojej gminie.",
-        "info": "💡 Posiadacze statusu (uznani uchodźcy) zazwyczaj nie muszą zrzekać się pierwotnego obywatelstwa.",
+        "info": "💡 Masz status uznanego uchodźcy? Wtedy zwykle nie musisz zrzekać się pierwotnego obywatelstwa.",
+        "infoAlleenPad": "asiel",
         "stappen": [
           {
             "nr": 1,
@@ -10325,7 +10355,8 @@ window._NAT = {
         "alternatieven": [
           {
             "naam": "Wniosek o azyl",
-            "tekst": "Jeśli potrzebujesz ochrony, możesz złożyć wniosek o azyl do IND."
+            "tekst": "Jeśli potrzebujesz ochrony, możesz złożyć wniosek o azyl do IND.",
+            "alleenPad": "asiel"
           },
           {
             "naam": "Zwykłe zezwolenie",
@@ -10333,29 +10364,26 @@ window._NAT = {
           },
           {
             "naam": "Pomoc prawna",
-            "tekst": "Skontaktuj się z organizacją ds. uchodźców lub adwokatem."
+            "tekst": "Skontaktuj się z adwokatem lub z punktem porad prawnych (Juridisch Loket)."
           },
           {
             "naam": "VluchtelingenWerk",
-            "tekst": "Bezpłatne wsparcie prawne dla wnioskodawców azylowych i posiadaczy statusu."
+            "tekst": "Bezpłatne wsparcie prawne dla wnioskodawców azylowych i posiadaczy statusu.",
+            "alleenPad": "asiel"
           }
         ],
-        "link": "https://www.vluchtelingenwerk.nl",
-        "linkTekst": "→ Skontaktuj się z VluchtelingenWerk"
+        "link": "https://www.juridischloket.nl",
+        "linkTekst": "→ Pomoc przez Juridisch Loket"
       },
       "r_te_kort": {
         "type": "wacht",
         "icoon": "⏳",
         "titel": "Jeszcze nie mieszkasz wystarczająco długo w Holandii",
-        "sub": "Obecnie musisz mieszkać w Holandii nieprzerwanie co najmniej 5 lat z ważnym pobytem. Od nowych przepisów azylowych z 2026 roku jest kilka rzeczy, na które warto zwrócić uwagę podczas oczekiwania. Czas oczekiwania możesz dobrze wykorzystać.",
+        "sub": "Musisz mieszkać w Holandii nieprzerwanie co najmniej 5 lat. Czas oczekiwania możesz dobrze wykorzystać.",
         "alternatieven": [
           {
             "naam": "Przedłuż zezwolenie na czas",
-            "tekst": "Nowe zezwolenia azylowe są ważne maksymalnie 3 lata; dlatego przedłużaj na czas. Jeśli powstanie \"luka pobytowa\" (verblijfsgat) — okres między dwoma zezwoleniami, w którym nie masz ważnego zezwolenia — ten czas nie liczy się jako legalny pobyt, a odliczanie 5 lat do naturalizacji może zacząć się od nowa. Dlatego złóż wniosek o przedłużenie najpóźniej w ciągu 4 tygodni po wygaśnięciu: wtedy IND nie uzna tego za lukę pobytową."
-          },
-          {
-            "naam": "Czy Twoje zezwolenie azylowe wygasa wcześniej?",
-            "tekst": "Masz 5-letnie zezwolenie na pobyt azylowy (verblijfsvergunning asiel) sprzed 12 czerwca 2026 r., które wygasa, zanim będziesz mieszkać w Holandii 5 lat? Wtedy przy przedłużeniu dostaniesz zezwolenie według nowych przepisów. Twoja droga prowadzi wtedy przez status rezydenta długoterminowego UE (EU-langdurig ingezetene), a do niego obowiązuje wymóg dochodowy."
+            "tekst": "Jeśli pojawi się okres bez ważnego zezwolenia — \"luka pobytowa\" (verblijfsgat) — ten czas się nie liczy. Odliczanie 5 lat może wtedy zacząć się od nowa. Dlatego złóż wniosek o przedłużenie na czas, najpóźniej w ciągu 4 tygodni po wygaśnięciu: wtedy IND nie uzna tego za lukę pobytową."
           },
           {
             "naam": "Okres naturalizacji: możliwe 10 lat",
@@ -10375,15 +10403,38 @@ window._NAT = {
           },
           {
             "naam": "Plan rządu (jeszcze nie jest prawem)",
-            "tekst": "Osoby z ochroną, które dwa razy otrzymały tymczasowe zezwolenie azylowe i osiągną niderlandzki na poziomie B1, mogłyby zostać obywatelami Holandii po 6 latach, nawet bez statusu rezydenta długoterminowego UE (EU-langdurig ingezetene). Dla osób, które nie mogą osiągnąć B1, będzie wyjątek. Nie ma jeszcze projektu ustawy. Dopóki takiej ustawy nie ma, obowiązują powyższe przepisy."
+            "tekst": "Osoby z ochroną, które dwa razy otrzymały tymczasowe zezwolenie azylowe i osiągną niderlandzki na poziomie B1, mogłyby zostać obywatelami Holandii po 6 latach, nawet bez statusu rezydenta długoterminowego UE (EU-langdurig ingezetene). Dla osób, które nie mogą osiągnąć B1, będzie wyjątek. Nie ma jeszcze projektu ustawy. Dopóki takiej ustawy nie ma, obowiązują powyższe przepisy.",
+            "alleenPad": "asiel"
           }
         ],
         "interneLink": {
           "naar": "r_eu_langdurig",
           "tekst": "🇪🇺 Zobacz: rezydent długoterminowy UE (stały pobyt po 5 latach)"
         },
-        "link": "https://ind.nl/en/asylum-and-family-reunification-the-migration-pact-and-other-developments/new-laws-and-regulations-for-asylum-and-family-reunification",
-        "linkTekst": "→ Zobacz nowe przepisy azylowe 2026 na ind.nl"
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
+        "linkTekst": "→ Więcej informacji na ind.nl"
+      },
+      "r_regulier_tijdelijk": {
+        "type": "wacht",
+        "icoon": "🎓",
+        "titel": "Z tym zezwoleniem nie możesz jeszcze zostać obywatelem Holandii",
+        "sub": "Do naturalizacji (naturalisatie) potrzebujesz zezwolenia na czas nieokreślony albo zezwolenia w celu, który nie jest tymczasowy. Zezwolenie na studia lub inny pobyt tymczasowy się nie liczy.",
+        "alternatieven": [
+          {
+            "naam": "Twoja sytuacja się zmienia?",
+            "tekst": "Zaczynasz na przykład pracować albo zamieszkasz z partnerem? Wtedy możesz złożyć wniosek o inne zezwolenie. Potem zrób ten test jeszcze raz."
+          },
+          {
+            "naam": "Jak liczy się Twój pobyt?",
+            "tekst": "To, czy lata z obecnym zezwoleniem liczą się do 5 lat, zależy od Twojej sytuacji. Poproś o sprawdzenie tego."
+          },
+          {
+            "naam": "Już teraz ucz się niderlandzkiego",
+            "tekst": "Do naturalizacji (naturalisatie) musisz później mieć ukończoną integrację obywatelską (inburgering). Kurs językowy pomoże już teraz."
+          }
+        ],
+        "link": "https://ind.nl/en/dutch-citizenship/becoming-a-dutch-national-through-naturalisation",
+        "linkTekst": "→ Więcej informacji na ind.nl"
       },
       "r_bezig_b1": {
         "type": "route",
@@ -10482,9 +10533,9 @@ window._NAT = {
             "tekst": "600 godzin alfabetyzacji w instytucji Blik op Werk i test DUO pokazuje, że A2 jest nieosiągalne. Przyznawane jest zwolnienie. Test kosztuje 150 €."
           }
         ],
-        "info": "📞 <strong>Porada:</strong> Skonsultuj się z gminą lub VluchtelingenWerk.",
-        "link": "https://www.vluchtelingenwerk.nl",
-        "linkTekst": "→ Pomoc przez VluchtelingenWerk"
+        "info": "📞 <strong>Porada:</strong> Omów ze swoją gminą, która droga najlepiej pasuje do Twojej sytuacji.",
+        "link": "https://www.juridischloket.nl",
+        "linkTekst": "→ Pomoc przez Juridisch Loket"
       },
       "r_geen_inburgering": {
         "type": "wacht",
@@ -10524,7 +10575,8 @@ window._NAT = {
           },
           {
             "naam": "VluchtelingenWerk",
-            "tekst": "Bezpłatna pomoc prawna dla posiadaczy statusu."
+            "tekst": "Bezpłatna pomoc prawna dla posiadaczy statusu.",
+            "alleenPad": "asiel"
           },
           {
             "naam": "Okres oczekiwania",
@@ -10535,8 +10587,8 @@ window._NAT = {
             "tekst": "Mandaty drogowe i drobne wykroczenia zazwyczaj NIE są brane pod uwagę."
           }
         ],
-        "link": "https://www.vluchtelingenwerk.nl",
-        "linkTekst": "→ Skontaktuj się z VluchtelingenWerk"
+        "link": "https://www.juridischloket.nl",
+        "linkTekst": "→ Pomoc przez Juridisch Loket"
       },
       "r_strafblad_check": {
         "type": "wacht",
@@ -10558,7 +10610,7 @@ window._NAT = {
           },
           {
             "naam": "Porady prawne",
-            "tekst": "W razie wątpliwości skonsultuj się z doradcą prawnym lub VluchtelingenWerk."
+            "tekst": "W razie wątpliwości: skonsultuj się z doradcą prawnym lub z punktem porad prawnych (Juridisch Loket)."
           }
         ],
         "link": "https://www.justis.nl/producten/vog",
@@ -10598,7 +10650,8 @@ window._NAT = {
         "alternatieven": [
           {
             "naam": "Wyjątek dla posiadaczy statusu",
-            "tekst": "Jako uznany uchodźca NIE musisz rezygnować ze swojego obywatelstwa."
+            "tekst": "Jako uznany uchodźca NIE musisz rezygnować ze swojego obywatelstwa.",
+            "alleenPad": "asiel"
           },
           {
             "naam": "Wyjątek: niemożliwe",
@@ -10636,7 +10689,7 @@ window._NAT = {
           },
           {
             "type": "amber",
-            "tekst": "⚠️ <strong>Wymóg dochodowy:</strong> musisz mieć wystarczający i trwały własny dochód oraz ubezpieczenie zdrowotne. Z zasiłkiem zwykle się to nie udaje. Uwaga: jeśli masz nowe zezwolenie na pobyt azylowy (verblijfsvergunning asiel) wydane po 12 czerwca 2026 r., potrzebujesz statusu rezydenta długoterminowego UE (EU-langdurig ingezetene), aby później móc się naturalizować. Wymóg dochodowy dotyczy więc także Twojej drogi do obywatelstwa holenderskiego."
+            "tekst": "⚠️ <strong>Wymóg dochodowy:</strong> musisz mieć wystarczający i trwały własny dochód oraz ubezpieczenie zdrowotne. Z zasiłkiem zwykle się to nie udaje. Jeśli masz zezwolenie na pobyt azylowy na czas określony (verblijfsvergunning asiel), potrzebujesz statusu rezydenta długoterminowego UE (EU-langdurig ingezetene), aby później móc się naturalizować. Wymóg dochodowy dotyczy więc także Twojej drogi do obywatelstwa holenderskiego."
           },
           {
             "type": "info",
@@ -10650,7 +10703,7 @@ window._NAT = {
           },
           {
             "nr": 2,
-            "tekst": "<strong>Nowe zezwolenie azylowe?</strong> Wtedy to jedyna droga do stałego zezwolenia, a potem do naturalizacji (naturalisatie)."
+            "tekst": "<strong>Zezwolenie azylowe na czas określony?</strong> Wtedy to jedyna droga do stałego zezwolenia, a potem do naturalizacji (naturalisatie)."
           },
           {
             "nr": 3,
@@ -10694,7 +10747,7 @@ window._NAT = {
         "type": "route",
         "icoon": "🪜",
         "titel": "Możesz zostać obywatelem Holandii — w dwóch krokach",
-        "sub": "Z nowym zezwoleniem na pobyt azylowy (verblijfsvergunning asiel) musisz najpierw zostać rezydentem długoterminowym UE (EU-langdurig ingezetene). Potem możesz złożyć wniosek o naturalizację (naturalisatie).",
+        "sub": "Z zezwoleniem na pobyt azylowy na czas określony (verblijfsvergunning asiel) musisz najpierw zostać rezydentem długoterminowym UE (EU-langdurig ingezetene). Potem możesz złożyć wniosek o naturalizację (naturalisatie).",
         "infoBoxen": [
           {
             "type": "amber",
@@ -10822,7 +10875,7 @@ window._NAT = {
         "type": "wacht",
         "icoon": "🧭",
         "titel": "Twoja przeszkoda to teraz dochód",
-        "sub": "Z zezwoleniem na pobyt azylowy (verblijfsvergunning asiel) wydanym po 12 czerwca 2026 r. możesz zostać obywatelem Holandii tylko wtedy, gdy najpierw zostaniesz rezydentem długoterminowym UE (EU-langdurig ingezetene). Do tego potrzebujesz wystarczającego własnego dochodu. Z zasiłkiem teraz to się nie uda. Szczerze mówiąc, to duża zmiana.",
+        "sub": "Z zezwoleniem na pobyt azylowy na czas określony (verblijfsvergunning asiel) możesz zostać obywatelem Holandii tylko wtedy, gdy najpierw zostaniesz rezydentem długoterminowym UE (EU-langdurig ingezetene). Do tego potrzebujesz wystarczającego własnego dochodu. Z zasiłkiem na razie jeszcze się to nie uda. Szczerze mówiąc, to duża zmiana.",
         "alternatieven": [
           {
             "naam": "Praca lub więcej godzin",
@@ -10878,11 +10931,11 @@ window._NAT = {
         "type": "wacht",
         "icoon": "⏳",
         "titel": "Jeszcze nie mieszkasz wystarczająco długo w Holandii",
-        "sub": "Z nowym zezwoleniem na pobyt azylowy (verblijfsvergunning asiel) musisz najpierw mieszkać w Holandii 5 lat. Potem możesz zostać rezydentem długoterminowym UE (EU-langdurig ingezetene), a dopiero wtedy obywatelem Holandii. Możesz dobrze wykorzystać czas do tego momentu.",
+        "sub": "Z zezwoleniem na pobyt azylowy na czas określony (verblijfsvergunning asiel) musisz najpierw mieszkać w Holandii 5 lat. Potem możesz zostać rezydentem długoterminowym UE (EU-langdurig ingezetene), a dopiero wtedy obywatelem Holandii. Możesz dobrze wykorzystać czas do tego momentu.",
         "alternatieven": [
           {
             "naam": "Przedłużaj na czas",
-            "tekst": "Nowe zezwolenia azylowe są ważne maksymalnie 3 lata; dlatego przedłużaj na czas. Jeśli powstanie \"luka pobytowa\" (verblijfsgat) — okres między dwoma zezwoleniami, w którym nie masz ważnego zezwolenia — ten czas nie liczy się jako legalny pobyt, a odliczanie 5 lat do naturalizacji może zacząć się od nowa. Dlatego złóż wniosek o przedłużenie najpóźniej w ciągu 4 tygodni po wygaśnięciu: wtedy IND nie uzna tego za lukę pobytową."
+            "tekst": "Zezwolenia azylowe na czas określony są ważne maksymalnie 3 lata; dlatego przedłużaj na czas. Jeśli powstanie \"luka pobytowa\" (verblijfsgat) — okres między dwoma zezwoleniami, w którym nie masz ważnego zezwolenia — ten czas nie liczy się jako legalny pobyt, a odliczanie 5 lat do naturalizacji może zacząć się od nowa. Dlatego złóż wniosek o przedłużenie najpóźniej w ciągu 4 tygodni po wygaśnięciu: wtedy IND nie uzna tego za lukę pobytową."
           },
           {
             "naam": "Pracuj nad dochodem",
@@ -10910,19 +10963,19 @@ window._NAT = {
         "type": "wacht",
         "icoon": "🔍",
         "titel": "Najpierw poproś o sprawdzenie, jakie masz zezwolenie",
-        "sub": "Twoja droga do obywatelstwa holenderskiego zależy od Twojego zezwolenia. Z zezwoleniem azylowym sprzed 12 czerwca 2026 r. jest krótsza niż z nowym.",
+        "sub": "Twoja droga do obywatelstwa holenderskiego zależy od Twojego zezwolenia.",
         "alternatieven": [
           {
-            "naam": "Stare zezwolenie azylowe",
-            "tekst": "Na czas nieokreślony albo na 5 lat, otrzymane przed 12 czerwca 2026 r.: możesz się naturalizować (naturalisatie) na starych zasadach."
+            "naam": "Azyl na czas nieokreślony",
+            "tekst": "Możesz się naturalizować (naturalisatie), jeśli spełniasz pozostałe warunki."
           },
           {
-            "naam": "Nowe zezwolenie azylowe",
-            "tekst": "Otrzymane lub przedłużone 12 czerwca 2026 r. lub później: najpierw status rezydenta długoterminowego UE (EU-langdurig ingezetene), z wymogiem dochodowym, potem naturalizacja (naturalisatie)."
+            "naam": "Azyl na czas określony (3 lub 5 lat)",
+            "tekst": "Najpierw status rezydenta długoterminowego UE (EU-langdurig ingezetene), z wymogiem dochodowym, potem naturalizacja (naturalisatie). Także jeśli otrzymałeś/aś zezwolenie przed 12 czerwca 2026 r."
           },
           {
             "naam": "Inne zezwolenie",
-            "tekst": "W celu rodzinnym, pracy lub nauki: nadal obowiązują stare przepisy."
+            "tekst": "W celu rodzinnym, z partnerem lub do pracy: naturalizacja jest zwykle możliwa po 5 latach. Na studia lub inny pobyt tymczasowy — jeszcze nie."
           },
           {
             "naam": "Kto może pomóc?",
