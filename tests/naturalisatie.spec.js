@@ -4,6 +4,19 @@
 // De scenariopaden ([vraagId, antwoordIndex] per stap) komen uit
 // tools/naturalisatie/check.js (SCENARIOS) — niet opnieuw uitgeschreven en
 // niet op tekst gezocht, zoals de overdracht vraagt.
+//
+// Correctie 1, C6: `page.goto('naturalisatie.html', …)` heeft GEEN beginnende
+// "/" meer. Met een beginnende "/" resolvet Playwright/de browser altijd
+// relatief aan de ORIGIN van baseURL, niet aan het pad erin — dat gaat goed
+// bij de lokale server (`http://127.0.0.1:8099`, geen subpad) maar niet tegen
+// de GitHub Pages-staging, waarvan de site in een submap staat
+// (`https://jaspermarsman.github.io/solidari-staging/`). Met een beginnende
+// "/" zou dat `https://jaspermarsman.github.io/naturalisatie.html` worden
+// (404). Zonder beginnende "/" resolvet het pad relatief aan `baseURL` mét
+// submap, mits `SOL_BASE_URL` zelf met een `/` eindigt. Zie LOG-naturalisatie.md
+// (C6) voor de ontdekking; `fase4.spec.js`/`fase7.spec.js` gebruiken nog wel
+// een beginnende "/" en vallen daardoor tegen de staging-submap uit — die
+// bestanden vallen buiten het bestandenbereik van dit plan (§0.6).
 const { test, expect } = require('@playwright/test');
 const fs = require('fs');
 const path = require('path');
@@ -65,7 +78,7 @@ test.describe('5.1 — Scenario\'s (Correctie 1, §4) in NL', () => {
     test(naam, async ({ page }) => {
       await metTaal(page, 'NL');
       await page.addInitScript(STUB_STEMMEN);
-      await page.goto('/naturalisatie.html');
+      await page.goto('naturalisatie.html');
       await loopPad(page, scenario.pad);
       if (scenario.eindVraag) {
         const knoppen = page.locator('.antwoord-knop');
@@ -106,7 +119,7 @@ test.describe('5.2 — S-1, S-5 en S-13 in alle negen talen (Correctie 1, §4)',
 
         await metTaal(page, taal);
         await page.addInitScript(STUB_STEMMEN);
-        await page.goto('/naturalisatie.html', { waitUntil: 'networkidle' });
+        await page.goto('naturalisatie.html', { waitUntil: 'networkidle' });
 
         // Vraag 1 al zichtbaar → check hier ook meteen op een NL-UI-label,
         // want de vraag-stap ("Vraag {n}") staat al op het scherm.
@@ -149,7 +162,7 @@ test.describe('5.3 — Voorlezen (N-6, met stemmen-stub)', () => {
     test(`vraag 1 heeft .sol-a11y-knop en data-lees met alle antwoorden — ${taal}`, async ({ page }) => {
       await metTaal(page, taal);
       await page.addInitScript(STUB_STEMMEN);
-      await page.goto('/naturalisatie.html', { waitUntil: 'networkidle' });
+      await page.goto('naturalisatie.html', { waitUntil: 'networkidle' });
       await page.waitForFunction(() => window.Solidari && window.Solidari.spraak);
       await page.waitForTimeout(500);
 
@@ -172,7 +185,7 @@ test.describe('5.3 — Voorlezen (N-6, met stemmen-stub)', () => {
   test('TI: nergens een .sol-a11y-knop', async ({ page }) => {
     await metTaal(page, 'TI');
     await page.addInitScript(STUB_STEMMEN);
-    await page.goto('/naturalisatie.html', { waitUntil: 'networkidle' });
+    await page.goto('naturalisatie.html', { waitUntil: 'networkidle' });
     await page.waitForFunction(() => window.Solidari && window.Solidari.spraak);
     await page.waitForTimeout(500);
     expect(await page.locator('.sol-a11y-knop').count()).toBe(0);
@@ -217,7 +230,7 @@ test.describe('5.5 — S-14: indexfix bij v7 op pad regulier (Correctie 1, §3.1
   test('tweede zichtbare antwoord bij v7 → geschiedenis toont "Nee, ik wil …"', async ({ page }) => {
     await metTaal(page, 'NL');
     await page.addInitScript(STUB_STEMMEN);
-    await page.goto('/naturalisatie.html');
+    await page.goto('naturalisatie.html');
     await loopPad(page, SCENARIOS['S-14'].pad);
 
     // Zichtbaar op pad "regulier" (mirroring padOk() in naturalisatie.html /
@@ -251,7 +264,7 @@ test.describe('5.6 — Voorleestest padzuiverheid (Correctie 1, §4): data-lees 
     test(`v7 op pad regulier bevat geen asiel/vluchteling-woord — ${taal}`, async ({ page }) => {
       await metTaal(page, taal);
       await page.addInitScript(STUB_STEMMEN);
-      await page.goto('/naturalisatie.html', { waitUntil: 'networkidle' });
+      await page.goto('naturalisatie.html', { waitUntil: 'networkidle' });
       await loopPad(page, SCENARIOS['S-14'].pad);
 
       const leesAttr = await page.locator('.vraag-tekst').first().getAttribute('data-lees');
