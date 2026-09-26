@@ -21,9 +21,11 @@ window._NAT = {
       "badge": "🇳🇱 Naturalisatie Checker",
       "titel": "Kom ik in aanmerking voor een Nederlands paspoort?",
       "sub": "Beantwoord een paar vragen en zie of je Nederlander kunt worden. Op basis van de regels van 2026, ook de nieuwe asielregels sinds 12 juni 2026.",
-      "disclaimer": "⚠️ Deze checker geeft een indicatie, geen besluit. Gecontroleerd in september 2026 (IND, Stimulansz). Sinds 12 juni 2026 is er geen asielvergunning voor onbepaalde tijd meer. Nieuwe statushouders moeten daarom eerst EU-langdurig ingezetene worden voordat ze kunnen naturaliseren. Aangekondigde plannen van het kabinet zijn nog geen wet. Vraag altijd advies aan de gemeente of VluchtelingenWerk.",
+      "disclaimer": "⚠️ Deze checker geeft een indicatie, geen besluit. Gecontroleerd in september 2026 (IND, Stimulansz). Sinds 12 juni 2026 is er geen asielvergunning voor onbepaalde tijd meer. Statushouders met een asielvergunning voor bepaalde tijd moeten daarom eerst EU-langdurig ingezetene worden voordat ze kunnen naturaliseren. Aangekondigde plannen van het kabinet zijn nog geen wet. Vraag altijd advies aan de gemeente of VluchtelingenWerk.",
       "vwnLabel": "Twijfel je over jouw situatie?",
-      "vwnTekst": "Naturalisatieregels veranderen snel en jouw situatie kan anders liggen dan de checker aangeeft. VluchtelingenWerk heeft spreekuren en begeleiding bij naturalisatie — kijk op <a href=\"https://www.vluchtelingenwerk.nl/over-ons/locaties\" target=\"_blank\" style=\"color:inherit;\">vluchtelingenwerk.nl/over-ons/locaties</a> voor een locatie bij jou in de buurt."
+      "vwnTekst": "Naturalisatieregels veranderen snel en jouw situatie kan anders liggen dan de checker aangeeft. VluchtelingenWerk heeft spreekuren en begeleiding bij naturalisatie — kijk op <a href=\"https://www.vluchtelingenwerk.nl/over-ons/locaties\" target=\"_blank\" style=\"color:inherit;\">vluchtelingenwerk.nl/over-ons/locaties</a> voor een locatie bij jou in de buurt.",
+      "hulpRegulierLabel": "Twijfel je over jouw situatie?",
+      "hulpRegulierTekst": "Het Juridisch Loket geeft gratis advies over je verblijfsvergunning en naturalisatie. Kijk op <a href=\"https://www.juridischloket.nl\" target=\"_blank\" style=\"color:inherit;\">juridischloket.nl</a> of vraag het bij je gemeente."
     },
     "ui": {
       "volgendeStappen": "Volgende stappen",
@@ -63,14 +65,16 @@ window._NAT = {
             "tekst": "Ik heb een asielvergunning (statushouder)",
             "icoon": "🛡️",
             "klasse": "ja",
-            "volgende": "v_asiel"
+            "volgende": "v_asiel",
+            "pad": "asiel"
           },
           {
             "tekst": "Ik heb een andere verblijfsvergunning",
             "sub": "Bijvoorbeeld voor gezin, werk of studie",
             "icoon": "📄",
             "klasse": "ja",
-            "volgende": "v2"
+            "volgende": "v_regulier",
+            "pad": "regulier"
           },
           {
             "tekst": "Ik ben EU-burger",
@@ -89,27 +93,21 @@ window._NAT = {
       },
       "v_asiel": {
         "tekst": "Welke asielvergunning heb je nu?",
-        "uitleg": "Sinds 12 juni 2026 zijn de regels veranderd. Voor naturalisatie maakt het uit wanneer je je huidige vergunning hebt gekregen.",
+        "uitleg": "Kijk op je verblijfspas: staat er 'onbepaalde tijd', of een einddatum?",
         "antwoorden": [
           {
             "tekst": "Asiel voor onbepaalde tijd",
-            "sub": "Gekregen vóór 12 juni 2026",
+            "sub": "Op je pas staat geen einddatum voor je verblijfsrecht",
             "icoon": "✓",
             "klasse": "ja",
             "volgende": "v2"
           },
           {
-            "tekst": "Asiel voor 5 jaar, gekregen vóór 12 juni 2026",
+            "tekst": "Asiel voor bepaalde tijd",
+            "sub": "3 of 5 jaar geldig, ook als je hem vóór 12 juni 2026 kreeg",
             "icoon": "📅",
-            "klasse": "ja",
-            "volgende": "v_asiel5"
-          },
-          {
-            "tekst": "Asiel gekregen of verlengd op of na 12 juni 2026",
-            "sub": "Meestal 3 jaar geldig",
-            "icoon": "🆕",
             "klasse": "anders",
-            "volgende": "e1"
+            "volgende": "v_asiel5"
           },
           {
             "tekst": "Ik ben al EU-langdurig ingezetene",
@@ -126,20 +124,20 @@ window._NAT = {
         ]
       },
       "v_asiel5": {
-        "tekst": "Goed nieuws: jouw vergunning valt onder de oude regels",
-        "uitleg": "Je hebt je asielvergunning van 5 jaar gekregen vóór 12 juni 2026. Daarmee kun je nog naturaliseren op de oude manier.<br><br>⚠️ <strong>Let op:</strong> verlengt de IND je vergunning na 12 juni 2026, dan krijg je een vergunning volgens de nieuwe regels. Dan moet je eerst EU-langdurig ingezetene worden. <strong>Voldoe je aan de voorwaarden? Vraag naturalisatie dan aan terwijl je huidige pas nog geldig is.</strong>",
+        "tekst": "Je vergunning blijft geldig — maar Nederlander worden gaat via een tussenstap",
+        "uitleg": "Je asielvergunning blijft geldig tot de datum op je pas. Maar met een asielvergunning voor bepaalde tijd kun je geen naturalisatie aanvragen. Dat geldt ook als je de vergunning vóór 12 juni 2026 kreeg. Sinds 12 juni 2026 bestaat de asielvergunning voor onbepaalde tijd niet meer.<br><br>Daarom moet je eerst <strong>EU-langdurig ingezetene</strong> worden. Daarna kun je naturalisatie aanvragen. De volgende vragen laten zien of dat voor jou al kan.",
         "antwoorden": [
           {
             "tekst": "Ik begrijp het — ga verder",
             "icoon": "→",
             "klasse": "ja",
-            "volgende": "v2"
+            "volgende": "e1"
           }
         ]
       },
       "v_asiel_wn": {
         "tekst": "Zo zie je welke vergunning je hebt",
-        "uitleg": "Kijk op je verblijfspas, bij 'Type document en bijzonderheden' (het typenummer en de tekst ernaast), of in de brief van de IND. Let op twee dingen:<br><br>1. Staat er <strong>asiel</strong> of een ander doel (zoals gezin of werk)?<br>2. Wanneer heb je deze pas gekregen: <strong>vóór of na 12 juni 2026</strong>? En hoe lang is hij geldig?<br><br>Kom je er niet uit? Vraag het je begeleider bij de gemeente of VluchtelingenWerk.",
+        "uitleg": "Kijk op je verblijfspas, bij 'Type document en bijzonderheden' (het typenummer en de tekst ernaast), of in de brief van de IND. Let op twee dingen:<br><br>1. Staat er <strong>asiel</strong> of een ander doel (zoals gezin of werk)?<br>2. Staat er '<strong>onbepaalde tijd</strong>', of staat er een <strong>einddatum</strong>?<br><br>Kom je er niet uit? Vraag het je begeleider bij de gemeente of VluchtelingenWerk.",
         "antwoorden": [
           {
             "tekst": "Ik heb het gevonden — terug naar de vraag",
@@ -155,9 +153,40 @@ window._NAT = {
           }
         ]
       },
+      "v_regulier": {
+        "tekst": "Wat voor verblijfsvergunning heb je?",
+        "uitleg": "Voor naturalisatie heb je een vergunning nodig voor onbepaalde tijd, of voor een doel dat niet tijdelijk is, zoals wonen bij je partner of werk. Op je verblijfspas staat het doel en of er een einddatum is.",
+        "antwoorden": [
+          {
+            "tekst": "Voor onbepaalde tijd",
+            "icoon": "✓",
+            "klasse": "ja",
+            "volgende": "v2"
+          },
+          {
+            "tekst": "Voor bepaalde tijd — voor gezin, partner of werk",
+            "icoon": "👨‍👩‍👧",
+            "klasse": "ja",
+            "volgende": "v2"
+          },
+          {
+            "tekst": "Voor bepaalde tijd — voor studie of ander tijdelijk verblijf",
+            "sub": "Bijvoorbeeld seizoenarbeid, medische behandeling, uitwisseling of het zoekjaar voor hoogopgeleiden",
+            "icoon": "🎓",
+            "klasse": "nee",
+            "volgende": "r_regulier_tijdelijk"
+          },
+          {
+            "tekst": "Ik weet het niet",
+            "icoon": "❓",
+            "klasse": "anders",
+            "volgende": "v_asiel_wn"
+          }
+        ]
+      },
       "e1": {
         "tekst": "Woon je al 5 jaar of langer achter elkaar in Nederland met een geldige vergunning?",
-        "uitleg": "Met een nieuwe asielvergunning kun je pas Nederlander worden als je eerst EU-langdurig ingezetene bent. Daarvoor moet je minstens 5 jaar achter elkaar in Nederland wonen met een geldige vergunning. De jaren met een asielvergunning tellen mee. Of de tijd in de asielprocedure meetelt, bepaalt de IND.",
+        "uitleg": "Met een asielvergunning voor bepaalde tijd kun je pas Nederlander worden als je eerst EU-langdurig ingezetene bent. Daarvoor moet je minstens 5 jaar achter elkaar in Nederland wonen met een geldige vergunning. De jaren met een asielvergunning tellen mee. Of de tijd in de asielprocedure meetelt, bepaalt de IND.",
         "antwoorden": [
           {
             "tekst": "Ja, 5 jaar of langer",
@@ -246,18 +275,17 @@ window._NAT = {
         ]
       },
       "v2": {
-        "tekst": "Heb je een geldige verblijfsvergunning?",
-        "uitleg": "Je hebt een geldige verblijfsvergunning nodig die niet tijdelijk is. Denk aan een vergunning voor onbepaalde tijd, EU-langdurig ingezetene, of een asielvergunning van vóór 12 juni 2026. Verleng je vergunning altijd op tijd, zodat je verblijf ononderbroken blijft.",
+        "tekst": "Is je verblijfsvergunning nu geldig?",
+        "uitleg": "Je vergunning moet geldig zijn als je naturalisatie aanvraagt, en blijven gelden tot de beslissing. Verleng hem altijd op tijd, zodat je verblijf ononderbroken blijft.",
         "antwoorden": [
           {
-            "tekst": "Ja, ik heb een geldige verblijfsvergunning",
-            "sub": "Of een asielstatus (IND type III, IV of V)",
+            "tekst": "Ja, mijn vergunning is geldig",
             "icoon": "✓",
             "klasse": "ja",
             "volgende": "v3"
           },
           {
-            "tekst": "Nee, ik heb geen geldige verblijfsvergunning",
+            "tekst": "Nee, mijn vergunning is verlopen of ik heb er geen",
             "icoon": "✗",
             "klasse": "nee",
             "volgende": "r_geen_vergunning"
@@ -326,7 +354,7 @@ window._NAT = {
       },
       "v4a_z": {
         "tekst": "Je hebt de Z-route afgerond — er is nog één extra stap nodig voor naturalisatie",
-        "uitleg": "De Z-route sluit af met een eindgesprek en certificaat, maar voor naturalisatie gelden aanvullende taaleisen vanuit de IND. Er zijn drie paden om toch te kunnen naturaliseren:<br><br><strong>Pad A — Alsnog examen halen op A2-niveau</strong><br>Haal alle taalexamens op A2 (lezen, luisteren, schrijven, spreken) én het KNM-examen. Let op: nu de Z-route is afgerond zijn examenpogingen niet langer kosteloos.<br><br><strong>Pad B — 600 uur taalles + minimaal 3 pogingen per onderdeel</strong><br>Minstens 600 uur taalles op A2-niveau bij een Blik op Werk instelling én 3 pogingen per onderdeel? Dan kan DUO een ontheffingsadvies geven.<br><br><strong>Pad C — 600 uur alfabetisering + DUO-toets (€150)</strong><br>Minstens 600 uur alfabetisering en blijkt A2 niet haalbaar? Dan volgt een ontheffing via DUO-toets (€150).<br><br><em>Mogelijk in de toekomst:</em> het kabinet wil de taaleis voor naturalisatie verhogen van A2 naar B1. Dit is nog niet aangenomen — op dit moment geldt nog A2.<br><br>💡 Overleg met jouw gemeente of VluchtelingenWerk welk pad het beste past.",
+        "uitleg": "De Z-route sluit af met een eindgesprek en certificaat, maar voor naturalisatie gelden aanvullende taaleisen vanuit de IND. Er zijn drie paden om toch te kunnen naturaliseren:<br><br><strong>Pad A — Alsnog examen halen op A2-niveau</strong><br>Haal alle taalexamens op A2 (lezen, luisteren, schrijven, spreken) én het KNM-examen. Let op: nu de Z-route is afgerond zijn examenpogingen niet langer kosteloos.<br><br><strong>Pad B — 600 uur taalles + minimaal 3 pogingen per onderdeel</strong><br>Minstens 600 uur taalles op A2-niveau bij een Blik op Werk instelling én 3 pogingen per onderdeel? Dan kan DUO een ontheffingsadvies geven.<br><br><strong>Pad C — 600 uur alfabetisering + DUO-toets (€150)</strong><br>Minstens 600 uur alfabetisering en blijkt A2 niet haalbaar? Dan volgt een ontheffing via DUO-toets (€150).<br><br><em>Mogelijk in de toekomst:</em> het kabinet wil de taaleis voor naturalisatie verhogen van A2 naar B1. Dit is nog niet aangenomen — op dit moment geldt nog A2.<br><br>💡 Overleg met jouw gemeente welk pad het beste past.",
         "antwoorden": [
           {
             "tekst": "Ik begrijp dit — ga verder met de overige voorwaarden",
@@ -433,7 +461,7 @@ window._NAT = {
       },
       "v7": {
         "tekst": "Ben je bereid afstand te doen van je huidige nationaliteit?",
-        "uitleg": "Nederland staat in principe geen dubbele nationaliteit toe. Uitzondering: erkende vluchtelingen (statushouders) mogen beide nationaliteiten houden.",
+        "uitleg": "Nederland staat in principe geen dubbele nationaliteit toe. Er zijn uitzonderingen, bijvoorbeeld voor erkende vluchtelingen.",
         "antwoorden": [
           {
             "tekst": "Ja, ik doe afstand van mijn nationaliteit",
@@ -446,7 +474,8 @@ window._NAT = {
             "sub": "Statushouders mogen dubbele nationaliteit houden",
             "icoon": "✓",
             "klasse": "ja",
-            "volgende": "v8"
+            "volgende": "v8",
+            "alleenPad": "asiel"
           },
           {
             "tekst": "Nee, ik wil mijn nationaliteit houden",
@@ -481,7 +510,8 @@ window._NAT = {
         "icoon": "🎉",
         "titel": "Je komt waarschijnlijk in aanmerking!",
         "sub": "Op basis van jouw antwoorden voldoe je aan de belangrijkste voorwaarden voor naturalisatie. De volgende stap is een officiële aanvraag bij jouw gemeente.",
-        "info": "💡 Statushouders (erkende vluchtelingen) hoeven in de meeste gevallen geen afstand te doen van hun oorspronkelijke nationaliteit.",
+        "info": "💡 Ben je erkend vluchteling? Dan hoef je meestal geen afstand te doen van je oorspronkelijke nationaliteit.",
+  "infoAlleenPad": "asiel",
         "stappen": [
           {
             "nr": 1,
@@ -573,7 +603,8 @@ window._NAT = {
         "alternatieven": [
           {
             "naam": "Asielaanvraag",
-            "tekst": "Als je bescherming nodig hebt, kun je een asielaanvraag indienen bij de IND."
+            "tekst": "Als je bescherming nodig hebt, kun je een asielaanvraag indienen bij de IND.",
+            "alleenPad": "asiel"
           },
           {
             "naam": "Reguliere vergunning",
@@ -581,29 +612,26 @@ window._NAT = {
           },
           {
             "naam": "Juridische hulp",
-            "tekst": "Neem contact op met een vluchtelingenorganisatie of advocaat."
+            "tekst": "Neem contact op met een advocaat of het Juridisch Loket."
           },
           {
             "naam": "VluchtelingenWerk",
-            "tekst": "Gratis juridische ondersteuning voor asielzoekers en statushouders."
+            "tekst": "Gratis juridische ondersteuning voor asielzoekers en statushouders.",
+            "alleenPad": "asiel"
           }
         ],
-        "link": "https://www.vluchtelingenwerk.nl",
-        "linkTekst": "→ Neem contact op met VluchtelingenWerk"
+        "link": "https://www.juridischloket.nl",
+        "linkTekst": "→ Hulp via het Juridisch Loket"
       },
       "r_te_kort": {
         "type": "wacht",
         "icoon": "⏳",
         "titel": "Nog niet lang genoeg in Nederland",
-        "sub": "Je moet nu minimaal 5 jaar aaneengesloten in Nederland wonen. Sinds de nieuwe asielregels van 2026 zijn er een paar dingen waar je tijdens het wachten op moet letten. Je kunt de wachttijd goed benutten.",
+        "sub": "Je moet minimaal 5 jaar aaneengesloten in Nederland wonen. Je kunt de wachttijd goed benutten.",
         "alternatieven": [
           {
             "naam": "Verleng je vergunning op tijd",
-            "tekst": "Nieuwe asielvergunningen gelden nog maximaal 3 jaar; verleng dus op tijd. Komt er een \"verblijfsgat\" — een periode tussen twee vergunningen waarin je geen geldige vergunning hebt — dan telt die tijd niet als rechtmatig verblijf, en kan de 5-jaarstelling voor naturalisatie opnieuw gaan lopen. Vraag verlenging daarom uiterlijk binnen 4 weken na afloop aan: dan ziet de IND het niet als verblijfsgat."
-          },
-          {
-            "naam": "Verloopt je asielvergunning eerder?",
-            "tekst": "Heb je een asielvergunning van 5 jaar van vóór 12 juni 2026, en verloopt die voordat je 5 jaar in Nederland woont? Dan krijg je bij verlenging een vergunning volgens de nieuwe regels. Dan loopt je route via EU-langdurig ingezetene, en daarvoor geldt een inkomenseis."
+            "tekst": "Komt er een periode zonder geldige vergunning (een \"verblijfsgat\"), dan telt die tijd niet mee. De 5 jaar kunnen dan opnieuw gaan tellen. Vraag verlenging daarom op tijd aan. Vraag verlenging daarom uiterlijk binnen 4 weken na afloop aan: dan ziet de IND het niet als verblijfsgat."
           },
           {
             "naam": "Naturalisatietermijn: mogelijk 10 jaar",
@@ -623,15 +651,38 @@ window._NAT = {
           },
           {
             "naam": "Plan van het kabinet (nog geen wet)",
-            "tekst": "statushouders die twee keer een tijdelijke asielvergunning hebben gekregen en Nederlands op niveau B1 halen, zouden na 6 jaar Nederlander kunnen worden, ook zonder EU-langdurig ingezetene. Voor wie B1 niet kan halen komt een uitzondering. Er is nog geen wetsvoorstel. Tot die wet er is, gelden de regels hierboven."
+            "tekst": "statushouders die twee keer een tijdelijke asielvergunning hebben gekregen en Nederlands op niveau B1 halen, zouden na 6 jaar Nederlander kunnen worden, ook zonder EU-langdurig ingezetene. Voor wie B1 niet kan halen komt een uitzondering. Er is nog geen wetsvoorstel. Tot die wet er is, gelden de regels hierboven.",
+            "alleenPad": "asiel"
           }
         ],
         "interneLink": {
           "naar": "r_eu_langdurig",
           "tekst": "🇪🇺 Bekijk: EU-langdurig ingezetene (permanent verblijf na 5 jaar)"
         },
-        "link": "https://ind.nl/nl/asiel-en-nareis-het-migratiepact-en-andere-ontwikkelingen/nieuwe-wetten-en-regels-asiel-en-nareis",
-        "linkTekst": "→ Bekijk de nieuwe asielregels 2026 op ind.nl"
+        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "linkTekst": "→ Meer informatie op ind.nl"
+      },
+      "r_regulier_tijdelijk": {
+        "type": "wacht",
+        "icoon": "🎓",
+        "titel": "Met deze vergunning kun je nog geen Nederlander worden",
+        "sub": "Voor naturalisatie heb je een vergunning nodig voor onbepaalde tijd, of voor een doel dat niet tijdelijk is. Een vergunning voor studie of ander tijdelijk verblijf telt niet.",
+        "alternatieven": [
+          {
+            "naam": "Verandert je situatie?",
+            "tekst": "Ga je bijvoorbeeld werken, of wonen bij je partner? Dan kun je een andere vergunning aanvragen. Doe daarna deze check opnieuw."
+          },
+          {
+            "naam": "Hoe telt je verblijf mee?",
+            "tekst": "Of de jaren met je huidige vergunning meetellen voor de 5 jaar, hangt af van je situatie. Laat dit checken."
+          },
+          {
+            "naam": "Werk alvast aan je Nederlands",
+            "tekst": "Voor naturalisatie moet je later ingeburgerd zijn. Een taalcursus helpt nu al."
+          }
+        ],
+        "link": "https://ind.nl/nl/nederlanderschap/nederlander-worden-door-naturalisatie",
+        "linkTekst": "→ Meer informatie op ind.nl"
       },
       "r_bezig_b1": {
         "type": "route",
@@ -730,9 +781,9 @@ window._NAT = {
             "tekst": "Minstens 600 uur alfabetisering gevolgd bij een Blik op Werk instelling en blijkt uit een DUO-toets dat A2 niet haalbaar is? Dan volgt een ontheffing. De DUO-toets kost €150."
           }
         ],
-        "info": "📞 <strong>Advies:</strong> Overleg met jouw gemeente of VluchtelingenWerk welk pad het beste bij jouw situatie past.",
-        "link": "https://www.vluchtelingenwerk.nl",
-        "linkTekst": "→ Hulp via VluchtelingenWerk"
+        "info": "📞 <strong>Advies:</strong> Overleg met jouw gemeente welk pad het beste bij jouw situatie past.",
+        "link": "https://www.juridischloket.nl",
+        "linkTekst": "→ Hulp via het Juridisch Loket"
       },
       "r_geen_inburgering": {
         "type": "wacht",
@@ -772,7 +823,8 @@ window._NAT = {
           },
           {
             "naam": "VluchtelingenWerk",
-            "tekst": "Gratis juridische hulp voor statushouders."
+            "tekst": "Gratis juridische hulp voor statushouders.",
+            "alleenPad": "asiel"
           },
           {
             "naam": "Wachttijd",
@@ -783,8 +835,8 @@ window._NAT = {
             "tekst": "Verkeersboetes en kleine overtredingen tellen in de meeste gevallen NIET mee."
           }
         ],
-        "link": "https://www.vluchtelingenwerk.nl",
-        "linkTekst": "→ Neem contact op met VluchtelingenWerk"
+        "link": "https://www.juridischloket.nl",
+        "linkTekst": "→ Hulp via het Juridisch Loket"
       },
       "r_strafblad_check": {
         "type": "wacht",
@@ -806,7 +858,7 @@ window._NAT = {
           },
           {
             "naam": "Juridisch advies",
-            "tekst": "Bij twijfel: raadpleeg een juridisch adviseur of VluchtelingenWerk."
+            "tekst": "Bij twijfel: raadpleeg een juridisch adviseur of het Juridisch Loket."
           }
         ],
         "link": "https://www.justis.nl/producten/vog",
@@ -846,7 +898,8 @@ window._NAT = {
         "alternatieven": [
           {
             "naam": "Uitzondering statushouders",
-            "tekst": "Als erkend vluchteling hoef je GEEN afstand te doen van je nationaliteit."
+            "tekst": "Als erkend vluchteling hoef je GEEN afstand te doen van je nationaliteit.",
+            "alleenPad": "asiel"
           },
           {
             "naam": "Uitzondering: onmogelijk",
@@ -884,7 +937,7 @@ window._NAT = {
           },
           {
             "type": "amber",
-            "tekst": "⚠️ <strong>Inkomenseis:</strong> je moet genoeg eigen, duurzaam inkomen hebben en een zorgverzekering. Met een uitkering lukt dat meestal niet. Let op: heb je een nieuwe asielvergunning (na 12 juni 2026), dan heb je EU-langdurig ingezetene nodig om later te kunnen naturaliseren. De inkomenseis geldt dan dus ook voor jouw weg naar het Nederlanderschap."
+            "tekst": "⚠️ <strong>Inkomenseis:</strong> je moet genoeg eigen, duurzaam inkomen hebben en een zorgverzekering. Met een uitkering lukt dat meestal niet. Heb je een asielvergunning voor bepaalde tijd, dan heb je EU-langdurig ingezetene nodig om later te kunnen naturaliseren. De inkomenseis geldt dan dus ook voor jouw weg naar het Nederlanderschap."
           },
           {
             "type": "info",
@@ -898,7 +951,7 @@ window._NAT = {
           },
           {
             "nr": 2,
-            "tekst": "<strong>Nieuwe asielvergunning?</strong> Dan is dit de enige weg naar een blijvende vergunning, en daarna naar naturalisatie."
+            "tekst": "<strong>Asielvergunning voor bepaalde tijd?</strong> Dan is dit de enige weg naar een blijvende vergunning, en daarna naar naturalisatie."
           },
           {
             "nr": 3,
@@ -942,7 +995,7 @@ window._NAT = {
         "type": "route",
         "icoon": "🪜",
         "titel": "Je kunt Nederlander worden — in twee stappen",
-        "sub": "Met een nieuwe asielvergunning moet je eerst EU-langdurig ingezetene worden. Daarna kun je naturalisatie aanvragen.",
+        "sub": "Met een asielvergunning voor bepaalde tijd moet je eerst EU-langdurig ingezetene worden. Daarna kun je naturalisatie aanvragen.",
         "infoBoxen": [
           {
             "type": "amber",
@@ -1070,7 +1123,7 @@ window._NAT = {
         "type": "wacht",
         "icoon": "🧭",
         "titel": "Je inkomen is nu de drempel",
-        "sub": "Met een asielvergunning van na 12 juni 2026 kun je alleen Nederlander worden als je eerst EU-langdurig ingezetene bent. Daarvoor heb je genoeg eigen inkomen nodig. Met een uitkering lukt dat nu nog niet. Dit is eerlijk gezegd een grote verandering.",
+        "sub": "Met een asielvergunning voor bepaalde tijd kun je alleen Nederlander worden als je eerst EU-langdurig ingezetene bent. Daarvoor heb je genoeg eigen inkomen nodig. Met een uitkering lukt dat nu nog niet. Dit is eerlijk gezegd een grote verandering.",
         "alternatieven": [
           {
             "naam": "Werk of meer uren",
@@ -1126,11 +1179,11 @@ window._NAT = {
         "type": "wacht",
         "icoon": "⏳",
         "titel": "Nog niet lang genoeg in Nederland",
-        "sub": "Met een nieuwe asielvergunning moet je eerst 5 jaar in Nederland wonen. Daarna kun je EU-langdurig ingezetene worden, en dan pas Nederlander. Je kunt de tijd tot dan goed gebruiken.",
+        "sub": "Met een asielvergunning voor bepaalde tijd moet je eerst 5 jaar in Nederland wonen. Daarna kun je EU-langdurig ingezetene worden, en dan pas Nederlander. Je kunt de tijd tot dan goed gebruiken.",
         "alternatieven": [
           {
             "naam": "Verleng op tijd",
-            "tekst": "Nieuwe asielvergunningen gelden nog maximaal 3 jaar; verleng dus op tijd. Komt er een \"verblijfsgat\" — een periode tussen twee vergunningen waarin je geen geldige vergunning hebt — dan telt die tijd niet als rechtmatig verblijf, en kan de 5-jaarstelling voor naturalisatie opnieuw gaan lopen. Vraag verlenging daarom uiterlijk binnen 4 weken na afloop aan: dan ziet de IND het niet als verblijfsgat."
+            "tekst": "Asielvergunningen voor bepaalde tijd gelden nog maximaal 3 jaar; verleng dus op tijd. Komt er een \"verblijfsgat\" — een periode tussen twee vergunningen waarin je geen geldige vergunning hebt — dan telt die tijd niet als rechtmatig verblijf, en kan de 5-jaarstelling voor naturalisatie opnieuw gaan lopen. Vraag verlenging daarom uiterlijk binnen 4 weken na afloop aan: dan ziet de IND het niet als verblijfsgat."
           },
           {
             "naam": "Werk aan je inkomen",
@@ -1158,19 +1211,19 @@ window._NAT = {
         "type": "wacht",
         "icoon": "🔍",
         "titel": "Laat eerst checken welke vergunning je hebt",
-        "sub": "Je route naar het Nederlanderschap hangt af van je vergunning. Met een asielvergunning van vóór 12 juni 2026 is die korter dan met een nieuwe.",
+        "sub": "Je route naar het Nederlanderschap hangt af van je vergunning.",
         "alternatieven": [
           {
-            "naam": "Oude asielvergunning",
-            "tekst": "Onbepaalde tijd, of 5 jaar gekregen vóór 12 juni 2026: je kunt naturaliseren op de oude manier."
+            "naam": "Asiel voor onbepaalde tijd",
+            "tekst": "Je kunt naturaliseren als je aan de andere voorwaarden voldoet."
           },
           {
-            "naam": "Nieuwe asielvergunning",
-            "tekst": "Gekregen of verlengd op of na 12 juni 2026: eerst EU-langdurig ingezetene (met inkomenseis), daarna naturalisatie."
+            "naam": "Asiel voor bepaalde tijd (3 of 5 jaar)",
+            "tekst": "Eerst EU-langdurig ingezetene (met inkomenseis), daarna naturalisatie. Ook als je de vergunning vóór 12 juni 2026 kreeg."
           },
           {
             "naam": "Andere vergunning",
-            "tekst": "Voor gezin, werk of studie: de oude regels gelden nog."
+            "tekst": "Voor gezin, partner of werk: naturaliseren kan meestal na 5 jaar. Voor studie of ander tijdelijk verblijf nog niet."
           },
           {
             "naam": "Wie kan helpen?",

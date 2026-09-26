@@ -26,67 +26,125 @@ function laadData() {
 const FOUTEN = [];
 function fail(msg) { FOUTEN.push(msg); }
 
-// ── §8 scenariotabel ──────────────────────────────────────────────────────
+// ── Scenariotabel (Correctie 1, §4) ──────────────────────────────────────
 // Elk pad is een lijst van [vraagId, antwoordIndex]. Dit is taal-onafhankelijk
 // zolang de structuur (aantal/volgorde antwoorden, volgende-doelen) gelijk
 // blijft aan NL — precies wat N-9/§6 eist (en wat checkPariteit afdwingt).
 // Draait sinds fase 4 in elke gecontroleerde taal.
+//
+// Sinds Correctie 1: `simuleerScenario` houdt zelf een `pad` bij (net als
+// `huidigPad()` in naturalisatie.html) en past `padOk`/`alleenPad` toe bij elke
+// stap (§4 punt 1: een gefilterd antwoord is op dat pad niet kiesbaar). Twee
+// nieuwe optionele scenariovelden:
+//   - `verwachtPad`: het pad moet na het simuleren gelijk zijn aan deze waarde.
+//   - `eindVraag`/`verwachtAntwoorden`: in plaats van te eindigen bij een
+//     resultaat, eindigt het scenario bij een VRAAG; `verwachtAntwoorden` is
+//     het aantal antwoorden dat op het bijgehouden pad zichtbaar zou zijn
+//     (na filtering op `alleenPad`). Gebruikt voor S-14/S-15 (§4 tabel), waar
+//     de eigenlijke klik-op-zichtbare-positie-test in naturalisatie.spec.js
+//     (fase C5) gebeurt — hier wordt alleen de graaf/telling gecontroleerd.
 const SCENARIOS = {
   'S-1': {
-    pad: [['v1', 0], ['v1b', 1], ['v2', 0], ['v3', 1], ['v4a', 0], ['v5', 0], ['v6', 0], ['v7', 0], ['v8', 0]],
+    pad: [['v1', 0], ['v1b', 1], ['v_regulier', 0], ['v2', 0], ['v3', 1], ['v4a', 0], ['v5', 0], ['v6', 0], ['v7', 0], ['v8', 0]],
     verwacht: 'r_positief',
+    verwachtPad: 'regulier',
   },
   'S-2': {
     pad: [['v1', 0], ['v1b', 0], ['v_asiel', 0], ['v2', 0], ['v3', 1], ['v4a', 0], ['v5', 0], ['v6', 0], ['v7', 0], ['v8', 0]],
     verwacht: 'r_positief',
+    verwachtPad: 'asiel',
   },
   'S-3': {
-    pad: [['v1', 0], ['v1b', 0], ['v_asiel', 1], ['v_asiel5', 0], ['v2', 0], ['v3', 1], ['v4a', 0], ['v5', 0], ['v6', 0], ['v7', 0], ['v8', 0]],
-    verwacht: 'r_positief',
+    pad: [['v1', 0], ['v1b', 0], ['v_asiel', 1], ['v_asiel5', 0], ['e1', 0], ['e2', 0], ['e3', 0], ['e4', 0]],
+    verwacht: 'r_eu_li_eerst',
+    verwachtPad: 'asiel',
     infokaartGezien: 'v_asiel5',
   },
-  'S-4': {
-    pad: [['v1', 0], ['v1b', 0], ['v_asiel', 2], ['e1', 0], ['e2', 0], ['e3', 0], ['e4', 0]],
-    verwacht: 'r_eu_li_eerst',
-  },
+  // S-4 (plan §8) is met Correctie 1 een letterlijk duplicaat van S-3 geworden:
+  // "5 jaar, vóór 12-06-2026" en "nieuw, na 12-06-2026" zijn in v_asiel
+  // samengevoegd tot één antwoord "Asiel voor bepaalde tijd" (sub noemt "3 of
+  // 5 jaar"). Er is geen apart klikpad meer dat ze onderscheidt, dus S-4 is
+  // hier samengevoegd met S-3 (§4: "laat S-4 bestaan als duplicaat of voeg
+  // samen, noteer de keuze" — keuze: samenvoegen, zie LOG-naturalisatie.md).
   'S-5': {
-    pad: [['v1', 0], ['v1b', 0], ['v_asiel', 2], ['e1', 0], ['e2', 0], ['e3', 2]],
+    pad: [['v1', 0], ['v1b', 0], ['v_asiel', 1], ['v_asiel5', 0], ['e1', 0], ['e2', 0], ['e3', 2]],
     verwacht: 'r_inkomen',
+    verwachtPad: 'asiel',
   },
   'S-6': {
-    pad: [['v1', 0], ['v1b', 0], ['v_asiel', 2], ['e1', 0], ['e2', 0], ['e3', 0], ['e4', 1]],
+    pad: [['v1', 0], ['v1b', 0], ['v_asiel', 1], ['v_asiel5', 0], ['e1', 0], ['e2', 0], ['e3', 0], ['e4', 1]],
     verwacht: 'r_eu_li_eerst_z',
+    verwachtPad: 'asiel',
   },
   'S-7': {
-    pad: [['v1', 0], ['v1b', 0], ['v_asiel', 2], ['e1', 0], ['e2', 1]],
+    pad: [['v1', 0], ['v1b', 0], ['v_asiel', 1], ['v_asiel5', 0], ['e1', 0], ['e2', 1]],
     verwacht: 'r_eu_li_afwezig',
+    verwachtPad: 'asiel',
   },
   'S-8': {
-    pad: [['v1', 0], ['v1b', 0], ['v_asiel', 2], ['e1', 1]],
+    pad: [['v1', 0], ['v1b', 0], ['v_asiel', 1], ['v_asiel5', 0], ['e1', 1]],
     verwacht: 'r_te_kort_nieuw',
+    verwachtPad: 'asiel',
   },
   'S-9': {
     pad: [['v1', 0], ['v1b', 3], ['v_asiel_wn', 1]],
     verwacht: 'r_asiel_onbekend',
   },
   'S-10': {
-    pad: [['v1', 0], ['v1b', 3], ['v_asiel_wn', 0], ['v1b', 0], ['v_asiel', 2], ['e1', 0], ['e2', 2], ['e3', 1], ['e4', 2]],
+    pad: [['v1', 0], ['v1b', 3], ['v_asiel_wn', 0], ['v1b', 0], ['v_asiel', 1], ['v_asiel5', 0], ['e1', 0], ['e2', 2], ['e3', 1], ['e4', 2]],
     verwacht: 'r_eu_li_inburgering_bezig',
+    verwachtPad: 'asiel',
   },
   'S-11': {
-    pad: [['v1', 0], ['v1b', 0], ['v_asiel', 3], ['v2', 0], ['v3', 1], ['v4a', 0], ['v5', 0], ['v6', 0], ['v7', 0], ['v8', 0]],
+    // v_asiel heeft door het samenvoegen van "5 jaar oud"/"nieuw" nu 4 in
+    // plaats van 5 antwoorden; "Ik ben al EU-langdurig ingezetene" schuift
+    // van index 3 naar index 2.
+    pad: [['v1', 0], ['v1b', 0], ['v_asiel', 2], ['v2', 0], ['v3', 1], ['v4a', 0], ['v5', 0], ['v6', 0], ['v7', 0], ['v8', 0]],
     verwacht: 'r_positief',
+    verwachtPad: 'asiel',
   },
   'S-12': {
-    pad: [['v1', 0], ['v1b', 1], ['v2', 0], ['v3', 0]],
+    pad: [['v1', 0], ['v1b', 1], ['v_regulier', 0], ['v2', 0], ['v3', 0]],
     verwacht: 'r_te_kort',
+    verwachtPad: 'regulier',
     verbiedt: ['tijdelijke vergunning'],
   },
+  'S-13': {
+    pad: [['v1', 0], ['v1b', 1], ['v_regulier', 2]],
+    verwacht: 'r_regulier_tijdelijk',
+    verwachtPad: 'regulier',
+  },
+  'S-14': {
+    pad: [['v1', 0], ['v1b', 1], ['v_regulier', 1], ['v2', 0], ['v3', 1], ['v4a', 0], ['v5', 0], ['v6', 0]],
+    eindVraag: 'v7',
+    verwachtAntwoorden: 2,
+    verwachtPad: 'regulier',
+  },
+  'S-15': {
+    pad: [['v1', 0], ['v1b', 0], ['v_asiel', 0], ['v2', 0], ['v3', 1], ['v4a', 0], ['v5', 0], ['v6', 0]],
+    eindVraag: 'v7',
+    verwachtAntwoorden: 3,
+    verwachtPad: 'asiel',
+  },
+  'S-16': {
+    pad: [['v1', 0], ['v1b', 3], ['v_asiel_wn', 0], ['v1b', 1], ['v_regulier', 0], ['v2', 0], ['v3', 1], ['v4a', 0], ['v5', 0], ['v6', 0], ['v7', 0], ['v8', 0]],
+    verwacht: 'r_positief',
+    verwachtPad: 'regulier',
+  },
 };
+
+// Mirror van naturalisatie.html se `padOk()`: zonder `alleenPad` altijd waar;
+// met `alleenPad` alleen waar als het gelijk is aan het huidige pad.
+function padOk(alleenPad, pad) {
+  return !alleenPad || alleenPad === pad;
+}
 
 function simuleerScenario(taal, id, scenario, vragen, resultaten) {
   const sfail = msg => fail(`[${taal}] ${msg}`);
   let huidig = 'v1';
+  // Correctie 1, §3.1.1: het huidige pad — mirroring huidigPad() in
+  // naturalisatie.html. Alleen een antwoord met een eigen `pad` wijzigt het.
+  let pad = null;
   for (const [vraagId, idx] of scenario.pad) {
     if (huidig !== vraagId) {
       sfail(`${id}: verwachtte dat we bij vraag ${vraagId} zouden staan, maar staan op ${huidig}`);
@@ -96,20 +154,46 @@ function simuleerScenario(taal, id, scenario, vragen, resultaten) {
     if (!v) { sfail(`${id}: vraag ${vraagId} bestaat niet`); return; }
     const a = (v.antwoorden || [])[idx];
     if (!a) { sfail(`${id}: antwoord[${idx}] bestaat niet bij vraag ${vraagId}`); return; }
+    // §4 punt 1: een gefilterd (op dit pad niet-toegestaan) antwoord is niet kiesbaar.
+    if (!padOk(a.alleenPad, pad)) {
+      sfail(`${id}: antwoord[${idx}] bij ${vraagId} is op pad "${pad}" niet kiesbaar (alleenPad="${a.alleenPad}")`);
+      return;
+    }
+    if (a.pad) pad = a.pad;
     huidig = a.volgende;
   }
-  if (huidig !== scenario.verwacht) {
-    sfail(`${id}: pad kwam uit op "${huidig}", verwacht was "${scenario.verwacht}"`);
-    return;
+
+  if (scenario.eindVraag) {
+    // S-14/S-15-achtige scenario's: eindigen bij een VRAAG, niet bij een
+    // resultaat. De verwachting is het aantal op dit pad zichtbare antwoorden.
+    if (huidig !== scenario.eindVraag) {
+      sfail(`${id}: pad kwam uit bij vraag "${huidig}", verwacht was vraag "${scenario.eindVraag}"`);
+      return;
+    }
+    const v = vragen[huidig];
+    if (!v) { sfail(`${id}: vraag ${huidig} bestaat niet`); return; }
+    const getoond = (v.antwoorden || []).filter(a => padOk(a.alleenPad, pad));
+    if (getoond.length !== scenario.verwachtAntwoorden) {
+      sfail(`${id}: vraag ${huidig} toont ${getoond.length} antwoorden op pad "${pad}", verwacht ${scenario.verwachtAntwoorden}`);
+    }
+  } else {
+    if (huidig !== scenario.verwacht) {
+      sfail(`${id}: pad kwam uit op "${huidig}", verwacht was "${scenario.verwacht}"`);
+      return;
+    }
+    if (scenario.verbiedt) {
+      const res = resultaten[huidig] || {};
+      const tekst = JSON.stringify(res).toLowerCase();
+      // `verbiedt` bevat NL-zinnen; alleen zinvol in NL. Voor andere talen
+      // dekt checkPariteit dit af (r_te_kort heeft dezelfde structuur als NL).
+      if (taal === 'NL') scenario.verbiedt.forEach(zin => {
+        if (tekst.includes(zin.toLowerCase())) sfail(`${id}: resultaat ${huidig} bevat verboden zin "${zin}"`);
+      });
+    }
   }
-  if (scenario.verbiedt) {
-    const res = resultaten[huidig] || {};
-    const tekst = JSON.stringify(res).toLowerCase();
-    // `verbiedt` bevat NL-zinnen; alleen zinvol in NL. Voor andere talen
-    // dekt checkPariteit dit af (r_te_kort heeft dezelfde structuur als NL).
-    if (taal === 'NL') scenario.verbiedt.forEach(zin => {
-      if (tekst.includes(zin.toLowerCase())) sfail(`${id}: resultaat ${huidig} bevat verboden zin "${zin}"`);
-    });
+
+  if (scenario.verwachtPad && pad !== scenario.verwachtPad) {
+    sfail(`${id}: eindigde met pad "${pad}", verwacht was pad "${scenario.verwachtPad}"`);
   }
 }
 
@@ -178,11 +262,20 @@ function checkTaal(taal, taalData) {
 }
 
 // ── Verboden zinnen (hoofdletterongevoelig, alle gecontroleerde talen) ──
+// Correctie 1, §4 punt 3: vier zinnen uit fout A ("de oude asielvergunning
+// blijft goed") mogen nergens meer voorkomen. Dit zijn NL-zinnen; ze worden
+// (zoals de bestaande vier) tegen ALLE talen gecontroleerd — dat is onschadelijk
+// voor al-vertaalde talen (de zin staat er dan toch niet) en vangt een
+// per ongeluk onvertaald Nederlands restje in een andere taal.
 const VERBODEN = [
   'vanuit een geldige tijdelijke vergunning',
   'toegankelijker, want daarvoor geldt géén inkomenseis',
   'eu-li',
   /stap\s+\d+\s+van\s+\d+/i,
+  'oude manier',
+  'oude regels',
+  'nieuwe asielvergunning',
+  'gekregen of verlengd op of na',
 ];
 
 function checkVerbodenZinnen(taal, taalData) {
@@ -197,9 +290,123 @@ function checkVerbodenZinnen(taal, taalData) {
   });
 }
 
+// ── Padzuiverheid (Correctie 1, §4 punt 2) ───────────────────────────────
+// Simuleert alle routes vanaf v1b → "andere verblijfsvergunning" (het
+// antwoord met pad: "regulier") en controleert dat in de GETOONDE tekst op
+// elk knooppunt daarna geen asiel/statushouder/vluchteling-taal voorkomt.
+// "Getoond" = na filtering op `alleenPad`/`infoAlleenPad` met het pad zoals
+// het op dat moment in de simulatie is (zelfde regels als padOk() hierboven
+// en huidigPad() in naturalisatie.html: een antwoord zonder eigen `pad`
+// verandert het huidige pad niet; een antwoord met een ANDER `pad` wordt in
+// deze specifieke "regulier-route"-doorloop niet gevolgd, want dat zou een
+// nieuwe, aparte route starten — buiten de scope van déze controle).
+//
+// Alleen talen met een eigen patroon in PAD_VERBODEN worden gecontroleerd
+// (na Correctie 1 C4 komen daar de andere 8 talen bij — zie de correctie §4:
+// "Doe dit voor NL, en na C4 voor alle talen met de zoekwoorden per taal.").
+const PAD_VERBODEN = {
+  NL: /asiel(?!status(houders)? en staatlozen)|statushouder|vluchteling(?!enwerk)|VluchtelingenWerk/i,
+};
+
+// Knopen die als GEHEEL zijn uitgezonderd van de padzuiverheidscan (§4: "de
+// leges-zinnen ...; v7.uitleg; r_eu_langdurig (algemene informatiepagina)"),
+// aangevuld met twee knopen die inherent nodig hebben om "asiel" te noemen
+// om een onzekere gebruiker te helpen zijn/haar vergunning te herkennen:
+//   - v1b: de route-keuzevraag zelf. Dit IS het keuzemoment (§4: "op elk
+//     knooppunt NÁ die keuze"), dus v1b's eigen tekst/antwoorden tellen niet
+//     mee, ook niet bij een latere terugkeer via v_asiel_wn → v1b. De keuze
+//     dié daar gemaakt wordt (welk antwoord) wordt wél gerespecteerd: een
+//     antwoord met een ANDER `pad` wordt niet verder gevolgd (zie hierboven).
+//   - v_asiel_wn: de "ik weet het niet zeker"-hulpvraag. Die legt juist uit
+//     hoe je "asiel" van "een ander doel" op je verblijfspas onderscheidt —
+//     dat kan niet zonder het woord "asiel" te noemen, en de correctie houdt
+//     dit knooppunt bewust gedeeld tussen beide routes (§3.2).
+//   - r_asiel_onbekend: eindpunt voor "ik kan het niet nagaan", legt exact
+//     hetzelfde verschil uit (§3.2 geeft er zelfs letterlijke asiel-tekst
+//     voor). Analoog aan v_asiel_wn.
+// Dit is een AFWIJKING/aanvulling op de letterlijke uitzonderingenlijst van
+// §4 punt 2 — zie LOG-naturalisatie.md, Correctie 1, C3 voor de onderbouwing.
+const PADZUIVERHEID_KNOOP_UITGESLOTEN = new Set(['v1b', 'v_asiel_wn', 'r_asiel_onbekend', 'r_kosten', 'r_eu_langdurig']);
+
+// Veld-niveau uitzonderingen (§4 punt 2, letterlijk genoemd): v7.uitleg,
+// v8.uitleg, en specifiek stap-index 2 (0-based, de leges-stap) van r_positief.
+const PADZUIVERHEID_VELD_UITGESLOTEN = { v7: ['uitleg'], v8: ['uitleg'] };
+const PADZUIVERHEID_STAP_UITGESLOTEN = { r_positief: [2] };
+
+function checkPadzuiverheid(taal, vragen, resultaten) {
+  const patroon = PAD_VERBODEN[taal];
+  if (!patroon) return; // nog niet vertaald/uitgebreid voor deze taal (C4)
+
+  const v1b = vragen.v1b;
+  if (!v1b) return; // structuurfout wordt al elders gemeld
+  const regAntwoord = (v1b.antwoorden || []).find(a => a.pad === 'regulier');
+  if (!regAntwoord) {
+    fail(`[${taal}] padzuiverheid: geen antwoord bij v1b met pad "regulier" gevonden`);
+    return;
+  }
+
+  const bezocht = new Set();
+  function scan(nodeId, veld, tekst) {
+    if (typeof tekst !== 'string' || !tekst) return;
+    if (patroon.test(tekst)) fail(`[${taal}] padzuiverheid: ${nodeId}.${veld} bevat verboden taal op het reguliere pad: "${tekst.slice(0, 160)}"`);
+  }
+
+  function bezoek(id, pad) {
+    const sleutel = `${id}|${pad}`;
+    if (bezocht.has(sleutel)) return;
+    bezocht.add(sleutel);
+
+    const v = vragen[id];
+    if (v) {
+      const uitgesloten = PADZUIVERHEID_KNOOP_UITGESLOTEN.has(id);
+      const veldUit = PADZUIVERHEID_VELD_UITGESLOTEN[id] || [];
+      if (!uitgesloten) {
+        scan(id, 'tekst', v.tekst);
+        if (!veldUit.includes('uitleg')) scan(id, 'uitleg', v.uitleg);
+      }
+      (v.antwoorden || []).forEach(a => {
+        if (!padOk(a.alleenPad, pad)) return; // niet getoond op dit pad
+        if (!uitgesloten) { scan(id, 'antwoord.tekst', a.tekst); scan(id, 'antwoord.sub', a.sub); }
+        // Een antwoord dat naar een ANDER pad wisselt, verlaat de "regulier
+        // route" die hier gecontroleerd wordt — niet verder volgen.
+        if (a.pad && a.pad !== pad) return;
+        bezoek(a.volgende, a.pad || pad);
+      });
+      return;
+    }
+
+    const r = resultaten[id];
+    if (!r) return; // onbekend knooppunt: checkTaal meldt dit al
+    const uitgesloten = PADZUIVERHEID_KNOOP_UITGESLOTEN.has(id);
+    if (!uitgesloten) {
+      scan(id, 'titel', r.titel);
+      scan(id, 'sub', r.sub);
+      if (padOk(r.infoAlleenPad, pad)) scan(id, 'info', r.info);
+      (r.infoBoxen || []).filter(b => padOk(b.alleenPad, pad)).forEach((b, i) => scan(id, `infoBoxen[${i}]`, b.tekst));
+      (r.alternatieven || []).filter(a => padOk(a.alleenPad, pad)).forEach((a, i) => {
+        scan(id, `alternatieven[${i}].naam`, a.naam);
+        scan(id, `alternatieven[${i}].tekst`, a.tekst);
+      });
+      const stapUit = PADZUIVERHEID_STAP_UITGESLOTEN[id] || [];
+      (r.stappen || []).filter(s => padOk(s.alleenPad, pad)).forEach((s, i) => {
+        if (stapUit.includes(i)) return;
+        scan(id, `stappen[${i}]`, s.tekst);
+      });
+      (r.paden || []).forEach((p, i) => { scan(id, `paden[${i}].titel`, p.titel); scan(id, `paden[${i}].tekst`, p.tekst); });
+      if (r.interneLink) scan(id, 'interneLink.tekst', r.interneLink.tekst);
+      scan(id, 'linkTekst', r.linkTekst);
+    }
+    if (r.interneLink) bezoek(r.interneLink.naar, pad);
+  }
+
+  bezoek(regAntwoord.volgende, 'regulier');
+}
+
 // ── Pariteit met NL (fase 4.2) ───────────────────────────────────────────
 // Velden die geen vertaalbare tekst zijn: die moeten exact gelijk zijn aan NL.
-const NIET_TEKST = new Set(['icoon', 'klasse', 'volgende', 'type', 'link', 'naar', 'nr']);
+// Correctie 1, §4 punt 4: `pad`/`alleenPad`/`infoAlleenPad` zijn structurele
+// route-velden ("asiel"/"regulier"), geen te vertalen tekst — dus hier ook.
+const NIET_TEKST = new Set(['icoon', 'klasse', 'volgende', 'type', 'link', 'naar', 'nr', 'pad', 'alleenPad', 'infoAlleenPad']);
 
 // IND heeft alleen NL en EN. NL linkt naar de Nederlandse pagina, alle andere
 // talen naar de Engelse tegenhanger (hreflang="en" op de NL-pagina, 26-09-2026).
@@ -366,6 +573,7 @@ function main() {
     const { vragen, resultaten } = checkTaal(taal, NAT[taal]);
     checkVerbodenZinnen(taal, NAT[taal]);
     checkLegeStrings(taal, NAT[taal]);
+    checkPadzuiverheid(taal, vragen, resultaten);
 
     if (taal === 'NL') {
       checkVerplichteZinnenNL(vragen, resultaten);
