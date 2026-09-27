@@ -26,7 +26,7 @@ test('eindmeting: voorleesfunctie op 11 paginas, data-lees-dekking, 0 nieuwe con
     page.on('pageerror', e => errors.push(String(e.message)));
     await metTaal(page, 'NL');
     await page.addInitScript(STUB_STEMMEN);
-    await page.goto('/' + pagina, { waitUntil: 'networkidle' });
+    await page.goto(pagina, { waitUntil: 'networkidle' });
     await page.waitForFunction(() => window.Solidari && window.Solidari.spraak);
     await page.waitForTimeout(500);
     const m = await page.evaluate(() => ({
@@ -57,12 +57,12 @@ test('niet-lezerspad: elke tool is bereikbaar en laadt (vanaf index)', async ({ 
   await metTaal(page, 'NL');
   await page.addInitScript(STUB_STEMMEN);
   for (const tool of TOOLPAGINAS) {
-    await page.goto('/index.html', { waitUntil: 'domcontentloaded' });
+    await page.goto('index.html', { waitUntil: 'domcontentloaded' });
     // via de nav-dropdown-link (icoon + naam)
     const link = page.locator(`.dropdown-menu a[href$="${tool}"]`).first();
     expect(await link.count(), `link naar ${tool} ontbreekt`).toBeGreaterThan(0);
     const href = await link.getAttribute('href');
-    await page.goto('/' + href, { waitUntil: 'domcontentloaded' });
+    await page.goto(href, { waitUntil: 'domcontentloaded' });
     await page.waitForFunction(() => window.Solidari && window.Solidari.spraak);
     expect(page.url()).toContain(tool);
   }
@@ -80,7 +80,7 @@ test('reduced-motion én trage CPU: geen errors, voorleesfunctie blijft', async 
   page.on('pageerror', e => errors.push(String(e.message)));
   await metTaal(page, 'AR');
   await page.addInitScript(STUB_STEMMEN);
-  await page.goto('/index.html', { waitUntil: 'networkidle' });
+  await page.goto('index.html', { waitUntil: 'networkidle' });
   await page.waitForFunction(() => window.Solidari && window.Solidari.spraak);
   await page.waitForTimeout(800);
   expect(await page.locator('.sol-a11y-luister-toggle').count()).toBeGreaterThan(0);

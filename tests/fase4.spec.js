@@ -9,7 +9,7 @@ async function laad(page, pagina, taal) {
   await page.addInitScript((t) => {
     try { localStorage.setItem('solidari-taal', t); localStorage.setItem('solidari-welkom-gezien', '1'); } catch (e) {}
   }, taal);
-  await page.goto('/' + pagina, { waitUntil: 'networkidle' });
+  await page.goto(pagina, { waitUntil: 'networkidle' });
   await page.waitForFunction(() => window.Solidari && window.Solidari.spraak);
   await page.waitForTimeout(300);
 }
@@ -48,7 +48,7 @@ test('nav-logo heeft aria-label op alle 11 paginas; footer-logo waar footer best
   test.setTimeout(180000);
   for (const pagina of PAGES) {
     await page.addInitScript(() => { try { localStorage.setItem('solidari-welkom-gezien', '1'); } catch (e) {} });
-    await page.goto('/' + pagina, { waitUntil: 'domcontentloaded' });
+    await page.goto(pagina, { waitUntil: 'domcontentloaded' });
     await page.waitForSelector('.nav-logo', { timeout: 15000 });
     expect(await page.getAttribute('.nav-logo', 'aria-label'), `${pagina} nav-logo`).toBeTruthy();
     const heeftFooter = await page.locator('.footer-logo').count();
@@ -74,7 +74,7 @@ test('gesproken taalkiezer: 9 talen met eigen naam; TI-naam klinkt niet meer (S-
 test('welkomstscherm: verschijnt bij eerste bezoek, 9 kaarten, en blijft weg na keuze', async ({ page }) => {
   // Verse context = lege localStorage → overlay hoort te verschijnen (niet clearen
   // via addInitScript: dat zou ook bij de reload opnieuw wissen).
-  await page.goto('/index.html', { waitUntil: 'networkidle' });
+  await page.goto('index.html', { waitUntil: 'networkidle' });
   await page.waitForFunction(() => window.Solidari && window.Solidari.spraak);
   await page.waitForTimeout(300);
   const kaarten = await page.locator('.sol-a11y-welkom-kaart').count();

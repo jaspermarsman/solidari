@@ -22,6 +22,7 @@ window._NAT = {
       "titel": "Kom ik in aanmerking voor een Nederlands paspoort?",
       "sub": "Beantwoord een paar vragen en zie of je Nederlander kunt worden. Op basis van de regels van 2026, ook de nieuwe asielregels sinds 12 juni 2026.",
       "disclaimer": "⚠️ Deze checker geeft een indicatie, geen besluit. Gecontroleerd in september 2026 (IND, Stimulansz). Sinds 12 juni 2026 is er geen asielvergunning voor onbepaalde tijd meer. Statushouders met een asielvergunning voor bepaalde tijd moeten daarom eerst EU-langdurig ingezetene worden voordat ze kunnen naturaliseren. Aangekondigde plannen van het kabinet zijn nog geen wet. Vraag altijd advies aan de gemeente of VluchtelingenWerk.",
+      "disclaimerRegulier": "⚠️ Deze checker geeft een indicatie, geen besluit. Gecontroleerd in september 2026 (IND). Aangekondigde plannen van het kabinet zijn nog geen wet. Vraag bij twijfel advies aan het Juridisch Loket of je gemeente.",
       "vwnLabel": "Twijfel je over jouw situatie?",
       "vwnTekst": "Naturalisatieregels veranderen snel en jouw situatie kan anders liggen dan de checker aangeeft. VluchtelingenWerk heeft spreekuren en begeleiding bij naturalisatie — kijk op <a href=\"https://www.vluchtelingenwerk.nl/over-ons/locaties\" target=\"_blank\" style=\"color:inherit;\">vluchtelingenwerk.nl/over-ons/locaties</a> voor een locatie bij jou in de buurt.",
       "hulpRegulierLabel": "Twijfel je over jouw situatie?",
@@ -631,7 +632,7 @@ window._NAT = {
         "alternatieven": [
           {
             "naam": "Verleng je vergunning op tijd",
-            "tekst": "Komt er een periode zonder geldige vergunning (een \"verblijfsgat\"), dan telt die tijd niet mee. De 5 jaar kunnen dan opnieuw gaan tellen. Vraag verlenging daarom op tijd aan. Vraag verlenging daarom uiterlijk binnen 4 weken na afloop aan: dan ziet de IND het niet als verblijfsgat."
+            "tekst": "Komt er een periode zonder geldige vergunning (een \"verblijfsgat\"), dan telt die tijd niet mee. De 5 jaar kunnen dan opnieuw gaan tellen. Vraag verlenging daarom op tijd aan, uiterlijk binnen 4 weken na afloop: dan ziet de IND het niet als verblijfsgat."
           },
           {
             "naam": "Naturalisatietermijn: mogelijk 10 jaar",
@@ -929,7 +930,7 @@ window._NAT = {
         "type": "eu",
         "icoon": "🇪🇺",
         "titel": "EU-langdurig ingezetene — permanent blijven zonder je nationaliteit op te geven",
-        "sub": "Een blijvende verblijfsvergunning na 5 jaar. Je houdt je eigen nationaliteit. Voor nieuwe statushouders is dit sinds 12 juni 2026 ook de verplichte tussenstap op weg naar naturalisatie.",
+        "sub": "Een blijvende verblijfsvergunning na 5 jaar. Je houdt je eigen nationaliteit. Voor statushouders met een asielvergunning voor bepaalde tijd is dit sinds 12 juni 2026 ook de verplichte tussenstap op weg naar naturalisatie.",
         "infoBoxen": [
           {
             "type": "info",
@@ -1241,6 +1242,7 @@ window._NAT = {
       "titel": "Am I eligible for a Dutch passport?",
       "sub": "Answer a few questions and see whether you can become Dutch. Based on the 2026 rules, including the new asylum rules since 12 June 2026.",
       "disclaimer": "⚠️ This checker gives an indication, not a decision. Checked in September 2026 (IND, Stimulansz). Since 12 June 2026 there is no longer an asylum permit for an indefinite period. Status holders with an asylum residence permit (verblijfsvergunning asiel) for a fixed period must therefore first become an EU long-term resident (EU-langdurig ingezetene) before they can naturalise (naturalisatie). Announced government plans are not yet law. Always ask the municipality or VluchtelingenWerk for advice.",
+      "disclaimerRegulier": "⚠️ This checker gives an indication, not a decision. Checked in September 2026 (IND). Announced government plans are not yet law. If in doubt, ask the Legal Services Counter (Juridisch Loket) or your municipality for advice.",
       "vwnLabel": "Not sure about your situation?",
       "vwnTekst": "Naturalisation rules change quickly and your situation may differ from what the checker indicates. VluchtelingenWerk offers drop-in sessions and guidance on naturalisation — find a location near you at <a href=\"https://www.vluchtelingenwerk.nl/over-ons/locaties\" target=\"_blank\" style=\"color:inherit;\">vluchtelingenwerk.nl/over-ons/locaties</a>.",
       "hulpRegulierLabel": "Not sure about your situation?",
@@ -2148,7 +2150,7 @@ window._NAT = {
         "type": "eu",
         "icoon": "🇪🇺",
         "titel": "EU long-term resident — stay permanently without giving up your nationality",
-        "sub": "A permanent residence permit after 5 years. You keep your own nationality. Since 12 June 2026 this is also the required intermediate step towards naturalisation (naturalisatie) for new status holders.",
+        "sub": "A permanent residence permit after 5 years. You keep your own nationality. Since 12 June 2026 this is also the required intermediate step towards naturalisation (naturalisatie) for status holders with an asylum residence permit for a fixed period.",
         "infoBoxen": [
           {
             "type": "info",
@@ -2460,6 +2462,7 @@ window._NAT = {
       "titel": "هل أنا مؤهل للحصول على جواز سفر هولندي؟",
       "sub": "أجب عن بعض الأسئلة واعرف ما إذا كان بإمكانك أن تصبح هولندياً. استناداً إلى قواعد عام 2026، بما فيها قواعد اللجوء الجديدة منذ 12 يونيو 2026.",
       "disclaimer": "⚠️ هذه الأداة تعطي مؤشراً، وليست قراراً. تم التحقق في سبتمبر 2026 (IND، Stimulansz). منذ 12 يونيو 2026 لم يعد هناك تصريح لجوء لأجل غير محدّد. لذلك يجب على حاملي تصريح إقامة اللجوء لمدة محدّدة (verblijfsvergunning asiel) أن يصبحوا أولاً مقيمين طويلي الأمد في الاتحاد الأوروبي (EU-langdurig ingezetene) قبل أن يتمكنوا من التجنيس (naturalisatie). الخطط التي أعلنتها الحكومة ليست قانوناً بعد. اطلب دائماً المشورة من البلدية أو من VluchtelingenWerk.",
+      "disclaimerRegulier": "⚠️ هذه الأداة تعطي مؤشراً، وليست قراراً. تم التحقق في سبتمبر 2026 (IND). الخطط التي أعلنتها الحكومة ليست قانوناً بعد. إذا لم تكن متأكداً، فاطلب المشورة من مكتب الاستشارات القانونية (Juridisch Loket) أو من بلديتك.",
       "vwnLabel": "هل تتردد في أمر وضعك؟",
       "vwnTekst": "قواعد التجنيس تتغير بسرعة وقد تختلف حالتك عما تُظهره الأداة. تُقدّم منظمة VluchtelingenWerk Nederland جلسات إرشادية ومساعدة مجانية في التجنيس — ابحث عن موقع قريب منك على <a href=\"https://www.vluchtelingenwerk.nl/over-ons/locaties\" target=\"_blank\" style=\"color:inherit;\">vluchtelingenwerk.nl/over-ons/locaties</a>.",
       "hulpRegulierLabel": "هل تتردد في أمر وضعك؟",
@@ -3367,7 +3370,7 @@ window._NAT = {
         "type": "eu",
         "icoon": "🇪🇺",
         "titel": "مقيم طويل الأمد في الاتحاد الأوروبي — البقاء بشكل دائم دون التخلّي عن جنسيتك",
-        "sub": "تصريح إقامة دائم بعد 5 سنوات. تحتفظ بجنسيتك. ومنذ 12 يونيو 2026 أصبح هذا أيضاً الخطوة الوسيطة الإلزامية نحو التجنيس (naturalisatie) لحاملي تصريح اللجوء الجدد.",
+        "sub": "تصريح إقامة دائم بعد 5 سنوات. تحتفظ بجنسيتك. ومنذ 12 يونيو 2026 أصبح هذا أيضاً الخطوة الوسيطة الإلزامية نحو التجنيس (naturalisatie) لحاملي تصريح إقامة اللجوء لمدة محدّدة.",
         "infoBoxen": [
           {
             "type": "info",
@@ -3679,6 +3682,7 @@ window._NAT = {
       "titel": "Hollanda pasaportu için uygun muyum?",
       "sub": "Birkaç soruyu yanıtlayın ve Hollanda vatandaşı olup olamayacağınızı görün. 2026 kurallarına dayanır; 12 Haziran 2026'dan bu yana geçerli yeni iltica kuralları da dahildir.",
       "disclaimer": "⚠️ Bu araç bir fikir verir, karar değildir. Eylül 2026'da kontrol edildi (IND, Stimulansz). 12 Haziran 2026'dan bu yana süresiz iltica oturma izni artık yok. Bu nedenle süreli iltica oturma iznine (verblijfsvergunning asiel) sahip statü sahipleri, vatandaşlığa geçebilmek (naturalisatie) için önce AB uzun süreli mukimi (EU-langdurig ingezetene) olmalıdır. Hükümetin açıkladığı planlar henüz yasa değil. Her zaman belediyeden veya VluchtelingenWerk'ten tavsiye isteyin.",
+      "disclaimerRegulier": "⚠️ Bu araç bir fikir verir, karar değildir. Eylül 2026'da kontrol edildi (IND). Hükümetin açıkladığı planlar henüz yasa değil. Emin değilseniz Hukuki Danışma Bürosu'ndan (Juridisch Loket) veya belediyenizden tavsiye isteyin.",
       "vwnLabel": "Durumunuzdan emin değil misiniz?",
       "vwnTekst": "Vatandaşlık kuralları hızla değişmektedir ve durumunuz aracın gösterdiğinden farklı olabilir. VluchtelingenWerk Nederland, vatandaşlık konusunda ücretsiz danışma saatleri ve rehberlik sunmaktadır — <a href=\"https://www.vluchtelingenwerk.nl/over-ons/locaties\" target=\"_blank\" style=\"color:inherit;\">vluchtelingenwerk.nl/over-ons/locaties</a> adresinden size yakın bir merkezi bulun.",
       "hulpRegulierLabel": "Durumunuzdan emin değil misiniz?",
@@ -4586,7 +4590,7 @@ window._NAT = {
         "type": "eu",
         "icoon": "🇪🇺",
         "titel": "AB uzun süreli mukimi — vatandaşlığınızdan vazgeçmeden kalıcı kalma",
-        "sub": "5 yıl sonra kalıcı bir oturma izni. Kendi vatandaşlığınızı korursunuz. 12 Haziran 2026'dan bu yana bu, yeni statü sahipleri için vatandaşlığa geçişte (naturalisatie) zorunlu ara adımdır.",
+        "sub": "5 yıl sonra kalıcı bir oturma izni. Kendi vatandaşlığınızı korursunuz. 12 Haziran 2026'dan bu yana bu, süreli iltica oturma iznine sahip statü sahipleri için vatandaşlığa geçişte (naturalisatie) zorunlu ara adımdır.",
         "infoBoxen": [
           {
             "type": "info",
@@ -4898,6 +4902,7 @@ window._NAT = {
       "titel": "Чи маю я право на нідерландський паспорт?",
       "sub": "Дайте відповідь на кілька запитань і дізнайтеся, чи можете ви стати громадянином Нідерландів. На основі правил 2026 року, зокрема нових правил щодо притулку з 12 червня 2026 року.",
       "disclaimer": "⚠️ Цей інструмент дає орієнтир, а не рішення. Перевірено у вересні 2026 року (IND, Stimulansz). З 12 червня 2026 року безстрокового дозволу на притулок більше немає. Тому власники статусу з дозволом на проживання у зв'язку з притулком на певний строк (verblijfsvergunning asiel) спершу мають стати довгостроковими резидентами ЄС (EU-langdurig ingezetene), перш ніж зможуть пройти натуралізацію (naturalisatie). Оголошені плани уряду — ще не закон. Завжди звертайтеся по пораду до муніципалітету або VluchtelingenWerk.",
+      "disclaimerRegulier": "⚠️ Цей інструмент дає орієнтир, а не рішення. Перевірено у вересні 2026 року (IND). Оголошені плани уряду — ще не закон. Якщо маєте сумніви, зверніться по пораду до Юридичної консультації (Juridisch Loket) або до свого муніципалітету.",
       "vwnLabel": "Не впевнені у своїй ситуації?",
       "vwnTekst": "Правила натуралізації швидко змінюються, і ваша ситуація може відрізнятися від того, що показує інструмент. VluchtelingenWerk Nederland пропонує безкоштовні консультації та підтримку щодо натуралізації — знайдіть найближче місце на <a href=\"https://www.vluchtelingenwerk.nl/over-ons/locaties\" target=\"_blank\" style=\"color:inherit;\">vluchtelingenwerk.nl/over-ons/locaties</a>.",
       "hulpRegulierLabel": "Не впевнені у своїй ситуації?",
@@ -5805,7 +5810,7 @@ window._NAT = {
         "type": "eu",
         "icoon": "🇪🇺",
         "titel": "Довгостроковий резидент ЄС — постійне проживання без відмови від громадянства",
-        "sub": "Постійна посвідка на проживання через 5 років. Ви зберігаєте своє громадянство. З 12 червня 2026 року для нових власників статусу це також обов'язковий проміжний крок на шляху до натуралізації (naturalisatie).",
+        "sub": "Постійна посвідка на проживання через 5 років. Ви зберігаєте своє громадянство. З 12 червня 2026 року для власників статусу з дозволом на проживання у зв'язку з притулком на певний строк це також обов'язковий проміжний крок на шляху до натуралізації (naturalisatie).",
         "infoBoxen": [
           {
             "type": "info",
@@ -6117,6 +6122,7 @@ window._NAT = {
       "titel": "آیا واجد شرایط پاسپورت هلندی هستم؟",
       "sub": "به چند سؤال پاسخ دهید و ببینید آیا می‌توانید تابعیت هلند را بگیرید. بر اساس قوانین سال 2026، از جمله قوانین جدید پناهندگی از 12 جون 2026.",
       "disclaimer": "⚠️ این ابزار یک برآورد می‌دهد، نه یک تصمیم. بررسی‌شده در سپتمبر 2026 (IND، Stimulansz). از 12 جون 2026 دیگر اجازه اقامت پناهندگی با مدت نامعین وجود ندارد. به همین دلیل دارندگان اجازه اقامت پناهندگی با مدت معین (verblijfsvergunning asiel) باید اول مقیم بلندمدت اتحادیه اروپا (EU-langdurig ingezetene) شوند، پیش از آنکه بتوانند تابعیت (naturalisatie) بگیرند. برنامه‌های اعلام‌شده دولت هنوز قانون نیست. همیشه از شهرداری یا VluchtelingenWerk مشوره بخواهید.",
+      "disclaimerRegulier": "⚠️ این ابزار یک برآورد می‌دهد، نه یک تصمیم. بررسی‌شده در سپتمبر 2026 (IND). برنامه‌های اعلام‌شده دولت هنوز قانون نیست. اگر مطمئن نیستید، از دفتر مشوره حقوقی (Juridisch Loket) یا شهرداری خود مشوره بخواهید.",
       "vwnLabel": "در مورد وضعیت خود مطمئن نیستید؟",
       "vwnTekst": "قوانین تابعیت به سرعت تغییر می‌کنند و وضعیت شما ممکن است با آنچه این ابزار نشان می‌دهد متفاوت باشد. VluchtelingenWerk Nederland ساعات مشاوره رایگان و راهنمایی در زمینه تابعیت ارائه می‌دهد — محلی نزدیک به خود را در <a href=\"https://www.vluchtelingenwerk.nl/over-ons/locaties\" target=\"_blank\" style=\"color:inherit;\">vluchtelingenwerk.nl/over-ons/locaties</a> پیدا کنید.",
       "hulpRegulierLabel": "در مورد وضعیت خود مطمئن نیستید؟",
@@ -7024,7 +7030,7 @@ window._NAT = {
         "type": "eu",
         "icoon": "🇪🇺",
         "titel": "مقیم بلندمدت اتحادیه اروپا — اقامت دائم بدون چشم‌پوشی از تابعیت",
-        "sub": "یک اجازه اقامت دائمی پس از 5 سال. تابعیت خود را حفظ می‌کنید. از 12 جون 2026 این برای دارندگان جدید وضعیت پناهندگی گام میانی اجباری در راه تابعیت (naturalisatie) نیز هست.",
+        "sub": "یک اجازه اقامت دائمی پس از 5 سال. تابعیت خود را حفظ می‌کنید. از 12 جون 2026 این برای دارندگان اجازه اقامت پناهندگی با مدت معین گام میانی اجباری در راه تابعیت (naturalisatie) نیز هست.",
         "infoBoxen": [
           {
             "type": "info",
@@ -7336,6 +7342,7 @@ window._NAT = {
       "titel": "ንናይ ሆላንድ ፓስፖርት ዝምልከት መሰል ኣለኒ ድዩ?",
       "sub": "ንቕሩብ ሕቶታት መልሲ ሃብ፡ ሆላንዳዊ ዜጋ ክትከውን ትኽእል እንተኾንካ ድማ ርአ። ኣብ ሕግታት 2026 ተመርኲሱ፡ ካብ 12 ሰነ 2026 ጀሚሮም ዘለዉ ሓደስቲ ሕግታት ዑቕባ እውን ሓዊሱ።",
       "disclaimer": "⚠️ እዚ መርመራ ኣንፈት ጥራይ ይህብ፡ ውሳነ ኣይኮነን። ኣብ መስከረም 2026 ተመርሚሩ (IND፡ Stimulansz)። ካብ 12 ሰነ 2026 ጀሚሩ ናይ ዘይውሱን ግዜ ናይ ዑቕባ ፍቓድ የለን። ስለዚ ናይ ውሱን ግዜ ናይ ዑቕባ መንበሪ ፍቓድ (verblijfsvergunning asiel) ዘለዎም ዋናታት ዑቕባ ዜግነት (naturalisatie) ቅድሚ ምሕታቶም ፈለማ ናይ ኤውሮጳ ሕብረት ነዊሕ-ግዜ ነባሪ (EU-langdurig ingezetene) ክኾኑ ኣለዎም። መንግስቲ ዝኣወጆም ውጥናት ገና ሕጊ ኣይኮነን። ኩሉ ግዜ ካብ ምምሕዳር ወይ VluchtelingenWerk ምኽሪ ሕተት።",
+      "disclaimerRegulier": "⚠️ እዚ መርመራ ኣንፈት ጥራይ ይህብ፡ ውሳነ ኣይኮነን። ኣብ መስከረም 2026 ተመርሚሩ (IND)። መንግስቲ ዝኣወጆም ውጥናት ገና ሕጊ ኣይኮነን። እንተ ተጠራጢርካ፡ ካብ ቤት ጽሕፈት ሕጋዊ ምኽሪ (Juridisch Loket) ወይ ካብ ምምሕዳርካ ምኽሪ ሕተት።",
       "vwnLabel": "ብዛዕባ ኩነታትካ/ኪ ርግጽ ዘይኮንካ/ኪ?",
       "vwnTekst": "ናይ ዜግነት ሕግታት ቀልጢፈን ይቕየራ፡ ኩነታትካ/ኪ ካብ ዘርኢ ዘሎ ፍልይ ክብል ይኽእል። VluchtelingenWerk Nederland ብናጻ ናይ ምኽሪ ሰዓታትን ናብ ዜግነት ምቕራብ ሓገዝን ይህብ — ኣብ <a href=\"https://www.vluchtelingenwerk.nl/over-ons/locaties\" target=\"_blank\" style=\"color:inherit;\">vluchtelingenwerk.nl/over-ons/locaties</a> ቀረባ ቦታ ድለዩ።",
       "hulpRegulierLabel": "ብዛዕባ ኩነታትካ/ኪ ርግጽ ዘይኮንካ/ኪ?",
@@ -7784,7 +7791,7 @@ window._NAT = {
             "volgende": "v8"
           },
           {
-            "tekst": "ዕዉት ዑቕበኛ እየ (ናይ ሃለዋት ዋናታት)",
+            "tekst": "ኣፍልጦ ዝተዋህቦ ዑቕበኛ እየ (ናይ ሃለዋት ዋናታት)",
             "sub": "ናይ ሃለዋት ዋናታት ክልተ ዜግነት ክሕዙ ይኽእሉ",
             "icoon": "✓",
             "klasse": "ja",
@@ -8243,7 +8250,7 @@ window._NAT = {
         "type": "eu",
         "icoon": "🇪🇺",
         "titel": "ናይ ኤውሮጳ ሕብረት ነዊሕ-ግዜ ነባሪ — ዜግነትካ ከይሓደግካ ብቐዋምነት ምንባር",
-        "sub": "ድሕሪ 5 ዓመት ቀዋሚ መንበሪ ፍቓድ። ዜግነትካ ትሕዞ። ካብ 12 ሰነ 2026 ጀሚሩ ንሓደስቲ ዋናታት ዑቕባ ናብ ዜግነት (naturalisatie) ዝወስድ ግዴታዊ ማእከላይ ስጉምቲ እውን እዩ።",
+        "sub": "ድሕሪ 5 ዓመት ቀዋሚ መንበሪ ፍቓድ። ዜግነትካ ትሕዞ። ካብ 12 ሰነ 2026 ጀሚሩ ናይ ውሱን ግዜ ናይ ዑቕባ መንበሪ ፍቓድ ንዘለዎም ዋናታት ዑቕባ ናብ ዜግነት (naturalisatie) ዝወስድ ግዴታዊ ማእከላይ ስጉምቲ እውን እዩ።",
         "infoBoxen": [
           {
             "type": "info",
@@ -8555,6 +8562,7 @@ window._NAT = {
       "titel": "Am dreptul la un pașaport olandez?",
       "sub": "Răspunde la câteva întrebări și vezi dacă poți deveni cetățean olandez. Pe baza regulilor din 2026, inclusiv noile reguli de azil de la 12 iunie 2026.",
       "disclaimer": "⚠️ Acest instrument oferă o indicație, nu o decizie. Verificat în septembrie 2026 (IND, Stimulansz). De la 12 iunie 2026 nu mai există permis de azil pe durată nedeterminată. De aceea, beneficiarii de protecție cu permis de ședere pentru azil pe durată determinată (verblijfsvergunning asiel) trebuie să devină mai întâi rezident UE pe termen lung (EU-langdurig ingezetene) înainte de a se putea naturaliza (naturalisatie). Planurile anunțate de guvern încă nu sunt lege. Cere întotdeauna sfatul primăriei sau al VluchtelingenWerk.",
+      "disclaimerRegulier": "⚠️ Acest instrument oferă o indicație, nu o decizie. Verificat în septembrie 2026 (IND). Planurile anunțate de guvern încă nu sunt lege. Dacă ai îndoieli, cere sfatul Biroului de consiliere juridică (Juridisch Loket) sau al primăriei tale.",
       "vwnLabel": "Nu ești sigur/ă de situația ta?",
       "vwnTekst": "Regulile de naturalizare se schimbă rapid și situația ta poate fi diferită de ce arată instrumentul. VluchtelingenWerk Nederland oferă consultații gratuite și îndrumare pentru naturalizare — găsește o locație apropiată pe <a href=\"https://www.vluchtelingenwerk.nl/over-ons/locaties\" target=\"_blank\" style=\"color:inherit;\">vluchtelingenwerk.nl/over-ons/locaties</a>.",
       "hulpRegulierLabel": "Nu ești sigur/ă de situația ta?",
@@ -9462,7 +9470,7 @@ window._NAT = {
         "type": "eu",
         "icoon": "🇪🇺",
         "titel": "Rezident UE pe termen lung — rămâi permanent fără a renunța la cetățenie",
-        "sub": "Un permis de ședere permanent după 5 ani. Îți păstrezi cetățenia. De la 12 iunie 2026, pentru noii beneficiari de protecție acesta este și pasul intermediar obligatoriu spre naturalizare (naturalisatie).",
+        "sub": "Un permis de ședere permanent după 5 ani. Îți păstrezi cetățenia. De la 12 iunie 2026, pentru beneficiarii de protecție cu permis de ședere pentru azil pe durată determinată acesta este și pasul intermediar obligatoriu spre naturalizare (naturalisatie).",
         "infoBoxen": [
           {
             "type": "info",
@@ -9774,6 +9782,7 @@ window._NAT = {
       "titel": "Czy mam prawo do holenderskiego paszportu?",
       "sub": "Odpowiedz na kilka pytań i sprawdź, czy możesz zostać obywatelem Holandii. Na podstawie przepisów z 2026 roku, w tym nowych przepisów azylowych obowiązujących od 12 czerwca 2026 r.",
       "disclaimer": "⚠️ To narzędzie daje orientację, a nie decyzję. Sprawdzone we wrześniu 2026 r. (IND, Stimulansz). Od 12 czerwca 2026 r. nie ma już zezwolenia azylowego na czas nieokreślony. Dlatego osoby z ochroną, które mają zezwolenie na pobyt azylowy na czas określony (verblijfsvergunning asiel), muszą najpierw zostać rezydentem długoterminowym UE (EU-langdurig ingezetene), zanim będą mogły się naturalizować (naturalisatie). Zapowiedziane plany rządu jeszcze nie są prawem. Zawsze proś o radę gminę lub VluchtelingenWerk.",
+      "disclaimerRegulier": "⚠️ To narzędzie daje orientację, a nie decyzję. Sprawdzone we wrześniu 2026 r. (IND). Zapowiedziane plany rządu jeszcze nie są prawem. W razie wątpliwości poproś o radę punkt porad prawnych (Juridisch Loket) lub swoją gminę.",
       "vwnLabel": "Nie masz pewności co do swojej sytuacji?",
       "vwnTekst": "Przepisy dotyczące naturalizacji szybko się zmieniają, a Twoja sytuacja może się różnić od tego, co wskazuje narzędzie. VluchtelingenWerk Nederland oferuje bezpłatne dyżury i wsparcie w kwestiach naturalizacji — znajdź pobliskie miejsce na <a href=\"https://www.vluchtelingenwerk.nl/over-ons/locaties\" target=\"_blank\" style=\"color:inherit;\">vluchtelingenwerk.nl/over-ons/locaties</a>.",
       "hulpRegulierLabel": "Nie masz pewności co do swojej sytuacji?",
@@ -10681,7 +10690,7 @@ window._NAT = {
         "type": "eu",
         "icoon": "🇪🇺",
         "titel": "Rezydent długoterminowy UE — zostań na stałe bez rezygnacji z obywatelstwa",
-        "sub": "Stałe zezwolenie na pobyt po 5 latach. Zachowujesz własne obywatelstwo. Od 12 czerwca 2026 r. dla nowych osób z ochroną jest to także obowiązkowy krok pośredni w drodze do naturalizacji (naturalisatie).",
+        "sub": "Stałe zezwolenie na pobyt po 5 latach. Zachowujesz własne obywatelstwo. Od 12 czerwca 2026 r. dla osób z ochroną, które mają zezwolenie na pobyt azylowy na czas określony, jest to także obowiązkowy krok pośredni w drodze do naturalizacji (naturalisatie).",
         "infoBoxen": [
           {
             "type": "info",

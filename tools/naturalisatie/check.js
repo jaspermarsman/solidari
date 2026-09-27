@@ -378,7 +378,7 @@ const PADZUIVERHEID_KNOOP_UITGESLOTEN = new Set(['v1b', 'v_asiel_wn', 'r_asiel_o
 const PADZUIVERHEID_VELD_UITGESLOTEN = { v7: ['uitleg'], v8: ['uitleg'] };
 const PADZUIVERHEID_STAP_UITGESLOTEN = { r_positief: [2] };
 
-function checkPadzuiverheid(taal, vragen, resultaten) {
+function checkPadzuiverheid(taal, vragen, resultaten, header = {}) {
   const patronen = padPatronen(taal);
   if (!patronen) { fail(`[${taal}] padzuiverheid: geen patroon in PAD_VERBODEN`); return; }
 
@@ -445,6 +445,13 @@ function checkPadzuiverheid(taal, vragen, resultaten) {
   }
 
   bezoek(regAntwoord.volgende, 'regulier');
+
+  // Vaste blokken onder elk resultaat op pad regulier: disclaimer en hulpblok
+  // (de engine kiest disclaimerRegulier/hulpRegulier* op dat pad).
+  if (!header.disclaimerRegulier) fail(`[${taal}] padzuiverheid: header.disclaimerRegulier ontbreekt`);
+  scan('header', 'disclaimerRegulier', header.disclaimerRegulier);
+  scan('header', 'hulpRegulierLabel', header.hulpRegulierLabel);
+  scan('header', 'hulpRegulierTekst', header.hulpRegulierTekst);
 }
 
 // ── Pariteit met NL (fase 4.2) ───────────────────────────────────────────
@@ -618,7 +625,7 @@ function main() {
     const { vragen, resultaten } = checkTaal(taal, NAT[taal]);
     checkVerbodenZinnen(taal, NAT[taal]);
     checkLegeStrings(taal, NAT[taal]);
-    checkPadzuiverheid(taal, vragen, resultaten);
+    checkPadzuiverheid(taal, vragen, resultaten, NAT[taal].header || {});
 
     if (taal === 'NL') {
       checkVerplichteZinnenNL(vragen, resultaten);

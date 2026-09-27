@@ -302,7 +302,7 @@ function toonResultaat(id) {
   // r_positief, en het amber-blok bij de alternatieven-resultaten.
   const hulpTekst = pad === 'regulier' ? (h.hulpRegulierTekst || '') : (h.vwnTekst || '');
   const hulpLabel = pad === 'regulier' ? (h.hulpRegulierLabel || '') : (h.vwnLabel || '');
-  const disclaimerTekst = h.disclaimer || '';
+  const disclaimerTekst = (pad === 'regulier' && h.disclaimerRegulier) ? h.disclaimerRegulier : (h.disclaimer || '');
   const disclaimer = `<div class="disclaimer" data-lees="">${disclaimerTekst}${hulpTekst ? `<br><br>💬 ${hulpTekst}` : ''}</div>`;
   const interneBtn = res.interneLink ? `<button class="knop-primair" style="background:var(--blauw);" onclick="gaNaarResultaat('${res.interneLink.naar}')">${res.interneLink.tekst}</button>` : '';
   // N-10: alleen externe (http…) links openen in een nieuw tabblad.

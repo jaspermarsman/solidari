@@ -95,14 +95,12 @@ test.describe('5.1 — Scenario\'s (Correctie 1, §4) in NL', () => {
           });
         }
         // Correctie 1, §3.1.6/S-1/S-16: op pad "regulier" linkt het hulpblok
-        // naar het Juridisch Loket, nooit naar vluchtelingenwerk.nl. Let op:
-        // `header.disclaimer` zelf noemt "VluchtelingenWerk" als vaste,
-        // padonafhankelijke slotzin (zie LOG-naturalisatie.md, C3: die
-        // afwijking is bewust — de disclaimer telt niet mee als "hulpblok"),
-        // dus deze check test het hulpblok-linkdoel, niet het woord zelf.
+        // naar het Juridisch Loket, en de disclaimer is header.disclaimerRegulier:
+        // "VluchtelingenWerk" komt dan nergens op de kaart voor.
         if (scenario.verwachtPad === 'regulier') {
           const html = await page.locator('.resultaat-kaart').innerHTML();
-          expect(html.toLowerCase()).not.toContain('vluchtelingenwerk.nl');
+          expect(html.toLowerCase()).not.toContain('vluchtelingenwerk');
+          await expect(page.locator('.disclaimer')).toContainText(NAT.NL.header.disclaimerRegulier.slice(0, 40));
         }
       }
     });

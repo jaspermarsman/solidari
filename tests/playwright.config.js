@@ -7,7 +7,11 @@ const { defineConfig, devices } = require('@playwright/test');
 // naturalisatie.spec.js ook tegen een echte URL: SOL_BASE_URL overschrijft
 // dan de baseURL en er wordt geen lokale server gestart.
 const PORT = process.env.SOL_PORT || 8099;
-const BASE_URL = process.env.SOL_BASE_URL || `http://127.0.0.1:${PORT}`;
+// Specs gebruiken relatieve paden ('index.html'); met een submap (staging)
+// is daarvoor een afsluitende / in de baseURL nodig.
+const BASE_URL = process.env.SOL_BASE_URL
+  ? process.env.SOL_BASE_URL.replace(/\/?$/, '/')
+  : `http://127.0.0.1:${PORT}/`;
 
 module.exports = defineConfig({
   testDir: '.',
