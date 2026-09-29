@@ -632,7 +632,7 @@ window._NAT = {
         "alternatieven": [
           {
             "naam": "Verleng je vergunning op tijd",
-            "tekst": "Komt er een periode zonder geldige vergunning (een \"verblijfsgat\"), dan telt die tijd niet mee. De 5 jaar kunnen dan opnieuw gaan tellen. Vraag verlenging daarom op tijd aan, uiterlijk binnen 4 weken na afloop: dan ziet de IND het niet als verblijfsgat."
+            "tekst": "Komt er een periode zonder geldige vergunning (een \"verblijfsgat\"), dan telt die tijd niet mee. De 5 jaar kunnen dan opnieuw gaan tellen. Vraag verlenging aan vóórdat je vergunning afloopt. Ben je te laat, doe het dan uiterlijk binnen 4 weken na afloop: dan ziet de IND het niet als verblijfsgat."
           },
           {
             "naam": "Naturalisatietermijn: mogelijk 10 jaar",
@@ -1184,7 +1184,7 @@ window._NAT = {
         "alternatieven": [
           {
             "naam": "Verleng op tijd",
-            "tekst": "Asielvergunningen voor bepaalde tijd gelden nog maximaal 3 jaar; verleng dus op tijd. Komt er een \"verblijfsgat\" — een periode tussen twee vergunningen waarin je geen geldige vergunning hebt — dan telt die tijd niet als rechtmatig verblijf, en kan de 5-jaarstelling voor naturalisatie opnieuw gaan lopen. Vraag verlenging daarom uiterlijk binnen 4 weken na afloop aan: dan ziet de IND het niet als verblijfsgat."
+            "tekst": "Asielvergunningen voor bepaalde tijd gelden nog maximaal 3 jaar; verleng dus op tijd. Komt er een \"verblijfsgat\" — een periode tussen twee vergunningen waarin je geen geldige vergunning hebt — dan telt die tijd niet als rechtmatig verblijf, en kan de 5-jaarstelling voor naturalisatie opnieuw gaan lopen. Vraag verlenging aan vóórdat je vergunning afloopt. Ben je te laat, doe het dan uiterlijk binnen 4 weken na afloop: dan ziet de IND het niet als verblijfsgat."
           },
           {
             "naam": "Werk aan je inkomen",
@@ -1852,7 +1852,7 @@ window._NAT = {
         "alternatieven": [
           {
             "naam": "Renew your permit on time",
-            "tekst": "If there is a period without a valid permit — a \"residence gap\" (verblijfsgat) — that time does not count. The 5 years may then start counting again. So apply for renewal on time, at the latest within 4 weeks of expiry: then the IND does not treat it as a residence gap."
+            "tekst": "If there is a period without a valid permit — a \"residence gap\" (verblijfsgat) — that time does not count. The 5 years may then start counting again. Apply for renewal before your permit expires. If you are late, do it within 4 weeks of expiry at the latest: then the IND does not treat it as a residence gap."
           },
           {
             "naam": "Naturalisation term: possibly 10 years",
@@ -2404,7 +2404,7 @@ window._NAT = {
         "alternatieven": [
           {
             "naam": "Renew on time",
-            "tekst": "Asylum permits for a fixed period are valid for a maximum of 3 years; so renew on time. If a \"residence gap\" (verblijfsgat) arises — a period between two permits in which you have no valid permit — that time does not count as lawful residence, and the 5-year count for naturalisation may restart. So apply for renewal within 4 weeks of expiry at the latest: then the IND does not treat it as a residence gap."
+            "tekst": "Asylum permits for a fixed period are valid for a maximum of 3 years; so renew on time. If a \"residence gap\" (verblijfsgat) arises — a period between two permits in which you have no valid permit — that time does not count as lawful residence, and the 5-year count for naturalisation may restart. Apply for renewal before your permit expires. If you are late, do it within 4 weeks of expiry at the latest: then the IND does not treat it as a residence gap."
           },
           {
             "naam": "Work on your income",
@@ -3072,7 +3072,7 @@ window._NAT = {
         "alternatieven": [
           {
             "naam": "جدّد تصريحك في الوقت المناسب",
-            "tekst": "إذا مرّت فترة بدون تصريح ساري — \"فجوة إقامة\" (verblijfsgat) — فلا تُحتسب تلك الفترة. وقد يبدأ عدّ الـ 5 سنوات عندها من جديد. لذا قدّم طلب التجديد في الوقت المناسب، وخلال 4 أسابيع كحدّ أقصى من انتهاء الصلاحية: عندئذٍ لا تعتبرها دائرة الهجرة (IND) فجوة إقامة."
+            "tekst": "إذا مرّت فترة بدون تصريح ساري — \"فجوة إقامة\" (verblijfsgat) — فلا تُحتسب تلك الفترة. وقد يبدأ عدّ الـ 5 سنوات عندها من جديد. قدّم طلب التجديد قبل انتهاء صلاحية تصريحك. وإذا تأخرت، فقدّمه خلال 4 أسابيع كحدّ أقصى من انتهاء الصلاحية: عندئذٍ لا تعتبرها دائرة الهجرة (IND) فجوة إقامة."
           },
           {
             "naam": "مدة التجنيس: ربما 10 سنوات",
@@ -3624,7 +3624,7 @@ window._NAT = {
         "alternatieven": [
           {
             "naam": "جدّد في الوقت المناسب",
-            "tekst": "تصاريح اللجوء لمدة محدّدة سارية لمدة 3 سنوات كحدّ أقصى؛ لذا جدّد في الوقت المناسب. إذا نشأت \"فجوة إقامة\" (verblijfsgat) — فترة بين تصريحين لا يكون لديك فيها تصريح ساري — فلا تُحتسب تلك الفترة كإقامة قانونية، وقد يبدأ عدّ الـ 5 سنوات للتجنيس من جديد. لذا قدّم طلب التجديد خلال 4 أسابيع كحدّ أقصى من انتهاء الصلاحية: عندئذٍ لا تعتبرها دائرة الهجرة فجوة إقامة."
+            "tekst": "تصاريح اللجوء لمدة محدّدة سارية لمدة 3 سنوات كحدّ أقصى؛ لذا جدّد في الوقت المناسب. إذا نشأت \"فجوة إقامة\" (verblijfsgat) — فترة بين تصريحين لا يكون لديك فيها تصريح ساري — فلا تُحتسب تلك الفترة كإقامة قانونية، وقد يبدأ عدّ الـ 5 سنوات للتجنيس من جديد. قدّم طلب التجديد قبل انتهاء صلاحية تصريحك. وإذا تأخرت، فقدّمه خلال 4 أسابيع كحدّ أقصى من انتهاء الصلاحية: عندئذٍ لا تعتبرها دائرة الهجرة فجوة إقامة."
           },
           {
             "naam": "اعمل على دخلك",
@@ -4292,7 +4292,7 @@ window._NAT = {
         "alternatieven": [
           {
             "naam": "İzninizi zamanında yenileyin",
-            "tekst": "Geçerli izniniz olmayan bir dönem olursa — bir \"ikamet boşluğu\" (verblijfsgat) — o süre sayılmaz. 5 yıl o zaman yeniden saymaya başlayabilir. Bu yüzden uzatmayı zamanında, en geç bitiş tarihinden sonraki 4 hafta içinde isteyin: o zaman IND bunu ikamet boşluğu saymaz."
+            "tekst": "Geçerli izniniz olmayan bir dönem olursa — bir \"ikamet boşluğu\" (verblijfsgat) — o süre sayılmaz. 5 yıl o zaman yeniden saymaya başlayabilir. Uzatmayı izninizin süresi dolmadan önce isteyin. Geç kaldıysanız, en geç bitiş tarihinden sonraki 4 hafta içinde isteyin: o zaman IND bunu ikamet boşluğu saymaz."
           },
           {
             "naam": "Vatandaşlık süresi: muhtemelen 10 yıl",
@@ -4844,7 +4844,7 @@ window._NAT = {
         "alternatieven": [
           {
             "naam": "Zamanında uzatın",
-            "tekst": "Süreli iltica izinleri en fazla 3 yıl geçerlidir; bu yüzden zamanında yenileyin. İki izin arasında geçerli izniniz olmayan bir \"ikamet boşluğu\" (verblijfsgat) oluşursa, o süre yasal ikamet sayılmaz ve vatandaşlık için 5 yıl sayacı yeniden başlayabilir. Bu yüzden yenilemeyi en geç bitiş tarihinden sonraki 4 hafta içinde yapın: o zaman IND bunu ikamet boşluğu saymaz."
+            "tekst": "Süreli iltica izinleri en fazla 3 yıl geçerlidir; bu yüzden zamanında yenileyin. İki izin arasında geçerli izniniz olmayan bir \"ikamet boşluğu\" (verblijfsgat) oluşursa, o süre yasal ikamet sayılmaz ve vatandaşlık için 5 yıl sayacı yeniden başlayabilir. Yenilemeyi izninizin süresi dolmadan önce isteyin. Geç kaldıysanız, en geç bitiş tarihinden sonraki 4 hafta içinde yapın: o zaman IND bunu ikamet boşluğu saymaz."
           },
           {
             "naam": "Gelirinizi geliştirin",
@@ -5512,7 +5512,7 @@ window._NAT = {
         "alternatieven": [
           {
             "naam": "Вчасно подовжуйте посвідку",
-            "tekst": "Якщо буде період без дійсного дозволу — \"пробіл у проживанні\" (verblijfsgat) — цей час не зараховується. Тоді відлік 5 років може початися заново. Тому подавайте на подовження вчасно, щонайпізніше протягом 4 тижнів після закінчення: тоді IND не вважатиме це пробілом."
+            "tekst": "Якщо буде період без дійсного дозволу — \"пробіл у проживанні\" (verblijfsgat) — цей час не зараховується. Тоді відлік 5 років може початися заново. Подавайте на подовження до закінчення строку дії дозволу. Якщо ви запізнилися, зробіть це щонайпізніше протягом 4 тижнів після закінчення: тоді IND не вважатиме це пробілом."
           },
           {
             "naam": "Строк натуралізації: можливо 10 років",
@@ -6064,7 +6064,7 @@ window._NAT = {
         "alternatieven": [
           {
             "naam": "Вчасно подовжуйте",
-            "tekst": "Дозволи на притулок на певний строк дійсні максимум 3 роки; тому подовжуйте вчасно. Якщо виникне \"пробіл у проживанні\" (verblijfsgat) — період між двома дозволами, коли у вас немає дійсного дозволу — цей час не зараховується як законне проживання, і відлік 5 років для натуралізації може початися заново. Тому подавайте на подовження щонайпізніше протягом 4 тижнів після закінчення: тоді IND не вважатиме це пробілом."
+            "tekst": "Дозволи на притулок на певний строк дійсні максимум 3 роки; тому подовжуйте вчасно. Якщо виникне \"пробіл у проживанні\" (verblijfsgat) — період між двома дозволами, коли у вас немає дійсного дозволу — цей час не зараховується як законне проживання, і відлік 5 років для натуралізації може початися заново. Подавайте на подовження до закінчення строку дії дозволу. Якщо ви запізнилися, зробіть це щонайпізніше протягом 4 тижнів після закінчення: тоді IND не вважатиме це пробілом."
           },
           {
             "naam": "Працюйте над доходом",
@@ -6732,7 +6732,7 @@ window._NAT = {
         "alternatieven": [
           {
             "naam": "اجازه خود را به‌موقع تمدید کنید",
-            "tekst": "اگر دوره‌ای بدون اجازه اقامت معتبر پیش بیاید — یک \"شکاف اقامت\" (verblijfsgat) — آن زمان حساب نمی‌شود. در این صورت شمارش 5 سال ممکن است از نو آغاز شود. بنابراین درخواست تمدید را به‌موقع ارائه دهید، حداکثر تا 4 هفته پس از انقضا: در این صورت IND آن را شکاف اقامت تلقی نمی‌کند."
+            "tekst": "اگر دوره‌ای بدون اجازه اقامت معتبر پیش بیاید — یک \"شکاف اقامت\" (verblijfsgat) — آن زمان حساب نمی‌شود. در این صورت شمارش 5 سال ممکن است از نو آغاز شود. درخواست تمدید را پیش از پایان اعتبار اجازه اقامت خود ارائه دهید. اگر دیر کرده‌اید، حداکثر تا 4 هفته پس از انقضا این کار را انجام دهید: در این صورت IND آن را شکاف اقامت تلقی نمی‌کند."
           },
           {
             "naam": "مدت تابعیت: احتمالاً 10 سال",
@@ -7284,7 +7284,7 @@ window._NAT = {
         "alternatieven": [
           {
             "naam": "به‌موقع تمدید کنید",
-            "tekst": "اجازه‌های پناهندگی با مدت معین حداکثر 3 سال معتبرند؛ بنابراین به‌موقع تمدید کنید. اگر یک \"شکاف اقامت\" (verblijfsgat) ایجاد شود — دوره‌ای بین دو اجازه که در آن اجازه معتبری ندارید — آن زمان به‌عنوان اقامت قانونی محسوب نمی‌شود و شمارش 5 ساله برای تابعیت ممکن است از نو آغاز شود. بنابراین درخواست تمدید را حداکثر تا 4 هفته پس از انقضا ارائه دهید: در این صورت IND آن را شکاف اقامت تلقی نمی‌کند."
+            "tekst": "اجازه‌های پناهندگی با مدت معین حداکثر 3 سال معتبرند؛ بنابراین به‌موقع تمدید کنید. اگر یک \"شکاف اقامت\" (verblijfsgat) ایجاد شود — دوره‌ای بین دو اجازه که در آن اجازه معتبری ندارید — آن زمان به‌عنوان اقامت قانونی محسوب نمی‌شود و شمارش 5 ساله برای تابعیت ممکن است از نو آغاز شود. درخواست تمدید را پیش از پایان اعتبار اجازه اقامت خود ارائه دهید. اگر دیر کرده‌اید، حداکثر تا 4 هفته پس از انقضا این کار را انجام دهید: در این صورت IND آن را شکاف اقامت تلقی نمی‌کند."
           },
           {
             "naam": "روی درآمد خود کار کنید",
@@ -7952,7 +7952,7 @@ window._NAT = {
         "alternatieven": [
           {
             "naam": "ፍቓድካ ብግዜኡ ኣሕድስ",
-            "tekst": "ቅቡል ፍቓድ ዘይብልካ ግዜ እንተሃልዩ — \"ናይ መንበሪ ጋግ\" (verblijfsgat) — እቲ ግዜ ኣይቑጸርን። ሽዑ እቲ 5 ዓመት ካብ ብሓድሽ ክቑጸር ይኽእል። ስለዚ ምሕዳስ ብግዜኡ ሕተት፡ እንተደንጐኻ ፍቓድካ ካብ ዝውድእ ኣብ ውሽጢ 4 ሰሙን፦ ሽዑ IND ከም ናይ መንበሪ ጋግ ኣይርእዮን።"
+            "tekst": "ቅቡል ፍቓድ ዘይብልካ ግዜ እንተሃልዩ — \"ናይ መንበሪ ጋግ\" (verblijfsgat) — እቲ ግዜ ኣይቑጸርን። ሽዑ እቲ 5 ዓመት ካብ ብሓድሽ ክቑጸር ይኽእል። ፍቓድካ ቅድሚ ምውዳኡ ምሕዳስ ሕተት። እንተደንጐኻ፡ ፍቓድካ ካብ ዝውድእ ኣብ ውሽጢ 4 ሰሙን ግበሮ፦ ሽዑ IND ከም ናይ መንበሪ ጋግ ኣይርእዮን።"
           },
           {
             "naam": "ናይ ዜግነት ግዜ: ምናልባት 10 ዓመት",
@@ -8504,7 +8504,7 @@ window._NAT = {
         "alternatieven": [
           {
             "naam": "ብግዜኡ ኣሕድስ",
-            "tekst": "ናይ ውሱን ግዜ ናይ ዑቕባ ፍቓዳት ዝለዓለ 3 ዓመት ይጸንሑ፤ ስለዚ ብግዜኡ ኣሕድስ። ኣብ መንጎ ክልተ ፍቓዳት ቅቡል ፍቓድ ዘይብልካ \"ናይ መንበሪ ጋግ\" (verblijfsgat) እንተተፈጢሩ — እቲ ግዜ ከም ሕጋዊ መንበሪ ኣይቑጸርን፡ እቲ ናይ 5 ዓመት ቆጸራ ንዜግነት ድማ ካብ ብሓድሽ ክጅምር ይኽእል። ስለዚ ናይ ምሕዳስ ምልክታ ድሕሪ ምውዳቕ ኣብ ውሽጢ 4 ሰሙን ኣብጽሕ: ሽዑ IND ከም ናይ መንበሪ ጋግ ኣይርእዮን።"
+            "tekst": "ናይ ውሱን ግዜ ናይ ዑቕባ ፍቓዳት ዝለዓለ 3 ዓመት ይጸንሑ፤ ስለዚ ብግዜኡ ኣሕድስ። ኣብ መንጎ ክልተ ፍቓዳት ቅቡል ፍቓድ ዘይብልካ \"ናይ መንበሪ ጋግ\" (verblijfsgat) እንተተፈጢሩ — እቲ ግዜ ከም ሕጋዊ መንበሪ ኣይቑጸርን፡ እቲ ናይ 5 ዓመት ቆጸራ ንዜግነት ድማ ካብ ብሓድሽ ክጅምር ይኽእል። ፍቓድካ ቅድሚ ምውዳኡ ናይ ምሕዳስ ምልክታ ኣብጽሕ። እንተደንጐኻ፡ ድሕሪ ምውዳቕ ኣብ ውሽጢ 4 ሰሙን ኣብጽሕ: ሽዑ IND ከም ናይ መንበሪ ጋግ ኣይርእዮን።"
           },
           {
             "naam": "ኣብ እቶትካ ስራሕ",
@@ -9172,7 +9172,7 @@ window._NAT = {
         "alternatieven": [
           {
             "naam": "Reînnoiește permisul la timp",
-            "tekst": "Dacă apare o perioadă fără permis valabil — un \"gol de ședere\" (verblijfsgat) — acel timp nu se socotește. Cei 5 ani pot începe atunci din nou. De aceea cere reînnoirea la timp, cel târziu în 4 săptămâni de la expirare: atunci IND nu o consideră gol de ședere."
+            "tekst": "Dacă apare o perioadă fără permis valabil — un \"gol de ședere\" (verblijfsgat) — acel timp nu se socotește. Cei 5 ani pot începe atunci din nou. Cere reînnoirea înainte să expire permisul. Dacă ai întârziat, fă-o cel târziu în 4 săptămâni de la expirare: atunci IND nu o consideră gol de ședere."
           },
           {
             "naam": "Termen de naturalizare: posibil 10 ani",
@@ -9724,7 +9724,7 @@ window._NAT = {
         "alternatieven": [
           {
             "naam": "Reînnoiește la timp",
-            "tekst": "Permisele de azil pe durată determinată sunt valabile maximum 3 ani; așa că reînnoiește la timp. Dacă apare un \"gol de ședere\" (verblijfsgat) — o perioadă între două permise în care nu ai un permis valabil — acel timp nu contează ca ședere legală, iar numărătoarea de 5 ani pentru naturalizare poate reîncepe. Așa că depune cererea de reînnoire cel târziu în 4 săptămâni de la expirare: atunci IND nu o consideră gol de ședere."
+            "tekst": "Permisele de azil pe durată determinată sunt valabile maximum 3 ani; așa că reînnoiește la timp. Dacă apare un \"gol de ședere\" (verblijfsgat) — o perioadă între două permise în care nu ai un permis valabil — acel timp nu contează ca ședere legală, iar numărătoarea de 5 ani pentru naturalizare poate reîncepe. Depune cererea de reînnoire înainte să expire permisul. Dacă ai întârziat, fă-o cel târziu în 4 săptămâni de la expirare: atunci IND nu o consideră gol de ședere."
           },
           {
             "naam": "Lucrează la venitul tău",
@@ -10392,7 +10392,7 @@ window._NAT = {
         "alternatieven": [
           {
             "naam": "Przedłuż zezwolenie na czas",
-            "tekst": "Jeśli pojawi się okres bez ważnego zezwolenia — \"luka pobytowa\" (verblijfsgat) — ten czas się nie liczy. Odliczanie 5 lat może wtedy zacząć się od nowa. Dlatego złóż wniosek o przedłużenie na czas, najpóźniej w ciągu 4 tygodni po wygaśnięciu: wtedy IND nie uzna tego za lukę pobytową."
+            "tekst": "Jeśli pojawi się okres bez ważnego zezwolenia — \"luka pobytowa\" (verblijfsgat) — ten czas się nie liczy. Odliczanie 5 lat może wtedy zacząć się od nowa. Złóż wniosek o przedłużenie przed wygaśnięciem zezwolenia. Jeśli się spóźnisz, zrób to najpóźniej w ciągu 4 tygodni po wygaśnięciu: wtedy IND nie uzna tego za lukę pobytową."
           },
           {
             "naam": "Okres naturalizacji: możliwe 10 lat",
@@ -10944,7 +10944,7 @@ window._NAT = {
         "alternatieven": [
           {
             "naam": "Przedłużaj na czas",
-            "tekst": "Zezwolenia azylowe na czas określony są ważne maksymalnie 3 lata; dlatego przedłużaj na czas. Jeśli powstanie \"luka pobytowa\" (verblijfsgat) — okres między dwoma zezwoleniami, w którym nie masz ważnego zezwolenia — ten czas nie liczy się jako legalny pobyt, a odliczanie 5 lat do naturalizacji może zacząć się od nowa. Dlatego złóż wniosek o przedłużenie najpóźniej w ciągu 4 tygodni po wygaśnięciu: wtedy IND nie uzna tego za lukę pobytową."
+            "tekst": "Zezwolenia azylowe na czas określony są ważne maksymalnie 3 lata; dlatego przedłużaj na czas. Jeśli powstanie \"luka pobytowa\" (verblijfsgat) — okres między dwoma zezwoleniami, w którym nie masz ważnego zezwolenia — ten czas nie liczy się jako legalny pobyt, a odliczanie 5 lat do naturalizacji może zacząć się od nowa. Złóż wniosek o przedłużenie przed wygaśnięciem zezwolenia. Jeśli się spóźnisz, zrób to najpóźniej w ciągu 4 tygodni po wygaśnięciu: wtedy IND nie uzna tego za lukę pobytową."
           },
           {
             "naam": "Pracuj nad dochodem",
