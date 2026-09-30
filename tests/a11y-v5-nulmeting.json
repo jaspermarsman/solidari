@@ -1,0 +1,469 @@
+{
+  "datum": "2026-09-30",
+  "apparaat": "Pixel 5",
+  "taal": "NL",
+  "begin": {
+    "index.html": {
+      "bubbels": 0,
+      "keuzeknoppen": 0,
+      "keuzeZonderVoorlees": 0,
+      "keuzeKlassen": [],
+      "emojiNaam": 7,
+      "emojiNaamPlanDef": 6,
+      "velden": 0,
+      "veldenZonderLabel": 0,
+      "veldenZonderLabelIds": [],
+      "bedragvelden": 0,
+      "bedragveldenZonderMic": 0,
+      "bedragveldIds": [],
+      "luidsprekersInBoom": 8,
+      "luidsprekersTotaal": 8,
+      "heeftMain": false,
+      "h1": 1,
+      "berichtenlijst": null,
+      "toggle": {
+        "x": 233,
+        "w": 44
+      },
+      "vw": 393,
+      "luidsprekersInAriaSnapshot": 8
+    },
+    "brief.html": {
+      "bubbels": 0,
+      "keuzeknoppen": 3,
+      "keuzeZonderVoorlees": 3,
+      "keuzeKlassen": [
+        ".upload-knop.upload-knop-camera",
+        ".upload-knop",
+        ".analyseer-knop"
+      ],
+      "emojiNaam": 3,
+      "emojiNaamPlanDef": 3,
+      "velden": 3,
+      "veldenZonderLabel": 1,
+      "veldenZonderLabelIds": [
+        "textarea#extra-context[textarea]"
+      ],
+      "bedragvelden": 0,
+      "bedragveldenZonderMic": 0,
+      "bedragveldIds": [],
+      "luidsprekersInBoom": 3,
+      "luidsprekersTotaal": 3,
+      "heeftMain": false,
+      "h1": 1,
+      "berichtenlijst": null,
+      "toggle": {
+        "x": 233,
+        "w": 44
+      },
+      "vw": 393,
+      "luidsprekersInAriaSnapshot": 3
+    },
+    "budgethulp.html": {
+      "bubbels": 4,
+      "keuzeknoppen": 5,
+      "keuzeZonderVoorlees": 5,
+      "keuzeKlassen": [
+        ".keuze-btn"
+      ],
+      "emojiNaam": 5,
+      "emojiNaamPlanDef": 5,
+      "velden": 0,
+      "veldenZonderLabel": 0,
+      "veldenZonderLabelIds": [],
+      "bedragvelden": 0,
+      "bedragveldenZonderMic": 0,
+      "bedragveldIds": [],
+      "luidsprekersInBoom": 4,
+      "luidsprekersTotaal": 4,
+      "heeftMain": false,
+      "h1": 0,
+      "berichtenlijst": {
+        "log": false,
+        "role": null,
+        "live": null
+      },
+      "toggle": {
+        "x": 233,
+        "w": 44
+      },
+      "vw": 393,
+      "luidsprekersInAriaSnapshot": 4
+    },
+    "loont-werken.html": {
+      "bubbels": 2,
+      "keuzeknoppen": 4,
+      "keuzeZonderVoorlees": 4,
+      "keuzeKlassen": [
+        ".keuze-btn"
+      ],
+      "emojiNaam": 0,
+      "emojiNaamPlanDef": 0,
+      "velden": 0,
+      "veldenZonderLabel": 0,
+      "veldenZonderLabelIds": [],
+      "bedragvelden": 0,
+      "bedragveldenZonderMic": 0,
+      "bedragveldIds": [],
+      "luidsprekersInBoom": 2,
+      "luidsprekersTotaal": 2,
+      "heeftMain": false,
+      "h1": 0,
+      "berichtenlijst": {
+        "log": false,
+        "role": null,
+        "live": null
+      },
+      "toggle": {
+        "x": 233,
+        "w": 44
+      },
+      "vw": 393,
+      "luidsprekersInAriaSnapshot": 2
+    },
+    "naturalisatie.html": {
+      "bubbels": 1,
+      "keuzeknoppen": 2,
+      "keuzeZonderVoorlees": 2,
+      "keuzeKlassen": [
+        ".antwoord-knop"
+      ],
+      "emojiNaam": 0,
+      "emojiNaamPlanDef": 0,
+      "velden": 0,
+      "veldenZonderLabel": 0,
+      "veldenZonderLabelIds": [],
+      "bedragvelden": 0,
+      "bedragveldenZonderMic": 0,
+      "bedragveldIds": [],
+      "luidsprekersInBoom": 4,
+      "luidsprekersTotaal": 4,
+      "heeftMain": false,
+      "h1": 1,
+      "berichtenlijst": null,
+      "toggle": {
+        "x": 233,
+        "w": 44
+      },
+      "vw": 393,
+      "luidsprekersInAriaSnapshot": 4
+    },
+    "18jaar.html": {
+      "bubbels": 0,
+      "keuzeknoppen": 5,
+      "keuzeZonderVoorlees": 5,
+      "keuzeKlassen": [
+        ".leeftijd-knop",
+        ".fase-tab.voor",
+        ".fase-tab.op",
+        ".fase-tab.na"
+      ],
+      "emojiNaam": 4,
+      "emojiNaamPlanDef": 4,
+      "velden": 0,
+      "veldenZonderLabel": 0,
+      "veldenZonderLabelIds": [],
+      "bedragvelden": 0,
+      "bedragveldenZonderMic": 0,
+      "bedragveldIds": [],
+      "luidsprekersInBoom": 8,
+      "luidsprekersTotaal": 18,
+      "heeftMain": false,
+      "h1": 1,
+      "berichtenlijst": null,
+      "toggle": {
+        "x": 233,
+        "w": 44
+      },
+      "vw": 393,
+      "luidsprekersInAriaSnapshot": 8
+    },
+    "rechten.html": {
+      "bubbels": 3,
+      "keuzeknoppen": 7,
+      "keuzeZonderVoorlees": 7,
+      "keuzeKlassen": [
+        ".situatie-btn"
+      ],
+      "emojiNaam": 7,
+      "emojiNaamPlanDef": 7,
+      "velden": 1,
+      "veldenZonderLabel": 1,
+      "veldenZonderLabelIds": [
+        "textarea#invoer[textarea]"
+      ],
+      "bedragvelden": 0,
+      "bedragveldenZonderMic": 0,
+      "bedragveldIds": [],
+      "luidsprekersInBoom": 3,
+      "luidsprekersTotaal": 3,
+      "heeftMain": false,
+      "h1": 0,
+      "berichtenlijst": {
+        "log": false,
+        "role": null,
+        "live": null
+      },
+      "toggle": {
+        "x": 574,
+        "w": 44
+      },
+      "vw": 393,
+      "luidsprekersInAriaSnapshot": 3
+    },
+    "goedvoorbereid.html": {
+      "bubbels": 3,
+      "keuzeknoppen": 5,
+      "keuzeZonderVoorlees": 5,
+      "keuzeKlassen": [
+        ".keuze-btn"
+      ],
+      "emojiNaam": 5,
+      "emojiNaamPlanDef": 5,
+      "velden": 0,
+      "veldenZonderLabel": 0,
+      "veldenZonderLabelIds": [],
+      "bedragvelden": 0,
+      "bedragveldenZonderMic": 0,
+      "bedragveldIds": [],
+      "luidsprekersInBoom": 3,
+      "luidsprekersTotaal": 3,
+      "heeftMain": false,
+      "h1": 0,
+      "berichtenlijst": {
+        "log": false,
+        "role": null,
+        "live": null
+      },
+      "toggle": {
+        "x": 233,
+        "w": 44
+      },
+      "vw": 393,
+      "luidsprekersInAriaSnapshot": 3
+    },
+    "over.html": {
+      "bubbels": 0,
+      "keuzeknoppen": 0,
+      "keuzeZonderVoorlees": 0,
+      "keuzeKlassen": [],
+      "emojiNaam": 0,
+      "emojiNaamPlanDef": 0,
+      "velden": 0,
+      "veldenZonderLabel": 0,
+      "veldenZonderLabelIds": [],
+      "bedragvelden": 0,
+      "bedragveldenZonderMic": 0,
+      "bedragveldIds": [],
+      "luidsprekersInBoom": 29,
+      "luidsprekersTotaal": 31,
+      "heeftMain": false,
+      "h1": 1,
+      "berichtenlijst": null,
+      "toggle": {
+        "x": 233,
+        "w": 44
+      },
+      "vw": 393,
+      "luidsprekersInAriaSnapshot": 29
+    },
+    "feedback.html": {
+      "bubbels": 0,
+      "keuzeknoppen": 4,
+      "keuzeZonderVoorlees": 4,
+      "keuzeKlassen": [
+        ".type-knop"
+      ],
+      "emojiNaam": 4,
+      "emojiNaamPlanDef": 4,
+      "velden": 3,
+      "veldenZonderLabel": 0,
+      "veldenZonderLabelIds": [],
+      "bedragvelden": 0,
+      "bedragveldenZonderMic": 0,
+      "bedragveldIds": [],
+      "luidsprekersInBoom": 2,
+      "luidsprekersTotaal": 2,
+      "heeftMain": false,
+      "h1": 1,
+      "berichtenlijst": null,
+      "toggle": {
+        "x": 233,
+        "w": 44
+      },
+      "vw": 393,
+      "luidsprekersInAriaSnapshot": 2
+    },
+    "vertaalhulp.html": {
+      "bubbels": 0,
+      "keuzeknoppen": 0,
+      "keuzeZonderVoorlees": 0,
+      "keuzeKlassen": [],
+      "emojiNaam": 0,
+      "emojiNaamPlanDef": 0,
+      "velden": 2,
+      "veldenZonderLabel": 0,
+      "veldenZonderLabelIds": [],
+      "bedragvelden": 0,
+      "bedragveldenZonderMic": 0,
+      "bedragveldIds": [],
+      "luidsprekersInBoom": 1,
+      "luidsprekersTotaal": 1,
+      "heeftMain": false,
+      "h1": 1,
+      "berichtenlijst": null,
+      "toggle": {
+        "x": 233,
+        "w": 44
+      },
+      "vw": 393,
+      "luidsprekersInAriaSnapshot": 1
+    }
+  },
+  "flows": {
+    "budgethulp": {
+      "stappen": 24,
+      "bedragveldenZonderMic": [
+        "inp-inkomen",
+        "inp-huur",
+        "inp-huurtoeslag",
+        "inp-energie",
+        "inp-telefoon",
+        "inp-zorgverzek",
+        "inp-zorgtoeslag",
+        "inp-autoverzek",
+        "inp-inboedel",
+        "inp-begrafenis",
+        "inp-vervoer",
+        "inp-schulden",
+        "abn-bedrag",
+        "inp-boodschappen",
+        "bedrag-overig",
+        "inp-sparen"
+      ],
+      "keuzeKlassen": [
+        ".keuze-btn",
+        ".ja-btn",
+        ".nee-btn"
+      ],
+      "veldenZonderLabel": [
+        "input#inp-inkomen[number]",
+        "input#inp-huur[number]",
+        "input#inp-huurtoeslag[number]",
+        "input#inp-energie[number]",
+        "input#inp-telefoon[number]",
+        "input#inp-zorgverzek[number]",
+        "input#inp-zorgtoeslag[number]",
+        "input#inp-autoverzek[number]",
+        "input#inp-inboedel[number]",
+        "input#inp-begrafenis[number]",
+        "input#inp-vervoer[number]",
+        "input#inp-schulden[number]",
+        "input#abn-naam",
+        "input#abn-bedrag[number]",
+        "input#inp-boodschappen[number]",
+        "input#naam-overig",
+        "input#bedrag-overig[number]",
+        "input#inp-sparen[number]"
+      ]
+    },
+    "loont-werken": {
+      "stappen": 9,
+      "bedragveldenZonderMic": 5,
+      "keuzeKlassen": [
+        ".keuze-btn",
+        ".scenario-btn"
+      ],
+      "veldenZonderLabel": [
+        "input#g-inp[number]"
+      ]
+    },
+    "goedvoorbereid": {
+      "stappen": 8,
+      "keuzeKlassen": [
+        ".keuze-btn",
+        ".verder-btn"
+      ],
+      "veldenZonderLabel": [
+        "textarea#ai-invoer[textarea]"
+      ],
+      "eind": {
+        "velden": 1,
+        "veldenZonderLabelIds": [
+          "textarea#ai-invoer[textarea]"
+        ],
+        "mics": 1
+      }
+    }
+  },
+  "tik": {
+    "budgethulp.html": {
+      "knoptekst": "Ik alleen",
+      "knopVoorgelezen": false
+    },
+    "loont-werken.html": {
+      "knoptekst": "Ik heb een bijstandsuitkering",
+      "knopVoorgelezen": false
+    },
+    "naturalisatie.html": {
+      "knoptekst": "✓ Ja, ik ben 18 jaar of ouder",
+      "knopVoorgelezen": false
+    },
+    "rechten.html": {
+      "knoptekst": "Ik krijg bijstand",
+      "knopVoorgelezen": false
+    },
+    "goedvoorbereid.html": {
+      "knoptekst": "De dokter",
+      "knopVoorgelezen": false
+    },
+    "18jaar.html": {
+      "knoptekst": "Ik word 18",
+      "knopVoorgelezen": false
+    },
+    "feedback.html": {
+      "knoptekst": "Iets klopt niet",
+      "knopVoorgelezen": false
+    }
+  },
+  "totalen": {
+    "keuzeknoppenBegin": 35,
+    "keuzeknoppenBeginPlanDef": 30,
+    "keuzeknoppenBeginZonderVoorlees": 35,
+    "emojiNaamBegin": 35,
+    "emojiNaamBeginPlanDef": 29,
+    "invoerZonderLabelBegin": 2,
+    "luidsprekerKnoppenInBoom": 67,
+    "luidsprekerKnoppenInDom": 67,
+    "paginasZonderMain": 11,
+    "chatPaginas": 4,
+    "chatZonderLog": 4,
+    "chatZonderH1": 4,
+    "bedragveldenZonderMicFlow": 21,
+    "keuzeknoppenNietVoorleesbaarPerTik": 7,
+    "schakelaarBuitenBeeld": [
+      "rechten.html"
+    ]
+  },
+  "grenzen": {
+    "keuzeknoppenBegin": 35,
+    "keuzeknoppenBeginZonderVoorlees": 35,
+    "emojiNaamBegin": 35,
+    "invoerZonderLabelBegin": 2,
+    "luidsprekerKnoppenInBoom": 67,
+    "paginasZonderMain": 11,
+    "chatZonderLog": 4,
+    "chatZonderH1": 4,
+    "bedragveldenZonderMicFlow": 21,
+    "keuzeknoppenNietVoorleesbaarPerTik": 7
+  },
+  "doel": {
+    "keuzeknoppenBeginZonderVoorlees": 0,
+    "emojiNaamBegin": 0,
+    "invoerZonderLabelBegin": 0,
+    "luidsprekerKnoppenInBoom": 0,
+    "chatZonderLog": 0,
+    "chatZonderH1": 0,
+    "bedragveldenZonderMicFlow": 0
+  }
+}
