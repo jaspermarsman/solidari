@@ -79,6 +79,12 @@
     .naam-input::placeholder{color:var(--tekst-licht);}
     .naam-sep{width:1px;background:var(--rand);align-self:stretch;}
     .naam-euro{padding:0 10px;font-size:1.1rem;font-weight:600;color:var(--tekst-licht);background:var(--wit-warm);align-self:stretch;display:flex;align-items:center;}
+    /* PLAN-5 fase 5: naam en bedrag hebben elk een mic; op twee regels, de scheidingslijn wordt horizontaal */
+    .naam-bedrag-wrap{flex-wrap:wrap;row-gap:0;}
+    .naam-bedrag-wrap .naam-input{flex:1 1 calc(100% - 80px);min-width:0;}
+    .naam-bedrag-wrap .naam-sep{flex:0 0 100%;width:auto;height:1px;align-self:auto;}
+    .naam-bedrag-wrap .naam-bedrag-input{min-width:0;}
+    .naam-bedrag-wrap .sol-a11y-mic{margin-inline-end:0.4rem;}
     .naam-bedrag-input{flex:1;padding:14px 8px;font-size:1.1rem;border:none;background:transparent;color:var(--tekst);outline:none;font-family:'Source Sans 3',sans-serif;font-weight:500;min-width:60px;}
     .naam-bedrag-input::placeholder{color:var(--tekst-licht);font-weight:300;}
 

@@ -26,6 +26,9 @@
 // Stand na fase 3 (30-09-2026): emoji in de naam 35 → 0, velden zonder label (begin) 2 → 0,
 //   🔊 in de boom 67 → 0, pagina's zonder <main> 11 → 0, chats zonder log 4 → 0, zonder h1 4 → 0.
 //   Nog open: bedragvelden zonder spraakinvoer 21 (fase 5).
+// Stand na fase 5 (30-09-2026): bedragvelden zonder spraakinvoer in de flows 21 → 0 (budgethulp 16, loont-werken 5);
+//   velden zonder label in de flows 19 → 0 (budgethulp 18, loont-werken 1; goedvoorbereid was al 0 na fase 3).
+//   De flowlus wacht nu tot het invoerscherm twee metingen lang gelijk is (bij fase 4 ontbrak één keer inp-begrafenis).
 // ────────────────────────────────────────────────────────────────────────────────────────────
 const { test, expect } = require('@playwright/test');
 const fs = require('fs');
@@ -44,13 +47,14 @@ const NU = {
   paginasZonderMain: 0,          // fase 3: <main> via components.js (was 11)
   chatZonderLog: 0,              // fase 3: #berichten role="log" (was 4)
   chatZonderH1: 0,               // fase 3: verborgen h1 met de toolnaam (was 4)
-  bedragveldenZonderMicFlow: 21,
+  bedragveldenZonderMicFlow: 0,  // fase 5: mic ook bij type=number (was 21)
+  invoerZonderLabelFlow: 0,      // fase 5: labels via VELD_LABELS (was 19: budgethulp 18, loont-werken 1)
   keuzeknoppenNietVoorleesbaarPerTik: 0,   // fase 1: één tik leest voor, twee kiezen
 };
 // Streefwaarden uit plan §5 (alleen ter documentatie; geen assertie in fase 0).
 const DOEL = {
   keuzeknoppenBeginZonderVoorlees: 0, emojiNaamBegin: 0, invoerZonderLabelBegin: 0,
-  luidsprekerKnoppenInBoom: 0, chatZonderLog: 0, chatZonderH1: 0, bedragveldenZonderMicFlow: 0,
+  luidsprekerKnoppenInBoom: 0, chatZonderLog: 0, chatZonderH1: 0, bedragveldenZonderMicFlow: 0, invoerZonderLabelFlow: 0,
 };
 
 // Centrale selectorlijst voor keuzeknoppen (bron: fase-0-inventaris, INVENTARIS-a11y-v5.md).
@@ -147,6 +151,7 @@ const METING = (sel) => {
     bedragvelden: getal.length,
     bedragveldenZonderMic: getalZonderMic.length,
     bedragveldIds: getalZonderMic.map((el) => el.id || '(zonder id)'),
+    bedragveldAlleIds: getal.map((el) => el.id || '(zonder id)'),
     luidsprekersInBoom: zichtbaarInBoom.length,
     luidsprekersTotaal: luidsprekers.length,
     heeftMain: document.querySelectorAll('main, [role="main"]').length > 0,
@@ -180,20 +185,27 @@ async function loopFlow(page, { zone, max = 40 }) {
   let vorige = '', zelfde = 0;
   for (let i = 0; i < max; i++) {
     let m = null;
-    for (let k = 0; k < 25; k++) {
+    // Wacht tot de invoerzone iets bedienbaars heeft én twee metingen achter elkaar gelijk is
+    // (fase 5: anders kon een stap soms half opgebouwd gemeten of overgeslagen worden).
+    let vorigScherm = null;
+    for (let k = 0; k < 40; k++) {
       await page.waitForTimeout(350);
-      m = await page.evaluate(METING, KEUZE_SEL);
-      const actief = await page.evaluate((z) => {
+      const scherm = await page.evaluate((z) => {
         const el = document.querySelector(z);
-        return el ? [...el.querySelectorAll('button, input')].some((b) => { const r = b.getBoundingClientRect(); return r.width > 0 && !/sol-a11y/.test(b.className); }) : false;
+        if (!el) return '';
+        return [...el.querySelectorAll('button, input')]
+          .filter((b) => { const r = b.getBoundingClientRect(); return r.width > 0 && !/sol-a11y/.test(b.className); })
+          .map((b) => b.tagName + '#' + b.id + '.' + b.className).join('|');
       }, zone);
-      if (actief) break;
+      if (scherm && scherm === vorigScherm) break;
+      vorigScherm = scherm;
     }
-    const handtekening = JSON.stringify([m.keuzeklassen, m.bedragveldIds, m.velden, m.keuzeknoppen, m.bubbels]);
+    m = await page.evaluate(METING, KEUZE_SEL);
+    const handtekening = JSON.stringify([m.keuzeKlassen, m.bedragveldAlleIds, m.velden, m.keuzeknoppen, m.bubbels]);
     zelfde = handtekening === vorige ? zelfde + 1 : 0; vorige = handtekening;
     if (zelfde >= 2) break;
     m.bedragveldIds.forEach((id) => gezien.add(id));
-    stappen.push({ keuze: m.keuzeknoppen, keuzeKlassen: m.keuzeKlassen, bedrag: m.bedragvelden, bedragZonderMic: m.bedragveldenZonderMic, ids: m.bedragveldIds, zonderLabel: m.veldenZonderLabelIds });
+    stappen.push({ keuze: m.keuzeknoppen, keuzeKlassen: m.keuzeKlassen, bedrag: m.bedragvelden, bedragZonderMic: m.bedragveldenZonderMic, ids: m.bedragveldIds, alleIds: m.bedragveldAlleIds, zonderLabel: m.veldenZonderLabelIds });
     // volgende actie
     const kies = async () => {
       if (await page.locator('#abn-naam:visible').count()) { await page.locator('.overslaan-link:visible').first().click(); return true; }
@@ -225,8 +237,11 @@ test('nulmeting flow budgethulp (doorgeklikt)', async ({ page }) => {
   const ids = new Set(stappen.flatMap((s) => s.ids));
   const klassen = new Set(stappen.flatMap((s) => s.keuzeKlassen));
   const zonderLabel = new Set(stappen.flatMap((s) => s.zonderLabel));
-  resultaat.flows.budgethulp = { stappen: stappen.length, bedragveldenZonderMic: [...ids], keuzeKlassen: [...klassen], veldenZonderLabel: [...zonderLabel] };
+  const alle = new Set(stappen.flatMap((s) => s.alleIds));
+  resultaat.flows.budgethulp = { stappen: stappen.length, bedragvelden: [...alle], bedragveldenZonderMic: [...ids], keuzeKlassen: [...klassen], veldenZonderLabel: [...zonderLabel] };
   expect(stappen.length).toBeGreaterThan(5);
+  // Stabiliteit (fase 5): de doorgeklikte flow bereikt alle 16 bedragvelden, anders telt de meting te weinig.
+  expect(alle.size, [...alle].join(', ')).toBe(16);
 });
 
 test('nulmeting flow loont-werken (doorgeklikt)', async ({ page }) => {
@@ -286,6 +301,7 @@ test('nulmeting: totalen en bovengrenzen', async () => {
   const flows = resultaat.flows;
   const bedragFlow = ((flows.budgethulp || {}).bedragveldenZonderMic || []).length + ((flows['loont-werken'] || {}).bedragveldenZonderMic || 0);
   const tikNiet = Object.values(resultaat.tik).filter((t) => !t.knopVoorgelezen).length;
+  const labelFlow = ['budgethulp', 'loont-werken', 'goedvoorbereid'].reduce((a, f) => a + (((flows[f] || {}).veldenZonderLabel) || []).length, 0);
   const t = {
     keuzeknoppenBegin: som((m) => m.keuzeknoppen),
     keuzeknoppenBeginPlanDef: som((m) => m.keuzeknoppen) - (b['budgethulp.html'] ? b['budgethulp.html'].keuzeknoppen : 0),
@@ -300,6 +316,8 @@ test('nulmeting: totalen en bovengrenzen', async () => {
     chatZonderLog: chat.filter((p) => !(b[p].berichtenlijst && b[p].berichtenlijst.log)).length,
     chatZonderH1: chat.filter((p) => b[p].h1 === 0).length,
     bedragveldenZonderMicFlow: bedragFlow,
+    invoerZonderLabelFlow: labelFlow,
+    bedragveldenFlow: ((flows.budgethulp || {}).bedragvelden || []).length,
     keuzeknoppenNietVoorleesbaarPerTik: tikNiet,
     schakelaarBuitenBeeld: PAGES.filter((p) => b[p] && b[p].toggle && b[p].toggle.x + b[p].toggle.w > b[p].vw),
   };
@@ -319,5 +337,6 @@ test('nulmeting: totalen en bovengrenzen', async () => {
   expect(t.chatZonderLog).toBeLessThanOrEqual(NU.chatZonderLog);
   expect(t.chatZonderH1).toBeLessThanOrEqual(NU.chatZonderH1);
   expect(t.bedragveldenZonderMicFlow).toBeLessThanOrEqual(NU.bedragveldenZonderMicFlow);
+  expect(t.invoerZonderLabelFlow).toBeLessThanOrEqual(NU.invoerZonderLabelFlow);
   expect(t.keuzeknoppenNietVoorleesbaarPerTik).toBeLessThanOrEqual(NU.keuzeknoppenNietVoorleesbaarPerTik);
 });

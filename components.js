@@ -598,9 +598,23 @@
 
   // Vrije invoervelden die alleen een placeholder hadden (rechten, goedvoorbereid).
   // brief #extra-context verwijst in de HTML zelf naar zijn zichtbare vraag (aria-labelledby).
-  const VELD_LABELS = { invoer: ['a11y-label-vraag', 'Je vraag'], 'ai-invoer': ['a11y-label-vraag', 'Je vraag'] };
+  const VELD_LABELS = {
+    invoer: ['a11y-label-vraag', 'Je vraag'], 'ai-invoer': ['a11y-label-vraag', 'Je vraag'],
+    // Fase 5: velden in de flows van budgethulp en loont-werken
+    'abn-naam': ['a11y-label-kosten', 'Soort kosten'], 'naam-overig': ['a11y-label-kosten', 'Soort kosten'],
+    'abn-bedrag': ['a11y-label-bedrag', 'Bedrag in euro'],
+    'g-inp': ['a11y-label-getal', 'Je antwoord in cijfers'],   // loont-werken: leeftijd, huur, inkomen, uren, loon
+  };
+  // budgethulp bouwt per stap een eigen bedragveld: #inp-inkomen, #inp-huur, … en #bedrag-overig
+  const VELD_LABEL_PATRONEN = [[/^(inp|bedrag)-[a-z]+$/, ['a11y-label-bedrag', 'Bedrag in euro']]];
+  function veldLabelSleutel(el) {
+    if (VELD_LABELS[el.id]) return VELD_LABELS[el.id];
+    if (el.type !== 'number') return null;
+    const p = VELD_LABEL_PATRONEN.find(([re]) => re.test(el.id || ''));
+    return p ? p[1] : null;
+  }
   function geefVeldLabel(el) {
-    const k = VELD_LABELS[el.id];
+    const k = veldLabelSleutel(el);
     if (!k) return;
     if ((el.labels && el.labels.length) || el.hasAttribute('aria-labelledby')) return;
     if (el.hasAttribute('aria-label') && !el.hasAttribute('data-sol-naam')) return;

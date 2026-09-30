@@ -539,6 +539,27 @@
       if (herkenner) { stopLuisteren(); return; }
       const taal = opties.taal || (input.getAttribute('lang') || '').toUpperCase() || actieveTaal();
       b.classList.add('sol-a11y-mic-luistert');
+      if (input.type === 'number') {
+        // Bedragveld: tussentijdse tekst niet in het veld zetten (een getalveld slikt geen woorden);
+        // pas aan het eind omzetten. Geen getal → veld ongemoeid + melding. Niet vanzelf versturen.
+        let fout = null, klaar = false;
+        wisMelding(input);
+        herkenner = luister({
+          taal,
+          opTekst: () => {},
+          opEinde: (laatste) => {
+            if (klaar) return; klaar = true;
+            const handmatig = !herkenner;
+            stopLuisteren();
+            if (fout && fout !== 'no-speech') return;          // geen toegang e.d.: geen bedragmelding
+            if (handmatig && !String(laatste || '').trim()) return;   // zelf gestopt zonder iets te zeggen
+            bedragUitSpraak(input, laatste, taal);
+          },
+          opFout: (f) => { fout = f; if (f === 'start-mislukt' || f === 'geen-herkenning') klaar = true; },
+        });
+        if (!herkenner || klaar) stopLuisteren();
+        return;
+      }
       herkenner = luister({
         taal,
         opTekst: (tekst) => { input.value = tekst; input.dispatchEvent(new Event('input', { bubbles: true })); },
@@ -550,6 +571,262 @@
     return b;
   }
 
+  // ── Bedragen inspreken (PLAN-5 fase 5, I-6) ────────────────────────────
+  // tekstNaarGetal: herkende tekst → getal, of null als er niet precies één getal in staat.
+  // Nooit gokken: twee getallen ("500 of 600"), een onbekende woordvolgorde ("vijf vijf") of
+  // een dubbelzinnig cijferformaat ("1250,500") geven null. Negatief blijft negatief; de
+  // aanroeper beslist of dat mag. De browserherkenning geeft meestal al cijfers; voor NL en
+  // EN is er een woordenlijst als terugval, voor de andere talen alleen cijfers (ook
+  // Arabisch-Indische ٠-٩ en Perzische ۰-۹).
+  const GETAL_WOORDEN = {
+    NL: {
+      klein: {
+        nul: 0, een: 1, twee: 2, drie: 3, vier: 4, vijf: 5, zes: 6, zeven: 7, acht: 8, negen: 9,
+        tien: 10, elf: 11, twaalf: 12, dertien: 13, veertien: 14, vijftien: 15, zestien: 16,
+        zeventien: 17, achttien: 18, negentien: 19, twintig: 20, dertig: 30, veertig: 40,
+        vijftig: 50, zestig: 60, zeventig: 70, tachtig: 80, negentig: 90,
+      },
+      groot: { honderd: 100, duizend: 1000, miljoen: 1000000 },
+      en: 'en', lidwoord: ['een'], valuta: ['euro', 'euros', 'eur'], cent: ['cent', 'centen'],
+      min: ['min', 'minus', 'negatief'],
+    },
+    EN: {
+      klein: {
+        zero: 0, one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9,
+        ten: 10, eleven: 11, twelve: 12, thirteen: 13, fourteen: 14, fifteen: 15, sixteen: 16,
+        seventeen: 17, eighteen: 18, nineteen: 19, twenty: 20, thirty: 30, forty: 40, fifty: 50,
+        sixty: 60, seventy: 70, eighty: 80, ninety: 90,
+      },
+      groot: { hundred: 100, thousand: 1000, million: 1000000 },
+      en: 'and', lidwoord: ['a', 'an'], valuta: ['euro', 'euros', 'eur'], cent: ['cent', 'cents'],
+      min: ['minus', 'negative'],
+    },
+  };
+  // Talen die duizendtallen met een spatie schrijven ("1 250").
+  const SPATIE_GROEP = { PL: true, UK: true, RO: true, FA: true };
+  const VALUTA_ALLE = ['euro', 'euros', 'eur', 'евро', 'євро', 'یورو', 'يورو', 'avro', 'ዩሮ'];
+
+  // Een woord ontleden in getaldelen ("tweeëndertig" → twee, en, dertig). Terugzoekend, dus
+  // "achttien" wordt niet "acht"+"tien" als dat niet past. null = geen getalwoord.
+  function ontleedWoord(w, lex) {
+    const delen = Object.keys(lex.klein).concat(Object.keys(lex.groot), lex.en === 'en' ? ['en'] : [])
+      .sort((a, b) => b.length - a.length);
+    function stap(rest) {
+      if (!rest) return [];
+      for (const d of delen) {
+        if (rest.startsWith(d)) { const na = stap(rest.slice(d.length)); if (na) return [d].concat(na); }
+      }
+      return null;
+    }
+    const r = stap(w);
+    // "en" alleen of voorop/achteraan in één woord is geen getal
+    if (!r || !r.length || (r.length > 1 && (r[0] === lex.en || r[r.length - 1] === lex.en))) return null;
+    return r;
+  }
+
+  // Cijfers met scheidingstekens → getal (NaN = dubbelzinnig).
+  function cijfersNaarGetal(s) {
+    s = s.replace(/[\u00a0\u202f\u066c' ]/g, '');
+    if (s.indexOf('\u066b') !== -1) {   // Arabisch decimaalteken is ondubbelzinnig
+      const [a, b] = s.split('\u066b');
+      return parseFloat(a.replace(/[.,]/g, '') + '.' + String(b || '0').replace(/\D/g, ''));
+    }
+    const punt = (s.match(/\./g) || []).length, komma = (s.match(/,/g) || []).length;
+    if (punt && komma) {
+      const dec = s.lastIndexOf('.') > s.lastIndexOf(',') ? '.' : ',';
+      const duiz = dec === '.' ? ',' : '.';
+      const [heel, frac] = [s.slice(0, s.lastIndexOf(dec)), s.slice(s.lastIndexOf(dec) + 1)];
+      if (heel.indexOf(dec) !== -1 || !/^\d{1,3}(\.\d{3}|,\d{3})*$/.test(heel) || frac.indexOf(duiz) !== -1) return NaN;
+      return parseFloat(heel.split(duiz).join('') + '.' + frac);
+    }
+    if (!punt && !komma) return parseFloat(s);
+    const sep = punt ? '.' : ',';
+    const delen = s.split(sep);
+    if (delen.length > 2) {
+      return delen.slice(1).every((d) => d.length === 3) && delen[0].length <= 3 ? parseFloat(delen.join('')) : NaN;
+    }
+    const [voor, na] = delen;
+    if (na.length === 3) {
+      // "1.250" / "1,250" = duizendtal; "0,500" = decimaal; "1250,500" = dubbelzinnig
+      if (voor === '0') return parseFloat('0.' + na);
+      return voor.length <= 3 ? parseFloat(voor + na) : NaN;
+    }
+    return parseFloat(voor + '.' + na);
+  }
+
+  // Een reeks getaldelen uitrekenen. NaN bij een volgorde die geen getal is.
+  function rekenReeks(reeks, taal) {
+    let totaal = 0, huidig = 0, vorige = null, vorigeWaarde = 0, laatsteGroot = Infinity, honderdGehad = false;
+    let enNaEenheid = false;
+    for (const d of reeks) {
+      if (d.soort === 'en') {
+        if (vorige === 'klein' && vorigeWaarde >= 1 && vorigeWaarde <= 9 && taal === 'NL') enNaEenheid = true;
+        else if (vorige === 'honderd' || vorige === 'groot') enNaEenheid = false;
+        else return NaN;
+        vorige = 'en'; continue;
+      }
+      if (d.soort === 'klein' || d.soort === 'cijfer') {
+        const v = d.waarde;
+        if (d.soort === 'cijfer' && !(vorige === null || vorige === 'honderd' || vorige === 'groot')) return NaN;
+        if (vorige === 'en') {
+          if (enNaEenheid && !(v >= 20 && v <= 90 && v % 10 === 0)) return NaN;
+        } else if (vorige === 'klein') {
+          // EN: "twenty five"; NL kent dat niet ("vierendertig" gaat via "en")
+          if (!(taal === 'EN' && vorigeWaarde >= 20 && vorigeWaarde % 10 === 0 && v >= 1 && v <= 9)) return NaN;
+        } else if (vorige === 'cijfer') return NaN;
+        if (v === 0 && reeks.length > 1) return NaN;
+        huidig += v; vorige = d.soort; vorigeWaarde = v; continue;
+      }
+      if (d.soort === 'honderd') {
+        if (vorige === 'en' || honderdGehad) return NaN;
+        const basis = huidig === 0 ? 1 : huidig;
+        if (basis >= 100) return NaN;
+        huidig = basis * 100; honderdGehad = true; vorige = 'honderd'; continue;
+      }
+      if (d.soort === 'groot') {
+        if (vorige === 'en' || d.waarde >= laatsteGroot) return NaN;
+        const basis = huidig === 0 ? 1 : huidig;
+        if (basis >= 1000) return NaN;
+        totaal += basis * d.waarde; huidig = 0; honderdGehad = false; laatsteGroot = d.waarde; vorige = 'groot'; continue;
+      }
+    }
+    if (vorige === 'en') return NaN;
+    return totaal + huidig;
+  }
+
+  function tekstNaarGetal(tekst, taal) {
+    if (tekst == null) return null;
+    taal = String(taal || actieveTaal()).toUpperCase();
+    const lex = GETAL_WOORDEN[taal] || null;
+    let s = String(tekst).normalize('NFC')
+      .replace(/[\u0660-\u0669]/g, (c) => String(c.charCodeAt(0) - 0x0660))
+      .replace(/[\u06f0-\u06f9]/g, (c) => String(c.charCodeAt(0) - 0x06f0))
+      .replace(/\u2212/g, '-')
+      .toLowerCase();
+    // Tokens: cijfergroepen, woorden, €-teken, minteken vóór een cijfer
+    const cijfer = SPATIE_GROEP[taal]
+      ? '\\d{1,3}(?:[ \\u00a0\\u202f]\\d{3})+(?!\\d)|\\d+(?:[.,\'\\u00a0\\u202f\\u066b\\u066c]\\d+)*'
+      : '\\d+(?:[.,\'\\u00a0\\u202f\\u066b\\u066c]\\d+)*';
+    const re = new RegExp('(-\\s*)?(' + cijfer + ')|([\\p{L}\\p{M}]+)|(€)', 'gu');
+    const items = [];
+    let m, negatief = false;
+    while ((m = re.exec(s))) {
+      if (m[2]) {
+        const v = cijfersNaarGetal(m[2]);
+        if (!isFinite(v)) return null;
+        if (m[1]) negatief = true;
+        items.push({ soort: 'cijfer', waarde: v });
+      } else if (m[4]) {
+        items.push({ soort: 'valuta' });
+      } else if (m[3]) {
+        const ruw = m[3];
+        if (VALUTA_ALLE.indexOf(ruw) !== -1 || (lex && lex.valuta.indexOf(ruw) !== -1)) { items.push({ soort: 'valuta' }); continue; }
+        if (!lex) { items.push({ soort: 'anders' }); continue; }
+        if (lex.cent.indexOf(ruw) !== -1) { items.push({ soort: 'cent' }); continue; }
+        if (lex.min.indexOf(ruw) !== -1) { negatief = true; continue; }
+        // "één" (met accenten) is altijd een getal; "een"/"a" los is een lidwoord
+        const w = ruw.normalize('NFD').replace(/\p{M}/gu, '');
+        const expliciet = taal === 'NL' && w === 'een' && ruw !== 'een';
+        if (!expliciet && lex.lidwoord.indexOf(w) !== -1) { items.push({ soort: 'lidwoord' }); continue; }
+        if (w === lex.en) { items.push({ soort: 'en' }); continue; }
+        const delen = ontleedWoord(w, lex);
+        if (!delen) { items.push({ soort: 'anders' }); continue; }
+        delen.forEach((d) => {
+          if (d === lex.en) items.push({ soort: 'en' });
+          else if (lex.groot[d] === 100) items.push({ soort: 'honderd', waarde: 100 });
+          else if (lex.groot[d]) items.push({ soort: 'groot', waarde: lex.groot[d] });
+          else items.push({ soort: 'klein', waarde: lex.klein[d] });
+        });
+      }
+    }
+    // Aaneengesloten getaldelen vormen één reeks; al het andere scheidt reeksen.
+    // Een lidwoord vlak vóór "honderd/duizend" ("a thousand") telt als 1 en valt dus weg.
+    const reeksen = [];   // {delen:[], na: soort van het scheidingsitem erna}
+    let huidige = null;
+    items.forEach((it, i) => {
+      const getal = ['cijfer', 'klein', 'honderd', 'groot', 'en'].indexOf(it.soort) !== -1;
+      if (it.soort === 'lidwoord') {
+        const volgend = items[i + 1];
+        if (volgend && (volgend.soort === 'honderd' || volgend.soort === 'groot')) return;
+      }
+      if (getal) {
+        if (!huidige) { huidige = { delen: [], scheider: [] }; reeksen.push(huidige); }
+        huidige.delen.push(it);
+      } else {
+        if (huidige) huidige = null;
+        if (reeksen.length) (reeksen[reeksen.length - 1].scheider).push(it.soort);
+      }
+    });
+    // Een losse "en"/"and" voorop of achteraan hoort er niet bij ("huur en 500")
+    reeksen.forEach((r) => {
+      while (r.delen.length && r.delen[0].soort === 'en') r.delen.shift();
+      while (r.delen.length && r.delen[r.delen.length - 1].soort === 'en') r.delen.pop();
+    });
+    const echte = reeksen.filter((r) => r.delen.length);
+    if (!echte.length) return null;
+    const waarden = echte.map((r) => rekenReeks(r.delen, taal));
+    if (waarden.some((v) => !isFinite(v))) return null;
+    let uitkomst;
+    if (echte.length === 1) {
+      uitkomst = waarden[0];
+    } else if (echte.length === 2 && echte[0].scheider.length && echte[0].scheider.every((x) => x === 'valuta')
+      && Number.isInteger(waarden[0]) && Number.isInteger(waarden[1]) && waarden[1] >= 0 && waarden[1] <= 99
+      && (echte[1].scheider || []).every((x) => x === 'cent' || x === 'valuta')) {
+      // "twaalf euro vijftig" / "12 euro 50" → 12,50
+      uitkomst = waarden[0] + waarden[1] / 100;
+    } else {
+      return null;   // meer dan één getal: niet gokken
+    }
+    uitkomst = Math.round(uitkomst * 100) / 100;
+    return negatief ? -uitkomst : uitkomst;
+  }
+
+  // Bovengrens voor een ingesproken bedrag als het veld zelf geen max heeft (per maand).
+  const BEDRAG_GRENS = 100000;
+
+  // Zichtbare melding bij het veld (role=status), plus voorlezen als de voorleesstand aan
+  // staat en de taal een stem heeft (TI nooit, S-7).
+  function meldingVan(input, maak) {
+    const id = input.dataset.solMelding;
+    let el = id ? document.getElementById(id) : null;
+    if (!el && maak) {
+      el = document.createElement('div');
+      el.id = 'sol-melding-' + Math.random().toString(36).slice(2, 9);
+      el.className = 'sol-a11y-bedrag-melding';
+      el.setAttribute('role', 'status');
+      el.setAttribute('data-geen-lees', '');
+      const anker = input.closest('.bedrag-rij') || input.parentElement;
+      anker.insertAdjacentElement('afterend', el);
+      input.dataset.solMelding = el.id;
+      input.addEventListener('input', () => wisMelding(input));
+    }
+    return el;
+  }
+  function wisMelding(input) {
+    const el = meldingVan(input, false);
+    if (el && el.textContent) el.textContent = '';
+  }
+  function meldBedrag(input, sleutel, terugval, taal) {
+    const el = meldingVan(input, true);
+    const tekst = t(sleutel, terugval);
+    el.textContent = '';
+    // eerst leeg in de boom, dan de tekst: zo meldt een schermlezer hem ook bij herhaling
+    setTimeout(() => { el.textContent = tekst; }, 60);
+    if (luisterActief && beschikbaar(taal)) zeg(tekst, { taal });
+  }
+  function bedragUitSpraak(input, tekst, taal) {
+    wisMelding(input);
+    const n = tekstNaarGetal(tekst, taal);
+    if (n === null) { meldBedrag(input, 'a11y-geen-getal', 'Ik heb geen getal gehoord. Probeer het nog eens.', taal); return false; }
+    const max = parseFloat(input.getAttribute('max'));
+    const grens = isFinite(max) && max > 0 ? max : BEDRAG_GRENS;
+    if (n < 0 || n > grens) { meldBedrag(input, 'a11y-getal-klopt-niet', 'Dat getal kan niet kloppen. Probeer het nog eens.', taal); return false; }
+    input.value = String(n);
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    input.dispatchEvent(new Event('change', { bubbles: true }));
+    return true;
+  }
+
   function autoMic(root) {
     root = root || document;
     // Geen browserherkenning én geen actieve /api/stt-route → geen knop (principe 6).
@@ -557,8 +834,10 @@
     // hem beantwoordt; zolang dat niet zo is verschijnt de mic alleen bij browserherkenning.
     // LET OP: dit gaat over spraak-ín. De uitvoerroute (/api/tts) zegt daar niets over —
     // die twee door elkaar halen levert een microfoonknop op die niets doet.
+    // Ook bedragvelden (type=number, fase 5): de mic zet de herkende tekst om met tekstNaarGetal.
+    // TI: de mic verschijnt net als bij tekstvelden (herkenning ti-ET; S-7 gaat alleen over voorlezen).
     if (!heeftHerkenning() && !invoerRoute) return;
-    root.querySelectorAll('textarea, input[type="text"], input:not([type])').forEach(inp => {
+    root.querySelectorAll('textarea, input[type="text"], input:not([type]), input[type="number"]').forEach(inp => {
       if (inp.dataset.solMicKlaar) return;
       if (inp.closest('#solidari-nav, nav, footer, [data-geen-mic]')) return;
       inp.dataset.solMicKlaar = '1';
@@ -812,6 +1091,7 @@
     beschikbaar, zeg, zegReeks, stop, bezig, ontgrendel, stemVoor, splitsZinnen,
     knop, scan, autoMarkeer, verwerk, micKnop, autoMic, manifest, luistermodus, luister, registreerRoute, registreerInvoerRoute,
     geenSpraak, mobiel: MOBIEL,
+    tekstNaarGetal, bedragUitSpraak,   // fase 5: bedragen inspreken
     keuzeSelector: KEUZE_SEL, isKeuzeknop: (el) => !!keuzeKnopVan(el), keuzeTekst,
     zonderEmoji, emojiRe: EMOJI_RE,   // gedeeld met components.js (verbergEmoji, PLAN-5 fase 3)
     keuzeTijd: (ms) => { if (typeof ms === 'number' && ms > 0) keuzeTijd = ms; return keuzeTijd; },
@@ -898,6 +1178,13 @@
     try {
       const obs = new MutationObserver((muts) => {
         try { autoMutaties(muts); } catch (e) {}
+        // Nieuwe invoervelden (budgethulp en loont-werken bouwen ze per stap) krijgen hun mic
+        // meteen, niet pas na de 200 ms van planVerwerk: dan staat hij er al als het veld verschijnt.
+        try {
+          for (const m of muts) {
+            if ([...m.addedNodes].some((n) => n.nodeType === 1 && (n.matches('input, textarea') || n.querySelector('input, textarea')))) autoMic(m.target);
+          }
+        } catch (e) {}
         for (const m of muts) {
           // Een taalwissel vervangt tekst, geen elementen: i18n.passToe() zet innerHTML
           // opnieuw en brief.html zet textContent van zijn eigen sleutels. Beide leveren

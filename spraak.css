@@ -178,6 +178,21 @@ body.sol-a11y-luistermodus [data-lees] {
 }
 @media (prefers-reduced-motion: reduce) { .sol-a11y-mic.sol-a11y-mic-luistert { animation: none; } }
 
+/* Melding bij een bedragveld als de mic geen (goed) getal hoorde (PLAN-5 fase 5). Leeg = geen ruimte.
+   (Niet .sol-a11y-melding: dat is de toast van components.js.) */
+.sol-a11y-bedrag-melding {
+  margin: 0.4rem 0 0;
+  padding: 0.5rem 0.75rem;
+  border-radius: 10px;
+  background: #FFF4E0;
+  border: 1px solid #C77700;
+  color: #5A3500;
+  font-size: 1rem;
+  line-height: 1.4;
+  text-align: start;
+}
+.sol-a11y-bedrag-melding:empty { padding: 0; border: 0; margin: 0; }
+
 /* Gesproken taalkiezer — native naam in eigen schrift */
 .taal-dd-btn.taal-btn, .mob-taal-btn { min-height: 44px; }
 

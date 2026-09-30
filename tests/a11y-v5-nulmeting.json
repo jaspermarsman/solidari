@@ -16,6 +16,7 @@
       "bedragvelden": 0,
       "bedragveldenZonderMic": 0,
       "bedragveldIds": [],
+      "bedragveldAlleIds": [],
       "luidsprekersInBoom": 0,
       "luidsprekersTotaal": 8,
       "heeftMain": true,
@@ -45,6 +46,7 @@
       "bedragvelden": 0,
       "bedragveldenZonderMic": 0,
       "bedragveldIds": [],
+      "bedragveldAlleIds": [],
       "luidsprekersInBoom": 0,
       "luidsprekersTotaal": 3,
       "heeftMain": true,
@@ -72,6 +74,7 @@
       "bedragvelden": 0,
       "bedragveldenZonderMic": 0,
       "bedragveldIds": [],
+      "bedragveldAlleIds": [],
       "luidsprekersInBoom": 0,
       "luidsprekersTotaal": 4,
       "heeftMain": true,
@@ -103,6 +106,7 @@
       "bedragvelden": 0,
       "bedragveldenZonderMic": 0,
       "bedragveldIds": [],
+      "bedragveldAlleIds": [],
       "luidsprekersInBoom": 0,
       "luidsprekersTotaal": 2,
       "heeftMain": true,
@@ -134,6 +138,7 @@
       "bedragvelden": 0,
       "bedragveldenZonderMic": 0,
       "bedragveldIds": [],
+      "bedragveldAlleIds": [],
       "luidsprekersInBoom": 0,
       "luidsprekersTotaal": 4,
       "heeftMain": true,
@@ -164,6 +169,7 @@
       "bedragvelden": 0,
       "bedragveldenZonderMic": 0,
       "bedragveldIds": [],
+      "bedragveldAlleIds": [],
       "luidsprekersInBoom": 0,
       "luidsprekersTotaal": 18,
       "heeftMain": true,
@@ -191,6 +197,7 @@
       "bedragvelden": 0,
       "bedragveldenZonderMic": 0,
       "bedragveldIds": [],
+      "bedragveldAlleIds": [],
       "luidsprekersInBoom": 0,
       "luidsprekersTotaal": 3,
       "heeftMain": true,
@@ -222,6 +229,7 @@
       "bedragvelden": 0,
       "bedragveldenZonderMic": 0,
       "bedragveldIds": [],
+      "bedragveldAlleIds": [],
       "luidsprekersInBoom": 0,
       "luidsprekersTotaal": 3,
       "heeftMain": true,
@@ -251,6 +259,7 @@
       "bedragvelden": 0,
       "bedragveldenZonderMic": 0,
       "bedragveldIds": [],
+      "bedragveldAlleIds": [],
       "luidsprekersInBoom": 0,
       "luidsprekersTotaal": 31,
       "heeftMain": true,
@@ -278,6 +287,7 @@
       "bedragvelden": 0,
       "bedragveldenZonderMic": 0,
       "bedragveldIds": [],
+      "bedragveldAlleIds": [],
       "luidsprekersInBoom": 0,
       "luidsprekersTotaal": 2,
       "heeftMain": true,
@@ -303,6 +313,7 @@
       "bedragvelden": 0,
       "bedragveldenZonderMic": 0,
       "bedragveldIds": [],
+      "bedragveldAlleIds": [],
       "luidsprekersInBoom": 0,
       "luidsprekersTotaal": 1,
       "heeftMain": true,
@@ -319,7 +330,7 @@
   "flows": {
     "budgethulp": {
       "stappen": 24,
-      "bedragveldenZonderMic": [
+      "bedragvelden": [
         "inp-inkomen",
         "inp-huur",
         "inp-huurtoeslag",
@@ -337,42 +348,22 @@
         "bedrag-overig",
         "inp-sparen"
       ],
+      "bedragveldenZonderMic": [],
       "keuzeKlassen": [
         ".keuze-btn",
         ".ja-btn",
         ".nee-btn"
       ],
-      "veldenZonderLabel": [
-        "input#inp-inkomen[number]",
-        "input#inp-huur[number]",
-        "input#inp-huurtoeslag[number]",
-        "input#inp-energie[number]",
-        "input#inp-telefoon[number]",
-        "input#inp-zorgverzek[number]",
-        "input#inp-zorgtoeslag[number]",
-        "input#inp-autoverzek[number]",
-        "input#inp-inboedel[number]",
-        "input#inp-begrafenis[number]",
-        "input#inp-vervoer[number]",
-        "input#inp-schulden[number]",
-        "input#abn-naam",
-        "input#abn-bedrag[number]",
-        "input#inp-boodschappen[number]",
-        "input#naam-overig",
-        "input#bedrag-overig[number]",
-        "input#inp-sparen[number]"
-      ]
+      "veldenZonderLabel": []
     },
     "loont-werken": {
       "stappen": 9,
-      "bedragveldenZonderMic": 5,
+      "bedragveldenZonderMic": 0,
       "keuzeKlassen": [
         ".keuze-btn",
         ".scenario-btn"
       ],
-      "veldenZonderLabel": [
-        "input#g-inp[number]"
-      ]
+      "veldenZonderLabel": []
     },
     "goedvoorbereid": {
       "stappen": 8,
@@ -384,7 +375,7 @@
       "eind": {
         "velden": 1,
         "veldenZonderLabelIds": [],
-        "mics": 0
+        "mics": 1
       }
     }
   },
@@ -431,7 +422,9 @@
     "chatPaginas": 4,
     "chatZonderLog": 0,
     "chatZonderH1": 0,
-    "bedragveldenZonderMicFlow": 21,
+    "bedragveldenZonderMicFlow": 0,
+    "invoerZonderLabelFlow": 0,
+    "bedragveldenFlow": 16,
     "keuzeknoppenNietVoorleesbaarPerTik": 0,
     "schakelaarBuitenBeeld": []
   },
@@ -444,7 +437,8 @@
     "paginasZonderMain": 0,
     "chatZonderLog": 0,
     "chatZonderH1": 0,
-    "bedragveldenZonderMicFlow": 21,
+    "bedragveldenZonderMicFlow": 0,
+    "invoerZonderLabelFlow": 0,
     "keuzeknoppenNietVoorleesbaarPerTik": 0
   },
   "doel": {
@@ -454,6 +448,7 @@
     "luidsprekerKnoppenInBoom": 0,
     "chatZonderLog": 0,
     "chatZonderH1": 0,
-    "bedragveldenZonderMicFlow": 0
+    "bedragveldenZonderMicFlow": 0,
+    "invoerZonderLabelFlow": 0
   }
 }
