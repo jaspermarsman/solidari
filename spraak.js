@@ -404,6 +404,12 @@
     b.type = 'button';
     b.className = 'sol-a11y-knop';
     b.setAttribute('aria-label', t('a11y-luister', 'Luister'));
+    // PLAN-5 B-3: de 🔊-knop is er voor wie niet leest. Een schermlezer leest de tekst zelf al
+    // voor; voor hem is "Luister, knop" na elke alinea ruis. Dus verborgen voor de schermlezer en
+    // uit de tabvolgorde. Tikken/klikken werkt gewoon (de voorleesschakelaar in de nav blijft wél
+    // bereikbaar voor toetsenbord en schermlezer).
+    b.setAttribute('aria-hidden', 'true');
+    b.tabIndex = -1;
     b.innerHTML = '<span aria-hidden="true">🔊</span>';
     b.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -698,7 +704,7 @@
     const ballonnen = [...document.querySelectorAll('.bel-sol')].filter(b => !b.closest('.typing') && !autoGezien.has(b));
     if (!ballonnen.length) return;
     document.querySelectorAll(KEUZE_SEL).forEach(k => {
-      if (k.closest('#berichten, #invoer-zone') && keuzeKnopVan(k)) autoKnoppen.push({ el: k, t: nu });
+      if (k.closest('#berichten, #invoer-zone, #keuze-zone') && keuzeKnopVan(k)) autoKnoppen.push({ el: k, t: nu });
     });
     ballonnen.forEach(b => autoBallon(b));
   }
@@ -807,6 +813,7 @@
     knop, scan, autoMarkeer, verwerk, micKnop, autoMic, manifest, luistermodus, luister, registreerRoute, registreerInvoerRoute,
     geenSpraak, mobiel: MOBIEL,
     keuzeSelector: KEUZE_SEL, isKeuzeknop: (el) => !!keuzeKnopVan(el), keuzeTekst,
+    zonderEmoji, emojiRe: EMOJI_RE,   // gedeeld met components.js (verbergEmoji, PLAN-5 fase 3)
     keuzeTijd: (ms) => { if (typeof ms === 'number' && ms > 0) keuzeTijd = ms; return keuzeTijd; },
     // testhaken (niet-openbaar bedoeld, wel handig in acceptatietests)
     _kiesLaag, _normaliseer: normaliseer, _hashVan: hashVan, _actieveTaal: actieveTaal,

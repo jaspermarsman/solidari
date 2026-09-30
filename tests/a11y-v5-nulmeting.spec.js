@@ -23,6 +23,9 @@
 //    pagina's waar de tik het antwoord kiest zonder de knop voor te lezen: 7 van 7
 //  Overig: rechten.html toont op 393px de nav-rechts (schakelaar/taal/menu) buiten beeld (x=574).
 // (De exacte waarden staan in a11y-v5-nulmeting.json en worden hieronder bewaakt.)
+// Stand na fase 3 (30-09-2026): emoji in de naam 35 → 0, velden zonder label (begin) 2 → 0,
+//   🔊 in de boom 67 → 0, pagina's zonder <main> 11 → 0, chats zonder log 4 → 0, zonder h1 4 → 0.
+//   Nog open: bedragvelden zonder spraakinvoer 21 (fase 5).
 // ────────────────────────────────────────────────────────────────────────────────────────────
 const { test, expect } = require('@playwright/test');
 const fs = require('fs');
@@ -35,12 +38,12 @@ const OUT = path.join(__dirname, 'a11y-v5-nulmeting.json');
 const NU = {
   keuzeknoppenBegin: 35,
   keuzeknoppenBeginZonderVoorlees: 0,
-  emojiNaamBegin: 35,
-  invoerZonderLabelBegin: 2,
-  luidsprekerKnoppenInBoom: 67,
-  paginasZonderMain: 11,
-  chatZonderLog: 4,
-  chatZonderH1: 4,
+  emojiNaamBegin: 0,             // fase 3: emoji verborgen voor de schermlezer (was 35)
+  invoerZonderLabelBegin: 0,     // fase 3: brief en rechten hebben een label (was 2)
+  luidsprekerKnoppenInBoom: 0,   // fase 3: 🔊 aria-hidden + tabindex=-1, B-3 (was 67)
+  paginasZonderMain: 0,          // fase 3: <main> via components.js (was 11)
+  chatZonderLog: 0,              // fase 3: #berichten role="log" (was 4)
+  chatZonderH1: 0,               // fase 3: verborgen h1 met de toolnaam (was 4)
   bedragveldenZonderMicFlow: 21,
   keuzeknoppenNietVoorleesbaarPerTik: 0,   // fase 1: één tik leest voor, twee kiezen
 };

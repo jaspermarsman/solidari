@@ -51,6 +51,8 @@
 
     /* ── Situatiekaartjes ── */
     .kaartjes-rij{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;margin-bottom:4px;}
+    .keuze-zone{flex-shrink:0;max-height:45vh;overflow-y:auto;padding-top:0.4rem;}
+    .keuze-zone:empty{display:none;}
     .situatie-btn{background:white;border:1.5px solid var(--rand);border-radius:20px;padding:8px 16px;font-size:0.88rem;font-weight:500;cursor:pointer;color:var(--tekst);font-family:'Source Sans 3',sans-serif;transition:all 0.18s;display:flex;align-items:center;gap:6px;}
     .situatie-btn:hover{border-color:var(--groen);background:var(--groen-licht);color:var(--groen);}
 
@@ -94,6 +96,9 @@
 
 <div class="chat-wrap">
   <div class="berichten" id="berichten"></div>
+  <!-- Keuzekaartjes buiten #berichten (role="log"): ze worden dan niet als chatbericht aangekondigd,
+       maar blijven gewoon bereikbare knoppen (PLAN-5 fase 3). -->
+  <div class="keuze-zone" id="keuze-zone"></div>
   <div class="invoer-zone">
     <div class="invoer-rij">
       <div class="tekst-wrap">
@@ -488,6 +493,8 @@ function verwijderTyping() {
 }
 
 function voegKaartjesToe(kaartjes) {
+  const zone = document.getElementById('keuze-zone');
+  zone.innerHTML = '';
   const rij = document.createElement('div');
   rij.className = 'kaartjes-rij';
   rij.id = 'situatie-kaartjes';
@@ -501,7 +508,7 @@ function voegKaartjesToe(kaartjes) {
     };
     rij.appendChild(btn);
   });
-  document.getElementById('berichten').appendChild(rij);
+  zone.appendChild(rij);
   scrollOnder();
 }
 

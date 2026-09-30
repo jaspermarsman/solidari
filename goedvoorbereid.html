@@ -322,8 +322,9 @@ function toonAIInvoer(){
   zoneLeeg();
   const rij = el('div','ai-rij');
 
-  // Spreekknop (alleen indien ondersteund; setupSpraak verbergt 'm anders)
-  const spreek = el('button','spreek-btn'); spreek.id='spreek-btn'; spreek.title=d.ui.aiSpreekTitel; spreek.textContent='🎤';
+  // Geen eigen spreekknop meer (PLAN-5 fase 3): spraak.js zet bij #ai-invoer al de gedeelde
+  // microfoon (.sol-a11y-mic), onder precies dezelfde voorwaarde (browserherkenning). Twee
+  // microfoons naast elkaar was dubbel voor de schermlezer en verwarrend op het scherm.
 
   const wrap = el('div','tekst-wrap');
   const ta = el('textarea','tekst-invoer'); ta.id='ai-invoer'; ta.rows=1; ta.placeholder=d.ui.aiPlaceholder;
@@ -332,7 +333,7 @@ function toonAIInvoer(){
   const stuur = el('button','stuur-btn'); stuur.id='ai-stuur'; stuur.textContent='↑'; stuur.title='Verstuur';
   stuur.onclick = aiVerstuur;
 
-  rij.appendChild(spreek); rij.appendChild(wrap); rij.appendChild(stuur);
+  rij.appendChild(wrap); rij.appendChild(stuur);
   zoneEl().appendChild(rij);
 
   const opnieuw = el('button','opnieuw-link'); opnieuw.textContent=d.ui.opnieuw; opnieuw.onclick=start;

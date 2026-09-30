@@ -48,7 +48,7 @@ async function laad(page, pagina, { taal = 'NL', stand = 'aan' } = {}) {
 const KNOPPEN = () => {
   const S = window.Solidari.spraak;
   return [...document.querySelectorAll(S.keuzeSelector)]
-    .filter((el) => el.closest('#berichten, #invoer-zone') && S.isKeuzeknop(el) && !el.disabled && el.getClientRects().length > 0)
+    .filter((el) => el.closest('#berichten, #invoer-zone, #keuze-zone') && S.isKeuzeknop(el) && !el.disabled && el.getClientRects().length > 0)
     .map((el) => ({ tekst: S.keuzeTekst(el), naam: el.textContent.replace(/\s+/g, ' ').trim() }));
 };
 const log = (page) => page.evaluate(() => window.__log.slice());
@@ -65,7 +65,7 @@ async function wachtOpReeks(page) {
 }
 const KNOPPEN_WACHT = () => {
   const S = window.Solidari.spraak;
-  const kn = [...document.querySelectorAll(S.keuzeSelector)].filter((el) => el.closest('#berichten, #invoer-zone') && S.isKeuzeknop(el) && !el.disabled && el.getClientRects().length > 0);
+  const kn = [...document.querySelectorAll(S.keuzeSelector)].filter((el) => el.closest('#berichten, #invoer-zone, #keuze-zone') && S.isKeuzeknop(el) && !el.disabled && el.getClientRects().length > 0);
   if (kn.length < 2) return false;
   const laatste = S.keuzeTekst(kn[kn.length - 1]).replace(/\s+/g, ' ');
   return window.__log.some((x) => x.tekst && x.tekst.replace(/\s+/g, ' ').includes(laatste.slice(0, 15)) && x.lit && x.lit.length);

@@ -8,17 +8,17 @@
       "keuzeknoppen": 0,
       "keuzeZonderVoorlees": 0,
       "keuzeKlassen": [],
-      "emojiNaam": 7,
-      "emojiNaamPlanDef": 6,
+      "emojiNaam": 0,
+      "emojiNaamPlanDef": 0,
       "velden": 0,
       "veldenZonderLabel": 0,
       "veldenZonderLabelIds": [],
       "bedragvelden": 0,
       "bedragveldenZonderMic": 0,
       "bedragveldIds": [],
-      "luidsprekersInBoom": 8,
+      "luidsprekersInBoom": 0,
       "luidsprekersTotaal": 8,
-      "heeftMain": false,
+      "heeftMain": true,
       "h1": 1,
       "berichtenlijst": null,
       "toggle": {
@@ -26,7 +26,7 @@
         "w": 44
       },
       "vw": 393,
-      "luidsprekersInAriaSnapshot": 8
+      "luidsprekersInAriaSnapshot": 0
     },
     "brief.html": {
       "bubbels": 0,
@@ -37,19 +37,17 @@
         ".upload-knop",
         ".analyseer-knop"
       ],
-      "emojiNaam": 3,
-      "emojiNaamPlanDef": 3,
+      "emojiNaam": 0,
+      "emojiNaamPlanDef": 0,
       "velden": 3,
-      "veldenZonderLabel": 1,
-      "veldenZonderLabelIds": [
-        "textarea#extra-context[textarea]"
-      ],
+      "veldenZonderLabel": 0,
+      "veldenZonderLabelIds": [],
       "bedragvelden": 0,
       "bedragveldenZonderMic": 0,
       "bedragveldIds": [],
-      "luidsprekersInBoom": 3,
+      "luidsprekersInBoom": 0,
       "luidsprekersTotaal": 3,
-      "heeftMain": false,
+      "heeftMain": true,
       "h1": 1,
       "berichtenlijst": null,
       "toggle": {
@@ -57,7 +55,7 @@
         "w": 44
       },
       "vw": 393,
-      "luidsprekersInAriaSnapshot": 3
+      "luidsprekersInAriaSnapshot": 0
     },
     "budgethulp.html": {
       "bubbels": 4,
@@ -66,29 +64,29 @@
       "keuzeKlassen": [
         ".keuze-btn"
       ],
-      "emojiNaam": 5,
-      "emojiNaamPlanDef": 5,
+      "emojiNaam": 0,
+      "emojiNaamPlanDef": 0,
       "velden": 0,
       "veldenZonderLabel": 0,
       "veldenZonderLabelIds": [],
       "bedragvelden": 0,
       "bedragveldenZonderMic": 0,
       "bedragveldIds": [],
-      "luidsprekersInBoom": 4,
+      "luidsprekersInBoom": 0,
       "luidsprekersTotaal": 4,
-      "heeftMain": false,
-      "h1": 0,
+      "heeftMain": true,
+      "h1": 1,
       "berichtenlijst": {
-        "log": false,
-        "role": null,
-        "live": null
+        "log": true,
+        "role": "log",
+        "live": "polite"
       },
       "toggle": {
         "x": 233,
         "w": 44
       },
       "vw": 393,
-      "luidsprekersInAriaSnapshot": 4
+      "luidsprekersInAriaSnapshot": 0
     },
     "loont-werken.html": {
       "bubbels": 2,
@@ -105,21 +103,21 @@
       "bedragvelden": 0,
       "bedragveldenZonderMic": 0,
       "bedragveldIds": [],
-      "luidsprekersInBoom": 2,
+      "luidsprekersInBoom": 0,
       "luidsprekersTotaal": 2,
-      "heeftMain": false,
-      "h1": 0,
+      "heeftMain": true,
+      "h1": 1,
       "berichtenlijst": {
-        "log": false,
-        "role": null,
-        "live": null
+        "log": true,
+        "role": "log",
+        "live": "polite"
       },
       "toggle": {
         "x": 233,
         "w": 44
       },
       "vw": 393,
-      "luidsprekersInAriaSnapshot": 2
+      "luidsprekersInAriaSnapshot": 0
     },
     "naturalisatie.html": {
       "bubbels": 1,
@@ -136,9 +134,9 @@
       "bedragvelden": 0,
       "bedragveldenZonderMic": 0,
       "bedragveldIds": [],
-      "luidsprekersInBoom": 4,
+      "luidsprekersInBoom": 0,
       "luidsprekersTotaal": 4,
-      "heeftMain": false,
+      "heeftMain": true,
       "h1": 1,
       "berichtenlijst": null,
       "toggle": {
@@ -146,7 +144,7 @@
         "w": 44
       },
       "vw": 393,
-      "luidsprekersInAriaSnapshot": 4
+      "luidsprekersInAriaSnapshot": 0
     },
     "18jaar.html": {
       "bubbels": 0,
@@ -158,17 +156,17 @@
         ".fase-tab.op",
         ".fase-tab.na"
       ],
-      "emojiNaam": 4,
-      "emojiNaamPlanDef": 4,
+      "emojiNaam": 0,
+      "emojiNaamPlanDef": 0,
       "velden": 0,
       "veldenZonderLabel": 0,
       "veldenZonderLabelIds": [],
       "bedragvelden": 0,
       "bedragveldenZonderMic": 0,
       "bedragveldIds": [],
-      "luidsprekersInBoom": 8,
+      "luidsprekersInBoom": 0,
       "luidsprekersTotaal": 18,
-      "heeftMain": false,
+      "heeftMain": true,
       "h1": 1,
       "berichtenlijst": null,
       "toggle": {
@@ -176,7 +174,7 @@
         "w": 44
       },
       "vw": 393,
-      "luidsprekersInAriaSnapshot": 8
+      "luidsprekersInAriaSnapshot": 0
     },
     "rechten.html": {
       "bubbels": 3,
@@ -185,31 +183,29 @@
       "keuzeKlassen": [
         ".situatie-btn"
       ],
-      "emojiNaam": 7,
-      "emojiNaamPlanDef": 7,
+      "emojiNaam": 0,
+      "emojiNaamPlanDef": 0,
       "velden": 1,
-      "veldenZonderLabel": 1,
-      "veldenZonderLabelIds": [
-        "textarea#invoer[textarea]"
-      ],
+      "veldenZonderLabel": 0,
+      "veldenZonderLabelIds": [],
       "bedragvelden": 0,
       "bedragveldenZonderMic": 0,
       "bedragveldIds": [],
-      "luidsprekersInBoom": 3,
+      "luidsprekersInBoom": 0,
       "luidsprekersTotaal": 3,
-      "heeftMain": false,
-      "h1": 0,
+      "heeftMain": true,
+      "h1": 1,
       "berichtenlijst": {
-        "log": false,
-        "role": null,
-        "live": null
+        "log": true,
+        "role": "log",
+        "live": "polite"
       },
       "toggle": {
         "x": 233,
         "w": 44
       },
       "vw": 393,
-      "luidsprekersInAriaSnapshot": 3
+      "luidsprekersInAriaSnapshot": 0
     },
     "goedvoorbereid.html": {
       "bubbels": 3,
@@ -218,29 +214,29 @@
       "keuzeKlassen": [
         ".keuze-btn"
       ],
-      "emojiNaam": 5,
-      "emojiNaamPlanDef": 5,
+      "emojiNaam": 0,
+      "emojiNaamPlanDef": 0,
       "velden": 0,
       "veldenZonderLabel": 0,
       "veldenZonderLabelIds": [],
       "bedragvelden": 0,
       "bedragveldenZonderMic": 0,
       "bedragveldIds": [],
-      "luidsprekersInBoom": 3,
+      "luidsprekersInBoom": 0,
       "luidsprekersTotaal": 3,
-      "heeftMain": false,
-      "h1": 0,
+      "heeftMain": true,
+      "h1": 1,
       "berichtenlijst": {
-        "log": false,
-        "role": null,
-        "live": null
+        "log": true,
+        "role": "log",
+        "live": "polite"
       },
       "toggle": {
         "x": 233,
         "w": 44
       },
       "vw": 393,
-      "luidsprekersInAriaSnapshot": 3
+      "luidsprekersInAriaSnapshot": 0
     },
     "over.html": {
       "bubbels": 0,
@@ -255,9 +251,9 @@
       "bedragvelden": 0,
       "bedragveldenZonderMic": 0,
       "bedragveldIds": [],
-      "luidsprekersInBoom": 29,
+      "luidsprekersInBoom": 0,
       "luidsprekersTotaal": 31,
-      "heeftMain": false,
+      "heeftMain": true,
       "h1": 1,
       "berichtenlijst": null,
       "toggle": {
@@ -265,7 +261,7 @@
         "w": 44
       },
       "vw": 393,
-      "luidsprekersInAriaSnapshot": 29
+      "luidsprekersInAriaSnapshot": 0
     },
     "feedback.html": {
       "bubbels": 0,
@@ -274,17 +270,17 @@
       "keuzeKlassen": [
         ".type-knop"
       ],
-      "emojiNaam": 4,
-      "emojiNaamPlanDef": 4,
+      "emojiNaam": 0,
+      "emojiNaamPlanDef": 0,
       "velden": 3,
       "veldenZonderLabel": 0,
       "veldenZonderLabelIds": [],
       "bedragvelden": 0,
       "bedragveldenZonderMic": 0,
       "bedragveldIds": [],
-      "luidsprekersInBoom": 2,
+      "luidsprekersInBoom": 0,
       "luidsprekersTotaal": 2,
-      "heeftMain": false,
+      "heeftMain": true,
       "h1": 1,
       "berichtenlijst": null,
       "toggle": {
@@ -292,7 +288,7 @@
         "w": 44
       },
       "vw": 393,
-      "luidsprekersInAriaSnapshot": 2
+      "luidsprekersInAriaSnapshot": 0
     },
     "vertaalhulp.html": {
       "bubbels": 0,
@@ -307,9 +303,9 @@
       "bedragvelden": 0,
       "bedragveldenZonderMic": 0,
       "bedragveldIds": [],
-      "luidsprekersInBoom": 1,
+      "luidsprekersInBoom": 0,
       "luidsprekersTotaal": 1,
-      "heeftMain": false,
+      "heeftMain": true,
       "h1": 1,
       "berichtenlijst": null,
       "toggle": {
@@ -317,7 +313,7 @@
         "w": 44
       },
       "vw": 393,
-      "luidsprekersInAriaSnapshot": 1
+      "luidsprekersInAriaSnapshot": 0
     }
   },
   "flows": {
@@ -384,15 +380,11 @@
         ".keuze-btn",
         ".verder-btn"
       ],
-      "veldenZonderLabel": [
-        "textarea#ai-invoer[textarea]"
-      ],
+      "veldenZonderLabel": [],
       "eind": {
         "velden": 1,
-        "veldenZonderLabelIds": [
-          "textarea#ai-invoer[textarea]"
-        ],
-        "mics": 1
+        "veldenZonderLabelIds": [],
+        "mics": 0
       }
     }
   },
@@ -430,15 +422,15 @@
     "keuzeknoppenBegin": 35,
     "keuzeknoppenBeginPlanDef": 30,
     "keuzeknoppenBeginZonderVoorlees": 0,
-    "emojiNaamBegin": 35,
-    "emojiNaamBeginPlanDef": 29,
-    "invoerZonderLabelBegin": 2,
-    "luidsprekerKnoppenInBoom": 67,
-    "luidsprekerKnoppenInDom": 67,
-    "paginasZonderMain": 11,
+    "emojiNaamBegin": 0,
+    "emojiNaamBeginPlanDef": 0,
+    "invoerZonderLabelBegin": 0,
+    "luidsprekerKnoppenInBoom": 0,
+    "luidsprekerKnoppenInDom": 0,
+    "paginasZonderMain": 0,
     "chatPaginas": 4,
-    "chatZonderLog": 4,
-    "chatZonderH1": 4,
+    "chatZonderLog": 0,
+    "chatZonderH1": 0,
     "bedragveldenZonderMicFlow": 21,
     "keuzeknoppenNietVoorleesbaarPerTik": 0,
     "schakelaarBuitenBeeld": []
@@ -446,12 +438,12 @@
   "grenzen": {
     "keuzeknoppenBegin": 35,
     "keuzeknoppenBeginZonderVoorlees": 0,
-    "emojiNaamBegin": 35,
-    "invoerZonderLabelBegin": 2,
-    "luidsprekerKnoppenInBoom": 67,
-    "paginasZonderMain": 11,
-    "chatZonderLog": 4,
-    "chatZonderH1": 4,
+    "emojiNaamBegin": 0,
+    "invoerZonderLabelBegin": 0,
+    "luidsprekerKnoppenInBoom": 0,
+    "paginasZonderMain": 0,
+    "chatZonderLog": 0,
+    "chatZonderH1": 0,
     "bedragveldenZonderMicFlow": 21,
     "keuzeknoppenNietVoorleesbaarPerTik": 0
   },

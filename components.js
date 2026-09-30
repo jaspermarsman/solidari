@@ -320,6 +320,7 @@
       }
       try { localStorage.setItem('solidari-taal', taal); } catch(e) {}
       verversLuisterToggle();   // taal zonder voorlezen → schakelaar weg (S-7)
+      try { a11yVerwerk(document.body); } catch (e) {}   // knopnamen/labels in de nieuwe taal
     }
 
     document.querySelectorAll('.taal-btn[data-taal]').forEach(btn => {
@@ -465,6 +466,298 @@
     document.body.appendChild(overlay);
   }
 
+  // ── Schermlezer-basis (PLAN-5 fase 3: I-3, I-4, I-7, B-3, B-4) ─────────
+  // Centraal, zodat de pagina's zelf (bijna) niet veranderen:
+  //   - maakOpbouw(): <main> om de inhoud, een skip-link "Naar inhoud", een verborgen h1 als de
+  //     pagina er geen heeft (de 4 chats), en #berichten als live-regio (role="log").
+  //   - a11yVerwerk(root): emoji verborgen voor de schermlezer maar zichtbaar (B-4, verbergEmoji),
+  //     de typ-indicator en avatars stil, een naam voor knoppen met alleen een pijl of emoji,
+  //     een unieke naam voor "✏️ Wijzig", labels voor de vrije invoervelden, en rol/tabindex/
+  //     toetsenbord voor klikbare div's. Draait bij het laden en via een eigen MutationObserver.
+  //     Idempotent; raakt alleen tekstnodes en attributen, geen listeners of innerHTML.
+  // (De 🔊-knoppen zelf krijgen aria-hidden + tabindex=-1 waar ze gemaakt worden: spraak.js, B-3.)
+  function tr(sleutel, terugval) {
+    try {
+      if (window.Solidari && Solidari.i18n && Solidari.i18n.t) {
+        const v = Solidari.i18n.t(sleutel);
+        if (v && v !== sleutel) return v;
+      }
+    } catch (e) {}
+    return terugval;
+  }
+
+  // Dezelfde emoji-tekenklasse als spraak.js (zonderEmoji/keuzeTekst), zodat "wat de voorleesstem
+  // overslaat" en "wat de schermlezer overslaat" hetzelfde is.
+  const SP = window.Solidari && Solidari.spraak;
+  const EMOJI_KLASSE = (SP && SP.emojiRe) ? SP.emojiRe.source
+    : '[\\p{Extended_Pictographic}\\p{Regional_Indicator}\\p{Emoji_Modifier}\\uFE0E\\uFE0F\\u200D\\u20E3]';
+  // Pijlen en vinkjes zijn geen emoji, maar schermlezers zeggen ze wel ("pijl naar rechts", "vinkje").
+  // Op knoppen, links en koppen zijn ze versiering; in lopende chattekst laten we ze staan.
+  const SYMBOOL_KLASSE = '[←↑→↓↩↪↺↻▼▲▾▸◂✓✗✕]';
+  const EMOJI_RUN = new RegExp('(?:' + EMOJI_KLASSE + ')+', 'gu');
+  const EMOJI_SYM_RUN = new RegExp('(?:' + EMOJI_KLASSE + '|' + SYMBOOL_KLASSE + ')+', 'gu');
+
+  const BEDIENING_SEL = 'button, a[href], [role="button"], [role="checkbox"], [role="link"], [role="tab"], [role="menuitem"], summary, label, legend, h1, h2, h3, h4, h5, h6';
+  const BERICHT_SEL = '#berichten, .bel-sol, .bel-user';        // alles in de chat (ook "🔍 Bronnen")
+  const EMOJI_DOEL_SEL = BEDIENING_SEL + ', ' + BERICHT_SEL;
+  const DECOR_SEL = '.sol-avatar, .typing';                        // puur versiering: geheel stil
+  const NIET_SEL = 'script, style, textarea, select, option, [contenteditable="true"], [data-geen-emoji]';
+  const NAAM_SEL = 'button, a[href], [role="button"], [role="link"], [role="tab"], [role="menuitem"]';
+
+  function alleIn(root, sel) {
+    const r = root.matches(sel) ? [root] : [];
+    return r.concat([...root.querySelectorAll(sel)]);
+  }
+
+  // Pakt emoji (en in bedieningen ook pijlen) in een <span aria-hidden="true" class="sol-emoji">.
+  // Alleen tekstnodes worden vervangen; wat al verborgen is, wordt overgeslagen (idempotent).
+  function wikkelEmoji(el) {
+    const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    while (w.nextNode()) nodes.push(w.currentNode);
+    for (const n of nodes) {
+      const p = n.parentElement;
+      const s = n.nodeValue;
+      if (!p || !s || p.closest(NIET_SEL)) continue;
+      // Al verborgen binnen dit blok (onze eigen span, een avatar): overslaan. Een verborgen
+      // voorouder búíten het blok telt niet: het mobiele menu is aria-hidden zolang het dicht is.
+      const verborgen = p.closest('[aria-hidden="true"]');
+      if (verborgen && el.contains(verborgen)) continue;
+      const re = p.closest(BEDIENING_SEL) ? EMOJI_SYM_RUN : (p.closest(BERICHT_SEL) ? EMOJI_RUN : null);
+      if (!re) continue;
+      re.lastIndex = 0;
+      if (!re.test(s)) continue;
+      re.lastIndex = 0;
+      const frag = document.createDocumentFragment();
+      let vorige = 0, m;
+      while ((m = re.exec(s))) {
+        if (m.index > vorige) frag.appendChild(document.createTextNode(s.slice(vorige, m.index)));
+        const sp = document.createElement('span');
+        sp.setAttribute('aria-hidden', 'true');
+        sp.className = 'sol-emoji';
+        sp.textContent = m[0];
+        frag.appendChild(sp);
+        vorige = m.index + m[0].length;
+      }
+      if (vorige < s.length) frag.appendChild(document.createTextNode(s.slice(vorige)));
+      p.replaceChild(frag, n);
+    }
+  }
+
+  function verbergEmoji(root) {
+    root = root || document.body;
+    if (!root || root.nodeType !== 1) return;
+    alleIn(root, DECOR_SEL).forEach(el => { if (el.getAttribute('aria-hidden') !== 'true') el.setAttribute('aria-hidden', 'true'); });
+    if (root.closest(EMOJI_DOEL_SEL)) wikkelEmoji(root);
+    else root.querySelectorAll(EMOJI_DOEL_SEL).forEach(wikkelEmoji);
+  }
+
+  // Wat een schermlezer als naam zou horen (tekst zonder aria-hidden-delen).
+  function hoorbareTekst(el) {
+    let t = '';
+    (function loop(n) {
+      if (n.nodeType === 3) t += n.nodeValue;
+      else if (n.nodeType === 1 && n.getAttribute('aria-hidden') !== 'true' && !/^(SCRIPT|STYLE)$/.test(n.tagName)) {
+        if (n.tagName === 'IMG') t += ' ' + (n.getAttribute('alt') || '') + ' ';
+        n.childNodes.forEach(loop);
+      }
+    })(el);
+    return t.replace(/\s+/g, ' ').trim();
+  }
+
+  // Naam voor een knop, of null als de zichtbare tekst al een goede naam is.
+  function naamVoor(el) {
+    // "✏️ Wijzig" op het controlescherm van budgethulp: 14× dezelfde naam → "Wijzig huur".
+    if (el.matches('.controle-edit')) {
+      const post = el.closest('.controle-rij');
+      const naam = post && post.querySelector('.controle-naam') ? hoorbareTekst(post.querySelector('.controle-naam')) : '';
+      return naam ? tr('a11y-wijzig-x', 'Wijzig {x}').replace('{x}', naam) : null;
+    }
+    if (/[\p{L}\p{N}]/u.test(hoorbareTekst(el))) return null;   // er blijft een echte naam over
+    // Alleen een pijl ("→", "←", "↑") of "+": de verstuurknoppen van de chats.
+    if (el.matches('.stuur-btn')) {
+      return el.textContent.trim() === '+' ? tr('a11y-toevoegen', 'Voeg toe') : tr('a11y-verstuur', 'Verstuur');
+    }
+    const title = (el.getAttribute('title') || '').trim();
+    return title || null;
+  }
+  // data-sol-naam markeert een aria-label dat wij zetten; dat mag bij een taalwissel opnieuw.
+  function geefNaam(el) {
+    if (el.hasAttribute('aria-labelledby')) return;
+    const vanOns = el.hasAttribute('data-sol-naam');
+    if (el.hasAttribute('aria-label') && !vanOns) return;       // de pagina gaf zelf een naam
+    const naam = naamVoor(el);
+    if (naam) {
+      if (el.getAttribute('aria-label') !== naam) el.setAttribute('aria-label', naam);
+      if (!vanOns) el.setAttribute('data-sol-naam', '');
+    } else if (vanOns) {
+      el.removeAttribute('aria-label');
+      el.removeAttribute('data-sol-naam');
+    }
+  }
+
+  // Vrije invoervelden die alleen een placeholder hadden (rechten, goedvoorbereid).
+  // brief #extra-context verwijst in de HTML zelf naar zijn zichtbare vraag (aria-labelledby).
+  const VELD_LABELS = { invoer: ['a11y-label-vraag', 'Je vraag'], 'ai-invoer': ['a11y-label-vraag', 'Je vraag'] };
+  function geefVeldLabel(el) {
+    const k = VELD_LABELS[el.id];
+    if (!k) return;
+    if ((el.labels && el.labels.length) || el.hasAttribute('aria-labelledby')) return;
+    if (el.hasAttribute('aria-label') && !el.hasAttribute('data-sol-naam')) return;
+    const v = tr(k[0], k[1]);
+    if (el.getAttribute('aria-label') !== v) el.setAttribute('aria-label', v);
+    el.setAttribute('data-sol-naam', '');
+  }
+
+  // Klikbare div's (18jaar, brief): rol, tabindex, staat en Enter/Spatie. Staat komt uit de klassen
+  // die de pagina al zet, dus de pagina-code blijft ongewijzigd.
+  const KLIKBAAR = [
+    { sel: '.categorie-header', rol: 'button', attr: 'aria-expanded', aan: (el) => !!(el.closest('.categorie-kaart') || el).classList.contains('open') },
+    { sel: '.rk-header', rol: 'button', attr: 'aria-expanded', aan: (el) => el.classList.contains('open') },
+    { sel: '.check-box', rol: 'checkbox', attr: 'aria-checked', aan: (el) => el.classList.contains('gedaan'),
+      label: (el) => { const i = el.closest('.checklist-item'); return i && i.querySelector('.checklist-tekst'); } },
+    { sel: '.ap-vinkje', rol: 'checkbox', attr: 'aria-checked', aan: (el) => el.classList.contains('gedaan'),
+      label: (el) => el.parentElement && el.parentElement.querySelector('.ap-tekst') },
+  ];
+  const KLIK_SEL = KLIKBAAR.map(k => k.sel).join(', ');
+  let labelTeller = 0;
+  function klikSoort(el) { return KLIKBAAR.find(k => el.matches(k.sel)); }
+  function zetKlikStaat(el) {
+    const k = klikSoort(el);
+    if (!k) return;
+    const v = k.aan(el) ? 'true' : 'false';
+    if (el.getAttribute(k.attr) !== v) el.setAttribute(k.attr, v);
+  }
+  function maakKlikbaar(el) {
+    if (el.matches('button, a, input, select, textarea')) return;
+    const k = klikSoort(el);
+    if (!k) return;
+    if (!el.hasAttribute('role')) el.setAttribute('role', k.rol);
+    if (!el.hasAttribute('tabindex')) el.tabIndex = 0;
+    if (!el.hasAttribute('data-sol-klik')) el.setAttribute('data-sol-klik', '');
+    if (k.label && !el.hasAttribute('aria-labelledby') && !el.hasAttribute('aria-label')) {
+      const l = k.label(el);
+      if (l) { if (!l.id) l.id = 'sol-label-' + (++labelTeller); el.setAttribute('aria-labelledby', l.id); }
+    }
+    zetKlikStaat(el);
+  }
+  function verversKlikStaat() { document.querySelectorAll('[data-sol-klik]').forEach(zetKlikStaat); }
+
+  function a11yVerwerk(root) {
+    root = root || document.body;
+    if (!root || root.nodeType !== 1) return;
+    alleIn(root, KLIK_SEL).forEach(maakKlikbaar);
+    verbergEmoji(root);
+    const knop = root.parentElement && root.parentElement.closest(NAAM_SEL);
+    if (knop) geefNaam(knop);                  // tekst ín een knop veranderd
+    alleIn(root, NAAM_SEL).forEach(geefNaam);
+    alleIn(root, 'textarea, input').forEach(geefVeldLabel);
+  }
+
+  let a11yObserver = null;
+  function startA11yObserver() {
+    if (a11yObserver || !document.body) return;
+    // Synchroon genoeg: de callback draait als microtaak, vóórdat de browser de
+    // toegankelijkheidsboom bijwerkt. Een nieuw chatbericht wordt dus al zonder emoji gemeld.
+    a11yObserver = new MutationObserver((muts) => {
+      const roots = new Set();
+      for (const m of muts) {
+        if (m.type === 'characterData') { if (m.target.parentElement) roots.add(m.target.parentElement); continue; }
+        for (const n of m.addedNodes) {
+          if (n.nodeType === 1) { if (!n.classList.contains('sol-emoji')) roots.add(n); }
+          else if (n.nodeType === 3 && n.parentElement) roots.add(n.parentElement);
+        }
+      }
+      roots.forEach(r => { if (r.isConnected) { try { a11yVerwerk(r); } catch (e) {} } });
+    });
+    a11yObserver.observe(document.body, { childList: true, subtree: true, characterData: true });
+    // Enter/Spatie op een klikbare div = klik; na elke klik de staat (open/afgevinkt) bijwerken.
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter' && e.key !== ' ' && e.key !== 'Spacebar') return;
+      const el = e.target;
+      if (!el || !el.hasAttribute || !el.hasAttribute('data-sol-klik')) return;
+      e.preventDefault();
+      el.click();
+    });
+    document.addEventListener('click', () => setTimeout(verversKlikStaat, 0));
+  }
+
+  // <main>, skip-link, verborgen h1 en de live-regio. Draait al als dit script wordt uitgevoerd
+  // (onderaan de body), dus vóór DOMContentLoaded: dan staat de live-regio er voordat de chats hun
+  // eerste berichten plaatsen, en verplaatsen we de inhoud voordat spraak.js zijn observer start
+  // (anders zou die het verplaatsen zien als "ballonnen weg" en het voorlezen afbreken).
+  function maakOpbouw() {
+    if (!document.body) return;
+    let main = document.querySelector('main, [role="main"]');
+    if (!main) {
+      const nav = document.getElementById('solidari-nav') || document.getElementById('solidari-nav-bar');
+      const footer = document.getElementById('solidari-footer') || document.getElementById('solidari-footer-bar');
+      if (nav && nav.parentElement) {
+        const ouder = nav.parentElement;
+        const NIET = '#solidari-nav, #solidari-nav-bar, #mob-menu, #mob-overlay, #solidari-footer, #solidari-footer-bar, ' +
+          '#sol-env-balk, .sol-skip, .sol-a11y-welkom, .sol-a11y-melding, [role="dialog"], script, style, link, noscript, template';
+        const kinderen = [];
+        let na = false;
+        for (const k of [...ouder.children]) {
+          if (k === nav) { na = true; continue; }
+          if (!na) continue;
+          if (k === footer) break;
+          if (!k.matches(NIET)) kinderen.push(k);
+        }
+        if (kinderen.length) {
+          main = document.createElement('main');
+          // 18jaar gebruikt #inhoud al voor zijn eigen inhoudsblok.
+          main.id = document.getElementById('inhoud') ? 'hoofdinhoud' : 'inhoud';
+          main.className = 'sol-main';
+          main.tabIndex = -1;
+          ouder.insertBefore(main, kinderen[0]);
+          kinderen.forEach(k => main.appendChild(k));   // verplaatsen: listeners blijven
+          // Chatpagina's: body is een flex-kolom; main neemt die rol over.
+          try { if (/flex/.test(getComputedStyle(ouder).display)) main.classList.add('sol-main-flex'); } catch (e) {}
+        }
+      }
+    }
+    if (main) {
+      if (!main.id) main.id = document.getElementById('inhoud') ? 'hoofdinhoud' : 'inhoud';
+      // Verborgen h1 voor pagina's zonder kop (de 4 chats): de toolnaam, vertaald via data-i18n.
+      if (!document.querySelector('h1')) {
+        const pagina = window.location.pathname.split('/').pop() || 'index.html';
+        const tool = TOOLS.find(t => t.url === pagina);
+        const h1 = document.createElement('h1');
+        h1.className = 'sol-sr-only';
+        h1.setAttribute('data-geen-lees', '');
+        if (tool) { h1.setAttribute('data-i18n', tool.i18n); h1.textContent = tool.naam; }
+        else h1.textContent = document.title || 'Solidari';
+        main.insertBefore(h1, main.firstChild);
+      }
+      if (!document.querySelector('.sol-skip')) {
+        const skip = document.createElement('a');
+        skip.className = 'sol-skip';
+        skip.href = '#' + main.id;
+        skip.setAttribute('data-i18n', 'a11y-naar-inhoud');
+        skip.textContent = tr('a11y-naar-inhoud', 'Naar inhoud');
+        skip.addEventListener('click', (e) => {
+          e.preventDefault();                       // geen hash-wissel (sommige pagina's luisteren daarop)
+          const doel = document.querySelector('main');
+          if (doel) { doel.focus(); try { doel.scrollIntoView({ block: 'start' }); } catch (x) {} }
+        });
+        document.body.insertBefore(skip, document.body.firstChild);
+      }
+    }
+    // Chatberichten melden (I-3). De keuzeknoppen staan op alle vier de chats buiten #berichten
+    // (rechten: #keuze-zone), dus die worden niet mee aangekondigd maar blijven gewoon bereikbaar.
+    const log = document.getElementById('berichten');
+    if (log) {
+      if (!log.hasAttribute('role')) log.setAttribute('role', 'log');
+      if (!log.hasAttribute('aria-live')) log.setAttribute('aria-live', 'polite');
+      // De lijst scrollt zelf (overflow-y:auto): met het toetsenbord moet hij te bereiken zijn.
+      if (!log.hasAttribute('tabindex')) log.tabIndex = 0;
+    }
+  }
+
+  window.Solidari = window.Solidari || {};
+  Solidari.a11y = { verbergEmoji, verwerk: a11yVerwerk, opbouw: maakOpbouw };
+
   // ── Init ───────────────────────────────────────────────────────────────
   function init() {
     detecteerOmgeving();
@@ -475,7 +768,11 @@
     koppelTaalKnoppen();
     koppelLuisterToggle();
     maakWelkom();
+    try { maakOpbouw(); a11yVerwerk(document.body); startA11yObserver(); } catch (e) {}
   }
+
+  // Schermlezer-basis meteen (zie maakOpbouw); de rest wacht op DOMContentLoaded.
+  try { maakOpbouw(); a11yVerwerk(document.body); startA11yObserver(); } catch (e) {}
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);

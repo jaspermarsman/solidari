@@ -542,3 +542,38 @@ footer#solidari-footer-bar {
 @media (max-width: 480px) {
   .mob-taal-grid { grid-template-columns: repeat(4, 1fr); }
 }
+
+/* ── SCHERMLEZER-BASIS (PLAN-5 fase 3; opbouw via components.js) ─────────── */
+/* Alleen voor schermlezers (de h1 op de chatpagina's). */
+.sol-sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+/* "Naar inhoud": onzichtbaar tot hij focus krijgt (eerste Tab), dan boven de vaste nav. */
+.sol-skip {
+  position: fixed;
+  top: -200px;
+  inset-inline-start: 8px;
+  z-index: 10000;
+  background: #1A1A18;
+  color: #fff;
+  padding: 14px 20px;
+  min-height: 48px;
+  border-radius: 8px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: underline;
+}
+.sol-skip:focus { top: 8px; outline: 3px solid #E8A020; outline-offset: 2px; }
+/* De inhoud krijgt alleen via de skip-link focus; geen rand om de hele pagina. */
+main.sol-main:focus { outline: none; }
+/* Chatpagina's: body is een flex-kolom, main neemt die rol over. */
+main.sol-main-flex { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; width: 100%; }
+/* Klikbare div's met een rol (18jaar, brief): zichtbare focus voor het toetsenbord. */
+[data-sol-klik]:focus-visible { outline: 3px solid #2D5A3D; outline-offset: 2px; }
