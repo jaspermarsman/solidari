@@ -480,12 +480,83 @@
     await scan(root || document);
   }
 
+  // ── Keuzeknoppen in de voorleesstand: twee tikken (PLAN-5, B-1) ────────
+  // Wie niet kan lezen, moet een antwoord eerst kunnen horen vóór het gekozen wordt.
+  // Voorleesstand AAN: eerste tik leest de knop voor en laat hem oplichten; een tweede tik
+  // op dezelfde knop binnen KEUZE_TIJD kiest. Voorleesstand UIT, een taal zonder spraak
+  // (TI, S-7) of een toestel zonder stem: precies als vroeger, één tik kiest.
+  //
+  // Conventie: een keuzeknop krijgt `data-keuze`. Tot alle pagina's zijn omgezet vangt
+  // KEUZE_SELECTOREN de bestaande klassen op. Nieuwe klasse nodig? Voeg hem HIER toe.
+  const KEUZE_SELECTOREN = [
+    // keuzeknoppen
+    '.keuze-btn', '.situatie-btn', '.scenario-btn', '.antwoord-knop', '.leeftijd-knop',
+    '.type-knop', '.fase-tab', '.ja-btn', '.nee-btn', '.verder-btn',
+    // actieknoppen met zichtbare tekst
+    '.upload-knop', '.analyseer-knop', '.actie-knop', '.nieuwe-brief-knop', '.volgende-knop',
+    '.knop-primair', '.knop-secundair', '.controle-ok-btn', '.res-opnieuw-btn',
+    '.ai-ja-btn', '.ai-nee-btn', '.nieuw-btn',
+  ];
+  // Nooit: verstuurknoppen voor getypte tekst, de 🔊/🎤-knoppen, de voorleesschakelaar, de navigatie.
+  const KEUZE_UITGESLOTEN = '.stuur-btn, .verstuur-knop, .sol-a11y-knop, .sol-a11y-mic, .sol-a11y-luister-toggle, nav, #solidari-nav, #solidari-nav-bar, footer, #solidari-footer, [data-keuze="nee"]';
+  const KEUZE_SEL = ['[data-keuze]'].concat(KEUZE_SELECTOREN).join(', ');
+  let keuzeTijd = 6000;                 // ms tussen eerste en tweede tik
+  let keuzeGehoord = null;              // de knop die net is voorgelezen
+  let keuzeGehoordTot = 0;
+  let keuzeTimer = null;
+  let keuzeGekoppeld = false;
+
+  function keuzeKnopVan(doel) {
+    const el = doel && doel.closest && doel.closest(KEUZE_SEL);
+    if (!el || el.closest(KEUZE_UITGESLOTEN)) return null;
+    return el;
+  }
+  const EMOJI_RE = /[\p{Extended_Pictographic}\p{Regional_Indicator}\p{Emoji_Modifier}︎️‍⃣]/gu;
+  function zonderEmoji(tekst) {
+    return String(tekst == null ? '' : tekst).replace(EMOJI_RE, ' ').replace(/\s+/g, ' ').trim();
+  }
+  // Wat wordt er bij de eerste tik gezegd? data-lees als dat er is, anders de zichtbare tekst zonder emoji.
+  function keuzeTekst(el) {
+    const lees = (el.getAttribute('data-lees') || '').trim();
+    if (lees) return zonderEmoji(lees);
+    return zonderEmoji(el.innerText || el.textContent) || zonderEmoji(el.getAttribute('aria-label') || el.getAttribute('title'));
+  }
+  function keuzeWis() {
+    clearTimeout(keuzeTimer); keuzeTimer = null;
+    if (keuzeGehoord) keuzeGehoord.classList.remove('sol-a11y-keuze-gehoord');
+    keuzeGehoord = null; keuzeGehoordTot = 0;
+  }
+  function keuzeKlik(e) {
+    if (!luisterActief) return;
+    const el = keuzeKnopVan(e.target);
+    if (!el) return;
+    const taal = actieveTaal();
+    if (geenSpraak(taal) || !beschikbaar(taal)) return;      // geen stem: één tik kiest
+    if (el === keuzeGehoord && Date.now() <= keuzeGehoordTot) { keuzeWis(); return; }   // tweede tik: doorlaten
+    const tekst = keuzeTekst(el);
+    if (!tekst) return;
+    e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
+    keuzeWis();
+    keuzeGehoord = el;
+    keuzeGehoordTot = Date.now() + keuzeTijd;
+    el.classList.add('sol-a11y-keuze-gehoord');
+    keuzeTimer = setTimeout(keuzeWis, keuzeTijd);
+    zeg(tekst, { taal });
+  }
+  // Eén keer, in de capture-fase op document: gaat vóór onclick-attributen en listeners op de knop zelf.
+  function koppelKeuze() {
+    if (keuzeGekoppeld) return;
+    keuzeGekoppeld = true;
+    document.addEventListener('click', keuzeKlik, true);
+  }
+
   // ── Luistermodus (tik-om-te-lezen) ─────────────────────────────────────
   let luisterActief = false;
   function luisterKlik(e) {
     const el = e.target.closest && e.target.closest('[data-lees]');
     if (!el) return;
     if (e.target.closest('.sol-a11y-knop')) return; // knop doet z'n eigen ding
+    if (keuzeKnopVan(e.target)) return;             // keuzeknop: zie keuzeKlik (twee tikken)
     const taal = (el.getAttribute('data-lees-taal') || actieveTaal()).toUpperCase();
     // Geen oplichtend blok voor een taal die toch niet gelezen wordt (S-7).
     if (geenSpraak(taal)) return;
@@ -504,6 +575,7 @@
     },
     uit() {
       luisterActief = false;
+      keuzeWis();
       document.body.classList.remove('sol-a11y-luistermodus');
       document.removeEventListener('click', luisterKlik, true);
       stop();
@@ -555,6 +627,8 @@
     beschikbaar, zeg, stop, bezig, ontgrendel, stemVoor, splitsZinnen,
     knop, scan, autoMarkeer, verwerk, micKnop, autoMic, manifest, luistermodus, luister, registreerRoute, registreerInvoerRoute,
     geenSpraak, mobiel: MOBIEL,
+    keuzeSelector: KEUZE_SEL, isKeuzeknop: (el) => !!keuzeKnopVan(el), keuzeTekst,
+    keuzeTijd: (ms) => { if (typeof ms === 'number' && ms > 0) keuzeTijd = ms; return keuzeTijd; },
     // testhaken (niet-openbaar bedoeld, wel handig in acceptatietests)
     _kiesLaag, _normaliseer: normaliseer, _hashVan: hashVan, _actieveTaal: actieveTaal,
   };
@@ -594,6 +668,9 @@
 
     // Er wordt geen uitvoerroute meer geregistreerd (S-7). registreerRoute() blijft
     // bestaan als haak; zonder aanroep staat laag 3 eenvoudigweg uit.
+
+    // Twee tikken op keuzeknoppen in de voorleesstand (vóór luisterKlik geregistreerd)
+    koppelKeuze();
 
     // Eerste markering + knoppen
     verwerk(document);

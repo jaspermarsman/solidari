@@ -246,3 +246,13 @@ body.sol-a11y-luistermodus [data-lees] {
 }
 .sol-a11y-melding.zichtbaar { opacity: 1; transform: translate(-50%, 0); }
 @media (prefers-reduced-motion: reduce) { .sol-a11y-melding { transition: none; } }
+
+/* Keuzeknop die net is voorgelezen (twee tikken, PLAN-5 B-1): nog een tik kiest.
+   Dikke rand + vlak + schaduw, zodat het niet van kleur alleen afhangt. */
+.sol-a11y-keuze-gehoord {
+  outline: 4px solid var(--amber-diep, #C47F10) !important;
+  outline-offset: 2px;
+  background: var(--amber-licht, #FDF3E0) !important;
+  color: var(--tekst, #1A1A18) !important;
+  box-shadow: 0 0 0 7px rgba(232, 160, 32, 0.35) !important;
+}

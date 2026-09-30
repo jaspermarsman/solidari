@@ -31,7 +31,7 @@
     "brief.html": {
       "bubbels": 0,
       "keuzeknoppen": 3,
-      "keuzeZonderVoorlees": 3,
+      "keuzeZonderVoorlees": 0,
       "keuzeKlassen": [
         ".upload-knop.upload-knop-camera",
         ".upload-knop",
@@ -62,7 +62,7 @@
     "budgethulp.html": {
       "bubbels": 4,
       "keuzeknoppen": 5,
-      "keuzeZonderVoorlees": 5,
+      "keuzeZonderVoorlees": 0,
       "keuzeKlassen": [
         ".keuze-btn"
       ],
@@ -93,7 +93,7 @@
     "loont-werken.html": {
       "bubbels": 2,
       "keuzeknoppen": 4,
-      "keuzeZonderVoorlees": 4,
+      "keuzeZonderVoorlees": 0,
       "keuzeKlassen": [
         ".keuze-btn"
       ],
@@ -124,7 +124,7 @@
     "naturalisatie.html": {
       "bubbels": 1,
       "keuzeknoppen": 2,
-      "keuzeZonderVoorlees": 2,
+      "keuzeZonderVoorlees": 0,
       "keuzeKlassen": [
         ".antwoord-knop"
       ],
@@ -151,7 +151,7 @@
     "18jaar.html": {
       "bubbels": 0,
       "keuzeknoppen": 5,
-      "keuzeZonderVoorlees": 5,
+      "keuzeZonderVoorlees": 0,
       "keuzeKlassen": [
         ".leeftijd-knop",
         ".fase-tab.voor",
@@ -181,7 +181,7 @@
     "rechten.html": {
       "bubbels": 3,
       "keuzeknoppen": 7,
-      "keuzeZonderVoorlees": 7,
+      "keuzeZonderVoorlees": 0,
       "keuzeKlassen": [
         ".situatie-btn"
       ],
@@ -205,7 +205,7 @@
         "live": null
       },
       "toggle": {
-        "x": 574,
+        "x": 233,
         "w": 44
       },
       "vw": 393,
@@ -214,7 +214,7 @@
     "goedvoorbereid.html": {
       "bubbels": 3,
       "keuzeknoppen": 5,
-      "keuzeZonderVoorlees": 5,
+      "keuzeZonderVoorlees": 0,
       "keuzeKlassen": [
         ".keuze-btn"
       ],
@@ -270,7 +270,7 @@
     "feedback.html": {
       "bubbels": 0,
       "keuzeknoppen": 4,
-      "keuzeZonderVoorlees": 4,
+      "keuzeZonderVoorlees": 0,
       "keuzeKlassen": [
         ".type-knop"
       ],
@@ -399,37 +399,37 @@
   "tik": {
     "budgethulp.html": {
       "knoptekst": "Ik alleen",
-      "knopVoorgelezen": false
+      "knopVoorgelezen": true
     },
     "loont-werken.html": {
       "knoptekst": "Ik heb een bijstandsuitkering",
-      "knopVoorgelezen": false
+      "knopVoorgelezen": true
     },
     "naturalisatie.html": {
       "knoptekst": "✓ Ja, ik ben 18 jaar of ouder",
-      "knopVoorgelezen": false
+      "knopVoorgelezen": true
     },
     "rechten.html": {
       "knoptekst": "Ik krijg bijstand",
-      "knopVoorgelezen": false
+      "knopVoorgelezen": true
     },
     "goedvoorbereid.html": {
       "knoptekst": "De dokter",
-      "knopVoorgelezen": false
+      "knopVoorgelezen": true
     },
     "18jaar.html": {
       "knoptekst": "Ik word 18",
-      "knopVoorgelezen": false
+      "knopVoorgelezen": true
     },
     "feedback.html": {
       "knoptekst": "Iets klopt niet",
-      "knopVoorgelezen": false
+      "knopVoorgelezen": true
     }
   },
   "totalen": {
     "keuzeknoppenBegin": 35,
     "keuzeknoppenBeginPlanDef": 30,
-    "keuzeknoppenBeginZonderVoorlees": 35,
+    "keuzeknoppenBeginZonderVoorlees": 0,
     "emojiNaamBegin": 35,
     "emojiNaamBeginPlanDef": 29,
     "invoerZonderLabelBegin": 2,
@@ -440,14 +440,12 @@
     "chatZonderLog": 4,
     "chatZonderH1": 4,
     "bedragveldenZonderMicFlow": 21,
-    "keuzeknoppenNietVoorleesbaarPerTik": 7,
-    "schakelaarBuitenBeeld": [
-      "rechten.html"
-    ]
+    "keuzeknoppenNietVoorleesbaarPerTik": 0,
+    "schakelaarBuitenBeeld": []
   },
   "grenzen": {
     "keuzeknoppenBegin": 35,
-    "keuzeknoppenBeginZonderVoorlees": 35,
+    "keuzeknoppenBeginZonderVoorlees": 0,
     "emojiNaamBegin": 35,
     "invoerZonderLabelBegin": 2,
     "luidsprekerKnoppenInBoom": 67,
@@ -455,7 +453,7 @@
     "chatZonderLog": 4,
     "chatZonderH1": 4,
     "bedragveldenZonderMicFlow": 21,
-    "keuzeknoppenNietVoorleesbaarPerTik": 7
+    "keuzeknoppenNietVoorleesbaarPerTik": 0
   },
   "doel": {
     "keuzeknoppenBeginZonderVoorlees": 0,

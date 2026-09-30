@@ -34,7 +34,7 @@ const OUT = path.join(__dirname, 'a11y-v5-nulmeting.json');
 // Bovengrenzen = de gemeten stand van 30-09-2026. Verlaag ze per fase.
 const NU = {
   keuzeknoppenBegin: 35,
-  keuzeknoppenBeginZonderVoorlees: 35,
+  keuzeknoppenBeginZonderVoorlees: 0,
   emojiNaamBegin: 35,
   invoerZonderLabelBegin: 2,
   luidsprekerKnoppenInBoom: 67,
@@ -42,7 +42,7 @@ const NU = {
   chatZonderLog: 4,
   chatZonderH1: 4,
   bedragveldenZonderMicFlow: 21,
-  keuzeknoppenNietVoorleesbaarPerTik: 7,
+  keuzeknoppenNietVoorleesbaarPerTik: 0,   // fase 1: één tik leest voor, twee kiezen
 };
 // Streefwaarden uit plan §5 (alleen ter documentatie; geen assertie in fase 0).
 const DOEL = {
@@ -112,7 +112,10 @@ const METING = (sel) => {
   };
   const alle = [...document.querySelectorAll('a[href], button, [role="button"], summary, input, select, textarea')].filter(zichtbaar);
   const keuze = [...document.querySelectorAll(sel)].filter(zichtbaar);
-  const heeftVoorlees = (el) => !!(el.closest('[data-lees]') || el.querySelector('.sol-a11y-knop') ||
+  // Fase 1: een keuzeknop uit de centrale lijst wordt in de voorleesstand voorgelezen (mits de taal en het toestel een stem hebben).
+  const sp = window.Solidari && window.Solidari.spraak;
+  const viaKeuzeComponent = (el) => !!(sp && sp.isKeuzeknop && sp.isKeuzeknop(el) && sp.beschikbaar() && document.querySelector('.sol-a11y-luister-toggle'));
+  const heeftVoorlees = (el) => !!(viaKeuzeComponent(el) || el.closest('[data-lees]') || el.querySelector('.sol-a11y-knop') ||
     (el.nextElementSibling && el.nextElementSibling.classList.contains('sol-a11y-knop')) ||
     (el.previousElementSibling && el.previousElementSibling.classList.contains('sol-a11y-knop')));
   const emojiEls = alle.filter((el) => !el.matches('input, select, textarea') && EMOJI.test(naamTekst(el)));
@@ -259,8 +262,8 @@ for (const [pagina, sel] of Object.entries(TIK)) {
     await laad(page, pagina);
     // wacht tot de keuzeknop er is (chats bouwen hem na een korte typ-vertraging)
     await page.locator(sel).first().waitFor({ state: 'visible', timeout: 15000 });
-    // JS-klik: op rechten.html staat de schakelaar op 393px buiten beeld (zie INVENTARIS), een echte tik kan er niet bij.
-    await page.evaluate(() => document.querySelector('.sol-a11y-luister-toggle').click());
+    // Echte klik (sinds fase 1 ligt de nav van rechten.html ook op mobiel binnen beeld).
+    await page.locator('.sol-a11y-luister-toggle').click();
     await page.waitForTimeout(500);
     await page.evaluate(() => { window.__spoken = []; });
     const tekst = ((await page.locator(sel).first().innerText()) || '').replace(/\p{Extended_Pictographic}|\p{Regional_Indicator}|\uFE0F/gu, '').replace(/\s+/g, ' ').trim();
