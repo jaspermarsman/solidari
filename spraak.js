@@ -191,7 +191,8 @@
     } catch (e) {}
     return false;
   }
-  function stop() {
+  // stopRaw breekt alleen het gesproken geluid af; stop() breekt ook een lopende reeks af.
+  function stopRaw() {
     gestopt = true;
     audioToken++;                 // lopende bestand-callbacks worden ongeldig
     stopHeartbeat();
@@ -204,6 +205,7 @@
     } catch (e) {}
     bezigVlag = false;
   }
+  function stop() { reeksStop(); stopRaw(); }
 
   function speelBestand(tekst, taal, hash, opties) {
     const el = audio();
@@ -267,14 +269,17 @@
     if (opties && opties.opFout) opties.opFout();
   }
 
-  async function zeg(tekst, opties) {
+  // zeg() breekt altijd af, ook een lopende reeks. zegRaw() doet alleen het spreken zelf
+  // (de reeks gebruikt die, anders zou elk stuk zijn eigen reeks afbreken).
+  function zeg(tekst, opties) { reeksStop(); return zegRaw(tekst, opties); }
+  async function zegRaw(tekst, opties) {
     opties = opties || {};
     const taal = (opties.taal || actieveTaal());
     // Stil terug, zonder fout(): er hoort voor deze taal geen knop te staan, en wie
     // hier tóch komt (luistermodus, gesproken taalbevestiging) mag geen trilling of
     // foutmelding krijgen voor iets wat we bewust niet aanbieden.
     if (geenSpraak(taal)) return;
-    stop();
+    stopRaw();
     gestopt = false;
     const genorm = normaliseer(tekst);
     if (!genorm) return;
@@ -287,6 +292,88 @@
     if (laag === 'bestand') return speelBestand(tekst, taal, hash, opties);
     if (laag === 'stem') return speelStem(tekst, taal, opties);
     if (laag === 'route') return speelRoute(tekst, taal, opties);
+  }
+
+  // ── Reeks: meerdere stukken achter elkaar (PLAN-5 fase 2, B-2) ─────────
+  // zegReeks(items, {taal, pauze, opStart(item, i), opEinde}) leest de stukken na elkaar voor.
+  // Een item is een string of {tekst, el}; `el` licht op (.sol-a11y-keuze-opgenoemd) zolang zijn
+  // tekst klinkt. Er loopt maximaal één reeks. Hij stopt bij stop(), bij een nieuwe zeg()/zegReeks(),
+  // bij elke aanraking (pointerdown/touchstart/keydown), bij een taalwissel en als de spraak faalt.
+  // Retourneert {stop(), voegToe(items), actief}; voegToe() geeft false als de reeks klaar/gestopt is.
+  let reeks = null;
+  function reeksItems(items) {
+    return (items || []).map(i => (typeof i === 'string' ? { tekst: i, el: null } : i))
+      .filter(i => i && normaliseer(i.tekst));
+  }
+  function reeksLichtUit(r) {
+    if (r.licht) { r.licht.classList.remove('sol-a11y-keuze-opgenoemd'); r.licht = null; }
+  }
+  function reeksAanraking() { stop(); }
+  function reeksOpruim(r) {
+    clearTimeout(r.timer); r.timer = null;
+    reeksLichtUit(r);
+    document.removeEventListener('pointerdown', reeksAanraking, true);
+    document.removeEventListener('touchstart', reeksAanraking, true);
+    document.removeEventListener('keydown', reeksAanraking, true);
+  }
+  function reeksStop() {
+    const r = reeks;
+    if (!r) return;
+    reeks = null; r.gestopt = true;
+    reeksOpruim(r);
+  }
+  function reeksKlaar(r) {
+    if (reeks !== r) return;
+    reeks = null; r.klaar = true;
+    reeksOpruim(r);
+    if (r.opties.opEinde) { try { r.opties.opEinde(); } catch (e) {} }
+  }
+  function reeksVolgende(r) {
+    if (reeks !== r) return;
+    if (r.i >= r.wachtrij.length) { reeksKlaar(r); return; }
+    if (actieveTaal() !== r.taal) { reeksStop(); return; }   // taalwissel
+    reeksLichtUit(r);
+    const item = r.wachtrij[r.i], idx = r.i++;
+    let gestart = false, klaar = false;
+    const verder = () => {
+      if (klaar || reeks !== r) return;
+      klaar = true;
+      r.timer = setTimeout(() => reeksVolgende(r), r.pauze);
+    };
+    zegRaw(item.tekst, {
+      taal: r.taal,
+      opStart: () => {
+        if (gestart || reeks !== r) return;
+        gestart = true;
+        if (item.el) { item.el.classList.add('sol-a11y-keuze-opgenoemd'); r.licht = item.el; }
+        if (r.opties.opStart) { try { r.opties.opStart(item, idx); } catch (e) {} }
+      },
+      opEinde: verder,
+      opFout: () => { if (reeks === r) reeksStop(); },   // spraak geblokkeerd/mislukt: niet doorpraten
+    });
+  }
+  function zegReeks(items, opties) {
+    opties = opties || {};
+    reeksStop();
+    const taal = opties.taal || actieveTaal();
+    const r = { taal, opties, wachtrij: reeksItems(items), i: 0, licht: null, timer: null, gestopt: false, klaar: false,
+      pauze: typeof opties.pauze === 'number' ? opties.pauze : 300 };
+    const handle = {
+      stop() { if (reeks === r) stop(); },
+      voegToe(nieuw) {
+        if (reeks !== r) return false;
+        r.wachtrij.push(...reeksItems(nieuw));
+        return true;
+      },
+      get actief() { return reeks === r; },
+    };
+    if (geenSpraak(taal) || !r.wachtrij.length) { r.klaar = true; return handle; }
+    reeks = r;
+    document.addEventListener('pointerdown', reeksAanraking, true);
+    document.addEventListener('touchstart', reeksAanraking, true);
+    document.addEventListener('keydown', reeksAanraking, true);
+    reeksVolgende(r);
+    return handle;
   }
 
   function beschikbaar(taal) {
@@ -548,6 +635,97 @@
     if (keuzeGekoppeld) return;
     keuzeGekoppeld = true;
     document.addEventListener('click', keuzeKlik, true);
+    // Taalwissel: een lopende reeks stopt en het oplichten verdwijnt.
+    document.addEventListener('click', (e) => {
+      if (e.target.closest && e.target.closest('.taal-btn')) { reeksStop(); autoWis(); keuzeWis(); }
+    }, true);
+  }
+
+  // ── Vanzelf voorlezen in de voorleesstand (B-2) ────────────────────────
+  // Een nieuwe chatballon (.bel-sol) wordt voorgelezen. Verschijnen er binnen AUTO_KEUZEVENSTER ms
+  // keuzeknoppen, dan worden die daarna opgenoemd en lichten ze op. Ballonnen kort na elkaar komen
+  // in dezelfde reeks, dus in volgorde. Een typ-indicator (.typing) wordt nooit voorgelezen: alleen
+  // .bel-sol telt. Niet-chatpagina's hebben geen .bel-sol en blijven ongemoeid (naturalisatie leest
+  // zijn keuzes al mee via data-lees).
+  const AUTO_KEUZEVENSTER = 800;
+  let autoReeks = null;
+  let autoTimer = null;
+  let autoSinds = 0;
+  const autoGezien = new WeakSet();   // ballonnen die al in de wachtrij zijn gezet
+  let autoKnoppen = [];      // {el, t}: keuzeknoppen die net in de pagina kwamen
+  function autoKan() {
+    if (!luisterActief) return false;
+    const taal = actieveTaal();
+    return !geenSpraak(taal) && beschikbaar(taal);
+  }
+  function autoPlaats(items) {
+    if (autoReeks && autoReeks.voegToe(items)) return;
+    autoReeks = zegReeks(items);
+  }
+  function zichtbaarEl(el) {
+    return el.isConnected && !el.disabled && el.getAttribute('aria-disabled') !== 'true' &&
+      (el.offsetParent !== null || el.getClientRects().length > 0) && getComputedStyle(el).visibility !== 'hidden';
+  }
+  function autoKeuzes() {
+    autoTimer = null;
+    const sinds = autoSinds; autoSinds = 0;
+    if (!autoKan()) return;
+    const els = [];
+    autoKnoppen.forEach(k => { if (k.t >= sinds && !els.includes(k.el) && zichtbaarEl(k.el)) els.push(k.el); });
+    autoKnoppen = [];
+    els.sort((a, b) => (a.compareDocumentPosition(b) & 4 ? -1 : 1));
+    const items = els.map(el => ({ tekst: keuzeTekst(el), el })).filter(i => i.tekst);
+    if (items.length) autoPlaats(items);
+  }
+  function autoBallon(bel, poging) {
+    if (!autoKan() || !bel.isConnected || autoGezien.has(bel)) return;
+    const tekst = zonderEmoji(bel.textContent);
+    if (!tekst) { if (!poging) setTimeout(() => autoBallon(bel, 1), 200); return; }   // tekst wordt nog gevuld
+    autoGezien.add(bel);
+    if (!autoSinds) autoSinds = Date.now() - 50;
+    autoPlaats([{ tekst, el: null }]);
+    clearTimeout(autoTimer);
+    autoTimer = setTimeout(autoKeuzes, AUTO_KEUZEVENSTER);
+  }
+  function autoWis() {
+    clearTimeout(autoTimer); autoTimer = null; autoSinds = 0; autoKnoppen = []; autoReeks = null;
+  }
+  // Pagina laadt met de voorleesstand al aan: chatpagina's zetten hun eerste ballonnen soms neer
+  // vóórdat de observer er is. Neem wat er staat alsnog mee (keuzeknoppen alleen uit de chatzones).
+  function autoBegin() {
+    if (!luisterActief) return;
+    const nu = Date.now();
+    const ballonnen = [...document.querySelectorAll('.bel-sol')].filter(b => !b.closest('.typing') && !autoGezien.has(b));
+    if (!ballonnen.length) return;
+    document.querySelectorAll(KEUZE_SEL).forEach(k => {
+      if (k.closest('#berichten, #invoer-zone') && keuzeKnopVan(k)) autoKnoppen.push({ el: k, t: nu });
+    });
+    ballonnen.forEach(b => autoBallon(b));
+  }
+  function autoMutaties(muts) {
+    const nu = Date.now();
+    // Een chat die opnieuw begint (start(), taalwissel) gooit zijn ballonnen weg: wat nog op de
+    // rol stond is verouderd en komt niet meer aan bod.
+    for (const m of muts) {
+      for (const n of m.removedNodes) {
+        if (n.nodeType === 1 && (n.matches('.bel-sol') || n.querySelector('.bel-sol'))) {
+          if (autoReeks) autoReeks.stop();
+          autoWis();
+        }
+      }
+    }
+    for (const m of muts) {
+      for (const n of m.addedNodes) {
+        if (n.nodeType !== 1 || n.closest('.typing, .sol-a11y-knop')) continue;
+        if (n.matches('.bel-sol')) autoBallon(n);
+        else n.querySelectorAll('.bel-sol').forEach(b => autoBallon(b));
+        if (luisterActief) {
+          const kn = n.matches(KEUZE_SEL) ? [n] : [...n.querySelectorAll(KEUZE_SEL)];
+          kn.forEach(k => { if (keuzeKnopVan(k)) autoKnoppen.push({ el: k, t: nu }); });
+        }
+      }
+    }
+    autoKnoppen = autoKnoppen.filter(k => nu - k.t < 5000).slice(-200);
   }
 
   // ── Luistermodus (tik-om-te-lezen) ─────────────────────────────────────
@@ -576,6 +754,7 @@
     uit() {
       luisterActief = false;
       keuzeWis();
+      autoWis();
       document.body.classList.remove('sol-a11y-luistermodus');
       document.removeEventListener('click', luisterKlik, true);
       stop();
@@ -624,7 +803,7 @@
 
   // ── Publieke API (§4.3) ────────────────────────────────────────────────
   window.Solidari.spraak = {
-    beschikbaar, zeg, stop, bezig, ontgrendel, stemVoor, splitsZinnen,
+    beschikbaar, zeg, zegReeks, stop, bezig, ontgrendel, stemVoor, splitsZinnen,
     knop, scan, autoMarkeer, verwerk, micKnop, autoMic, manifest, luistermodus, luister, registreerRoute, registreerInvoerRoute,
     geenSpraak, mobiel: MOBIEL,
     keuzeSelector: KEUZE_SEL, isKeuzeknop: (el) => !!keuzeKnopVan(el), keuzeTekst,
@@ -711,6 +890,7 @@
     // Dynamisch bijgerenderde inhoud (chat, resultaten) automatisch meenemen.
     try {
       const obs = new MutationObserver((muts) => {
+        try { autoMutaties(muts); } catch (e) {}
         for (const m of muts) {
           // Een taalwissel vervangt tekst, geen elementen: i18n.passToe() zet innerHTML
           // opnieuw en brief.html zet textContent van zijn eigen sleutels. Beide leveren
@@ -731,7 +911,7 @@
     } catch (e) {}
 
     // Luistermodus herstellen
-    try { if (localStorage.getItem('solidari-voorlezen') === 'aan') luistermodus.aan(); } catch (e) {}
+    try { if (localStorage.getItem('solidari-voorlezen') === 'aan') { luistermodus.aan(); setTimeout(autoBegin, 400); } } catch (e) {}
   }
 
   if (document.readyState === 'loading') {

@@ -249,7 +249,8 @@ body.sol-a11y-luistermodus [data-lees] {
 
 /* Keuzeknop die net is voorgelezen (twee tikken, PLAN-5 B-1): nog een tik kiest.
    Dikke rand + vlak + schaduw, zodat het niet van kleur alleen afhangt. */
-.sol-a11y-keuze-gehoord {
+.sol-a11y-keuze-gehoord,
+.sol-a11y-keuze-opgenoemd {  /* opgenoemd: vanzelf voorgelezen keuze (B-2) */
   outline: 4px solid var(--amber-diep, #C47F10) !important;
   outline-offset: 2px;
   background: var(--amber-licht, #FDF3E0) !important;
