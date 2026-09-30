@@ -40,7 +40,7 @@ async function laad(page, pagina, { taal = 'NL', stand } = {}) {
     status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' },
     body: JSON.stringify({ tekst: 'Testantwoord.', bronnen: [] }),
   }));
-  await page.goto('/' + pagina, { waitUntil: 'networkidle' });
+  await page.goto(pagina, { waitUntil: 'networkidle' });
   await page.waitForFunction(() => window.Solidari && window.Solidari.spraak);
   await page.waitForTimeout(800);
   await page.locator(PAGINAS[pagina]).first().waitFor({ state: 'visible', timeout: 15000 });
