@@ -5,28 +5,60 @@
  * uit components.css waar mogelijk.
  */
 
-/* Voorleesknop — raakvlak minstens 56×56 px (principe 4) */
+/* Voorleesknop — PLAN-5 fase 4 (I-5): raakvlak 40×40 px (WCAG 2.5.8 vraagt 24, 2.5.5 vraagt 44),
+   icoon kleiner. In gewone tekst staat hij achter het blok met negatieve marge, zodat de
+   regelhoogte niet verspringt; in een chatballon staat hij vast rechtsboven (links bij RTL). */
 .sol-a11y-knop {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 56px;
-  min-height: 56px;
+  box-sizing: border-box;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
   padding: 0;
-  margin: 0 0 0 0.4rem;
+  margin: -12px 0 -12px 0.4rem;
   vertical-align: middle;
-  border: 2px solid var(--groen, #2D5A3D);
-  border-radius: 999px;
-  background: var(--groen-licht, #EBF3EE);
+  position: relative;
+  border: 0;
+  background: transparent;
   color: var(--groen, #2D5A3D);
-  font-size: 1.35rem;
+  font-size: 1rem;
   line-height: 1;
   cursor: pointer;
   flex: 0 0 auto;
   transition: background 0.15s, transform 0.1s;
   -webkit-tap-highlight-color: transparent;
 }
-.sol-a11y-knop:hover { background: #dcece1; }
+[dir="rtl"] .sol-a11y-knop { margin: -12px 0.4rem -12px 0; }
+/* De zichtbare cirkel is kleiner (32px) dan het raakvlak (40px). */
+.sol-a11y-knop::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  box-sizing: border-box;
+  border: 2px solid var(--groen, #2D5A3D);
+  border-radius: 999px;
+  background: var(--groen-licht, #EBF3EE);
+  transition: background 0.15s;
+}
+.sol-a11y-knop > span { position: relative; }
+
+/* Chatballon: vaste plek, nooit inline in de tekst. De ballon houdt aan die kant ruimte vrij. */
+body .bel-sol { position: relative; padding-inline-end: 52px; min-height: 48px; }
+[dir="rtl"] body .bel-sol, body[dir="rtl"] .bel-sol, [dir="rtl"] .bel-sol { padding-inline-end: 52px; }
+.bel-sol .sol-a11y-knop,
+[dir="rtl"] .bel-sol .sol-a11y-knop {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  left: auto;
+  margin: 0;
+}
+[dir="rtl"] .bel-sol .sol-a11y-knop { right: auto; left: 4px; }
+
+.sol-a11y-knop:hover::before { background: #dcece1; }
 .sol-a11y-knop:active { transform: scale(0.94); }
 
 /* Duidelijke focusring voor toetsenbord/schermlezer */
@@ -37,9 +69,11 @@
 
 /* Actief-staat: dit blok wordt nu voorgelezen */
 .sol-a11y-knop.sol-a11y-leest {
+  color: #fff;
+}
+.sol-a11y-knop.sol-a11y-leest::before {
   background: var(--amber, #E8A020);
   border-color: var(--amber-diep, #C47F10);
-  color: #fff;
   animation: sol-a11y-puls 1.1s ease-in-out infinite;
 }
 @keyframes sol-a11y-puls {
@@ -220,7 +254,7 @@ body.sol-a11y-luistermodus [data-lees] {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .sol-a11y-knop.sol-a11y-leest { animation: none; }
+  .sol-a11y-knop.sol-a11y-leest::before { animation: none; }
   .sol-a11y-knop { transition: none; }
 }
 
