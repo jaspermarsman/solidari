@@ -373,9 +373,47 @@
       btn.setAttribute('title', label);
     }
 
+    // Vroeger zette de knop alleen stil de tik-om-te-lezen-modus aan: hij werd groen en
+    // verder gebeurde er niets, dus leek hij kapot. Nu zegt hij hardop (en in beeld) wat
+    // hij doet — of meldt eerlijk dat dit toestel geen stem voor deze taal heeft.
+    function t(sleutel, terugval) {
+      try { if (Solidari.i18n && Solidari.i18n.t) { const v = Solidari.i18n.t(sleutel); if (v && v !== sleutel) return v; } } catch (e) {}
+      return terugval;
+    }
+    function melding(tekst) {
+      let m = document.querySelector('.sol-a11y-melding');
+      if (!m) {
+        m = document.createElement('div');
+        m.className = 'sol-a11y-melding';
+        m.setAttribute('role', 'status');
+        m.setAttribute('aria-live', 'polite');
+        m.setAttribute('data-geen-lees', '');
+        document.body.appendChild(m);
+      }
+      m.textContent = tekst;
+      m.classList.add('zichtbaar');
+      clearTimeout(melding._t);
+      melding._t = setTimeout(() => m.classList.remove('zichtbaar'), 5000);
+    }
+
     btn.addEventListener('click', () => {
-      if (spraak.luistermodus.staat()) spraak.luistermodus.uit();
-      else { spraak.ontgrendel(); spraak.luistermodus.aan(); }
+      if (spraak.luistermodus.staat()) {
+        spraak.luistermodus.uit();
+        melding(t('a11y-voorlezen-uit', 'Voorlezen uit'));
+      } else {
+        spraak.ontgrendel();
+        if (spraak.beschikbaar()) {
+          spraak.luistermodus.aan();
+          const uitleg = t('a11y-voorlezen-uitleg', 'Voorlezen staat aan. Tik op een tekst om hem te horen.');
+          melding(uitleg);
+          spraak.zeg(uitleg, {
+            opFout: () => melding(t('a11y-geen-stem-taal', 'Dit toestel heeft geen voorleesstem voor deze taal.')),
+          });
+        } else {
+          // Niet aanzetten: een groene schakelaar waar niets uit komt is een dode knop.
+          melding(t('a11y-geen-stem-taal', 'Dit toestel heeft geen voorleesstem voor deze taal.'));
+        }
+      }
       verversLabel();
     });
     verversLabel();

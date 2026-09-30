@@ -223,3 +223,26 @@ body.sol-a11y-luistermodus [data-lees] {
   .sol-a11y-knop.sol-a11y-leest { animation: none; }
   .sol-a11y-knop { transition: none; }
 }
+
+/* Korte melding bij de voorlezen-schakelaar (wat hij doet, of: geen stem op dit toestel) */
+.sol-a11y-melding {
+  position: fixed;
+  left: 50%;
+  bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px));
+  transform: translate(-50%, 1rem);
+  max-width: min(92vw, 420px);
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  background: var(--groen, #2D5A3D);
+  color: #fff;
+  font-size: 1rem;
+  line-height: 1.4;
+  text-align: center;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.18);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 10001;
+  transition: opacity .2s ease, transform .2s ease;
+}
+.sol-a11y-melding.zichtbaar { opacity: 1; transform: translate(-50%, 0); }
+@media (prefers-reduced-motion: reduce) { .sol-a11y-melding { transition: none; } }

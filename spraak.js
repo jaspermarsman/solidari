@@ -74,6 +74,12 @@
     const l = (document.documentElement.lang || '').slice(0, 2).toUpperCase();
     return STEMKETEN[l] ? l : 'NL';
   }
+  // Mobiel (Android/iOS): andere spraakmotor, andere eigenaardigheden (zie heartbeat en ontgrendel).
+  const MOBIEL = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent || '') ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);   // iPadOS doet zich voor als Mac
+  const ANDROID = /Android/i.test(navigator.userAgent || '');
+  // Android en sommige mobiele browsers melden 'nl_NL' (underscore) of 'NL-nl'; vergelijk genormaliseerd.
+  function langNorm(l) { return String(l || '').replace(/_/g, '-').toLowerCase(); }
   function primaireBcp(taal) { return (STEMKETEN[taal] || ['nl'])[0]; }
   function normaliseer(tekst) {
     return String(tekst == null ? '' : tekst).normalize('NFC').replace(/\s+/g, ' ').trim();
@@ -116,12 +122,12 @@
     const voices = stemmen();
     const keten = STEMKETEN[taal] || [];
     for (const code of keten) {
-      const treffers = voices.filter(v => v.lang && v.lang.toLowerCase() === code.toLowerCase());
+      const treffers = voices.filter(v => v.lang && langNorm(v.lang) === code.toLowerCase());
       if (treffers.length) return treffers.find(v => v.localService) || treffers[0];
     }
     const prim = (keten[0] || '').split('-')[0].toLowerCase();
     if (prim) {
-      const treffers = voices.filter(v => v.lang && v.lang.toLowerCase().split('-')[0] === prim);
+      const treffers = voices.filter(v => v.lang && langNorm(v.lang).split('-')[0] === prim);
       if (treffers.length) return treffers.find(v => v.localService) || treffers[0];
     }
     return null;
@@ -165,8 +171,11 @@
   }
 
   // ── Heartbeat tegen Chrome-afkapbug ────────────────────────────────────
+  // Alleen desktop-Chrome heeft de afkapbug. Op Android is pause() in de praktijk een
+  // cancel(): de heartbeat brak daar elke voorlezing na 10 s af zonder onend.
   function startHeartbeat() {
     stopHeartbeat();
+    if (MOBIEL) return;
     heartbeat = setInterval(() => {
       try { if (window.speechSynthesis && speechSynthesis.speaking) { speechSynthesis.pause(); speechSynthesis.resume(); } } catch (e) {}
     }, 10000);
@@ -237,7 +246,8 @@
       u.onerror = () => { stopHeartbeat(); bezigVlag = false; fout(opties); };
       try { speechSynthesis.speak(u); } catch (e) { u.onerror(); }
     }
-    volgende();
+    // Android-Chrome gooit een speak() die vlak na cancel() komt stilletjes weg.
+    if (ANDROID) setTimeout(volgende, 60); else volgende();
   }
 
   function speelRoute(tekst, taal, opties) {
@@ -286,7 +296,13 @@
   }
 
   function ontgrendel() {
-    try { const u = new SpeechSynthesisUtterance(''); u.volume = 0; speechSynthesis.speak(u); speechSynthesis.cancel(); } catch (e) {}
+    // iOS negeert een lege utterance; een spatie op volume 0 ontgrendelt wel. Niet meteen
+    // cancel() erachteraan: dat breekt op iOS het ontgrendelen en op Android de volgende speak().
+    try {
+      if (window.speechSynthesis && !speechSynthesis.speaking) {
+        const u = new SpeechSynthesisUtterance(' '); u.volume = 0; speechSynthesis.speak(u);
+      }
+    } catch (e) {}
     try {
       const el = audio(); el.muted = true;
       const p = el.play && el.play();
@@ -538,7 +554,7 @@
   window.Solidari.spraak = {
     beschikbaar, zeg, stop, bezig, ontgrendel, stemVoor, splitsZinnen,
     knop, scan, autoMarkeer, verwerk, micKnop, autoMic, manifest, luistermodus, luister, registreerRoute, registreerInvoerRoute,
-    geenSpraak,
+    geenSpraak, mobiel: MOBIEL,
     // testhaken (niet-openbaar bedoeld, wel handig in acceptatietests)
     _kiesLaag, _normaliseer: normaliseer, _hashVan: hashVan, _actieveTaal: actieveTaal,
   };
@@ -586,15 +602,32 @@
     // (voiceschanged), dan zijn blokken zonder audiobestand onterecht als 'leeg'
     // gemarkeerd en verschijnt er geen 🔊-knop. Wis die markering en scan opnieuw
     // zodra de stemmen er zijn, zodat de voorleesknoppen alsnog verschijnen.
+    //
+    // Mobiel: iOS-Safari vuurt voiceschanged vaak nooit, en Android levert de lijst soms pas
+    // na seconden. Zonder terugval bleef getVoices() daar leeg bij de enige scan en kwam er
+    // op de hele site geen enkele knop. Daarom óók pollen tot er stemmen zijn (max ~8 s).
+    function stemmenErBij() {
+      document.querySelectorAll('[data-lees]').forEach(el => {
+        const v = el.dataset.solA11yKlaar;
+        if (v === 'leeg' || v === 'bezig') delete el.dataset.solA11yKlaar;
+      });
+      scan(document);
+    }
     try {
-      if (window.speechSynthesis && typeof speechSynthesis.addEventListener === 'function') {
-        speechSynthesis.addEventListener('voiceschanged', () => {
-          document.querySelectorAll('[data-lees]').forEach(el => {
-            const v = el.dataset.solA11yKlaar;
-            if (v === 'leeg' || v === 'bezig') delete el.dataset.solA11yKlaar;
-          });
-          scan(document);
-        });
+      if (window.speechSynthesis) {
+        if (typeof speechSynthesis.addEventListener === 'function') {
+          speechSynthesis.addEventListener('voiceschanged', stemmenErBij);
+        } else if ('onvoiceschanged' in speechSynthesis) {
+          speechSynthesis.onvoiceschanged = stemmenErBij;
+        }
+        let pogingen = 0;
+        let vorige = stemmen().length;
+        const poll = setInterval(() => {
+          pogingen++;
+          const n = stemmen().length;
+          if (n !== vorige) { vorige = n; stemmenErBij(); }
+          if ((n > 0 && pogingen >= 4) || pogingen >= 32) clearInterval(poll);
+        }, 250);
       }
     } catch (e) {}
 
