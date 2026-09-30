@@ -12,11 +12,8 @@ const { PAGES, metTaal } = require('./helpers');
 
 test.use({ ...devices['Pixel 5'] });
 
-// axe-regels die in deze fase bewust NIET meetellen:
-//  - color-contrast: kleur en contrast horen bij fase 6 (leesbaarheid). Op 10 van de 11 pagina's
-//    (o.a. .disclaimer, .nieuw-btn, de 18jaar-tabs .voor/.op/.na, .sectie-label, .vraag-stap).
-//    Zie LOG-a11y-v5.md, fase 3.
-const AXE_UIT = ['color-contrast'];
+// axe draait met alle regels, ook color-contrast (sinds fase 6).
+const AXE_UIT = [];
 
 // Nagebootste stemmen (zodat de 🔊-knoppen er staan) + browserherkenning (zodat de mic er staat).
 const STUB = () => {
@@ -320,6 +317,7 @@ test('brief: resultaatkaart-kop is een knop, actiepunt-vinkje een checkbox met n
   await vink.focus();
   await page.keyboard.press(' ');
   await expect(vink).toHaveAttribute('aria-checked', 'true');
+  await page.waitForTimeout(1500);   // fase 6: color-contrast meet tijdens de fade-in te licht; wacht tot de animatie klaar is
   expect(await axe(page)).toEqual([]);
 });
 

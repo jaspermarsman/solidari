@@ -9,12 +9,12 @@
   --wit-warm: #F5F2EC;
   --amber: #E8A020;
   --amber-licht: #FDF3E0;
-  --amber-diep: #C47F10;
+  --amber-diep: #946000;
   --groen: #2D5A3D;
   --groen-licht: #EBF3EE;
   --tekst: #1A1A18;
   --tekst-zacht: #5C5C58;
-  --tekst-licht: #6E6E69;   /* fase 6: van #9C9C98 → AA-contrast (4.9:1 op wit) */
+  --tekst-licht: #666661;   /* PLAN-5 fase 6: AA-contrast, ook op --wit-warm en beige vlakken */
   --rand: #E8E5DE;
 }
 
@@ -33,7 +33,7 @@
   gap: 0.5rem;
   background: #B4231F;
   color: #fff;
-  font-size: 0.85rem;
+  font-size: 0.875rem;
   font-weight: 700;
   letter-spacing: 0.02em;
   text-align: center;
@@ -198,7 +198,7 @@ nav#solidari-nav-bar {
 }
 
 .binnenkort-label {
-  font-size: 0.68rem;
+  font-size: 0.875rem;
   font-weight: 600;
   background: var(--wit-warm);
   border: 1px solid var(--rand);
@@ -230,7 +230,7 @@ nav#solidari-nav-bar {
   border: 1px solid var(--rand);
   border-radius: 8px;
   padding: 5px 10px;
-  font-size: 0.82rem;
+  font-size: 0.875rem;
   font-family: 'Source Sans 3', sans-serif;
   font-weight: 500;
   color: var(--tekst-zacht);
@@ -284,7 +284,7 @@ nav#solidari-nav-bar {
   border: none;
   border-radius: 6px;
   padding: 8px 12px;
-  font-size: 0.85rem;
+  font-size: 0.875rem;
   font-family: 'Source Sans 3', sans-serif;
   font-weight: 500;
   color: var(--tekst-zacht);
@@ -380,7 +380,7 @@ nav#solidari-nav-bar {
 .mob-menu-sectie:last-child { border-bottom: none; }
 
 .mob-menu-label {
-  font-size: 0.7rem;
+  font-size: 0.875rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -446,7 +446,7 @@ nav#solidari-nav-bar {
   border: 1px solid var(--rand) !important;
   border-radius: 8px !important;
   padding: 7px 4px !important;
-  font-size: 0.8rem !important;
+  font-size: 0.875rem !important;
 }
 
 .mob-taal-btn.actief {
@@ -489,7 +489,7 @@ footer#solidari-footer-bar {
 .footer-naam span { color: var(--amber); }
 
 .footer-midden {
-  font-size: 0.8rem;
+  font-size: 0.875rem;
   color: var(--tekst-licht);
   text-align: center;
   line-height: 1.7;
@@ -503,7 +503,7 @@ footer#solidari-footer-bar {
 .footer-midden a:hover { color: var(--tekst); }
 
 .footer-cookies {
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   margin-top: 4px;
   display: block;
 }
@@ -514,7 +514,7 @@ footer#solidari-footer-bar {
   color: var(--groen);
   border-radius: 8px;
   padding: 8px 18px;
-  font-size: 0.85rem;
+  font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
   text-decoration: none;

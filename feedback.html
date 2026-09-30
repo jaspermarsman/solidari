@@ -38,7 +38,7 @@
     .veld-groep {
       margin-bottom: 1.5rem;
     }
-    .veld-groep label {
+    .veld-groep label, .veld-groep .veld-label {
       display: block;
       font-weight: 600;
       font-size: 0.95rem;
@@ -48,7 +48,7 @@
     .veld-groep .optioneel {
       font-weight: 400;
       color: var(--tekst-licht);
-      font-size: 0.85rem;
+      font-size: 0.875rem;
       margin-left: 0.3rem;
     }
 
@@ -103,6 +103,27 @@
       justify-content: center;
       gap: 0.4rem;
     }
+    .tool-knop {
+      padding: 0.65rem 0.75rem;
+      border: 1.5px solid var(--rand);
+      border-radius: 8px;
+      background: white;
+      cursor: pointer;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.95rem;
+      color: var(--tekst-zacht);
+      text-align: center;
+      min-height: 44px;
+      transition: all 0.15s;
+    }
+    .tool-knop:last-child { grid-column: 1 / -1; }
+    .tool-knop:hover, .tool-knop[aria-pressed="true"] {
+      border-color: var(--groen);
+      color: var(--groen);
+      background: var(--groen-licht);
+    }
+    .tool-knop[aria-pressed="true"] { font-weight: 600; box-shadow: inset 0 0 0 1px var(--groen); }
+    .tool-knop[aria-pressed="true"]::before { content: "\2713\00a0" / ""; }
     .type-knop:hover {
       border-color: var(--groen);
       color: var(--groen);
@@ -116,7 +137,7 @@
     }
 
     .teller {
-      font-size: 0.8rem;
+      font-size: 0.875rem;
       color: var(--tekst-licht);
       text-align: right;
       margin-top: 0.3rem;
@@ -167,7 +188,7 @@
       padding: 1rem 1.25rem;
       background: var(--wit-warm);
       border-radius: 8px;
-      font-size: 0.85rem;
+      font-size: 0.875rem;
       color: var(--tekst-zacht);
       line-height: 1.6;
     }
@@ -198,17 +219,17 @@
 
       <!-- Welke tool? -->
       <div class="veld-groep">
-        <label for="tool" data-i18n="feedback_welke_tool">Welke tool?</label>
-        <select id="tool" required>
-          <option value="" data-i18n="feedback_kies">— kies een optie —</option>
-          <option value="brief" data-i18n="tool_brief">Brief Begrijper</option>
-          <option value="budgethulp" data-i18n="tool_budget">Budgethulp</option>
-          <option value="loont-werken" data-i18n="tool_loont">Loont Werken?</option>
-          <option value="naturalisatie" data-i18n="tool_nat">Naturalisatie Checker</option>
-          <option value="rechten" data-i18n="tool_rechten">Rechten &amp; Plichten</option>
-          <option value="18jaar" data-i18n="tool_18">18 Jaar Worden</option>
-          <option value="algemeen" data-i18n="feedback_algemeen">Algemeen / de site</option>
-        </select>
+        <div class="veld-label" id="tool-label" data-i18n="feedback_welke_tool">Welke tool?</div>
+        <div class="type-knoppen tool-knoppen" id="tool-knoppen" role="group" aria-labelledby="tool-label">
+          <button type="button" class="tool-knop" data-keuze data-waarde="brief" aria-pressed="false" data-i18n="tool_brief">Brief Begrijper</button>
+          <button type="button" class="tool-knop" data-keuze data-waarde="budgethulp" aria-pressed="false" data-i18n="tool_budget">Budgethulp</button>
+          <button type="button" class="tool-knop" data-keuze data-waarde="loont-werken" aria-pressed="false" data-i18n="tool_loont">Loont Werken?</button>
+          <button type="button" class="tool-knop" data-keuze data-waarde="naturalisatie" aria-pressed="false" data-i18n="tool_nat">Naturalisatie Checker</button>
+          <button type="button" class="tool-knop" data-keuze data-waarde="rechten" aria-pressed="false" data-i18n="tool_rechten">Rechten &amp; Plichten</button>
+          <button type="button" class="tool-knop" data-keuze data-waarde="18jaar" aria-pressed="false" data-i18n="tool_18">18 Jaar Worden</button>
+          <button type="button" class="tool-knop" data-keuze data-waarde="algemeen" aria-pressed="false" data-i18n="feedback_algemeen">Algemeen / de site</button>
+        </div>
+        <input type="hidden" id="tool" name="tool" required>
       </div>
 
       <!-- Type feedback -->
@@ -255,7 +276,7 @@
     <style>
       .vertaal-cta{margin-top:2rem;padding:1.5rem;background:var(--groen-licht,#EBF3EE);border:1px solid var(--rand,#E8E5DE);border-radius:14px;text-align:center;}
       .vertaal-cta h2{font-size:1.15rem;margin:0 0 0.5rem;color:var(--groen,#2D5A3D);}
-      .vertaal-cta p{font-size:0.95rem;line-height:1.55;color:var(--tekst-zacht,#5C5C58);margin:0 0 1rem;}
+      .vertaal-cta p{font-size:1rem;line-height:1.55;color:var(--tekst-zacht,#5C5C58);margin:0 0 1rem;}
       .vertaal-cta-knop{display:inline-block;background:var(--groen,#2D5A3D);color:#fff;text-decoration:none;font-weight:600;padding:11px 20px;border-radius:12px;transition:background 0.18s;}
       .vertaal-cta-knop:hover{background:#234832;}
     </style>
@@ -575,10 +596,21 @@
       if (ta) ta.placeholder = Solidari.i18n.t('feedback_placeholder');
       if (em) em.placeholder = Solidari.i18n.t('feedback_email_placeholder');
       // Update type-knoppen tekst
-      document.querySelectorAll('.type-knop').forEach(k => {
+      document.querySelectorAll('.type-knop, .tool-knop').forEach(k => {
         k.textContent = Solidari.i18n.t(k.dataset.i18n);
       });
     }
+
+    // ── Tool-knoppen (vervangen de keuzelijst; waarde in het verborgen veld #tool) ──
+    function zetTool(waarde) {
+      document.querySelectorAll('.tool-knop').forEach(k => {
+        k.setAttribute('aria-pressed', k.dataset.waarde === waarde ? 'true' : 'false');
+      });
+      document.getElementById('tool').value = waarde;
+    }
+    document.querySelectorAll('.tool-knop').forEach(knop => {
+      knop.addEventListener('click', () => zetTool(knop.dataset.waarde));
+    });
 
     // ── Type-knoppen ────────────────────────────────────────────────────────
     document.querySelectorAll('.type-knop').forEach(knop => {
@@ -643,6 +675,7 @@
           document.getElementById('feedback-form').reset();
           document.querySelectorAll('.type-knop').forEach(k => k.classList.remove('actief'));
           document.getElementById('type').value = '';
+          zetTool('');
           teller.textContent = '0 / 2000';
         } else {
           throw new Error(data.error || 'Onbekende fout');
@@ -661,8 +694,11 @@
 
     // ── Init ────────────────────────────────────────────────────────────────
     document.addEventListener('DOMContentLoaded', () => {
-      Solidari.i18n.passToe('nl');
-      setTaal('nl');
+      // Opgeslagen taal gebruiken (eerder sprong de pagina altijd terug naar NL)
+      let taal = 'NL';
+      try { taal = localStorage.getItem('solidari-taal') || 'NL'; } catch (e) {}
+      Solidari.i18n.passToe(taal);
+      setTaal(taal);
     });
 
     // Maak setTaal globaal zodat components.js taalknopen werken

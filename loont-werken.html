@@ -11,10 +11,10 @@
   <style>
     :root {
       --wit:#FAFAF7;--wit-warm:#F5F2EC;
-      --amber:#E8A020;--amber-licht:#FDF3E0;--amber-diep:#C47F10;
+      --amber:#E8A020;--amber-licht:#FDF3E0;--amber-diep:#946000;
       --groen:#2D5A3D;--groen-licht:#EBF3EE;
-      --tekst:#1A1A18;--tekst-zacht:#5C5C58;--tekst-licht:#9C9C98;
-      --rand:#E8E5DE;--rood:#DC2626;--rood-licht:#FEF2F2;
+      --tekst:#1A1A18;--tekst-zacht:#5C5C58;--tekst-licht:#666661;
+      --rand:#E8E5DE;--rood:#C81E1E;--rood-licht:#FEF2F2;
       --blauw:#2563EB;--blauw-licht:#EFF6FF;
       --chat-bg:#EFECE6;
     }
@@ -22,7 +22,7 @@
     html,body{height:100%;}
     body{background:var(--chat-bg);color:var(--tekst);font-family:'Source Sans 3',sans-serif;font-weight:400;display:flex;flex-direction:column;}
 
-    .taal-btn{background:none;border:1px solid var(--rand);border-radius:4px;padding:3px 8px;font-size:0.75rem;cursor:pointer;color:var(--tekst-zacht);font-family:'Source Sans 3',sans-serif;transition:all 0.2s;}
+    .taal-btn{background:none;border:1px solid var(--rand);border-radius:4px;padding:3px 8px;font-size:0.875rem;cursor:pointer;color:var(--tekst-zacht);font-family:'Source Sans 3',sans-serif;transition:all 0.2s;}
     .taal-btn:hover,.taal-btn.actief{background:var(--amber);border-color:var(--amber);color:white;}
 
     /* VOORTGANG */
@@ -38,10 +38,10 @@
     /* BERICHTEN */
     .bericht-sol{display:flex;align-items:flex-end;gap:8px;max-width:88%;align-self:flex-start;animation:inSchuiven 0.25s ease both;}
     .sol-avatar{width:32px;height:32px;background:var(--groen);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px;}
-    .bel-sol{background:white;border-radius:18px 18px 18px 4px;padding:10px 14px;font-size:0.92rem;line-height:1.55;color:var(--tekst);box-shadow:0 1px 2px rgba(0,0,0,0.06);}
-    .bel-sol.reactie{background:var(--groen-licht);border:1px solid rgba(45,90,61,0.12);font-size:0.85rem;color:var(--tekst-zacht);}
-    .bel-sol.info{background:var(--blauw-licht);border:1px solid rgba(37,99,235,0.15);font-size:0.82rem;color:var(--blauw);}
-    .bel-sol.waarschuwing{background:var(--rood-licht);border:1px solid rgba(220,38,38,0.15);font-size:0.82rem;color:var(--rood);}
+    .bel-sol{background:white;border-radius:18px 18px 18px 4px;padding:10px 14px;font-size:1rem;line-height:1.55;color:var(--tekst);box-shadow:0 1px 2px rgba(0,0,0,0.06);}
+    .bel-sol.reactie{background:var(--groen-licht);border:1px solid rgba(45,90,61,0.12);font-size:0.875rem;color:var(--tekst-zacht);}
+    .bel-sol.info{background:var(--blauw-licht);border:1px solid rgba(37,99,235,0.15);font-size:0.875rem;color:var(--blauw);}
+    .bel-sol.waarschuwing{background:var(--rood-licht);border:1px solid rgba(220,38,38,0.15);font-size:0.875rem;color:var(--rood);}
     .bericht-user{align-self:flex-end;max-width:78%;animation:inSchuiven 0.2s ease both;}
     .bel-user{background:var(--groen);border-radius:18px 18px 4px 18px;padding:10px 14px;font-size:0.92rem;color:white;line-height:1.5;box-shadow:0 1px 2px rgba(0,0,0,0.1);}
 
@@ -71,9 +71,9 @@
     @media(max-width:480px){.bedrag-input{font-size:1rem;padding:14px 10px;}}
     .stuur-btn{padding:0 20px;background:var(--groen);border:none;border-radius:14px;cursor:pointer;color:white;font-size:1.2rem;transition:all 0.18s;display:flex;align-items:center;min-height:54px;min-width:54px;justify-content:center;}
     .stuur-btn:hover{background:#234830;}
-    .overslaan-link{text-align:center;font-size:0.78rem;color:var(--tekst-licht);margin-top:6px;cursor:pointer;background:none;border:none;font-family:'Source Sans 3',sans-serif;width:100%;display:block;padding:6px 0;transition:color 0.2s;}
+    .overslaan-link{text-align:center;font-size:0.875rem;color:var(--tekst-licht);margin-top:6px;cursor:pointer;background:none;border:none;font-family:'Source Sans 3',sans-serif;width:100%;display:block;padding:6px 0;transition:color 0.2s;}
     .overslaan-link:hover{color:var(--tekst-zacht);}
-    .invoer-hint{font-size:0.75rem;color:var(--tekst-licht);margin-top:5px;line-height:1.4;}
+    .invoer-hint{font-size:0.875rem;color:var(--tekst-licht);margin-top:5px;line-height:1.4;}
 
     /* RESULTAATKAART */
     .res-kaart{background:white;border-radius:18px 18px 18px 4px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.08);width:100%;}
@@ -81,15 +81,15 @@
     /* Financieel blok */
     .res-fin-header{background:var(--groen);padding:1rem 1.2rem;color:white;}
     .res-fin-titel{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;margin-bottom:2px;}
-    .res-fin-sub{font-size:0.75rem;opacity:0.75;}
+    .res-fin-sub{font-size:0.875rem;opacity:0.75;}
     .res-vergelijk{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--rand);}
     .res-kol{padding:0.9rem 1rem;text-align:center;}
     .res-kol+.res-kol{border-left:1px solid var(--rand);}
-    .res-kol-lbl{font-size:0.68rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--tekst-licht);margin-bottom:4px;}
+    .res-kol-lbl{font-size:0.875rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--tekst-licht);margin-bottom:4px;}
     .res-kol.nieuw .res-kol-lbl{color:var(--groen);}
     .res-kol-getal{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700;line-height:1;color:var(--tekst);}
     .res-kol.nieuw .res-kol-getal{color:var(--groen);}
-    .res-kol-sub{font-size:0.72rem;color:var(--tekst-licht);margin-top:3px;}
+    .res-kol-sub{font-size:0.875rem;color:var(--tekst-licht);margin-top:3px;}
     .res-verschil-rij{display:flex;align-items:center;justify-content:center;gap:8px;padding:0.7rem 1.2rem;border-bottom:1px solid var(--rand);font-size:0.88rem;font-weight:600;}
     .res-verschil-rij.pos{color:var(--groen);}
     .res-verschil-rij.neg{color:var(--rood);}
@@ -97,21 +97,21 @@
 
     /* Uitsplitsing */
     .res-uitsp{padding:0.4rem 1.2rem 0.8rem;}
-    .uitsp-hdr{display:flex;justify-content:space-between;font-size:0.65rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--tekst-licht);padding:6px 0 4px;border-bottom:1px solid var(--rand);}
+    .uitsp-hdr{display:flex;justify-content:space-between;font-size:0.875rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--tekst-licht);padding:6px 0 4px;border-bottom:1px solid var(--rand);}
     .uitsp-hdr-bed{display:flex;gap:14px;}
-    .uitsp-rij{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--rand);font-size:0.82rem;}
+    .uitsp-rij{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--rand);font-size:0.875rem;}
     .uitsp-rij:last-child{border-bottom:none;}
     .uitsp-naam{color:var(--tekst-zacht);display:flex;align-items:center;gap:6px;flex:1;}
     .uitsp-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
     .uitsp-bed{display:flex;gap:14px;flex-shrink:0;}
-    .uitsp-oud{color:var(--tekst-licht);font-size:0.78rem;width:64px;text-align:right;}
+    .uitsp-oud{color:var(--tekst-licht);font-size:0.875rem;width:64px;text-align:right;}
     .uitsp-nw{font-weight:600;width:64px;text-align:right;}
     .uitsp-rij.totaal .uitsp-naam{font-weight:700;color:var(--tekst);}
     .uitsp-rij.totaal .uitsp-nw{color:var(--groen);}
 
     /* Scenario-knoppen */
     .res-scenario{padding:0.6rem 1.2rem;border-top:1px solid var(--rand);display:flex;gap:8px;flex-wrap:wrap;}
-    .scenario-btn{flex:1;min-width:120px;padding:8px 12px;background:var(--wit-warm);border:1.5px solid var(--rand);border-radius:10px;font-size:0.8rem;font-weight:600;cursor:pointer;color:var(--tekst-zacht);font-family:'Source Sans 3',sans-serif;transition:all 0.18s;text-align:center;min-height:44px;}
+    .scenario-btn{flex:1;min-width:120px;padding:8px 12px;background:var(--wit-warm);border:1.5px solid var(--rand);border-radius:10px;font-size:0.875rem;font-weight:600;cursor:pointer;color:var(--tekst-zacht);font-family:'Source Sans 3',sans-serif;transition:all 0.18s;text-align:center;min-height:44px;}
     .scenario-btn:hover{border-color:var(--groen);color:var(--groen);background:var(--groen-licht);}
 
     /* De vier blokken */
@@ -119,16 +119,16 @@
     .res-blok-header{padding:0.8rem 1.2rem;display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none;}
     .res-blok-icoon{font-size:1.2rem;flex-shrink:0;width:28px;text-align:center;}
     .res-blok-titel{font-family:'Playfair Display',serif;font-size:0.95rem;font-weight:600;flex:1;}
-    .res-blok-chevron{font-size:0.75rem;color:var(--tekst-licht);transition:transform 0.2s;}
-    .res-blok-body{padding:0 1.2rem 1rem;font-size:0.84rem;color:var(--tekst-zacht);line-height:1.65;display:none;}
+    .res-blok-chevron{font-size:0.875rem;color:var(--tekst-licht);transition:transform 0.2s;}
+    .res-blok-body{padding:0 1.2rem 1rem;font-size:0.875rem;color:var(--tekst-zacht);line-height:1.65;display:none;}
     .res-blok-body.open{display:block;}
     .res-blok-body ul{margin:0.4rem 0 0 1rem;}
     .res-blok-body li{margin-bottom:4px;}
     .res-blok-body strong{color:var(--tekst);}
 
     /* Disclaimer + opnieuw */
-    .res-disc{padding:0.6rem 1.2rem;font-size:0.7rem;color:var(--tekst-licht);line-height:1.5;border-top:1px solid var(--rand);}
-    .res-opnieuw{width:calc(100% - 2.4rem);margin:0.6rem 1.2rem 0.8rem;padding:10px;background:none;border:1px solid var(--rand);border-radius:10px;font-size:0.82rem;cursor:pointer;font-family:'Source Sans 3',sans-serif;color:var(--tekst-licht);transition:all 0.2s;display:block;}
+    .res-disc{padding:0.6rem 1.2rem;font-size:0.875rem;color:var(--tekst-licht);line-height:1.5;border-top:1px solid var(--rand);}
+    .res-opnieuw{width:calc(100% - 2.4rem);margin:0.6rem 1.2rem 0.8rem;padding:10px;background:none;border:1px solid var(--rand);border-radius:10px;font-size:0.875rem;cursor:pointer;font-family:'Source Sans 3',sans-serif;color:var(--tekst-licht);transition:all 0.2s;display:block;}
     .res-opnieuw:hover{color:var(--tekst-zacht);border-color:var(--tekst-licht);}
 
     @media(max-width:480px){
@@ -1437,7 +1437,7 @@ function toonResultaat(extra=0) {
     const nwKleur = nw>oud ? 'color:var(--groen)' : nw<oud ? 'color:var(--rood)' : '';
     return `<div class="uitsp-rij">
       <div class="uitsp-naam"><div class="uitsp-dot" style="background:${kleur};border:1px solid var(--rand)"></div>
-      ${naam}${noot?`<span style="font-size:.68rem;color:var(--tekst-licht);margin-left:4px">(${noot})</span>`:''}</div>
+      ${naam}${noot?`<span style="font-size:0.875rem;color:var(--tekst-licht);margin-left:4px">(${noot})</span>`:''}</div>
       <div class="uitsp-bed">
         <div class="uitsp-oud">${oud>0?fmt(oud):'—'}</div>
         <div class="uitsp-nw" style="${nwKleur}">${nw>0?fmt(nw):'—'}</div>
@@ -1446,7 +1446,7 @@ function toonResultaat(extra=0) {
   function rijVast(kleur, naam, bed) {
     return `<div class="uitsp-rij">
       <div class="uitsp-naam"><div class="uitsp-dot" style="background:${kleur};border:1px solid var(--rand)"></div>
-      ${naam}<span style="font-size:.68rem;color:var(--tekst-licht);margin-left:4px">(${s('ongewijzigd')})</span></div>
+      ${naam}<span style="font-size:0.875rem;color:var(--tekst-licht);margin-left:4px">(${s('ongewijzigd')})</span></div>
       <div class="uitsp-bed"><div class="uitsp-oud">${bed>0?fmt(bed):'—'}</div><div class="uitsp-nw">${bed>0?fmt(bed):'—'}</div></div>
     </div>`;
   }
@@ -1510,7 +1510,7 @@ function toonResultaat(extra=0) {
       </div>
     </div>
     <div class="res-verschil-rij ${vKls}">${vTxt}</div>
-    <div style="text-align:center;padding:6px 1.2rem 10px;font-size:0.75rem;color:var(--tekst-licht);border-bottom:1px solid var(--rand);">
+    <div style="text-align:center;padding:6px 1.2rem 10px;font-size:0.875rem;color:var(--tekst-licht);border-bottom:1px solid var(--rand);">
       Waarschijnlijk tussen <strong style="color:var(--tekst-zacht)">${fmt(bandLaag)}</strong> en <strong style="color:var(--tekst-zacht)">${fmt(bandHoog)}</strong> per maand — afhankelijk van uw exacte situatie
     </div>
     <div class="res-uitsp">

@@ -11,10 +11,10 @@
   <style>
     :root {
       --wit:#FAFAF7;--wit-warm:#F5F2EC;
-      --amber:#E8A020;--amber-licht:#FDF3E0;--amber-diep:#C47F10;
+      --amber:#E8A020;--amber-licht:#FDF3E0;--amber-diep:#946000;
       --groen:#2D5A3D;--groen-licht:#EBF3EE;
-      --tekst:#1A1A18;--tekst-zacht:#5C5C58;--tekst-licht:#9C9C98;
-      --rand:#E8E5DE;--rood:#DC2626;--rood-licht:#FEF2F2;
+      --tekst:#1A1A18;--tekst-zacht:#5C5C58;--tekst-licht:#666661;
+      --rand:#E8E5DE;--rood:#C81E1E;--rood-licht:#FEF2F2;
       --chat-bg:#EFECE6;
     }
     *{margin:0;padding:0;box-sizing:border-box;}
@@ -32,10 +32,10 @@
     /* ── Berichten ── */
     .bericht-sol{display:flex;align-items:flex-end;gap:8px;max-width:88%;align-self:flex-start;animation:inSchuiven 0.25s ease both;}
     .sol-avatar{width:32px;height:32px;background:var(--groen);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px;}
-    .bel-sol{background:white;border-radius:18px 18px 18px 4px;padding:10px 14px;font-size:0.92rem;line-height:1.6;color:var(--tekst);box-shadow:0 1px 2px rgba(0,0,0,0.06);white-space:pre-wrap;}
-    .bel-sol.disclaimer{background:var(--amber-licht);border:1px solid rgba(232,160,32,0.3);font-size:0.82rem;color:var(--amber-diep);}
-    .bel-sol.waarschuwing{background:var(--rood-licht);border:1px solid rgba(220,38,38,0.15);font-size:0.82rem;color:var(--rood);}
-    .bel-sol.doorverwijzing{background:var(--groen-licht);border:1px solid rgba(45,90,61,0.15);font-size:0.85rem;color:var(--tekst-zacht);}
+    .bel-sol{background:white;border-radius:18px 18px 18px 4px;padding:10px 14px;font-size:1rem;line-height:1.6;color:var(--tekst);box-shadow:0 1px 2px rgba(0,0,0,0.06);white-space:pre-wrap;}
+    .bel-sol.disclaimer{background:var(--amber-licht);border:1px solid rgba(232,160,32,0.3);font-size:0.875rem;color:var(--amber-diep);}
+    .bel-sol.waarschuwing{background:var(--rood-licht);border:1px solid rgba(220,38,38,0.15);font-size:0.875rem;color:var(--rood);}
+    .bel-sol.doorverwijzing{background:var(--groen-licht);border:1px solid rgba(45,90,61,0.15);font-size:0.875rem;color:var(--tekst-zacht);}
 
     .bericht-user{align-self:flex-end;max-width:78%;animation:inSchuiven 0.2s ease both;}
     .bel-user{background:var(--groen);border-radius:18px 18px 4px 18px;padding:10px 14px;font-size:0.92rem;color:white;line-height:1.5;box-shadow:0 1px 2px rgba(0,0,0,0.1);}
@@ -68,11 +68,11 @@
     .stuur-btn:disabled{background:var(--tekst-licht);cursor:default;}
 
     /* ── Nieuw gesprek knop ── */
-    .nieuw-btn{display:block;width:100%;background:none;border:none;font-family:'Source Sans 3',sans-serif;font-size:0.78rem;color:var(--tekst-licht);cursor:pointer;padding:4px;text-align:center;transition:color 0.2s;}
+    .nieuw-btn{display:block;width:100%;background:none;border:none;font-family:'Source Sans 3',sans-serif;font-size:0.875rem;color:var(--tekst-licht);cursor:pointer;padding:4px;text-align:center;transition:color 0.2s;}
     .nieuw-btn:hover{color:var(--tekst-zacht);}
 
     /* ── Bronvermelding ── */
-    .bronnen{margin-top:6px;padding:8px 12px;background:var(--groen-licht);border:1px solid rgba(45,90,61,0.15);border-radius:10px;font-size:0.78rem;color:var(--tekst-zacht);align-self:flex-start;max-width:88%;animation:inSchuiven 0.25s ease both;}
+    .bronnen{margin-top:6px;padding:8px 12px;background:var(--groen-licht);border:1px solid rgba(45,90,61,0.15);border-radius:10px;font-size:0.875rem;color:var(--tekst-zacht);align-self:flex-start;max-width:88%;animation:inSchuiven 0.25s ease both;}
     .bronnen-label{font-weight:600;color:var(--groen);margin-bottom:4px;}
     .bronnen a{color:var(--groen);text-decoration:none;display:block;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
     .bronnen a:hover{text-decoration:underline;}
@@ -125,7 +125,7 @@ function voegAILabel(ouder){
   const l = document.createElement('div');
   l.className = 'ai-label';
   l.setAttribute('data-i18n', 'ai-gegenereerd');
-  l.style.cssText = 'margin:0.35rem 0 0.6rem 3rem;font-size:0.72rem;letter-spacing:0.02em;text-transform:uppercase;color:var(--tekst-zacht,#6b6559);';
+  l.style.cssText = 'margin:0.35rem 0 0.6rem 3rem;font-size:0.875rem;letter-spacing:0.02em;text-transform:uppercase;color:var(--tekst-zacht,#6b6559);';
   l.textContent = aiLabelTekst();
   ouder.appendChild(l);
 }
