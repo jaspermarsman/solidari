@@ -6,7 +6,7 @@ d.TI = {
     voor: {
       intro: {
         icoon: '⏰',
-        tekst: '<strong>ነዚ ቅድሚ መበል 18 ዓመት ልደት ኣዐርዮ።</strong> ገለ toeslagen ውላድካ 18 ዓመት ኣብ ዝመልኣሉ መዓልቲ ብኣውቶማቲክ ይቋረጹ። ዋላ ሓደ እንተ ዘይገቢርካ፡ ገንዘብ ክሓልፈካ ወይ ብኣንጻሩ ብዙሕ ገንዘብ ክውሃበካ ይኽእል እዩ። ነዚ ብግዜ መደቦ።'
+        tekst: '<strong>ነዚ ቅድሚ መበል 18 ዓመት ልደት ኣዐርይዎ።</strong> ገለ toeslagen ውላድኩም 18 ዓመት ኣብ ዝመልኣሉ መዓልቲ ብኣውቶማቲክ ይቋረጹ። ዋላ ሓደ እንተ ዘይገቢርኩም፡ ገንዘብ ክሓልፈኩም ወይ ብኣንጻሩ ብዙሕ ገንዘብ ክውሃበኩም ይኽእል እዩ። ነዚ ብግዜ መደብዎ።'
       },
       categorieen: [
         {
@@ -20,12 +20,12 @@ d.TI = {
             {
               icoon: '✗',
               kleur: '#FEF2F2',
-              tekst: '<strong>Kinderbijslag ብኣውቶማቲክ ይቋረጽ</strong> ኣብታ ውላድካ 18 ዓመት ዝመልኣላ ናይ መወዳእታ መዓልቲ ርብዒ ዓመት። ነዚ ባዕልኻ ክትሕብር ኣየድልየካን እዩ — SVB ብኣውቶማቲክ የዐርዮ እዩ።<span class="stopt-chip">ይቋረጽ</span>'
+              tekst: '<strong>Kinderbijslag ብኣውቶማቲክ ይቋረጽ</strong> ኣብታ ውላድኩም 18 ዓመት ዝመልኣላ ናይ መወዳእታ መዓልቲ ርብዒ ዓመት። ነዚ ባዕልኹም ክትሕብሩ ኣየድልየኩምን እዩ — SVB ብኣውቶማቲክ የዐርዮ እዩ።<span class="stopt-chip">ይቋረጽ</span>'
             },
             {
               icoon: 'ℹ',
               kleur: '#EFF6FF',
-              tekst: 'kinderbijslag ምስ ዝቋረጽ SVB ደብዳበ ይሰደልካ እዩ። ኣብ SVB ዘሎ ኣድራሻኻ ትኽክል ምዃኑ ኣረጋግጽ።'
+              tekst: 'kinderbijslag ምስ ዝቋረጽ SVB ደብዳበ ይሰደልኩም እዩ። ኣብ SVB ዘሎ ኣድራሻኹም ትኽክል ምዃኑ ኣረጋግጹ።'
             }
           ],
           extern: null
@@ -41,12 +41,12 @@ d.TI = {
             {
               icoon: '✗',
               kleur: '#FEF2F2',
-              tekst: '<strong>Kindgebonden budget ውላድካ 18 ዓመት ኣብ ዝመልኣሉ መዓልቲ ይቋረጽ።</strong> Kindgebonden budget ኣብ ወርሒ ክሳብ ኣማኢት ዩሮ ክበጽሕ ይኽእል እዩ።<span class="stopt-chip">ይቋረጽ</span>'
+              tekst: '<strong>Kindgebonden budget ውላድኩም 18 ዓመት ኣብ ዝመልኣሉ መዓልቲ ይቋረጽ።</strong> Kindgebonden budget ኣብ ወርሒ ክሳብ ኣማኢት ዩሮ ክበጽሕ ይኽእል እዩ።<span class="stopt-chip">ይቋረጽ</span>'
             },
             {
               icoon: '!',
               kleur: '#FDF3E0',
-              tekst: '<strong>ነዚ ብMijn Toeslagen ኣቢልካ ንBelastingdienst ኣፍልጥ</strong>። እንተዘይኮይኑ ብዙሕ toeslag ትቕበል እሞ ጸኒሕካ ክትመልሶ የድልየካ።<span class="let-chip">ተጠንቀቕ</span>'
+              tekst: '<strong>ነዚ ብMijn Toeslagen ኣቢልኩም ንBelastingdienst ኣፍልጡ</strong>። እንተዘይኮይኑ ብዙሕ toeslag ትቕበሉ እሞ ጸኒሕኩም ክትመልስዎ የድልየኩም።<span class="let-chip">ተጠንቀቑ</span>'
             },
             {
               icoon: 'ℹ',
@@ -56,7 +56,7 @@ d.TI = {
           ],
           infoBox: {
             type: 'amber',
-            tekst: '⚠️ ገንዘብ መሊስካ ንኸይትኸፍል፡ ነቲ ለውጢ ብዝተኻእለ መጠን ቀልጢፍካ ብ<strong>Mijn Toeslagen</strong> ኣብ belastingdienst.nl ኣፍልጥ።'
+            tekst: '⚠️ ገንዘብ መሊስኩም ንኸይትኸፍሉ፡ ነቲ ለውጢ ብዝተኻእለ መጠን ቀልጢፍኩም ብ<strong>Mijn Toeslagen</strong> ኣብ belastingdienst.nl ኣፍልጡ።'
           },
           extern: {
             url: 'https://www.belastingdienst.nl/wps/wcm/connect/nl/toeslagen/content/hoe-geef-ik-wijzigingen-door',
@@ -66,25 +66,25 @@ d.TI = {
         {
           icoon: '📋',
           kleur: '#EFF6FF',
-          naam: 'ንውላድካ DigiD',
-          samenvatting: 'ነዚ ቅድሚ መበል 18 ዓመት ኣቐዲምካ ሕተት',
+          naam: 'ንውላድኩም DigiD',
+          samenvatting: 'ነዚ ቅድሚ መበል 18 ዓመት ኣቐዲምኩም ሕተቱ',
           badge: 'ስጉምቲ',
           badgeKleur: 'nieuw',
           punten: [
             {
               icoon: '✓',
               kleur: '#EBF3EE',
-              tekst: '<strong>ውላድካ ካብ 18 ዓመት ጀሚሩ ናይ ገዛእ ርእሱ DigiD የድልዮ</strong>፡ ንzorgtoeslag፡ ግብሪ ንምምልካት ከምኡ’ውን ንኹሉ ምስ መንግስቲ ዝተኣሳሰር ጉዳያት።<span class="nieuw-chip">ስጉምቲ</span>'
+              tekst: '<strong>ውላድኩም ካብ 18 ዓመት ጀሚሩ ናይ ገዛእ ርእሱ DigiD የድልዮ</strong>፡ ንzorgtoeslag፡ ግብሪ ንምምልካት ከምኡ’ውን ንኹሉ ምስ መንግስቲ ዝተኣሳሰር ጉዳያት።<span class="nieuw-chip">ስጉምቲ</span>'
             },
             {
               icoon: 'ℹ',
               kleur: '#EFF6FF',
-              tekst: 'DigiD ምሕታት 5 ናይ ስራሕ መዓልታት ይወስድ። ብdigid.nl ኣቢልካ ሕተት። እዚ ብውልቂ ዝስራሕ ስለ ዝኾነ፡ ውላድካ ባዕሉ ክገብሮ ኣለዎ።'
+              tekst: 'DigiD ምሕታት 5 ናይ ስራሕ መዓልታት ይወስድ። ብdigid.nl ኣቢልኩም ሕተቱ። እዚ ብውልቂ ዝስራሕ ስለ ዝኾነ፡ ውላድኩም ባዕሉ ክገብሮ ኣለዎ።'
             },
             {
               icoon: '!',
               kleur: '#FDF3E0',
-              tekst: 'ውላድካ ንDigiD-verificatie ዝኸውን ናይ ገዛእ ርእሱ ኢመይልን ቍጽሪ ተሌፎንን ከም ዘለዎ ኣረጋግጽ።'
+              tekst: 'ውላድኩም ንDigiD-verificatie ዝኸውን ናይ ገዛእ ርእሱ ኢመይልን ቍጽሪ ተሌፎንን ከም ዘለዎ ኣረጋግጹ።'
             }
           ],
           extern: {
@@ -128,19 +128,19 @@ d.TI = {
       ],
       checklist: [
         {
-          tekst: 'ንውላድካ DigiD ተሓቲቱ',
+          tekst: 'ንውላድኩም DigiD ተሓቲቱ',
           sub: '5 ናይ ስራሕ መዓልቲ ይወስድ — ቕልጡፍ ኩኑ'
         },
         {
-          tekst: 'ንውላድካ ናይ ጥዕና መድሕን ተዳልዩ',
+          tekst: 'ንውላድኩም ናይ ጥዕና መድሕን ተዳልዩ',
           sub: 'ቅድሚ ወይ ኣብ 18ይ ዕለተ-ልደት'
         },
         {
-          tekst: 'zorgtoeslag ተሓቲቱ (ብናይቲ ቆልዓ DigiD ኣቢልካ)',
+          tekst: 'zorgtoeslag ተሓቲቱ (ብናይቲ ቆልዓ DigiD ኣቢልኩም)',
           sub: 'ቅድሚ 18 ምልክታ ምቕራብ ይከኣል'
         },
         {
-          tekst: 'ናይ ባንክ ሕሳብ ብስም ውላድካ',
+          tekst: 'ናይ ባንክ ሕሳብ ብስም ውላድኩም',
           sub: 'toeslag ኣብ ናይ ባዕሉ ሕሳብ ይኽፈል'
         },
         {
@@ -152,31 +152,31 @@ d.TI = {
     op: {
       intro: {
         icoon: '🎂',
-        tekst: '<strong>ኣብታ መዓልቲ ባዕላ ገለ ነገራት ይቕየሩ እዮም።</strong> ውላድካ ሕጂ ብወግዒ በጽሒ ኮይኑ ኣሎ፣ ናይ ባዕሉ መሰላትን ግዴታታትን ድማ ኣለዎ። ገለ ነገራት ብባዕሎም ይቋረጹ፣ ካልኦት ነገራት ድማ ባዕልኻ ከተዳልዎም ኣለካ።'
+        tekst: '<strong>ኣብታ መዓልቲ ባዕላ ገለ ነገራት ይቕየሩ እዮም።</strong> ውላድኩም ሕጂ ብወግዒ በጽሒ ኮይኑ ኣሎ፣ ናይ ባዕሉ መሰላትን ግዴታታትን ድማ ኣለዎ። ገለ ነገራት ብባዕሎም ይቋረጹ፣ ካልኦት ነገራት ድማ ባዕልኹም ከተዳልውዎም ኣለኩም።'
       },
       categorieen: [
         {
           icoon: '⚖️',
           kleur: '#F5F3FF',
           naam: 'ዕብየትን መሰላትን',
-          samenvatting: 'ውላድካ ሕጂ ብሕጊ በጽሒ እዩ',
+          samenvatting: 'ውላድኩም ሕጂ ብሕጊ በጽሒ እዩ',
           badge: 'ሎሚ',
           badgeKleur: 'nieuw',
           punten: [
             {
               icoon: '✓',
               kleur: '#EBF3EE',
-              tekst: '<strong>ካብ ሎሚ ጀሚሩ ውላድካ ምሉእ ሕጋዊ ሓላፍነት ኣለዎ።</strong> ንሱ ባዕሉ ውዕላት ክኣስር፣ ድምጺ ክህብ ይኽእል፣ ባዕሉ ድማ ተሓታቲ እዩ።'
+              tekst: '<strong>ካብ ሎሚ ጀሚሩ ውላድኩም ምሉእ ሕጋዊ ሓላፍነት ኣለዎ።</strong> ንሱ ባዕሉ ውዕላት ክኣስር፣ ድምጺ ክህብ ይኽእል፣ ባዕሉ ድማ ተሓታቲ እዩ።'
             },
             {
               icoon: '!',
               kleur: '#FDF3E0',
-              tekst: 'ውላድካ ባዕሉ ናብ ሓኪም፣ ሓኪም ስኒ ወይ ፍሉይ ሓኪም ክኸይድ ይኽእል እዩ፣ ንሕክምናዊ ፍወሳታት ድማ ባዕሉ ፍቓድ ይህብ።'
+              tekst: 'ውላድኩም ባዕሉ ናብ ሓኪም፣ ሓኪም ስኒ ወይ ፍሉይ ሓኪም ክኸይድ ይኽእል እዩ፣ ንሕክምናዊ ፍወሳታት ድማ ባዕሉ ፍቓድ ይህብ።'
             },
             {
               icoon: '✓',
               kleur: '#EBF3EE',
-              tekst: 'ውላድካ ሕጂ ባዕሉ <strong>መንጃ ፍቓድ</strong> ክሓትት፣ ኣልኮል ክገዝእ፣ ከምኡ’ውን ብስሙ ናይ ክራይ ውዕል ክኣስር ይኽእል እዩ።'
+              tekst: 'ውላድኩም ሕጂ ባዕሉ <strong>መንጃ ፍቓድ</strong> ክሓትት፣ ኣልኮል ክገዝእ፣ ከምኡ’ውን ብስሙ ናይ ክራይ ውዕል ክኣስር ይኽእል እዩ።'
             }
           ],
           extern: null
@@ -202,12 +202,12 @@ d.TI = {
             {
               icoon: '✓',
               kleur: '#EBF3EE',
-              tekst: '<strong>zorgtoeslag</strong> ይጅምር — ውላድካ ኣቐዲሙ እንተ ሓቲትዎ። ገና ኣይገበርካዮን? ሎሚ ግበሮ።<span class="nieuw-chip">ይጅምር</span>'
+              tekst: '<strong>zorgtoeslag</strong> ይጅምር — ውላድኩም ኣቐዲሙ እንተ ሓቲትዎ። ገና ኣይገበርኩምዎን? ሎሚ ግበርዎ።<span class="nieuw-chip">ይጅምር</span>'
             },
             {
               icoon: '✓',
               kleur: '#EBF3EE',
-              tekst: 'ውላድካ ንበይኑ ዝነብር እንተኾይኑ፣ <strong>huurtoeslag</strong> ብስሙ ክሓትት ይኽእል እዩ።<span class="nieuw-chip">ይጅምር</span>'
+              tekst: 'ውላድኩም ንበይኑ ዝነብር እንተኾይኑ፣ <strong>huurtoeslag</strong> ብስሙ ክሓትት ይኽእል እዩ።<span class="nieuw-chip">ይጅምር</span>'
             }
           ],
           extern: null
@@ -223,22 +223,22 @@ d.TI = {
             {
               icoon: '!',
               kleur: '#FDF3E0',
-              tekst: '<strong>ውላድካ ድሕሪ 1 januari 2022 ናብ ኔዘርላንድስ እንተ መጺኡ</strong> ከምኡ’ውን ገና inburgering እንተዘይወዲኡ፣ ናይ inburgering ግዴታ ሕጂ ንዕኡ እውን ይምልከት እዩ።<span class="let-chip">ኣስተውዕል</span>'
+              tekst: '<strong>ውላድኩም ድሕሪ 1 januari 2022 ናብ ኔዘርላንድስ እንተ መጺኡ</strong> ከምኡ’ውን ገና inburgering እንተዘይወዲኡ፣ ናይ inburgering ግዴታ ሕጂ ንዕኡ እውን ይምልከት እዩ።<span class="let-chip">ኣስተውዕሉ</span>'
             },
             {
               icoon: 'ℹ',
               kleur: '#EFF6FF',
-              tekst: 'ውላድካ ባዕሉ ኣብ gemeente ክምዝገብ ኣለዎ። ናይ inburgering ግዜ ካብቲ ፍቓድ ዝተዋህበሉ ጀሚሩ 3 ዓመት እዩ።'
+              tekst: 'ውላድኩም ባዕሉ ኣብ gemeente ክምዝገብ ኣለዎ። ናይ inburgering ግዜ ካብቲ ፍቓድ ዝተዋህበሉ ጀሚሩ 3 ዓመት እዩ።'
             },
             {
               icoon: '✓',
               kleur: '#EBF3EE',
-              tekst: 'ውላድካ ድሮ inburgering እንተወዲኡ ወይ ናጻ እንተተገይሩ፣ ዝቕየር ነገር የለን።'
+              tekst: 'ውላድኩም ድሮ inburgering እንተወዲኡ ወይ ናጻ እንተተገይሩ፣ ዝቕየር ነገር የለን።'
             }
           ],
           infoBox: {
             type: 'blauw',
-            tekst: '💡 <strong>ምኽሪ፦</strong> ውላድካ መዓስ ናይ ኔዘርላንድስ ፓስፖርት ናይ ምርካብ መሰል ከም ዝህልዎ ንምርኣይ፣ ኣብ Solidari ነቲ <a href="naturalisatie.html" style="color:var(--blauw)">Naturalisatie Checker</a> ተጠቐም።'
+            tekst: '💡 <strong>ምኽሪ፦</strong> ውላድኩም መዓስ ናይ ኔዘርላንድስ ፓስፖርት ናይ ምርካብ መሰል ከም ዝህልዎ ንምርኣይ፣ ኣብ Solidari ነቲ <a href="naturalisatie.html" style="color:var(--blauw)">Naturalisatie Checker</a> ተጠቐሙ።'
           },
           extern: null
         }
@@ -248,50 +248,50 @@ d.TI = {
     na: {
       intro: {
         icoon: '→',
-        tekst: '<strong>ድሕሪ መበል 18 ዓመት ልደት ኣብ ዘለዋ ሳምንታትን ኣዋርሕን</strong> ውላድካ ባዕሉ ከዳልዎም ዝግባእ ገለ ነገራት ኣለዉ። ንስኻ ክትሕግዝ ትኽእል ኢኻ፣ እቲ ሕቶታት ግን ብስም ውላድካ እዩ ዝኸውን።'
+        tekst: '<strong>ድሕሪ መበል 18 ዓመት ልደት ኣብ ዘለዋ ሳምንታትን ኣዋርሕን</strong> ውላድኩም ባዕሉ ከዳልዎም ዝግባእ ገለ ነገራት ኣለዉ። ንስኹም ክትሕግዙ ትኽእሉ ኢኹም፣ እቲ ሕቶታት ግን ብስም ውላድኩም እዩ ዝኸውን።'
       },
       categorieen: [
         {
           icoon: '🏦',
           kleur: '#EBF3EE',
-          naam: 'bijstand — ናይ ባዕልኻ መሰል',
-          samenvatting: 'ውላድካ ናይ ባዕሉ bijstand ናይ ምርካብ መሰል ኣለዎ',
+          naam: 'bijstand — ናይ ባዕልኹም መሰል',
+          samenvatting: 'ውላድኩም ናይ ባዕሉ bijstand ናይ ምርካብ መሰል ኣለዎ',
           badge: 'ሓድሽ መሰል',
           badgeKleur: 'nieuw',
           punten: [
             {
               icoon: '✓',
               kleur: '#EBF3EE',
-              tekst: '<strong>ካብ 18 ዓመት ጀሚሩ ውሉድካ ናይ ባዕሉ bijstand ናይ ምርካብ መሰል ኣለዎ</strong>፣ ኣታዊ እንተዘይብሉን ዘይመሃር እንተኾይኑን። እዚ ካብ ናትካ ክፍሊት ዝተፈልየ እዩ።<span class="nieuw-chip">ሓድሽ መሰል</span>'
+              tekst: '<strong>ካብ 18 ዓመት ጀሚሩ ውሉድኩም ናይ ባዕሉ bijstand ናይ ምርካብ መሰል ኣለዎ</strong>፣ ኣታዊ እንተዘይብሉን ዘይመሃር እንተኾይኑን። እዚ ካብ ናትኩም ክፍሊት ዝተፈልየ እዩ።<span class="nieuw-chip">ሓድሽ መሰል</span>'
             },
             {
               icoon: '!',
               kleur: '#FDF3E0',
-              tekst: 'ውሉድካ ገና ምሳኻ ኣብ ገዛ ይነብር ድዩ? ሽዑ ናይ ምንባር ኩነታት ኣብቲ ሕሳብ ይኣቱ እዩ። እዚ እንታይ ማለት ምዃኑ ን gemeente ሕተት።'
+              tekst: 'ውሉድኩም ገና ምሳኹም ኣብ ገዛ ይነብር ድዩ? ሽዑ ናይ ምንባር ኩነታት ኣብቲ ሕሳብ ይኣቱ እዩ። እዚ እንታይ ማለት ምዃኑ ን gemeente ሕተቱ።'
             },
             {
               icoon: '⚠️',
               kleur: '#FEF2F2',
-              tekst: '<strong>ኣስተውዕል:</strong> ውሉድካ ምሳኻ እናነበረ bijstand እንተሓቲቱ፣ እዚ ኣብ ናትካ ክፍሊት ጽልዋ ከሕድር ይኽእል እዩ።<span class="let-chip">ኣረጋግጽ</span>'
+              tekst: '<strong>ኣስተውዕሉ:</strong> ውሉድኩም ምሳኹም እናነበረ bijstand እንተሓቲቱ፣ እዚ ኣብ ናትኩም ክፍሊት ጽልዋ ከሕድር ይኽእል እዩ።<span class="let-chip">ኣረጋግጹ</span>'
             }
           ],
           extern: {
             url: 'https://www.werk.nl/werkzoekenden/uitkering-aanvragen/',
-            tekst: '→ ብ werk.nl ኣቢልካ bijstand ምሕታት'
+            tekst: '→ ብ werk.nl ኣቢልኩም bijstand ምሕታት'
           }
         },
         {
           icoon: '🎓',
           kleur: '#EFF6FF',
           naam: 'ትምህርቲን DUOን',
-          samenvatting: 'ውሉድካ እንተ ተማሂሩ ወይ ናብ ቤት ትምህርቲ እንተ ኸይዱ',
+          samenvatting: 'ውሉድኩም እንተ ተማሂሩ ወይ ናብ ቤት ትምህርቲ እንተ ኸይዱ',
           badge: 'ይከኣል',
           badgeKleur: 'nieuw',
           punten: [
             {
               icoon: '✓',
               kleur: '#EBF3EE',
-              tekst: '<strong>Studiefinanciering:</strong> ውሉድካ ናብ mbo፣ hbo ወይ ዩኒቨርሲቲ እንተ ኸይዱ፣ ካብ DUO studiefinanciering ክሓትት ይኽእል እዩ።<span class="nieuw-chip">ሓድሽ</span>'
+              tekst: '<strong>Studiefinanciering:</strong> ውሉድኩም ናብ mbo፣ hbo ወይ ዩኒቨርሲቲ እንተ ኸይዱ፣ ካብ DUO studiefinanciering ክሓትት ይኽእል እዩ።<span class="nieuw-chip">ሓድሽ</span>'
             },
             {
               icoon: '!',
@@ -301,18 +301,18 @@ d.TI = {
             {
               icoon: 'ℹ',
               kleur: '#EFF6FF',
-              tekst: 'Studiefinanciering ድሒሩ ዝኽፈል ልቓሕ እዩ። ብዛዕባ እዚ ምስ ውሉድካ ብጽቡቕ ተዘራረብ።'
+              tekst: 'Studiefinanciering ድሒሩ ዝኽፈል ልቓሕ እዩ። ብዛዕባ እዚ ምስ ውሉድኩም ብጽቡቕ ተዘራረቡ።'
             }
           ],
           extern: {
             url: 'https://duo.nl/particulier/student-hbo-universiteit/studiefinanciering-aanvragen.jsp',
-            tekst: '→ ብ duo.nl ኣቢልካ studiefinanciering ምሕታት'
+            tekst: '→ ብ duo.nl ኣቢልኩም studiefinanciering ምሕታት'
           }
         },
         {
           icoon: '🏠',
           kleur: '#FDF3E0',
-          naam: 'ብበይንኻ ምንባር',
+          naam: 'ብበይንኹም ምንባር',
           samenvatting: 'Huurtoeslag ከምኡ\'ውን ኣብ woningcorporatie ምምዝጋብ',
           badge: 'ምኽሪ',
           badgeKleur: 'let',
@@ -320,12 +320,12 @@ d.TI = {
             {
               icoon: '✓',
               kleur: '#EBF3EE',
-              tekst: 'ውሉድካ 18 ዓመት ምስ መልአ <strong>ኣብ woningbouwcorporatie መዝግቦ</strong>። ናይ ምጽባይ ተራ ነዊሕ እዩ — ቀዲምካ እንተገበርካዮ ይሓይሽ።'
+              tekst: 'ውሉድኩም 18 ዓመት ምስ መልአ <strong>ኣብ woningbouwcorporatie መዝግብዎ</strong>። ናይ ምጽባይ ተራ ነዊሕ እዩ — ቀዲምኩም እንተገበርኩምዎ ይሓይሽ።'
             },
             {
               icoon: '✓',
               kleur: '#EBF3EE',
-              tekst: 'ውሉድካ ትሑት ኣታዊ እናሃለዎ ብበይኑ እንተ ነቢሩ፣ <strong>huurtoeslag ክሓትት</strong> ይኽእል እዩ። ደረት ክራይ 2026: €880,66 ኣብ ወርሒ።<span class="nieuw-chip">ሓድሽ</span>'
+              tekst: 'ውሉድኩም ትሑት ኣታዊ እናሃለዎ ብበይኑ እንተ ነቢሩ፣ <strong>huurtoeslag ክሓትት</strong> ይኽእል እዩ። ደረት ክራይ 2026: €880,66 ኣብ ወርሒ።<span class="nieuw-chip">ሓድሽ</span>'
             }
           ],
           extern: null
@@ -341,7 +341,7 @@ d.TI = {
             {
               icoon: '✓',
               kleur: '#EBF3EE',
-              tekst: '<strong>ናይ ምድማጽ መሰል:</strong> ውሉድካ ሕጂ ኣብ ናይ gemeente፣ ክልላዊን ሃገራዊን ምርጫታት ክመርጽ ይፍቀደሉ እዩ።<span class="nieuw-chip">ሓድሽ መሰል</span>'
+              tekst: '<strong>ናይ ምድማጽ መሰል:</strong> ውሉድኩም ሕጂ ኣብ ናይ gemeente፣ ክልላዊን ሃገራዊን ምርጫታት ክመርጽ ይፍቀደሉ እዩ።<span class="nieuw-chip">ሓድሽ መሰል</span>'
             },
             {
               icoon: 'ℹ',
@@ -362,10 +362,10 @@ d.TI = {
         },
         {
           tekst: 'ኣብ ናይ ቤት ማሕበር ምዝገባ',
-          sub: 'ኣንጊህካ ጀምር — ናይ ምጽባይ ተራ ነዊሕ እዩ'
+          sub: 'ኣንጊህኩም ጀምሩ — ናይ ምጽባይ ተራ ነዊሕ እዩ'
         },
         {
-          tekst: 'ምርጫ ወሃቢ ኣካል ሓቢርካ',
+          tekst: 'ምርጫ ወሃቢ ኣካል ሓቢርኩም',
           sub: 'ብ donorregister.nl'
         },
         {
@@ -374,7 +374,7 @@ d.TI = {
         },
         {
           tekst: 'ግዴታ ምውህሃድ ተፈቲሹ',
-          sub: 'ገና inburgering እንተዘይወዲእካ ኣብ gemeente ሕተት'
+          sub: 'ገና inburgering እንተዘይወዲእኩም ኣብ gemeente ሕተቱ'
         }
       ]
     }
@@ -383,13 +383,13 @@ d.TI = {
     voor: {
       intro: {
         icoon: '⏰',
-        tekst: '<strong>ገና 18 ኣይመለእካን? ነዚ ድሮ ቅድሚ መዓልቲ ልደትካ ኣዳልዎ።</strong> ጽቡቕ ጌርካ እንተተዳሊኻ፡ ኣብ መበል 18 ዓመትካ ዋላ ሓንቲ ከተዳልው ኣየድልየካን እዩ።'
+        tekst: '<strong>ገና 18 ኣይመለእኩምን? ነዚ ድሮ ቅድሚ መዓልቲ ልደትኩም ኣዳልውዎ።</strong> ጽቡቕ ጌርኩም እንተተዳሊኹም፡ ኣብ መበል 18 ዓመትኩም ዋላ ሓንቲ ከተዳልዉ ኣየድልየኩምን እዩ።'
       },
       categorieen: [
         {
           icoon: '🔑',
           kleur: '#EFF6FF',
-          naam: 'DigiD ምልክታ ኣቕርብ',
+          naam: 'DigiD ምልክታ ኣቕርቡ',
           samenvatting: 'ዳርጋ ንኹሉ ምስ መንግስቲ ዝተኣሳሰር ግዴታ እዩ',
           badge: 'ስጉምቲ',
           badgeKleur: 'nieuw',
@@ -397,12 +397,12 @@ d.TI = {
             {
               icoon: '✓',
               kleur: '#EBF3EE',
-              tekst: '<strong>DigiD ናይ ዲጂታል መንነት መረጋገጺኻ እዩ</strong> ንመንግስቲ። ን zorgtoeslag፣ ግብሪ ምእዋጅ፣ DUO ከምኡ\'ውን ካልእ የድሊ።<span class="nieuw-chip">ነዚ ኣዳልዎ</span>'
+              tekst: '<strong>DigiD ናይ ዲጂታል መንነት መረጋገጺኹም እዩ</strong> ንመንግስቲ። ን zorgtoeslag፣ ግብሪ ምእዋጅ፣ DUO ከምኡ\'ውን ካልእ የድሊ።<span class="nieuw-chip">ነዚ ኣዳልውዎ</span>'
             },
             {
               icoon: 'ℹ',
               kleur: '#EFF6FF',
-              tekst: 'DigiD ቅድሚ 18 ዓመት ምምላእካ ብ digid.nl ኣቢልካ ክትሓትት ትኽእል ኢኻ — ንምንቅስቓሱ 5 ናይ ስራሕ መዓልታት ይወስድ።'
+              tekst: 'DigiD ቅድሚ 18 ዓመት ምምላእኩም ብ digid.nl ኣቢልኩም ክትሓቱ ትኽእሉ ኢኹም — ንምንቅስቓሱ 5 ናይ ስራሕ መዓልታት ይወስድ።'
             },
             {
               icoon: '!',
@@ -412,36 +412,36 @@ d.TI = {
           ],
           extern: {
             url: 'https://www.digid.nl/aanvragen-en-activeren/aanvragen/',
-            tekst: '→ DigiD ኣብ digid.nl ምልክታ ኣቕርብ'
+            tekst: '→ DigiD ኣብ digid.nl ምልክታ ኣቕርቡ'
           }
         },
         {
           icoon: '🏥',
           kleur: '#FDF3E0',
-          naam: 'ናይ ባዕልኻ zorgverzekering ምድላው',
-          samenvatting: 'ድሕሪ ሕጂ ኣብ ትሕቲ ናይ ወለድኻ ውሕስነት ኣይትኸውንን ኢኻ',
+          naam: 'ናይ ባዕልኹም zorgverzekering ምድላው',
+          samenvatting: 'ድሕሪ ሕጂ ኣብ ትሕቲ ናይ ወለድኹም ውሕስነት ኣይትኾኑን ኢኹም',
           badge: 'ግዴታ',
           badgeKleur: 'stopt',
           punten: [
             {
               icoon: '!',
               kleur: '#FEF2F2',
-              tekst: '<strong>ዕድሜኻ 18 ምስ መልአ ምስ ወለድኻ መድሕን ኣይህልወካን እዩ።</strong> ቅድሚ መዓልቲ ልደትካ ወይ ኣብ መዓልቲ ልደትካ ናይ ገዛእ ርእስኻ መድሕን ውሰድ።<span class="stopt-chip">ግዴታ</span>'
+              tekst: '<strong>ዕድሜኹም 18 ምስ መልአ ምስ ወለድኹም መድሕን ኣይህልወኩምን እዩ።</strong> ቅድሚ መዓልቲ ልደትኩም ወይ ኣብ መዓልቲ ልደትኩም ናይ ገዛእ ርእስኹም መድሕን ውሰዱ።<span class="stopt-chip">ግዴታ</span>'
             },
             {
               icoon: 'ℹ',
               kleur: '#EFF6FF',
-              tekst: 'ድሕሪ መዓልቲ ልደትካ ብዘይ ቅጽዓት መድሕን ንምውሳድ 3 ኣዋርሕ ግዜ ኣለካ። ግን ብዙሕ ኣይትጸበ።'
+              tekst: 'ድሕሪ መዓልቲ ልደትኩም ብዘይ ቅጽዓት መድሕን ንምውሳድ 3 ኣዋርሕ ግዜ ኣለኩም። ግን ብዙሕ ኣይትጸበዩ።'
             },
             {
               icoon: '💰',
               kleur: '#EBF3EE',
-              tekst: '<strong>Zorgtoeslag ሕተት!</strong> ትሑት ኣታዊ እንተሃልዩካ ኣብ ወርሒ ክሳብ €154 (2026)። ብ Mijn Toeslagen ምስ DigiD ናትካ።<span class="nieuw-chip">ገንዘብ</span>'
+              tekst: '<strong>Zorgtoeslag ሕተቱ!</strong> ትሑት ኣታዊ እንተሃልዩኩም ኣብ ወርሒ ክሳብ €154 (2026)። ብ Mijn Toeslagen ምስ DigiD ናትኩም።<span class="nieuw-chip">ገንዘብ</span>'
             }
           ],
           infoBox: {
             type: 'groen',
-            tekst: '✅ ብ <strong>belastingdienst.nl/toeslagen</strong> ኣቢልካ zorgtoeslag ሕተት። ቅድሚ 18 ምምላእካ ክትሓትት ትኽእል ኢኻ — ኣብ መዓልቲ ልደትካ ይጅምር።'
+            tekst: '✅ ብ <strong>belastingdienst.nl/toeslagen</strong> ኣቢልኩም zorgtoeslag ሕተቱ። ቅድሚ 18 ምምላእኩም ክትሓቱ ትኽእሉ ኢኹም — ኣብ መዓልቲ ልደትኩም ይጅምር።'
           },
           extern: {
             url: 'https://www.belastingdienst.nl/wps/wcm/connect/nl/zorgtoeslag/zorgtoeslag',
@@ -451,25 +451,25 @@ d.TI = {
         {
           icoon: '🏦',
           kleur: '#EBF3EE',
-          naam: 'ናይ ገዛእ ርእስኻ ናይ ባንክ ሕሳብን ናይ ምዕቋር ሕሳብን',
-          samenvatting: 'Toeslag ኣብ ናትካ ናይ ባንክ ሕሳብ ይኽፈል',
+          naam: 'ናይ ገዛእ ርእስኹም ናይ ባንክ ሕሳብን ናይ ምዕቋር ሕሳብን',
+          samenvatting: 'Toeslag ኣብ ናትኩም ናይ ባንክ ሕሳብ ይኽፈል',
           badge: 'ምኽሪ',
           badgeKleur: 'let',
           punten: [
             {
               icoon: '✓',
               kleur: '#EBF3EE',
-              tekst: '<strong>ብናትካ ስም ናይ ባንክ ሕሳብ ክህልወካ ግበር።</strong> ኩሉ toeslag ኣብ ናትካ ሕሳብ ጥራይ እዩ ዝኽፈል።'
+              tekst: '<strong>ብናትኩም ስም ናይ ባንክ ሕሳብ ክህልወኩም ግበሩ።</strong> ኩሉ toeslag ኣብ ናትኩም ሕሳብ ጥራይ እዩ ዝኽፈል።'
             },
             {
               icoon: 'ℹ',
               kleur: '#EFF6FF',
-              tekst: 'ኣብ መብዛሕትኦም ባንክታት ቅድሚ 18 ዓመት ምምላእካ ናይ ባንክ ሕሳብ ክትከፍት ትኽእል ኢኻ። ነዚ ሕተት።'
+              tekst: 'ኣብ መብዛሕትኦም ባንክታት ቅድሚ 18 ዓመት ምምላእኩም ናይ ባንክ ሕሳብ ክትከፍቱ ትኽእሉ ኢኹም። ነዚ ሕተቱ።'
             },
             {
               icoon: '✓',
               kleur: '#EBF3EE',
-              tekst: 'ንዘይተጸበኻዮ ወጻኢታት <strong>ናይ ምዕቋር ሕሳብ እውን ክፈት</strong> — ኣብ 2026 eigen risico €165 እዩ።'
+              tekst: 'ንዘይተጸበኹምዎ ወጻኢታት <strong>ናይ ምዕቋር ሕሳብ እውን ክፈቱ</strong> — ኣብ 2026 eigen risico €165 እዩ።'
             }
           ],
           extern: null
@@ -478,7 +478,7 @@ d.TI = {
       checklist: [
         {
           tekst: 'DigiD ምልክታ ቀሪቡ ተፈቒዱ',
-          sub: 'ነዚ ኣቐዲምካ ብግዜ ሕተት'
+          sub: 'ነዚ ኣቐዲምኩም ብግዜ ሕተቱ'
         },
         {
           tekst: 'ናይ ጥዕና ዋሕስ ተዳሊዩ',
@@ -486,10 +486,10 @@ d.TI = {
         },
         {
           tekst: 'ሓገዝ ናይ ጥዕና ዋሕስ ምልክታ ቀሪቡ',
-          sub: 'ብ Mijn Toeslagen ምስ DigiD ናትካ'
+          sub: 'ብ Mijn Toeslagen ምስ DigiD ናትኩም'
         },
         {
-          tekst: 'ብናትካ ስም ዝተኸፍተ ናይ ባንክ ሕሳብ',
+          tekst: 'ብናትኩም ስም ዝተኸፍተ ናይ ባንክ ሕሳብ',
           sub: 'ንምቕባል ሓገዛት የድሊ'
         },
         {
@@ -501,31 +501,31 @@ d.TI = {
     op: {
       intro: {
         icoon: '🎂',
-        tekst: '<strong>ሕጂ ብወግዒ 18 ዓመት ምሉእካ!</strong> ሕጂ ብሕጊ ዓቢ ኮንካ ሓድሽ መሰላትን ሓላፍነታትን ኣለካ።'
+        tekst: '<strong>ሕጂ ብወግዒ 18 ዓመት ምሉእኩም!</strong> ሕጂ ብሕጊ ዓቢ ኮንኩም ሓድሽ መሰላትን ሓላፍነታትን ኣለኩም።'
       },
       categorieen: [
         {
           icoon: '⚖️',
           kleur: '#F5F3FF',
-          naam: 'ሕጂ ብዓርስኻ ኢኻ ትቐውም',
-          samenvatting: 'ብሕጊ ዓቢ — ናትካ መሰላትን ሓላፍነታትን',
+          naam: 'ሕጂ ብዓርስኹም ኢኹም ትቐውሙ',
+          samenvatting: 'ብሕጊ ዓቢ — ናትኩም መሰላትን ሓላፍነታትን',
           badge: 'ሎሚ',
           badgeKleur: 'nieuw',
           punten: [
             {
               icoon: '✓',
               kleur: '#EBF3EE',
-              tekst: '<strong>ኩሉ ነገር ባዕልኻ ክተመሓድር ትኽእል ኢኻ</strong> — ውዕላት፡ ምምራጽ፡ ሕክምናዊ ውሳነታት፡ መንጃ ፍቓድ ምሕታት።'
+              tekst: '<strong>ኩሉ ነገር ባዕልኹም ክተመሓድሩ ትኽእሉ ኢኹም</strong> — ውዕላት፡ ምምራጽ፡ ሕክምናዊ ውሳነታት፡ መንጃ ፍቓድ ምሕታት።'
             },
             {
               icoon: '!',
               kleur: '#FDF3E0',
-              tekst: 'ንእትገብሮ ነገር ሕጂ ባዕልኻ <strong>ተሓታቲ</strong> ኢኻ። ትገብሮ ዕዳታት ናትካ ዕዳ ጥራይ እዩ።'
+              tekst: 'ንእትገብርዎ ነገር ሕጂ ባዕልኹም <strong>ተሓታቲ</strong> ኢኹም። ትገብርዎ ዕዳታት ናትኩም ዕዳ ጥራይ እዩ።'
             },
             {
               icoon: '✓',
               kleur: '#EBF3EE',
-              tekst: '<strong>ካብ ዕዳ ተጠንቀቕ:</strong> ሕጂ 18 ስለ ዝመለእካ ብቐሊሉ ብዕዳ ክትዕድግ ወይ ክትልቃሕ ትኽእል ኢኻ። ዕዳታት ቀልጢፎም ይእከቡ።<span class="let-chip">ተጠንቀቕ</span>'
+              tekst: '<strong>ካብ ዕዳ ተጠንቀቑ:</strong> ሕጂ 18 ስለ ዝመለእኩም ብቐሊሉ ብዕዳ ክትዕድጉ ወይ ክትልቃሑ ትኽእሉ ኢኹም። ዕዳታት ቀልጢፎም ይእከቡ።<span class="let-chip">ተጠንቀቑ</span>'
             }
           ],
           extern: null
@@ -541,12 +541,12 @@ d.TI = {
             {
               icoon: '✓',
               kleur: '#EBF3EE',
-              tekst: '<strong>ናይ ምምራጽ መሰል:</strong> ሕጂ ድምጺ ክትህብ ትኽእል ኢኻ! ኣብ ዝቕጽል ምርጫ ናይ ድምጺ ምሃብ ወረቐት ክመጸካ እዩ።<span class="nieuw-chip">ሓድሽ መሰል</span>'
+              tekst: '<strong>ናይ ምምራጽ መሰል:</strong> ሕጂ ድምጺ ክትህቡ ትኽእሉ ኢኹም! ኣብ ዝቕጽል ምርጫ ናይ ድምጺ ምሃብ ወረቐት ክመጸኩም እዩ።<span class="nieuw-chip">ሓድሽ መሰል</span>'
             },
             {
               icoon: 'ℹ',
               kleur: '#EFF6FF',
-              tekst: '<strong>ምዝገባ ለጋሲ ኣካላት:</strong> ተቓውሞ እንተዘየቕሪብካ ብቐጥታ ከም ለጋሲ ትምዝገብ። ብ donorregister.nl ኣቢልካ ብንቕሓት ምረጽ።'
+              tekst: '<strong>ምዝገባ ለጋሲ ኣካላት:</strong> ተቓውሞ እንተዘየቕሪብኩም ብቐጥታ ከም ለጋሲ ትምዝገቡ። ብ donorregister.nl ኣቢልካ ብንቕሓት ምረጹ።'
             }
           ],
           extern: {
@@ -557,25 +557,25 @@ d.TI = {
         {
           icoon: '📋',
           kleur: '#FDF3E0',
-          naam: 'Inburgering — ነዚ ኣረጋግጽ',
-          samenvatting: 'ናይ inburgering ግዴታ ንዓኻ ይምልከት ድዩ?',
+          naam: 'Inburgering — ነዚ ኣረጋግጹ',
+          samenvatting: 'ናይ inburgering ግዴታ ንዓኹም ይምልከት ድዩ?',
           badge: 'ፍትሽ',
           badgeKleur: 'let',
           punten: [
             {
               icoon: '!',
               kleur: '#FDF3E0',
-              tekst: '<strong>ድሕሪ 1 ጥሪ 2022 ናብ ነዘርላንድስ መጺእካ</strong> ገና inburgering እንተዘይወዲእካ፡ ናይ inburgering ግዴታ ሕጂ ንዓኻ’ውን ይምልከት እዩ።<span class="let-chip">ኣረጋግጽ</span>'
+              tekst: '<strong>ድሕሪ 1 ጥሪ 2022 ናብ ነዘርላንድስ መጺእኩም</strong> ገና inburgering እንተዘይወዲእኩም፡ ናይ inburgering ግዴታ ሕጂ ንዓኹም’ውን ይምልከት እዩ።<span class="let-chip">ኣረጋግጹ</span>'
             },
             {
               icoon: 'ℹ',
               kleur: '#EFF6FF',
-              tekst: 'ድሮ inburgering ትገብር ኣለኻ ዶ? እንተኾይኑ ከምቲ ዝነበሮ ይቕጽል።'
+              tekst: 'ድሮ inburgering ትገብሩ ኣለኹም ዶ? እንተኾይኑ ከምቲ ዝነበሮ ይቕጽል።'
             }
           ],
           infoBox: {
             type: 'blauw',
-            tekst: '💡 <strong>ምኽሪ:</strong> መዓስ ናይ ነዘርላንድስ ፓስፖርት ክትሓትት ከም እትኽእል ንምርኣይ ነቲ ናጻ <a href="naturalisatie.html" style="color:var(--blauw)">Naturalisatie Checker</a> ኣብ Solidari ተጠቐም።'
+            tekst: '💡 <strong>ምኽሪ:</strong> መዓስ ናይ ነዘርላንድስ ፓስፖርት ክትሓቱ ከም እትኽእሉ ንምርኣይ ነቲ ናጻ <a href="naturalisatie.html" style="color:var(--blauw)">Naturalisatie Checker</a> ኣብ Solidari ተጠቐሙ።'
           },
           extern: null
         }
@@ -585,36 +585,36 @@ d.TI = {
     na: {
       intro: {
         icoon: '→',
-        tekst: '<strong>ሕጂ 18 ስለ ዝመለእካ ሓደስቲ መሰላት ኣለዉኻ።</strong> ገለ ነገራት ባዕልኻ ክትሓቶም ኣለካ — ብባዕሎም ኣይመጹን እዮም።'
+        tekst: '<strong>ሕጂ 18 ስለ ዝመለእኩም ሓደስቲ መሰላት ኣለዉኹም።</strong> ገለ ነገራት ባዕልኹም ክትሓትዎም ኣለኩም — ብባዕሎም ኣይመጹን እዮም።'
       },
       categorieen: [
         {
           icoon: '💶',
           kleur: '#EBF3EE',
           naam: 'Bijstand ምሕታት',
-          samenvatting: 'እቶት እንተዘይብልካን ዘይትምሃርን እንተኾንካ',
+          samenvatting: 'እቶት እንተዘይብልኩምን ዘይትምሃሩን እንተኾንኩም',
           badge: 'መሰል',
           badgeKleur: 'nieuw',
           punten: [
             {
               icoon: '✓',
               kleur: '#EBF3EE',
-              tekst: 'እቶት እንተዘይብልካ፡ ዘይትምሃር እንተኾንካን ኣብ ነዘርላንድስ እንተተቐሚጥካን፡ <strong>ናይ bijstand (Participatiewet) መሰል ኣለካ</strong>። ካብ ወለድኻ ብዝተፈልየ።<span class="nieuw-chip">መሰል</span>'
+              tekst: 'እቶት እንተዘይብልኩም፡ ዘይትምሃሩ እንተኾንኩምን ኣብ ነዘርላንድስ እንተተቐሚጥኩምን፡ <strong>ናይ bijstand (Participatiewet) መሰል ኣለኩም</strong>። ካብ ወለድኹም ብዝተፈልየ።<span class="nieuw-chip">መሰል</span>'
             },
             {
               icoon: '!',
               kleur: '#FDF3E0',
-              tekst: 'ምስ ወለድኻ ዲኻ ትነብር ዘለኻ? እቲ ናይ መነባብሮ ኩነታት ኣብ ግምት ይኣቱ እዩ። ናብቲ gemeente ኪድ።'
+              tekst: 'ምስ ወለድኹም ዲኹም ትነብሩ ዘለኹም? እቲ ናይ መነባብሮ ኩነታት ኣብ ግምት ይኣቱ እዩ። ናብቲ gemeente ኪዱ።'
             },
             {
               icoon: '⚠️',
               kleur: '#FEF2F2',
-              tekst: '<strong>Inburgeringን bijstandን:</strong> ናይ inburgering ግዴታ እንተሃልዩካ፡ bijstand ንምሓዝ ብንጥፈት ክትተሓባበር ኣለካ።<span class="let-chip">ቅድመ-ኩነት</span>'
+              tekst: '<strong>Inburgeringን bijstandን:</strong> ናይ inburgering ግዴታ እንተሃልዩኹም፡ bijstand ንምሓዝ ብንጥፈት ክትተሓባበሩ ኣለኩም።<span class="let-chip">ቅድመ-ኩነት</span>'
             }
           ],
           extern: {
             url: 'https://www.werk.nl/werkzoekenden/uitkering-aanvragen/',
-            tekst: '→ ብ werk.nl ኣቢልካ bijstand ምሕታት'
+            tekst: '→ ብ werk.nl ኣቢልኩም bijstand ምሕታት'
           }
         },
         {
@@ -628,17 +628,17 @@ d.TI = {
             {
               icoon: '✓',
               kleur: '#EBF3EE',
-              tekst: '<strong>ክትምሃር ዲኻ?</strong> ካብ DUO ናይ ትምህርቲ ሓገዝ ገንዘብ (studiefinanciering) ሕተት (መሰረታዊ ልቓሕ + እንተተኻኢሉ ተወሳኺ ድጎማ)።<span class="nieuw-chip">ሓድሽ</span>'
+              tekst: '<strong>ክትምሃሩ ዲኹም?</strong> ካብ DUO ናይ ትምህርቲ ሓገዝ ገንዘብ (studiefinanciering) ሕተቱ (መሰረታዊ ልቓሕ + እንተተኻኢሉ ተወሳኺ ድጎማ)።<span class="nieuw-chip">ሓድሽ</span>'
             },
             {
               icoon: 'ℹ',
               kleur: '#EFF6FF',
-              tekst: '<strong>OV-studentenkaart</strong> ኣብ ናይ ዕረፍቲ ሰዓታት (daluren) ብነጻ ክትጓዓዝ የኽእለካ።'
+              tekst: '<strong>OV-studentenkaart</strong> ኣብ ናይ ዕረፍቲ ሰዓታት (daluren) ብነጻ ክትጓዓዙ የኽእለኩም።'
             },
             {
               icoon: '!',
               kleur: '#FDF3E0',
-              tekst: 'Studiefinanciering ጸኒሕካ እትመልሶ <strong>ልቓሕ</strong> እዩ። እቲ ብሓቂ ዘድልየካ ጥራይ ተለቃሕ።<span class="let-chip">ልቓሕ</span>'
+              tekst: 'Studiefinanciering ጸኒሕኩም እትመልስዎ <strong>ልቓሕ</strong> እዩ። እቲ ብሓቂ ዘድልየኩም ጥራይ ተለቅሑ።<span class="let-chip">ልቓሕ</span>'
             }
           ],
           extern: {
@@ -657,12 +657,12 @@ d.TI = {
             {
               icoon: '✓',
               kleur: '#EBF3EE',
-              tekst: '<strong>ሕጂ ኣብ woningcorporatie ተመዝገብ።</strong> ናይ ምጽባይ ዝርዝር ነዊሕ እዩ — ሓደ ሓደ ግዜ ካብ 5 ክሳብ 10 ዓመት ይወስድ።'
+              tekst: '<strong>ሕጂ ኣብ woningcorporatie ተመዝገቡ።</strong> ናይ ምጽባይ ዝርዝር ነዊሕ እዩ — ሓደ ሓደ ግዜ ካብ 5 ክሳብ 10 ዓመት ይወስድ።'
             },
             {
               icoon: '✓',
               kleur: '#EBF3EE',
-              tekst: 'ትሑት ኣታዊ እንተሃልዩካን ብናጻ ትነብር እንተኾንካን፡ <strong>huurtoeslag ክትሓትት</strong> ትኽእል ኢኻ። ዝለዓለ ናይ ክራይ ደረት 2026: €880,66።<span class="nieuw-chip">ገንዘብ</span>'
+              tekst: 'ትሑት ኣታዊ እንተሃልዩኹምን ብናጻ ትነብሩ እንተኾንኩምን፡ <strong>huurtoeslag ክትሓቱ</strong> ትኽእሉ ኢኹም። ዝለዓለ ናይ ክራይ ደረት 2026: €880,66።<span class="nieuw-chip">ገንዘብ</span>'
             }
           ],
           extern: null
@@ -678,17 +678,17 @@ d.TI = {
             {
               icoon: '!',
               kleur: '#FDF3E0',
-              tekst: 'እቶት እንተሃልዩካ፡ <strong>ነፍሲ ወከፍ ዓመት belastingaangifte ትገብር ኢኻ</strong>። ብ DigiD ኣቢልካ ኣብ Mijn Belastingdienst።'
+              tekst: 'እቶት እንተሃልዩኹም፡ <strong>ነፍሲ ወከፍ ዓመት belastingaangifte ትገብሩ ኢኹም</strong>። ብ DigiD ኣቢልኩም ኣብ Mijn Belastingdienst።'
             },
             {
               icoon: '✓',
               kleur: '#EBF3EE',
-              tekst: 'ውሑድ ኣታዊ እንተኔሩካ፡ ሓደ ሓደ ግዜ ገንዘብ ተመላሲ ይረኽበካ እዩ። ስለዚ ኩሉ ግዜ aangifte ግበር።'
+              tekst: 'ውሑድ ኣታዊ እንተኔሩኹም፡ ሓደ ሓደ ግዜ ገንዘብ ተመላሲ ይረኽበኩም እዩ። ስለዚ ኩሉ ግዜ aangifte ግበሩ።'
             }
           ],
           infoBox: {
             type: 'amber',
-            tekst: '⚠️ ምስ ሓጋዚኻ ወይ ምምሕዳር ከቲ <strong>ቅድሚ 18ይ ዕለተ-ልደትካ</strong> ዛተ።'
+            tekst: '⚠️ ምስ ሓጋዚኹም ወይ ምምሕዳር ከቲ <strong>ቅድሚ 18ይ ዕለተ-ልደትኩም</strong> ዛተዩ።'
           },
           extern: {
             url: 'https://www.belastingdienst.nl/wps/wcm/connect/nl/ib-aangifte/',
@@ -706,12 +706,12 @@ d.TI = {
             {
               icoon: '✓',
               kleur: '#EBF3EE',
-              tekst: '<strong>ካብ 18 ዓመት ጀሚርካ ብናጻ ፈተና መኪና ክትወስድ</strong> ከምኡ\'ውን ናይ ምምራሕ ፍቓድ ክትረክብ ትኽእል ኢኻ። ደጊም ሓላዊ/መዓጀቢ ኣየድልየካን እዩ።'
+              tekst: '<strong>ካብ 18 ዓመት ጀሚርኩም ብናጻ ፈተና መኪና ክትወስዱ</strong> ከምኡ\'ውን ናይ ምምራሕ ፍቓድ ክትረክቡ ትኽእሉ ኢኹም። ደጊም ሓላዊ/መዓጀቢ ኣየድልየኩምን እዩ።'
             },
             {
               icoon: 'ℹ',
               kleur: '#EFF6FF',
-              tekst: 'ናይ 2toDrive ፍቓድ ምምራሕ ኔሩካ ድዩ? ሕጂ በይንኻ ክትዝውር ትኽእል ኢኻ።'
+              tekst: 'ናይ 2toDrive ፍቓድ ምምራሕ ኔሩኹም ድዩ? ሕጂ በይንኹም ክትዝውሩ ትኽእሉ ኢኹም።'
             },
             {
               icoon: '!',
@@ -728,29 +728,29 @@ d.TI = {
           icoon: '🤝',
           kleur: '#FDF3E0',
           naam: 'ሓገዝ መንእሰይ ይቋረጽ — ናይ ዓቢ ሰብ ሓገዝ ይጅምር',
-          samenvatting: 'ሓጋዚ/መራሒ ኔሩካ ድዩ? እንታይ ከም ዝቕየር ተወከስ',
+          samenvatting: 'ሓጋዚ/መራሒ ኔሩኹም ድዩ? እንታይ ከም ዝቕየር ተወከሱ',
           badge: 'ፍትሽ',
           badgeKleur: 'let',
           punten: [
             {
               icoon: '!',
               kleur: '#FDF3E0',
-              tekst: '<strong>18 ዓመት ምስ መልእኻ Jeugdhulp ደው ይብል እዩ።</strong> ቅድሚ ልደትካ ምስ መራሒኻ ተዘራረብ ብድሕሪኡ እንታይ ክርከብ ከም ዝኽእል።<span class="let-chip">ኣገዳሲ</span>'
+              tekst: '<strong>18 ዓመት ምስ መልእኹም Jeugdhulp ደው ይብል እዩ።</strong> ቅድሚ ልደትኩም ምስ መራሒኹም ተዘራረቡ ብድሕሪኡ እንታይ ክርከብ ከም ዝኽእል።<span class="let-chip">ኣገዳሲ</span>'
             },
             {
               icoon: 'ℹ',
               kleur: '#EFF6FF',
-              tekst: 'ኣብ ገለ ኩነታት፡ jeugdhulp ክሳብ 23 ዓመትካ ክቕጽል ክትገብሮ ትኽእል ኢኻ (verlengde jeugdhulp)። ነዚ ብግዜ ኣብቲ gemeente ሕተት።'
+              tekst: 'ኣብ ገለ ኩነታት፡ jeugdhulp ክሳብ 23 ዓመትኩም ክቕጽል ክትገብርዎ ትኽእሉ ኢኹም (verlengde jeugdhulp)። ነዚ ብግዜ ኣብቲ gemeente ሕተቱ።'
             },
             {
               icoon: '✓',
               kleur: '#EBF3EE',
-              tekst: 'ናይ ዓበይቲ ሓገዝ በዚ ዝስዕብ ይርከብ: huisarts፡ WMO (gemeente)፡ GGZ ወይ ድማ ማሕበራዊ ኣገልግሎት (maatschappelijk werk)። JIP ክሕግዘካ ይኽእል እዩ።'
+              tekst: 'ናይ ዓበይቲ ሓገዝ በዚ ዝስዕብ ይርከብ: huisarts፡ WMO (gemeente)፡ GGZ ወይ ድማ ማሕበራዊ ኣገልግሎት (maatschappelijk werk)። JIP ክሕግዘኩም ይኽእል እዩ።'
             }
           ],
           infoBox: {
             type: 'amber',
-            tekst: '⚠️ <strong>ቅድሚ 18 ዓመት ምምላእካ</strong> ምስ መራሒኻ ወይ ምስቲ gemeente ተዘራረብ። ክሳብ መዓልቲ ልደትካ ኣይትጸበ።'
+            tekst: '⚠️ <strong>ቅድሚ 18 ዓመት ምምላእኩም</strong> ምስ መራሒኹም ወይ ምስቲ gemeente ተዘራረቡ። ክሳብ መዓልቲ ልደትኩም ኣይትጸበዩ።'
           },
           extern: null
         }
@@ -770,15 +770,15 @@ d.TI = {
         },
         {
           tekst: 'Inburgering ኣብ gemeente ተፈቲሹ',
-          sub: 'ገና inburgering እንተዘይወዲእካ'
+          sub: 'ገና inburgering እንተዘይወዲእኩም'
         },
         {
           tekst: 'ንዝመጽእ ዓመት belastingaangifte ምዝካር',
-          sub: 'ነፍሲ ወከፍ ዓመት ኣብ መጋቢት ብ belastingdienst.nl ኣቢልካ'
+          sub: 'ነፍሲ ወከፍ ዓመት ኣብ መጋቢት ብ belastingdienst.nl ኣቢልኩም'
         },
         {
-          tekst: 'Jeugdhulp / መምርሒ ምስ gemeente ተመያዪጥካሉ',
-          sub: 'ሓገዝ ትረክብ እንተኔርካ — ድሕሪኡ እንታይ ክርከብ ከም ዝኽእል ተወከስ'
+          tekst: 'Jeugdhulp / መምርሒ ምስ gemeente ተመያዪጥኩሙሉ',
+          sub: 'ሓገዝ ትረኽቡ እንተኔርኩም — ድሕሪኡ እንታይ ክርከብ ከም ዝኽእል ተወከሱ'
         }
       ]
     }
