@@ -229,7 +229,7 @@ window.LW_T = {
     'lw-mot-bruto-lbl':'ቅድሚ ግብሪ/ወርሒ ኣብ {n} ሰዓት/ሰሙን','lw-mot-extra-lbl':'ኣብ ወርሒ ካብ bijstand ጥራይ ንላዕሊ',
     'lw-mot-jong':'<strong>ኣስተውዕሉ (18–20):</strong> ዝተሓተ ደሞዝ ምስ ዕድሚ ይዓቢ።',
     'lw-mot-slot':'ተወሳኺ ሰዓታት ምስራሕ ዝያዳ ኣታዊ የምጽእ። ብተወሳኺ <strong>ተመክሮ ስራሕ፣ ቋንቋ ዳች ከምኡ’ውን ርክባት</strong> ተጥርይ።',
-    'lw-mot-huur':'',
+    'lw-mot-huur':' ክራይ ገዛ ዝለዓለ ምስ ዝኸውን፡ huurtoeslag ስለ ዝቕጽል ምስራሕ ዝያዳ ከዋጽእ ይኽእል እዩ።',
     'lw-aow-txt':'ናብ ዕድሜ ጡረታ ምስ በጻሕካ ካልእ ሕጊ ይምልከት። ምስ ኮምዩን ተዘራረብ።',
     'lw-aow-link':'ምስ gemeente ኻ ተራኸብ',
     'lw-disc':'ብሕጊ 2026 ተሓሲቡ። ናይ ውልቂ ምኽሪ ሕተት።',
