@@ -2,6 +2,12 @@
 // Solidari — stap 6 van de vertaalronde (PLAN-7 fase 2): stapel A toepassen. PAS NA W-D.
 //
 //   node tools/vertaal/pas-toe.js --taal ti --stapel a [--bestand naturalisatie-data.js] [--droog]
+//   node tools/vertaal/pas-toe.js --taal ti --stapel m [--bestand …] [--droog]   (na a; besluit m/v 13-10)
+//
+// Stapel m = besluit "alleen de mannelijke aanspreekvorm" (W-D, 13-10-2026): eerst de B-strings met
+// een m/v-streep naar hun Gemini-voorstel (B-wissel), daarna de minimale bewerkingen uit
+// <taal>-mannelijk.json op wat er dan nog een streep heeft — in bron én spiegel. Draai m pas als a
+// voor hetzelfde bestand is toegepast; m vervangt alleen teksten die precies de verwachte stand hebben.
 //
 // Gerichte vervanging per sleutelpad (§5.7) in het bronbestand, en dezelfde vervanging in de
 // spiegel vertaalhulp.html waar de oude waarde daar letterlijk staat (§5.2). Een string die in de
@@ -22,7 +28,7 @@ const droog = process.argv.includes('--droog');
 const map = arg('map', process.env.SOL_VERTAAL_MAP || path.resolve(__dirname, '..', '..', '..', 'Solidari', '_werkdocumenten', 'vertaal'));
 const TAAL = taal.toUpperCase();
 
-const { stop, stapels } = JSON.parse(fs.readFileSync(path.join(map, `${taal}-stapels.json`), 'utf8'));
+const { stop, stapels: alleStapels } = JSON.parse(fs.readFileSync(path.join(map, `${taal}-stapels.json`), 'utf8'));
 if (stop && !process.argv.includes('--ondanks-afbreekcriterium')) {
   console.error('Een afbreekcriterium uit §10 staat op rood (zie het rapport). Niets toegepast.');
   process.exit(1);
@@ -34,6 +40,13 @@ function sjabloonTerug(sj, tekst) {
   return sj.kop + '`' + body + '`';
 }
 
+let stapels = alleStapels;
+let mannelijk = null;
+if (stapel === 'M') {
+  mannelijk = JSON.parse(fs.readFileSync(path.join(map, `${taal}-mannelijk.json`), 'utf8'));
+  const wissel = new Set(mannelijk.b_wissel.map((x) => x.bron + '\u0000' + x.pad));
+  stapels = { M: alleStapels.B.filter((r) => wissel.has(r.bron + '\u0000' + r.pad)) };
+}
 const bronnen = new Map(B.laadAlles().map((b) => [b.naam, b]));
 const spiegel = B.laadSpiegel()[TAAL] || new Map();
 const bw = new Bewerkingen();
@@ -57,6 +70,27 @@ for (const r of stapels[stapel]) {
     if (!gevonden) verslag.spiegelNiet.push(`${r.bron} ${r.pad}`);
   }
   verslag.toegepast.push(`${blad.bestand} ${r.pad}`);
+}
+
+// Stapel M, deel 2: minimale m/v-bewerkingen. Verwachte stand = de tekst ná a en de B-wissel; in
+// --droog telt ook de stand ervóór mee (dan zou a/de wissel hem eerst zetten).
+if (mannelijk) {
+  for (const x of mannelijk.items) {
+    if (!x.nieuw || x.nieuw === x.tekst || !x.gezakt_op.every((g) => g === 'streep over')) {
+      if (x.nieuw && x.nieuw !== x.tekst && x.gezakt_op.length) verslag.overgeslagen.push(['mannelijk', x.id, x.gezakt_op.join(',')]);
+      continue;
+    }
+    for (const p of x.plekken) {
+      const blad = p.soort === 'bron'
+        ? (bronnen.get(p.bron).talen[TAAL].bladeren.get(p.pad))
+        : spiegel.get(p.sleutel);
+      if (!blad) { verslag.overgeslagen.push(['mannelijk', p.pad || p.sleutel, 'niet gevonden']); continue; }
+      if (alleenBestand && blad.bestand !== alleenBestand) continue;
+      if (blad.waarde === x.tekst) { bw.vervang(blad, x.nieuw); verslag.toegepast.push(`${blad.bestand} ${p.pad || p.sleutel} (m/v)`); }
+      else if (droog && blad.waarde === p.huidig) verslag.toegepast.push(`${blad.bestand} ${p.pad || p.sleutel} (m/v, na a)`);
+      else verslag.overgeslagen.push(['mannelijk', p.pad || p.sleutel, 'stand wijkt af (eerst stapel a toepassen?)']);
+    }
+  }
 }
 
 const perBestand = {};
