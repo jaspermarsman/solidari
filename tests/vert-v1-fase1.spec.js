@@ -6,12 +6,11 @@
 // eigen taal staat, vult een bedrag in en verwacht de volgende vraag (huur).
 const { test, expect } = require('@playwright/test');
 const { metTaal } = require('./helpers');
+const B = require('../tools/vertaal/bronnen.js');
 
-const VRAAG = {
-  TI: 'ኣብ ወርሒ ክንደይ ገንዘብ ትቕበል/ትቕበሊ?',
-  TR: 'Aylık ne kadar para alıyorsun?',
-  NL: 'Hoeveel geld ontvang je per maand?',
-};
+// De vraag uit de bron zelf: de TI-tekst veranderde in fase 2 (alleen mannelijke vorm, W-D).
+const bron = B.laadBron(B.BRONNEN.find((b) => b.naam === 'budgethulp.html'));
+const VRAAG = Object.fromEntries(['TI', 'TR', 'NL'].map((t) => [t, bron.talen[t].bladeren.get('inkomen_v').waarde]));
 
 for (const taal of Object.keys(VRAAG)) {
   test(`budgethulp ${taal}: inkomensvraag staat er en de flow loopt door naar huur`, async ({ page }) => {
