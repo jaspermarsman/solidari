@@ -5,7 +5,13 @@
 //   - heuristiek: een niet-NL waarde die identiek is aan de NL-waarde én Nederlandse lidwoorden bevat → waarschuwing
 // Optioneel: extra extend()-blokken uit HTML-pagina's (argumenten) worden ook meegenomen.
 // Gebruik: node tools/test/i18n-pariteit.js [pagina.html ...]
+//         node tools/test/i18n-pariteit.js --alles [--detail]   (PLAN-7 fase 0: alle taalbronnen,
+//           diepe sleutelpaden incl. array-posities, tabel bestand × taal, plus de spiegel in
+//           vertaalhulp.html; zie tools/vertaal/bronnen.js voor de lijst en de uitzonderingen)
 // Exit 0 = GROEN, 1 = ontbrekende/lege sleutels.
+if (process.argv.includes('--alles')) {
+  process.exit(require('../vertaal/pariteit.js').cli(process.argv.slice(2)));
+}
 const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
