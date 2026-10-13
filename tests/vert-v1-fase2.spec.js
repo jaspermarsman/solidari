@@ -3,7 +3,9 @@
 // Vóór stap 6 stond er vaak een m/v-keuze met een schuine streep (ትቕበል/ትቕበሊ). Deze test bewaakt
 // dat er in geen enkele TI-bron en in de spiegel (vertaalhulp.html) zo'n streep terugkomt. Strepen
 // die geen m/v-keuze zijn (afkorting ዓ/ዓ, uur/week, maart/april, EU/Zwitserland, …) tellen niet;
-// dezelfde lijst als GEEN_MV in tools/vertaal/mannelijk.py.
+// dezelfde lijst als GEEN_MV in tools/vertaal/mannelijk.py. Ook sjablonen ((n)=>`…`): daar bleven er
+// na stap 6 drie over (budgethulp adv_pos/adv_neg/adv_spaar), gevonden bij de nulmeting van het
+// amendement beleefdheidsvorm.
 const { test, expect } = require('@playwright/test');
 const B = require('../tools/vertaal/bronnen.js');
 
@@ -16,7 +18,7 @@ test('TI: geen m/v-streep in de bronnen en de spiegel', () => {
   for (const b of B.laadAlles()) {
     const t = b.talen.TI;
     if (!t) continue;
-    for (const [pad, l] of t.bladeren) if (l.soort === 'str' && mvStreep(l.waarde)) over.push(`${b.naam} ${pad}`);
+    for (const [pad, l] of t.bladeren) if ((l.soort === 'str' || l.soort === 'expr') && mvStreep(l.waarde)) over.push(`${b.naam} ${pad}`);
   }
   for (const [sleutel, l] of B.laadSpiegel().TI) if (mvStreep(l.waarde)) over.push(`spiegel ${sleutel}`);
   expect(over).toEqual([]);
