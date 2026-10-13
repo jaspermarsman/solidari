@@ -3,6 +3,13 @@
 //
 //   node tools/vertaal/pas-toe.js --taal ti --stapel a [--bestand naturalisatie-data.js] [--droog]
 //   node tools/vertaal/pas-toe.js --taal ti --stapel m [--bestand …] [--droog]   (na a; besluit m/v 13-10)
+//   node tools/vertaal/pas-toe.js --taal ti --stapel r [--bestand …] [--droog]   (AMENDEMENT beleefdheidsvorm)
+//
+// Stapel r = de registeromzetting uit <taal>-register.json (tools/vertaal/register.py): elke tekst
+// die gewijzigd is en door de controles kwam, op elke plek waar precies die tekst nog staat —
+// gewone strings, sjablonen (de ${…}-expressies worden teruggezet) en spiegelrijen. Een spiegelrij
+// gaat mee met het eerste bronbestand dat dezelfde tekst heeft; staat de tekst alleen in de spiegel,
+// dan hoort hij bij vertaalhulp.html. Weigert als meer dan 10% van de gewijzigde teksten zakte (§6.1).
 //
 // Stapel m = besluit "alleen de mannelijke aanspreekvorm" (W-D, 13-10-2026): eerst de B-strings met
 // een m/v-streep naar hun Gemini-voorstel (B-wissel), daarna de minimale bewerkingen uit
@@ -42,6 +49,15 @@ function sjabloonTerug(sj, tekst) {
 
 let stapels = alleStapels;
 let mannelijk = null;
+let register = null;
+if (stapel === 'R') {
+  register = JSON.parse(fs.readFileSync(path.join(map, `${taal}-register.json`), 'utf8'));
+  if (register.gezakt_pct > 10 && !process.argv.includes('--ondanks-afbreekcriterium')) {
+    console.error(`Afbreekcriterium §6.1: ${register.gezakt_pct}% van de gewijzigde teksten zakte. Niets toegepast.`);
+    process.exit(1);
+  }
+  stapels = { R: [] };
+}
 if (stapel === 'M') {
   mannelijk = JSON.parse(fs.readFileSync(path.join(map, `${taal}-mannelijk.json`), 'utf8'));
   const wissel = new Set(mannelijk.b_wissel.map((x) => x.bron + '\u0000' + x.pad));
@@ -93,6 +109,35 @@ if (mannelijk) {
       if (blad.waarde === x.tekst) { bw.vervang(blad, x.nieuw); verslag.toegepast.push(`${blad.bestand} ${p.pad || p.sleutel} (m/v)`); }
       else if (droog && blad.waarde === p.huidig) verslag.toegepast.push(`${blad.bestand} ${p.pad || p.sleutel} (m/v, na a)`);
       else verslag.overgeslagen.push(['mannelijk', p.pad || p.sleutel, 'stand wijkt af (eerst stapel a toepassen?)']);
+    }
+  }
+}
+
+// Stapel R: registeromzetting
+if (register) {
+  const { sjabloon } = require('./extract.js');
+  for (const x of register.items) {
+    if (!x.geslaagd || !x.nieuw || x.nieuw === x.tekst) {
+      if (x.nieuw && x.nieuw !== x.tekst) verslag.overgeslagen.push(['register', x.id, x.gezakt_op.join(',')]);
+      continue;
+    }
+    const eigenaar = (x.plekken.find((p) => p.soort === 'bron') || { bestand: 'vertaalhulp.html' }).bestand;
+    for (const p of x.plekken) {
+      const plekBestand = p.soort === 'spiegel' ? eigenaar : p.bestand;
+      if (alleenBestand && plekBestand !== alleenBestand) continue;
+      const blad = p.soort === 'bron' ? bronnen.get(p.bron).talen[TAAL].bladeren.get(p.pad) : spiegel.get(p.sleutel);
+      const naam = p.pad || 'spiegel ' + p.sleutel;
+      if (!blad) { verslag.overgeslagen.push(['register', naam, 'niet gevonden']); continue; }
+      if (p.sjabloon) {
+        const sj = blad.soort === 'expr' && sjabloon(blad.waarde);
+        if (!sj || sj.tekst !== x.tekst) { verslag.overgeslagen.push(['register', naam, 'sjabloon veranderd']); continue; }
+        bw.ruw(blad.bestand, blad.start, blad.eind, sjabloonTerug(sj, x.nieuw));
+      } else {
+        if (blad.waarde !== x.tekst) { verslag.overgeslagen.push(['register', naam, 'stand wijkt af']); continue; }
+        bw.vervang(blad, x.nieuw);
+      }
+      if (p.soort === 'spiegel') verslag.spiegel++;
+      verslag.toegepast.push(`${plekBestand} ${naam}`);
     }
   }
 }
