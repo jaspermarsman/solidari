@@ -7,6 +7,9 @@
 //   nooit voorgelezen, en er komen geen 🔊-knoppen (S-7).
 const { test, expect, devices } = require('@playwright/test');
 const { metTaal } = require('./helpers');
+const B = require('../tools/vertaal/bronnen.js');
+// TI-teksten uit de bron: de aanspreekvorm veranderde in het amendement beleefdheidsvorm (መልስኻ → መልስኹም).
+const TI = (k) => B.laadBron(B.BRONNEN.find((b) => b.naam === 'i18n.js')).talen.TI.bladeren.get(k).waarde;
 
 test.use({ ...devices['Pixel 5'] });
 
@@ -321,7 +324,7 @@ test('TI: bedragveld heeft een mic (herkenning ti-ET), cijfers werken, melding a
   await laad(page, 'loont-werken.html', { taal: 'TI', stand: 'aan' });
   await naarEersteBedrag(page, 'loont-werken.html');
   await expect(page.locator('#g-inp + .sol-a11y-mic')).toHaveCount(1);
-  expect(await page.locator('#g-inp').getAttribute('aria-label')).toBe('መልስኻ ብቑጽሪ');
+  expect(await page.locator('#g-inp').getAttribute('aria-label')).toBe(TI('a11y-label-getal'));
   await page.evaluate(() => { window.__srTekst = '34'; window.__spoken = []; });
   await page.locator('#g-inp + .sol-a11y-mic').click();
   await expect(page.locator('#g-inp')).toHaveValue('34');
@@ -329,7 +332,7 @@ test('TI: bedragveld heeft een mic (herkenning ti-ET), cijfers werken, melding a
   await page.locator('#g-inp').fill('');
   await page.evaluate(() => { window.__srTekst = 'ሰላሳን ኣርባዕተን'; });   // woorden: in TI geen woordenlijst
   await page.locator('#g-inp + .sol-a11y-mic').click();
-  await expect(page.locator('.sol-a11y-bedrag-melding[role="status"]')).toHaveText('ቁጽሪ ኣይሰማዕኩን። በጃኻ ደጊምካ ፈትን።');
+  await expect(page.locator('.sol-a11y-bedrag-melding[role="status"]')).toHaveText(TI('a11y-geen-getal'));
   await expect(page.locator('#g-inp')).toHaveValue('');
   await page.waitForTimeout(300);
   expect(await page.evaluate(() => window.__spoken)).toEqual([]);

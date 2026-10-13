@@ -9,6 +9,9 @@
 const { test, expect, devices } = require('@playwright/test');
 const AxeBuilder = require('@axe-core/playwright').default;
 const { PAGES, metTaal } = require('./helpers');
+const B = require('../tools/vertaal/bronnen.js');
+// TI-teksten uit de bron: de aanspreekvorm veranderde in het amendement beleefdheidsvorm (ኪድ → ኪዱ).
+const TI = (k) => B.laadBron(B.BRONNEN.find((b) => b.naam === 'i18n.js')).talen.TI.bladeren.get(k).waarde;
 
 test.use({ ...devices['Pixel 5'] });
 
@@ -397,8 +400,8 @@ test('voorleesstand: eerste tik op een chip met emoji leest de tekst zonder emoj
 // ── 10. Tigrinya: tekst ja, spraak nooit (S-7) ──────────────────────────────
 test('TI: skip-link en knopnamen vertaald, geen 🔊 en geen voorleesschakelaar', async ({ page }) => {
   await laad(page, 'rechten.html', { taal: 'TI' });
-  await expect(page.locator('.sol-skip')).toHaveText('ናብ ትሕዝቶ ኪድ');
-  await expect(page.getByRole('button', { name: 'ስደድ', exact: true })).toHaveCount(1);
+  await expect(page.locator('.sol-skip')).toHaveText(TI('a11y-naar-inhoud'));
+  await expect(page.getByRole('button', { name: TI('a11y-verstuur'), exact: true })).toHaveCount(1);
   await expect(page.locator('.sol-a11y-knop')).toHaveCount(0);
   await expect(page.locator('.sol-a11y-luister-toggle')).toBeHidden();
 });
