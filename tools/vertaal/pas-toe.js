@@ -51,6 +51,7 @@ const bronnen = new Map(B.laadAlles().map((b) => [b.naam, b]));
 const spiegel = B.laadSpiegel()[TAAL] || new Map();
 const bw = new Bewerkingen();
 const verslag = { toegepast: [], overgeslagen: [], spiegel: 0, spiegelNiet: [] };
+const spiegelGedaan = new Set();   // twee rapportregels met dezelfde oude waarde: de spiegelrij maar één keer
 for (const r of stapels[stapel]) {
   const bron = bronnen.get(r.bron);
   const blad = bron && bron.talen[TAAL] && bron.talen[TAAL].bladeren.get(r.pad);
@@ -65,7 +66,10 @@ for (const r of stapels[stapel]) {
     // spiegel: elke rij met precies de oude waarde
     let gevonden = false;
     for (const [sleutel, s] of spiegel) {
-      if (s.waarde === r.huidig) { bw.vervang(s, r.voorstel); verslag.spiegel++; gevonden = true; void sleutel; }
+      if (s.waarde !== r.huidig) continue;
+      gevonden = true;
+      if (spiegelGedaan.has(sleutel)) continue;
+      spiegelGedaan.add(sleutel); bw.vervang(s, r.voorstel); verslag.spiegel++;
     }
     if (!gevonden) verslag.spiegelNiet.push(`${r.bron} ${r.pad}`);
   }
