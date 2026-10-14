@@ -2917,13 +2917,11 @@ window.GoedVoorbereidData = {
                 'Od kiedy masz tę dolegliwość?',
                 'Gdzie dokładnie boli?',
                 'Czego już próbowałeś?',
-                'Masz jeszcze inne dolegliwości?',
                 'Jak ci idzie poza tym: praca, dom, sen?',
               ] },
               { kop: 'Jak się przygotować', type: 'lijst', items: [
                 'Przypomnij sobie, kiedy dolegliwość się zaczęła i co dokładnie czujesz.',
                 'Zapisz swoją dolegliwość, albo poproś kogoś o pomoc przy tym.',
-                'Masz więcej niż jedną dolegliwość? Powiedz to na początku, żeby lekarz mógł podzielić czas.',
                 'Bierzesz leki? Weź je ze sobą lub zapisz ich nazwy.',
               ] },
               { kop: 'Co możesz powiedzieć lub zapytać', type: 'lijst', items: [
@@ -2933,7 +2931,6 @@ window.GoedVoorbereidData = {
                   eigen: 'Co mogę zrobić sam?' },
                 { zeg: 'Wanneer moet ik terugkomen?',
                   eigen: 'Kiedy mam wrócić?' },
-                'Poproś lekarza, żeby to zapisał, jeśli nie możesz zapamiętać.',
               ] },
             ],
           },
@@ -2988,7 +2985,6 @@ window.GoedVoorbereidData = {
                 'Od kiedy dziecko ma tę dolegliwość?',
                 'Czy dziecko ma gorączkę i jak wysoką?',
                 'Czy dziecko normalnie je i pije?',
-                'Co już zrobiłeś lub co podałeś?',
               ] },
               { kop: 'Jak się przygotować', type: 'lijst', items: [
                 'Przypomnij sobie, kiedy to się zaczęło i co zauważasz u dziecka.',
@@ -3061,7 +3057,6 @@ window.GoedVoorbereidData = {
               { kop: 'Co możesz powiedzieć lub zapytać', type: 'lijst', items: [
                 { zeg: 'Wat kost het?', eigen: 'Ile to kosztuje?' },
                 { zeg: 'Wanneer is het klaar?', eigen: 'Kiedy będzie gotowe?' },
-                { zeg: 'Moet ik een afspraak maken om het op te halen?', eigen: 'Czy muszę umówić się, żeby to odebrać?' },
                 { zeg: 'Ik begrijp het niet, kunt u het rustiger uitleggen?', eigen: 'Nie rozumiem, czy może pan/pani wyjaśnić spokojniej?' },
               ] },
             ],
@@ -3074,7 +3069,6 @@ window.GoedVoorbereidData = {
               { kop: 'O co zapyta gemeente', type: 'lijst', items: [
                 'Co w domu idzie dobrze, a co już się nie udaje?',
                 'Kto już ci pomaga? (rodzina, sąsiedzi, znajomi)',
-                'Jak twoje zdrowie?',
                 'Co chciałbyś znów móc robić sam?',
               ] },
               { kop: 'Jak się przygotować', type: 'lijst', items: [
@@ -3102,12 +3096,10 @@ window.GoedVoorbereidData = {
                 'Jak ci idzie w tej chwili?',
                 'Czy coś się zmieniło w twojej sytuacji? (mieszkanie, rodzina, pieniądze, zdrowie)',
                 'Pracujesz, albo robisz coś, żeby znaleźć pracę?',
-                'Czy udaje ci się związać koniec z końcem?',
               ] },
               { kop: 'Jak się przygotować', type: 'lijst', items: [
                 'Zastanów się, czy coś się zmieniło od ostatniego razu. Masz wątpliwości? I tak powiedz.',
                 'Weź ze sobą: dokument tożsamości i kartę bankową. Czasem gmina prosi o wyciągi bankowe, sprawdź w liście z zaproszeniem.',
-                'Dostałeś list o tej rozmowie? Weź go ze sobą.',
                 'Masz problemy, na przykład długi? Możesz o nich powiedzieć. Gmina czasem może pomóc.',
               ] },
               { kop: 'Co możesz powiedzieć lub zapytać', type: 'lijst', items: [
@@ -3117,7 +3109,6 @@ window.GoedVoorbereidData = {
                   eigen: 'Co to znaczy dla mojego zasiłku?' },
                 { zeg: 'Wat moet ik nu doen?',
                   eigen: 'Co mam teraz zrobić?' },
-                'Poproś gminę o zapisanie ustaleń na papierze, żebyś mógł je przeczytać w domu.',
               ] },
             ],
           },
@@ -3150,13 +3141,11 @@ window.GoedVoorbereidData = {
               { kop: 'Co nauczyciel powie lub o co zapyta', type: 'lijst', items: [
                 'Jak idzie czytanie, matematyka i inne przedmioty.',
                 'Jak dziecko uczestniczy w klasie i dogaduje się z innymi dziećmi.',
-                'Czasem nauczyciel pokazuje prace lub wyniki testów dziecka.',
                 'Czy dziecko chętnie chodzi do szkoły? Jak jest w domu?',
               ] },
               { kop: 'Jak się przygotować', type: 'lijst', items: [
                 'Zapytaj dziecko wcześniej: jak jest w szkole? Co lubisz? Co jest dla ciebie trudne?',
                 'Czasu jest mało. Wymyśl jedną lub dwie rzeczy, o które na pewno chcesz zapytać, i zapisz je.',
-                'Dostałeś list lub świadectwo? Weź je ze sobą.',
                 'Czymś się martwisz? Zacznij od tego, wtedy będzie na to dość czasu.',
               ] },
               { kop: 'Przykłady pytań, które możesz zadać', type: 'lijst', items: [
