@@ -13,6 +13,17 @@
 
 window.Solidari = window.Solidari || {};
 
+// ?taal=ti in de URL zet de taal bij het laden (PLAN 9, S-6), zodat een link per taal kan.
+// Hoofd- of kleine letters; alleen de negen bekende codes, een andere waarde wordt genegeerd.
+// Werkt via de opgeslagen taal, dus elke pagina (en de taalknoppen daarna) gaat er gewoon mee om.
+(function() {
+  try {
+    const m = /[?&]taal=([^&#]*)/i.exec(window.location.search);
+    const code = m ? decodeURIComponent(m[1]).trim().toUpperCase() : '';
+    if (['NL', 'EN', 'AR', 'TI', 'TR', 'UK', 'FA', 'RO', 'PL'].includes(code)) localStorage.setItem('solidari-taal', code);
+  } catch (e) {}
+})();
+
 Solidari.i18n = (function() {
 
   // ── Gedeelde vertalingen (nav, footer, tool-namen) ──────────────────────
@@ -71,6 +82,9 @@ Solidari.i18n = (function() {
       'footer-contact': 'Contact',
       'ai-melding': 'Dit is een AI-assistent, geen mens. De uitleg kan fouten bevatten — controleer belangrijke informatie bij de instantie of bij je begeleider.',
       'ai-gegenereerd': 'Gegenereerd met AI',
+      'a11y-taal-kiezen': 'Taal kiezen',
+      'a11y-menu-openen': 'Menu openen',
+      'over-transparantie': 'De vertalingen op Solidari zijn met AI gemaakt en door een tweede AI nagekeken. Een moedertaalspreker heeft ze nog niet beoordeeld. Zie je een fout? Help ons op de <a href="vertaalhulp.html">vertaalhulp-pagina</a>.',
     },
     EN: {
       'nav-tools':    'Tools',
@@ -121,6 +135,9 @@ Solidari.i18n = (function() {
       'footer-contact': 'Contact',
       'ai-melding': 'This is an AI assistant, not a person. The explanation may contain mistakes — check important information with the organisation or with your support worker.',
       'ai-gegenereerd': 'Generated with AI',
+      'a11y-taal-kiezen': 'Choose language',
+      'a11y-menu-openen': 'Open menu',
+      'over-transparantie': 'The translations on Solidari are made by AI. A second AI checked them. A native speaker has not checked them yet. Do you see a mistake? Help us on the <a href="vertaalhulp.html">translation help page</a>.',
     },
     AR: {
       'nav-tools':    'الأدوات',
@@ -171,6 +188,9 @@ Solidari.i18n = (function() {
       'footer-contact': 'اتصل بنا',
       'ai-melding': 'هذا مساعد ذكاء اصطناعي، وليس إنسانًا. قد يحتوي الشرح على أخطاء — تحقق من المعلومات المهمة لدى الجهة المعنية أو لدى مرافقك.',
       'ai-gegenereerd': 'أُنشئ بواسطة الذكاء الاصطناعي',
+      'a11y-taal-kiezen': 'اختيار اللغة',
+      'a11y-menu-openen': 'فتح القائمة',
+      'over-transparantie': 'الترجمات على Solidari تمت بواسطة الذكاء الاصطناعي، وراجعها ذكاء اصطناعي ثانٍ. لم يراجعها شخص لغته الأم بعد. هل ترى خطأً؟ ساعدنا في <a href="vertaalhulp.html">صفحة المساعدة في الترجمة</a>.',
     },
     TR: {
       'nav-tools':    'Araçlar',
@@ -221,6 +241,9 @@ Solidari.i18n = (function() {
       'footer-contact': 'İletişim',
       'ai-melding': 'Bu bir yapay zekâ asistanıdır, insan değildir. Açıklamada hata olabilir — önemli bilgileri kurumdan veya danışmanınızdan teyit edin.',
       'ai-gegenereerd': 'Yapay zekâ ile oluşturuldu',
+      'a11y-taal-kiezen': 'Dil seçin',
+      'a11y-menu-openen': 'Menüyü açın',
+      'over-transparantie': 'Solidari\'deki çeviriler AI ile yapıldı. İkinci bir AI bunları kontrol etti. Metinleri henüz ana dili olan biri kontrol etmedi. Bir hata mı gördünüz? <a href="vertaalhulp.html">Çeviri yardımı sayfasından</a> bize yardım edin.',
     },
     TI: {
       'nav-tools':    'መሳርሒታት',
@@ -271,6 +294,9 @@ Solidari.i18n = (function() {
       'footer-contact': 'ርክብ',
       'ai-melding': 'እዚ ናይ AI ሓጋዚ እዩ፣ ሰብ ኣይኮነን። እቲ መብርሂ ጌጋ ክህልዎ ይኽእል እዩ — ኣገዳሲ ሓበሬታ ኣብቲ ትካል ወይ ኣብ ሓጋዚኹም ኣረጋግጹ።',
       'ai-gegenereerd': 'ብ AI ዝተፈጥረ',
+      'a11y-taal-kiezen': 'ቋንቋ ምረጹ',
+      'a11y-menu-openen': 'ሜኑ ክፈቱ',
+      'over-transparantie': 'ኣብ Solidari ዘለዉ ትርጉማት ብ AI ዝተሰርሑን ብካልኣይ AI ዝተፈተሹን እዮም። ቋንቋ ኣደ ብዝዛረብ ሰብ ገና ኣይተገምገሙን። ጌጋ ትርእዩ ዶ? ኣብቲ <a href="vertaalhulp.html">ናይ ሓገዝ ትርጉም ገጽ</a> ሓግዙና።',
     },
     UK: {
       'nav-tools':    'Інструменти',
@@ -321,6 +347,9 @@ Solidari.i18n = (function() {
       'footer-contact': 'Контакт',
       'ai-melding': 'Це ШІ-помічник, а не людина. Пояснення може містити помилки — перевіряйте важливу інформацію в установі або у свого куратора.',
       'ai-gegenereerd': 'Створено за допомогою ШІ',
+      'a11y-taal-kiezen': 'Обрати мову',
+      'a11y-menu-openen': 'Відкрити меню',
+      'over-transparantie': 'Переклади на Solidari зроблені за допомогою AI. Другий AI їх перевірив. Носій мови їх ще не перевірив. Ви бачите помилку? Допоможіть нам на <a href="vertaalhulp.html">сторінці допомоги з перекладом</a>.',
     },
     FA: {
       'nav-tools':    'ابزارها',
@@ -371,6 +400,9 @@ Solidari.i18n = (function() {
       'footer-contact': 'تماس',
       'ai-melding': 'این یک دستیار هوش مصنوعی است، نه انسان. ممکن است توضیح اشتباه داشته باشد — اطلاعات مهم را از سازمان یا از مددکار خود بررسی کنید.',
       'ai-gegenereerd': 'تولیدشده با هوش مصنوعی',
+      'a11y-taal-kiezen': 'انتخاب زبان',
+      'a11y-menu-openen': 'باز کردن منو',
+      'over-transparantie': 'ترجمه‌ها در Solidari با هوش مصنوعی ساخته شده‌اند و یک هوش مصنوعی دوم آن‌ها را بررسی کرده است. شخصی با زبان مادری هنوز آن‌ها را بررسی نکرده است. آیا اشتباهی می‌بینید؟ در <a href="vertaalhulp.html">صفحه کمک به ترجمه</a> به ما کمک کنید.',
     },
     RO: {
       'nav-tools':    'Instrumente',
@@ -421,6 +453,9 @@ Solidari.i18n = (function() {
       'footer-contact': 'Contact',
       'ai-melding': 'Acesta este un asistent AI, nu o persoană. Explicația poate conține erori — verificați informațiile importante la instituție sau la însoțitorul dumneavoastră.',
       'ai-gegenereerd': 'Generat cu AI',
+      'a11y-taal-kiezen': 'Alege limba',
+      'a11y-menu-openen': 'Deschide meniul',
+      'over-transparantie': 'Traducerile de pe Solidari sunt făcute cu AI și verificate de un al doilea AI. Un vorbitor nativ nu le-a verificat încă. Vedeți o greșeală? Ajutați-ne pe <a href="vertaalhulp.html">pagina de ajutor pentru traduceri</a>.',
     },
     PL: {
       'nav-tools':    'Narzędzia',
@@ -471,6 +506,9 @@ Solidari.i18n = (function() {
       'footer-contact': 'Kontakt',
       'ai-melding': 'To jest asystent AI, a nie człowiek. Wyjaśnienie może zawierać błędy — ważne informacje sprawdź w instytucji lub u swojego opiekuna.',
       'ai-gegenereerd': 'Wygenerowano przez AI',
+      'a11y-taal-kiezen': 'Wybierz język',
+      'a11y-menu-openen': 'Otwórz menu',
+      'over-transparantie': 'Tłumaczenia na Solidari zostały zrobione przez AI i sprawdzone przez drugie AI. Osoba, dla której to język ojczysty, jeszcze ich nie oceniła. Widzisz błąd? Pomóż nam na <a href="vertaalhulp.html">stronie pomocy w tłumaczeniu</a>.',
     },
   };
 

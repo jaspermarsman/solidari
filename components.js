@@ -321,6 +321,7 @@
       try { localStorage.setItem('solidari-taal', taal); } catch(e) {}
       verversLuisterToggle();   // taal zonder voorlezen → schakelaar weg (S-7)
       try { a11yVerwerk(document.body); } catch (e) {}   // knopnamen/labels in de nieuwe taal
+      verversNavLabels();
     }
 
     document.querySelectorAll('.taal-btn[data-taal]').forEach(btn => {
@@ -339,6 +340,17 @@
 
     passTaalToe(actiefeTaal);
   }
+
+  // ── Namen van de taalkiezer en de hamburger in de eigen taal (vert-v1 fase 3) ──
+  // Stonden in negen talen alleen in het Nederlands. Bij elke taalwissel opnieuw: via passTaalToe
+  // hierboven, en via solidari:taalGewijzigd voor pagina's die zelf wisselen (naturalisatie).
+  function verversNavLabels() {
+    const taal = document.querySelector('.taal-trigger');
+    if (taal) taal.setAttribute('aria-label', tr('a11y-taal-kiezen', 'Taal kiezen'));
+    const menu = document.querySelector('.hamburger');
+    if (menu) menu.setAttribute('aria-label', tr('a11y-menu-openen', 'Menu openen'));
+  }
+  document.addEventListener('solidari:taalGewijzigd', verversNavLabels);
 
   // ── Voorlezen-schakelaar (luistermodus) ────────────────────────────────
   // Voor een taal die niet voorgelezen wordt (Tigrinya, besluit S-7) hoort ook deze
