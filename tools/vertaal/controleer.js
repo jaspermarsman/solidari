@@ -9,7 +9,8 @@
 //
 // Controles: placeholders · html (tags + attributen) · systeemtermen (Latijns schrift) ·
 // schrift (eigen schrift aanwezig) · lengte (factor 2 t.o.v. huidig, vanaf 12 tekens) ·
-// getallen (en bedragen) · regels (aantal regelafbrekingen).
+// getallen (en bedragen) · regels (aantal regelafbrekingen) · vreemd schrift (PLAN 9, S-9: tekens uit
+// een schrift dat niet bij de taal hoort; dezelfde tabel als tests/vert-v1-schrift.spec.js).
 // Schrijft <taal>-controle.json [{id, geslaagd, gezakt_op, huidig_gezakt_op}].
 'use strict';
 const fs = require('fs');
@@ -18,6 +19,23 @@ const path = require('path');
 const TERMEN = ['huisarts', 'BSN', 'DigiD', 'gemeente', 'bijstand', 'klantmanager', 'toeslag', 'inburgering',
   'IND', 'Belastingdienst', 'UWV', 'SVB', 'VluchtelingenWerk', 'Juridisch Loket'];
 const SCHRIFT = { ti: /[ሀ-፿]/, ar: /[؀-ۿ]/, fa: /[؀-ۿ]/, uk: /[Ѐ-ӿ]/ };
+// Schriften die in een taal niet mogen voorkomen (Latijns mag overal: systeemtermen).
+const VREEMD = {
+  geez: /[ሀ-᎟ⶀ-⷟]/,
+  cyrillisch: /[Ѐ-ӿ]/,
+  arabisch: /[؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿]/,
+  devanagari: /[ऀ-ॿ]/,
+  cjk: /[぀-ヿ㐀-鿿가-힯]/,   // kana, CJK-tekens, Hangul
+};
+const VERBODEN = {
+  ti: ['cyrillisch', 'arabisch', 'devanagari', 'cjk'],
+  ar: ['geez', 'cyrillisch', 'devanagari', 'cjk'],
+  fa: ['geez', 'cyrillisch', 'devanagari', 'cjk'],
+  uk: ['geez', 'arabisch', 'devanagari', 'cjk'],
+};
+function vreemdSchrift(taal, s) {
+  return (VERBODEN[taal.toLowerCase()] || Object.keys(VREEMD)).filter((n) => VREEMD[n].test(s));
+}
 
 function arg(naam, standaard) { const i = process.argv.indexOf('--' + naam); return i > 0 ? process.argv[i + 1] : standaard; }
 const multiset = (xs) => xs.slice().sort().join('\u0001');
@@ -50,6 +68,8 @@ function controleer(taal, nl, voorstel, huidig) {
     if (r < 0.5 || r > 2) gezakt.push(`lengte:${r.toFixed(2)}`);
   }
   if (multiset(getallen(nl)) !== multiset(getallen(voorstel))) gezakt.push('getallen');
+  const vreemd = vreemdSchrift(taal, voorstel);
+  if (vreemd.length) gezakt.push('vreemd schrift:' + vreemd.join('/'));
   if ((nl.match(/\n/g) || []).length !== (voorstel.match(/\n/g) || []).length) gezakt.push('regels');
   return gezakt;
 }
@@ -76,4 +96,4 @@ if (require.main === module) {
   console.log(`${taal}: ${uit.length} voorstellen, ${gezakt} gezakt (${(100 * gezakt / uit.length).toFixed(1)}%)`, telling);
 }
 
-module.exports = { controleer, TERMEN };
+module.exports = { controleer, TERMEN, vreemdSchrift };

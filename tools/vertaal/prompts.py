@@ -43,7 +43,9 @@ Even veel objecten als de invoer, dezelfde id's, dezelfde volgorde.
 Invoer:
 {invoer}"""
 
-# Prompt A voor TI, letterlijk zoals in het plan (de eerste regel loopt daar door naar "(ti, Ge'ez-schrift).")
+# Prompt A voor TI, letterlijk zoals in het plan (de eerste regel loopt daar door naar "(ti, Ge'ez-schrift).").
+# Regel 9 kwam erbij op 14-10-2026 (PLAN 9, blok 2.3): het besluit beleefd meervoud uit het amendement.
+# De rondes van 11 t/m 13-10 liepen zonder regel 9.
 PROMPT_A_TI = """Je vertaalt tekst van een Nederlandse publieke-informatiewebsite naar Tigrinya
 (ti, Ge'ez-schrift). De lezers zijn statushouders en nieuwkomers in Nederland;
 velen hebben weinig opleiding.
@@ -62,6 +64,7 @@ Regels:
 7. Neem getallen, bedragen (bijvoorbeeld EUR 1.139), datums en e-mailadressen
    exact over.
 8. Geen uitleg, geen alternatieven, geen toelichting. Alleen de vertaling.
+9. Spreek de lezer aan in de beleefde meervoudsvorm (ኹም-vorm), die geen geslacht aanduidt.
 
 Antwoord met JSON, niets erbuiten:
 [{"id": "<id uit de invoer>", "ti": "<vertaling>"}]
