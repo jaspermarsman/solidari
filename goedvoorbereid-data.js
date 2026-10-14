@@ -2572,13 +2572,11 @@ window.GoedVoorbereidData = {
                 'De când ai această problemă?',
                 'Unde exact este durerea?',
                 'Ce ai încercat deja?',
-                'Mai ai și alte probleme?',
                 'Cum îți merge în rest: munca, acasă, somnul?',
               ] },
               { kop: 'Cum te pregătești', type: 'lijst', items: [
                 'Gândește-te când a început problema și ce simți exact.',
                 'Scrie-ți problema, sau roagă pe cineva să te ajute cu asta.',
-                'Ai mai multe probleme? Spune asta la început, ca doctorul să poată împărți timpul.',
                 'Iei medicamente? Ia-le cu tine sau scrie numele lor.',
               ] },
               { kop: 'Ce poți spune sau întreba', type: 'lijst', items: [
@@ -2588,7 +2586,6 @@ window.GoedVoorbereidData = {
                   eigen: 'Ce pot face eu însumi?' },
                 { zeg: 'Wanneer moet ik terugkomen?',
                   eigen: 'Când trebuie să revin?' },
-                'Roagă doctorul să scrie, dacă nu poți ține minte.',
               ] },
             ],
           },
@@ -2643,7 +2640,6 @@ window.GoedVoorbereidData = {
                 'De când are copilul tău problema?',
                 'Are copilul febră, și cât de mare?',
                 'Mănâncă și bea copilul normal?',
-                'Ce ai făcut sau ce i-ai dat deja?',
               ] },
               { kop: 'Cum te pregătești', type: 'lijst', items: [
                 'Gândește-te când a început și ce observi la copilul tău.',
@@ -2716,7 +2712,6 @@ window.GoedVoorbereidData = {
               { kop: 'Ce poți spune sau întreba', type: 'lijst', items: [
                 { zeg: 'Wat kost het?', eigen: 'Cât costă?' },
                 { zeg: 'Wanneer is het klaar?', eigen: 'Când este gata?' },
-                { zeg: 'Moet ik een afspraak maken om het op te halen?', eigen: 'Trebuie să fac o programare ca să îl ridic?' },
                 { zeg: 'Ik begrijp het niet, kunt u het rustiger uitleggen?', eigen: 'Nu înțeleg, puteți explica mai calm?' },
               ] },
             ],
@@ -2729,7 +2724,6 @@ window.GoedVoorbereidData = {
               { kop: 'Ce va întreba gemeente', type: 'lijst', items: [
                 'Ce merge bine acasă și ce nu mai reușești?',
                 'Cine te ajută deja? (familie, vecini, cunoscuți)',
-                'Cum este sănătatea ta?',
                 'Ce ai vrea să poți face din nou singur?',
               ] },
               { kop: 'Cum te pregătești', type: 'lijst', items: [
@@ -2757,12 +2751,10 @@ window.GoedVoorbereidData = {
                 'Cum îți merge în acest moment?',
                 'S-a schimbat ceva în situația ta? (locuință, familie, bani, sănătate)',
                 'Lucrezi, sau faci ceva pentru a găsi de lucru?',
-                'Reușești să te descurci cu banii?',
               ] },
               { kop: 'Cum te pregătești', type: 'lijst', items: [
                 'Gândește-te dacă s-a schimbat ceva de data trecută. Nu ești sigur? Spune oricum.',
                 'Ia cu tine: actul de identitate și cardul bancar. Uneori primăria cere extrase de cont, verifică în scrisoarea de invitație.',
-                'Ai primit o scrisoare despre această discuție? Ia-o cu tine.',
                 'Ai probleme, cum ar fi datorii? Poți să le menționezi. Primăria poate uneori ajuta.',
               ] },
               { kop: 'Ce poți spune sau întreba', type: 'lijst', items: [
@@ -2772,7 +2764,6 @@ window.GoedVoorbereidData = {
                   eigen: 'Ce înseamnă asta pentru ajutorul meu?' },
                 { zeg: 'Wat moet ik nu doen?',
                   eigen: 'Ce trebuie să fac acum?' },
-                'Cere primăriei să pună înțelegerea pe hârtie, ca să o poți reciti acasă.',
               ] },
             ],
           },
@@ -2805,13 +2796,11 @@ window.GoedVoorbereidData = {
               { kop: 'Ce va spune sau întreba învățătorul', type: 'lijst', items: [
                 'Cum merge cititul, matematica și celelalte materii.',
                 'Cum participă copilul în clasă și cum se înțelege cu ceilalți copii.',
-                'Uneori învățătorul arată lucrări sau rezultate la teste ale copilului.',
                 'Merge copilul cu plăcere la școală? Cum e acasă?',
               ] },
               { kop: 'Cum te pregătești', type: 'lijst', items: [
                 'Întreabă-ți copilul dinainte: cum merge la școală? Ce îți place? Ce ți se pare greu?',
                 'Timpul e scurt. Gândește-te la unul sau două lucruri pe care sigur vrei să le întrebi și scrie-le.',
-                'Ai primit o scrisoare sau un carnet de note? Ia-le cu tine.',
                 'Te îngrijorează ceva? Începe cu asta, ca să fie destul timp pentru ea.',
               ] },
               { kop: 'Exemple de întrebări pe care le poți pune', type: 'lijst', items: [
