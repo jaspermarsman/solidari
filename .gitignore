@@ -37,3 +37,6 @@ tools/vps/server.json.bak
 
 # Reviewclips voor W-B (lokaal; horen niet op de site)
 tools/test/tigrinya-review/
+
+# Privétool feedback-analyse (lokaal, met export-secret; zie README → Bestanden)
+tools/feedback/

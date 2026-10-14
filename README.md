@@ -65,7 +65,6 @@ rechten.html            Rechten & Plichten
 goedvoorbereid.html     Goed Voorbereid
 vertaalhulp.html        Vertaalhulp (correctietool voor de 9 talen)
 feedback.html           Feedbackformulier
-feedback-analyse.html   Privétool: feedback exporteren en analyseren
 
 components.css          Gedeelde stijlen + CSS-variabelen
 components.js           Nav/footer injectie, taalwisseling, dropdown
@@ -79,6 +78,9 @@ spraak.js               Voorlees- en spraakinvoermotor (gelaagd, §Toegankelijkh
 spraak.css              Stijlen voor 🔊-knoppen, mic, luistermodus, welkomstscherm
 audio/manifest-<taal>.json  hash → {duur} + generatorbron per taal (nu alle negen leeg)
 tools/audio/            Pijplijn (extract.js, genereer_espeak.py, genereer_gemini.py, valideer.js)
+tools/feedback/         Privétool feedback-analyse.html: feedback exporteren en analyseren
+                        (alleen lokaal, staat in .gitignore; gebruik: tools/feedback/LEESMIJ.md)
+tools/vertaal/          Vertaalpijplijn PLAN 7/9 (extractie, Gemini-ronde, controles, spiegel)
 tests/                  Playwright-acceptatietests (buiten de site)
 
 solidari-worker.js      Cloudflare Worker (Claude API proxy)
