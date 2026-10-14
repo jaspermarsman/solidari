@@ -1192,13 +1192,11 @@ window.GoedVoorbereidData = {
                 'Bu şikâyetin ne zamandan beri var?',
                 'Ağrı tam olarak nerede?',
                 'Şimdiye kadar ne denedin?',
-                'Başka şikâyetlerin var mı?',
                 'Genel olarak nasılsın: iş, ev, uyku?',
               ] },
               { kop: 'Nasıl hazırlanırsın', type: 'lijst', items: [
                 'Şikâyetin ne zaman başladığını ve tam olarak ne hissettiğini düşün.',
                 'Şikâyetini yaz, veya birinden bu konuda yardım iste.',
-                'Birden fazla şikâyetin mi var? Bunu başta söyle, böylece doktor zamanı bölebilir.',
                 'İlaç kullanıyor musun? Yanında getir veya isimlerini yaz.',
               ] },
               { kop: 'Ne söyleyebilir veya sorabilirsin', type: 'lijst', items: [
@@ -1208,7 +1206,6 @@ window.GoedVoorbereidData = {
                   eigen: 'Kendim ne yapabilirim?' },
                 { zeg: 'Wanneer moet ik terugkomen?',
                   eigen: 'Ne zaman geri gelmeliyim?' },
-                'Aklında tutamayacaksan doktordan yazmasını iste.',
               ] },
             ],
           },
@@ -1263,7 +1260,6 @@ window.GoedVoorbereidData = {
                 'Çocuğunun şikâyeti ne zamandan beri var?',
                 'Çocuğunun ateşi var mı, kaç derece?',
                 'Çocuğun normal yiyip içiyor mu?',
-                'Şimdiye kadar ne yaptın veya ne verdin?',
               ] },
               { kop: 'Nasıl hazırlanırsın', type: 'lijst', items: [
                 'Ne zaman başladığını ve çocuğunda ne fark ettiğini düşün.',
@@ -1336,7 +1332,6 @@ window.GoedVoorbereidData = {
               { kop: 'Ne söyleyebilir veya sorabilirsin', type: 'lijst', items: [
                 { zeg: 'Wat kost het?', eigen: 'Ne kadar tutuyor?' },
                 { zeg: 'Wanneer is het klaar?', eigen: 'Ne zaman hazır olur?' },
-                { zeg: 'Moet ik een afspraak maken om het op te halen?', eigen: 'Almak için randevu almam gerekiyor mu?' },
                 { zeg: 'Ik begrijp het niet, kunt u het rustiger uitleggen?', eigen: 'Anlamıyorum, biraz daha sakin anlatabilir misiniz?' },
               ] },
             ],
@@ -1349,7 +1344,6 @@ window.GoedVoorbereidData = {
               { kop: 'Gemeente ne soracak', type: 'lijst', items: [
                 'Evde ne iyi gidiyor, ne artık olmuyor?',
                 'Sana şu an kimler yardım ediyor? (aile, komşular, tanıdıklar)',
-                'Sağlığın nasıl?',
                 'Neyi tekrar kendin yapabilmek istersin?',
               ] },
               { kop: 'Nasıl hazırlanırsın', type: 'lijst', items: [
@@ -1377,12 +1371,10 @@ window.GoedVoorbereidData = {
                 'Şu anda nasılsın?',
                 'Durumunda bir şey değişti mi? (ev, aile, para, sağlık)',
                 'Çalışıyor musun, veya iş bulmak için bir şey yapıyor musun?',
-                'Geçinebiliyor musun?',
               ] },
               { kop: 'Nasıl hazırlanırsın', type: 'lijst', items: [
                 'Geçen seferden beri bir şey değişti mi düşün. Emin değil misin? Yine de söyle.',
                 'Yanında getir: kimlik belgen ve banka kartın. Bazen belediye hesap dökümü ister, davet mektubuna bak.',
-                'Bu görüşme hakkında bir mektup aldın mı? Yanında getir.',
                 'Borç gibi sorunların mı var? Bunları söyleyebilirsin. Belediye bazen yardım edebilir.',
               ] },
               { kop: 'Ne söyleyebilir veya sorabilirsin', type: 'lijst', items: [
@@ -1392,7 +1384,6 @@ window.GoedVoorbereidData = {
                   eigen: 'Bu benim yardımım için ne anlama geliyor?' },
                 { zeg: 'Wat moet ik nu doen?',
                   eigen: 'Şimdi ne yapmam gerekiyor?' },
-                'Belediyeden anlaşmayı kâğıda yazmasını iste, böylece evde tekrar okuyabilirsin.',
               ] },
             ],
           },
@@ -1425,13 +1416,11 @@ window.GoedVoorbereidData = {
               { kop: 'Öğretmen ne anlatacak veya soracak', type: 'lijst', items: [
                 'Okuma, matematik ve diğer derslerin nasıl gittiği.',
                 'Çocuğunun sınıfa nasıl katıldığı ve diğer çocuklarla nasıl geçindiği.',
-                'Bazen öğretmen çocuğunun çalışmalarını veya sınav sonuçlarını gösterir.',
                 'Çocuğun okula severek mi gidiyor? Evde işler nasıl?',
               ] },
               { kop: 'Nasıl hazırlanırsın', type: 'lijst', items: [
                 'Çocuğuna önceden sor: okul nasıl gidiyor? Neyi seviyorsun? Neyi zor buluyorsun?',
                 'Süre kısa. Mutlaka sormak istediğin bir veya iki şeyi düşün ve yaz.',
-                'Bir mektup veya karne aldın mı? Yanında getir.',
                 'Bir konuda endişeleniyor musun? Onunla başla, böylece ona yeterli zaman kalır.',
               ] },
               { kop: 'Sorabileceğin soru örnekleri', type: 'lijst', items: [
