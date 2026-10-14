@@ -491,13 +491,11 @@ window.GoedVoorbereidData = {
                 'Since when have you had this problem?',
                 'Where exactly is the pain?',
                 'What have you already tried?',
-                'Do you have any other complaints?',
                 'How are things going otherwise: work, home, sleep?',
               ] },
               { kop: 'How to prepare', type: 'lijst', items: [
                 'Think about when the problem started and what exactly you feel.',
                 'Write your problem down, or ask someone to help you with that.',
-                'Do you have more than one problem? Say so at the start, so the doctor can divide the time.',
                 'Do you take medicines? Bring them with you or write down the names.',
               ] },
               { kop: 'What you can say or ask', type: 'lijst', items: [
@@ -507,7 +505,6 @@ window.GoedVoorbereidData = {
                   eigen: 'What can I do myself?' },
                 { zeg: 'Wanneer moet ik terugkomen?',
                   eigen: 'When should I come back?' },
-                'Ask the doctor to write it down if you cannot remember it.',
               ] },
             ],
           },
@@ -562,7 +559,6 @@ window.GoedVoorbereidData = {
                 'Since when has your child had the problem?',
                 'Does your child have a fever, and how high?',
                 'Is your child eating and drinking normally?',
-                'What have you already done or given?',
               ] },
               { kop: 'How to prepare', type: 'lijst', items: [
                 'Think about when it started and what you notice about your child.',
@@ -635,7 +631,6 @@ window.GoedVoorbereidData = {
               { kop: 'What you can say or ask', type: 'lijst', items: [
                 { zeg: 'Wat kost het?', eigen: 'How much does it cost?' },
                 { zeg: 'Wanneer is het klaar?', eigen: 'When will it be ready?' },
-                { zeg: 'Moet ik een afspraak maken om het op te halen?', eigen: 'Do I need an appointment to collect it?' },
                 { zeg: 'Ik begrijp het niet, kunt u het rustiger uitleggen?', eigen: 'I do not understand, could you explain it more calmly?' },
               ] },
             ],
@@ -648,7 +643,6 @@ window.GoedVoorbereidData = {
               { kop: 'What the gemeente will ask', type: 'lijst', items: [
                 'What is going well at home, and what no longer works?',
                 'Who already helps you? (family, neighbours, people you know)',
-                'How is your health?',
                 'What would you like to be able to do yourself again?',
               ] },
               { kop: 'How to prepare', type: 'lijst', items: [
@@ -676,12 +670,10 @@ window.GoedVoorbereidData = {
                 'How are you doing at the moment?',
                 'Has anything changed in your situation? (housing, family, money, health)',
                 'Are you working, or doing something to find work?',
-                'Are you managing to get by?',
               ] },
               { kop: 'How to prepare', type: 'lijst', items: [
                 'Think about whether anything has changed since last time. Not sure? Mention it anyway.',
                 'Bring: your ID document and your bank card. Sometimes the gemeente asks for bank statements — check your invitation letter.',
-                'Did you receive a letter about this meeting? Bring it with you.',
                 'Do you have problems, such as debts? You may mention them. The gemeente can sometimes help.',
               ] },
               { kop: 'What you can say or ask', type: 'lijst', items: [
@@ -691,7 +683,6 @@ window.GoedVoorbereidData = {
                   eigen: 'What does this mean for my benefit?' },
                 { zeg: 'Wat moet ik nu doen?',
                   eigen: 'What do I need to do now?' },
-                'Ask the gemeente to put agreements on paper, so you can read them again at home.',
               ] },
             ],
           },
@@ -724,13 +715,11 @@ window.GoedVoorbereidData = {
               { kop: 'What the teacher will tell or ask', type: 'lijst', items: [
                 'How reading, maths and other subjects are going.',
                 'How your child joins in in class and gets along with other children.',
-                'Sometimes the teacher shows your child\'s work or test results.',
                 'Does your child enjoy going to school? How are things at home?',
               ] },
               { kop: 'How to prepare', type: 'lijst', items: [
                 'Ask your child beforehand: how is school going? What do you enjoy? What do you find difficult?',
                 'The time is short. Think of one or two things you definitely want to ask and write them down.',
-                'Did you receive a letter or a school report? Bring it with you.',
                 'Are you worried about something? Start with that, so there is enough time for it.',
               ] },
               { kop: 'Examples of questions you can ask', type: 'lijst', items: [
