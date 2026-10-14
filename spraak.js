@@ -296,7 +296,8 @@
 
   // ── Reeks: meerdere stukken achter elkaar (PLAN-5 fase 2, B-2) ─────────
   // zegReeks(items, {taal, pauze, opStart(item, i), opEinde}) leest de stukken na elkaar voor.
-  // Een item is een string of {tekst, el}; `el` licht op (.sol-a11y-keuze-opgenoemd) zolang zijn
+  // Een item is een string of {tekst, el, taal}; `el` licht op (.sol-a11y-keuze-opgenoemd) zolang zijn
+  // tekst klinkt; `taal` (optioneel) is de stem voor dat ene item, anders de taal van de reeks.
   // tekst klinkt. Er loopt maximaal één reeks. Hij stopt bij stop(), bij een nieuwe zeg()/zegReeks(),
   // bij elke aanraking (pointerdown/touchstart/keydown), bij een taalwissel en als de spraak faalt.
   // Retourneert {stop(), voegToe(items), actief}; voegToe() geeft false als de reeks klaar/gestopt is.
@@ -341,7 +342,7 @@
       r.timer = setTimeout(() => reeksVolgende(r), r.pauze);
     };
     zegRaw(item.tekst, {
-      taal: r.taal,
+      taal: item.taal || r.taal,
       opStart: () => {
         if (gestart || reeks !== r) return;
         gestart = true;
@@ -501,7 +502,7 @@
 
   // ── Auto-markering: zet data-lees op inhoudsblokken ────────────────────
   const BLOK_SEL = 'p, h1, h2, h3, h4, li, blockquote, dt, dd, figcaption, .regel-zeg, .regel-intro, .regel-eigen, .regel-na, .bel-sol';
-  const UITSLUIT_SEL = 'nav, footer, #solidari-nav, #solidari-footer, script, style, button, a, select, textarea, input, label, [data-lees], [data-geen-lees], [contenteditable="true"], .sol-a11y-knop, #sol-env-balk';
+  const UITSLUIT_SEL = 'nav, footer, #solidari-nav, #solidari-footer, #mob-menu, script, style, button, a, select, textarea, input, label, [data-lees], [data-geen-lees], [contenteditable="true"], .sol-a11y-knop, #sol-env-balk';
   function autoMarkeer(root) {
     root = root || document;
     root.querySelectorAll(BLOK_SEL).forEach(el => {
@@ -878,7 +879,16 @@
   let keuzeTimer = null;
   let keuzeGekoppeld = false;
 
+  // Menu en footer (vert-v1 fase 4): de navigatie bleef in de voorleesstand stil, en wie niet kan
+  // lezen kwam de tool niet uit. Menu-items, taalknoppen en footerlinks zijn nu ook keuzes met twee
+  // tikken. De knoppen die een menu openen (hamburger, taalkiezer, Tools) zijn dat niet: één tik
+  // opent, en het menu wordt dan opgenoemd (menuVoorlezen, aangeroepen vanuit components.js).
+  const NAV_KEUZE_SEL = '#mob-menu a[href], #mob-menu .taal-btn, #solidari-nav-bar .dropdown-menu a[href], ' +
+    '#solidari-nav-bar .nav-links > li > a[href], #solidari-nav-bar .taal-dd-btn, #solidari-footer-bar .footer-midden a[href], ' +
+    '#solidari-footer-bar .footer-feedback';
   function keuzeKnopVan(doel) {
+    const nav = doel && doel.closest && doel.closest(NAV_KEUZE_SEL);
+    if (nav) return nav;
     const el = doel && doel.closest && doel.closest(KEUZE_SEL);
     if (!el || el.closest(KEUZE_UITGESLOTEN)) return null;
     return el;
@@ -913,7 +923,28 @@
     keuzeGehoordTot = Date.now() + keuzeTijd;
     el.classList.add('sol-a11y-keuze-gehoord');
     keuzeTimer = setTimeout(keuzeWis, keuzeTijd);
-    zeg(tekst, { taal });
+    zeg(tekst, { taal: stemTaalVan(el, taal) });
+  }
+  // Een taalknop zegt zijn naam in zijn eigen taal ("English", "Polski") als daar een stem voor is.
+  function stemTaalVan(el, taal) {
+    const eigen = el.matches && el.matches('.taal-btn') && el.dataset.taal;
+    return eigen && !geenSpraak(eigen) && beschikbaar(eigen) ? eigen : taal;
+  }
+  // Wat een menu-item zegt. De kopjes ("Tools", "Taal") staan in CSS in hoofdletters; innerText geeft
+  // dan "TOOLS", wat een stem als losse letters kan uitspreken. Daarom voor kopjes de bron-tekst.
+  function menuTekst(el) {
+    return el.matches('.mob-menu-label') ? zonderEmoji(el.textContent) : keuzeTekst(el);
+  }
+  // Een geopend menu opnoemen, in volgorde, met oplichten (zegReeks: aanraken stopt). Alleen in de
+  // voorleesstand en als de taal een stem heeft; de kopjes lezen mee.
+  function menuVoorlezen(root) {
+    if (!root || !autoKan()) return null;
+    const taal = actieveTaal();
+    const items = [...root.querySelectorAll('.mob-menu-label, ' + NAV_KEUZE_SEL)]
+      .filter(el => zichtbaarEl(el))
+      .map(el => ({ tekst: menuTekst(el), el, taal: stemTaalVan(el, taal) }))
+      .filter(i => i.tekst);
+    return items.length ? zegReeks(items, { taal }) : null;
   }
   // Eén keer, in de capture-fase op document: gaat vóór onclick-attributen en listeners op de knop zelf.
   function koppelKeuze() {
@@ -1093,6 +1124,7 @@
     geenSpraak, mobiel: MOBIEL,
     tekstNaarGetal, bedragUitSpraak,   // fase 5: bedragen inspreken
     keuzeSelector: KEUZE_SEL, isKeuzeknop: (el) => !!keuzeKnopVan(el), keuzeTekst,
+    menuVoorlezen, menuTekst, navKeuzeSelector: NAV_KEUZE_SEL,   // vert-v1 fase 4
     zonderEmoji, emojiRe: EMOJI_RE,   // gedeeld met components.js (verbergEmoji, PLAN-5 fase 3)
     keuzeTijd: (ms) => { if (typeof ms === 'number' && ms > 0) keuzeTijd = ms; return keuzeTijd; },
     // testhaken (niet-openbaar bedoeld, wel handig in acceptatietests)

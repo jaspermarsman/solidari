@@ -214,6 +214,14 @@
     if (footerEl) footerEl.outerHTML = maakFooter();
   }
 
+  // ── Menu voorlezen in de voorleesstand (vert-v1 fase 4) ────────────────
+  // Gaat er een menu open terwijl de voorleesstand aan staat, dan noemt spraak.js de items op.
+  function leesMenu(el) {
+    const S = window.Solidari && Solidari.spraak;
+    if (!S || !S.menuVoorlezen || !S.luistermodus || !S.luistermodus.staat()) return;
+    try { S.ontgrendel(); S.menuVoorlezen(el); } catch (e) {}
+  }
+
   // ── Tools dropdown (desktop) ───────────────────────────────────────────
   function koppelToolsDropdown() {
     const trigger = document.querySelector('.nav-dropdown-trigger');
@@ -237,7 +245,7 @@
     // Klik ook (voor touch-laptop)
     trigger.addEventListener('click', (e) => {
       e.stopPropagation();
-      menu.classList.contains('open') ? sluit() : open();
+      menu.classList.contains('open') ? sluit() : (open(), leesMenu(menu));
     });
 
     document.addEventListener('click', sluit);
@@ -257,7 +265,7 @@
     trigger.addEventListener('click', (e) => {
       e.stopPropagation();
       const isOpen = menu.classList.contains('open');
-      isOpen ? sluitTaal() : (menu.classList.add('open'), trigger.setAttribute('aria-expanded', 'true'));
+      isOpen ? sluitTaal() : (menu.classList.add('open'), trigger.setAttribute('aria-expanded', 'true'), leesMenu(menu));
     });
 
     document.addEventListener('click', sluitTaal);
@@ -289,7 +297,7 @@
     }
 
     btn.addEventListener('click', () => {
-      btn.classList.contains('open') ? sluit() : open();
+      btn.classList.contains('open') ? sluit() : (open(), leesMenu(mobMenu));
     });
     if (overlay) overlay.addEventListener('click', sluit);
 
