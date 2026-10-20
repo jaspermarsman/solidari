@@ -96,7 +96,7 @@ d.TI = {
           icoon: '🏥',
           kleur: '#FDF3E0',
           naam: 'ናይ ጥዕና መድሕን ምድላው',
-          samenvatting: 'ቅድሚ 18 ምስ ዘይተዳለዉ ቅጽዓት ኣሎ',
+          samenvatting: 'ኣብ ከባቢ መበል 18 ዓመት ልደት ምድላው',
           badge: 'ናይ መወዳእታ ዕለት',
           badgeKleur: 'stopt',
           punten: [
@@ -108,7 +108,7 @@ d.TI = {
             {
               icoon: '✓',
               kleur: '#EBF3EE',
-              tekst: 'ውላድኩም ድሕሪ መበል 18 ዓመት ልደቱ፡ ብዘይ መቕጻዕቲ ናይ ጥዕና ውሕስነት ንምውሳድ <strong>3 ኣዋርሕ</strong> ግዜ ኣለዎ። ግን እዚ ቅድሚ 18 ዓመት ምምላኡ ምድላው ዝሓሸ እዩ።'
+              tekst: 'ውላድኩም ካብ 18 ዓመት ጀሚሩ ናይ ገዛእ ርእሱ ናይ ጥዕና መድሕን የድልዮ እዩ። እዚ ድሕሪ መዓልቲ ልደት ኣብ ውሽጢ <strong>ሓደ ወርሒ</strong> ኣዳልዉ፤ እቲ መድሕን ካብ መዓልቲ ልደት ጀሚሩ ይሰርሕ። መድሕን ዘይብሉ ሰብ ካብ CAK ደብዳበ ይረክብ፣ ድሕሪኡ ድማ መቕጻዕቲ ክስዕብ ይኽእል እዩ።'
             },
             {
               icoon: '💰',
@@ -436,7 +436,7 @@ d.TI = {
             {
               icoon: 'ℹ',
               kleur: '#EFF6FF',
-              tekst: 'ድሕሪ መዓልቲ ልደትኩም ብዘይ ቅጽዓት መድሕን ንምውሳድ 3 ኣዋርሕ ግዜ ኣለኩም። ግን ብዙሕ ኣይትጸበዩ።'
+              tekst: 'ካብ 18 ዓመት ጀሚርኩም ናይ ገዛእ ርእስኹም ናይ ጥዕና መድሕን የድልየኩም እዩ። እዚ ድሕሪ መዓልቲ ልደትኩም ኣብ ውሽጢ <strong>ሓደ ወርሒ</strong> ኣዳልዉ፤ እቲ መድሕን ድማ ካብ መዓልቲ ልደትኩም ጀሚሩ ይሰርሕ። መድሕን እንተዘይብልኩም፡ ካብ CAK ደብዳበ ይበጽሓኩም፣ ድሕሪኡ ድማ መቕጻዕቲ ክስዕብ ይኽእል እዩ።'
             },
             {
               icoon: '💰',
@@ -816,10 +816,10 @@ d.UK = {
             { icoon:'ℹ', kleur:'#EFF6FF', tekst:'Отримання DigiD займає 5 робочих днів. Подайте заявку на digid.nl. Дитина має зробити це сама.' },
             { icoon:'!', kleur:'#FDF3E0', tekst:'Переконайтесь, що у дитини є власна електронна пошта та номер телефону для верифікації DigiD.' },
           ], extern:{ url:'https://www.digid.nl/aanvragen-en-activeren/aanvragen/', tekst:'→ Отримати DigiD на digid.nl' } },
-        { icoon:'🏥', kleur:'#FDF3E0', naam:'Оформлення медичного страхування', samenvatting:'Оформити до 18-річчя — інакше штраф', badge:'ДЕДЛАЙН', badgeKleur:'stopt',
+        { icoon:'🏥', kleur:'#FDF3E0', naam:'Оформлення медичного страхування', samenvatting:'Оформити близько 18 років', badge:'ДЕДЛАЙН', badgeKleur:'stopt',
           punten:[
             { icoon:'!', kleur:'#FEF2F2', tekst:'<strong>Дитина більше не покривається вашою медичною страховкою</strong> після 18 років. Вона повинна мати власний поліс.<span class="stopt-chip">ДЕДЛАЙН</span>' },
-            { icoon:'✓', kleur:'#EBF3EE', tekst:'Після 18-річчя у дитини є <strong>3 місяці</strong>, щоб оформити страховку без штрафу. Але краще зробити це до 18.' },
+            { icoon:'✓', kleur:'#EBF3EE', tekst:'З 18 років вашій дитині потрібна власна медична страховка. Оформіть це протягом <strong>одного місяця</strong> після дня народження. Страховка почне діяти з дня народження. Хто не має страховки, отримає лист від CAK. Після цього може бути штраф.' },
             { icoon:'💰', kleur:'#EBF3EE', tekst:'З 18 років дитина може отримати <strong>допомогу зі страхування (zorgtoeslag)</strong>. У 2026: до €129/місяць (дохід до €40 857).<span class="nieuw-chip">НОВЕ</span>' },
             { icoon:'ℹ', kleur:'#EFF6FF', tekst:'Обов\'язкова франшиза у 2026 році — <strong>€385</strong>. Дитина сплачує її самостійно.' },
           ], infoBox:{ type:'groen', tekst:'✅ <strong>Подача заявки на медичну допомогу:</strong> Дитина має зробити це сама через Mijn Toeslagen. Переконайтесь, що DigiD готовий.' },
@@ -907,7 +907,7 @@ d.UK = {
         { icoon:'🏥', kleur:'#FDF3E0', naam:'Оформіть власну медичну страховку', samenvatting:'Ви більше не покриваєтесь страховкою батьків', badge:'ОБОВ\'ЯЗКОВО', badgeKleur:'stopt',
           punten:[
             { icoon:'!', kleur:'#FEF2F2', tekst:'<strong>Після 18 ви більше не покриваєтесь медичною страховкою батьків.</strong> Оформіть власний поліс до або в день народження.<span class="stopt-chip">ОБОВ\'ЯЗКОВО</span>' },
-            { icoon:'✓', kleur:'#EBF3EE', tekst:'Після дня народження у вас є 3 місяці, щоб оформити страховку без штрафу. Але не зволікайте.' },
+            { icoon:'✓', kleur:'#EBF3EE', tekst:'З 18 років вам потрібна власна медична страховка. Оформіть це протягом <strong>одного місяця</strong> після дня народження. Страховка почне діяти з дня народження. Якщо ви не застраховані, ви отримаєте лист від CAK. Після цього може бути штраф.' },
             { icoon:'💰', kleur:'#EBF3EE', tekst:'<strong>Подайте заявку на медичну допомогу!</strong> До €129/місяць при низькому доході (2026). Через Mijn Toeslagen з вашим DigiD.<span class="nieuw-chip">ГРОШІ</span>' },
           ], infoBox:{ type:'groen', tekst:'✅ Подайте заявку на <strong>belastingdienst.nl/toeslagen</strong>. Можна до 18 — допомога починається в день народження.' },
           extern:{ url:'https://www.belastingdienst.nl/wps/wcm/connect/nl/zorgtoeslag/zorgtoeslag', tekst:'→ Більше про медичну допомогу' } },
@@ -1026,10 +1026,10 @@ d.FA = {
             { icoon:'ℹ', kleur:'#EFF6FF', tekst:'دریافت DigiD ۵ روز کاری طول می‌کشد. از digid.nl درخواست دهید. فرزندتان باید این کار را خودش انجام دهد.' },
             { icoon:'!', kleur:'#FDF3E0', tekst:'مطمئن شوید فرزندتان ایمیل و شماره تلفن شخصی خود را برای تأیید DigiD دارد.' },
           ], extern:{ url:'https://www.digid.nl/aanvragen-en-activeren/aanvragen/', tekst:'→ دریافت DigiD در digid.nl' } },
-        { icoon:'🏥', kleur:'#FDF3E0', naam:'ترتیب بیمه درمانی', samenvatting:'قبل از ۱۸ سالگی بگیرید — وگرنه جریمه', badge:'ددلاین', badgeKleur:'stopt',
+        { icoon:'🏥', kleur:'#FDF3E0', naam:'ترتیب بیمه درمانی', samenvatting:'ترتیب کردن در حدود ۱۸ سالگی', badge:'ددلاین', badgeKleur:'stopt',
           punten:[
             { icoon:'!', kleur:'#FEF2F2', tekst:'<strong>فرزندتان دیگر تحت پوشش بیمه درمانی شما نیست</strong> وقتی ۱۸ ساله می‌شود. باید بیمه شخصی خود را داشته باشد.<span class="stopt-chip">ددلاین</span>' },
-            { icoon:'✓', kleur:'#EBF3EE', tekst:'فرزندتان <strong>۳ ماه</strong> پس از تولد برای بیمه‌کردن بدون جریمه وقت دارد. اما بهتر است قبل از ۱۸ ترتیب دهید.' },
+            { icoon:'✓', kleur:'#EBF3EE', tekst:'از ۱۸ سالگی به بعد، فرزند شما به بیمه درمانی شخصی نیاز دارد. این کار را ظرف <strong>یک ماه</strong> بعد از روز تولد انجام دهید؛ بیمه از همان روز تولد شروع می‌شود. کسی که بیمه نباشد، نامه‌ای از CAK دریافت می‌کند و پس از آن ممکن است جریمه شود.' },
             { icoon:'💰', kleur:'#EBF3EE', tekst:'از ۱۸ سالگی فرزندتان می‌تواند <strong>کمک‌هزینه درمانی (zorgtoeslag)</strong> درخواست کند. در ۲۰۲۶: حداکثر ۱۲۹ یورو در ماه.<span class="nieuw-chip">جدید</span>' },
             { icoon:'ℹ', kleur:'#EFF6FF', tekst:'فرانشیز اجباری در ۲۰۲۶ <strong>۳۸۵ یورو</strong> است. فرزندتان خودش می‌پردازد.' },
           ], infoBox:{ type:'groen', tekst:'✅ <strong>درخواست کمک‌هزینه درمانی:</strong> فرزندتان باید این کار را خودش از طریق Mijn Toeslagen انجام دهد. مطمئن شوید DigiD آماده است.' },
@@ -1117,7 +1117,7 @@ d.FA = {
         { icoon:'🏥', kleur:'#FDF3E0', naam:'ترتیب بیمه درمانی شخصی', samenvatting:'دیگر تحت پوشش بیمه والدین نیستید', badge:'اجباری', badgeKleur:'stopt',
           punten:[
             { icoon:'!', kleur:'#FEF2F2', tekst:'<strong>در روز ۱۸ سالگی دیگر تحت پوشش بیمه والدینتان نیستید.</strong> باید قبل یا در روز تولدتان بیمه شخصی بگیرید.<span class="stopt-chip">اجباری</span>' },
-            { icoon:'✓', kleur:'#EBF3EE', tekst:'۳ ماه پس از تولد برای بیمه‌شدن بدون جریمه وقت دارید. اما تأخیر نکنید.' },
+            { icoon:'✓', kleur:'#EBF3EE', tekst:'از ۱۸ سالگی به بعد، شما به بیمه درمانی شخصی نیاز دارید. این کار را ظرف <strong>یک ماه</strong> بعد از روز تولدتان انجام دهید؛ بیمه از همان روز تولدتان شروع می‌شود. اگر بیمه نباشید، نامه‌ای از CAK دریافت می‌کنید و پس از آن ممکن است جریمه شوید.' },
             { icoon:'💰', kleur:'#EBF3EE', tekst:'<strong>کمک‌هزینه درمانی درخواست دهید!</strong> با درآمد کم تا ۱۲۹ یورو در ماه (۲۰۲۶). از طریق Mijn Toeslagen با DigiD خودتان.<span class="nieuw-chip">پول</span>' },
           ], infoBox:{ type:'groen', tekst:'✅ از <strong>belastingdienst.nl/toeslagen</strong> درخواست دهید. می‌توان قبل از ۱۸ اقدام کرد — از روز تولد شروع می‌شود.' },
           extern:{ url:'https://www.belastingdienst.nl/wps/wcm/connect/nl/zorgtoeslag/zorgtoeslag', tekst:'→ اطلاعات بیشتر درباره کمک‌هزینه درمانی' } },
