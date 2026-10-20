@@ -5,7 +5,7 @@
 // Deze test loopt per taal door tot het inkomensveld, controleert dat de vraag erboven in de
 // eigen taal staat, vult een bedrag in en verwacht de volgende vraag (huur).
 const { test, expect } = require('@playwright/test');
-const { metTaal } = require('./helpers');
+const { metTaal, stubApi } = require('./helpers');
 const B = require('../tools/vertaal/bronnen.js');
 
 // De vraag uit de bron zelf: de TI-tekst veranderde in fase 2 (alleen mannelijke vorm, W-D).
@@ -17,7 +17,7 @@ for (const taal of Object.keys(VRAAG)) {
     const fouten = [];
     page.on('pageerror', (e) => fouten.push(e.message));
     await metTaal(page, taal);
-    await page.route(/workers\.dev|solidari\.nl/, (r) => r.fulfill({ status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' }, body: '{}' }));
+    await stubApi(page, '{}');
     await page.goto('budgethulp.html', { waitUntil: 'networkidle' });
     const zone = '#invoer-inner';
     const veld = page.locator(`${zone} input[type=number]:visible`);

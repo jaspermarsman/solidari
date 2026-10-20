@@ -6,7 +6,7 @@
 // Paden in goto zijn relatief (werkt ook tegen staging met SOL_BASE_URL).
 const { test, expect, devices } = require('@playwright/test');
 const AxeBuilder = require('@axe-core/playwright').default;
-const { PAGES, metTaal } = require('./helpers');
+const { PAGES, metTaal, stubApi, API_HOSTS } = require('./helpers');
 
 test.use({ ...devices['Pixel 5'] });
 
@@ -27,10 +27,7 @@ async function laad(page, pagina, { taal = 'NL', stand = null, stub = true } = {
   await metTaal(page, taal);
   await page.addInitScript((s) => { try { if (s) localStorage.setItem('solidari-voorlezen', s); else localStorage.removeItem('solidari-voorlezen'); } catch (e) {} }, stand);
   if (stub) await page.addInitScript(STUB);
-  await page.route(/workers\.dev|solidari\.nl/, (r) => r.fulfill({
-    status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' },
-    body: JSON.stringify({ ok: true, tekst: 'Testantwoord.', bronnen: [] }),
-  }));
+  await stubApi(page, { ok: true, tekst: 'Testantwoord.', bronnen: [] });
   await page.goto(pagina, { waitUntil: 'networkidle' });
   await page.waitForFunction(() => window.Solidari && window.Solidari.spraak && window.Solidari.a11y);
   await page.waitForTimeout(900);
@@ -82,8 +79,8 @@ test('budgethulp: ballonvarianten zijn minstens 0,95rem', async ({ page }) => {
 // ── 2. Feedback: keuzeknoppen ───────────────────────────────────────────────
 async function opVerstuurd(page) {
   const verstuurd = [];
-  await page.unroute(/workers\.dev|solidari\.nl/);
-  await page.route(/workers\.dev|solidari\.nl/, async (r) => {
+  await page.unroute(API_HOSTS);
+  await page.route(API_HOSTS, async (r) => {
     const req = r.request();
     if (req.method() === 'POST' && /\/api\/feedback/.test(req.url())) verstuurd.push(JSON.parse(req.postData()));
     await r.fulfill({ status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' }, body: JSON.stringify({ ok: true }) });

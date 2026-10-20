@@ -9,6 +9,7 @@
 //   zodat components.js echt "productie" ziet (geen testbalk).
 const { test, expect, devices } = require('@playwright/test');
 const B = require('../tools/vertaal/bronnen.js');
+const { IS_PRODUCTIE } = require('./helpers');
 
 test.use({ ...devices['Pixel 5'] });
 
@@ -79,6 +80,7 @@ async function openMenu(page) {
 // vóór B-6 viel het midden van het kopje op rechten.html onder de nav, op index.html alleen de bovenrand
 for (const pagina of ['index.html', 'rechten.html']) {
   test(`met testbalk (${pagina}): het kopje "TOOLS" staat vrij (elementFromPoint geeft het kopje)`, async ({ page }) => {
+    test.skip(IS_PRODUCTIE, 'productie heeft geen testbalk; daar geldt de test "zonder testbalk (productie)"');
     await page.addInitScript(() => { try { localStorage.setItem('solidari-welkom-gezien', '1'); } catch (e) {} });
     await page.goto(pagina, { waitUntil: 'networkidle' });
     await geladen(page);

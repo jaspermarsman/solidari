@@ -33,7 +33,7 @@
 const { test, expect } = require('@playwright/test');
 const fs = require('fs');
 const path = require('path');
-const { PAGES, metTaal } = require('./helpers');
+const { PAGES, metTaal, stubApi } = require('./helpers');
 
 const OUT = path.join(__dirname, 'a11y-v5-nulmeting.json');
 
@@ -83,10 +83,7 @@ async function laad(page, pagina) {
   await page.addInitScript(() => { try { localStorage.removeItem('solidari-voorlezen'); } catch (e) {} });
   await page.addInitScript(STUB);
   // Geen verzoeken naar de echte Worker of API (fase 0 is alleen meten).
-  await page.route(/workers\.dev|solidari\.nl/, (r) => r.fulfill({
-    status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' },
-    body: JSON.stringify({ tekst: 'Testantwoord.', bronnen: [] }),
-  }));
+  await stubApi(page, { tekst: 'Testantwoord.', bronnen: [] });
   await page.goto('/' + pagina, { waitUntil: 'networkidle' });
   await page.waitForFunction(() => window.Solidari && window.Solidari.spraak);
   await page.waitForTimeout(900);

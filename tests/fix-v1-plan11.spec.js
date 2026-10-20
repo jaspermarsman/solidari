@@ -3,6 +3,7 @@ const { test, expect } = require('@playwright/test');
 const fs = require('fs');
 const path = require('path');
 const B = require('../tools/vertaal/bronnen.js');
+const { IS_PRODUCTIE, stubApi } = require('./helpers');
 
 // ── K-1/K-2: de 18jaar-kaart "Zorgverzekering regelen" ─────────────────────────────────────
 // Vóór PLAN 11 stond er in elke taal "3 maanden na de 18e verjaardag, zonder boete". De kaarten
@@ -94,4 +95,21 @@ test.describe('K-4: eerste ballon Loont Werken', () => {
       expect(tekst).not.toBe(nl);
     });
   }
+});
+
+// ── K-6: de rooktest kan tegen productie zonder echte API-verzoeken ─────────────────────────
+// playwright.config.js laat de API-hosts tegen productie naar niets oplossen; stubApi onderschept
+// vóór de DNS en blijft dus werken. De proef gebruikt about:blank en de staging-ingang api-test:
+// met een kapotte rem kost hij hooguit één GET naar een niet-bestaand pad, zonder bijwerkingen.
+test('K-6: tegen productie bereikt de browser de API niet, en een stub werkt nog wel', async ({ page }) => {
+  test.skip(!IS_PRODUCTIE, 'de rem staat alleen aan als SOL_BASE_URL productie is');
+  const mislukt = [];
+  page.on('requestfailed', (r) => mislukt.push(`${new URL(r.url()).host} ${r.failure().errorText}`));
+  await page.goto('about:blank');
+  const haal = (url) => page.evaluate((u) => fetch(u).then((r) => r.text(), () => 'fout'), url);
+  expect(await haal('https://api-test.solidari.nl/k6-rem')).toBe('fout');
+  expect(mislukt).toEqual(['api-test.solidari.nl net::ERR_NAME_NOT_RESOLVED']);
+  await stubApi(page, { rem: 'gestubd' });
+  expect(await haal('https://api-test.solidari.nl/k6-rem')).toBe('{"rem":"gestubd"}');
+  expect(mislukt).toHaveLength(1);
 });

@@ -8,7 +8,7 @@
 // Paden in goto zijn relatief (werkt ook tegen staging met SOL_BASE_URL).
 const { test, expect, devices } = require('@playwright/test');
 const AxeBuilder = require('@axe-core/playwright').default;
-const { PAGES, metTaal } = require('./helpers');
+const { PAGES, metTaal, stubApi } = require('./helpers');
 const B = require('../tools/vertaal/bronnen.js');
 // TI-teksten uit de bron: de aanspreekvorm veranderde in het amendement beleefdheidsvorm (ኪድ → ኪዱ).
 const TI = (k) => B.laadBron(B.BRONNEN.find((b) => b.naam === 'i18n.js')).talen.TI.bladeren.get(k).waarde;
@@ -44,10 +44,7 @@ async function laad(page, pagina, { taal = 'NL', stand = null } = {}) {
   await metTaal(page, taal);
   await page.addInitScript((s) => { try { if (s) localStorage.setItem('solidari-voorlezen', s); else localStorage.removeItem('solidari-voorlezen'); } catch (e) {} }, stand);
   await page.addInitScript(STUB);
-  await page.route(/workers\.dev|solidari\.nl/, (r) => r.fulfill({
-    status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' },
-    body: JSON.stringify({ tekst: 'Testantwoord.', bronnen: [] }),
-  }));
+  await stubApi(page, { tekst: 'Testantwoord.', bronnen: [] });
   await page.goto(pagina, { waitUntil: 'networkidle' });
   await page.waitForFunction(() => window.Solidari && window.Solidari.spraak && window.Solidari.a11y);
   await page.waitForTimeout(900);

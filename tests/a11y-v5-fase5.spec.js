@@ -6,7 +6,7 @@
 // - TI: de mic is er wél (herkenning ti-ET, zoals bij tekstvelden); de melding is alleen zichtbaar,
 //   nooit voorgelezen, en er komen geen 🔊-knoppen (S-7).
 const { test, expect, devices } = require('@playwright/test');
-const { metTaal } = require('./helpers');
+const { metTaal, stubApi } = require('./helpers');
 const B = require('../tools/vertaal/bronnen.js');
 // TI-teksten uit de bron: de aanspreekvorm veranderde in het amendement beleefdheidsvorm (መልስኻ → መልስኹም).
 const TI = (k) => B.laadBron(B.BRONNEN.find((b) => b.naam === 'i18n.js')).talen.TI.bladeren.get(k).waarde;
@@ -56,10 +56,7 @@ async function laad(page, pagina, { taal = 'NL', stand = null } = {}) {
   await page.addInitScript((s) => { try { if (s) localStorage.setItem('solidari-voorlezen', s); else localStorage.removeItem('solidari-voorlezen'); } catch (e) {} }, stand);
   await page.addInitScript(STUB_STEM);
   await page.addInitScript(STUB_SR);
-  await page.route(/workers\.dev|solidari\.nl/, (r) => r.fulfill({
-    status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' },
-    body: JSON.stringify({ tekst: 'Testantwoord.', bronnen: [] }),
-  }));
+  await stubApi(page, { tekst: 'Testantwoord.', bronnen: [] });
   await page.goto(pagina, { waitUntil: 'networkidle' });
   await page.waitForFunction(() => window.Solidari && window.Solidari.spraak && window.Solidari.spraak.tekstNaarGetal);
 }

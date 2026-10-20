@@ -9,7 +9,7 @@
 // worden screenshots bewaard (bewijs/vert-v1-fase4/).
 const { test, expect, devices } = require('@playwright/test');
 const path = require('path');
-const { metTaal } = require('./helpers');
+const { metTaal, stubApi } = require('./helpers');
 
 test.use({ ...devices['Pixel 5'] });
 
@@ -40,7 +40,7 @@ async function laad(page, pagina = 'rechten.html', { taal = 'NL', stand = 'aan' 
   await metTaal(page, taal);
   await page.addInitScript((st) => { try { localStorage.setItem('solidari-voorlezen', st); } catch (e) {} }, stand);
   await page.addInitScript(STUB);
-  await page.route(/workers\.dev|solidari\.nl/, (r) => r.fulfill({ status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' }, body: '{}' }));
+  await stubApi(page, '{}');
   await page.goto(pagina, { waitUntil: 'networkidle' });
   await page.waitForFunction(() => window.Solidari && window.Solidari.spraak && window.Solidari.spraak.menuVoorlezen);
   await page.waitForTimeout(600);   // chatpagina's lezen hun eerste ballon vanzelf; die reeks eerst laten aflopen

@@ -2,7 +2,7 @@
 // Nagebootste stem als in voorlezen-mobiel.spec.js en a11y-v5-fase1.spec.js, maar met een
 // snel (120 ms) tempo per zin en een logboek van wat er wanneer werd gezegd en wat oplichtte.
 const { test, expect, devices } = require('@playwright/test');
-const { metTaal } = require('./helpers');
+const { metTaal, stubApi } = require('./helpers');
 
 test.use({ ...devices['Pixel 5'] });
 
@@ -36,10 +36,7 @@ async function laad(page, pagina, { taal = 'NL', stand = 'aan' } = {}) {
   await metTaal(page, taal);
   await page.addInitScript((s) => { try { if (s) localStorage.setItem('solidari-voorlezen', s); else localStorage.removeItem('solidari-voorlezen'); } catch (e) {} }, stand);
   await page.addInitScript(STUB);
-  await page.route(/workers\.dev|solidari\.nl/, (r) => r.fulfill({
-    status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' },
-    body: JSON.stringify({ tekst: 'Testantwoord.', bronnen: [] }),
-  }));
+  await stubApi(page, { tekst: 'Testantwoord.', bronnen: [] });
   await page.goto(pagina, { waitUntil: 'networkidle' });
   await page.waitForFunction(() => window.Solidari && window.Solidari.spraak);
 }

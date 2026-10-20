@@ -13,6 +13,13 @@ const BASE_URL = process.env.SOL_BASE_URL
   ? process.env.SOL_BASE_URL.replace(/\/?$/, '/')
   : `http://127.0.0.1:${PORT}/`;
 
+// Tegen productie (PLAN 11, K-6) mag de browser de API niet bereiken: de hostnamen lossen op
+// naar niets. Onderschepte verzoeken (stubApi) werken gewoon; een vergeten stub faalt in plaats
+// van een echt verzoek te doen.
+const PRODUCTIE = /^https?:\/\/(www\.)?solidari\.nl\/?$/.test(process.env.SOL_BASE_URL || '');
+const GEEN_API = ['api.solidari.nl', 'api-test.solidari.nl', 'solidari-digi-hulp-worker.jaspermarsman.workers.dev']
+  .map((h) => `MAP ${h} ~NOTFOUND`).join(', ');
+
 module.exports = defineConfig({
   testDir: '.',
   fullyParallel: false,
@@ -22,6 +29,7 @@ module.exports = defineConfig({
   use: {
     baseURL: BASE_URL,
     viewport: { width: 360, height: 640 },
+    launchOptions: PRODUCTIE ? { args: [`--host-resolver-rules=${GEEN_API}`] } : {},
   },
   webServer: process.env.SOL_BASE_URL ? undefined : {
     command: `bash serve.sh ${PORT}`,

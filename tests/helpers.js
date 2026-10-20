@@ -57,4 +57,17 @@ const METING_IN_PAGE = () => {
   };
 };
 
-module.exports = { PAGES, TALEN, metTaal, METING_IN_PAGE };
+// De API-hosts van de site (PLAN 11, K-6). Tests onderscheppen alleen deze, nooit de site zelf:
+// het oude patroon /workers\.dev|solidari\.nl/ ving met SOL_BASE_URL=https://solidari.nl ook de pagina.
+const API_HOSTS = /^https:\/\/(api\.solidari\.nl|api-test\.solidari\.nl|solidari-digi-hulp-worker\.jaspermarsman\.workers\.dev)\//;
+const IS_PRODUCTIE = /^https?:\/\/(www\.)?solidari\.nl\/?$/.test(process.env.SOL_BASE_URL || '');
+
+// Elk verzoek naar de API krijgt een vast JSON-antwoord; body is een object of een kant-en-klare string.
+function stubApi(page, body) {
+  return page.route(API_HOSTS, (r) => r.fulfill({
+    status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' },
+    body: typeof body === 'string' ? body : JSON.stringify(body),
+  }));
+}
+
+module.exports = { PAGES, TALEN, metTaal, METING_IN_PAGE, API_HOSTS, IS_PRODUCTIE, stubApi };
