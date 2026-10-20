@@ -28,7 +28,7 @@ d.RO = {
           punten:[
             { icoon:'!', kleur:'#FEF2F2', tekst:'<strong>Copilul tău nu mai este acoperit de asigurarea ta de sănătate</strong> odată ce împlinește 18 ani. Trebuie să aibă propria poliță.<span class="stopt-chip">TERMEN LIMITĂ</span>' },
             { icoon:'✓', kleur:'#EBF3EE', tekst:'Copilul tău are <strong>3 luni</strong> după ziua de naștere să încheie asigurarea fără amendă. Dar este înțelept să aranjezi asta înainte.' },
-            { icoon:'💰', kleur:'#EBF3EE', tekst:'De la 18 ani copilul tău poate solicita <strong>alocație de sănătate (zorgtoeslag)</strong>. În 2026: până la €154/lună.<span class="nieuw-chip">NOU</span>' },
+            { icoon:'💰', kleur:'#EBF3EE', tekst:'De la 18 ani copilul tău poate solicita <strong>alocație de sănătate (zorgtoeslag)</strong>. În 2026: până la €129/lună.<span class="nieuw-chip">NOU</span>' },
             { icoon:'ℹ', kleur:'#EFF6FF', tekst:'Franchiza obligatorie (eigen risico) în 2026 este de <strong>€385</strong>. Copilul tău o plătește singur.' },
           ], infoBox:{ type:'groen', tekst:'✅ <strong>Solicitarea alocației de sănătate:</strong> Copilul tău trebuie să facă asta prin Mijn Toeslagen (belastingdienst.nl). Asigură-te că DigiD este pregătit.' },
           extern:{ url:'https://www.belastingdienst.nl/wps/wcm/connect/nl/zorgtoeslag/zorgtoeslag', tekst:'→ Mai multe despre alocația de sănătate' } },
@@ -117,7 +117,7 @@ d.RO = {
           punten:[
             { icoon:'!', kleur:'#FEF2F2', tekst:'<strong>La 18 ani nu mai ești acoperit de asigurarea părinților.</strong> Încheie propria asigurare înainte sau în ziua nașterii tale.<span class="stopt-chip">OBLIGATORIU</span>' },
             { icoon:'✓', kleur:'#EBF3EE', tekst:'Ai 3 luni după ziua de naștere să închei asigurarea fără amendă. Dar nu aștepta prea mult.' },
-            { icoon:'💰', kleur:'#EBF3EE', tekst:'<strong>Solicită alocație de sănătate!</strong> Cu venituri mici până la €154 pe lună (2026). Prin Mijn Toeslagen cu DigiD-ul tău.<span class="nieuw-chip">BANI</span>' },
+            { icoon:'💰', kleur:'#EBF3EE', tekst:'<strong>Solicită alocație de sănătate!</strong> Cu venituri mici până la €129 pe lună (2026). Prin Mijn Toeslagen cu DigiD-ul tău.<span class="nieuw-chip">BANI</span>' },
           ], infoBox:{ type:'groen', tekst:'✅ Solicită alocația de sănătate prin <strong>belastingdienst.nl/toeslagen</strong>. Poți face asta înainte de 18 ani — intră în vigoare la ziua ta de naștere.' },
           extern:{ url:'https://www.belastingdienst.nl/wps/wcm/connect/nl/zorgtoeslag/zorgtoeslag', tekst:'→ Mai multe despre alocația de sănătate' } },
         { icoon:'🏦', kleur:'#EBF3EE', naam:'Cont bancar propriu', samenvatting:'Alocațiile sunt plătite în contul tău propriu', badge:'SFAT', badgeKleur:'let',
@@ -239,7 +239,7 @@ d.PL = {
           punten:[
             { icoon:'!', kleur:'#FEF2F2', tekst:'<strong>Twoje dziecko nie jest już objęte twoim ubezpieczeniem zdrowotnym</strong> po ukończeniu 18 lat. Musi mieć własną polisę.<span class="stopt-chip">TERMIN</span>' },
             { icoon:'✓', kleur:'#EBF3EE', tekst:'Twoje dziecko ma <strong>3 miesiące</strong> po urodzinach na wykupienie ubezpieczenia bez kary. Ale lepiej załatwić to wcześniej.' },
-            { icoon:'💰', kleur:'#EBF3EE', tekst:'Od 18 lat dziecko może ubiegać się o <strong>zasiłek zdrowotny (zorgtoeslag)</strong>. W 2026: do €154/miesiąc.<span class="nieuw-chip">NOWE</span>' },
+            { icoon:'💰', kleur:'#EBF3EE', tekst:'Od 18 lat dziecko może ubiegać się o <strong>zasiłek zdrowotny (zorgtoeslag)</strong>. W 2026: do €129/miesiąc.<span class="nieuw-chip">NOWE</span>' },
             { icoon:'ℹ', kleur:'#EFF6FF', tekst:'Obowiązkowe własne ryzyko (eigen risico) w 2026 wynosi <strong>€385</strong>. Dziecko płaci to samo.' },
           ], infoBox:{ type:'groen', tekst:'✅ <strong>Złożenie wniosku o zasiłek zdrowotny:</strong> Dziecko musi to zrobić przez Mijn Toeslagen (belastingdienst.nl). Upewnij się, że DigiD jest gotowe.' },
           extern:{ url:'https://www.belastingdienst.nl/wps/wcm/connect/nl/zorgtoeslag/zorgtoeslag', tekst:'→ Więcej o zasiłku zdrowotnym' } },
@@ -328,7 +328,7 @@ d.PL = {
           punten:[
             { icoon:'!', kleur:'#FEF2F2', tekst:'<strong>W dniu 18. urodzin nie jesteś już objęty ubezpieczeniem rodziców.</strong> Wykup własne ubezpieczenie przed lub w dniu urodzin.<span class="stopt-chip">OBOWIĄZKOWE</span>' },
             { icoon:'✓', kleur:'#EBF3EE', tekst:'Masz 3 miesiące po urodzinach na wykupienie ubezpieczenia bez kary. Ale nie czekaj za długo.' },
-            { icoon:'💰', kleur:'#EBF3EE', tekst:'<strong>Złóż wniosek o zasiłek zdrowotny!</strong> Przy niskim dochodzie do €154 miesięcznie (2026). Przez Mijn Toeslagen z twoim DigiD.<span class="nieuw-chip">PIENIĄDZE</span>' },
+            { icoon:'💰', kleur:'#EBF3EE', tekst:'<strong>Złóż wniosek o zasiłek zdrowotny!</strong> Przy niskim dochodzie do €129 miesięcznie (2026). Przez Mijn Toeslagen z twoim DigiD.<span class="nieuw-chip">PIENIĄDZE</span>' },
           ], infoBox:{ type:'groen', tekst:'✅ Złóż wniosek o zasiłek zdrowotny przez <strong>belastingdienst.nl/toeslagen</strong>. Możesz to zrobić przed 18. urodzinami — wchodzi w życie w dniu urodzin.' },
           extern:{ url:'https://www.belastingdienst.nl/wps/wcm/connect/nl/zorgtoeslag/zorgtoeslag', tekst:'→ Więcej o zasiłku zdrowotnym' } },
         { icoon:'🏦', kleur:'#EBF3EE', naam:'Własne konto bankowe', samenvatting:'Świadczenia są wypłacane na twoje własne konto', badge:'PORADA', badgeKleur:'let',

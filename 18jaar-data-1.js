@@ -28,8 +28,8 @@ d.NL = {
           punten:[
             { icoon:'!', kleur:'#FEF2F2', tekst:'<strong>Je kind valt niet meer onder jouw zorgverzekering</strong> zodra het 18 wordt. Het moet dan een eigen zorgverzekering hebben.<span class="stopt-chip">DEADLINE</span>' },
             { icoon:'✓', kleur:'#EBF3EE', tekst:'Je kind heeft <strong>3 maanden</strong> na de 18e verjaardag om een zorgverzekering af te sluiten zonder boete. Maar het is verstandig dit vóór de 18e te regelen.' },
-            { icoon:'💰', kleur:'#EBF3EE', tekst:'Vanaf 18 jaar kan je kind <strong>zorgtoeslag</strong> aanvragen. In 2026: maximaal €154 per maand (inkomen tot €40.857).<span class="nieuw-chip">NIEUW</span>' },
-            { icoon:'ℹ', kleur:'#EFF6FF', tekst:'Het eigen risico in 2026 is <strong>€165</strong>. Dit betaalt je kind zelf.' },
+            { icoon:'💰', kleur:'#EBF3EE', tekst:'Vanaf 18 jaar kan je kind <strong>zorgtoeslag</strong> aanvragen. In 2026: maximaal €129 per maand (inkomen tot €40.857).<span class="nieuw-chip">NIEUW</span>' },
+            { icoon:'ℹ', kleur:'#EFF6FF', tekst:'Het eigen risico in 2026 is <strong>€385</strong>. Dit betaalt je kind zelf.' },
           ], infoBox:{ type:'groen', tekst:'✅ <strong>Zorgtoeslag aanvragen:</strong> Dit moet je kind zelf doen via Mijn Toeslagen (belastingdienst.nl). Zorg dat de DigiD klaar is.' },
           extern:{ url:'https://www.belastingdienst.nl/wps/wcm/connect/nl/zorgtoeslag/zorgtoeslag', tekst:'→ Meer over zorgtoeslag op belastingdienst.nl' } },
       ],
@@ -116,14 +116,14 @@ d.NL = {
           punten:[
             { icoon:'!', kleur:'#FEF2F2', tekst:'<strong>Op je 18e ben je niet meer meeverzekerd bij je ouders.</strong> Sluit een eigen verzekering af vóór of op je verjaardag.<span class="stopt-chip">VERPLICHT</span>' },
             { icoon:'✓', kleur:'#EBF3EE', tekst:'Je hebt 3 maanden na je verjaardag om een verzekering af te sluiten zonder boete. Maar wacht niet te lang.' },
-            { icoon:'💰', kleur:'#EBF3EE', tekst:'<strong>Zorgtoeslag aanvragen!</strong> Bij laag inkomen tot maximaal €154 per maand (2026). Via Mijn Toeslagen met jouw DigiD.<span class="nieuw-chip">GELD</span>' },
+            { icoon:'💰', kleur:'#EBF3EE', tekst:'<strong>Zorgtoeslag aanvragen!</strong> Bij laag inkomen tot maximaal €129 per maand (2026). Via Mijn Toeslagen met jouw DigiD.<span class="nieuw-chip">GELD</span>' },
           ], infoBox:{ type:'groen', tekst:'✅ Vraag zorgtoeslag aan via <strong>belastingdienst.nl/toeslagen</strong>. Kan al vóór je 18e — gaat in op je verjaardag.' },
           extern:{ url:'https://www.belastingdienst.nl/wps/wcm/connect/nl/zorgtoeslag/zorgtoeslag', tekst:'→ Meer over zorgtoeslag' } },
         { icoon:'🏦', kleur:'#EBF3EE', naam:'Eigen bankrekening & spaarrekening', samenvatting:'Toeslagen worden uitbetaald op jouw eigen rekening', badge:'ADVIES', badgeKleur:'let',
           punten:[
             { icoon:'✓', kleur:'#EBF3EE', tekst:'<strong>Zorg voor een bankrekening op jouw eigen naam.</strong> Alle toeslagen worden uitbetaald op jóuw rekening.' },
             { icoon:'ℹ', kleur:'#EFF6FF', tekst:'Je kunt bij de meeste banken al voor je 18e een betaalrekening openen. Vraag dit na.' },
-            { icoon:'✓', kleur:'#EBF3EE', tekst:'<strong>Open ook een spaarrekening</strong> als buffer voor onverwachte kosten — het eigen risico is €165 in 2026.' },
+            { icoon:'✓', kleur:'#EBF3EE', tekst:'<strong>Open ook een spaarrekening</strong> als buffer voor onverwachte kosten — het eigen risico is €385 in 2026.' },
           ], extern:null },
       ],
       checklist:[
@@ -238,8 +238,8 @@ d.EN = {
           punten:[
             { icoon:'!', kleur:'#FEF2F2', tekst:'<strong>Your child is no longer covered by your health insurance</strong> once they turn 18. They must have their own policy.<span class="stopt-chip">DEADLINE</span>' },
             { icoon:'✓', kleur:'#EBF3EE', tekst:'Your child has <strong>3 months</strong> after their 18th to take out insurance without a fine. But it is wise to arrange this before.' },
-            { icoon:'💰', kleur:'#EBF3EE', tekst:'From age 18 your child can apply for <strong>healthcare benefit (zorgtoeslag)</strong>. In 2026: up to €154/month (income up to €40,857).<span class="nieuw-chip">NEW</span>' },
-            { icoon:'ℹ', kleur:'#EFF6FF', tekst:'The mandatory excess (eigen risico) in 2026 is <strong>€165</strong>. Your child pays this themselves.' },
+            { icoon:'💰', kleur:'#EBF3EE', tekst:'From age 18 your child can apply for <strong>healthcare benefit (zorgtoeslag)</strong>. In 2026: up to €129/month (income up to €40,857).<span class="nieuw-chip">NEW</span>' },
+            { icoon:'ℹ', kleur:'#EFF6FF', tekst:'The mandatory excess (eigen risico) in 2026 is <strong>€385</strong>. Your child pays this themselves.' },
           ], infoBox:{ type:'groen', tekst:'✅ <strong>Applying for healthcare benefit:</strong> Your child must do this via Mijn Toeslagen (belastingdienst.nl). Make sure DigiD is ready.' },
           extern:{ url:'https://www.belastingdienst.nl/wps/wcm/connect/nl/zorgtoeslag/zorgtoeslag', tekst:'→ More about healthcare benefit at belastingdienst.nl' } },
       ],
@@ -326,14 +326,14 @@ d.EN = {
           punten:[
             { icoon:'!', kleur:'#FEF2F2', tekst:'<strong>On your 18th you are no longer covered by your parents\' health insurance.</strong> Take out your own policy before or on your birthday.<span class="stopt-chip">REQUIRED</span>' },
             { icoon:'✓', kleur:'#EBF3EE', tekst:'You have 3 months after your birthday to take out insurance without a fine. But do not leave it too long.' },
-            { icoon:'💰', kleur:'#EBF3EE', tekst:'<strong>Apply for healthcare benefit!</strong> Up to €154/month if you have a low income (2026). Apply via Mijn Toeslagen with your DigiD.<span class="nieuw-chip">MONEY</span>' },
+            { icoon:'💰', kleur:'#EBF3EE', tekst:'<strong>Apply for healthcare benefit!</strong> Up to €129/month if you have a low income (2026). Apply via Mijn Toeslagen with your DigiD.<span class="nieuw-chip">MONEY</span>' },
           ], infoBox:{ type:'groen', tekst:'✅ Apply at <strong>belastingdienst.nl/toeslagen</strong>. You can apply before you turn 18 — benefit starts on your birthday.' },
           extern:{ url:'https://www.belastingdienst.nl/wps/wcm/connect/nl/zorgtoeslag/zorgtoeslag', tekst:'→ More about healthcare benefit' } },
         { icoon:'🏦', kleur:'#EBF3EE', naam:'Own bank account & savings account', samenvatting:'Benefits are paid into your own account', badge:'ADVICE', badgeKleur:'let',
           punten:[
             { icoon:'✓', kleur:'#EBF3EE', tekst:'<strong>Make sure you have a bank account in your own name.</strong> All benefits you apply for are paid into your account.' },
             { icoon:'ℹ', kleur:'#EFF6FF', tekst:'Most banks let you open a current account before you turn 18. Ask your bank.' },
-            { icoon:'✓', kleur:'#EBF3EE', tekst:'<strong>Open a savings account too</strong> as a buffer — the mandatory excess on health insurance is €165 in 2026.' },
+            { icoon:'✓', kleur:'#EBF3EE', tekst:'<strong>Open a savings account too</strong> as a buffer — the mandatory excess on health insurance is €385 in 2026.' },
           ], extern:null },
       ],
       checklist:[
@@ -448,8 +448,8 @@ d.AR = {
           punten:[
             { icoon:'!', kleur:'#FEF2F2', tekst:'<strong>لن يكون طفلك مشمولاً بتأمينك الصحي</strong> بمجرد بلوغه 18. يجب أن يكون لديه تأمين خاص.<span class="stopt-chip">موعد نهائي</span>' },
             { icoon:'✓', kleur:'#EBF3EE', tekst:'لدى طفلك <strong>3 أشهر</strong> بعد عيد ميلاده للاشتراك دون غرامة. لكن يُستحسن ترتيب ذلك قبل الـ18.' },
-            { icoon:'💰', kleur:'#EBF3EE', tekst:'من سن 18 يمكن لطفلك طلب <strong>إعانة الرعاية الصحية (zorgtoeslag)</strong>. في 2026: حتى 154 يورو شهرياً.<span class="nieuw-chip">جديد</span>' },
-            { icoon:'ℹ', kleur:'#EFF6FF', tekst:'التحمّل الإلزامي في 2026 هو <strong>165 يورو</strong>. يدفعه طفلك بنفسه. نبّهه حتى لا يكون ذلك مفاجأة.' },
+            { icoon:'💰', kleur:'#EBF3EE', tekst:'من سن 18 يمكن لطفلك طلب <strong>إعانة الرعاية الصحية (zorgtoeslag)</strong>. في 2026: حتى 129 يورو شهرياً.<span class="nieuw-chip">جديد</span>' },
+            { icoon:'ℹ', kleur:'#EFF6FF', tekst:'التحمّل الإلزامي في 2026 هو <strong>385 يورو</strong>. يدفعه طفلك بنفسه. نبّهه حتى لا يكون ذلك مفاجأة.' },
           ], infoBox:{ type:'groen', tekst:'✅ <strong>طلب إعانة الرعاية الصحية:</strong> يجب على طفلك القيام بذلك عبر Mijn Toeslagen. تأكد من جاهزية DigiD.' },
           extern:{ url:'https://www.belastingdienst.nl/wps/wcm/connect/nl/zorgtoeslag/zorgtoeslag', tekst:'→ المزيد عن إعانة الرعاية الصحية' } },
       ],
@@ -536,14 +536,14 @@ d.AR = {
           punten:[
             { icoon:'!', kleur:'#FEF2F2', tekst:'<strong>في يوم ميلادك الـ18 لن تكون مشمولاً بتأمين والديك.</strong> يجب أن تكون لديك وثيقة تأمين خاصة بك قبل عيد ميلادك أو في نفس اليوم.<span class="stopt-chip">إلزامي</span>' },
             { icoon:'✓', kleur:'#EBF3EE', tekst:'لديك 3 أشهر بعد عيد ميلادك للاشتراك دون غرامة. لكن لا تتأخر.' },
-            { icoon:'💰', kleur:'#EBF3EE', tekst:'<strong>قدّم طلب إعانة الرعاية الصحية!</strong> عند دخل منخفض حتى 154 يورو شهرياً (2026). عبر Mijn Toeslagen بـ DigiD الخاص بك.<span class="nieuw-chip">مال</span>' },
+            { icoon:'💰', kleur:'#EBF3EE', tekst:'<strong>قدّم طلب إعانة الرعاية الصحية!</strong> عند دخل منخفض حتى 129 يورو شهرياً (2026). عبر Mijn Toeslagen بـ DigiD الخاص بك.<span class="nieuw-chip">مال</span>' },
           ], infoBox:{ type:'groen', tekst:'✅ قدّم الطلب على <strong>belastingdienst.nl/toeslagen</strong>. يمكنك التقديم قبل بلوغ 18 — تبدأ الإعانة في يوم ميلادك.' },
           extern:{ url:'https://www.belastingdienst.nl/wps/wcm/connect/nl/zorgtoeslag/zorgtoeslag', tekst:'→ المزيد عن إعانة الرعاية الصحية' } },
         { icoon:'🏦', kleur:'#EBF3EE', naam:'حساب بنكي وحساب توفير', samenvatting:'تُدفع الإعانات إلى حسابك الخاص', badge:'نصيحة', badgeKleur:'let',
           punten:[
             { icoon:'✓', kleur:'#EBF3EE', tekst:'<strong>احرص على وجود حساب بنكي باسمك.</strong> جميع الإعانات التي تطلبها تُدفع إلى حسابك أنت.' },
             { icoon:'ℹ', kleur:'#EFF6FF', tekst:'معظم البنوك تسمح بفتح حساب قبل بلوغ 18. استفسر من بنكك.' },
-            { icoon:'✓', kleur:'#EBF3EE', tekst:'<strong>افتح أيضاً حساب توفير</strong> كاحتياطي — التحمّل الإلزامي للتأمين الصحي 165 يورو في 2026.' },
+            { icoon:'✓', kleur:'#EBF3EE', tekst:'<strong>افتح أيضاً حساب توفير</strong> كاحتياطي — التحمّل الإلزامي للتأمين الصحي 385 يورو في 2026.' },
           ], extern:null },
       ],
       checklist:[
@@ -658,8 +658,8 @@ d.TR = {
           punten:[
             { icoon:'!', kleur:'#FEF2F2', tekst:'<strong>Çocuğunuz 18 yaşına girdiğinde sizin sağlık sigortanızın kapsamından çıkar.</strong> Kendi poliçesine sahip olması gerekir.<span class="stopt-chip">SON TARİH</span>' },
             { icoon:'✓', kleur:'#EBF3EE', tekst:'Çocuğunuzun doğum gününden sonra cezasız sigorta yaptırmak için <strong>3 ayı</strong> vardır. Ancak 18. doğum gününden önce düzenlemek daha akıllıcadır.' },
-            { icoon:'💰', kleur:'#EBF3EE', tekst:'18 yaşından itibaren çocuğunuz <strong>sağlık yardımı (zorgtoeslag)</strong> başvurusunda bulunabilir. 2026\'da aylık maksimum 154 euro.<span class="nieuw-chip">YENİ</span>' },
-            { icoon:'ℹ', kleur:'#EFF6FF', tekst:'2026 zorunlu katkı payı <strong>165 euro</strong>\'dur. Çocuğunuz bunu kendisi öder. Sürpriz olmaması için önceden bilgilendirin.' },
+            { icoon:'💰', kleur:'#EBF3EE', tekst:'18 yaşından itibaren çocuğunuz <strong>sağlık yardımı (zorgtoeslag)</strong> başvurusunda bulunabilir. 2026\'da aylık maksimum 129 euro.<span class="nieuw-chip">YENİ</span>' },
+            { icoon:'ℹ', kleur:'#EFF6FF', tekst:'2026 zorunlu katkı payı <strong>385 euro</strong>\'dur. Çocuğunuz bunu kendisi öder. Sürpriz olmaması için önceden bilgilendirin.' },
           ], infoBox:{ type:'groen', tekst:'✅ <strong>Sağlık yardımı başvurusu:</strong> Çocuğunuzun bunu Mijn Toeslagen (belastingdienst.nl) üzerinden kendisinin yapması gerekir. DigiD\'nin hazır olduğundan emin olun.' },
           extern:{ url:'https://www.belastingdienst.nl/wps/wcm/connect/nl/zorgtoeslag/zorgtoeslag', tekst:'→ belastingdienst.nl\'de sağlık yardımı hakkında daha fazlası' } },
       ],
@@ -746,14 +746,14 @@ d.TR = {
           punten:[
             { icoon:'!', kleur:'#FEF2F2', tekst:'<strong>18 yaşına girdiğinizde ebeveynlerinizin sağlık sigortasının kapsamından çıkarsınız.</strong> Kendi poliçenizi yaptırmanız gerekir.<span class="stopt-chip">ZORUNLU</span>' },
             { icoon:'✓', kleur:'#EBF3EE', tekst:'Doğum gününüzden sonra cezasız sigorta yaptırmak için 3 ayınız var. Ama çok beklemeyin.' },
-            { icoon:'💰', kleur:'#EBF3EE', tekst:'<strong>Sağlık yardımı başvurusu yapın!</strong> Düşük geliriniz varsa 2026\'da aylık maksimum 154 euro. DigiD\'inizle Mijn Toeslagen üzerinden başvurun.<span class="nieuw-chip">PARA</span>' },
+            { icoon:'💰', kleur:'#EBF3EE', tekst:'<strong>Sağlık yardımı başvurusu yapın!</strong> Düşük geliriniz varsa 2026\'da aylık maksimum 129 euro. DigiD\'inizle Mijn Toeslagen üzerinden başvurun.<span class="nieuw-chip">PARA</span>' },
           ], infoBox:{ type:'groen', tekst:'✅ <strong>belastingdienst.nl/toeslagen</strong> üzerinden sağlık yardımı başvurusu yapın. 18 yaşından önce başvurabilirsiniz — yardım doğum gününüzde başlar.' },
           extern:{ url:'https://www.belastingdienst.nl/wps/wcm/connect/nl/zorgtoeslag/zorgtoeslag', tekst:'→ Sağlık yardımı hakkında daha fazlası' } },
         { icoon:'🏦', kleur:'#EBF3EE', naam:'Kendi banka ve tasarruf hesabı', samenvatting:'Yardımlar kendi hesabınıza ödenir', badge:'TAVSİYE', badgeKleur:'let',
           punten:[
             { icoon:'✓', kleur:'#EBF3EE', tekst:'<strong>Kendi adınıza bir banka hesabı açın.</strong> Başvurduğunuz tüm yardımlar sizin hesabınıza ödenir.' },
             { icoon:'ℹ', kleur:'#EFF6FF', tekst:'Çoğu banka, 18 yaşından önce vadesiz hesap açmanıza izin verir. Bankanıza danışın.' },
-            { icoon:'✓', kleur:'#EBF3EE', tekst:'<strong>Bir tasarruf hesabı da açın</strong> — beklenmedik masraflar için tampon görevi görür (2026\'da 165 euro katkı payı gibi).' },
+            { icoon:'✓', kleur:'#EBF3EE', tekst:'<strong>Bir tasarruf hesabı da açın</strong> — beklenmedik masraflar için tampon görevi görür (2026\'da 385 euro katkı payı gibi).' },
           ], extern:null },
       ],
       checklist:[

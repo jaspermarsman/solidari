@@ -113,7 +113,7 @@ d.TI = {
             {
               icoon: '💰',
               kleur: '#EBF3EE',
-              tekst: 'ካብ 18 ዓመት ውላድኩም <strong>ሓገዝ ናይ ጥዕና ዋሕስ (zorgtoeslag)</strong> ምልክታ ኣቕርብ ይኽእሎ። 2026: ክሳብ €154 ኣብ ወርሒ (ናይ ኣታዊ ወሰን €40,857).<span class=\'nieuw-chip\'>ሓድሽ</span>'
+              tekst: 'ካብ 18 ዓመት ውላድኩም <strong>ሓገዝ ናይ ጥዕና ዋሕስ (zorgtoeslag)</strong> ምልክታ ኣቕርብ ይኽእሎ። 2026: ክሳብ €129 ኣብ ወርሒ (ናይ ኣታዊ ወሰን €40,857).<span class=\'nieuw-chip\'>ሓድሽ</span>'
             },
             {
               icoon: 'ℹ',
@@ -441,7 +441,7 @@ d.TI = {
             {
               icoon: '💰',
               kleur: '#EBF3EE',
-              tekst: '<strong>Zorgtoeslag ሕተቱ!</strong> ትሑት ኣታዊ እንተሃልዩኩም ኣብ ወርሒ ክሳብ €154 (2026)። ብ Mijn Toeslagen ምስ DigiD ናትኩም።<span class="nieuw-chip">ገንዘብ</span>'
+              tekst: '<strong>Zorgtoeslag ሕተቱ!</strong> ትሑት ኣታዊ እንተሃልዩኩም ኣብ ወርሒ ክሳብ €129 (2026)። ብ Mijn Toeslagen ምስ DigiD ናትኩም።<span class="nieuw-chip">ገንዘብ</span>'
             }
           ],
           infoBox: {
@@ -474,7 +474,7 @@ d.TI = {
             {
               icoon: '✓',
               kleur: '#EBF3EE',
-              tekst: 'ንዘይተጸበኹምዎ ወጻኢታት <strong>ናይ ምዕቋር ሕሳብ እውን ክፈቱ</strong> — ኣብ 2026 eigen risico €165 እዩ።'
+              tekst: 'ንዘይተጸበኹምዎ ወጻኢታት <strong>ናይ ምዕቋር ሕሳብ እውን ክፈቱ</strong> — ኣብ 2026 eigen risico €385 እዩ።'
             }
           ],
           extern: null
@@ -820,7 +820,7 @@ d.UK = {
           punten:[
             { icoon:'!', kleur:'#FEF2F2', tekst:'<strong>Дитина більше не покривається вашою медичною страховкою</strong> після 18 років. Вона повинна мати власний поліс.<span class="stopt-chip">ДЕДЛАЙН</span>' },
             { icoon:'✓', kleur:'#EBF3EE', tekst:'Після 18-річчя у дитини є <strong>3 місяці</strong>, щоб оформити страховку без штрафу. Але краще зробити це до 18.' },
-            { icoon:'💰', kleur:'#EBF3EE', tekst:'З 18 років дитина може отримати <strong>допомогу зі страхування (zorgtoeslag)</strong>. У 2026: до €154/місяць (дохід до €40 857).<span class="nieuw-chip">НОВЕ</span>' },
+            { icoon:'💰', kleur:'#EBF3EE', tekst:'З 18 років дитина може отримати <strong>допомогу зі страхування (zorgtoeslag)</strong>. У 2026: до €129/місяць (дохід до €40 857).<span class="nieuw-chip">НОВЕ</span>' },
             { icoon:'ℹ', kleur:'#EFF6FF', tekst:'Обов\'язкова франшиза у 2026 році — <strong>€385</strong>. Дитина сплачує її самостійно.' },
           ], infoBox:{ type:'groen', tekst:'✅ <strong>Подача заявки на медичну допомогу:</strong> Дитина має зробити це сама через Mijn Toeslagen. Переконайтесь, що DigiD готовий.' },
           extern:{ url:'https://www.belastingdienst.nl/wps/wcm/connect/nl/zorgtoeslag/zorgtoeslag', tekst:'→ Більше про медичну допомогу на belastingdienst.nl' } },
@@ -908,7 +908,7 @@ d.UK = {
           punten:[
             { icoon:'!', kleur:'#FEF2F2', tekst:'<strong>Після 18 ви більше не покриваєтесь медичною страховкою батьків.</strong> Оформіть власний поліс до або в день народження.<span class="stopt-chip">ОБОВ\'ЯЗКОВО</span>' },
             { icoon:'✓', kleur:'#EBF3EE', tekst:'Після дня народження у вас є 3 місяці, щоб оформити страховку без штрафу. Але не зволікайте.' },
-            { icoon:'💰', kleur:'#EBF3EE', tekst:'<strong>Подайте заявку на медичну допомогу!</strong> До €154/місяць при низькому доході (2026). Через Mijn Toeslagen з вашим DigiD.<span class="nieuw-chip">ГРОШІ</span>' },
+            { icoon:'💰', kleur:'#EBF3EE', tekst:'<strong>Подайте заявку на медичну допомогу!</strong> До €129/місяць при низькому доході (2026). Через Mijn Toeslagen з вашим DigiD.<span class="nieuw-chip">ГРОШІ</span>' },
           ], infoBox:{ type:'groen', tekst:'✅ Подайте заявку на <strong>belastingdienst.nl/toeslagen</strong>. Можна до 18 — допомога починається в день народження.' },
           extern:{ url:'https://www.belastingdienst.nl/wps/wcm/connect/nl/zorgtoeslag/zorgtoeslag', tekst:'→ Більше про медичну допомогу' } },
         { icoon:'🏦', kleur:'#EBF3EE', naam:'Власний банківський рахунок та накопичення', samenvatting:'Виплати надходять на ваш власний рахунок', badge:'ПОРАДА', badgeKleur:'let',
@@ -1030,8 +1030,8 @@ d.FA = {
           punten:[
             { icoon:'!', kleur:'#FEF2F2', tekst:'<strong>فرزندتان دیگر تحت پوشش بیمه درمانی شما نیست</strong> وقتی ۱۸ ساله می‌شود. باید بیمه شخصی خود را داشته باشد.<span class="stopt-chip">ددلاین</span>' },
             { icoon:'✓', kleur:'#EBF3EE', tekst:'فرزندتان <strong>۳ ماه</strong> پس از تولد برای بیمه‌کردن بدون جریمه وقت دارد. اما بهتر است قبل از ۱۸ ترتیب دهید.' },
-            { icoon:'💰', kleur:'#EBF3EE', tekst:'از ۱۸ سالگی فرزندتان می‌تواند <strong>کمک‌هزینه درمانی (zorgtoeslag)</strong> درخواست کند. در ۲۰۲۶: حداکثر ۱۵۴ یورو در ماه.<span class="nieuw-chip">جدید</span>' },
-            { icoon:'ℹ', kleur:'#EFF6FF', tekst:'فرانشیز اجباری در ۲۰۲۶ <strong>۱۶۵ یورو</strong> است. فرزندتان خودش می‌پردازد.' },
+            { icoon:'💰', kleur:'#EBF3EE', tekst:'از ۱۸ سالگی فرزندتان می‌تواند <strong>کمک‌هزینه درمانی (zorgtoeslag)</strong> درخواست کند. در ۲۰۲۶: حداکثر ۱۲۹ یورو در ماه.<span class="nieuw-chip">جدید</span>' },
+            { icoon:'ℹ', kleur:'#EFF6FF', tekst:'فرانشیز اجباری در ۲۰۲۶ <strong>۳۸۵ یورو</strong> است. فرزندتان خودش می‌پردازد.' },
           ], infoBox:{ type:'groen', tekst:'✅ <strong>درخواست کمک‌هزینه درمانی:</strong> فرزندتان باید این کار را خودش از طریق Mijn Toeslagen انجام دهد. مطمئن شوید DigiD آماده است.' },
           extern:{ url:'https://www.belastingdienst.nl/wps/wcm/connect/nl/zorgtoeslag/zorgtoeslag', tekst:'→ اطلاعات بیشتر درباره کمک‌هزینه درمانی' } },
       ],
@@ -1118,14 +1118,14 @@ d.FA = {
           punten:[
             { icoon:'!', kleur:'#FEF2F2', tekst:'<strong>در روز ۱۸ سالگی دیگر تحت پوشش بیمه والدینتان نیستید.</strong> باید قبل یا در روز تولدتان بیمه شخصی بگیرید.<span class="stopt-chip">اجباری</span>' },
             { icoon:'✓', kleur:'#EBF3EE', tekst:'۳ ماه پس از تولد برای بیمه‌شدن بدون جریمه وقت دارید. اما تأخیر نکنید.' },
-            { icoon:'💰', kleur:'#EBF3EE', tekst:'<strong>کمک‌هزینه درمانی درخواست دهید!</strong> با درآمد کم تا ۱۵۴ یورو در ماه (۲۰۲۶). از طریق Mijn Toeslagen با DigiD خودتان.<span class="nieuw-chip">پول</span>' },
+            { icoon:'💰', kleur:'#EBF3EE', tekst:'<strong>کمک‌هزینه درمانی درخواست دهید!</strong> با درآمد کم تا ۱۲۹ یورو در ماه (۲۰۲۶). از طریق Mijn Toeslagen با DigiD خودتان.<span class="nieuw-chip">پول</span>' },
           ], infoBox:{ type:'groen', tekst:'✅ از <strong>belastingdienst.nl/toeslagen</strong> درخواست دهید. می‌توان قبل از ۱۸ اقدام کرد — از روز تولد شروع می‌شود.' },
           extern:{ url:'https://www.belastingdienst.nl/wps/wcm/connect/nl/zorgtoeslag/zorgtoeslag', tekst:'→ اطلاعات بیشتر درباره کمک‌هزینه درمانی' } },
         { icoon:'🏦', kleur:'#EBF3EE', naam:'حساب بانکی و پس‌انداز شخصی', samenvatting:'کمک‌هزینه‌ها به حساب خودتان واریز می‌شود', badge:'توصیه', badgeKleur:'let',
           punten:[
             { icoon:'✓', kleur:'#EBF3EE', tekst:'<strong>مطمئن شوید حساب بانکی به نام خودتان دارید.</strong> همه کمک‌هزینه‌ها به حساب شما واریز می‌شود.' },
             { icoon:'ℹ', kleur:'#EFF6FF', tekst:'اکثر بانک‌ها قبل از ۱۸ سالگی اجازه باز کردن حساب می‌دهند. از بانکتان بپرسید.' },
-            { icoon:'✓', kleur:'#EBF3EE', tekst:'<strong>یک حساب پس‌انداز هم باز کنید</strong> — ذخیره‌ای برای هزینه‌های غیرمنتظره مثل فرانشیز ۱۶۵ یوروی بیمه درمانی (۲۰۲۶).' },
+            { icoon:'✓', kleur:'#EBF3EE', tekst:'<strong>یک حساب پس‌انداز هم باز کنید</strong> — ذخیره‌ای برای هزینه‌های غیرمنتظره مثل فرانشیز ۳۸۵ یوروی بیمه درمانی (۲۰۲۶).' },
           ], extern:null },
       ],
       checklist:[
