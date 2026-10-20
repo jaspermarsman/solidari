@@ -25,3 +25,14 @@ for (const taal of B.TALEN.filter((t) => t !== 'NL')) {
     expect(zinnen(w), w).toBe(NL_ZINNEN);
   });
 }
+
+// ── UK ai_laden: dezelfde aanspreekvorm als de rest van de UK-site (ви) ────────────────────
+const BH = B.laadBron(B.BRONNEN.find((b) => b.naam === 'budgethulp.html'));
+const TI_VORM = /(^|[^а-яіїєґ'ʼ])(ти|тебе|тобі|твій|твоя|твоє|твої|твого|твоєї|твоєму|твоїй|твоїм|твою)(?=$|[^а-яіїєґ'ʼ])/i;
+const VI_VORM = /(^|[^а-яіїєґ'ʼ])(ви|вас|вам|ваш|ваша|ваше|ваші|вашому|вашій|вашим|вашу)(?=$|[^а-яіїєґ'ʼ])/i;
+
+test('UK ai_laden: spreekt aan met ви, niet met ти', () => {
+  const w = BH.talen.UK.bladeren.get('ai_laden').waarde;
+  expect(w).toMatch(VI_VORM);
+  expect(w).not.toMatch(TI_VORM);
+});
