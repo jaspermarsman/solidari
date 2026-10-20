@@ -69,6 +69,24 @@ test('K-3: de zorgtoeslag-maxima in de rekenregels en in elke disclaimer zijn ge
   expect(fout).toEqual([]);
 });
 
+// ── Blok 3c: inkomensgrens zorgtoeslag met partner ─────────────────────────────────────────
+// dr_p stond ruim €250 te hoog; de Belastingdienst noemt voor 2026 €51.142 (samen). Een stel net onder de
+// grens krijgt nog iets, een stel net erboven niets. Met de oude grens kreeg €51.300 nog €1.
+test('3c: zorgtoeslag met partner stopt bij €51.142 (net onder: wel, net boven: niet)', async ({ page }) => {
+  await page.addInitScript(() => { try { localStorage.setItem('solidari-welkom-gezien', '1'); } catch (e) {} });
+  await page.goto('loont-werken.html', { waitUntil: 'networkidle' });
+  const zt = await page.evaluate(() => {
+    const was = S.partner;
+    S.partner = true;
+    const uit = { grens: N.zt.dr_p, onder: berekenZt(51000), op: berekenZt(51142), boven: berekenZt(51300) };
+    S.partner = false;
+    uit.alleenBoven = berekenZt(40900);
+    S.partner = was;
+    return uit;
+  });
+  expect(zt).toEqual({ grens: 51142, onder: 1, op: 0, boven: 0, alleenBoven: 0 });
+});
+
 // ── K-4: de eerste chatballon van Loont Werken staat in de gekozen taal ─────────────────────
 // In het RO stond `welkom` letterlijk in het Nederlands. De test vergelijkt de getoonde ballon met
 // de NL-ballon, dus hij vangt elke taal waarin de tekst (of een terugval) Nederlands is.
