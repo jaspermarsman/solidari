@@ -46,3 +46,52 @@ test('K-1: de NL-samenvatting dreigt niet meer met een boete, ook niet in de ter
   expect(html).not.toMatch(/3 maanden|anders boete/);
   expect(html).toContain("samenvatting: 'Rond de 18e verjaardag regelen'");
 });
+
+// ── K-3: zorgtoeslag in Loont Werken ───────────────────────────────────────────────────────
+// Rekenwaarde en disclaimers noemden €128/€244; de Belastingdienst noemt voor 2026 €129/€246 per
+// maand (tabel zorgtoeslag per maand 2026). De disclaimers moeten dezelfde bedragen noemen als N.zt.
+test('K-3: de zorgtoeslag-maxima in de rekenregels en in elke disclaimer zijn gelijk (€129 / €246)', () => {
+  const lw = fs.readFileSync(path.join(B.ROOT, 'loont-werken.html'), 'utf8');
+  const zt = /zt: \{ dr_s:\d+, dr_p:\d+, mx_s:(\d+), mx_p:(\d+) \}/.exec(lw);
+  expect(zt && [zt[1], zt[2]]).toEqual(['129', '246']);
+  const fout = [];
+  for (const naam of ['loont-werken.html', 'lw-i18n.js']) {
+    const b = B.laadBron(B.BRONNEN.find((x) => x.naam === naam));
+    for (const [taal, t] of Object.entries(b.talen)) {
+      for (const [pad, l] of t.bladeren) {
+        if (!/disc/.test(pad)) continue;
+        const bedragen = (l.waarde.match(/€\d+(?=\/)/g) || []);
+        if (bedragen.length && bedragen.join(' ') !== `€${zt[1]} €${zt[2]}`) fout.push(`${naam} ${taal} ${pad}: ${bedragen.join(' ')}`);
+      }
+    }
+  }
+  expect(fout).toEqual([]);
+});
+
+// ── K-4: de eerste chatballon van Loont Werken staat in de gekozen taal ─────────────────────
+// In het RO stond `welkom` letterlijk in het Nederlands. De test vergelijkt de getoonde ballon met
+// de NL-ballon, dus hij vangt elke taal waarin de tekst (of een terugval) Nederlands is.
+async function eersteBallon(page, taal) {
+  await page.addInitScript((t) => { try { localStorage.setItem('solidari-taal', t); localStorage.setItem('solidari-welkom-gezien', '1'); } catch (e) {} }, taal);
+  await page.goto('loont-werken.html', { waitUntil: 'networkidle' });
+  const ballon = page.locator('#berichten .bericht-sol .bel-sol').first();
+  await expect(ballon).toBeVisible({ timeout: 10000 });
+  return (await ballon.textContent()).trim();
+}
+
+test.describe('K-4: eerste ballon Loont Werken', () => {
+  let nl;
+  test.beforeAll(async ({ browser }) => {
+    const page = await browser.newPage();
+    nl = await eersteBallon(page, 'NL');
+    await page.close();
+  });
+  for (const taal of B.TALEN.filter((t) => t !== 'NL')) {
+    test(`${taal}: de eerste ballon is niet de Nederlandse tekst`, async ({ page }) => {
+      expect(nl).toMatch(/^Hallo! 👋 Ik help je uitrekenen/);
+      const tekst = await eersteBallon(page, taal);
+      expect(tekst.length).toBeGreaterThan(10);
+      expect(tekst).not.toBe(nl);
+    });
+  }
+});

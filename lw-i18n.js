@@ -45,7 +45,7 @@ window.LW_T = {
     'lw-mot-huur':' Bij hogere huur kan werken nóg meer lonen door behoud van huurtoeslag.',
     'lw-aow-txt':'Boven de AOW-leeftijd gelden andere regels. U heeft recht op AOW en eventueel IOAW/IOAZ. De gemeente helpt u met een berekening op maat.',
     'lw-aow-link':'Neem contact op met uw gemeente',
-    'lw-disc':'Berekend o.b.v. normen 2026: bijstandsnorm per 1-1-2026, Belastingdienst toeslagen 2026. Zorgtoeslag max €128/mnd (alleenstaand) / €244/mnd (partners). Kinderbijslag (AKW) is een vaste schatting, verandert niet met werk. Arbeidskorting en heffingskortingen zijn een benadering.',
+    'lw-disc':'Berekend o.b.v. normen 2026: bijstandsnorm per 1-1-2026, Belastingdienst toeslagen 2026. Zorgtoeslag max €129/mnd (alleenstaand) / €246/mnd (partners). Kinderbijslag (AKW) is een vaste schatting, verandert niet met werk. Arbeidskorting en heffingskortingen zijn een benadering.',
   },
   EN:{
     'lw-badge':'💶 Does Work Pay?',
@@ -92,7 +92,7 @@ window.LW_T = {
     'lw-mot-huur':' With higher rent, working can pay even more thanks to retained rent allowance.',
     'lw-aow-txt':'Above pension age, different rules apply. You are entitled to AOW and possibly IOAW/IOAZ. Your municipality can help with a personalised calculation.',
     'lw-aow-link':'Contact your municipality',
-    'lw-disc':'Calculated using 2026 norms. Healthcare allowance max €128/month (single) / €244/month (partners). Child benefit (AKW) is a fixed estimate and does not change with work. Tax credits are an approximation.',
+    'lw-disc':'Calculated using 2026 norms. Healthcare allowance max €129/month (single) / €246/month (partners). Child benefit (AKW) is a fixed estimate and does not change with work. Tax credits are an approximation.',
   },
   AR:{
     'lw-badge':'💶 هل يستحق العمل؟',
@@ -373,7 +373,7 @@ window.LW_T = {
     'lw-mot-huur':' La o chirie mai mare, munca poate fi și mai rentabilă datorită alocației de chirie.',
     'lw-aow-txt':'Peste vârsta pensiei se aplică alte reguli. Ai dreptul la AOW și eventual IOAW/IOAZ. Primăria te ajută cu un calcul personalizat.',
     'lw-aow-link':'Contactează primăria ta',
-    'lw-disc':'Calculat pe baza normelor 2026: norma de ajutor social de la 1-1-2026, alocații Belastingdienst 2026. Alocație sănătate max €128/lună (singur) / €244/lună (parteneri). Alocația pentru copii (AKW) este o estimare fixă. Cifrele sunt orientative.',
+    'lw-disc':'Calculat pe baza normelor 2026: norma de ajutor social de la 1-1-2026, alocații Belastingdienst 2026. Alocație sănătate max €129/lună (singur) / €246/lună (parteneri). Alocația pentru copii (AKW) este o estimare fixă. Cifrele sunt orientative.',
   },
   PL:{
     'lw-badge':'💶 Czy praca się opłaca?',
@@ -420,6 +420,6 @@ window.LW_T = {
     'lw-mot-huur':' Przy wyższym czynszu praca może być jeszcze bardziej opłacalna dzięki zasiłkowi czynszowemu.',
     'lw-aow-txt':'Powyżej wieku emerytalnego obowiązują inne zasady. Masz prawo do AOW i ewentualnie IOAW/IOAZ. Gmina pomoże Ci z indywidualnym obliczeniem.',
     'lw-aow-link':'Skontaktuj się z urzędem gminy',
-    'lw-disc':'Obliczono na podstawie norm 2026: norma zasiłku od 1-1-2026, świadczenia Belastingdienst 2026. Zasiłek zdrowotny max €128/mies. (osoba samotna) / €244/mies. (partnerzy). Zasiłek na dzieci (AKW) jest stałym oszacowaniem. Liczby są orientacyjne.',
+    'lw-disc':'Obliczono na podstawie norm 2026: norma zasiłku od 1-1-2026, świadczenia Belastingdienst 2026. Zasiłek zdrowotny max €129/mies. (osoba samotna) / €246/mies. (partnerzy). Zasiłek na dzieci (AKW) jest stałym oszacowaniem. Liczby są orientacyjne.',
   },
 };
