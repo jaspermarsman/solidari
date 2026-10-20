@@ -446,6 +446,12 @@
     let gezien = false;
     try { gezien = localStorage.getItem('solidari-welkom-gezien') === '1'; } catch (e) {}
     if (gezien) return;
+    // Een link met een geldige ?taal= is al een keuze: geen overlay, en het vlaggetje blijft ongezet,
+    // zodat een later bezoek zonder parameter het scherm alsnog krijgt (PLAN 10, B-4).
+    const m = /[?&]taal=([^&#]*)/i.exec(window.location.search);
+    let code = '';
+    try { code = m ? decodeURIComponent(m[1]).trim().toUpperCase() : ''; } catch (e) {}
+    if (TALEN.some(t => t.code === code)) return;
 
     const overlay = document.createElement('div');
     overlay.className = 'sol-a11y-welkom';

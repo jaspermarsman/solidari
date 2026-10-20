@@ -201,6 +201,13 @@ test('5.4 — Linkcheck (alleen lokaal, niet in CI): elke unieke externe link ge
     });
   });
 
+  // PLAN 10, B-5: www.inburgeren.nl stuurt alleen zijn eigen certificaat mee, zonder het tussencertificaat
+  // van DigiCert (openssl s_client: "verify return code 21", 20-10-2026). Browsers halen dat zelf op,
+  // Node niet. Alleen díe fout (onvolledige keten) wordt een waarschuwing met de URL erbij; een 4xx, 5xx,
+  // time-out en elke andere TLS-fout blijven rood. Node meldt een keten met alleen het eindcertificaat
+  // als UNABLE_TO_VERIFY_LEAF_SIGNATURE ("unable to verify the first certificate"), een keten die halverwege
+  // ophoudt als UNABLE_TO_GET_ISSUER_CERT_LOCALLY.
+  const KETEN_ONVOLLEDIG = /unable to get local issuer certificate|UNABLE_TO_GET_ISSUER_CERT_LOCALLY|unable to verify the first certificate|UNABLE_TO_VERIFY_LEAF_SIGNATURE/;
   const fouten = [];
   const uitkomsten = [];
   for (const link of links) {
@@ -210,7 +217,12 @@ test('5.4 — Linkcheck (alleen lokaal, niet in CI): elke unieke externe link ge
       uitkomsten.push(`${status} ${link}`);
       if (!(status === 200 || (status >= 300 && status < 400))) fouten.push(`${link} → HTTP ${status}`);
     } catch (e) {
-      fouten.push(`${link} → ${e.message}`);
+      if (KETEN_ONVOLLEDIG.test(e.message)) {
+        uitkomsten.push(`keten-onvolledig ${link}`);
+        test.info().annotations.push({ type: 'waarschuwing', description: `${link}: certificaatketen onvolledig (tussencertificaat ontbreekt), geen dode link — ${e.message.split('\n')[0]}` });
+      } else {
+        fouten.push(`${link} → ${e.message}`);
+      }
     }
   }
   fs.writeFileSync(path.join(__dirname, 'naturalisatie-linkcheck.json'), JSON.stringify(uitkomsten, null, 2));

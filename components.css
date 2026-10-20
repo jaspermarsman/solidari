@@ -43,6 +43,9 @@
 /* Duw de vaste nav en de pagina-inhoud onder de balk vandaan */
 html.sol-env-staging nav#solidari-nav-bar { top: 2.4rem; }
 html.sol-env-staging body { margin-top: 2.4rem; }
+/* …en het mobiele menu met zijn overlay ook, anders valt het eerste kopje half onder de nav (PLAN 10, B-6) */
+html.sol-env-staging .mob-menu { top: calc(64px + 2.4rem); max-height: calc(100vh - 64px - 2.4rem); }
+html.sol-env-staging .mob-overlay { top: calc(64px + 2.4rem); }
 
 /* ── NAV ──────────────────────────────────────────────────────────────── */
 nav#solidari-nav-bar {
