@@ -33,10 +33,17 @@ per_nl = {}
 for x in alle:
     per_nl.setdefault(x["nl"], []).append(x["id"])
 uniek = [{"id": ids[0], "nl": nl} for nl, ids in per_nl.items()]
+# PLAN 10 B-1: een kale prompt gaf bij een korte kop een verkeerde lezing; een item mag "context" meegeven
+context = {x["id"]: x["context"] for x in alle if x.get("context")}
+CONTEXTREGEL = ('Het veld "context" zegt waar de tekst op de site staat en wat hij moet doen. '
+                'Vertaal het niet en neem het niet op in je antwoord; het is alleen uitleg.\n')
 
 
 def maak(batch):
-    return prompts.prompt_a(taal, json.dumps([{"id": x["id"], "nl": x["nl"]} for x in batch], ensure_ascii=False, indent=0))
+    invoer = [dict({"id": x["id"], "nl": x["nl"]}, **({"context": context[x["id"]]} if x["id"] in context else {}))
+              for x in batch]
+    tekst = json.dumps(invoer, ensure_ascii=False, indent=0)
+    return prompts.prompt_a(taal, (CONTEXTREGEL if any("context" in x for x in invoer) else "") + tekst)
 
 
 klaar, log, gebruik = ronde.draai(uniek, maak, taal, 0.2, model, f"{taal}-gemini.deel.json", f"hervertaal {taal}")
