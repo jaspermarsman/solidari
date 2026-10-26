@@ -17,6 +17,14 @@
  *   5. solidari-digi-hulp-worker verwijderen
  */
  
+// ── Model (PLAN 8, M-3) ──────────────────────────────────────────────────
+// Eén plek voor het model-ID en de plafonds; nergens anders een model-ID.
+// Register met status en besluit: tools/modellen/MODELLEN.md
+const MODEL = 'claude-haiku-4-5-20251001';
+const MAX_ANALYSE = 1500;   // max_tokens voor /api/analyse
+const MAX_DIGI = 800;       // max_tokens voor /api/digi
+const ZOEKTOOL = { type: 'web_search_20250305', name: 'web_search' };
+ 
 export default {
   async fetch(request, env) {
  
@@ -110,10 +118,10 @@ export default {
             'anthropic-version': '2023-06-01',
           },
           body: JSON.stringify({
-            model: 'claude-haiku-4-5-20251001',
-            max_tokens: 800,
+            model: MODEL,
+            max_tokens: MAX_DIGI,
             system: systeem,
-            tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+            tools: [ZOEKTOOL],
             messages: berichtenBeperkt
           })
         });
@@ -153,9 +161,9 @@ export default {
             'anthropic-version': '2023-06-01',
           },
           body: JSON.stringify({
-            model: 'claude-haiku-4-5-20251001',
-            max_tokens: 1500,
-            tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+            model: MODEL,
+            max_tokens: MAX_ANALYSE,
+            tools: [ZOEKTOOL],
             system: systeem,
             messages: [{ role: 'user', content: bericht.slice(0, 4000) }]
           })
