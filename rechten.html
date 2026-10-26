@@ -512,15 +512,39 @@ function voegKaartjesToe(kaartjes) {
   scrollOnder();
 }
 
+// ── AI-verzoek (PLAN 13, V3 uit PLAN 12) ─────────────────────────────────
+// Pure functie: tools/modellen/worker-echt.mjs leest hem letterlijk uit deze pagina om te meten.
+// De gekozen taal gaat expliciet mee in de systeemprompt, en een korte taalregel in de doeltaal
+// komt achter het laatste gebruikersbericht (alleen in het verzoek, niet in de getoonde chat).
+// Bron van de regels: tools/modellen/taalregels.json ('kort'). Tigrinya: geen taalregel tot een
+// moedertaalspreker hem gelezen heeft (S-9); wel de gekozen taal in de systeemprompt.
+const AI_TAAL = {
+  NL: { nl: 'Nederlands', regel: 'Antwoord in het Nederlands.' },
+  EN: { nl: 'Engels', regel: 'Answer in English.' },
+  AR: { nl: 'Arabisch', regel: 'أجب باللغة العربية.' },
+  TR: { nl: 'Turks', regel: 'Türkçe cevap ver.' },
+  UK: { nl: 'Oekraïens', regel: 'Відповідай українською мовою.' },
+  TI: { nl: 'Tigrinya', regel: '' },
+  FA: { nl: 'Dari', regel: 'به زبان دری پاسخ بده.' },
+  RO: { nl: 'Roemeens', regel: 'Răspunde în limba română.' },
+  PL: { nl: 'Pools', regel: 'Odpowiedz po polsku.' },
+};
+
+function bouwAiVerzoek(berichten, taal) {
+  const tl = AI_TAAL[taal] || AI_TAAL.NL;
+  const systeem = SYSTEM_PROMPT + `\n\n## Gekozen taal\n\nDe gebruiker heeft gekozen voor: ${tl.nl}. Schrijf je hele antwoord in het ${tl.nl}, ook al zijn deze instructies in het Nederlands. Alleen als de gebruiker zelf duidelijk in een andere taal schrijft, wissel je mee naar die taal.`;
+  const verzoek = berichten.map(m => ({ ...m }));
+  const laatste = verzoek[verzoek.length - 1];
+  if (tl.regel && laatste && laatste.role === 'user') laatste.content = `${laatste.content}\n\n${tl.regel}`;
+  return { systeem, berichten: verzoek };
+}
+
 // ── API aanroep ───────────────────────────────────────────────────────────
 async function vraagAI(berichten) {
   const resp = await fetch(WORKER_URL + '/api/digi', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      systeem: SYSTEM_PROMPT,
-      berichten: berichten
-    })
+    body: JSON.stringify(bouwAiVerzoek(berichten, taal))
   });
   if (!resp.ok) throw new Error('Worker fout: ' + resp.status);
   const data = await resp.json();

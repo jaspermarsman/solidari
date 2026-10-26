@@ -370,6 +370,24 @@ HARDE GRENZEN — hier wijk je NOOIT van af:
 VORM: Kort (een paar zinnen). Geef waar mogelijk een concrete zin die de gebruiker letterlijk kan zeggen tegen de dokter of klantmanager.`;
 }
 
+// ── Taalregel (PLAN 13, V3 uit PLAN 12) ───────────────────────────────────────
+// Korte regel in de doeltaal achter het laatste gebruikersbericht, alleen in het verzoek
+// (niet in de getoonde chat). De gekozen taal staat al in bouwSystemPrompt(). Bron:
+// tools/modellen/taalregels.json ('kort'). Tigrinya: geen regel tot een moedertaalspreker
+// hem gelezen heeft (S-9). Pure functie: tools/modellen/worker-echt.mjs meet ermee.
+const AI_TAALREGEL = {
+  NL: 'Antwoord in het Nederlands.', EN: 'Answer in English.', AR: 'أجب باللغة العربية.',
+  TR: 'Türkçe cevap ver.', UK: 'Відповідай українською мовою.', TI: '',
+  FA: 'به زبان دری پاسخ بده.', RO: 'Răspunde în limba română.', PL: 'Odpowiedz po polsku.',
+};
+function bouwAiBerichten(geschiedenis, taal){
+  const verzoek = geschiedenis.map(m => ({ ...m }));
+  const regel = AI_TAALREGEL[taal] || '';
+  const laatste = verzoek[verzoek.length - 1];
+  if (regel && laatste && laatste.role === 'user') laatste.content = `${laatste.content}\n\n${regel}`;
+  return verzoek;
+}
+
 // ── AI versturen ──────────────────────────────────────────────────────────────
 async function aiVerstuur(){
   const ta = document.getElementById('ai-invoer');
@@ -387,7 +405,7 @@ async function aiVerstuur(){
   try{
     const resp = await fetch(WORKER_URL+'/api/digi', {
       method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ systeem: bouwSystemPrompt(), berichten: aiGeschiedenis })
+      body: JSON.stringify({ systeem: bouwSystemPrompt(), berichten: bouwAiBerichten(aiGeschiedenis, taal) })
     });
     if(!resp.ok) throw new Error('Worker '+resp.status);
     const r = await resp.json();
