@@ -21,16 +21,15 @@
 // Eén plek voor het model-ID en de plafonds; nergens anders een model-ID.
 // Register met status en besluit: tools/modellen/MODELLEN.md
 //
-// Staat bewust nog op Haiku 4.5 (PLAN 8, W-C): in de meting antwoordde Haiku 5.5 op /api/digi
-// in het Nederlands op Poolse en Oekraïense vragen (0 van 6, 4.5: 6 van 6), ook bij effort
-// medium. Zie RAPPORT-modellen.md. Omzetten naar Haiku 5.5, als Jasper daartoe besluit:
-//   MODEL = 'claude-haiku-5-5', EFFORT = 'low', MAX_ANALYSE = 4096, MAX_DIGI = 4096.
-// Het denken telt mee in max_tokens: met vier zoekopdrachten liep /api/analyse op 5.5 bij 2500
-// twee van de drie keer vast, bij 4096 nooit. Terug: Rollback in het dashboard (M-10).
-const MODEL = 'claude-haiku-4-5-20251001';
-const MAX_ANALYSE = 1500;   // max_tokens voor /api/analyse (plafond, geen doel)
-const MAX_DIGI = 800;       // max_tokens voor /api/digi
-const EFFORT = '';          // output_config.effort; leeg = niet meesturen, 4.5 kent geen effort (M-4)
+// Sonnet 5.5, effort low (PLAN 13, S-1). Haiku 5.5 antwoordde in PLAN 8/12 te vaak in het
+// Nederlands op vragen in een andere taal; Sonnet 5.5 + V3 niet. Het denken telt mee in
+// max_tokens, dus 4096 (een plafond, geen doel). Terug zonder code: Rollback in het
+// dashboard (S-7). Terug naar Haiku 4.5 in code: MODEL 'claude-haiku-4-5-20251001',
+// EFFORT '', MAX_ANALYSE 1500, MAX_DIGI 800.
+const MODEL = 'claude-sonnet-5-5';
+const MAX_ANALYSE = 4096;   // max_tokens voor /api/analyse (plafond, geen doel)
+const MAX_DIGI = 4096;      // max_tokens voor /api/digi
+const EFFORT = 'low';       // output_config.effort; leeg = niet meesturen (Haiku 4.5 kent geen effort)
 // web_search_20250305 werkt op Haiku 5.5 en zoekt in de meting elke keer; de nieuwere versies
 // (dynamic filtering) zochten maar 1 van de 6 keer en geven geneste resultaatblokken.
 const ZOEKTOOL = { type: 'web_search_20250305', name: 'web_search' };
