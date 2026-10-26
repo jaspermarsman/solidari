@@ -1,0 +1,334 @@
+"""Meting Haiku 4.5 ↔ Haiku 5.5 (PLAN 8 fase 3).
+
+Draaien (met de venv van de backend, die heeft de anthropic-SDK):
+    solidari-backend/venv/bin/python -I tools/modellen/meet.py \
+        --backend solidari-backend --uit _werkdocumenten/modellen [--herhaal 2] [--alleen smoke|matrix]
+
+De sleutel komt uit ANTHROPIC_API_KEY in de omgeving, anders uit ~/.config/solidari/geheimen.env.
+Hij wordt nooit geprint of weggeschreven. Alleen de nepbrief (tools/test/nepbrief.jpg),
+nooit een echte brief.
+
+1. smoke: de Worker-aanroep (/api/analyse) op Haiku 5.5 zonder tools en met elke versie van
+   de zoektool, plus Haiku 4.5 met de huidige zoektool als vergelijking. Beslist M-7.
+2. matrix: de nepbrief zoals _via_claude hem krijgt (OCR → preprocessor → redactie →
+   _maak_prompt), × 9 talen × {4.5, 5.5} × herhalingen. Per antwoord de machinecontroles.
+"""
+
+import argparse
+import json
+import os
+import re
+import sys
+import time
+from pathlib import Path
+
+GEHEIMEN = Path.home() / ".config" / "solidari" / "geheimen.env"
+
+MODEL_OUD = "claude-haiku-4-5-20251001"
+MODEL_NIEUW = "claude-haiku-5-5"
+TALEN = ["nl", "en", "ar", "ti", "tr", "uk", "fa", "ro", "pl"]
+
+# Tarieven per miljoen tokens (prompt < 100k), bron: prijzenpagina, 26-10-2026.
+TARIEF = {MODEL_OUD: (1.00, 5.00), MODEL_NIEUW: (0.10, 0.50)}
+ZOEKPRIJS = 10.00 / 1000   # per zoekopdracht
+
+# Instellingen volgens M-4 en M-5: effort alleen bij 5.5.
+INSTELLING = {
+    MODEL_OUD: {"max_tokens": 2500, "effort": None},
+    MODEL_NIEUW: {"max_tokens": 4096, "effort": "low"},
+}
+
+SCHRIFT = {
+    "ti": r"[ሀ-᎟ⶀ-⷟꬀-꬯]",
+    "ar": r"[؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿]",
+    "fa": r"[؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿]",
+    "uk": r"[Ѐ-ӿ]",
+}
+# Nederlandse functiewoorden: een hoog aandeel in een niet-NL antwoord betekent dat de uitleg
+# (deels) in het Nederlands is blijven staan. Drempel 0,2: Roemeens haalt door "de" ±0,1.
+NL_WOORDEN = set("de het een van en uw je u niet voor binnen dagen dit deze moet moeten heeft hebt "
+                 "wordt kunt kan naar met op als bij of is zijn er wat".split())
+NL_DREMPEL = 0.2
+PLACEHOLDERS = re.compile(r"\[(BSN|REKENINGNUMMER|KENMERK|ONTVANGERADRES[^\]]*|NAAM[^\]]*)\]")
+
+
+class GeenSleutel(Exception):
+    pass
+
+
+def _sleutel():
+    k = os.environ.get("ANTHROPIC_API_KEY", "").strip()
+    if not k and GEHEIMEN.exists():
+        for regel in GEHEIMEN.read_text(encoding="utf-8").splitlines():
+            m = re.match(r"\s*(?:export\s+)?ANTHROPIC_API_KEY\s*=\s*(.*)$", regel)
+            if m:
+                k = m.group(1).strip().strip("'\"")
+    if not k:
+        raise GeenSleutel("ANTHROPIC_API_KEY niet gevonden (omgeving of ~/.config/solidari/geheimen.env)")
+    return k
+
+
+def _schoon(tekst):
+    return re.sub(r"sk-ant-[0-9A-Za-z_-]{8,}", "[sleutel]", str(tekst))
+
+
+def _tekst(bericht):
+    """Alle tekstblokken samen, op type gelezen (zoals claude_util.claude_tekst gaat doen)."""
+    return "\n".join(b.text for b in bericht.content if b.type == "text").strip()
+
+
+def _kosten(model, usage, zoekopdrachten=0):
+    t_in, t_uit = TARIEF[model]
+    return usage.input_tokens / 1e6 * t_in + usage.output_tokens / 1e6 * t_uit + zoekopdrachten * ZOEKPRIJS
+
+
+def _aanroep(client, model, effort, **kwargs):
+    extra = {"output_config": {"effort": effort}} if effort else {}
+    t0 = time.monotonic()
+    try:
+        bericht = client.messages.create(model=model, **kwargs, **extra)
+    except Exception as e:  # noqa: BLE001 — de fout wordt letterlijk gerapporteerd
+        status = getattr(e, "status_code", None)
+        return None, time.monotonic() - t0, f"{type(e).__name__} {status}: {_schoon(getattr(e, 'message', e))}"
+    return bericht, time.monotonic() - t0, None
+
+
+def _blokken(bericht):
+    return [b.type for b in bericht.content]
+
+
+def _zoekaantal(bericht):
+    stu = getattr(bericht.usage, "server_tool_use", None)
+    return getattr(stu, "web_search_requests", 0) or 0 if stu else 0
+
+
+# ── 1. Smoke ──────────────────────────────────────────────────────────────
+BUDGET_SYSTEEM = """Je bent een vriendelijke budgetcoach voor Solidari.
+TAAL: Antwoord UITSLUITEND in het Nederlands. Geen uitzonderingen.
+
+Geef advies in 3 delen:
+
+1. BUDGETANALYSE (max 3 zinnen): Bespreek de financiele situatie eerlijk maar respectvol. Benoem het belangrijkste knelpunt.
+
+2. HULP IN UTRECHT: Geef voor elke relevante categorie specifieke informatie voor gemeente Utrecht:
+- Bijzondere bijstand: hoe aanvragen
+- Kwijtschelding gemeentebelastingen: hoe aanvragen
+- Voedselbank: locatie als je die kent
+- Schuldhulpverlening gemeente Utrecht: contactgegevens
+Als je iets niet zeker weet, zeg dat eerlijk en verwijs naar de gemeente-website of het Sociaal Wijkteam.
+
+3. TOP 3 ACTIES: Drie concrete stappen die nu gezet kunnen worden.
+
+Sluit af met: Neem de Excel of PDF mee naar je begeleider.
+Maximaal 400 woorden."""
+
+BUDGET_BERICHT = """BUDGETOVERZICHT
+Huishouden: alleenstaande, 1 kind (8 jaar), gemeente Utrecht
+INKOMSTEN: bijstand €1.380, kinderbijslag €120, kindgebonden budget €260
+UITGAVEN: huur €780, energie €190, zorgverzekering €150, boodschappen €280, telefoon €35, vervoer €40
+SALDO: €285 per maand (overschot)
+
+GESIGNALEERDE KNELPUNTEN:
+- voedselbank
+
+Nibud-referentie voor deze situatie:
+- Huur richtlijn: €700 | Voeding richtlijn: €350 | Energie richtlijn: €150"""
+
+ZOEKVERSIES = ["web_search_20250305", "web_search_20260209", "web_search_20260318"]
+
+
+# (model, zoektool, max_tokens): de Worker-aanroep van /api/analyse.
+SMOKE_VARIANTEN = (
+    [(MODEL_NIEUW, None, 2500)]
+    + [(MODEL_NIEUW, v, 2500) for v in ZOEKVERSIES]
+    + [(MODEL_NIEUW, "web_search_20250305", 4096), (MODEL_OUD, "web_search_20250305", 1500)]
+)
+
+
+def smoke(client, uit, herhaal=1):
+    regels = []
+    for model, zoek, max_tokens in SMOKE_VARIANTEN:
+        for n in range(1, herhaal + 1):
+            effort = "low" if model == MODEL_NIEUW else None
+            kwargs = dict(max_tokens=max_tokens, system=BUDGET_SYSTEEM,
+                          messages=[{"role": "user", "content": BUDGET_BERICHT}])
+            if zoek:
+                kwargs["tools"] = [{"type": zoek, "name": "web_search"}]
+            bericht, duur, fout = _aanroep(client, model, effort, **kwargs)
+            r = {"model": model, "zoektool": zoek or "(geen)", "max_tokens": max_tokens, "n": n,
+                 "effort": effort, "duur_s": round(duur, 1)}
+            if fout:
+                r["fout"] = fout
+            else:
+                tekst = _tekst(bericht)
+                r.update(stop_reason=bericht.stop_reason, blokken=_blokken(bericht),
+                         tekst_tekens=len(tekst), zoekopdrachten=_zoekaantal(bericht),
+                         input_tokens=bericht.usage.input_tokens, output_tokens=bericht.usage.output_tokens,
+                         kosten_usd=round(_kosten(model, bericht.usage, _zoekaantal(bericht)), 5))
+                (uit / f"smoke-{model}-{zoek or 'geen'}-{max_tokens}-{n}.txt").write_text(tekst, encoding="utf-8")
+            regels.append(r)
+            print("smoke", json.dumps(r, ensure_ascii=False))
+    (uit / "smoke.json").write_text(json.dumps(regels, ensure_ascii=False, indent=1), encoding="utf-8")
+    return regels
+
+
+# ── 2. Matrix Brief Begrijper ─────────────────────────────────────────────
+def briefprompt(backend, uit):
+    """De nepbrief door dezelfde stappen als routes/brief.py → services/ai.analyseer_brief."""
+    from services.ocr import lees_tekst_uit_bestand
+    from services.preprocessor import verwerk_ocr_tekst
+    from services.redacteer import redacteer_pii
+
+    nep = Path(__file__).resolve().parents[1] / "test" / "nepbrief.jpg"
+    tekst = lees_tekst_uit_bestand(nep.read_bytes(), "image/jpeg", "nl")
+    tekst = verwerk_ocr_tekst(tekst)
+    geredacteerd = redacteer_pii(tekst)
+    (uit / "nepbrief-geredacteerd.txt").write_text(geredacteerd, encoding="utf-8")
+    return geredacteerd
+
+
+def _platte_tekst(resultaat):
+    delen = []
+    u = resultaat.get("urgentie") or {}
+    delen += [str(u.get("titel", "")), str(u.get("tekst", ""))]
+    for s in resultaat.get("secties", []):
+        delen += [str(s.get("titel", "")), re.sub(r"<[^>]+>", " ", str(s.get("inhoud", "")))]
+    delen += [str(a) for a in resultaat.get("actiepunten", [])]
+    return " ".join(delen)
+
+
+def controles(ai, taal, ruwe_tekst):
+    """Machinecontroles uit PLAN 8 fase 3.3. Geeft (dict met uitslagen, resultaat of None)."""
+    c = {}
+    try:
+        resultaat = json.loads(ruwe_tekst.strip())
+        c["json_zonder_fallback"] = True
+    except json.JSONDecodeError:
+        c["json_zonder_fallback"] = False
+        resultaat = ai._parseer_json(ruwe_tekst) if ruwe_tekst else None
+    c["json_parseert"] = isinstance(resultaat, dict)
+    if not c["json_parseert"]:
+        for k in ("velden", "valideert", "titels_doeltaal", "schrift", "geen_placeholders", "geen_nl_lek"):
+            c[k] = False
+        return c, None
+
+    resultaat = ai._saniteer_resultaat(resultaat)
+    c["velden"] = all(k in resultaat for k in ("urgentie", "secties", "actiepunten"))
+    c["valideert"] = ai._valideer_resultaat(resultaat)
+    resultaat = ai._vervang_sectietitels(resultaat, taal)
+
+    titels = [str(s.get("titel", "")) for s in resultaat.get("secties", [])]
+    nl = set(ai.SECTIE_TITELS["nl"].values()) | {"Wat staat er?", "Wat moet ik doen?", "Waarom?", "Bezwaar maken?"}
+    if taal == "nl":
+        c["titels_doeltaal"] = bool(titels)
+    else:
+        nl_over = [t for t in titels if t in nl and t != "Contact"]
+        ok = bool(titels) and not nl_over
+        if taal in SCHRIFT:
+            ok = ok and all(re.search(SCHRIFT[taal], t) for t in titels)
+        c["titels_doeltaal"] = ok
+
+    plat = _platte_tekst(resultaat)
+    letters = [ch for ch in plat if ch.isalpha()]
+    if taal in SCHRIFT and letters:
+        aandeel = sum(1 for ch in letters if re.match(SCHRIFT[taal], ch)) / len(letters)
+        c["schrift_aandeel"] = round(aandeel, 2)
+        c["schrift"] = aandeel >= 0.6
+    else:
+        c["schrift"] = True
+    c["geen_placeholders"] = not PLACEHOLDERS.search(plat)
+    woorden = re.findall(r"[^\W\d_]+", plat.lower())
+    c["nl_aandeel"] = round(sum(w in NL_WOORDEN for w in woorden) / max(1, len(woorden)), 2)
+    c["geen_nl_lek"] = taal == "nl" or c["nl_aandeel"] < NL_DREMPEL
+    return c, resultaat
+
+
+def matrix(client, ai, prompt_basis, uit, herhaal, modellen=(MODEL_OUD, MODEL_NIEUW), talen=TALEN,
+           effort=None, label="matrix"):
+    regels = []
+    for model in modellen:
+        inst = dict(INSTELLING[model])
+        if effort and model == MODEL_NIEUW:
+            inst["effort"] = effort
+        for taal in talen:
+            prompt = ai._maak_prompt(prompt_basis, taal, "")
+            for n in range(1, herhaal + 1):
+                bericht, duur, fout = _aanroep(
+                    client, model, inst["effort"], max_tokens=inst["max_tokens"],
+                    system=ai.SYSTEEM_PROMPT, messages=[{"role": "user", "content": prompt}])
+                r = {"model": model, "effort": inst["effort"], "taal": taal, "n": n, "duur_s": round(duur, 1)}
+                if fout:
+                    r.update(fout=fout, geslaagd=False)
+                else:
+                    ruw = _tekst(bericht)
+                    c, resultaat = controles(ai, taal, ruw)
+                    r.update(stop_reason=bericht.stop_reason, blokken=_blokken(bericht),
+                             input_tokens=bericht.usage.input_tokens, output_tokens=bericht.usage.output_tokens,
+                             kosten_usd=round(_kosten(model, bericht.usage), 5), **c)
+                    r["geslaagd"] = (bericht.stop_reason == "end_turn" and
+                                     all(c[k] for k in ("json_parseert", "velden", "valideert",
+                                                        "titels_doeltaal", "schrift", "geen_placeholders",
+                                                        "geen_nl_lek")))
+                    naam = f"{label}-{model}-{taal}-{n}" if label != "matrix" else f"{model}-{taal}-{n}"
+                    (uit / f"{naam}.ruw.txt").write_text(ruw, encoding="utf-8")
+                    if resultaat is not None:
+                        (uit / f"{naam}.json").write_text(json.dumps(resultaat, ensure_ascii=False, indent=1),
+                                                         encoding="utf-8")
+                regels.append(r)
+                print(label, json.dumps({k: v for k, v in r.items() if k != "blokken"}, ensure_ascii=False))
+    (uit / f"{label}.json").write_text(json.dumps(regels, ensure_ascii=False, indent=1), encoding="utf-8")
+    return regels
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--backend", required=True, help="map solidari-backend (alleen gelezen)")
+    ap.add_argument("--uit", required=True, help="uitvoermap, buiten git")
+    ap.add_argument("--herhaal", type=int, default=2)
+    ap.add_argument("--herhaal-smoke", type=int, default=3)
+    ap.add_argument("--alleen", choices=["smoke", "matrix", "effort"])
+    ap.add_argument("--talen", default="pl,tr,uk", help="voor --alleen effort")
+    ap.add_argument("--effort", default="medium", help="voor --alleen effort")
+    a = ap.parse_args()
+
+    uit = Path(a.uit).resolve()
+    uit.mkdir(parents=True, exist_ok=True)
+    sys.path.insert(0, str(Path(a.backend).resolve()))
+    # config.py laadt /etc/solidari/.env; dat bestand is voor productie en hoort niet in een meting.
+    import dotenv
+    dotenv.load_dotenv = lambda *args, **kwargs: False
+    import anthropic
+    from services import ai
+
+    client = anthropic.Anthropic(api_key=_sleutel(), timeout=120.0, max_retries=1)
+
+    try:
+        m = client.models.retrieve(MODEL_NIEUW)
+        cap = getattr(m, "capabilities", None)
+        info = {"id": m.id, "max_input_tokens": getattr(m, "max_input_tokens", None),
+                "max_tokens": getattr(m, "max_tokens", None),
+                "capabilities": cap.model_dump() if hasattr(cap, "model_dump") else cap}
+    except Exception as e:  # noqa: BLE001
+        info = {"fout": _schoon(e)}
+    (uit / "model-haiku-5-5.json").write_text(json.dumps(info, ensure_ascii=False, indent=1, default=str),
+                                              encoding="utf-8")
+    print("models-api", _schoon(json.dumps(info, default=str))[:600])
+
+    if a.alleen in (None, "smoke"):
+        smoke(client, uit, a.herhaal_smoke)
+    if a.alleen in (None, "matrix"):
+        basis = briefprompt(a.backend, uit)
+        print(f"nepbrief: {len(basis)} tekens na OCR, preprocessor en redactie")
+        matrix(client, ai, basis, uit, a.herhaal)
+    if a.alleen == "effort":
+        basis = briefprompt(a.backend, uit)
+        matrix(client, ai, basis, uit, a.herhaal, modellen=(MODEL_NIEUW,), talen=a.talen.split(","),
+               effort=a.effort, label=f"effort-{a.effort}")
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except GeenSleutel as e:
+        print(f"GEEN SLEUTEL: {e}")
+        sys.exit(2)
