@@ -8,7 +8,7 @@
 //        --route digi|analyse --talen pl,tr,uk,ti,ar --herhaal 3 --uit <map> [--droog] [--plafond 15]
 //   De prompts komen letterlijk uit rechten.html en budgethulp.html (alleen gelezen); alleen de
 //   taalinstructie verschilt per variant. --droog schrijft alleen de prompts weg. Elke aanroep
-//   telt mee in kosten.json naast de uitvoermap (zelfde bestand als meet.py); bij het plafond stopt
+//   telt mee in kosten/ naast de uitvoermap (zelfde map als meet.py); bij het plafond stopt
 //   de meting. Taalcontrole volgens taalregels.json (T-3).
 // Draait de Worker-code lokaal in Node met de echte fetch. Er wordt niets gedeployd.
 // Sleutel: ANTHROPIC_API_KEY uit de omgeving, anders uit ~/.config/solidari/geheimen.env;
@@ -98,7 +98,7 @@ if (variantModus) { await variantMeting(); process.exit(0); }
 
 // ── PLAN 12: varianten ────────────────────────────────────────────────────
 async function variantMeting() {
-  const { writeFileSync, appendFileSync, mkdirSync } = await import('node:fs');
+  const { writeFileSync, appendFileSync, mkdirSync, readdirSync } = await import('node:fs');
   const R = JSON.parse(readFileSync(join(hier, 'taalregels.json'), 'utf-8'));
   const route = vlag('route', 'digi');
   const varianten = String(vlag('variant', 'V0')).split(',');
@@ -109,8 +109,13 @@ async function variantMeting() {
   const plafond = Number(vlag('plafond', 15));
   if (!uit) { console.log('--uit ontbreekt'); process.exit(2); }
   mkdirSync(uit, { recursive: true });
-  const kostenPad = join(uit, '..', 'kosten.json');
-  const model = process.env.WORKER_MODEL || bron.match(/^const MODEL = '(.*?)'/m)[1];
+  const model = process.env.WORKER_MODEL || bron.match(/^const MODEL = ['"](.*?)['"]/m)[1];
+  const kostenMap = join(uit, '..', 'kosten');
+  mkdirSync(kostenMap, { recursive: true });
+  const kostenPad = join(kostenMap, `${route}-${model}-${process.pid}.json`);
+  const eigen = { usd: 0, aanroepen: 0 };
+  const totaal = () => readdirSync(kostenMap).filter(f => f.endsWith('.json'))
+    .reduce((som, f) => { try { return som + JSON.parse(readFileSync(join(kostenMap, f), 'utf-8')).usd; } catch { return som; } }, 0);
   const TARIEF = { 'claude-haiku-4-5-20251001': [1, 5], 'claude-haiku-5-5': [0.10, 0.50], 'claude-sonnet-5-5': [2, 10] };
   if (!TARIEF[model]) { console.log('onbekend tarief voor ' + model); process.exit(2); }
 
@@ -195,13 +200,12 @@ Nibud-referentie voor deze situatie:
     try { usage = (await res.clone().json()).usage || null; } catch { usage = null; }
     return res;
   };
-  const leesKosten = () => existsSync(kostenPad) ? JSON.parse(readFileSync(kostenPad, 'utf-8')) : { totaal_usd: 0, aanroepen: 0, per_bron: {} };
 
   for (const v of varianten) for (const taal of talen) {
     const [pad, data] = prompts(v, taal);
     for (let n = 1; n <= herhaal; n++) {
-      const k0 = leesKosten();
-      if (k0.totaal_usd >= plafond) { console.log(`PLAFOND: geschatte kosten $${k0.totaal_usd.toFixed(2)} ≥ $${plafond}`); process.exit(3); }
+      const t0 = totaal();
+      if (t0 >= plafond) { console.log(`PLAFOND: geschatte kosten $${t0.toFixed(2)} ≥ $${plafond}`); process.exit(3); }
       usage = null;
       let r;
       try { r = await post(pad, data); }
@@ -209,10 +213,8 @@ Nibud-referentie voor deze situatie:
       const zoek = usage?.server_tool_use?.web_search_requests || 0;
       const [ti, to] = TARIEF[model];
       const usd = usage ? usage.input_tokens / 1e6 * ti + usage.output_tokens / 1e6 * to + zoek * 0.01 : 0;
-      const k = leesKosten();
-      k.totaal_usd = +(k.totaal_usd + usd).toFixed(5); k.aanroepen += 1;
-      k.per_bron[route] = +((k.per_bron[route] || 0) + usd).toFixed(5);
-      writeFileSync(kostenPad, JSON.stringify(k, null, 1));
+      eigen.usd = +(eigen.usd + usd).toFixed(5); eigen.aanroepen += 1;
+      writeFileSync(kostenPad, JSON.stringify(eigen));
       const tekst = r.data.tekst || '';
       const t = taalcontrole12(tekst, taal, R);
       const regel = {

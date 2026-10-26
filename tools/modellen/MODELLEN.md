@@ -48,6 +48,10 @@ De VPS draait een oudere versie van de backend dan de lokale kopie `solidari-bac
 | Google `solidari-lokaal` | `tools/vertaal/`, `tools/audio/` via `~/.config/solidari/geheimen.env` | eigen project (§0b) |
 | Google `solidari-worker` | — | eigen project (§0b), nu niet in de Worker-code |
 
+## 6. Taaldrift (PLAN 12)
+
+Meting van promptvarianten tegen taaldrift (Haiku 4.5, Haiku 5.5, Sonnet 5.5), 26-10-2026: zie `_werkdocumenten/RAPPORT-taaldrift.md` (lokaal, buiten git). Gereedschap: `meet.py --alleen varianten`, `worker-echt.mjs --variant`, `taalregels.json`. De besluiten in §1 blijven `open` tot W-D.
+
 ## Bronnen
 
 - [D] [Model deprecations](https://platform.claude.com/docs/en/about-claude/model-deprecations), gelezen 26-10-2026: `claude-haiku-4-5-20251001` actief, niet eerder dan 15-10-2026; `claude-haiku-5-5` actief, niet eerder dan 07-10-2027; `claude-opus-5-5` niet eerder dan 22-09-2027; `claude-opus-4-1-20250805` uitgefaseerd 05-08-2026. Aankondiging minstens 60 dagen vooraf.

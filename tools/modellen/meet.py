@@ -16,7 +16,7 @@ nooit een echte brief.
    VARIANTEN), per --model en --variant, met de strengere taalcontrole uit taalregels.json.
        --alleen varianten --model claude-haiku-5-5 --variant V0,V1,V2,V3 [--talen ...] [--droog]
    --droog schrijft alleen de prompts per variant weg, zonder API. Elke aanroep telt mee in
-   kosten.json in de uitvoermap; bij --plafond (standaard $15) stopt de meting.
+   kosten/ naast de uitvoermap; bij --plafond (standaard $15) stopt de meting.
 """
 
 import argparse
@@ -359,28 +359,34 @@ class PlafondBereikt(Exception):
 
 
 class Kosten:
-    """Gedeeld kostenregister (kosten.json in de uitvoermap; worker-echt.mjs schrijft hetzelfde
-    bestand). Een aanroep start niet meer als het totaal het plafond heeft gehaald (§2.6)."""
+    """Gedeeld kostenregister: elk proces schrijft zijn eigen bestand in de map kosten/ (ook
+    worker-echt.mjs), het totaal is de som van alle bestanden. Zo kunnen metingen parallel
+    lopen zonder telfouten. Een aanroep start niet meer als het totaal het plafond haalt (§2.6)."""
 
-    def __init__(self, pad, plafond):
-        self.pad, self.plafond = pad, plafond
+    def __init__(self, map_, plafond, naam):
+        self.map, self.plafond = map_, plafond
+        self.map.mkdir(parents=True, exist_ok=True)
+        self.pad = self.map / f"{naam}-{os.getpid()}.json"
+        self.eigen = {"usd": 0.0, "aanroepen": 0}
 
-    def lees(self):
-        if self.pad.exists():
-            return json.loads(self.pad.read_text(encoding="utf-8"))
-        return {"totaal_usd": 0.0, "aanroepen": 0, "per_bron": {}}
+    def totaal(self):
+        som = 0.0
+        for f in self.map.glob("*.json"):
+            try:
+                som += json.loads(f.read_text(encoding="utf-8"))["usd"]
+            except (ValueError, KeyError):
+                pass
+        return som
 
     def check(self):
-        k = self.lees()
-        if k["totaal_usd"] >= self.plafond:
-            raise PlafondBereikt(f"geschatte kosten ${k['totaal_usd']:.2f} ≥ plafond ${self.plafond:.2f}")
+        t = self.totaal()
+        if t >= self.plafond:
+            raise PlafondBereikt(f"geschatte kosten ${t:.2f} ≥ plafond ${self.plafond:.2f}")
 
     def tel(self, bron, usd):
-        k = self.lees()
-        k["totaal_usd"] = round(k["totaal_usd"] + usd, 5)
-        k["aanroepen"] += 1
-        k["per_bron"][bron] = round(k["per_bron"].get(bron, 0) + usd, 5)
-        self.pad.write_text(json.dumps(k, indent=1), encoding="utf-8")
+        self.eigen["usd"] = round(self.eigen["usd"] + usd, 5)
+        self.eigen["aanroepen"] += 1
+        self.pad.write_text(json.dumps(self.eigen), encoding="utf-8")
 
 
 VARIANTEN = ("V0", "V1", "V2", "V3")
@@ -443,7 +449,10 @@ def varianten(client, ai, basis, uit, herhaal, modellen, varianten_, talen, kost
                         ruw = _tekst(bericht)
                         c, resultaat = controles(ai, taal, ruw)
                         c.pop("nl_aandeel", None)
-                        t = taalcontrole(_platte_tekst(resultaat) if resultaat else ruw, taal)
+                        c["schrift_oud"] = c.pop("schrift", None)
+                        c.pop("schrift_aandeel", None)
+                        # Ontbreken de velden (bijv. vertaalde JSON-sleutels), dan de taal van de ruwe tekst.
+                        t = taalcontrole(_platte_tekst(resultaat) if resultaat and c["velden"] else ruw, taal)
                         usd = _kosten(model, bericht.usage)
                         kosten.tel("brief", usd)
                         r.update(stop_reason=bericht.stop_reason,
@@ -496,7 +505,8 @@ def main():
         basis = (uit / "nepbrief-geredacteerd.txt").read_text(encoding="utf-8") \
             if (uit / "nepbrief-geredacteerd.txt").exists() else briefprompt(a.backend, uit)
         client = None if a.droog else anthropic.Anthropic(api_key=_sleutel(), timeout=120.0, max_retries=1)
-        kosten = Kosten(uit.parent / "kosten.json" if uit.name == "brief" else uit / "kosten.json", a.plafond)
+        kosten = Kosten((uit.parent if uit.name == "brief" else uit) / "kosten", a.plafond,
+                        f"brief-{'+'.join(modellen)}")
         try:
             varianten(client, ai, basis, uit, a.herhaal, modellen, vs, talen, kosten, droog=a.droog)
         except PlafondBereikt as e:
