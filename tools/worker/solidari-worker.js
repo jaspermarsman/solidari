@@ -20,10 +20,34 @@
 // ── Model (PLAN 8, M-3) ──────────────────────────────────────────────────
 // Eén plek voor het model-ID en de plafonds; nergens anders een model-ID.
 // Register met status en besluit: tools/modellen/MODELLEN.md
+//
+// Staat bewust nog op Haiku 4.5 (PLAN 8, W-C): in de meting antwoordde Haiku 5.5 op /api/digi
+// in het Nederlands op Poolse en Oekraïense vragen (0 van 6, 4.5: 6 van 6), ook bij effort
+// medium. Zie RAPPORT-modellen.md. Omzetten naar Haiku 5.5, als Jasper daartoe besluit:
+//   MODEL = 'claude-haiku-5-5', EFFORT = 'low', MAX_ANALYSE = 4096, MAX_DIGI = 4096.
+// Het denken telt mee in max_tokens: met vier zoekopdrachten liep /api/analyse op 5.5 bij 2500
+// twee van de drie keer vast, bij 4096 nooit. Terug: Rollback in het dashboard (M-10).
 const MODEL = 'claude-haiku-4-5-20251001';
-const MAX_ANALYSE = 1500;   // max_tokens voor /api/analyse
+const MAX_ANALYSE = 1500;   // max_tokens voor /api/analyse (plafond, geen doel)
 const MAX_DIGI = 800;       // max_tokens voor /api/digi
+const EFFORT = '';          // output_config.effort; leeg = niet meesturen, 4.5 kent geen effort (M-4)
+// web_search_20250305 werkt op Haiku 5.5 en zoekt in de meting elke keer; de nieuwere versies
+// (dynamic filtering) zochten maar 1 van de 6 keer en geven geneste resultaatblokken.
 const ZOEKTOOL = { type: 'web_search_20250305', name: 'web_search' };
+ 
+// Lees de tekst op bloktype: Haiku 5.5 begint vaak met een thinking-blok. Een weigering
+// (stop_reason 'refusal') of een antwoord zonder tekst (plafond op aan denken) is een fout,
+// geen leeg antwoord (M-6). Er wordt niets van de inhoud gelogd.
+function leesAntwoord(data) {
+  const tekst = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('\n').trim();
+  if (data.stop_reason === 'refusal') {
+    return { fout: { error: 'De AI kon deze vraag niet beantwoorden.', type: 'refusal' } };
+  }
+  if (!tekst) {
+    return { fout: { error: 'Geen antwoord ontvangen van de AI. Probeer het opnieuw.', type: data.stop_reason || 'leeg' } };
+  }
+  return { tekst };
+}
  
 export default {
   async fetch(request, env) {
@@ -120,6 +144,7 @@ export default {
           body: JSON.stringify({
             model: MODEL,
             max_tokens: MAX_DIGI,
+            ...(EFFORT ? { output_config: { effort: EFFORT } } : {}),
             system: systeem,
             tools: [ZOEKTOOL],
             messages: berichtenBeperkt
@@ -127,7 +152,8 @@ export default {
         });
         const data = await res.json();
         if (!res.ok) return json({ error: data.error?.message || 'API-fout', type: data.error?.type }, res.status);
-        const tekst = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('\n').trim();
+        const { tekst, fout } = leesAntwoord(data);
+        if (fout) return json(fout, 502);
         // Extraheer bronnen uit web search resultaten
         const bronnen = [];
         for (const blok of (data.content || [])) {
@@ -163,6 +189,7 @@ export default {
           body: JSON.stringify({
             model: MODEL,
             max_tokens: MAX_ANALYSE,
+            ...(EFFORT ? { output_config: { effort: EFFORT } } : {}),
             tools: [ZOEKTOOL],
             system: systeem,
             messages: [{ role: 'user', content: bericht.slice(0, 4000) }]
@@ -170,7 +197,8 @@ export default {
         });
         const data = await res.json();
         if (!res.ok) return json({ error: data.error?.message || 'API-fout', type: data.error?.type }, res.status);
-        const tekst = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('\n').trim();
+        const { tekst, fout } = leesAntwoord(data);
+        if (fout) return json(fout, 502);
         return json({ tekst });
       } catch (err) {
         return json({ error: 'Verbinding met AI mislukt: ' + err.message }, 502);

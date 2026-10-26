@@ -1,6 +1,6 @@
 // Stubtest voor tools/worker/solidari-worker.js (PLAN 8 fase 2 en 4).
 //
-// Draaien:  node tools/modellen/worker-stubtest.mjs
+// Draaien:  node tools/modellen/worker-stubtest.mjs [pad-naar-worker.js]
 // Geen netwerk: globalThis.fetch is vervangen door een stub die het verzoek bewaart
 // en een vooraf gekozen antwoord teruggeeft. Er gaat geen sleutel mee.
 //
@@ -17,7 +17,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
 const hier = dirname(fileURLToPath(import.meta.url));
-const pad = join(hier, '..', 'worker', 'solidari-worker.js');
+const pad = process.argv[2] || join(hier, '..', 'worker', 'solidari-worker.js');
 const bron = readFileSync(pad, 'utf-8');
 // Als data-URL laden: de Worker is ESM, maar zonder package.json met "type": "module"
 // leest Node een .js-bestand als CommonJS.
@@ -45,8 +45,10 @@ console.log(`Worker: MODEL=${MODEL} MAX_ANALYSE=${MAX_ANALYSE} MAX_DIGI=${MAX_DI
             `ZOEKTOOL=${ZOEKTOOL && ZOEKTOOL.type} EFFORT=${EFFORT ?? '(geen)'}`);
 
 console.log('0. Eén plek voor het model-ID');
-const ids = bron.match(/claude-[a-z]+-\d[\w-]*/g) || [];
-check('precies één model-ID in de Worker', ids.length === 1, ids.join(', '));
+// Alleen code telt; een opmerking mag het ID noemen waarnaar je kunt omzetten.
+const code = bron.split('\n').filter(r => !/^\s*(\/\/|\*|\/\*)/.test(r)).join('\n');
+const ids = code.match(/claude-[a-z]+-\d[\w-]*/g) || [];
+check('precies één model-ID in de Worker-code', ids.length === 1, ids.join(', '));
 check('Haiku 4.5 krijgt geen effort (die geeft daar een fout)',
       !(String(MODEL).startsWith('claude-haiku-4-5') && EFFORT));
 
