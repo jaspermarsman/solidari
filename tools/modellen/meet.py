@@ -339,8 +339,10 @@ def taalcontrole(tekst, taal):
     """Strengere taalcontrole (PLAN 12, T-3): aandeel NL-woorden, kenmerken van de doeltaal en
     het aantal Nederlandse zinnen. 'in_doeltaal' alleen als alle drie in orde zijn."""
     t = _URL.sub(" ", re.sub(r"<[^>]+>", " ", str(tekst)))
+    # Woorden die ook functiewoord van de doeltaal zijn (Roemeens 'de') tellen niet als Nederlands.
+    nlw = NL_WOORDEN_12 - set(TAALREGELS.get(taal, {}).get("kenmerken", {}).get("woorden", []))
     w = _woorden(t)
-    r = {"nl_aandeel": round(sum(x in NL_WOORDEN_12 for x in w) / max(1, len(w)), 2)}
+    r = {"nl_aandeel": round(sum(x in nlw for x in w) / max(1, len(w)), 2)}
     ok, d = _doel_ok(t, taal)
     r.update(d, doeltaal_kenmerken=ok)
     nl_zinnen = []
@@ -349,7 +351,7 @@ def taalcontrole(tekst, taal):
             zw = _woorden(zin)
             if len(zw) < DREMPEL["min_woorden_zin"]:
                 continue
-            nl = sum(x in NL_WOORDEN_12 for x in zw) / len(zw)
+            nl = sum(x in nlw for x in zw) / len(zw)
             if nl >= DREMPEL["nl_aandeel_zin"] and not _doel_ok(zin, taal)[0]:
                 nl_zinnen.append(zin.strip()[:100])
     r["nl_zinnen"] = len(nl_zinnen)

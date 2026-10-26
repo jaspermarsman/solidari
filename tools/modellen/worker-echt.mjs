@@ -10,6 +10,12 @@
 //   taalinstructie verschilt per variant. --droog schrijft alleen de prompts weg. Elke aanroep
 //   telt mee in kosten/ naast de uitvoermap (zelfde map als meet.py); bij het plafond stopt
 //   de meting. Taalcontrole volgens taalregels.json (T-3).
+// PLAN 13 (hermeting): --variant PAGINA --route digi|analyse|gv --talen alle
+//   De prompt-functies komen letterlijk uit de branchversie van de pagina's en worden uitgevoerd:
+//   bouwAiPrompt() uit budgethulp.html, bouwAiVerzoek() uit rechten.html, bouwSystemPrompt() en
+//   bouwAiBerichten() uit goedvoorbereid.html. Extra controle: geen Nederlandse slotzin in een
+//   niet-NL antwoord. Bij gv (Goed voorbereid) tellen Nederlandse zinnen tussen aanhalingstekens
+//   apart (nl_citaten): de pagina geeft bewust Nederlandse zinnen om tegen de dokter te zeggen.
 // Draait de Worker-code lokaal in Node met de echte fetch. Er wordt niets gedeployd.
 // Sleutel: ANTHROPIC_API_KEY uit de omgeving, anders uit ~/.config/solidari/geheimen.env;
 // hij wordt nooit geprint. Alleen verzonnen invoer.
@@ -102,7 +108,8 @@ async function variantMeting() {
   const R = JSON.parse(readFileSync(join(hier, 'taalregels.json'), 'utf-8'));
   const route = vlag('route', 'digi');
   const varianten = String(vlag('variant', 'V0')).split(',');
-  const talen = String(vlag('talen', 'pl,tr,uk,ti,ar')).split(',');
+  const talen = vlag('talen', 'pl,tr,uk,ti,ar') === 'alle' ? ['ar', 'ti', 'tr', 'uk', 'pl', 'ro', 'fa', 'en', 'nl']
+    : String(vlag('talen', 'pl,tr,uk,ti,ar')).split(',');
   const herhaal = Number(vlag('herhaal', 3));
   const uit = vlag('uit', null);
   const droog = process.argv.includes('--droog');
@@ -121,8 +128,14 @@ async function variantMeting() {
 
   // Budgethulp: systeemprompt en taalnamen letterlijk uit de pagina.
   const bh = readFileSync(join(root, 'budgethulp.html'), 'utf-8');
-  const sjabloon = bh.match(/const systeemprompt = `([\s\S]*?)`\n/)[1];
-  const paginaNamen = Function('return ' + bh.match(/const taalNamen = (\{[^}]*\});/)[1])();
+  // V0–V3 bouwen op de oude prompt (vóór PLAN 13); op een branch zonder die prompt alleen PAGINA.
+  const sjabloon = (bh.match(/const systeemprompt = `([\s\S]*?)`\n/) || [])[1];
+  const taalNamenBron = (bh.match(/const taalNamen = (\{[^}]*\});/) || [])[1];
+  const paginaNamen = taalNamenBron ? Function('return ' + taalNamenBron)() : {};
+  if (!sjabloon && varianten.some(v => v !== 'PAGINA') && route === 'analyse') {
+    console.log('V0–V3 voor budgethulp vragen de oude prompt; deze pagina heeft bouwAiPrompt(): gebruik --variant PAGINA');
+    process.exit(2);
+  }
   const GEMEENTE = 'Utrecht';
   const ENGELS = { pl: 'Polish', tr: 'Turkish', uk: 'Ukrainian', ti: 'Tigrinya', ar: 'Arabic', ro: 'Romanian', fa: 'Dari (Farsi)', en: 'English', nl: 'Nederlands' };
   const budgetSysteem = (antwoordTaal) => sjabloon.replaceAll('${antwoordTaal}', antwoordTaal)
@@ -163,7 +176,61 @@ Nibud-referentie voor deze situatie:
     ti: 'ምስ ፍቓድ መንበሪ ንሰለስተ ኣዋርሕ ኣብ ሆላንድ እየ ዝነብር። ናይ ጥዕና ውሕስነት ሓገዝ (zorgtoeslag) ክረክብ መሰል ኣለኒ ድዩ? ከመይ ገይረ ክሓትት እኽእል?',
   };
 
+  // ── PAGINA: de prompt-functies letterlijk uit de branchversie van de HTML ──
+  function knip(bron, begin) {
+    const i = bron.indexOf(begin);
+    if (i < 0) throw new Error('niet gevonden in pagina: ' + begin);
+    const eind = bron.indexOf('\n}', i);
+    return bron.slice(i, bron.indexOf('\n', eind + 2) + 1);
+  }
+  const PAGINA = {};
+  if (varianten.includes('PAGINA')) {
+    const bh2 = readFileSync(join(root, 'budgethulp.html'), 'utf-8');
+    PAGINA.analyse = Function(knip(bh2, 'const AI_TAAL = {') + knip(bh2, 'function bouwAiPrompt(') +
+                              'return bouwAiPrompt;')();
+    const rh = readFileSync(join(root, 'rechten.html'), 'utf-8');
+    PAGINA.digi = Function('const SYSTEM_PROMPT = ' + JSON.stringify(RECHTEN_SYSTEEM) + ';\n' +
+                           knip(rh, 'const AI_TAAL = {') + knip(rh, 'function bouwAiVerzoek(') +
+                           'return bouwAiVerzoek;')();
+    const gv = readFileSync(join(root, 'goedvoorbereid.html'), 'utf-8');
+    PAGINA.gv = Function('huidigeCategorie', 'huidigeSituatie', 'taal', 'geschiedenis',
+      knip(gv, 'function bouwSystemPrompt(') + knip(gv, 'const AI_TAALREGEL = {') +
+      knip(gv, 'function bouwAiBerichten(') +
+      'return { systeem: bouwSystemPrompt(), berichten: bouwAiBerichten(geschiedenis, taal) };');
+    globalThis.window = globalThis;
+    const gvData = readFileSync(join(root, 'goedvoorbereid-data.js'), 'utf-8');
+    Function(gvData)();
+    PAGINA.gvData = Object.values(globalThis).find(x => x && x.NL && x.NL.categorieen);
+  }
+  // Verzonnen vragen voor de talen die PLAN 12 nog niet had (NL, EN, RO, FA) en voor Goed voorbereid.
+  // Zelf geschreven, niet nagelezen.
+  Object.assign(VRAAG, {
+    nl: 'Ik woon sinds 3 maanden in Nederland met een verblijfsvergunning. Heb ik recht op zorgtoeslag en hoe vraag ik die aan?',
+    en: 'I have been living in the Netherlands for 3 months with a residence permit. Am I entitled to healthcare allowance (zorgtoeslag), and how do I apply?',
+    ro: 'Locuiesc în Olanda de 3 luni cu permis de ședere. Am dreptul la alocația pentru asigurarea de sănătate (zorgtoeslag) și cum o solicit?',
+    fa: 'من سه ماه است با اجازه اقامت در هالند زندگی می‌کنم. آیا حق دریافت کمک‌هزینه بیمه صحی (zorgtoeslag) را دارم و چگونه درخواست کنم؟',
+  });
+  const GV_VRAAG = {
+    nl: 'Volgende week heb ik een gesprek met mijn klantmanager over mijn bijstand. Ik ben bang dat ik het niet goed begrijp. Wat kan ik zeggen?',
+    en: "Next week I have a meeting with my client manager about my benefits. I'm afraid I won't understand everything. What can I say?",
+    pl: 'W przyszłym tygodniu mam rozmowę z moim opiekunem w sprawie zasiłku. Boję się, że nie wszystko zrozumiem. Co mogę powiedzieć?',
+    tr: 'Gelecek hafta sosyal yardımım hakkında müşteri temsilcimle bir görüşmem var. Her şeyi anlamamaktan korkuyorum. Ne söyleyebilirim?',
+    uk: 'Наступного тижня в мене розмова з моїм клієнтським менеджером про мою допомогу. Боюся, що не все зрозумію. Що я можу сказати?',
+    ro: 'Săptămâna viitoare am o discuție cu consilierul meu despre ajutorul social. Mi-e teamă că nu voi înțelege tot. Ce pot să spun?',
+    ar: 'الأسبوع القادم لدي موعد مع مسؤول ملفي بخصوص المساعدة الاجتماعية. أخشى ألا أفهم كل شيء. ماذا يمكنني أن أقول؟',
+    fa: 'هفته آینده با مسئول پرونده‌ام درباره کمک اجتماعی‌ام صحبت دارم. می‌ترسم همه چیز را نفهمم. چه می‌توانم بگویم؟',
+    ti: 'ኣብ ዝመጽእ ሰሙን ብዛዕባ ማሕበራዊ ሓገዘይ ምስ ሓላፊ መዝገበይ ርክብ ኣለኒ። ኩሉ ዘይርድኣኒ ኢዩ ዝብል ፍርሒ ኣለኒ። እንታይ ክብል እኽእል?',
+  };
+
   function prompts(v, taal) {
+    if (v === 'PAGINA') {
+      if (route === 'analyse') return ['/api/analyse', PAGINA.analyse(GEMEENTE, taal, BERICHT)];
+      if (route === 'digi') return ['/api/digi', PAGINA.digi([{ role: 'user', content: VRAAG[taal] }], taal.toUpperCase())];
+      const d = PAGINA.gvData[taal.toUpperCase()] || PAGINA.gvData.NL;
+      const cat = d.categorieen.find(c => c.id === 'gemeente');
+      const sit = cat.situaties.find(x => x.id === 'gemeente-bijstand');
+      return ['/api/digi', PAGINA.gv(cat, sit, taal.toUpperCase(), [{ role: 'user', content: GV_VRAAG[taal] }])];
+    }
     const r = R[taal];
     const slot = v === 'V1' ? `(Antwoord in het ${r.naam_nl}.)` : (v === 'V2' || v === 'V3') ? r.kort : '';
     const keuze = `\n\n## Gekozen taal\n\nDe gebruiker heeft gekozen voor: ${r.naam_nl}. Schrijf je hele antwoord in het ${r.naam_nl}, ook al zijn deze instructies in het Nederlands. Alleen als de gebruiker zelf duidelijk in een andere taal schrijft, wissel je mee naar die taal.`;
@@ -216,7 +283,12 @@ Nibud-referentie voor deze situatie:
       eigen.usd = +(eigen.usd + usd).toFixed(5); eigen.aanroepen += 1;
       writeFileSync(kostenPad, JSON.stringify(eigen));
       const tekst = r.data.tekst || '';
-      const t = taalcontrole12(tekst, taal, R);
+      const t = taalcontrole12(tekst, taal, R, route === 'gv');
+      // Geen Nederlandse slotzin in een niet-NL antwoord (PLAN 13 fase 4.2).
+      if (taal !== 'nl') {
+        t.nl_slotzin = /Neem de Excel|naar je begeleider/i.test(tekst);
+        if (t.nl_slotzin) t.in_doeltaal = false;
+      }
       const regel = {
         model, route, variant: v, taal, n, status: r.status, duur_s: r.duur, tekst_tekens: tekst.length,
         bronnen: Array.isArray(r.data.bronnen) ? r.data.bronnen.length : undefined,
@@ -235,9 +307,16 @@ Nibud-referentie voor deze situatie:
 }
 
 // Strengere taalcontrole (T-3), dezelfde regels als taalcontrole() in meet.py.
-function taalcontrole12(tekst, taal, R) {
-  const D = R._drempels, NLW = new Set(R._nl_woorden);
-  const t = String(tekst).replace(/<[^>]+>/g, ' ').replace(/https?:\/\/\S+|www\.\S+|\b[\w.-]+\.(?:nl|com|org|eu|gov)\b\S*/g, ' ');
+function taalcontrole12(tekst, taal, R, citatenApart = false) {
+  // Woorden die ook functiewoord van de doeltaal zijn (Roemeens 'de') tellen niet als Nederlands.
+  const eigenW = new Set(R[taal]?.kenmerken?.woorden || []);
+  const D = R._drempels, NLW = new Set(R._nl_woorden.filter(x => !eigenW.has(x)));
+  let t = String(tekst).replace(/<[^>]+>/g, ' ').replace(/https?:\/\/\S+|www\.\S+|\b[\w.-]+\.(?:nl|com|org|eu|gov)\b\S*/g, ' ');
+  // Goed voorbereid: zinnen tussen aanhalingstekens zijn vaak bewust Nederlands (om te zeggen).
+  const citaten = [];
+  if (citatenApart && taal !== 'nl') {
+    t = t.replace(/["“„«»”]([^"“„«»”\n]{8,300})["”»«“]/g, (_, c) => { citaten.push(c); return ' '; });
+  }
   const woorden = (x) => x.toLowerCase().match(/[\p{L}\p{M}]+/gu) || [];
   const doelOk = (x) => {
     const k = R[taal]?.kenmerken || {}; const d = {};
@@ -272,6 +351,9 @@ function taalcontrole12(tekst, taal, R) {
   r.nl_zinnen = nlZinnen.length;
   if (nlZinnen.length) r.nl_zin_voorbeeld = nlZinnen[0];
   r.in_doeltaal = taal === 'nl' || (r.nl_aandeel < D.nl_aandeel_antwoord && ok && nlZinnen.length === 0);
+  if (citatenApart) r.nl_citaten = citaten.filter(c => {
+    const zw = woorden(c); return zw.length >= 3 && zw.filter(x => NLW.has(x)).length / zw.length >= D.nl_aandeel_zin;
+  }).length;
   return r;
 }
 
