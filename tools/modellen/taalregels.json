@@ -1,0 +1,78 @@
+{
+  "_uitleg": "PLAN 12. Per taal: de Nederlandse taalnaam (V1), een korte slotregel in de doeltaal (V2/V3, Worker), een slotregel voor de JSON van de Brief Begrijper (V2/V3), en de kenmerken voor de taalcontrole (T-3). 'gecontroleerd' = door een moedertaalspreker nagelezen. Alleen meetgereedschap, niet in productie.",
+  "nl": {
+    "naam_nl": "Nederlands",
+    "kort": "Antwoord in het Nederlands.",
+    "json": "Schrijf alle tekst in de JSON in het Nederlands.",
+    "gecontroleerd": true,
+    "kenmerken": {}
+  },
+  "en": {
+    "naam_nl": "Engels",
+    "kort": "Answer in English.",
+    "json": "Answer in English. Write all text in the JSON in English.",
+    "gecontroleerd": false,
+    "kenmerken": { "woorden": ["the", "and", "to", "of", "you", "your", "is", "for", "this", "that", "are", "in", "a", "it", "if", "can", "with"] }
+  },
+  "pl": {
+    "naam_nl": "Pools",
+    "kort": "Odpowiedz po polsku.",
+    "json": "Odpowiedz po polsku. Cały tekst w JSON napisz po polsku.",
+    "gecontroleerd": false,
+    "kenmerken": { "tekens": "ąęłśżźćń", "woorden": ["i", "w", "się", "na", "nie", "że", "do", "jest", "to", "z", "o", "jak", "lub", "czy", "masz", "możesz", "aby", "oraz"] }
+  },
+  "tr": {
+    "naam_nl": "Turks",
+    "kort": "Türkçe cevap ver.",
+    "json": "Türkçe cevap ver. JSON'daki tüm metni Türkçe yaz.",
+    "gecontroleerd": false,
+    "kenmerken": { "tekens": "ğşıçöüİ", "woorden_drempel": 0.02, "woorden": ["ve", "bir", "bu", "için", "ile", "da", "de", "olarak", "veya", "var", "mı", "mi", "çok", "gibi", "size", "sizin"] }
+  },
+  "ro": {
+    "naam_nl": "Roemeens",
+    "kort": "Răspunde în limba română.",
+    "json": "Răspunde în limba română. Scrie tot textul din JSON în limba română.",
+    "gecontroleerd": false,
+    "kenmerken": { "tekens": "ăâîșțşţ", "woorden": ["și", "în", "la", "cu", "pentru", "este", "să", "că", "nu", "pe", "un", "o", "trebuie", "sau", "această"] }
+  },
+  "uk": {
+    "naam_nl": "Oekraïens",
+    "kort": "Відповідай українською мовою.",
+    "json": "Відповідай українською мовою. Увесь текст у JSON пиши українською.",
+    "gecontroleerd": false,
+    "kenmerken": { "schrift": "[\\u0400-\\u04FF]", "eigen": "іїєґІЇЄҐ", "vreemd": "ыэъёЫЭЪЁ" }
+  },
+  "ar": {
+    "naam_nl": "Arabisch",
+    "kort": "أجب باللغة العربية.",
+    "json": "أجب باللغة العربية. اكتب كل النص في JSON باللغة العربية.",
+    "gecontroleerd": false,
+    "kenmerken": { "schrift": "[\\u0600-\\u06FF\\u0750-\\u077F\\uFB50-\\uFDFF\\uFE70-\\uFEFF]", "eigen": "يكة", "vreemd": "یکپچژگ" }
+  },
+  "fa": {
+    "naam_nl": "Dari",
+    "kort": "به زبان دری پاسخ بده.",
+    "json": "به زبان دری پاسخ بده. تمام متن JSON را به زبان دری بنویس.",
+    "gecontroleerd": false,
+    "kenmerken": { "schrift": "[\\u0600-\\u06FF\\u0750-\\u077F\\uFB50-\\uFDFF\\uFE70-\\uFEFF]", "eigen": "یکپچژگ", "vreemd": "يك" }
+  },
+  "ti": {
+    "naam_nl": "Tigrinya",
+    "kort": "ብትግርኛ መልስ።",
+    "json": "ብትግርኛ መልስ። ኣብ JSON ዘሎ ኩሉ ጽሑፍ ብትግርኛ ጽሓፍ።",
+    "gecontroleerd": false,
+    "_let_op": "Geen gereviewde zin gevonden in i18n.js of tools/vertaal/ (PLAN 7). Zelf geschreven, NIET door een moedertaalspreker gecontroleerd.",
+    "kenmerken": { "schrift": "[\\u1200-\\u139F\\u2D80-\\u2DDF\\uAB00-\\uAB2F]" }
+  },
+  "_nl_woorden": ["de", "het", "een", "van", "en", "uw", "je", "u", "niet", "voor", "binnen", "dagen", "dit", "deze", "moet", "moeten", "heeft", "hebt", "wordt", "kunt", "kan", "naar", "met", "op", "als", "bij", "of", "is", "zijn", "er", "wat", "jouw", "ook", "dat", "die", "hoe", "waar", "geen", "mee", "aan"],
+  "_drempels": {
+    "nl_aandeel_antwoord": 0.2,
+    "nl_aandeel_zin": 0.3,
+    "min_woorden_zin": 4,
+    "schrift_aandeel": 0.6,
+    "tekens_per_letter": 0.01,
+    "woorden_aandeel": 0.06,
+    "eigen_per_letter": 0.015,
+    "vreemd_per_letter": 0.005
+  }
+}

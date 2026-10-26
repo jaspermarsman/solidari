@@ -1,4 +1,4 @@
-"""Meting Haiku 4.5 ↔ Haiku 5.5 (PLAN 8 fase 3).
+"""Meting Haiku 4.5 ↔ Haiku 5.5 (PLAN 8 fase 3) en promptvarianten tegen taaldrift (PLAN 12).
 
 Draaien (met de venv van de backend, die heeft de anthropic-SDK):
     solidari-backend/venv/bin/python -I tools/modellen/meet.py \
@@ -12,6 +12,11 @@ nooit een echte brief.
    de zoektool, plus Haiku 4.5 met de huidige zoektool als vergelijking. Beslist M-7.
 2. matrix: de nepbrief zoals _via_claude hem krijgt (OCR → preprocessor → redactie →
    _maak_prompt), × 9 talen × {4.5, 5.5} × herhalingen. Per antwoord de machinecontroles.
+3. varianten (PLAN 12): dezelfde nepbrief met de taalinstructie op een andere plek (V0–V3, zie
+   VARIANTEN), per --model en --variant, met de strengere taalcontrole uit taalregels.json.
+       --alleen varianten --model claude-haiku-5-5 --variant V0,V1,V2,V3 [--talen ...] [--droog]
+   --droog schrijft alleen de prompts per variant weg, zonder API. Elke aanroep telt mee in
+   kosten.json in de uitvoermap; bij --plafond (standaard $15) stopt de meting.
 """
 
 import argparse
@@ -26,17 +31,21 @@ GEHEIMEN = Path.home() / ".config" / "solidari" / "geheimen.env"
 
 MODEL_OUD = "claude-haiku-4-5-20251001"
 MODEL_NIEUW = "claude-haiku-5-5"
+MODEL_SONNET = "claude-sonnet-5-5"   # alleen als bovengrens (PLAN 12, T-1)
 TALEN = ["nl", "en", "ar", "ti", "tr", "uk", "fa", "ro", "pl"]
 
 # Tarieven per miljoen tokens (prompt < 100k), bron: prijzenpagina, 26-10-2026.
-TARIEF = {MODEL_OUD: (1.00, 5.00), MODEL_NIEUW: (0.10, 0.50)}
+TARIEF = {MODEL_OUD: (1.00, 5.00), MODEL_NIEUW: (0.10, 0.50), MODEL_SONNET: (2.00, 10.00)}
 ZOEKPRIJS = 10.00 / 1000   # per zoekopdracht
 
-# Instellingen volgens M-4 en M-5: effort alleen bij 5.5.
+# Instellingen volgens M-4 en M-5: effort alleen bij de 5.5-modellen (T-1).
 INSTELLING = {
     MODEL_OUD: {"max_tokens": 2500, "effort": None},
     MODEL_NIEUW: {"max_tokens": 4096, "effort": "low"},
+    MODEL_SONNET: {"max_tokens": 4096, "effort": "low"},
 }
+
+TAALREGELS = json.loads((Path(__file__).resolve().parent / "taalregels.json").read_text(encoding="utf-8"))
 
 SCHRIFT = {
     "ti": r"[ሀ-᎟ⶀ-⷟꬀-꬯]",
@@ -280,16 +289,196 @@ def matrix(client, ai, prompt_basis, uit, herhaal, modellen=(MODEL_OUD, MODEL_NI
     return regels
 
 
+# ── 3. Varianten tegen taaldrift (PLAN 12) ───────────────────────────────
+DREMPEL = TAALREGELS["_drempels"]
+NL_WOORDEN_12 = set(TAALREGELS["_nl_woorden"])
+_URL = re.compile(r"https?://\S+|www\.\S+|\b[\w.-]+\.(?:nl|com|org|eu|gov)\b\S*")
+
+
+def _woorden(t):
+    return re.findall(r"[^\W\d_]+", t.lower())
+
+
+def _doel_ok(t, taal):
+    """Kenmerken van de doeltaal in tekst t (T-3). Geeft (ok, details)."""
+    k = TAALREGELS.get(taal, {}).get("kenmerken", {})
+    letters = [ch for ch in t if ch.isalpha()]
+    d = {}
+    if not k:
+        return True, d
+    ok = True
+    if "schrift" in k:
+        pat = re.compile(k["schrift"])
+        eigen_schrift = [ch for ch in letters if pat.match(ch)]
+        d["schrift_aandeel"] = round(len(eigen_schrift) / max(1, len(letters)), 2)
+        ok = d["schrift_aandeel"] >= DREMPEL["schrift_aandeel"]
+        n = max(1, len(eigen_schrift))
+        if "eigen" in k:
+            d["eigen_per_letter"] = round(sum(ch in k["eigen"] for ch in eigen_schrift) / n, 3)
+            ok = ok and d["eigen_per_letter"] >= DREMPEL["eigen_per_letter"]
+        if "vreemd" in k:
+            d["vreemd_per_letter"] = round(sum(ch in k["vreemd"] for ch in eigen_schrift) / n, 3)
+            ok = ok and d["vreemd_per_letter"] < DREMPEL["vreemd_per_letter"]
+    else:
+        w = _woorden(t)
+        if "tekens" in k:
+            d["tekens_per_letter"] = round(sum(ch in k["tekens"] for ch in letters) / max(1, len(letters)), 3)
+            ok = d["tekens_per_letter"] >= DREMPEL["tekens_per_letter"]
+        if "woorden" in k:
+            d["woorden_aandeel"] = round(sum(x in k["woorden"] for x in w) / max(1, len(w)), 2)
+            ok = ok and d["woorden_aandeel"] >= k.get("woorden_drempel", DREMPEL["woorden_aandeel"])
+    return ok, d
+
+
+def taalcontrole(tekst, taal):
+    """Strengere taalcontrole (PLAN 12, T-3): aandeel NL-woorden, kenmerken van de doeltaal en
+    het aantal Nederlandse zinnen. 'in_doeltaal' alleen als alle drie in orde zijn."""
+    t = _URL.sub(" ", re.sub(r"<[^>]+>", " ", str(tekst)))
+    w = _woorden(t)
+    r = {"nl_aandeel": round(sum(x in NL_WOORDEN_12 for x in w) / max(1, len(w)), 2)}
+    ok, d = _doel_ok(t, taal)
+    r.update(d, doeltaal_kenmerken=ok)
+    nl_zinnen = []
+    if taal != "nl":
+        for zin in re.split(r"[.!?؟።\n]+", t):
+            zw = _woorden(zin)
+            if len(zw) < DREMPEL["min_woorden_zin"]:
+                continue
+            nl = sum(x in NL_WOORDEN_12 for x in zw) / len(zw)
+            if nl >= DREMPEL["nl_aandeel_zin"] and not _doel_ok(zin, taal)[0]:
+                nl_zinnen.append(zin.strip()[:100])
+    r["nl_zinnen"] = len(nl_zinnen)
+    if nl_zinnen:
+        r["nl_zin_voorbeeld"] = nl_zinnen[0]
+    r["in_doeltaal"] = taal == "nl" or (r["nl_aandeel"] < DREMPEL["nl_aandeel_antwoord"] and ok and not nl_zinnen)
+    return r
+
+
+class PlafondBereikt(Exception):
+    pass
+
+
+class Kosten:
+    """Gedeeld kostenregister (kosten.json in de uitvoermap; worker-echt.mjs schrijft hetzelfde
+    bestand). Een aanroep start niet meer als het totaal het plafond heeft gehaald (§2.6)."""
+
+    def __init__(self, pad, plafond):
+        self.pad, self.plafond = pad, plafond
+
+    def lees(self):
+        if self.pad.exists():
+            return json.loads(self.pad.read_text(encoding="utf-8"))
+        return {"totaal_usd": 0.0, "aanroepen": 0, "per_bron": {}}
+
+    def check(self):
+        k = self.lees()
+        if k["totaal_usd"] >= self.plafond:
+            raise PlafondBereikt(f"geschatte kosten ${k['totaal_usd']:.2f} ≥ plafond ${self.plafond:.2f}")
+
+    def tel(self, bron, usd):
+        k = self.lees()
+        k["totaal_usd"] = round(k["totaal_usd"] + usd, 5)
+        k["aanroepen"] += 1
+        k["per_bron"][bron] = round(k["per_bron"].get(bron, 0) + usd, 5)
+        self.pad.write_text(json.dumps(k, indent=1), encoding="utf-8")
+
+
+VARIANTEN = ("V0", "V1", "V2", "V3")
+
+
+def variant_prompts(ai, basis, taal, variant):
+    """(systeemprompt, gebruikersbericht) voor een variant. Alleen de taalinstructie verschilt;
+    V0 is letterlijk SYSTEEM_PROMPT en _maak_prompt uit de backend (alleen gelezen)."""
+    systeem = ai.SYSTEEM_PROMPT
+    prompt = ai._maak_prompt(basis, taal, "")
+    regel = TAALREGELS[taal]
+    taal_naam = ai.TAAL_NAMEN.get(taal, "Nederlands")
+    if variant == "V1":
+        prompt += f"\nSchrijf alle tekst in de JSON in het {taal_naam}."
+    elif variant in ("V2", "V3"):
+        prompt += "\n" + regel["json"]
+    if variant == "V3":
+        titels = ai.SECTIE_TITELS.get(taal, ai.SECTIE_TITELS["nl"])
+        oud = "TAAL: Schrijf altijd in de taal die de gebruiker heeft gekozen. Volg dit strikt op."
+        assert oud in systeem, "TAAL-regel in SYSTEEM_PROMPT gewijzigd; variant V3 moet opnieuw"
+        systeem = systeem.replace(oud, (
+            f"TAAL: De gebruiker heeft gekozen voor: {taal_naam}. Schrijf alle tekst in de JSON in het "
+            f"{taal_naam}, ook al zijn deze instructies en de brief in het Nederlands. Volg dit strikt op."))
+        oud_fmt = '"secties": [ { "icoon": "emoji", "titel": "naam", "achtergrond": "#EBF3EE", "inhoud": "HTML" } ],'
+        assert oud_fmt in systeem, "JSON-formaat in SYSTEEM_PROMPT gewijzigd; variant V3 moet opnieuw"
+        systeem = systeem.replace(oud_fmt, (
+            f'"secties": [ {{ "icoon": "emoji", "titel": "{titels["wat_staat_er"]}", "achtergrond": "#EBF3EE", '
+            f'"inhoud": "HTML" }}, {{ "icoon": "emoji", "titel": "{titels["wat_doen"]}", "achtergrond": "#EBF3EE", '
+            f'"inhoud": "HTML" }} ],'))
+    return systeem, prompt
+
+
+def varianten(client, ai, basis, uit, herhaal, modellen, varianten_, talen, kosten, droog=False):
+    regels = []
+    if droog:
+        pmap = (uit.parent if uit.name == "brief" else uit) / "prompts"
+        pmap.mkdir(parents=True, exist_ok=True)
+        for v in varianten_:
+            for taal in talen:
+                systeem, prompt = variant_prompts(ai, basis, taal, v)
+                (pmap / f"brief-{v}-{taal}.txt").write_text(
+                    f"=== SYSTEEM ===\n{systeem}\n\n=== GEBRUIKER ===\n{prompt}\n", encoding="utf-8")
+        print(f"droog: {len(varianten_) * len(talen)} prompts in {pmap}")
+        return regels
+    for model in modellen:
+        inst = INSTELLING[model]
+        for v in varianten_:
+            for taal in talen:
+                systeem, prompt = variant_prompts(ai, basis, taal, v)
+                for n in range(1, herhaal + 1):
+                    kosten.check()
+                    bericht, duur, fout = _aanroep(
+                        client, model, inst["effort"], max_tokens=inst["max_tokens"],
+                        system=systeem, messages=[{"role": "user", "content": prompt}])
+                    r = {"model": model, "effort": inst["effort"], "variant": v, "taal": taal, "n": n,
+                         "duur_s": round(duur, 1)}
+                    if fout:
+                        r.update(fout=fout, geslaagd=False, in_doeltaal=False)
+                    else:
+                        ruw = _tekst(bericht)
+                        c, resultaat = controles(ai, taal, ruw)
+                        c.pop("nl_aandeel", None)
+                        t = taalcontrole(_platte_tekst(resultaat) if resultaat else ruw, taal)
+                        usd = _kosten(model, bericht.usage)
+                        kosten.tel("brief", usd)
+                        r.update(stop_reason=bericht.stop_reason,
+                                 input_tokens=bericht.usage.input_tokens, output_tokens=bericht.usage.output_tokens,
+                                 kosten_usd=round(usd, 5), **c, **t)
+                        r["overig_ok"] = (bericht.stop_reason == "end_turn" and
+                                          all(c[k] for k in ("json_parseert", "velden", "valideert",
+                                                             "titels_doeltaal", "geen_placeholders")))
+                        r["geslaagd"] = r["overig_ok"] and t["in_doeltaal"]
+                        naam = f"{model}-{v}-{taal}-{n}"
+                        (uit / f"{naam}.ruw.txt").write_text(ruw, encoding="utf-8")
+                    regels.append(r)
+                    print("variant", json.dumps({k: r.get(k) for k in (
+                        "model", "variant", "taal", "n", "duur_s", "geslaagd", "in_doeltaal", "overig_ok",
+                        "nl_aandeel", "nl_zinnen", "doeltaal_kenmerken", "kosten_usd", "fout")}, ensure_ascii=False))
+                    with open(uit / "varianten.jsonl", "a", encoding="utf-8") as f:
+                        f.write(json.dumps(r, ensure_ascii=False) + "\n")
+    return regels
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--backend", required=True, help="map solidari-backend (alleen gelezen)")
     ap.add_argument("--uit", required=True, help="uitvoermap, buiten git")
     ap.add_argument("--herhaal", type=int, default=2)
     ap.add_argument("--herhaal-smoke", type=int, default=3)
-    ap.add_argument("--alleen", choices=["smoke", "matrix", "effort"])
-    ap.add_argument("--talen", default="pl,tr,uk", help="voor --alleen effort")
+    ap.add_argument("--alleen", choices=["smoke", "matrix", "effort", "varianten"])
+    ap.add_argument("--talen", default="pl,tr,uk", help="voor --alleen effort; 'alle' = 9 talen")
     ap.add_argument("--effort", default="medium", help="voor --alleen effort")
+    ap.add_argument("--model", default=f"{MODEL_OUD},{MODEL_NIEUW}", help="voor --alleen varianten")
+    ap.add_argument("--variant", default="V0,V1,V2,V3", help="voor --alleen varianten")
+    ap.add_argument("--droog", action="store_true", help="alleen prompts wegschrijven, geen API")
+    ap.add_argument("--plafond", type=float, default=15.0, help="stop bij deze geschatte kosten (USD)")
     a = ap.parse_args()
+    talen = TALEN if a.talen == "alle" else a.talen.split(",")
 
     uit = Path(a.uit).resolve()
     uit.mkdir(parents=True, exist_ok=True)
@@ -299,6 +488,21 @@ def main():
     dotenv.load_dotenv = lambda *args, **kwargs: False
     import anthropic
     from services import ai
+
+    if a.alleen == "varianten":
+        modellen = a.model.split(",")
+        vs = a.variant.split(",")
+        assert all(m in INSTELLING for m in modellen) and all(v in VARIANTEN for v in vs)
+        basis = (uit / "nepbrief-geredacteerd.txt").read_text(encoding="utf-8") \
+            if (uit / "nepbrief-geredacteerd.txt").exists() else briefprompt(a.backend, uit)
+        client = None if a.droog else anthropic.Anthropic(api_key=_sleutel(), timeout=120.0, max_retries=1)
+        kosten = Kosten(uit.parent / "kosten.json" if uit.name == "brief" else uit / "kosten.json", a.plafond)
+        try:
+            varianten(client, ai, basis, uit, a.herhaal, modellen, vs, talen, kosten, droog=a.droog)
+        except PlafondBereikt as e:
+            print(f"PLAFOND: {e}")
+            sys.exit(3)
+        return
 
     client = anthropic.Anthropic(api_key=_sleutel(), timeout=120.0, max_retries=1)
 
@@ -322,7 +526,7 @@ def main():
         matrix(client, ai, basis, uit, a.herhaal)
     if a.alleen == "effort":
         basis = briefprompt(a.backend, uit)
-        matrix(client, ai, basis, uit, a.herhaal, modellen=(MODEL_NIEUW,), talen=a.talen.split(","),
+        matrix(client, ai, basis, uit, a.herhaal, modellen=(MODEL_NIEUW,), talen=talen,
                effort=a.effort, label=f"effort-{a.effort}")
 
 
