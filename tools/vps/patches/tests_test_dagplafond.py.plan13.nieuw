@@ -1,0 +1,91 @@
+"""Test voor het dagplafond op AI-aanroepen (audit 18-09-2026).
+
+Draaien:  python3 tests/test_dagplafond.py
+Gebruikt een eigen tijdelijke logmap; raakt de productieteller niet aan.
+"""
+import multiprocessing
+import os
+import sys
+import tempfile
+
+TMP = tempfile.mkdtemp(prefix='solidari-teller-test-')
+os.environ['SOLIDARI_LOG_DIR'] = TMP
+os.environ['SOLIDARI_AI_DAGPLAFOND'] = '5'
+os.environ['SOLIDARI_AI_DREMPEL'] = '3'
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+
+from services.teller import reserveer_ai_aanroep, stand_vandaag, DagplafondBereikt  # noqa: E402
+
+fouten = []
+
+
+def check(naam, voorwaarde):
+    print(('  OK   ' if voorwaarde else '  FOUT ') + naam)
+    if not voorwaarde:
+        fouten.append(naam)
+
+
+print('1. Tellen tot het plafond')
+for i in range(1, 6):
+    stand = reserveer_ai_aanroep()
+    check('aanroep %d geeft stand %d' % (i, i), stand == i)
+
+print('2. Eén over het plafond wordt geweigerd')
+try:
+    reserveer_ai_aanroep()
+    check('zesde aanroep wordt geweigerd', False)
+except DagplafondBereikt as e:
+    check('zesde aanroep wordt geweigerd (%s)' % e, e.plafond == 5)
+
+print('3. Daarna blijft hij weigeren')
+try:
+    reserveer_ai_aanroep()
+    check('zevende aanroep wordt ook geweigerd', False)
+except DagplafondBereikt:
+    check('zevende aanroep wordt ook geweigerd', True)
+
+
+def _werker(n):
+    """Aparte processen, zoals de gunicorn-workers."""
+    os.environ['SOLIDARI_LOG_DIR'] = TMP
+    gelukt = 0
+    for _ in range(n):
+        try:
+            reserveer_ai_aanroep()
+            gelukt += 1
+        except DagplafondBereikt:
+            pass
+    return gelukt
+
+
+print('4. Meerdere processen tellen samen op, niet los van elkaar')
+TMP2 = tempfile.mkdtemp(prefix='solidari-teller-test2-')
+os.environ['SOLIDARI_LOG_DIR'] = TMP2
+os.environ['SOLIDARI_AI_DAGPLAFOND'] = '40'
+# Herimporteren met de nieuwe omgeving
+for mod in ['services.teller']:
+    sys.modules.pop(mod, None)
+from services.teller import reserveer_ai_aanroep as reserveer2, stand_vandaag as stand2  # noqa: E402
+
+
+def _werker2(n):
+    gelukt = 0
+    for _ in range(n):
+        try:
+            reserveer2()
+            gelukt += 1
+        except Exception:
+            pass
+    return gelukt
+
+
+with multiprocessing.Pool(4) as pool:
+    resultaten = pool.map(_werker2, [25, 25, 25, 25])
+totaal_gelukt = sum(resultaten)
+eindstand = stand2()
+check('niet meer dan het plafond doorgelaten (%d gelukt, plafond 40)' % totaal_gelukt,
+      totaal_gelukt == 40)
+check('teller telde alle 100 pogingen (stand %d)' % eindstand, eindstand == 100)
+
+print('\n' + ('Alle tests geslaagd.' if not fouten else '%d test(en) gefaald: %s' % (len(fouten), fouten)))
+sys.exit(0 if not fouten else 1)

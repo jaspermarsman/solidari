@@ -1,0 +1,28 @@
+--- routes/brief.py
++++ routes/brief.py
+@@ -20,6 +20,7 @@
+ from services.ocr import lees_tekst_uit_bestand
+ from services.preprocessor import verwerk_ocr_tekst
+ from services.ai import analyseer_brief
++from services.teller import DagplafondBereikt
+ from config import Config
+ 
+ logger = logging.getLogger('solidari.brief')
+@@ -75,6 +76,17 @@
+     # ── 5. AI: brief analyseren en uitleggen ─────────────────────
+     try:
+         resultaat = analyseer_brief(bief_tekst, taal, extra_context)
++    except DagplafondBereikt as plafond:
++        # Kostenrem, geen storing. Eerlijk benoemen wat er aan de hand is: de
++        # gebruiker heeft niets fout gedaan en het heeft zin om het morgen te
++        # proberen. (audit 18-09-2026)
++        logger.error(f'Aanvraag geweigerd door dagplafond: {plafond}')
++        return jsonify({
++            'fout': 'Solidari heeft vandaag het maximale aantal brieven verwerkt. '
++                    'Probeer het morgen opnieuw — het ligt niet aan uw brief.',
++            'fout_en': 'Solidari has reached its daily limit. Please try again tomorrow.',
++            'code': 'dagplafond',
++        }), 429
+     except Exception as e:
+         logger.error(f'AI-analyse mislukt: {e}')
+         return jsonify({

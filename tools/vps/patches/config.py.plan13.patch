@@ -1,0 +1,24 @@
+--- config.py
++++ config.py
+@@ -34,15 +34,12 @@
+     # ── Anthropic (Claude API) ────────────────────────────────────
+     # Haal op via: https://console.anthropic.com/
+     ANTHROPIC_API_KEY = os.getenv('ANTHROPIC_API_KEY', '')
+-    CLAUDE_MODEL = 'claude-haiku-4-5-20251001'  # Goedkoopste, snelste model
+-
+-    # ── Ollama (lokale AI) ────────────────────────────────────────
+-    # Draait lokaal op de Lenovo PC
+-    OLLAMA_URL = os.getenv('OLLAMA_URL', 'http://localhost:11434')
+-    OLLAMA_MODEL = os.getenv('OLLAMA_MODEL', 'phi4-mini')  # Past in 3GB VRAM
+-
+-    # AI-volgorde: probeer eerst Ollama (gratis), dan Claude API (betaald)
+-    AI_VOLGORDE = ['ollama', 'claude']  # Verwissel om Claude altijd te gebruiken
++    # Model en effort op één plek (PLAN 13, S-1). Terugdraaien zonder code (S-7):
++    #   SOLIDARI_CLAUDE_MODEL=claude-haiku-4-5-20251001 en SOLIDARI_CLAUDE_EFFORT= (leeg)
++    #   in /etc/solidari/.env, daarna systemctl restart solidari. Haiku 4.5 kent geen effort.
++    # Register met status en besluit: tools/modellen/MODELLEN.md
++    CLAUDE_MODEL = os.getenv('SOLIDARI_CLAUDE_MODEL', 'claude-sonnet-5-5')
++    CLAUDE_EFFORT = os.getenv('SOLIDARI_CLAUDE_EFFORT', 'low')
+ 
+     # ── OCR ──────────────────────────────────────────────────────
+     # Tesseract talen — installeer via: sudo apt install tesseract-ocr-[taal]

@@ -1,0 +1,58 @@
+--- app.py
++++ app.py
+@@ -20,13 +20,18 @@
+ from routes.brief import brief_bp
+ from routes.status import status_bp
+ from config import Config
+-from routes.analyse import analyse_bp
+ # PLAN-1 fase 7.2 (14-09-2026): cursusblad en inhibit zijn vervallen.
+ #   - /api/cursusblad hoorde bij Digi Hulp, in juli 2026 opgeheven; de route kreeg in twaalf
+ #     dagen op de VPS nul aanroepen.
+ #   - /api/inhibit/* blokkeerde de slaapstand van de thuis-pc bij zonneoverschot; die pc is
+ #     uit de keten. Nul aanroepen.
+ # De bestanden routes/cursusblad.py en routes/inhibit.py blijven staan als referentie.
++#
++# Audit 18-09-2026: /api/analyse is eveneens vervallen. Die route liet de client de
++# system prompt meesturen, zette web_search aan, had geen enkele vorm van auth en
++# telde niet mee in de dagteller — een open, betaalde LLM-proxy op internet. Het
++# bestand is hernoemd naar routes/analyse.py.vervallen zodat het niet per ongeluk
++# opnieuw geimporteerd kan worden.
+ from routes.tts import tts_bp
+ # ── Logging ──────────────────────────────────────────────────────
+ logging.basicConfig(
+@@ -51,7 +56,10 @@
+ # CORS: alleen verzoeken van solidari.nl toestaan
+ CORS(app, origins=Config.ALLOWED_ORIGINS)
+ 
+-# Rate limiting: max 10 verzoeken per minuut per IP
++# Rate limiting: max 10 verzoeken per minuut per IP.
++# Bewust GEEN dagplafond op alle routes: /api/tts en /api/status worden tijdens één
++# brief meerdere keren aangeroepen, en een dagplafond daarop zou een normale sessie
++# afkappen. Het dagplafond staat alleen op de route die geld kost (zie hieronder).
+ limiter = Limiter(
+     get_remote_address,
+     app=app,
+@@ -60,9 +68,22 @@
+ )
+ 
+ # ── Blueprints ────────────────────────────────────────────────────
++# De briefroute is de enige die geld kost (Claude + OCR) en de enige die een worker
++# ~10 s bezet houdt. Die krijgt daarom een eigen, strakkere begrenzing (audit 18-09-2026).
++#
++# Afweging bij het dagplafond per IP: de doelgroep gebruikt Solidari ook in een
++# bibliotheek, buurthuis of azc, waar tientallen mensen achter één IP-adres zitten.
++# Te laag zetten sluit precies díe mensen buiten. Daarom ruim: 60 per dag per IP is
++# geen serieuze rem op echt gebruik, maar wel op een script. De echte kostenrem is
++# het plafond over alle gebruikers heen in services/teller.py.
++#
++# Let op: de opslag is memory:// en dus per gunicorn-worker; met twee workers ligt het
++# feitelijke IP-plafond twee keer zo hoog. Voor een exacte grens is een gedeelde opslag
++# nodig (Redis of een bestand), maar dat weegt hier niet op tegen het onderhoud.
++limiter.limit("60 per day")(brief_bp)
++limiter.limit("5 per minute")(brief_bp)
+ app.register_blueprint(brief_bp, url_prefix='/api')
+ app.register_blueprint(status_bp, url_prefix='/api')
+-app.register_blueprint(analyse_bp, url_prefix='/api')
+ app.register_blueprint(tts_bp, url_prefix='/api')
+ 
+ # ── Health check ──────────────────────────────────────────────────

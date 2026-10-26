@@ -72,6 +72,24 @@ ssh solidari-vps 'apt-get update && apt-get -y dist-upgrade'   # handmatig; secu
 hcloud server create-image --type snapshot --description "solidari-api na fase 8" solidari-api
 ```
 
+## Uitrol PLAN 13 (beveiligingsronde 18-09 + Sonnet 5.5): notitie
+
+Pas na W-E. Deze uitrol brengt de beveiligingsronde van 18-09 en PLAN 13 samen naar de VPS.
+Wat er verandert staat in `patches/README.md` (sectie PLAN 13). Volgorde (PLAN 13 fase 5.2):
+
+```bash
+ssh solidari-vps 'tar czf /root/backend-voor-plan13-$(date +%F).tgz -C /opt solidari-backend'   # backup
+# rsync zoals hierboven bij 3.2 (met --delete: routes/analyse.py verdwijnt)
+ssh solidari-vps 'systemctl restart solidari'
+ssh solidari-vps 'cd /opt/solidari-backend && ./venv/bin/python tests/test_claude_util.py && ./venv/bin/python tests/test_dagplafond.py'
+curl -s https://api.solidari.nl/api/health
+curl -s -o /dev/null -w '%{http_code}\n' -X POST https://api.solidari.nl/api/analyse   # moet 404 zijn
+ssh solidari-vps "journalctl -u solidari --since '10 min ago' | grep -Ei 'error|refusal|weigerde'"
+```
+
+Model terug zonder code: `SOLIDARI_CLAUDE_MODEL=claude-haiku-4-5-20251001` en `SOLIDARI_CLAUDE_EFFORT=`
+in `/etc/solidari/.env`, dan `systemctl restart solidari`. Volledig terug: de tar-backup uitpakken.
+
 ## Snapshot en herstel
 
 **Er staan geen dagelijkse backups aan** (besluit A6, herzien bij W-A op 02-09-2026). Reden: deze

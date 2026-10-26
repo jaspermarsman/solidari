@@ -1,0 +1,165 @@
+"""Test voor claude_tekst() en de Claude-aanroep van de Brief Begrijper (PLAN 13 fase 1).
+
+Draaien:  python3 tests/test_claude_util.py
+Zonder netwerk: de Anthropic-client wordt vervangen door een stub. Gebruikt een eigen
+tijdelijke logmap; raakt de productieteller niet aan en leest /etc/solidari/.env niet.
+"""
+import json
+import logging
+import os
+import sys
+import tempfile
+from types import SimpleNamespace as NS
+
+TMP = tempfile.mkdtemp(prefix='solidari-claude-test-')
+os.environ['SOLIDARI_LOG_DIR'] = TMP
+os.environ['ANTHROPIC_API_KEY'] = 'test-sleutel-geen-echte'
+os.environ.pop('SOLIDARI_CLAUDE_MODEL', None)
+os.environ.pop('SOLIDARI_CLAUDE_EFFORT', None)
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+
+import dotenv  # noqa: E402
+dotenv.load_dotenv = lambda *a, **k: False  # config.py mag /etc/solidari/.env niet lezen
+
+from config import Config  # noqa: E402
+from services import ai  # noqa: E402
+from services.claude_util import claude_tekst, ClaudeWeigering, ClaudeTeKort  # noqa: E402
+
+fouten = []
+
+
+def check(naam, voorwaarde):
+    print(('  OK   ' if voorwaarde else '  FOUT ') + naam)
+    if not voorwaarde:
+        fouten.append(naam)
+
+
+def blok(type_, **kw):
+    return NS(type=type_, **kw)
+
+
+def antwoord(*blokken, stop='end_turn'):
+    return NS(content=list(blokken), stop_reason=stop, usage=NS(input_tokens=10, output_tokens=5))
+
+
+def gooit(fn, fout):
+    try:
+        fn()
+    except fout:
+        return True
+    except Exception:  # noqa: BLE001
+        return False
+    return False
+
+
+GELDIG = json.dumps({
+    'urgentie': {'niveau': 'laag', 'titel': 't', 'tekst': 't'},
+    'secties': [{'icoon': 'x', 'titel': 'Wat staat er in deze brief?', 'achtergrond': '#EBF3EE', 'inhoud': '<p>x</p>'}],
+    'actiepunten': ['a'],
+})
+
+print('1. claude_tekst()')
+check('(a) één tekstblok', claude_tekst(antwoord(blok('text', text='hallo'))) == 'hallo')
+check('(b) thinking-blok vóór de tekst',
+      claude_tekst(antwoord(blok('thinking', thinking='...'), blok('text', text='hallo'))) == 'hallo')
+check('(c) refusal → ClaudeWeigering',
+      gooit(lambda: claude_tekst(antwoord(blok('text', text='nee'), stop='refusal')), ClaudeWeigering))
+check('(d) max_tokens zonder tekst → ClaudeTeKort',
+      gooit(lambda: claude_tekst(antwoord(blok('thinking', thinking='...'), stop='max_tokens')), ClaudeTeKort))
+check('(e) meerdere tekstblokken samen',
+      claude_tekst(antwoord(blok('text', text='een'), blok('server_tool_use'), blok('text', text='twee'))) == 'een\ntwee')
+check('(f) lege content → ClaudeTeKort', gooit(lambda: claude_tekst(antwoord()), ClaudeTeKort))
+
+
+class StubClient:
+    """Neemt het verzoek op en geeft een vooraf gekozen antwoord."""
+    laatste = None
+    volgend = None
+
+    def __init__(self, **kw):
+        StubClient.client_kw = kw
+        self.messages = self
+
+    def create(self, **kw):
+        StubClient.laatste = kw
+        return StubClient.volgend
+
+
+ai.anthropic.Anthropic = StubClient
+
+print('2. Verzoek van _via_claude (Sonnet 5.5, effort low)')
+check('standaardmodel is claude-sonnet-5-5', Config.CLAUDE_MODEL == 'claude-sonnet-5-5')
+check('standaard-effort is low', Config.CLAUDE_EFFORT == 'low')
+StubClient.volgend = antwoord(blok('thinking', thinking='...'), blok('text', text=GELDIG))
+prompt = ai._maak_prompt('Verzonnen brief.', 'pl', '')
+res = ai._via_claude(prompt, ai._systeem_prompt('pl'))
+v = StubClient.laatste
+check('model uit Config', v['model'] == 'claude-sonnet-5-5')
+check('max_tokens 4096', v['max_tokens'] == 4096)
+check('output_config effort low', v.get('output_config') == {'effort': 'low'})
+check('systeemprompt is de V3-prompt voor PL', v['system'] == ai._systeem_prompt('pl'))
+check('V3: gekozen taal in de systeemprompt', 'De gebruiker heeft gekozen voor: Polski (Polish)' in v['system'])
+check('V3: vertaalde sectietitel als voorbeeld', 'Co mówi ten list?' in v['system'])
+check('V3: slotregel in de doeltaal als laatste regel',
+      v['messages'][0]['content'].rstrip().endswith('Cały tekst w JSON napisz po polsku.'))
+check('thinking vóór tekst wordt goed geparst', isinstance(res, dict) and 'secties' in res)
+check('SDK-timeout en max_retries blijven staan (audit 18-09)',
+      StubClient.client_kw.get('timeout') == 60.0 and StubClient.client_kw.get('max_retries') == 1)
+
+print('3. TI zonder slotregel (S-9), NL en onbekende taal')
+check('TI: geen slotregel na "Geef nu je JSON-uitleg:"',
+      ai._maak_prompt('x', 'ti', '').rstrip().endswith('Geef nu je JSON-uitleg:'))
+check('TI: wel de taalregel in de systeemprompt', 'ትግርኛ (Tigrinya)' in ai._systeem_prompt('ti'))
+check('NL: sectietitels blijven Nederlands', 'Wat staat er in deze brief?' in ai._systeem_prompt('nl'))
+check('elke taal: beide vervangingen gelukt',
+      all(ai._TAAL_OUD not in ai._systeem_prompt(t) and ai._SECTIES_OUD not in ai._systeem_prompt(t)
+          for t in ai.TAAL_NAMEN))
+
+print('4. Terugdraaien zonder code (S-7): Haiku 4.5 zonder effort')
+Config.CLAUDE_MODEL, Config.CLAUDE_EFFORT = 'claude-haiku-4-5-20251001', ''
+StubClient.volgend = antwoord(blok('text', text=GELDIG))
+ai._via_claude(prompt, ai._systeem_prompt('pl'))
+check('geen output_config als effort leeg is', 'output_config' not in StubClient.laatste)
+check('model volgt Config', StubClient.laatste['model'] == 'claude-haiku-4-5-20251001')
+Config.CLAUDE_MODEL, Config.CLAUDE_EFFORT = 'claude-sonnet-5-5', 'low'
+
+print('5. Twee JSON-objecten met tekst ertussen (gezien bij Sonnet 5.5, TI)')
+leeg = json.dumps({'urgentie': {}, 'secties': [{'titel': '', 'inhoud': '<p></p>'}], 'actiepunten': []})
+res = ai._parseer_json(f'{leeg}\n\nSorry, nu goed:\n\n{GELDIG}')
+check('laatste object met inhoud gekozen', isinstance(res, dict) and res.get('actiepunten') == ['a'])
+check('gewone JSON ongewijzigd', ai._parseer_json(GELDIG) == json.loads(GELDIG))
+check('JSON in code fence', ai._parseer_json(f'```json\n{GELDIG}\n```') == json.loads(GELDIG))
+check('tekst vóór de JSON', ai._parseer_json(f'Hier is het:\n{GELDIG}') == json.loads(GELDIG))
+
+print('6. Fouten en logs')
+StubClient.volgend = antwoord(blok('text', text='nee'), stop='refusal')
+check('weigering in _via_claude → ClaudeWeigering', gooit(lambda: ai._via_claude(prompt), ClaudeWeigering))
+
+
+class Vanger(logging.Handler):
+    def __init__(self):
+        super().__init__()
+        self.regels = []
+
+    def emit(self, record):
+        self.regels.append(record.getMessage())
+
+
+vanger = Vanger()
+logging.getLogger('solidari').addHandler(vanger)
+logging.getLogger('solidari').setLevel(logging.DEBUG)
+GEHEIM = 'GEHEIME-BRIEFINHOUD-123'
+StubClient.volgend = antwoord(blok('text', text=f'dit is geen json {GEHEIM}'))
+check('ongeldige JSON geeft None', ai._via_claude(prompt) is None)
+check('parsefout logt geen AI-uitvoer', not any(GEHEIM in r for r in vanger.regels))
+check('parsefout logt lengte en stop_reason',
+      any('tekens' in r and 'end_turn' in r for r in vanger.regels))
+StubClient.volgend = antwoord(blok('text', text=GEHEIM), stop='refusal')
+gooit(lambda: ai._via_claude(prompt), ClaudeWeigering)
+check('weigering logt geen inhoud', not any(GEHEIM in r for r in vanger.regels))
+
+print()
+if fouten:
+    print(f'{len(fouten)} test(s) mislukt:', ', '.join(fouten))
+    sys.exit(1)
+print('Alle tests geslaagd.')

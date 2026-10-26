@@ -15,7 +15,12 @@ nooit een echte brief.
 3. varianten (PLAN 12): dezelfde nepbrief met de taalinstructie op een andere plek (V0–V3, zie
    VARIANTEN), per --model en --variant, met de strengere taalcontrole uit taalregels.json.
        --alleen varianten --model claude-haiku-5-5 --variant V0,V1,V2,V3 [--talen ...] [--droog]
-   --droog schrijft alleen de prompts per variant weg, zonder API. Elke aanroep telt mee in
+   --droog schrijft alleen de prompts per variant weg, zonder API.
+4. prod (PLAN 13): de nepbrief door de échte backendcode, ai._via_claude() met
+   ai._systeem_prompt() en ai._maak_prompt(), dus met claude_tekst(), effort en plafond uit
+   Config. Er wordt geen prompt nagebouwd. Model via --model (zet Config.CLAUDE_MODEL).
+       --alleen prod --model claude-sonnet-5-5 [--talen alle] [--herhaal 2]
+   Elke aanroep telt mee in
    kosten/ naast de uitvoermap; bij --plafond (standaard $15) stopt de meting.
 """
 
@@ -473,13 +478,86 @@ def varianten(client, ai, basis, uit, herhaal, modellen, varianten_, talen, kost
     return regels
 
 
+
+def prod(ai, basis, uit, herhaal, model, talen, kosten, sleutel):
+    """Fase 1-acceptatie PLAN 13: de echte _via_claude, het antwoord opgevangen voor de controles."""
+    import anthropic
+    from config import Config
+    from services.claude_util import claude_tekst
+
+    Config.ANTHROPIC_API_KEY = sleutel
+    Config.CLAUDE_MODEL = model
+    Config.CLAUDE_EFFORT = INSTELLING[model]["effort"] or ""
+    opname = {}
+    echt = anthropic.Anthropic
+
+    def opnemende_client(**kw):
+        c = echt(**kw)
+        create = c.messages.create
+
+        def neem_op(**k):
+            opname["verzoek"] = {x: k[x] for x in ("model", "max_tokens") if x in k} | (
+                {"effort": k["output_config"]["effort"]} if "output_config" in k else {})
+            opname["bericht"] = create(**k)
+            return opname["bericht"]
+        c.messages.create = neem_op
+        return c
+
+    ai.anthropic.Anthropic = opnemende_client
+    regels = []
+    try:
+        for taal in talen:
+            for n in range(1, herhaal + 1):
+                kosten.check()
+                opname.clear()
+                t0 = time.monotonic()
+                r = {"model": model, "variant": "PROD", "taal": taal, "n": n}
+                try:
+                    ai._via_claude(ai._maak_prompt(basis, taal, ""), ai._systeem_prompt(taal))
+                    fout = None
+                except Exception as e:  # noqa: BLE001 — de fout wordt gerapporteerd
+                    fout = f"{type(e).__name__}: {_schoon(e)}"
+                r["duur_s"] = round(time.monotonic() - t0, 1)
+                bericht = opname.get("bericht")
+                r["verzoek"] = opname.get("verzoek")
+                if bericht is not None:
+                    usd = _kosten(model, bericht.usage)
+                    kosten.tel("brief-prod", usd)
+                    r.update(stop_reason=bericht.stop_reason, input_tokens=bericht.usage.input_tokens,
+                             output_tokens=bericht.usage.output_tokens, kosten_usd=round(usd, 5))
+                if fout or bericht is None:
+                    r.update(fout=fout or "geen antwoord", geslaagd=False, in_doeltaal=False)
+                else:
+                    ruw = claude_tekst(bericht)
+                    c, resultaat = controles(ai, taal, ruw)
+                    c.pop("nl_aandeel", None)
+                    c["schrift_oud"] = c.pop("schrift", None)
+                    c.pop("schrift_aandeel", None)
+                    t = taalcontrole(_platte_tekst(resultaat) if resultaat and c["velden"] else ruw, taal)
+                    r.update(**c, **t)
+                    r["overig_ok"] = (bericht.stop_reason == "end_turn" and
+                                      all(c[k] for k in ("json_parseert", "velden", "valideert",
+                                                         "titels_doeltaal", "geen_placeholders")))
+                    r["geslaagd"] = r["overig_ok"] and t["in_doeltaal"]
+                    (uit / f"prod-{model}-{taal}-{n}.ruw.txt").write_text(ruw, encoding="utf-8")
+                regels.append(r)
+                print("prod", json.dumps({k: r.get(k) for k in (
+                    "taal", "n", "duur_s", "geslaagd", "in_doeltaal", "overig_ok", "nl_zinnen",
+                    "stop_reason", "verzoek", "kosten_usd", "fout")}, ensure_ascii=False))
+                with open(uit / "prod.jsonl", "a", encoding="utf-8") as f:
+                    f.write(json.dumps(r, ensure_ascii=False) + "\n")
+    finally:
+        ai.anthropic.Anthropic = echt
+    return regels
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--backend", required=True, help="map solidari-backend (alleen gelezen)")
     ap.add_argument("--uit", required=True, help="uitvoermap, buiten git")
     ap.add_argument("--herhaal", type=int, default=2)
     ap.add_argument("--herhaal-smoke", type=int, default=3)
-    ap.add_argument("--alleen", choices=["smoke", "matrix", "effort", "varianten"])
+    ap.add_argument("--alleen", choices=["smoke", "matrix", "effort", "varianten", "prod"])
     ap.add_argument("--talen", default="pl,tr,uk", help="voor --alleen effort; 'alle' = 9 talen")
     ap.add_argument("--effort", default="medium", help="voor --alleen effort")
     ap.add_argument("--model", default=f"{MODEL_OUD},{MODEL_NIEUW}", help="voor --alleen varianten")
@@ -495,8 +573,25 @@ def main():
     # config.py laadt /etc/solidari/.env; dat bestand is voor productie en hoort niet in een meting.
     import dotenv
     dotenv.load_dotenv = lambda *args, **kwargs: False
+    # De dagteller van de backend schrijft naar SOLIDARI_LOG_DIR; nooit naar /var/log/solidari.
+    import tempfile
+    os.environ.setdefault("SOLIDARI_LOG_DIR", tempfile.mkdtemp(prefix="solidari-meet-"))
     import anthropic
     from services import ai
+
+    if a.alleen == "prod":
+        assert a.model in INSTELLING, a.model
+        basis = (uit / "nepbrief-geredacteerd.txt").read_text(encoding="utf-8") \
+            if (uit / "nepbrief-geredacteerd.txt").exists() else briefprompt(a.backend, uit)
+        kosten = Kosten((uit.parent if uit.name == "brief" else uit) / "kosten", a.plafond, f"prod-{a.model}")
+        try:
+            regels = prod(ai, basis, uit, a.herhaal, a.model, talen, kosten, _sleutel())
+        except PlafondBereikt as e:
+            print(f"PLAFOND: {e}")
+            sys.exit(3)
+        goed = sum(r["geslaagd"] for r in regels)
+        print(f"\n{goed}/{len(regels)} geslaagd")
+        sys.exit(0 if goed == len(regels) else 1)
 
     if a.alleen == "varianten":
         modellen = a.model.split(",")

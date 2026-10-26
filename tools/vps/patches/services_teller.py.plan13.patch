@@ -1,0 +1,186 @@
+--- services/teller.py
++++ services/teller.py
+@@ -1,14 +1,27 @@
+-"""Dagteller voor AI-aanroepen (PLAN-1 fase 5.2).
++"""Dagteller én dagplafond voor AI-aanroepen.
+ 
+-Geen rem, alleen een waarnemer: elke Claude-aanroep telt op in een klein
+-JSON-bestand naast de logs. Passeert de teller de drempel, dan komt er één
+-WAARSCHUWING-regel in het log — verder gebeurt er niets, de dienst blijft
+-gewoon werken. Bewust geen database en geen externe dienst.
++Oorspronkelijk (PLAN-1 fase 5.2) was dit alleen een waarnemer: tellen en bij een
++drempel één waarschuwing loggen. Uit de audit van 18-09-2026 bleek dat daarmee
++niets de kosten begrenst — met de rate limit van 10/min kan één IP theoretisch
++ruim 8.000 AI-aanroepen per dag veroorzaken, en tegelijk de twee gunicorn-workers
++volledig bezet houden. Daarom telt deze module nu niet alleen, maar weigert hij
++ook zodra het dagplafond bereikt is.
++
++Twee grenzen, met opzet uit elkaar gehouden:
++  SOLIDARI_AI_DREMPEL     — waarschuwen in het log (standaard 300)
++  SOLIDARI_AI_DAGPLAFOND  — hard weigeren (standaard 500)
++
++De teller draait onder gunicorn in meerdere processen. Een threading.Lock dekt
++dat niet af, dus het tellen gebeurt onder een fcntl-bestandsvergrendeling: lezen,
++ophogen en schrijven binnen één vergrendeling, zodat twee workers elkaars
++ophoging niet overschrijven.
+ 
+-Er staat niets in het bestand dat naar een gebruiker te herleiden is: alleen
+-een datum en een aantal.
++Er staat niets in het bestand dat naar een gebruiker te herleiden is: alleen een
++datum en een aantal.
+ """
+ 
++import errno
++import fcntl
+ import json
+ import logging
+ import os
+@@ -20,34 +33,123 @@
+ _LOGDIR = os.getenv('SOLIDARI_LOG_DIR', '/var/log/solidari')
+ _PAD = os.path.join(_LOGDIR, 'ai-teller.json')
+ _DREMPEL = int(os.getenv('SOLIDARI_AI_DREMPEL', '300'))
+-_slot = threading.Lock()
++_DAGPLAFOND = int(os.getenv('SOLIDARI_AI_DAGPLAFOND', '500'))
+ 
++# Noodrem voor als het tellerbestand onbruikbaar is (volle schijf, rechten).
++# Dan telt elk proces voor zichzelf verder; niet exact, maar wel begrensd.
++_nood_slot = threading.Lock()
++_nood_stand = {'dag': None, 'aantal': 0}
++
++
++class DagplafondBereikt(Exception):
++    """Het dagplafond voor AI-aanroepen is bereikt; de aanroep gaat niet door."""
++
++    def __init__(self, aantal: int, plafond: int):
++        self.aantal = aantal
++        self.plafond = plafond
++        super().__init__(f'dagplafond bereikt: {aantal}/{plafond}')
++
++
++def _tel_op_schijf(vandaag: str) -> int:
++    """Hoog de teller voor vandaag met één op en geef de nieuwe stand terug.
++
++    Lezen en schrijven gebeuren onder één exclusieve vergrendeling op hetzelfde
++    bestand, zodat gelijktijdige workers elkaar niet overschrijven.
++    """
++    os.makedirs(_LOGDIR, exist_ok=True)
++    # 'a+' maakt het bestand aan als het nog niet bestaat en laat lezen toe.
++    with open(_PAD, 'a+', encoding='utf-8') as f:
++        fcntl.flock(f.fileno(), fcntl.LOCK_EX)
++        try:
++            f.seek(0)
++            inhoud = f.read().strip()
++            standen = json.loads(inhoud) if inhoud else {}
++            if not isinstance(standen, dict):
++                standen = {}
+ 
+-def tel_ai_aanroep():
+-    """Tel één AI-aanroep voor vandaag. Faalt nooit hard — dit mag de brief
+-    van een gebruiker niet in de weg zitten."""
+-    try:
+-        with _slot:
+-            vandaag = date.today().isoformat()
+-            standen = {}
+-            if os.path.exists(_PAD):
+-                with open(_PAD, encoding='utf-8') as f:
+-                    standen = json.load(f)
+-            aantal = standen.get(vandaag, 0) + 1
++            aantal = int(standen.get(vandaag, 0)) + 1
+             standen[vandaag] = aantal
++
+             # Alleen de laatste 31 dagen bewaren.
+             for dag in sorted(standen)[:-31]:
+                 del standen[dag]
+-            tmp = _PAD + '.tmp'
+-            with open(tmp, 'w', encoding='utf-8') as f:
+-                json.dump(standen, f, sort_keys=True)
+-            os.replace(tmp, _PAD)
+-
+-        if aantal == _DREMPEL + 1:
+-            logger.warning(
+-                'WAARSCHUWING: %d AI-aanroepen vandaag — drempel %d gepasseerd',
+-                aantal, _DREMPEL)
+-        elif aantal % 50 == 0:
+-            logger.info('AI-aanroepen vandaag: %d', aantal)
+-    except Exception as fout:                     # noqa: BLE001 — nooit blokkeren
+-        logger.debug('teller kon niet bijwerken: %s', fout)
++
++            f.seek(0)
++            f.truncate()
++            json.dump(standen, f, sort_keys=True)
++            f.flush()
++            os.fsync(f.fileno())
++        finally:
++            fcntl.flock(f.fileno(), fcntl.LOCK_UN)
++    return aantal
++
++
++def _tel_in_geheugen(vandaag: str) -> int:
++    with _nood_slot:
++        if _nood_stand['dag'] != vandaag:
++            _nood_stand['dag'] = vandaag
++            _nood_stand['aantal'] = 0
++        _nood_stand['aantal'] += 1
++        return _nood_stand['aantal']
++
++
++def reserveer_ai_aanroep() -> int:
++    """Reserveer één AI-aanroep voor vandaag.
++
++    Geeft de nieuwe dagstand terug, of gooit DagplafondBereikt als het plafond
++    al bereikt was. Roep dit aan vlak vóór de betaalde aanroep, niet erna.
++    """
++    vandaag = date.today().isoformat()
++
++    try:
++        aantal = _tel_op_schijf(vandaag)
++    except Exception as fout:                     # noqa: BLE001
++        # Bewust geen stilte meer: als de teller niet werkt, werkt het plafond
++        # ook niet, en dat is precies wat we wilden dichtzetten.
++        logger.error('Tellerbestand onbruikbaar (%s) — noodrem in geheugen actief', fout)
++        aantal = _tel_in_geheugen(vandaag)
++
++    if aantal > _DAGPLAFOND:
++        # Eén keer hard loggen bij het passeren, daarna spaarzaam: bij misbruik
++        # zou elke geweigerde poging anders een ERROR-regel opleveren en het
++        # logbestand vollopen — precies wat een aanvaller graag ziet.
++        if aantal == _DAGPLAFOND + 1:
++            logger.error(
++                'DAGPLAFOND BEREIKT: %d aanroepen vandaag, plafond %d — verdere aanvragen worden geweigerd',
++                aantal, _DAGPLAFOND)
++        elif aantal % 100 == 0:
++            logger.warning('Dagplafond nog steeds bereikt: %d pogingen vandaag', aantal)
++        raise DagplafondBereikt(aantal, _DAGPLAFOND)
++
++    if aantal == _DREMPEL + 1:
++        logger.warning(
++            'WAARSCHUWING: %d AI-aanroepen vandaag — drempel %d gepasseerd (plafond %d)',
++            aantal, _DREMPEL, _DAGPLAFOND)
++    elif aantal % 50 == 0:
++        logger.info('AI-aanroepen vandaag: %d van maximaal %d', aantal, _DAGPLAFOND)
++
++    return aantal
++
++
++def stand_vandaag() -> int:
++    """Huidige stand zonder op te hogen. Voor de statusroute en voor tests."""
++    try:
++        with open(_PAD, encoding='utf-8') as f:
++            fcntl.flock(f.fileno(), fcntl.LOCK_SH)
++            try:
++                inhoud = f.read().strip()
++            finally:
++                fcntl.flock(f.fileno(), fcntl.LOCK_UN)
++        return int(json.loads(inhoud).get(date.today().isoformat(), 0)) if inhoud else 0
++    except OSError as fout:
++        if fout.errno != errno.ENOENT:
++            logger.debug('stand_vandaag kon niet lezen: %s', fout)
++        return 0
++    except Exception:                              # noqa: BLE001
++        return 0
++
++
++def tel_ai_aanroep():
++    """Verouderd: telde alleen. Blijft staan zodat oude aanroepen niet breken,
++    maar gebruikt nu hetzelfde plafond als reserveer_ai_aanroep()."""
++    return reserveer_ai_aanroep()

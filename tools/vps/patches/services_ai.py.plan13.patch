@@ -1,0 +1,179 @@
+--- services/ai.py
++++ services/ai.py
+@@ -10,11 +10,13 @@
+ 
+ import json
+ import logging
++import os
+ import re
+ import requests
+ import anthropic
+ from config import Config
+-from services.teller import tel_ai_aanroep
++from services.teller import reserveer_ai_aanroep, DagplafondBereikt
++from services.claude_util import claude_tekst
+ 
+ logger = logging.getLogger('solidari.ai')
+ 
+@@ -136,6 +138,45 @@
+ 
+ 
+ 
++# ── Taalregels (PLAN 12 variant V3, PLAN 13 S-2) ─────────────────────────────
++# Haiku 5.5 en Sonnet 5.5 wegen de laatste regels van het bericht zwaar. Een taal-
++# instructie alleen bovenaan werd overstemd door de Nederlandse brief die erna komt.
++# Daarom: de gekozen taal expliciet in de systeemprompt, de vertaalde sectietitels
++# als voorbeeld, en een korte slotregel in de doeltaal zelf (bron: tools/modellen/
++# taalregels.json, veld 'json'). Gemeten in PLAN 12 (RAPPORT-taaldrift.md).
++TAALREGEL_JSON = {
++    'nl': 'Schrijf alle tekst in de JSON in het Nederlands.',
++    'en': 'Answer in English. Write all text in the JSON in English.',
++    'ar': 'أجب باللغة العربية. اكتب كل النص في JSON باللغة العربية.',
++    'tr': "Türkçe cevap ver. JSON'daki tüm metni Türkçe yaz.",
++    'uk': 'Відповідай українською мовою. Увесь текст у JSON пиши українською.',
++    'fa': 'به زبان دری پاسخ بده. تمام متن JSON را به زبان دری بنویس.',
++    'ro': 'Răspunde în limba română. Scrie tot textul din JSON în limba română.',
++    'pl': 'Odpowiedz po polsku. Cały tekst w JSON napisz po polsku.',
++    # 'ti' bewust niet: de Tigrinya-zin is nog niet door een moedertaalspreker
++    # gelezen (PLAN 13, S-9). TI krijgt wel de taalregel in de systeemprompt.
++}
++
++_TAAL_OUD = 'TAAL: Schrijf altijd in de taal die de gebruiker heeft gekozen. Volg dit strikt op.'
++_SECTIES_OUD = '"secties": [ { "icoon": "emoji", "titel": "naam", "achtergrond": "#EBF3EE", "inhoud": "HTML" } ],'
++
++
++def _systeem_prompt(taal: str) -> str:
++    """SYSTEEM_PROMPT met de gekozen taal en de vertaalde sectietitels erin.
++
++    Met .replace() en niet .format(): de JSON-voorbeelden zitten vol accolades.
++    """
++    taal_naam = TAAL_NAMEN.get(taal, 'Nederlands')
++    titels = SECTIE_TITELS.get(taal, SECTIE_TITELS['nl'])
++    return SYSTEEM_PROMPT.replace(_TAAL_OUD, (
++        f'TAAL: De gebruiker heeft gekozen voor: {taal_naam}. Schrijf alle tekst in de JSON in het '
++        f'{taal_naam}, ook al zijn deze instructies en de brief in het Nederlands. Volg dit strikt op.'
++    )).replace(_SECTIES_OUD, (
++        f'"secties": [ {{ "icoon": "emoji", "titel": "{titels["wat_staat_er"]}", "achtergrond": "#EBF3EE", '
++        f'"inhoud": "HTML" }}, {{ "icoon": "emoji", "titel": "{titels["wat_doen"]}", "achtergrond": "#EBF3EE", '
++        f'"inhoud": "HTML" }} ],'
++    ))
++
+ 
+ def analyseer_brief(brief_tekst: str, taal: str = 'nl', extra_context: str = '') -> dict:
+     """
+@@ -166,7 +207,7 @@
+     # Stap 2: analyse via Claude API
+     try:
+         logger.info('Analyse via Claude API...')
+-        resultaat = _via_claude(prompt)
++        resultaat = _via_claude(prompt, _systeem_prompt(taal))
+ 
+         if resultaat:
+             resultaat = _saniteer_resultaat(resultaat)
+@@ -177,6 +218,10 @@
+ 
+         logger.warning('Claude API: onvolledige output')
+ 
++    except DagplafondBereikt:
++        # Bewust dóórlaten: dit is geen storing maar een bewuste rem, en de route
++        # moet er een eigen, begrijpelijke melding bij kunnen geven.
++        raise
+     except Exception as e:
+         logger.error(f'Claude API mislukt: {e}')
+ 
+@@ -292,32 +337,48 @@
+ {brief_tekst[:3000]}
+ ---
+ 
+-Geef nu je JSON-uitleg:"""
++Geef nu je JSON-uitleg:""" + (f'\n{TAALREGEL_JSON[taal]}' if taal in TAALREGEL_JSON else '')
+ 
+ 
+ 
+-def _via_claude(prompt: str) -> dict | None:
+-    """Stuur prompt naar Claude API Haiku voor brief-analyse."""
++def _via_claude(prompt: str, systeem: str = SYSTEEM_PROMPT) -> dict | None:
++    """Stuur prompt naar de Claude API (model uit Config) voor brief-analyse."""
+     if not Config.ANTHROPIC_API_KEY:
+         raise ValueError('ANTHROPIC_API_KEY niet ingesteld in .env')
+ 
+-    client = anthropic.Anthropic(api_key=Config.ANTHROPIC_API_KEY)
+-    tel_ai_aanroep()                              # PLAN-1 fase 5.2 — alleen tellen, niet remmen
++    # Timeout expliciet: de SDK wacht standaard tot 10 minuten, terwijl gunicorn de
++    # worker na 120 s afkapt. Zonder deze grens blijft een worker hangen op een
++    # verzoek waar de gebruiker allang niet meer op wacht (audit 18-09-2026).
++    client = anthropic.Anthropic(
++        api_key=Config.ANTHROPIC_API_KEY,
++        timeout=float(os.getenv('SOLIDARI_AI_TIMEOUT_S', '60')),
++        max_retries=1,
++    )
+ 
++    # Reserveren vóór de betaalde aanroep. Is het dagplafond bereikt, dan gooit dit
++    # DagplafondBereikt en gaat er niets naar Anthropic (audit 18-09-2026).
++    reserveer_ai_aanroep()
++
++    # Het denken telt mee in max_tokens; 4096 is een plafond, geen doel (PLAN 13, S-1).
++    # effort alleen meesturen als die gezet is: Haiku 4.5 geeft er een fout op.
++    extra = {'output_config': {'effort': Config.CLAUDE_EFFORT}} if Config.CLAUDE_EFFORT else {}
+     bericht = client.messages.create(
+         model=Config.CLAUDE_MODEL,
+-        max_tokens=2500,
+-        system=SYSTEEM_PROMPT,
++        max_tokens=4096,
++        system=systeem,
+         messages=[
+             {'role': 'user', 'content': prompt}
+-        ]
++        ],
++        **extra,
+     )
+ 
+-    ruwe_tekst = bericht.content[0].text
+-    return _parseer_json(ruwe_tekst)
++    # Op type lezen: het eerste blok kan een thinking-blok zijn. Weigering of geen tekst
++    # wordt een fout en valt in de bestaande foutroute van analyseer_brief (M-6).
++    ruwe_tekst = claude_tekst(bericht)
++    return _parseer_json(ruwe_tekst, bericht.stop_reason)
+ 
+ 
+-def _parseer_json(tekst: str) -> dict | None:
++def _parseer_json(tekst: str, stop_reason: str | None = None) -> dict | None:
+     """
+     Parseer JSON uit de AI-output.
+     """
+@@ -326,6 +387,25 @@
+     except json.JSONDecodeError:
+         pass
+ 
++    # Soms geeft het model twee JSON-objecten, met tekst ertussen ("Sorry, hier is de
++    # goede versie: {...}"); de greedy regex hieronder pakt dan beide samen en faalt.
++    # Daarom eerst elk los object proberen en het laatste met inhoud nemen (PLAN 13).
++    kandidaten = []
++    decoder = json.JSONDecoder()
++    pos = tekst.find('{')
++    while pos != -1:
++        try:
++            obj, eind = decoder.raw_decode(tekst, pos)
++        except json.JSONDecodeError:
++            pos = tekst.find('{', pos + 1)
++            continue
++        if isinstance(obj, dict):
++            kandidaten.append(obj)
++        pos = tekst.find('{', eind)
++    met_inhoud = [k for k in kandidaten if k.get('secties') and k.get('actiepunten')]
++    if met_inhoud or kandidaten:
++        return (met_inhoud or kandidaten)[-1]
++
+     match = re.search(r'\{[\s\S]*\}', tekst)
+     if match:
+         try:
+@@ -339,7 +419,8 @@
+     except json.JSONDecodeError:
+         pass
+ 
+-    logger.error(f'Kon JSON niet parsen uit AI-output: {tekst[:200]}')
++    # Geen AI-uitvoer in het log: die kan delen van de brief bevatten (PLAN 8 §8).
++    logger.error('Kon JSON niet parsen uit AI-output (%d tekens, stop_reason %s)', len(tekst), stop_reason)
+     return None
+ 
+ 

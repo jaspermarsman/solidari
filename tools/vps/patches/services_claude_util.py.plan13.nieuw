@@ -1,0 +1,54 @@
+"""
+Solidari — antwoord van Claude veilig uitlezen (PLAN 8 M-6, PLAN 13 fase 1).
+
+Nieuwere modellen (Haiku 5.5, Sonnet 5.5) beginnen hun antwoord vaak met een
+thinking-blok. Dan is `bericht.content[0]` geen tekst, en geeft `.text` een fout
+of niets. Deze helper leest de tekst op bloktype en maakt van een weigering of
+een antwoord zonder tekst een eigen fout, zodat de route een nette melding geeft.
+
+Er wordt nooit inhoud gelogd (geen brieftekst, geen AI-uitvoer): alleen de reden
+en de tokenaantallen.
+"""
+
+import logging
+
+logger = logging.getLogger('solidari.claude')
+
+
+class ClaudeWeigering(Exception):
+    """Het model weigerde te antwoorden (stop_reason 'refusal')."""
+
+
+class ClaudeTeKort(Exception):
+    """Er kwam geen tekst terug, bijvoorbeeld omdat max_tokens op ging aan denken."""
+
+
+def _tokens(bericht) -> str:
+    usage = getattr(bericht, 'usage', None)
+    if usage is None:
+        return 'tokens onbekend'
+    return f'in {getattr(usage, "input_tokens", "?")}, uit {getattr(usage, "output_tokens", "?")}'
+
+
+def claude_tekst(bericht) -> str:
+    """Alle tekstblokken samen, op type gelezen.
+
+    Gooit ClaudeWeigering bij stop_reason 'refusal', en ClaudeTeKort als er geen
+    tekst is (meestal stop_reason 'max_tokens').
+    """
+    reden = getattr(bericht, 'stop_reason', None)
+    if reden == 'refusal':
+        logger.warning('Claude weigerde (stop_reason refusal; %s)', _tokens(bericht))
+        raise ClaudeWeigering('Het model weigerde deze aanvraag.')
+
+    delen = [blok.text for blok in (getattr(bericht, 'content', None) or [])
+             if getattr(blok, 'type', None) == 'text']
+    tekst = '\n'.join(delen).strip()
+    if not tekst:
+        logger.warning('Claude gaf geen tekst (stop_reason %s; %s)', reden, _tokens(bericht))
+        raise ClaudeTeKort(f'Geen tekst ontvangen (stop_reason {reden}).')
+
+    if reden == 'max_tokens':
+        # Wel tekst, maar afgekapt. Doorgeven; de JSON-parser vangt een half antwoord.
+        logger.warning('Claude-antwoord afgekapt op max_tokens (%s)', _tokens(bericht))
+    return tekst
