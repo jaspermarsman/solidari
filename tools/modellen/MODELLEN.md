@@ -10,9 +10,9 @@ Besluit: `blijven` · `upgraden` · `verwijderen` · `open` (wacht op een beslui
 
 | Laag | Plek | Model-ID | Status (bron, datum) | Besluit |
 |---|---|---|---|---|
-| Worker `solidari-digi-hulp-worker` | `/api/analyse` (budgethulp), `tools/worker/solidari-worker.js` r. 156 | `claude-haiku-4-5-20251001`, `max_tokens` 1500, `web_search_20250305` | actief, uitfasering niet eerder dan 15-10-2026 [D] | upgraden naar `claude-haiku-5-5` (M-1); zoektool volgens fase 3.1 (M-7) |
-| Worker | `/api/digi` (rechten, goedvoorbereid), r. 113 | idem, `max_tokens` 800, `web_search_20250305` | idem | idem. **De route is in gebruik:** `rechten.html` r. 517 en `goedvoorbereid.html` r. 388 roepen hem aan (fase 0.4) |
-| Backend VPS `api.solidari.nl` | Brief Begrijper, `config.py` r. 37 → `services/ai.py` `_via_claude` | `claude-haiku-4-5-20251001`, `max_tokens` 2500 | idem | upgraden (M-1), **wacht op de keuze van de basis**, zie §4 |
+| Worker `solidari-digi-hulp-worker` | `/api/analyse` (budgethulp), `tools/worker/solidari-worker.js`, constante `MODEL` | `claude-haiku-4-5-20251001`, `MAX_ANALYSE` 1500, zoektool `web_search_20250305` (live én branch). Branch is klaar voor `claude-haiku-5-5` (effort, weigering, plafond 4096) | 4.5 actief, niet eerder dan 15-10-2026; 5.5 actief, niet eerder dan 07-10-2027 [D] | **open (W-C).** Op 5.5 beter in UK/PL/TI, slechter in TR (fase 3). Zoektool `_20250305` werkt op 5.5 (M-7) |
+| Worker | `/api/digi` (rechten, goedvoorbereid) | idem, `MAX_DIGI` 800 | idem | **blijven op 4.5** tot er een oplossing is: 5.5 antwoordde 0 van 6 keer in de taal van de gebruiker (PL, UK), 4.5 6 van 6. De route is in gebruik: `rechten.html` r. 517, `goedvoorbereid.html` r. 388 |
+| Backend VPS `api.solidari.nl` | Brief Begrijper, `config.py` r. 37 → `services/ai.py` `_via_claude` | `claude-haiku-4-5-20251001`, `max_tokens` 2500 | idem | **open (W-C).** Fase 3 op de nepbrief: 4.5 16/18 geslaagd, 5.5 14/18 (Nederlands in PL, TR, UK). Backend niet omgezet: wacht ook op de keuze van de basis (§4) |
 | Backend VPS | een oudere route, **alleen op de VPS** | `claude-haiku-4-5-20251001` hardcoded | idem | lokaal vervallen, op de VPS nog aanwezig. Zie §4 |
 | Backend VPS | `routes/cursusblad.py` r. 94 (niet geregistreerd) | `claude-haiku-4-5-20251001` hardcoded | idem | dode code: helper en `Config.CLAUDE_MODEL` (M-8), wacht op §4 |
 | Backend VPS | `/api/tts` (Tigrinya) | eSpeak NG + TigrinyaNLP-data (geen AI-model) | — | blijven |
