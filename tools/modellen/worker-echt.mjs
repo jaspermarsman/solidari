@@ -16,6 +16,7 @@
 //   bouwAiBerichten() uit goedvoorbereid.html. Extra controle: geen Nederlandse slotzin in een
 //   niet-NL antwoord. Bij gv (Goed voorbereid) tellen Nederlandse zinnen tussen aanhalingstekens
 //   apart (nl_citaten): de pagina geeft bewust Nederlandse zinnen om tegen de dokter te zeggen.
+//   Met --live <worker-url> gaat het verzoek naar de gedeployde Worker (rooktest na deploy).
 // Draait de Worker-code lokaal in Node met de echte fetch. Er wordt niets gedeployd.
 // Sleutel: ANTHROPIC_API_KEY uit de omgeving, anders uit ~/.config/solidari/geheimen.env;
 // hij wordt nooit geprint. Alleen verzonnen invoer.
@@ -56,7 +57,10 @@ function sleutel() {
   if (!k) { console.log('GEEN SLEUTEL'); process.exit(2); }
   return k;
 }
-const env = { ANTHROPIC_API_KEY: sleutel() };
+// --live <url>: rooktest tegen de gedeployde Worker in plaats van de lokale code (PLAN 13 fase 5.3).
+// Dan is er geen sleutel nodig, en geen kostenregistratie (de Worker geeft geen usage terug).
+const LIVE = vlag('live', null);
+const env = LIVE ? {} : { ANTHROPIC_API_KEY: sleutel() };
 const schoon = (t) => String(t).replace(/sk-ant-[0-9A-Za-z_-]{8,}/g, '[sleutel]');
 
 // Het systeemprompt van rechten.html, letterlijk uit de pagina (alleen gelezen).
@@ -89,6 +93,15 @@ UITGAVEN: huur €780, energie €190, zorgverzekering €150, boodschappen €2
 SALDO: €285 per maand (overschot)`;
 
 async function post(route, data) {
+  if (LIVE) {
+    const t0 = Date.now();
+    const res = await fetch(LIVE.replace(/\/$/, '') + route, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Origin: 'https://solidari.nl' },
+      body: JSON.stringify(data),
+    });
+    return { status: res.status, data: await res.json(), duur: (Date.now() - t0) / 1000 };
+  }
   const req = new Request('https://worker.test' + route, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Origin: 'https://solidari.nl' },
@@ -116,7 +129,8 @@ async function variantMeting() {
   const plafond = Number(vlag('plafond', 15));
   if (!uit) { console.log('--uit ontbreekt'); process.exit(2); }
   mkdirSync(uit, { recursive: true });
-  const model = process.env.WORKER_MODEL || bron.match(/^const MODEL = ['"](.*?)['"]/m)[1];
+  // Live: het model is dat van de gedeployde Worker en niet uit het antwoord af te lezen.
+  const model = LIVE ? 'live' : (process.env.WORKER_MODEL || bron.match(/^const MODEL = ['"](.*?)['"]/m)[1]);
   const kostenMap = join(uit, '..', 'kosten');
   mkdirSync(kostenMap, { recursive: true });
   const kostenPad = join(kostenMap, `${route}-${model}-${process.pid}.json`);
@@ -124,7 +138,7 @@ async function variantMeting() {
   const totaal = () => readdirSync(kostenMap).filter(f => f.endsWith('.json'))
     .reduce((som, f) => { try { return som + JSON.parse(readFileSync(join(kostenMap, f), 'utf-8')).usd; } catch { return som; } }, 0);
   const TARIEF = { 'claude-haiku-4-5-20251001': [1, 5], 'claude-haiku-5-5': [0.10, 0.50], 'claude-sonnet-5-5': [2, 10] };
-  if (!TARIEF[model]) { console.log('onbekend tarief voor ' + model); process.exit(2); }
+  if (!LIVE && !TARIEF[model]) { console.log('onbekend tarief voor ' + model); process.exit(2); }
 
   // Budgethulp: systeemprompt en taalnamen letterlijk uit de pagina.
   const bh = readFileSync(join(root, 'budgethulp.html'), 'utf-8');
@@ -278,7 +292,7 @@ Nibud-referentie voor deze situatie:
       try { r = await post(pad, data); }
       catch (e) { r = { status: 'uitzondering', data: { error: schoon(e.message) }, duur: 0 }; }
       const zoek = usage?.server_tool_use?.web_search_requests || 0;
-      const [ti, to] = TARIEF[model];
+      const [ti, to] = TARIEF[model] || [0, 0];
       const usd = usage ? usage.input_tokens / 1e6 * ti + usage.output_tokens / 1e6 * to + zoek * 0.01 : 0;
       eigen.usd = +(eigen.usd + usd).toFixed(5); eigen.aanroepen += 1;
       writeFileSync(kostenPad, JSON.stringify(eigen));
