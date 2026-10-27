@@ -22,3 +22,13 @@
  
      # ── OCR ──────────────────────────────────────────────────────
      # Tesseract talen — installeer via: sudo apt install tesseract-ocr-[taal]
+@@ -52,6 +49,9 @@
+         'ar': 'ara',
+         'tr': 'tur',
+         'uk': 'ukr',
++        # Pools en Roemeens: de brief zelf is Nederlands, dus Nederlandse OCR
++        'pl': 'nld',
++        'ro': 'nld',
+         # Tigrinya (ti) en Dari (fa) hebben beperkte Tesseract-ondersteuning
+         # Fallback: Engels + AI-vertaling
+         'ti': 'eng',
