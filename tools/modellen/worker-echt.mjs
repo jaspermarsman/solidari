@@ -17,6 +17,12 @@
 //   niet-NL antwoord. Bij gv (Goed voorbereid) tellen Nederlandse zinnen tussen aanhalingstekens
 //   apart (nl_citaten): de pagina geeft bewust Nederlandse zinnen om tegen de dokter te zeggen.
 //   Met --live <worker-url> gaat het verzoek naar de gedeployde Worker (rooktest na deploy).
+// PLAN 14 (B-4): --route gv --zeg  meet de zin om te zeggen. Herhaling 1 en 3 is de vraag aan de
+//   klantmanager, herhaling 2 een afspraak bij de huisarts. Drie controles per antwoord:
+//   (a) zeg_nl: een zin tussen aanhalingstekens in het Nederlands (NL-woordaandeel ≥ 0,4);
+//   (b) in_doeltaal: de rest (zonder de citaten) slaagt voor T-3;
+//   (c) geen_nl_alinea: buiten de citaten geen alinea die Nederlands is.
+//   geslaagd = (a) en (b) en (c) en de gewone eisen (status 200, > 200 tekens, < 45 s).
 // Draait de Worker-code lokaal in Node met de echte fetch. Er wordt niets gedeployd.
 // Sleutel: ANTHROPIC_API_KEY uit de omgeving, anders uit ~/.config/solidari/geheimen.env;
 // hij wordt nooit geprint. Alleen verzonnen invoer.
@@ -236,14 +242,29 @@ Nibud-referentie voor deze situatie:
     ti: 'ኣብ ዝመጽእ ሰሙን ብዛዕባ ማሕበራዊ ሓገዘይ ምስ ሓላፊ መዝገበይ ርክብ ኣለኒ። ኩሉ ዘይርድኣኒ ኢዩ ዝብል ፍርሒ ኣለኒ። እንታይ ክብል እኽእል?',
   };
 
-  function prompts(v, taal) {
+  // Zelf geschreven, niet nagelezen (PLAN 14): een afspraak bij de huisarts.
+  const GV_ARTS = {
+    nl: 'Morgen ga ik naar de huisarts. Ik heb al twee weken last van mijn rug. Ik weet niet goed wat ik moet zeggen. Kun je me helpen?',
+    en: "Tomorrow I'm going to the GP. My back has been hurting for two weeks. I don't really know what to say. Can you help me?",
+    pl: 'Jutro idę do lekarza rodzinnego. Od dwóch tygodni boli mnie plecy. Nie wiem dobrze, co mam powiedzieć. Możesz mi pomóc?',
+    tr: 'Yarın aile hekimine gidiyorum. İki haftadır sırtım ağrıyor. Ne söyleyeceğimi tam bilmiyorum. Bana yardım eder misin?',
+    uk: 'Завтра я йду до сімейного лікаря. Вже два тижні в мене болить спина. Я не знаю, що саме сказати. Можеш допомогти?',
+    ro: 'Mâine merg la medicul de familie. Mă doare spatele de două săptămâni. Nu știu bine ce să spun. Mă poți ajuta?',
+    ar: 'غداً سأذهب إلى طبيب العائلة. ظهري يؤلمني منذ أسبوعين. لا أعرف جيداً ماذا أقول. هل يمكنك مساعدتي؟',
+    fa: 'فردا پیش داکتر خانوادگی می‌روم. دو هفته است که کمرم درد می‌کند. نمی‌دانم دقیقاً چه بگویم. می‌توانی کمکم کنی؟',
+    ti: 'ጽባሕ ናብ ሓኪም ስድራቤት ክኸይድ እየ። ንኽልተ ሰሙን ሕቖይ የሕመኒ ኣሎ። እንታይ ከም ዝብል ኣጸቢቐ ኣይፈልጥን። ክትሕግዘኒ ትኽእል ዶ?',
+  };
+  const ZEG = process.argv.includes('--zeg');
+
+  function prompts(v, taal, n = 1) {
     if (v === 'PAGINA') {
       if (route === 'analyse') return ['/api/analyse', PAGINA.analyse(GEMEENTE, taal, BERICHT)];
       if (route === 'digi') return ['/api/digi', PAGINA.digi([{ role: 'user', content: VRAAG[taal] }], taal.toUpperCase())];
       const d = PAGINA.gvData[taal.toUpperCase()] || PAGINA.gvData.NL;
-      const cat = d.categorieen.find(c => c.id === 'gemeente');
-      const sit = cat.situaties.find(x => x.id === 'gemeente-bijstand');
-      return ['/api/digi', PAGINA.gv(cat, sit, taal.toUpperCase(), [{ role: 'user', content: GV_VRAAG[taal] }])];
+      const arts = ZEG && n % 2 === 0;
+      const cat = d.categorieen.find(c => c.id === (arts ? 'dokter' : 'gemeente'));
+      const sit = cat.situaties.find(x => x.id === (arts ? 'dokter-klacht' : 'gemeente-bijstand'));
+      return ['/api/digi', PAGINA.gv(cat, sit, taal.toUpperCase(), [{ role: 'user', content: (arts ? GV_ARTS : GV_VRAAG)[taal] }])];
     }
     const r = R[taal];
     const slot = v === 'V1' ? `(Antwoord in het ${r.naam_nl}.)` : (v === 'V2' || v === 'V3') ? r.kort : '';
@@ -283,8 +304,8 @@ Nibud-referentie voor deze situatie:
   };
 
   for (const v of varianten) for (const taal of talen) {
-    const [pad, data] = prompts(v, taal);
     for (let n = 1; n <= herhaal; n++) {
+      const [pad, data] = prompts(v, taal, n);
       const t0 = totaal();
       if (t0 >= plafond) { console.log(`PLAFOND: geschatte kosten $${t0.toFixed(2)} ≥ $${plafond}`); process.exit(3); }
       usage = null;
@@ -312,12 +333,38 @@ Nibud-referentie voor deze situatie:
       };
       regel.overig_ok = r.status === 200 && tekst.length > 200 && r.duur < 45;
       regel.geslaagd = regel.overig_ok && t.in_doeltaal;
+      if (ZEG) {
+        Object.assign(regel, { vraag: n % 2 === 0 ? 'huisarts' : 'klantmanager' }, zegControle(tekst, taal, R));
+        regel.geslaagd = regel.overig_ok && regel.zeg_nl && t.in_doeltaal && regel.geen_nl_alinea;
+      }
       writeFileSync(join(uit, `${model}-${route.replace(/\W/g, '')}-${v}-${taal}-${n}.txt`), tekst || JSON.stringify(r.data), 'utf-8');
       appendFileSync(join(uit, 'varianten.jsonl'), JSON.stringify(regel) + '\n');
       const { nl_zin_voorbeeld, ...kort } = regel;
       console.log(JSON.stringify(kort));
     }
   }
+}
+
+// PLAN 14, B-4 (a) en (c): de zin om te zeggen staat in het Nederlands tussen aanhalingstekens,
+// en buiten de citaten staat geen Nederlandse alinea. (b) is in_doeltaal uit taalcontrole12.
+function zegControle(tekst, taal, R) {
+  const CITAAT = /["“„«»”‹›]([^"“„«»”‹›\n]{8,300})["”»«“‹›]/g;
+  const eigenW = new Set(R[taal]?.kenmerken?.woorden || []);
+  const D = R._drempels, NLW = new Set(R._nl_woorden.filter(x => !eigenW.has(x)));
+  const woorden = (x) => x.toLowerCase().match(/[\p{L}\p{M}]+/gu) || [];
+  const aandeel = (x) => { const w = woorden(x); return w.length ? w.filter(y => NLW.has(y)).length / w.length : 0; };
+  const schoon = String(tekst).replace(/<[^>]+>/g, ' ').replace(/https?:\/\/\S+|www\.\S+/g, ' ');
+  const citaten = [...schoon.matchAll(CITAAT)].map(m => m[1]);
+  const nlCitaten = citaten.filter(c => woorden(c).length >= 3 && aandeel(c) >= 0.4);
+  const r = { citaten: citaten.length, zeg_nl: nlCitaten.length > 0 };
+  if (nlCitaten.length) r.zeg_voorbeeld = nlCitaten[0].slice(0, 120);
+  const buiten = schoon.replace(CITAAT, ' ');
+  const nlAlineas = taal === 'nl' ? [] : buiten.split(/\n\s*\n/)
+    .filter(a => woorden(a).length >= D.min_woorden_zin && aandeel(a) >= D.nl_aandeel_zin);
+  r.nl_alineas = nlAlineas.length;
+  r.geen_nl_alinea = nlAlineas.length === 0;
+  if (nlAlineas.length) r.nl_alinea_voorbeeld = nlAlineas[0].trim().slice(0, 120);
+  return r;
 }
 
 // Strengere taalcontrole (T-3), dezelfde regels als taalcontrole() in meet.py.
