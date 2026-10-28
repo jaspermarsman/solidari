@@ -156,3 +156,22 @@ for (const taal of TALEN9) {
     await expect(page.locator('.terug-link .terug-pijl')).toHaveAttribute('aria-hidden', 'true');
   });
 }
+
+test('budgethulp: zonder taalwissel begint de opening maar één keer', async ({ page }) => {
+  // components.js roept bij het laden setTaal aan met dezelfde taal; dat mag geen tweede opening geven.
+  await metTaal(page, 'NL');
+  await page.addInitScript(() => {
+    // Een herstart leegt #berichten: dan verdwijnt een al geplaatste ballon (niet de typ-indicator).
+    window.__weg = 0;
+    document.addEventListener('DOMContentLoaded', () => {
+      new MutationObserver((ms) => ms.forEach((m) => m.removedNodes.forEach((n) => {
+        if (n.nodeType === 1 && n.querySelector && n.querySelector('.bel-sol') && n.textContent.trim()) window.__weg++;
+      }))).observe(document.getElementById('berichten'), { childList: true });
+    });
+  });
+  await page.goto('budgethulp.html', { waitUntil: 'networkidle' });
+  await page.waitForFunction(() => !_bezig && document.querySelector('.keuze-rij button'), null, { timeout: 20000 });
+  await page.waitForTimeout(1500);
+  expect(await page.evaluate(() => window.__weg)).toBe(0);
+  await expect(page.locator('#berichten .bel-sol').filter({ hasText: '🤖' })).toHaveCount(1);
+});

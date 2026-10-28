@@ -1627,8 +1627,10 @@ let _bezig = false, _opnieuw = false;
 async function start(){
   // Een taalwissel terwijl de opening nog loopt, gaat niet verloren: na afloop begint de chat
   // opnieuw in de nieuwe taal, ook de AI-melding (AI Act art. 50 lid 1; PLAN 14, B-5).
+  // Alleen bij een andere taal: components.js roept setTaal bij het laden ook aan met dezelfde.
   if (_bezig) { _opnieuw = true; return; }
   _bezig = true;
+  const gestartIn = taal;
   const t=T[taal];
   document.body.style.direction=(taal==='ar'||taal==='fa')?'rtl':'ltr';
   document.getElementById('berichten').innerHTML='';
@@ -1637,7 +1639,7 @@ async function start(){
   await sol('🤖 ' + aiMelding());   // AI Act art. 50 lid 1 — eerste contact
   await sol(t.welkom); await sol(t.start);
   _bezig = false;
-  if (_opnieuw) { _opnieuw = false; return start(); }
+  if (_opnieuw) { _opnieuw = false; if (taal !== gestartIn) return start(); }
   await stap_situatie();
 }
 
