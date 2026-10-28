@@ -2628,10 +2628,10 @@ async function roepAiAan(gemeente) {
     for (const alinea of alineas) {
       const wrap = document.createElement('div');
       wrap.className = 'bericht-sol';
-      const html = alinea
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        .replace(/(https?:\/\/[^\s\]<]+)/g, '<a href="$1" target="_blank" rel="noopener">🔗 $1</a>')
-        .replace(/\n/g, '<br>');
+      // Eerst escapen en opmaken (Solidari.opmaak, PLAN 14 B-2), dan pas links: er komt geen HTML
+      // uit het model op de pagina. Een link stopt bij een geëscapet aanhalingsteken.
+      const html = Solidari.opmaak(alinea)
+        .replace(/(https?:\/\/(?:(?!&quot;|&#39;|&lt;|&gt;)[^\s<\]])+)/g, '<a href="$1" target="_blank" rel="noopener">🔗 $1</a>');
       wrap.innerHTML = `<div class="sol-avatar">☀️</div><div class="bel-sol ai-analyse">${html}</div>`;
       b.appendChild(wrap);
       await new Promise(r => setTimeout(r, 100));

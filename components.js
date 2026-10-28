@@ -798,6 +798,34 @@
   window.Solidari = window.Solidari || {};
   Solidari.a11y = { verbergEmoji, verwerk: a11yVerwerk, opbouw: maakOpbouw };
 
+  // ── Eenvoudige opmaak van AI-antwoorden (PLAN 14, B-2) ─────────────────
+  // Eerst escapen, dan pas opmaken: er komt nooit HTML uit het model op de pagina.
+  // Alleen **vet**, regels met "- " of "• " als lijst, en lege regels als nieuwe alinea.
+  // Geen links en geen koppen. De uitvoer bevat geen regeleinden, want de chatballonnen
+  // hebben white-space:pre-wrap.
+  function opmaak(tekst) {
+    const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    const vet = s => s.replace(/\*\*([^*\n]+?)\*\*/g, '<strong>$1</strong>');
+    const LIJST = /^[-•]\s+/;
+    const blokken = String(tekst == null ? '' : tekst).replace(/\r\n?/g, '\n')
+      .split(/\n[ \t]*\n/).map(b => b.split('\n').map(r => r.trim()).filter(Boolean)).filter(b => b.length);
+    let html = '';
+    blokken.forEach((regels, i) => {
+      if (i) html += '<span style="display:block;height:.6em" aria-hidden="true"></span>';
+      let tekstRegels = [], items = [];
+      const sluitTekst = () => { if (tekstRegels.length) html += '<p>' + tekstRegels.join('<br>') + '</p>'; tekstRegels = []; };
+      const sluitLijst = () => { if (items.length) html += '<ul style="padding-inline-start:1.3em">' + items.map(x => '<li>' + x + '</li>').join('') + '</ul>'; items = []; };
+      regels.forEach(r => {
+        if (LIJST.test(r)) { sluitTekst(); items.push(vet(esc(r.replace(LIJST, '')))); }
+        else { sluitLijst(); tekstRegels.push(vet(esc(r))); }
+      });
+      sluitTekst(); sluitLijst();
+    });
+    return html;
+  }
+  Solidari.opmaak = opmaak;
+
   // ── Init ───────────────────────────────────────────────────────────────
   function init() {
     detecteerOmgeving();

@@ -411,7 +411,7 @@ async function aiVerstuur(){
     const r = await resp.json();
     if(r.error) throw new Error(r.error);
     stopTyping();
-    solBericht(escapeHTML(r.tekst));
+    solBericht(window.Solidari && Solidari.opmaak ? Solidari.opmaak(r.tekst) : escapeHTML(r.tekst));   // PLAN 14 B-2
     aiGeschiedenis.push({role:'assistant', content:r.tekst});
   }catch(e){
     stopTyping();

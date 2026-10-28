@@ -589,7 +589,8 @@ async function stuurBericht(tekst) {
     const { tekst, bronnen } = await vraagAI(geschiedenis);
     verwijderTyping();
     voortgang(100);
-    voegSolBericht(tekst);
+    const bel = voegSolBericht(tekst);
+    if (window.Solidari && Solidari.opmaak) bel.innerHTML = Solidari.opmaak(tekst);   // PLAN 14 B-2
     voegAILabel(document.getElementById('berichten') || document.querySelector('.berichten'));   // AI Act art. 50 lid 4
     geschiedenis.push({ role: 'assistant', content: tekst });
     toonBronnen(bronnen);
