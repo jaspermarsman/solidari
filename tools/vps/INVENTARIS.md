@@ -10,7 +10,7 @@
 | Naam env-variabele | `ANTHROPIC_API_KEY` | `config.py` (`load_dotenv('/etc/solidari/.env')`) |
 | Routes | `POST /api/analyseer` (brief, multipart `brief`+`taal`+`context`) · `POST /api/analyse` (budget/rechten, `{systeem, bericht}`?) · `POST /api/cursusblad` (reportlab; Digi Hulp — vervallen) · `GET /api/status` (zonstatus — vervalt) · `POST /api/inhibit/start|stop` (vervalt) · `GET /api/ping` · **nieuw** `GET /api/health` · **nieuw** `POST /api/tts` | `app.py`, `routes/*.py` |
 | Responscontract brief | `{urgentie:{niveau,titel,tekst}|null, secties:[{icoon,titel,achtergrond,inhoud}], actiepunten:[str]}` — **niet aanraken** | `routes/brief.py` docstring, `services/ai.py` |
-| Model | `claude-haiku-4-5-20251001`, `anthropic>=0.34` (droogtest installeerde 1.0.0) | `config.py` |
+| Model | `claude-sonnet-5-5`, effort `low` (sinds PLAN 13, 26-10-2026; instelbaar met `SOLIDARI_CLAUDE_MODEL` / `SOLIDARI_CLAUDE_EFFORT`). SDK `anthropic` 1.3.0 op de VPS | `config.py` |
 | CORS | Flask (`flask_cors`), origins: solidari.nl, www, localhost, 127.0.0.1, homeassistant.local:8123, 192.168.178.189. **Staging-origin ontbreekt** → toevoegen | `config.py` |
 | Rate limit | Flask-Limiter 10/min per IP, `memory://` (per worker!). Achter nginx: ProxyFix nodig (toegevoegd). nginx-limiet 6/min komt erbovenop | `app.py` |
 | Upload | max 10 MB (`MAX_CONTENT_LENGTH`), types jpeg/png/heic/webp/pdf. HEIC: Pillow zonder pillow-heif kan dat niet — frontend-compressie maakt er jpeg van, dus in de praktijk niet relevant | `config.py`, `ocr.py` |
