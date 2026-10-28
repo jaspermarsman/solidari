@@ -113,3 +113,46 @@ test('budgethulp: AI-analyse met opmaak, links blijven werken, geen HTML uit het
   await expect(page.locator('.bel-sol.ai-analyse img')).toHaveCount(0);
   expect(await page.evaluate(() => window.__xss)).toBeUndefined();
 });
+
+// ── R-3: budgethulp, AI-melding in de gekozen taal na een taalwissel (B-5) ────────────────
+// Oorzaak: een wissel terwijl de opening nog getypt werd, sloeg de herstart over (_bezig).
+const melding = (page, taal) => page.evaluate((t) => {
+  const i = window.Solidari.i18n; const oud = i.getTaal(); i.passToe(t); const m = i.t('ai-melding'); i.passToe(oud); return m;
+}, taal);
+
+for (const moment of ['tijdens de opening', 'na de opening']) {
+  test(`budgethulp: wissel PL → UK ${moment}; melding en welkom in het UK`, async ({ page }) => {
+    await metTaal(page, 'PL');
+    await page.goto('budgethulp.html');
+    await page.waitForFunction(() => window.Solidari && window.Solidari.i18n && document.querySelector('#berichten .bel-sol'));
+    if (moment === 'na de opening') await page.waitForFunction(() => !_bezig && document.querySelector('.keuze-rij button'), null, { timeout: 20000 });
+    else expect(await page.evaluate(() => _bezig)).toBe(true);
+    const uk = await melding(page, 'UK');
+    await page.evaluate(() => document.querySelector('#solidari-nav-bar .taal-btn[data-taal="UK"]').click());
+    await expect(page.locator('#berichten .bel-sol').first()).toHaveText('🤖 ' + uk, { timeout: 20000 });
+    await page.waitForFunction(() => !_bezig && document.querySelector('.keuze-rij button'), null, { timeout: 20000 });
+    await expect(page.locator('#berichten .bel-sol').filter({ hasText: 'To jest asystent AI' })).toHaveCount(0);
+    // Precies één melding: geen dubbele opening.
+    await expect(page.locator('#berichten .bel-sol').filter({ hasText: uk })).toHaveCount(1);
+  });
+}
+
+// ── R-4: brief.html, "Terug naar alle tools" in de gekozen taal (B-6) ─────────────────────
+const TALEN9 = ['NL', 'EN', 'AR', 'TR', 'TI', 'UK', 'FA', 'RO', 'PL'];
+for (const taal of TALEN9) {
+  test(`brief ${taal}: terug-link vertaald, pijl verborgen voor schermlezers`, async ({ page }) => {
+    await metTaal(page, taal);
+    await page.goto('brief.html');
+    await page.waitForFunction(() => window.Solidari && window.Solidari.i18n);
+    const { link, sleutel, terug } = await page.evaluate(() => ({
+      link: document.querySelector('.terug-link [data-i18n="nav-terug-tools"]').textContent,
+      sleutel: window.Solidari.i18n.t('nav-terug-tools'),
+      terug: window.Solidari.i18n.t('a11y-terug'),
+    }));
+    expect(sleutel).not.toBe('nav-terug-tools');
+    expect(link).toBe(sleutel);
+    if (taal === 'TI') expect(link, 'TI: bestaande, gereviewde tekst (S-9)').toBe(terug);
+    if (taal !== 'NL') expect(link).not.toBe('Terug naar alle tools');
+    await expect(page.locator('.terug-link .terug-pijl')).toHaveAttribute('aria-hidden', 'true');
+  });
+}

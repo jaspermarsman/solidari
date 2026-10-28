@@ -42,6 +42,7 @@
       transition: color 0.2s;
     }
     .terug-link:hover { color: white; }
+    [dir="rtl"] .terug-pijl { display: inline-block; transform: scaleX(-1); }
     .pagina-titel {
       font-family: 'Playfair Display', serif;
       font-size: clamp(2rem, 4vw, 2.8rem);
@@ -596,7 +597,7 @@
 <!-- PAGINA HEADER -->
 <div class="pagina-header">
   <div class="pagina-header-inhoud">
-    <a href="index.html" class="terug-link">← Terug naar alle tools</a>
+    <a href="index.html" class="terug-link"><span class="terug-pijl" aria-hidden="true">←</span> <span data-i18n="nav-terug-tools">Terug naar alle tools</span></a>
     <h1 class="pagina-titel">📬 Brief Begrijper</h1>
     <p class="pagina-subtitel" id="header-sub">Maak een foto van je brief. Wij leggen uit wat er staat, wat je moet doen, en wanneer.</p>
   </div>
