@@ -800,14 +800,24 @@
 
   // ── Eenvoudige opmaak van AI-antwoorden (PLAN 14, B-2) ─────────────────
   // Eerst escapen, dan pas opmaken: er komt nooit HTML uit het model op de pagina.
-  // Alleen **vet**, regels met "- " of "• " als lijst, en lege regels als nieuwe alinea.
-  // Geen links en geen koppen. De uitvoer bevat geen regeleinden, want de chatballonnen
-  // hebben white-space:pre-wrap.
-  function opmaak(tekst) {
+  // Alleen **vet**, *cursief* (PLAN 15, B-4), regels met "- ", "• " of "* " als lijst, en lege
+  // regels als nieuwe alinea. Geen links en geen koppen. De uitvoer bevat geen regeleinden, want de
+  // chatballonnen hebben white-space:pre-wrap.
+  // In een RTL-pagina (of met opties.dir 'rtl') komt een citaat tussen aanhalingstekens, met de
+  // leestekens direct erna, in <bdi>: dan staan punt en aanhalingsteken van een Nederlandse zin aan
+  // de goede kant (PLAN 15, B-5). In LTR verandert er niets.
+  function opmaak(tekst, opties) {
     const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
                       .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
     const vet = s => s.replace(/\*\*([^*\n]+?)\*\*/g, '<strong>$1</strong>');
-    const LIJST = /^[-•]\s+/;
+    // Alleen als de sterretjes direct aan een woord grenzen: "5 * 3" en een los sterretje blijven staan.
+    const cursief = s => s.replace(/\*([^\s*](?:[^*\n]*?[^\s*])?)\*/g, '<em>$1</em>');
+    const dir = (opties && opties.dir) || document.documentElement.dir;
+    // Na het escapen is " &quot;. Geen < in het citaat: een citaat dat half in <strong> valt, blijft zoals het is.
+    const CITAAT = /(?:&quot;|„|“|«)(?:(?!&quot;)[^\n<„“”«»])+?(?:&quot;|“|”|»)[.,:;!?؟،]*/g;
+    const richting = dir === 'rtl' ? s => s.replace(CITAAT, '<bdi>$&</bdi>') : s => s;
+    const regel = s => richting(cursief(vet(esc(s))));
+    const LIJST = /^[-•*]\s+/;
     const blokken = String(tekst == null ? '' : tekst).replace(/\r\n?/g, '\n')
       .split(/\n[ \t]*\n/).map(b => b.split('\n').map(r => r.trim()).filter(Boolean)).filter(b => b.length);
     let html = '';
@@ -817,8 +827,8 @@
       const sluitTekst = () => { if (tekstRegels.length) html += '<p>' + tekstRegels.join('<br>') + '</p>'; tekstRegels = []; };
       const sluitLijst = () => { if (items.length) html += '<ul style="padding-inline-start:1.3em">' + items.map(x => '<li>' + x + '</li>').join('') + '</ul>'; items = []; };
       regels.forEach(r => {
-        if (LIJST.test(r)) { sluitTekst(); items.push(vet(esc(r.replace(LIJST, '')))); }
-        else { sluitLijst(); tekstRegels.push(vet(esc(r))); }
+        if (LIJST.test(r)) { sluitTekst(); items.push(regel(r.replace(LIJST, ''))); }
+        else { sluitLijst(); tekstRegels.push(regel(r)); }
       });
       sluitTekst(); sluitLijst();
     });

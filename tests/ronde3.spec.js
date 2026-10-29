@@ -253,3 +253,95 @@ for (const [taal, breedte] of [['NL', 375], ['AR', 375], ['NL', 1280], ['AR', 12
     await expect(page.locator('.sol-a11y-tik-hint')).toHaveCount(0);
   });
 }
+
+// ── T-2 en T-3: Solidari.opmaak, cursief en leesrichting (B-4, B-5) ────────────────────────
+async function opmaak(page, tekst, opties) {
+  return page.evaluate(([t, o]) => window.Solidari.opmaak(t, o), [tekst, opties]);
+}
+test.describe('Solidari.opmaak, ronde 3', () => {
+  test.beforeEach(async ({ page }) => {
+    await metTaal(page, 'NL');
+    await page.goto('over.html');
+    await page.waitForFunction(() => window.Solidari && typeof window.Solidari.opmaak === 'function');
+  });
+
+  test('*cursief* wordt <em>', async ({ page }) => {
+    expect(await opmaak(page, 'Dit is *belangrijk* nu.')).toBe('<p>Dit is <em>belangrijk</em> nu.</p>');
+    expect(await opmaak(page, 'Een *boete* of *x*.')).toBe('<p>Een <em>boete</em> of <em>x</em>.</p>');
+  });
+
+  test('regels met "* " worden een lijst', async ({ page }) => {
+    expect(await opmaak(page, 'Zo:\n* eerst bellen\n* dan *mailen*')).toBe(
+      '<p>Zo:</p><ul style="padding-inline-start:1.3em"><li>eerst bellen</li><li>dan <em>mailen</em></li></ul>');
+  });
+
+  test('losse sterretjes blijven staan', async ({ page }) => {
+    expect(await opmaak(page, '5 * 3 = 15')).toBe('<p>5 * 3 = 15</p>');
+    expect(await opmaak(page, 'Let op * dit is een opmerking')).toBe('<p>Let op * dit is een opmerking</p>');
+    expect(await opmaak(page, 'Prijs* (zie onder)')).toBe('<p>Prijs* (zie onder)</p>');
+    expect(await opmaak(page, 'Let op **dit')).toBe('<p>Let op **dit</p>');
+  });
+
+  test('**vet** en *cursief* in één regel', async ({ page }) => {
+    expect(await opmaak(page, '**Bijstand** is *soms* mogelijk, **echt**.')).toBe(
+      '<p><strong>Bijstand</strong> is <em>soms</em> mogelijk, <strong>echt</strong>.</p>');
+  });
+
+  test('<script> blijft geëscaped, ook in cursief en in een citaat', async ({ page }) => {
+    const h = await opmaak(page, '*<script>alert(1)</script>* "<img src=x onerror=alert(1)>."', { dir: 'rtl' });
+    expect(h).not.toMatch(/<script|<img/);
+    expect(h).toContain('<em>&lt;script&gt;alert(1)&lt;/script&gt;</em>');
+    const n = await page.evaluate((html) => { const d = document.createElement('div'); d.innerHTML = html; return d.querySelectorAll('script, img').length; }, h);
+    expect(n).toBe(0);
+  });
+
+  test('RTL: een Nederlands citaat in een Arabische zin komt in <bdi>, met de punt erna', async ({ page }) => {
+    expect(await opmaak(page, 'قل: "Ik heb al twee weken pijn in mijn rug". المعنى', { dir: 'rtl' })).toBe(
+      '<p>قل: <bdi>&quot;Ik heb al twee weken pijn in mijn rug&quot;.</bdi> المعنى</p>');
+    expect(await opmaak(page, 'قل „Ik heb pijn.” و «Wat betekent dat?»', { dir: 'rtl' })).toBe(
+      '<p>قل <bdi>„Ik heb pijn.”</bdi> و <bdi>«Wat betekent dat?»</bdi></p>');
+    expect(await opmaak(page, 'بگویید: “Kunt u dat herhalen?”', { dir: 'rtl' })).toBe(
+      '<p>بگویید: <bdi>“Kunt u dat herhalen?”</bdi></p>');
+  });
+
+  test('RTL zonder parameter: de richting van de pagina telt', async ({ page }) => {
+    const h = await page.evaluate(() => { document.documentElement.dir = 'rtl'; const h = window.Solidari.opmaak('قل "Ik heb pijn."'); document.documentElement.dir = 'ltr'; return h; });
+    expect(h).toBe('<p>قل <bdi>&quot;Ik heb pijn.&quot;</bdi></p>');
+  });
+
+  test('LTR: geen <bdi>', async ({ page }) => {
+    expect(await opmaak(page, 'Zeg: "Ik heb pijn." en „dit”.')).toBe('<p>Zeg: &quot;Ik heb pijn.&quot; en „dit”.</p>');
+    expect(await opmaak(page, 'Zeg: "Ik heb pijn."', { dir: 'ltr' })).not.toContain('<bdi>');
+  });
+
+  test('citaat half in vet: geen kapotte HTML', async ({ page }) => {
+    const h = await opmaak(page, '**"half** in"', { dir: 'rtl' });
+    expect(h).toBe('<p><strong>&quot;half</strong> in&quot;</p>');
+  });
+});
+
+// De opgeslagen antwoorden uit de meting van PLAN 14 (ronde 4), zonder API: in AR en FA staat elk
+// Nederlands citaat in <bdi>, en de tekst zelf verandert niet.
+const fs = require('fs');
+const path = require('path');
+const RONDE4 = path.join(__dirname, '..', '..', 'Solidari', '_werkdocumenten', 'modellen', 'ronde4', 'gv');
+for (const bestand of ['ar-2', 'fa-2']) {
+  test(`opmaak met het opgeslagen antwoord ${bestand} (RTL)`, async ({ page }) => {
+    const pad = path.join(RONDE4, `claude-sonnet-5-5-gv-PAGINA-${bestand}.txt`);
+    test.skip(!fs.existsSync(pad), 'opgeslagen meting niet aanwezig (alleen lokaal)');
+    const tekst = fs.readFileSync(pad, 'utf-8');
+    await metTaal(page, bestand.slice(0, 2).toUpperCase());
+    await page.goto('goedvoorbereid.html');
+    await page.waitForFunction(() => window.Solidari && typeof window.Solidari.opmaak === 'function');
+    const r = await page.evaluate((t) => {
+      const d = document.createElement('div'); d.innerHTML = window.Solidari.opmaak(t);
+      return { bdi: [...d.querySelectorAll('bdi')].map((b) => b.textContent), tekst: d.textContent, sterren: (d.textContent.match(/\*\*/g) || []).length };
+    }, tekst);
+    expect(r.bdi.length).toBeGreaterThan(0);
+    expect(r.bdi.some((b) => /\b(ik|u|de|het|een|mijn|heb)\b/i.test(b)), 'een Nederlands citaat in <bdi>').toBe(true);
+    expect(r.sterren).toBe(0);
+    // Op de opmaak na dezelfde tekst: alleen ** en lijsttekens en lege regels zijn weg.
+    const plat = (s) => s.replace(/\*\*/g, '').replace(/^[-•*]\s+/gm, '').replace(/\s+/g, '');
+    expect(plat(r.tekst)).toBe(plat(tekst.replace(/(^|[^*\S])\*([^\s*](?:[^*\n]*?[^\s*])?)\*/g, '$1$2')));
+  });
+}
