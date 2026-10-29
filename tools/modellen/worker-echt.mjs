@@ -27,7 +27,7 @@
 // Sleutel: ANTHROPIC_API_KEY uit de omgeving, anders uit ~/.config/solidari/geheimen.env;
 // hij wordt nooit geprint. Alleen verzonnen invoer.
 
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
@@ -66,6 +66,10 @@ function sleutel() {
 // --live <url>: rooktest tegen de gedeployde Worker in plaats van de lokale code (PLAN 13 fase 5.3).
 // Dan is er geen sleutel nodig, en geen kostenregistratie (de Worker geeft geen usage terug).
 const LIVE = vlag('live', null);
+// --herbereken <map>: de controles opnieuw op de bewaarde antwoorden in <map>, met de huidige
+// taalregels.json (PLAN 14). Geen API-aanroepen en geen sleutel nodig.
+const HERBEREKEN = vlag('herbereken', null);
+if (HERBEREKEN) { herbereken(HERBEREKEN); process.exit(0); }
 const env = LIVE ? {} : { ANTHROPIC_API_KEY: sleutel() };
 const schoon = (t) => String(t).replace(/sk-ant-[0-9A-Za-z_-]{8,}/g, '[sleutel]');
 
@@ -343,6 +347,32 @@ Nibud-referentie voor deze situatie:
       console.log(JSON.stringify(kort));
     }
   }
+}
+
+function herbereken(map) {
+  const R = JSON.parse(readFileSync(join(hier, 'taalregels.json'), 'utf-8'));
+  const rijen = readFileSync(join(map, 'varianten.jsonl'), 'utf-8').split('\n').filter(Boolean).map(r => JSON.parse(r));
+  const nieuw = rijen.map((oud) => {
+    const tekst = readFileSync(join(map, `${oud.model}-${oud.route.replace(/\W/g, '')}-${oud.variant}-${oud.taal}-${oud.n}.txt`), 'utf-8');
+    const t = taalcontrole12(tekst, oud.taal, R, oud.route === 'gv');
+    if (oud.taal !== 'nl') {
+      t.nl_slotzin = /Neem de Excel|naar je begeleider/i.test(tekst);
+      if (t.nl_slotzin) t.in_doeltaal = false;
+    }
+    const { nl_zin_voorbeeld, zeg_voorbeeld, nl_alinea_voorbeeld, ...rest } = oud;
+    const regel = { ...rest, ...t };
+    regel.geslaagd = regel.overig_ok && t.in_doeltaal;
+    if (oud.vraag) {
+      Object.assign(regel, zegControle(tekst, oud.taal, R));
+      regel.geslaagd = regel.overig_ok && regel.zeg_nl && t.in_doeltaal && regel.geen_nl_alinea;
+    }
+    if (regel.geslaagd !== oud.geslaagd) console.log(`${oud.taal}-${oud.n}: ${oud.geslaagd} → ${regel.geslaagd}`);
+    return regel;
+  });
+  writeFileSync(join(map, 'varianten-herberekend.jsonl'), nieuw.map(r => JSON.stringify(r)).join('\n') + '\n');
+  const telling = (rs) => `${rs.filter(r => r.geslaagd).length}/${rs.length}`;
+  console.log(`herberekend: voor ${telling(rijen)}, na ${telling(nieuw)} (zonder API-aanroepen)`);
+  for (const r of nieuw.filter(r => !r.geslaagd)) console.log('niet geslaagd:', JSON.stringify(r));
 }
 
 // PLAN 14, B-4 (a) en (c): de zin om te zeggen staat in het Nederlands tussen aanhalingstekens,

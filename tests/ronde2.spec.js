@@ -175,3 +175,16 @@ test('budgethulp: zonder taalwissel begint de opening maar één keer', async ({
   expect(await page.evaluate(() => window.__weg)).toBe(0);
   await expect(page.locator('#berichten .bel-sol').filter({ hasText: '🤖' })).toHaveCount(1);
 });
+
+// ── R-5: de zin om te zeggen in het Nederlands, de betekenis in de eigen taal (B-3) ───────
+for (const [taal, naam] of [['AR', 'Arabic (العربية)'], ['NL', null]]) {
+  test(`goedvoorbereid ${taal}: systeemprompt vraagt een Nederlandse zin om te zeggen`, async ({ page }) => {
+    await metTaal(page, taal);
+    await page.goto('goedvoorbereid.html');
+    await page.waitForFunction(() => window.Solidari && window.Solidari.i18n);
+    const p = await page.evaluate(() => bouwSystemPrompt());
+    expect(p).toContain('altijd in eenvoudig Nederlands (niveau A2), tussen aanhalingstekens');
+    if (naam) expect(p).toContain(`wat die zin betekent in het ${naam}. De rest van je antwoord blijft in het ${naam}.`);
+    else expect(p).not.toContain('wat die zin betekent');
+  });
+}

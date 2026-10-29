@@ -8,7 +8,7 @@
 | Vraag | Antwoord | Bron |
 |---|---|---|
 | Naam env-variabele | `ANTHROPIC_API_KEY` | `config.py` (`load_dotenv('/etc/solidari/.env')`) |
-| Routes | `POST /api/analyseer` (brief, multipart `brief`+`taal`+`context`) · `POST /api/analyse` (budget/rechten, `{systeem, bericht}`?) · `POST /api/cursusblad` (reportlab; Digi Hulp — vervallen) · `GET /api/status` (zonstatus — vervalt) · `POST /api/inhibit/start|stop` (vervalt) · `GET /api/ping` · **nieuw** `GET /api/health` · **nieuw** `POST /api/tts` | `app.py`, `routes/*.py` |
+| Routes | `POST /api/analyseer` (brief, multipart `brief`+`taal`+`context`) · ~~`POST /api/analyse`~~ (budget/rechten): **sinds PLAN 13 (26-10-2026) van de VPS af**, geeft 404; budgethulp en rechten gaan via de Worker · `POST /api/cursusblad` (reportlab; Digi Hulp — vervallen) · `GET /api/status` (zonstatus — vervalt) · `POST /api/inhibit/start|stop` (vervalt) · `GET /api/ping` · **nieuw** `GET /api/health` · **nieuw** `POST /api/tts` | `app.py`, `routes/*.py` |
 | Responscontract brief | `{urgentie:{niveau,titel,tekst}|null, secties:[{icoon,titel,achtergrond,inhoud}], actiepunten:[str]}` — **niet aanraken** | `routes/brief.py` docstring, `services/ai.py` |
 | Model | `claude-sonnet-5-5`, effort `low` (sinds PLAN 13, 26-10-2026; instelbaar met `SOLIDARI_CLAUDE_MODEL` / `SOLIDARI_CLAUDE_EFFORT`). SDK `anthropic` 1.3.0 op de VPS | `config.py` |
 | CORS | Flask (`flask_cors`), origins: solidari.nl, www, localhost, 127.0.0.1, homeassistant.local:8123, 192.168.178.189. **Staging-origin ontbreekt** → toevoegen | `config.py` |
