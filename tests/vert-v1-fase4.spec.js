@@ -39,6 +39,8 @@ const STUB = () => {
 async function laad(page, pagina = 'rechten.html', { taal = 'NL', stand = 'aan' } = {}) {
   await metTaal(page, taal);
   await page.addInitScript((st) => { try { localStorage.setItem('solidari-voorlezen', st); } catch (e) {} }, stand);
+  // De eenmalige gesproken hint na de eerste tik (PLAN 15, B-2) test ronde3.spec.js; hier alleen de items.
+  await page.addInitScript(() => { try { sessionStorage.setItem('solidari-tik-hint-gezegd', '1'); } catch (e) {} });
   await page.addInitScript(STUB);
   await stubApi(page, '{}');
   await page.goto(pagina, { waitUntil: 'networkidle' });
@@ -141,8 +143,9 @@ test('footerlink: twee tikken', async ({ page }) => {
   await laad(page, 'index.html');   // de chatpagina's hebben geen footer
   const link = page.locator('#solidari-footer-bar .footer-midden a[href$="vertaalhulp.html"]');
   await link.scrollIntoViewIfNeeded();
+  const naam = await link.innerText();   // vóór de tik: daarna staat de hint (PLAN 15) in de link
   await link.tap();
-  await laatste(page, await link.innerText());
+  await laatste(page, naam);
   expect(page.url()).toMatch(/index\.html$/);
   await link.tap();
   await page.waitForURL(/vertaalhulp\.html$/);

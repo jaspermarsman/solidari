@@ -901,12 +901,42 @@
   function keuzeTekst(el) {
     const lees = (el.getAttribute('data-lees') || '').trim();
     if (lees) return zonderEmoji(lees);
-    return zonderEmoji(el.innerText || el.textContent) || zonderEmoji(el.getAttribute('aria-label') || el.getAttribute('title'));
+    // De hint (PLAN 15) hoort niet bij de knoptekst: even verbergen, dan telt innerText hem niet.
+    const hint = el.querySelector(':scope > .sol-a11y-tik-hint');
+    if (hint) hint.style.display = 'none';
+    try {
+      return zonderEmoji(el.innerText || el.textContent) || zonderEmoji(el.getAttribute('aria-label') || el.getAttribute('title'));
+    } finally { if (hint) hint.style.display = ''; }
   }
   function keuzeWis() {
     clearTimeout(keuzeTimer); keuzeTimer = null;
     if (keuzeGehoord) keuzeGehoord.classList.remove('sol-a11y-keuze-gehoord');
     keuzeGehoord = null; keuzeGehoordTot = 0;
+    document.querySelectorAll('.sol-a11y-tik-hint').forEach(h => h.remove());
+  }
+  // Zichtbare hint bij de opgelichte knop (PLAN 15, B-1): zonder hint lijkt de knop stuk.
+  // Hij staat ín de knop, onder de tekst, zodat hij niets bedekt; de CSS houdt de knop even breed.
+  // keuzeWis haalt hem weg vóór de klik van de pagina, dus de knoptekst blijft voor de pagina gelijk.
+  const HINT_GEZEGD = 'solidari-tik-hint-gezegd';
+  function keuzeHint(el) {
+    const tekst = t('a11y-tik-nog-eens', 'Tik nog een keer om te kiezen');
+    const hint = document.createElement('span');
+    hint.className = 'sol-a11y-tik-hint';
+    hint.setAttribute('role', 'status');
+    hint.textContent = /^👆/.test(tekst) ? tekst : '👆 ' + tekst;   // TI: alleen 👆👆 (B-3)
+    // In een flex-knop met gap geeft een extra kind een extra tussenruimte: die heft de marge op.
+    const gap = parseFloat(getComputedStyle(el).columnGap);
+    if (gap > 0) hint.style.marginInlineEnd = -gap + 'px';
+    el.appendChild(hint);
+    return zonderEmoji(tekst);
+  }
+  // Gesproken hint alleen de eerste keer per sessie (B-2). De vlag komt pas als de hint echt klinkt;
+  // zonder sessionStorage klinkt hij dus elke keer.
+  function hintAlGezegd() {
+    try { return !!sessionStorage.getItem(HINT_GEZEGD); } catch (e) { return false; }
+  }
+  function hintGezegd() {
+    try { sessionStorage.setItem(HINT_GEZEGD, '1'); } catch (e) {}
   }
   function keuzeKlik(e) {
     if (!luisterActief) return;
@@ -919,11 +949,15 @@
     if (!tekst) return;
     e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
     keuzeWis();
+    autoWis();   // wie tikt, neemt het over: nog niet opgenoemde keuzes komen er niet meer achteraan
     keuzeGehoord = el;
     keuzeGehoordTot = Date.now() + keuzeTijd;
     el.classList.add('sol-a11y-keuze-gehoord');
+    const hint = keuzeHint(el);
     keuzeTimer = setTimeout(keuzeWis, keuzeTijd);
-    zeg(tekst, { taal: stemTaalVan(el, taal) });
+    const knop = { tekst, taal: stemTaalVan(el, taal) };
+    if (hint && !hintAlGezegd()) zegReeks([knop, { tekst: hint, taal }], { taal, opStart: (_, i) => { if (i === 1) hintGezegd(); } });
+    else zeg(tekst, { taal: knop.taal });
   }
   // Een taalknop zegt zijn naam in zijn eigen taal ("English", "Polski") als daar een stem voor is.
   function stemTaalVan(el, taal) {

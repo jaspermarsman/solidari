@@ -110,6 +110,8 @@ test('een tik breekt de reeks af en leest de getikte knop voor (en de tweede tik
   expect(knoppen.length).toBeGreaterThan(3);
   const doel = page.locator(await page.evaluate(() => window.Solidari.spraak.keuzeSelector)).filter({ hasText: knoppen[knoppen.length - 1].naam.slice(0, 12) }).first();
   await page.evaluate(() => { const S = window.Solidari.spraak; S.keuzeTijd(6000); });
+  // De eenmalige gesproken hint na de eerste tik (PLAN 15, B-2) test ronde3.spec.js; hier telt alleen de knop.
+  await page.evaluate(() => sessionStorage.setItem('solidari-tik-hint-gezegd', '1'));
   await page.evaluate((sel) => {
     const el = [...document.querySelectorAll(sel)].filter((e) => window.Solidari.spraak.isKeuzeknop(e)).pop();
     el.__geklikt = 0; el.addEventListener('click', () => { el.__geklikt++; });

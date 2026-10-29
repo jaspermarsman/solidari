@@ -306,3 +306,26 @@ body.sol-a11y-luistermodus [data-lees] {
   color: var(--tekst, #1A1A18) !important;
   box-shadow: 0 0 0 7px rgba(232, 160, 32, 0.35) !important;
 }
+
+/* Hint onder de tekst van de opgelichte knop (PLAN 15, B-1). Hij staat in de knop en bedekt dus
+   niets. width 0 + min-width 100%: hij telt niet mee voor de breedte van de knop (die blijft gelijk,
+   de knop wordt alleen hoger) en vult daarna de hele regel. In een flex-knop komt hij zo, met
+   flex-wrap, op een eigen regel. */
+.sol-a11y-keuze-gehoord { flex-wrap: wrap; }
+.sol-a11y-tik-hint {
+  display: block;
+  flex: none;
+  width: 0;
+  min-width: 100%;
+  box-sizing: border-box;
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.25;
+  white-space: normal;
+  text-align: center;
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--amber-diep, #946000);
+  pointer-events: none;
+}
