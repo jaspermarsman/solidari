@@ -32,6 +32,9 @@
   -webkit-tap-highlight-color: transparent;
 }
 [dir="rtl"] .sol-a11y-knop { margin: -12px 0.4rem -12px 0; }
+/* PLAN 16, B-1: de knopjes alleen in de voorleesstand. Uit is uit: een rustige pagina voor wie leest.
+   Ze worden wel geplaatst, zodat aanzetten meteen werkt. De schakelaar in de menubalk blijft. */
+body:not(.sol-a11y-luistermodus) .sol-a11y-knop { display: none !important; }
 /* De zichtbare cirkel is kleiner (32px) dan het raakvlak (40px). */
 .sol-a11y-knop::before {
   content: '';
@@ -46,8 +49,9 @@
 .sol-a11y-knop > span { position: relative; }
 
 /* Chatballon: vaste plek, nooit inline in de tekst. De ballon houdt aan die kant ruimte vrij. */
-body .bel-sol { position: relative; padding-inline-end: 52px; min-height: 48px; }
-[dir="rtl"] body .bel-sol, body[dir="rtl"] .bel-sol, [dir="rtl"] .bel-sol { padding-inline-end: 52px; }
+/* De vrije ruimte alleen in de voorleesstand, net als het knopje (B-1). */
+body .bel-sol { position: relative; }
+body.sol-a11y-luistermodus .bel-sol { padding-inline-end: 52px; min-height: 48px; }
 .bel-sol .sol-a11y-knop,
 [dir="rtl"] .bel-sol .sol-a11y-knop {
   position: absolute;

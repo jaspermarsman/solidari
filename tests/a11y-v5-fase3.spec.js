@@ -365,7 +365,7 @@ test('verbergEmoji is idempotent, laat tekst en listeners heel en breekt keuzeTe
 
 // ── 9. Voorleesmodus (analfabeten) blijft werken ────────────────────────────
 test('🔊-knop: verborgen voor de schermlezer, maar een tik leest nog steeds voor', async ({ page }) => {
-  await laad(page, 'over.html');
+  await laad(page, 'over.html', { stand: 'aan' });   // PLAN 16 (B-1): knopjes alleen in de voorleesstand
   const knop = page.locator('.sol-a11y-knop').first();
   await expect(knop).toHaveAttribute('aria-hidden', 'true');
   await expect(knop).toHaveAttribute('tabindex', '-1');
@@ -376,7 +376,7 @@ test('🔊-knop: verborgen voor de schermlezer, maar een tik leest nog steeds vo
   // de voorleesschakelaar in de nav blijft een gewone, bereikbare knop
   const toggle = page.locator('.sol-a11y-luister-toggle');
   expect(await toggle.getAttribute('aria-hidden')).toBeNull();
-  await expect(page.getByRole('button', { name: 'Voorlezen uit' })).toHaveCount(1);
+  await expect(page.getByRole('button', { name: 'Voorlezen aan' })).toHaveCount(1);
 });
 
 test('voorleesstand: eerste tik op een chip met emoji leest de tekst zonder emoji, tweede tik kiest', async ({ page }) => {

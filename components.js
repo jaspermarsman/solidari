@@ -442,16 +442,20 @@
   }
 
   // ── Welkomstscherm (eerste bezoek): kies je taal, met stem ─────────────
+  // De geldige taalcode uit ?taal= in de link, of ''.
+  function taalUitLink() {
+    const m = /[?&]taal=([^&#]*)/i.exec(window.location.search);
+    let code = '';
+    try { code = m ? decodeURIComponent(m[1]).trim().toUpperCase() : ''; } catch (e) {}
+    return TALEN.some(t => t.code === code) ? code : '';
+  }
   function maakWelkom() {
     let gezien = false;
     try { gezien = localStorage.getItem('solidari-welkom-gezien') === '1'; } catch (e) {}
     if (gezien) return;
     // Een link met een geldige ?taal= is al een keuze: geen overlay, en het vlaggetje blijft ongezet,
     // zodat een later bezoek zonder parameter het scherm alsnog krijgt (PLAN 10, B-4).
-    const m = /[?&]taal=([^&#]*)/i.exec(window.location.search);
-    let code = '';
-    try { code = m ? decodeURIComponent(m[1]).trim().toUpperCase() : ''; } catch (e) {}
-    if (TALEN.some(t => t.code === code)) return;
+    if (taalUitLink()) return;
 
     const overlay = document.createElement('div');
     overlay.className = 'sol-a11y-welkom';
@@ -486,10 +490,93 @@
         const echt = document.querySelector(`#solidari-nav-bar .taal-btn[data-taal="${code}"]`);
         if (echt) echt.click();
         else if (window.Solidari && Solidari.i18n) Solidari.i18n.passToe(code);
+        // Tweede stap: de vraag of we moeten voorlezen (PLAN 16, B-2). De tik op de taal is het
+        // gebaar waarna de browser geluid toestaat, dus de vraag klinkt meteen.
+        try { if (vraagKan(code)) toonVraag(code, { welkom: true }); } catch (e) {}
       });
     });
 
     document.body.appendChild(overlay);
+  }
+
+  // ── De vraag "Wil je dat we voorlezen?" (PLAN 16, B-2 t/m B-5) ─────────
+  // De 🔊-knopjes staan er alleen in de voorleesstand (B-1). Wie niet kan lezen, kan het menu niet
+  // lezen; daarom vragen we het, met een gesproken vraag en pictogrammen, zonder lezen te kiezen.
+  //   - eerste bezoek: als tweede stap van het welkomstscherm (B-2);
+  //   - wie het welkomstscherm al zag of via een link met ?taal= binnenkwam: één keer, los (B-3, B-4);
+  //   - geen vraag in een taal zonder stem (TI, S-7) of op een toestel zonder stem in die taal (B-5).
+  const VRAAG_GEVRAAGD = 'solidari-voorlees-gevraagd';
+  function opgeslagen(sleutel) { try { return localStorage.getItem(sleutel); } catch (e) { return null; } }
+  function bewaar(sleutel, waarde) { try { localStorage.setItem(sleutel, waarde); } catch (e) {} }
+  function vraagKan(taal) {
+    const S = window.Solidari && Solidari.spraak;
+    const schakelaar = document.querySelector('.sol-a11y-luister-toggle');
+    return !!(S && schakelaar && !S.geenSpraak(taal) && S.beschikbaar(taal) && !S.luistermodus.staat());
+  }
+  function toonVraag(taal, opties) {
+    opties = opties || {};
+    const S = Solidari.spraak;
+    if (document.querySelector('.sol-a11y-vraag-scherm')) return;
+    bewaar(VRAAG_GEVRAAGD, '1');   // één keer gevraagd, wat er ook gekozen wordt
+    const vraag = tr('a11y-vraag-voorlezen', 'Wil je dat we voorlezen?');
+    const scherm = document.createElement('div');
+    scherm.className = 'sol-a11y-vraag-scherm' + (opties.welkom ? '' : ' sol-a11y-vraag-los');
+    scherm.setAttribute('role', 'dialog');
+    scherm.setAttribute('aria-label', vraag);
+    scherm.setAttribute('data-geen-lees', '');
+    scherm.innerHTML = `
+      <div class="sol-a11y-vraag-doos">
+        <button type="button" class="sol-a11y-vraag-luister" aria-label="${tr('a11y-luister', 'Luister')}"><span aria-hidden="true">🔊</span></button>
+        <div class="sol-a11y-vraag-tekst">${vraag}</div>
+        <div class="sol-a11y-vraag-knoppen">
+          <button type="button" class="sol-a11y-vraag-ja" data-keuze="nee"><span aria-hidden="true">🔊</span> <span>${tr('a11y-ja', 'Ja')}</span></button>
+          <button type="button" class="sol-a11y-vraag-nee" data-keuze="nee"><span aria-hidden="true">✕</span> <span>${tr('a11y-nee', 'Nee')}</span></button>
+        </div>
+      </div>`;
+    let geklonken = false;
+    const zegVraag = () => { if (scherm.isConnected) { geklonken = true; S.zegReeks([{ tekst: vraag, taal }], { taal }); } };
+    function klaar() { S.stop(); scherm.remove(); }
+    scherm.querySelector('.sol-a11y-vraag-ja').addEventListener('click', () => {
+      klaar();
+      // Dezelfde weg als de schakelaar in de menubalk: aan, uitleg gesproken en in beeld, label bij.
+      const schakelaar = document.querySelector('.sol-a11y-luister-toggle');
+      if (schakelaar && !S.luistermodus.staat()) schakelaar.click();
+    });
+    scherm.querySelector('.sol-a11y-vraag-nee').addEventListener('click', klaar);
+    scherm.addEventListener('keydown', (e) => { if (e.key === 'Escape') klaar(); });
+    // Een tik op het pictogram of naast de knoppen: nog een keer horen.
+    scherm.addEventListener('click', (e) => {
+      if (e.target.closest('.sol-a11y-vraag-ja, .sol-a11y-vraag-nee')) return;
+      S.ontgrendel();
+      zegVraag();
+    });
+    document.body.appendChild(scherm);
+    try { scherm.querySelector('.sol-a11y-vraag-ja').focus({ preventScroll: true }); } catch (e) {}
+    // Uitspreken mag pas na een gebaar. Na de taaltik is dat er; bij een los bezoek vaak nog niet,
+    // en dan wacht de vraag op een tik (het pictogram, of ernaast).
+    const ua = navigator.userActivation;
+    if (opties.welkom) {
+      // De taalknop zegt net de naam van de taal. De vraag komt daarna, anders breekt hij die af.
+      let n = 0;
+      (function naDeNaam() {
+        if ((n < 2 || S.bezig()) && n++ < 40) { setTimeout(naDeNaam, 150); return; }
+        if (!geklonken) zegVraag();   // al op het pictogram getikt: niet nog een keer
+      })();
+    } else if (!ua || ua.hasBeenActive) zegVraag();
+  }
+  // B-3 en B-4: één keer, los, voor wie het welkomstscherm niet (meer) krijgt.
+  function vraagBijBezoek() {
+    if (opgeslagen(VRAAG_GEVRAAGD) === '1' || opgeslagen('solidari-voorlezen') === 'aan') return;
+    if (opgeslagen('solidari-welkom-gezien') !== '1' && !taalUitLink()) return;   // het welkomstscherm vraagt het zelf
+    // Browserstemmen laden traag (Android soms seconden): even blijven proberen. Lukt het niet,
+    // dan wordt er niets bewaard en komt de vraag bij een volgend bezoek.
+    let poging = 0;
+    (function probeer() {
+      if (document.querySelector('.sol-a11y-welkom, .sol-a11y-vraag-scherm') || opgeslagen(VRAAG_GEVRAAGD) === '1') return;
+      const taal = (opgeslagen('solidari-taal') || 'NL').toUpperCase();
+      if (vraagKan(taal)) { toonVraag(taal); return; }
+      if (++poging < 16) setTimeout(probeer, 250);
+    })();
   }
 
   // ── Schermlezer-basis (PLAN-5 fase 3: I-3, I-4, I-7, B-3, B-4) ─────────
@@ -846,6 +933,7 @@
     koppelTaalKnoppen();
     koppelLuisterToggle();
     maakWelkom();
+    vraagBijBezoek();
     try { maakOpbouw(); a11yVerwerk(document.body); startA11yObserver(); } catch (e) {}
   }
 

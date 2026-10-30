@@ -24,7 +24,8 @@ const STUB = () => {
 
 async function laad(page, pagina, taal = 'NL') {
   await metTaal(page, taal);
-  await page.addInitScript(() => { try { localStorage.removeItem('solidari-voorlezen'); } catch (e) {} });
+  // PLAN 16 (B-1): de 🔊-knopjes staan er alleen in de voorleesstand; hun plek en maat meten we daar.
+  await page.addInitScript(() => { try { localStorage.setItem('solidari-voorlezen', 'aan'); } catch (e) {} });
   await page.addInitScript(STUB);
   await page.goto(pagina, { waitUntil: 'networkidle' });
   await page.waitForFunction(() => window.Solidari && window.Solidari.spraak);

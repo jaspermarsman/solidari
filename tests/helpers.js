@@ -9,10 +9,14 @@ const TALEN = ['NL', 'EN', 'AR', 'TR', 'TI', 'UK', 'FA', 'RO', 'PL'];
 
 // Zet de taal vóór het laden via localStorage, zodat components.js hem toepast.
 // Zet ook het welkom-gezien-vlaggetje: het welkomstscherm mag de tests niet blokkeren
-// (de welkomstscherm-test zelf gebruikt metTaal niet).
+// (de welkomstscherm-test zelf gebruikt metTaal niet). Idem de losse vraag "Wil je dat we
+// voorlezen?" (PLAN 16, B-3): die verschijnt anders bij elke test met een nagebootste stem.
 async function metTaal(page, taal) {
   await page.addInitScript((t) => {
-    try { localStorage.setItem('solidari-taal', t); localStorage.setItem('solidari-welkom-gezien', '1'); } catch (e) {}
+    try {
+      localStorage.setItem('solidari-taal', t); localStorage.setItem('solidari-welkom-gezien', '1');
+      localStorage.setItem('solidari-voorlees-gevraagd', '1');
+    } catch (e) {}
   }, taal);
 }
 

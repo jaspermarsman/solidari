@@ -416,6 +416,9 @@
     b.innerHTML = '<span aria-hidden="true">🔊</span>';
     b.addEventListener('click', (e) => {
       e.stopPropagation();
+      // PLAN 16, B-1: de knopjes horen bij de voorleesstand. Staat die uit, dan zijn ze verborgen
+      // (spraak.css) en lezen ze ook niets voor. Ze blijven wel staan, zodat aanzetten meteen werkt.
+      if (!luisterActief) return;
       if (b.classList.contains('sol-a11y-leest')) { stop(); b.classList.remove('sol-a11y-leest'); return; }
       document.querySelectorAll('.sol-a11y-knop.sol-a11y-leest').forEach(k => k.classList.remove('sol-a11y-leest'));
       const tekst = typeof bron === 'string' ? bron : leesTekst(bron);
