@@ -913,22 +913,27 @@
     if (keuzeGehoord) keuzeGehoord.classList.remove('sol-a11y-keuze-gehoord');
     keuzeGehoord = null; keuzeGehoordTot = 0;
     document.querySelectorAll('.sol-a11y-tik-hint').forEach(h => h.remove());
+    document.querySelectorAll('[data-sol-hint-anker]').forEach(k => { k.style.position = ''; delete k.dataset.solHintAnker; });
   }
-  // Zichtbare hint bij de opgelichte knop (PLAN 15, B-1): zonder hint lijkt de knop stuk.
-  // Hij staat ín de knop, onder de tekst, zodat hij niets bedekt; de CSS houdt de knop even breed.
+  // Zichtbaar label bij de opgelichte knop (PLAN 15, B-1 en W-G): zonder label lijkt de knop stuk.
+  // Eén korte regel ("👆 Nog een keer") met position:absolute op de bovenrand van de knop, zodat de
+  // knop niet van maat verandert. Gesproken wordt de hele zin (a11y-tik-nog-eens).
   // keuzeWis haalt hem weg vóór de klik van de pagina, dus de knoptekst blijft voor de pagina gelijk.
   const HINT_GEZEGD = 'solidari-tik-hint-gezegd';
   function keuzeHint(el) {
-    const tekst = t('a11y-tik-nog-eens', 'Tik nog een keer om te kiezen');
+    const kort = t('a11y-nog-eens', 'Nog een keer');
     const hint = document.createElement('span');
     hint.className = 'sol-a11y-tik-hint';
     hint.setAttribute('role', 'status');
-    hint.textContent = /^👆/.test(tekst) ? tekst : '👆 ' + tekst;   // TI: alleen 👆👆 (B-3)
-    // In een flex-knop met gap geeft een extra kind een extra tussenruimte: die heft de marge op.
-    const gap = parseFloat(getComputedStyle(el).columnGap);
-    if (gap > 0) hint.style.marginInlineEnd = -gap + 'px';
+    hint.textContent = /^👆/.test(kort) ? kort : '👆 ' + kort;   // TI: alleen 👆👆 (B-3)
+    // Een statische knop wordt even het ankerpunt; vaste of al geplaatste knoppen houden hun positie.
+    if (getComputedStyle(el).position === 'static') { el.style.position = 'relative'; el.dataset.solHintAnker = '1'; }
     el.appendChild(hint);
-    return zonderEmoji(tekst);
+    // Niet buiten het scherm: een label bij een knop aan de rand schuift naar binnen.
+    const r = hint.getBoundingClientRect(), vw = document.documentElement.clientWidth;
+    const dx = r.left < 4 ? 4 - r.left : r.right > vw - 4 ? vw - 4 - r.right : 0;
+    if (dx) hint.style.left = 'calc(50% + ' + dx + 'px)';
+    return zonderEmoji(t('a11y-tik-nog-eens', 'Tik nog een keer om te kiezen'));
   }
   // Gesproken hint alleen de eerste keer per sessie (B-2). De vlag komt pas als de hint echt klinkt;
   // zonder sessionStorage klinkt hij dus elke keer.

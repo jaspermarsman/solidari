@@ -307,25 +307,27 @@ body.sol-a11y-luistermodus [data-lees] {
   box-shadow: 0 0 0 7px rgba(232, 160, 32, 0.35) !important;
 }
 
-/* Hint onder de tekst van de opgelichte knop (PLAN 15, B-1). Hij staat in de knop en bedekt dus
-   niets. width 0 + min-width 100%: hij telt niet mee voor de breedte van de knop (die blijft gelijk,
-   de knop wordt alleen hoger) en vult daarna de hele regel. In een flex-knop komt hij zo, met
-   flex-wrap, op een eigen regel. */
-.sol-a11y-keuze-gehoord { flex-wrap: wrap; }
+/* Label op de bovenrand van de opgelichte knop (PLAN 15, B-1 en W-G): één regel, position:absolute,
+   dus de knop houdt zijn maat. Het midden van het label ligt op de rand, zoals een legend; de knoptekst
+   blijft vrij (getest). pointer-events: none, zodat een tik erop gewoon de knop raakt. */
 .sol-a11y-tik-hint {
-  display: block;
-  flex: none;
-  width: 0;
-  min-width: 100%;
-  box-sizing: border-box;
-  margin-top: 0.25rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  line-height: 1.25;
-  white-space: normal;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  margin: 0;
+  padding: 0.05rem 0.45rem;
+  border-radius: 999px;
+  background: var(--amber-diep, #946000);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 1.2;
+  white-space: nowrap;
   text-align: center;
   text-transform: none;
   letter-spacing: normal;
-  color: var(--amber-diep, #946000);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.25);
   pointer-events: none;
 }

@@ -32,45 +32,56 @@ const hintTekst = (page, taal) => page.evaluate((t) => {
   const i = window.Solidari.i18n; const oud = i.getTaal(); i.passToe(t); const h = i.t('a11y-tik-nog-eens'); i.passToe(oud); return h;
 }, taal);
 
-// De hint mag niets bedekken: geen zichtbaar element buiten de eigen knop overlapt hem (B-1). De knop
-// wordt niet breder en de zijkanten blijven staan; hij wordt alleen hoger. In een zone die onderaan
-// vastzit (budgethulp) groeit hij naar boven. Wat telt: het vlak van de eerste tik ligt nog in
-// dezelfde knop, dus een tweede tik op dezelfde plek kiest.
-async function bedektNiets(page, knop, voor) {
+// W-G: het label staat met position:absolute op de bovenrand van de knop, in één regel. De knop
+// verandert niet van maat of plaats. Het label bedekt geen tekst (niet de eigen knoptekst, ook niet die
+// van een buurknop), staat in beeld en wordt niet afgeknipt. Een tik op dezelfde plek raakt dezelfde knop.
+async function labelKlopt(page, knop, voor) {
   const r = await page.evaluate((v) => {
     const h = document.querySelector('.sol-a11y-tik-hint');
     const knop = h.parentElement;
     const hr = h.getBoundingClientRect(), kr = knop.getBoundingClientRect();
-    const raakt = [];
-    for (const el of document.querySelectorAll('button, a, input, textarea, select, p, h1, h2, h3, li, label, .bel-sol, .bel-gebruiker')) {
-      if (el === knop || el.contains(knop) || knop.contains(el)) continue;
-      const s = getComputedStyle(el);
-      if (s.visibility === 'hidden' || s.display === 'none' || +s.opacity === 0) continue;
-      const r = el.getBoundingClientRect();
-      if (!r.width || !r.height) continue;
-      const x = Math.min(hr.right, r.right) - Math.max(hr.left, r.left);
-      const y = Math.min(hr.bottom, r.bottom) - Math.max(hr.top, r.top);
-      // Alleen wat er bovenop of eronder echt in beeld staat (geen dichtgeklapte menu's buiten beeld).
-      if (x > 1 && y > 1) {
-        const midden = document.elementFromPoint(Math.max(hr.left, r.left) + x / 2, Math.max(hr.top, r.top) + y / 2);
-        if (midden && !knop.contains(midden)) raakt.push((el.className || el.tagName) + ': ' + (el.textContent || '').trim().slice(0, 30));
+    const s = getComputedStyle(h);
+    // Alle zichtbare tekst op de pagina, behalve die van het label zelf.
+    const tekstOnder = [];
+    const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    for (let n; (n = w.nextNode());) {
+      if (!n.textContent.trim() || h.contains(n)) continue;
+      const ou = n.parentElement; const os = getComputedStyle(ou);
+      if (os.visibility === 'hidden' || os.display === 'none' || +os.opacity === 0) continue;
+      const rg = document.createRange(); rg.selectNodeContents(n);
+      for (const t of rg.getClientRects()) {
+        const x = Math.min(hr.right, t.right) - Math.max(hr.left, t.left);
+        const y = Math.min(hr.bottom, t.bottom) - Math.max(hr.top, t.top);
+        if (x > 0.5 && y > 0.5 && document.elementFromPoint(t.left + t.width / 2, t.top + t.height / 2) === ou)
+          tekstOnder.push((knop.contains(n) ? 'knoptekst: ' : '') + n.textContent.trim().slice(0, 30));
       }
     }
+    // Staat het label echt bovenop (niet afgeknipt, niet onder iets anders)? Even aanklikbaar maken.
+    h.style.pointerEvents = 'auto';
+    const punten = [[0.5, 0.5], [0.15, 0.5], [0.85, 0.5]].map(([fx, fy]) => document.elementFromPoint(hr.left + hr.width * fx, hr.top + hr.height * fy));
+    h.style.pointerEvents = '';
     const tik = document.elementFromPoint((v.left + v.right) / 2, (v.top + v.bottom) / 2);
-    return { raakt, binnen: hr.left >= kr.left - 1 && hr.right <= kr.right + 1 && hr.bottom <= kr.bottom + 1,
-      oudBinnen: kr.top <= v.top + 1 && kr.bottom >= v.bottom - 1,
+    return {
+      tekstOnder, zichtbaar: punten.every((p) => !!p && h.contains(p)),   // het pictogram zit in een eigen <span class="sol-emoji">
+      eenRegel: hr.height <= parseFloat(s.lineHeight) + parseFloat(s.paddingTop) + parseFloat(s.paddingBottom) + 1,
+      opRand: hr.top < kr.top && hr.bottom > kr.top,
+      maat: { left: kr.left, right: kr.right, top: kr.top, bottom: kr.bottom },
+      inBeeld: hr.left >= 0 && hr.right <= document.documentElement.clientWidth,
       zelfdeKnop: !!tik && (tik === knop || knop.contains(tik)),
-      links: kr.left, rechts: kr.right, vw: document.documentElement.clientWidth };
+    };
   }, voor);
-  expect(r.raakt, 'de hint bedekt niets').toEqual([]);
-  expect(r.binnen, 'de hint staat binnen de knop').toBe(true);
-  expect(Math.abs(r.links - voor.left), 'knop schuift niet opzij (links)').toBeLessThanOrEqual(1);
-  expect(Math.abs(r.rechts - voor.right), 'knop schuift niet opzij (rechts)').toBeLessThanOrEqual(1);
-  expect(r.oudBinnen, 'het oude knopvlak ligt binnen de knop').toBe(true);
+  expect(r.maat, 'de knop houdt zijn maat en plaats').toEqual({ left: voor.left, right: voor.right, top: voor.top, bottom: voor.bottom });
+  expect(r.eenRegel, 'het label is één regel').toBe(true);
+  expect(r.opRand, 'het label staat op de bovenrand').toBe(true);
+  expect(r.tekstOnder, 'het label bedekt geen tekst').toEqual([]);
+  expect(r.zichtbaar, 'het label staat bovenop en is niet afgeknipt').toBe(true);
+  expect(r.inBeeld, 'het label staat binnen het scherm').toBe(true);
   expect(r.zelfdeKnop, 'een tweede tik op dezelfde plek raakt dezelfde knop').toBe(true);
-  expect(r.rechts, 'binnen het scherm').toBeLessThanOrEqual(r.vw + 1);
 }
 const rect = (loc) => loc.evaluate((el) => { const r = el.getBoundingClientRect(); return { left: r.left, right: r.right, top: r.top, bottom: r.bottom }; });
+const labelTekst = (page, taal) => page.evaluate((t) => {
+  const i = window.Solidari.i18n; const oud = i.getTaal(); i.passToe(t); const h = i.t('a11y-nog-eens'); i.passToe(oud); return h;
+}, taal);
 
 const { defaultBrowserType, ...PIXEL5 } = devices['Pixel 5'];
 test.describe('T-1 hint bij twee tikken', () => {
@@ -84,9 +95,9 @@ test.describe('T-1 hint bij twee tikken', () => {
     const voor = await rect(knop);
     await knop.click();
     const hint = knop.locator('.sol-a11y-tik-hint');
-    await expect(hint).toHaveText('👆 Tik nog een keer om te kiezen');
+    await expect(hint).toHaveText('👆 Nog een keer');
     await expect(hint).toHaveAttribute('role', 'status');
-    await bedektNiets(page, knop, voor);
+    await labelKlopt(page, knop, voor);
     await expect.poll(() => gezegd(page)).toMatch(/\| Tik nog een keer om te kiezen$/);
     expect((await page.evaluate(() => window.__spoken))[0]).not.toContain('Tik nog');
     await knop.click();
@@ -190,21 +201,22 @@ test.describe('T-1 hint bij twee tikken', () => {
     await expect(page.locator('.sol-a11y-tik-hint, .sol-a11y-keuze-gehoord')).toHaveCount(0);
   });
 
-  test('budgethulp AR (RTL): hint in het Arabisch, bedekt niets', async ({ page }) => {
+  test('budgethulp AR (RTL): label in het Arabisch, knop houdt zijn maat', async ({ page }) => {
     await laad(page, 'budgethulp.html', { taal: 'AR' });
     expect(await page.evaluate(() => document.documentElement.dir)).toBe('rtl');
     const knop = page.locator('.keuze-btn').first();
     await knop.waitFor({ state: 'visible', timeout: 15000 });
     const voor = await rect(knop);
     await knop.click();
-    await expect(knop.locator('.sol-a11y-tik-hint')).toHaveText('👆 ' + await hintTekst(page, 'AR'));
-    await bedektNiets(page, knop, voor);
+    await expect(knop.locator('.sol-a11y-tik-hint')).toHaveText('👆 ' + await labelTekst(page, 'AR'));
+    await labelKlopt(page, knop, voor);
     await expect.poll(() => gezegd(page)).toContain(await hintTekst(page, 'AR'));
   });
 
   test('TI: één tik kiest, geen hint (geen stem, S-7); TI-tekst is alleen 👆👆 (B-3)', async ({ page }) => {
     await laad(page, 'budgethulp.html', { taal: 'TI' });
     expect(await hintTekst(page, 'TI')).toBe('👆👆');
+    expect(await labelTekst(page, 'TI')).toBe('👆👆');
     const knop = page.locator('.keuze-btn').first();
     await knop.waitFor({ state: 'visible', timeout: 15000 });
     await knop.click();
@@ -213,7 +225,7 @@ test.describe('T-1 hint bij twee tikken', () => {
   });
 
   for (const taal of ['NL', 'EN', 'AR', 'TR', 'TI', 'UK', 'FA', 'RO', 'PL']) {
-    test(`i18n ${taal}: a11y-tik-nog-eens bestaat`, async ({ page }) => {
+    test(`i18n ${taal}: a11y-tik-nog-eens en a11y-nog-eens bestaan`, async ({ page }) => {
       await metTaal(page, taal);
       await page.goto('over.html');
       await page.waitForFunction(() => window.Solidari && window.Solidari.i18n);
@@ -221,13 +233,17 @@ test.describe('T-1 hint bij twee tikken', () => {
       expect(h).not.toBe('a11y-tik-nog-eens');
       expect(h.length).toBeGreaterThan(1);
       if (taal !== 'NL' && taal !== 'TI') expect(h).not.toBe('Tik nog een keer om te kiezen');
+      const k = await labelTekst(page, taal);
+      expect(k).not.toBe('a11y-nog-eens');
+      if (taal !== 'TI') expect(k.length, 'het label is korter dan de gesproken zin').toBeLessThan(h.length);
+      if (taal !== 'NL' && taal !== 'TI') expect(k).not.toBe('Nog een keer');
     });
   }
 });
 
 // De taalknoppen in het mobiele menu: het geval waar R-1 (PLAN 14) mee begon.
 for (const [taal, breedte] of [['NL', 375], ['AR', 375], ['NL', 1280], ['AR', 1280]]) {
-  test(`brief ${taal} ${breedte}px: taalknop in de voorleesstand toont de hint, bedekt niets`, async ({ page }) => {
+  test(`brief ${taal} ${breedte}px: taalknop in de voorleesstand toont het label, knop houdt zijn maat`, async ({ page }) => {
     await page.setViewportSize({ width: breedte, height: breedte < 600 ? 667 : 800 });
     await laad(page, 'brief.html', { taal });
     if (breedte < 600) {
@@ -246,12 +262,38 @@ for (const [taal, breedte] of [['NL', 375], ['AR', 375], ['NL', 1280], ['AR', 12
     const voor = await rect(knop);
     await knop.click();
     await expect(knop.locator('.sol-a11y-tik-hint')).toHaveCount(1);
-    await bedektNiets(page, knop, voor);
+    await labelKlopt(page, knop, voor);
     expect(await page.evaluate(() => localStorage.getItem('solidari-taal'))).toBe(taal);
     await knop.click();
     await expect.poll(() => page.evaluate(() => localStorage.getItem('solidari-taal'))).toBe('PL');
     await expect(page.locator('.sol-a11y-tik-hint')).toHaveCount(0);
   });
+}
+
+// W-G: vóór en na de eerste tik dezelfde maat, op 375 px, in LTR en RTL, op elke knop van de keuzezone.
+for (const pagina of ['budgethulp.html', 'goedvoorbereid.html']) {
+  for (const taal of ['NL', 'AR']) {
+    test(`${pagina} ${taal} 375px: elke keuzeknop houdt zijn maat, het label bedekt geen tekst`, async ({ page }) => {
+      await page.setViewportSize({ width: 375, height: 667 });
+      await laad(page, pagina, { taal });
+      const knoppen = page.locator('.keuze-btn');
+      await knoppen.first().waitFor({ state: 'visible', timeout: 15000 });
+      await page.waitForFunction(() => typeof _bezig === 'undefined' || !_bezig, null, { timeout: 20000 });
+      await page.waitForTimeout(1500);
+      await page.evaluate(() => { window.Solidari.spraak.stop(); window.Solidari.spraak.keuzeTijd(6000); });
+      const n = await knoppen.count();
+      expect(n).toBeGreaterThan(1);
+      for (let i = 0; i < n; i++) {
+        const knop = knoppen.nth(i);
+        await knop.scrollIntoViewIfNeeded();
+        const voor = await rect(knop);
+        await knop.click();
+        await expect(knop.locator('.sol-a11y-tik-hint')).toHaveText('👆 ' + await labelTekst(page, taal));
+        await labelKlopt(page, knop, voor);
+        await page.evaluate(() => window.Solidari.spraak.stop());
+      }
+    });
+  }
 }
 
 // ── T-2 en T-3: Solidari.opmaak, cursief en leesrichting (B-4, B-5) ────────────────────────
