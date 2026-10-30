@@ -399,7 +399,9 @@
   }
 
   // ── Knop en scan ───────────────────────────────────────────────────────
-  function knop(tekst, taal) {
+  // `bron` is een tekst, of het blok zelf: dan wordt de tekst pas bij de tik bepaald (leesTekst),
+  // zodat hij klopt na een taalwissel of na het aanvinken van een checklistregel (B-10).
+  function knop(bron, taal) {
     taal = taal || actieveTaal();
     const b = document.createElement('button');
     b.type = 'button';
@@ -416,6 +418,7 @@
       e.stopPropagation();
       if (b.classList.contains('sol-a11y-leest')) { stop(); b.classList.remove('sol-a11y-leest'); return; }
       document.querySelectorAll('.sol-a11y-knop.sol-a11y-leest').forEach(k => k.classList.remove('sol-a11y-leest'));
+      const tekst = typeof bron === 'string' ? bron : leesTekst(bron);
       zeg(tekst, {
         taal,
         opStart: () => b.classList.add('sol-a11y-leest'),
@@ -481,7 +484,7 @@
         if (bestaande.classList.contains('sol-a11y-leest')) stop();
         bestaande.remove();
       }
-      const tekst = el.getAttribute('data-lees') || el.textContent;
+      const tekst = leesTekst(el);
       if (!normaliseer(tekst)) continue;
       // Claim het element vóór de await, anders glipt een gelijktijdige scan erlangs.
       el.dataset.solA11yKlaar = 'bezig';
@@ -494,7 +497,7 @@
         continue;
       }
       if (!leverbaar) { el.dataset.solA11yKlaar = 'leeg'; el.dataset.solA11yTaal = taal; continue; }
-      if (!el.querySelector(':scope > .sol-a11y-knop')) el.appendChild(knop(tekst, taal));
+      if (!el.querySelector(':scope > .sol-a11y-knop')) el.appendChild(knop(el, taal));
       el.dataset.solA11yKlaar = '1';
       el.dataset.solA11yTaal = taal;
     }
@@ -897,6 +900,56 @@
   function zonderEmoji(tekst) {
     return String(tekst == null ? '' : tekst).replace(EMOJI_RE, ' ').replace(/\s+/g, ' ').trim();
   }
+  // ── Wat een blok zegt (PLAN 16, B-7) ───────────────────────────────────
+  // Eén functie voor alle voorleesplekken. Vroeger was het `data-lees || textContent`, en in
+  // textContent zat het al geplaatste 🔊-knopje: de stem zei na elke zin "luidspreker".
+  // Bron-tekst (textContent), geen innerText: een kop die CSS in hoofdletters zet ("ONZE AANPAK")
+  // zou een stem anders als losse letters kunnen uitspreken (B-8, net als menuTekst).
+  const LEES_NIET = '.sol-a11y-knop, .sol-a11y-mic, .sol-a11y-tik-hint, [aria-hidden="true"], script, style';
+  function bronTekst(el) {
+    let s = '';
+    (function loop(n) {
+      for (const c of n.childNodes) {
+        if (c.nodeType === 3) s += c.nodeValue;
+        else if (c.nodeType === 1 && !c.matches(LEES_NIET)) { if (c.matches('br')) s += ' '; else loop(c); }
+      }
+    })(el);
+    return zonderEmoji(s);
+  }
+  function hoofdletter(s) { return s ? s.charAt(0).toLocaleUpperCase() + s.slice(1) : s; }
+  // Zinnen achter elkaar met een punt ertussen, zonder ".." of "?." (B-10).
+  function zinnen(delen) {
+    return delen.map(d => d.replace(/[\s.,;:،]+$/u, '')).filter(Boolean)
+      .reduce((s, d) => !s ? d : s + (/[!?؟]$/u.test(s) ? ' ' : '. ') + d, '');
+  }
+  function leesTekst(el) {
+    if (!el) return '';
+    const lees = (el.getAttribute('data-lees') || '').trim();
+    if (lees) return zonderEmoji(lees);
+    // Een vakje uit delen (B-9): "7" + "Gratis tools" → "7 Gratis tools", in de taal van nu.
+    if (el.hasAttribute('data-lees-delen')) {
+      return [...el.children].filter(c => !c.matches(LEES_NIET)).map(bronTekst).filter(Boolean).join(' ');
+    }
+    // Een regel om af te vinken (B-10): tekst, subtekst en de stand op het moment van voorlezen.
+    if (el.hasAttribute('data-lees-vink')) {
+      const delen = [...el.querySelectorAll('[data-lees-deel]')].map(bronTekst);
+      if (!delen.some(Boolean)) delen.push(bronTekst(el));
+      const af = el.matches('.gedaan, [aria-checked="true"]') || !!el.querySelector('input[type="checkbox"]:checked');
+      delen.push(hoofdletter(zonderEmoji(af ? t('a11y-afgevinkt', 'afgevinkt') : t('a11y-niet-gedaan', 'nog niet gedaan'))));
+      return zinnen(delen);
+    }
+    const tekst = bronTekst(el);
+    // De titel van een checklist zegt dát het een checklist is (B-10): "Checklist: klik aan …".
+    if (el.getAttribute('data-lees-rol') === 'checklist') {
+      const woord = zonderEmoji(t('a11y-checklist', 'Checklist'));
+      if (!woord) return tekst;
+      let rest = tekst;
+      if (rest.toLocaleLowerCase().startsWith(woord.toLocaleLowerCase())) rest = rest.slice(woord.length);
+      rest = rest.replace(/^[\s—–:-]+/u, '');
+      return rest ? woord + ': ' + rest : woord;
+    }
+    return tekst;
+  }
   // Wat wordt er bij de eerste tik gezegd? data-lees als dat er is, anders de zichtbare tekst zonder emoji.
   function keuzeTekst(el) {
     const lees = (el.getAttribute('data-lees') || '').trim();
@@ -1034,7 +1087,7 @@
   }
   function autoBallon(bel, poging) {
     if (!autoKan() || !bel.isConnected || autoGezien.has(bel)) return;
-    const tekst = zonderEmoji(bel.textContent);
+    const tekst = leesTekst(bel);
     if (!tekst) { if (!poging) setTimeout(() => autoBallon(bel, 1), 200); return; }   // tekst wordt nog gevuld
     autoGezien.add(bel);
     if (!autoSinds) autoSinds = Date.now() - 50;
@@ -1093,7 +1146,7 @@
     const taal = (el.getAttribute('data-lees-taal') || actieveTaal()).toUpperCase();
     // Geen oplichtend blok voor een taal die toch niet gelezen wordt (S-7).
     if (geenSpraak(taal)) return;
-    const tekst = el.getAttribute('data-lees') || el.textContent;
+    const tekst = leesTekst(el);
     document.querySelectorAll('.sol-a11y-leest-blok').forEach(x => x.classList.remove('sol-a11y-leest-blok'));
     el.classList.add('sol-a11y-leest-blok');
     zeg(tekst, { taal, opEinde: () => el.classList.remove('sol-a11y-leest-blok'), opFout: () => el.classList.remove('sol-a11y-leest-blok') });
@@ -1165,6 +1218,7 @@
     keuzeSelector: KEUZE_SEL, isKeuzeknop: (el) => !!keuzeKnopVan(el), keuzeTekst,
     menuVoorlezen, menuTekst, navKeuzeSelector: NAV_KEUZE_SEL,   // vert-v1 fase 4
     zonderEmoji, emojiRe: EMOJI_RE,   // gedeeld met components.js (verbergEmoji, PLAN-5 fase 3)
+    leesTekst,                        // PLAN 16, B-7: wat een blok zegt
     keuzeTijd: (ms) => { if (typeof ms === 'number' && ms > 0) keuzeTijd = ms; return keuzeTijd; },
     // testhaken (niet-openbaar bedoeld, wel handig in acceptatietests)
     _kiesLaag, _normaliseer: normaliseer, _hashVan: hashVan, _actieveTaal: actieveTaal,
