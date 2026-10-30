@@ -62,6 +62,12 @@ body.sol-a11y-luistermodus .bel-sol { padding-inline-end: 52px; min-height: 48px
 }
 [dir="rtl"] .bel-sol .sol-a11y-knop { right: auto; left: 4px; }
 
+/* Een vakje uit delen (PLAN 16, B-9, bijv. de cijfervakjes op index.html): het knopje rechtsboven
+   in het vakje (RTL: linksboven), niet op een eigen regel onder het label (W-H). */
+[data-lees-delen] { position: relative; }
+[data-lees-delen] > .sol-a11y-knop { position: absolute; top: 4px; right: 4px; left: auto; margin: 0; }
+[dir="rtl"] [data-lees-delen] > .sol-a11y-knop { right: auto; left: 4px; }
+
 .sol-a11y-knop:hover::before { background: #dcece1; }
 .sol-a11y-knop:active { transform: scale(0.94); }
 

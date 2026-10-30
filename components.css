@@ -659,3 +659,5 @@ main.sol-main-flex { display: flex; flex-direction: column; flex: 1 1 auto; min-
 .sol-a11y-vraag-luister:focus-visible,
 .sol-a11y-vraag-ja:focus-visible,
 .sol-a11y-vraag-nee:focus-visible { outline: 3px solid var(--amber, #E8A020); outline-offset: 2px; }
+/* Nog geen toets gebruikt (de focus kwam van het script): geen ring. */
+.sol-a11y-vraag-stil :focus-visible { outline: none; }

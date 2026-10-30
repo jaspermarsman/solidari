@@ -335,9 +335,10 @@
     document.querySelectorAll('.taal-btn[data-taal]').forEach(btn => {
       btn.addEventListener('click', () => {
         passTaalToe(btn.dataset.taal);
-        // Gesproken bevestiging: de taalnaam in díe taal (uit de clips)
+        // Gesproken bevestiging: de taalnaam in díe taal. Alleen in de voorleesstand: uit is uit
+        // (PLAN 16, W-H). Het welkomstscherm zegt hem zelf, ook met de stand uit.
         const naam = btn.dataset.naam;
-        if (window.Solidari && Solidari.spraak && naam) {
+        if (window.Solidari && Solidari.spraak && naam && Solidari.spraak.luistermodus.staat()) {
           Solidari.spraak.ontgrendel();
           Solidari.spraak.zeg(naam, { taal: btn.dataset.taal });
         }
@@ -490,6 +491,8 @@
         const echt = document.querySelector(`#solidari-nav-bar .taal-btn[data-taal="${code}"]`);
         if (echt) echt.click();
         else if (window.Solidari && Solidari.i18n) Solidari.i18n.passToe(code);
+        // De naam van de taal, in die taal: wie niet kan lezen hoort zo wat hij koos.
+        if (window.Solidari && Solidari.spraak && kaart.dataset.naam) Solidari.spraak.zeg(kaart.dataset.naam, { taal: code });
         // Tweede stap: de vraag of we moeten voorlezen (PLAN 16, B-2). De tik op de taal is het
         // gebaar waarna de browser geluid toestaat, dus de vraag klinkt meteen.
         try { if (vraagKan(code)) toonVraag(code, { welkom: true }); } catch (e) {}
@@ -551,15 +554,21 @@
       zegVraag();
     });
     document.body.appendChild(scherm);
-    try { scherm.querySelector('.sol-a11y-vraag-ja').focus({ preventScroll: true }); } catch (e) {}
+    // Ja krijgt de focus (toetsenbord, schermlezer). Chrome toont bij focus() zonder eerdere muistik
+    // toch :focus-visible; de ring hoort pas bij wie het toetsenbord gebruikt (W-H).
+    scherm.classList.add('sol-a11y-vraag-stil');
+    scherm.addEventListener('keydown', () => scherm.classList.remove('sol-a11y-vraag-stil'));
+    try { scherm.querySelector('.sol-a11y-vraag-ja').focus({ preventScroll: true, focusVisible: false }); } catch (e) {}
     // Uitspreken mag pas na een gebaar. Na de taaltik is dat er; bij een los bezoek vaak nog niet,
     // en dan wacht de vraag op een tik (het pictogram, of ernaast).
     const ua = navigator.userActivation;
     if (opties.welkom) {
-      // De taalknop zegt net de naam van de taal. De vraag komt daarna, anders breekt hij die af.
-      let n = 0;
+      // Het welkomstscherm zegt net de naam van de taal. De vraag komt daarna, anders breekt hij die
+      // af; een stem die blijft hangen houdt de vraag hoogstens 2 s op (W-H).
+      const begin = Date.now();
       (function naDeNaam() {
-        if ((n < 2 || S.bezig()) && n++ < 40) { setTimeout(naDeNaam, 150); return; }
+        const verstreken = Date.now() - begin;
+        if ((verstreken < 300 || S.bezig()) && verstreken < 2000) { setTimeout(naDeNaam, 150); return; }
         if (!geklonken) zegVraag();   // al op het pictogram getikt: niet nog een keer
       })();
     } else if (!ua || ua.hasBeenActive) zegVraag();

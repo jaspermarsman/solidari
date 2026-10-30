@@ -418,3 +418,83 @@ test.describe('V-1 de vraag op 375 px', () => {
     });
   }
 });
+
+// ── W-H: knopje rechtsboven, focusring, wachttijd, taalnaam ────────────────────────────────
+test.describe('W-H', () => {
+  for (const [taal, rtl] of [['NL', false], ['AR', true]]) {
+    test(`cijfervakjes ${taal}: het knopje staat ${rtl ? 'linksboven' : 'rechtsboven'} in het vakje en bedekt geen tekst`, async ({ page }) => {
+      await page.setViewportSize({ width: 375, height: 740 });
+      await laad(page, 'index.html', { taal });
+      const m = await page.evaluate((isRtl) => [...document.querySelectorAll('.stat-item')].map((v) => {
+        const k = v.querySelector(':scope > .sol-a11y-knop').getBoundingClientRect();
+        const r = v.getBoundingClientRect();
+        let overlap = 0;
+        for (const d of v.querySelectorAll('.stat-getal, .stat-label')) {
+          const rg = document.createRange(); rg.selectNodeContents(d);
+          for (const t of rg.getClientRects()) {
+            if (Math.min(t.right, k.right) - Math.max(t.left, k.left) > 1 && Math.min(t.bottom, k.bottom) - Math.max(t.top, k.top) > 1) overlap++;
+          }
+        }
+        return {
+          binnen: k.left >= r.left && k.right <= r.right && k.top >= r.top && k.bottom <= r.bottom,
+          boven: k.top - r.top < 10,
+          kant: isRtl ? k.left - r.left < 10 : r.right - k.right < 10,
+          maat: k.width >= 40 && k.height >= 40,
+          overlap,
+        };
+      }), rtl);
+      expect(m).toHaveLength(4);
+      for (const v of m) expect(v).toEqual({ binnen: true, boven: true, kant: true, maat: true, overlap: 0 });
+    });
+  }
+
+  test('de Ja-knop heeft de focus, maar de ring komt pas na het toetsenbord', async ({ page }) => {
+    await vers(page, { opslag: { 'solidari-welkom-gezien': '1', 'solidari-taal': 'NL' } });
+    await page.goto('index.html', { waitUntil: 'networkidle' });
+    const ja = page.locator(`${VRAAG} .sol-a11y-vraag-ja`);
+    await expect(ja).toBeFocused();
+    expect(await ja.evaluate((b) => getComputedStyle(b).outlineStyle)).toBe('none');
+    await page.keyboard.press('Tab');
+    const nee = page.locator(`${VRAAG} .sol-a11y-vraag-nee`);
+    await expect(nee).toBeFocused();
+    expect(await nee.evaluate((b) => getComputedStyle(b).outlineStyle)).toBe('solid');
+  });
+
+  test('een stem die blijft hangen bij de taalnaam houdt de vraag hoogstens 2 s op', async ({ page }) => {
+    await vers(page, { stem: false });
+    await page.addInitScript(() => {
+      // Zoals de Google-stem in Chrome: de eerste zin begint en eindigt nooit.
+      window.__spoken = []; window.__tijd = [];
+      function U(t) { this.text = t; }
+      Object.defineProperty(window, 'SpeechSynthesisUtterance', { configurable: true, writable: true, value: U });
+      let n = 0;
+      const s = {
+        getVoices: () => [{ lang: 'nl-NL', name: 'nl', localService: false, default: false }],
+        speak: (u) => { if (!u.text.trim()) return; window.__spoken.push(u.text); window.__tijd.push(Date.now()); if (n++ > 0) setTimeout(() => u.onend && u.onend(), 30); },
+        cancel() {}, pause() {}, resume() {}, get speaking() { return true; },
+      };
+      Object.defineProperty(window, 'speechSynthesis', { configurable: true, get: () => s });
+    });
+    await page.goto('index.html', { waitUntil: 'networkidle' });
+    await page.locator('.sol-a11y-welkom-kaart[data-taal="NL"]').click();
+    await expect.poll(() => page.evaluate(() => window.__spoken.join(' | ')), { timeout: 4000 }).toBe('Nederlands | Wil je dat we voorlezen?');
+    const wacht = await page.evaluate(() => window.__tijd[1] - window.__tijd[0]);
+    expect(wacht).toBeLessThan(2400);
+    expect(wacht).toBeGreaterThan(1500);   // wel gewacht: de naam kreeg zijn kans
+  });
+
+  test('taalknop in de menubalk: met de stand uit geen taalnaam, met de stand aan wel', async ({ page }) => {
+    await laad(page, 'index.html', { stand: 'uit' });
+    await page.evaluate(() => document.querySelector('#solidari-nav-bar .taal-btn[data-taal="EN"]').click());
+    await page.waitForTimeout(300);
+    expect(await gezegd(page)).toBe('');
+    expect(await page.evaluate(() => localStorage.getItem('solidari-taal'))).toBe('EN');   // de wissel zelf werkt
+    await page.evaluate(() => { document.querySelector('.sol-a11y-luister-toggle').click(); });
+    await page.waitForTimeout(300);
+    await page.evaluate(() => { window.Solidari.spraak.stop(); window.__spoken = []; });
+    // In de voorleesstand: eerste tik leest de knop, tweede kiest en bevestigt met de naam.
+    await page.evaluate(() => { const b = document.querySelector('#solidari-nav-bar .taal-btn[data-taal="PL"]'); b.click(); b.click(); });
+    await page.waitForTimeout(300);
+    expect(await gezegd(page)).toContain('Polski');
+  });
+});
