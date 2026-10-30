@@ -562,13 +562,13 @@ function render() {
   if (fase.checklist) {
     const checkTitel = (window.Solidari && Solidari.i18n) ? Solidari.i18n.t('18-checklist-titel') : '✅ Checklist — klik aan wat je hebt geregeld';
     html += `<div class="checklist-wrap">
-      <div class="checklist-titel">${checkTitel}</div>
+      <div class="checklist-titel" data-lees-rol="checklist">${checkTitel}</div>
       <ul class="checklist">
-        ${fase.checklist.map((item, i) => `<li class="checklist-item" id="check-${huidigeFase}-${i}">
+        ${fase.checklist.map((item, i) => `<li class="checklist-item" id="check-${huidigeFase}-${i}" data-lees="" data-lees-vink>
           <div class="check-box" onclick="toggleCheck(this)"></div>
           <div onclick="toggleCheck(this.previousElementSibling)">
-            <div class="checklist-tekst">${item.tekst}</div>
-            <div class="checklist-sub">${item.sub}</div>
+            <div class="checklist-tekst" data-lees-deel>${item.tekst}</div>
+            <div class="checklist-sub" data-lees-deel>${item.sub}</div>
           </div>
         </li>`).join('')}
       </ul>

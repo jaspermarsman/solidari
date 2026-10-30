@@ -504,7 +504,10 @@
   }
 
   // ── Auto-markering: zet data-lees op inhoudsblokken ────────────────────
-  const BLOK_SEL = 'p, h1, h2, h3, h4, li, blockquote, dt, dd, figcaption, .regel-zeg, .regel-intro, .regel-eigen, .regel-na, .bel-sol';
+  // [data-lees-rol]: een element dat geen h1–h4 is maar wel een kop (PLAN 16, B-8), bijv. een
+  // sectielabel ("kop") of de titel van een checklist ("checklist", zie leesTekst).
+  const BLOK_SEL = 'p, h1, h2, h3, h4, li, blockquote, dt, dd, figcaption, .regel-zeg, .regel-intro, .regel-eigen, .regel-na, .bel-sol, [data-lees-rol]';
+  const KOP_SEL = 'h1, h2, h3, h4, [data-lees-rol]';
   const UITSLUIT_SEL = 'nav, footer, #solidari-nav, #solidari-footer, #mob-menu, script, style, button, a, select, textarea, input, label, [data-lees], [data-geen-lees], [contenteditable="true"], .sol-a11y-knop, #sol-env-balk';
   function autoMarkeer(root) {
     root = root || document;
@@ -515,7 +518,8 @@
       const txt = normaliseer(el.textContent);
       // Chatbubbels (.bel-sol) en zeg-zinnen zijn altijd voorleesbaar, ook kort:
       // in een chat is elke vraag/knop-uitleg betekenisvol voor een niet-lezer.
-      const altijdLezen = el.classList.contains('regel-zeg') || el.classList.contains('bel-sol');
+      // Koppen ook: een kop zegt waar je bent, hoe kort hij ook is (B-8).
+      const altijdLezen = el.classList.contains('regel-zeg') || el.classList.contains('bel-sol') || el.matches(KOP_SEL);
       if (txt.length <= 40 && !altijdLezen) return;
       // de zeg-zinnen zijn Nederlands (D-07)
       if (el.classList.contains('regel-zeg')) el.setAttribute('data-lees-taal', 'NL');
@@ -1146,10 +1150,12 @@
     const taal = (el.getAttribute('data-lees-taal') || actieveTaal()).toUpperCase();
     // Geen oplichtend blok voor een taal die toch niet gelezen wordt (S-7).
     if (geenSpraak(taal)) return;
-    const tekst = leesTekst(el);
     document.querySelectorAll('.sol-a11y-leest-blok').forEach(x => x.classList.remove('sol-a11y-leest-blok'));
     el.classList.add('sol-a11y-leest-blok');
-    zeg(tekst, { taal, opEinde: () => el.classList.remove('sol-a11y-leest-blok'), opFout: () => el.classList.remove('sol-a11y-leest-blok') });
+    const lees = () => zeg(leesTekst(el), { taal, opEinde: () => el.classList.remove('sol-a11y-leest-blok'), opFout: () => el.classList.remove('sol-a11y-leest-blok') });
+    // Een checklistregel: de tik vinkt ook aan (de pagina, ná deze capture-listener). Eerst laten
+    // aanvinken, dan voorlezen, zodat je de nieuwe stand hoort (B-10).
+    if (el.hasAttribute('data-lees-vink')) setTimeout(lees, 0); else lees();
   }
   const luistermodus = {
     aan() {
