@@ -650,8 +650,8 @@
   <!-- PRIVACYMELDING + AKKOORD -->
   <div id="privacy-akkoord-blok" style="margin-bottom:1.5rem;">
     <div style="background:var(--amber-licht);border:1px solid var(--amber);border-radius:12px;padding:1.1rem 1.3rem;font-size:0.88rem;color:var(--tekst);line-height:1.6;">
-      <strong id="privacy-titel" style="color:var(--amber-diep);">🔒 Hoe gaan we om met je brief?</strong><br>
-      <span id="privacy-tekst">Een brief kan gevoelige informatie bevatten, bijvoorbeeld over je gezondheid of je verblijfsstatus. Je naam, adres, BSN en rekeningnummer worden <strong>op onze eigen server verwijderd</strong>. Alleen de overgebleven tekst gaat naar de AI-dienst <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener" style="color:var(--amber-diep);">Anthropic (Claude API)</a>. Er wordt niets bewaard. Je kunt de tool ook niet gebruiken en de brief aan je begeleider laten zien.</span>
+      <strong id="privacy-titel" data-lees-rol="kop" style="color:var(--amber-diep);">🔒 Hoe gaan we om met je brief?</strong><br>
+      <span id="privacy-tekst" data-lees="">Een brief kan gevoelige informatie bevatten, bijvoorbeeld over je gezondheid of je verblijfsstatus. Je naam, adres, BSN en rekeningnummer worden <strong>op onze eigen server verwijderd</strong>. Alleen de overgebleven tekst gaat naar de AI-dienst <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener" style="color:var(--amber-diep);">Anthropic (Claude API)</a>. Er wordt niets bewaard. Je kunt de tool ook niet gebruiken en de brief aan je begeleider laten zien.</span>
     </div>
     <div style="margin-top:0.9rem;display:flex;align-items:center;gap:0.6rem;">
       <input type="checkbox" id="privacy-checkbox" style="width:18px;height:18px;cursor:pointer;accent-color:var(--groen);">

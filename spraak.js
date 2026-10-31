@@ -509,8 +509,29 @@
   // ── Auto-markering: zet data-lees op inhoudsblokken ────────────────────
   // [data-lees-rol]: een element dat geen h1–h4 is maar wel een kop (PLAN 16, B-8), bijv. een
   // sectielabel ("kop") of de titel van een checklist ("checklist", zie leesTekst).
-  const BLOK_SEL = 'p, h1, h2, h3, h4, li, blockquote, dt, dd, figcaption, .regel-zeg, .regel-intro, .regel-eigen, .regel-na, .bel-sol, [data-lees-rol]';
-  const KOP_SEL = 'h1, h2, h3, h4, [data-lees-rol]';
+  //
+  // Koppen en tekst die als div of span in de pagina staan (PLAN 17, B-1). Eén lijst voor alle
+  // pagina's: een nieuwe div-kop is hier één regel extra.
+  // KOP_EXTRA: altijd voorleesbaar, hoe kort ook, net als h1–h4. Koppen, labels en korte vakjes;
+  //   ook de korte ondertitels, want die zijn in sommige talen korter dan 40 tekens.
+  // TEKST_EXTRA: lopende tekst, met dezelfde 40-tekensregel als een p.
+  const KOP_EXTRA = [
+    '.zon-cloud-titel', '.zon-cloud-sub',                                              // index
+    '.upload-titel', '.upload-sub', '.upload-formaten', '.context-titel', '.context-sub',
+    '.tips-titel', '.tip-item',                                                        // brief
+    '.header-badge', '.vraag-stap', '.leeftijd-label',                                 // naturalisatie, 18jaar
+    '.hero-label', '.sectie-label', '.principe-titel', '.arch-laag-naam', '.arch-uitleg-titel',
+    '.privacy-kaart-titel',                                                            // over
+  ];
+  const TEKST_EXTRA = [
+    '.over-kenmerk',                       // index
+    '.fase-intro-tekst', '.disclaimer',    // 18jaar (en de uitslag van brief)
+    '.arch-laag-detail',                   // over
+    '.privacynoot',                        // feedback, vertaalhulp
+  ];
+  const BLOK_SEL = ['p, h1, h2, h3, h4, li, blockquote, dt, dd, figcaption, .regel-zeg, .regel-intro, .regel-eigen, .regel-na, .bel-sol, [data-lees-rol]']
+    .concat(KOP_EXTRA, TEKST_EXTRA).join(', ');
+  const KOP_SEL = ['h1, h2, h3, h4, [data-lees-rol]'].concat(KOP_EXTRA).join(', ');
   const UITSLUIT_SEL = 'nav, footer, #solidari-nav, #solidari-footer, #mob-menu, script, style, button, a, select, textarea, input, label, [data-lees], [data-geen-lees], [contenteditable="true"], .sol-a11y-knop, #sol-env-balk';
   function autoMarkeer(root) {
     root = root || document;
