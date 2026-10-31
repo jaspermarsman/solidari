@@ -9,11 +9,14 @@ const { metTaal } = require('./helpers');
 const STUB = (opt) => {
   const VOICES = opt.geen ? [] : [{ lang: opt.lang || 'nl-NL', name: 'NL', localService: true, default: false }];
   const start = Date.now();
+  // handmatig: de stemmen komen pas als de test window.__stemmenNu() aanroept (PLAN 17, B-6).
+  let handmatigEr = false;
+  window.__stemmenNu = () => { handmatigEr = true; };
   window.__spoken = [];
   function Utter(t) { this.text = t; this.onend = null; this.onerror = null; this.voice = null; }
   Object.defineProperty(window, 'SpeechSynthesisUtterance', { configurable: true, writable: true, value: Utter });
   const synth = {
-    getVoices: () => (Date.now() - start < (opt.laat || 0) ? [] : VOICES),
+    getVoices: () => ((opt.handmatig ? !handmatigEr : Date.now() - start < (opt.laat || 0)) ? [] : VOICES),
     speak: (u) => { if (u.text.trim()) window.__spoken.push(u.text); setTimeout(() => u.onend && u.onend(), 0); },
     cancel: () => {}, pause: () => {}, resume: () => {}, get speaking() { return false; },
     // géén addEventListener en géén voiceschanged: het event komt op iOS vaak nooit
@@ -29,12 +32,16 @@ async function laad(page, opt) {
   await page.waitForFunction(() => window.Solidari && window.Solidari.spraak);
 }
 
+// PLAN 17, B-6: vroeger kwamen de stemmen op een vaste 1500 ms en keek de test 400 ms na
+// networkidle. Onder belasting was die speling op en stonden er al knoppen. Nu komen de stemmen
+// pas als de test dat zegt, en wacht hij met expect.poll op wat spraak.js doet.
 test('stemmen die pas laat komen (zonder voiceschanged) leveren alsnog knoppen op', async ({ page }) => {
-  await laad(page, { laat: 1500 });
-  await page.waitForTimeout(400);
+  await laad(page, { handmatig: true });
+  // Vóór de stemmen: de scan is geweest en heeft de blokken als "geen stem" beoordeeld.
+  await expect.poll(() => page.locator('[data-lees][data-sol-a11y-klaar="leeg"]').count(), { timeout: 10000 }).toBeGreaterThan(0);
   expect(await page.locator('.sol-a11y-knop').count()).toBe(0);
-  await page.waitForTimeout(2500);
-  expect(await page.locator('.sol-a11y-knop').count()).toBeGreaterThan(0);
+  await page.evaluate(() => window.__stemmenNu());
+  await expect.poll(() => page.locator('.sol-a11y-knop').count(), { timeout: 10000 }).toBeGreaterThan(0);
 });
 
 test("Android-notatie 'nl_NL' wordt herkend als Nederlandse stem", async ({ page }) => {
