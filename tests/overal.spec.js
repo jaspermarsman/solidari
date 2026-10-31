@@ -136,6 +136,10 @@ test.describe('P-2 links en toolkaarten', () => {
     expect(await gezegdSamen(page)).toMatch(/^Brief Begrijper\. Maak een foto van je brief\. Wij leggen uit wat er staat, wat je moet doen en wanneer\.?/);
     await expect(kaart.locator('.sol-a11y-tik-hint')).toBeVisible();
     await expect(kaart).toHaveClass(/sol-a11y-keuze-gehoord/);
+    // Opgelicht is het vlak licht: de witte kaarttekst moet dan meekleuren (gevonden in Chrome).
+    const kleur = await kaart.evaluate((a) => [getComputedStyle(a).color, getComputedStyle(a.querySelector('.tool-compact-naam')).color, getComputedStyle(a.querySelector('.tool-compact-omschrijving')).color]);
+    expect(kleur[1]).toBe(kleur[0]);
+    expect(kleur[2]).toBe(kleur[0]);
     await kaart.click();
     await page.waitForURL(/brief\.html/);
   });
