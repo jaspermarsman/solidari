@@ -235,6 +235,10 @@ test.describe('B-3 categoriekop op 18jaar.html', () => {
     await kop.click();
     await page.waitForTimeout(300);
     await expect(kaart).not.toHaveClass(/\bopen\b/);
+    // Het label "Nog een keer" staat binnen de kaart (die knipt af, gevonden in Chrome).
+    const r = await kaart.evaluate((k) => ({ k: k.getBoundingClientRect().toJSON(), h: k.querySelector('.sol-a11y-tik-hint').getBoundingClientRect().toJSON() }));
+    expect(r.h.top).toBeGreaterThanOrEqual(r.k.top);
+    expect(r.h.bottom).toBeLessThanOrEqual(r.k.bottom);
     const t = await gezegdSamen(page);
     // "Kindgebonden budget. Stopt op je verjaardag. Stopt." — de chip niet in hoofdletters.
     expect(t.startsWith(verwacht[0] + '. ')).toBe(true);

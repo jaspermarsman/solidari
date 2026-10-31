@@ -81,6 +81,9 @@ a[data-lees] > .sol-a11y-knop { bottom: 4px; }
 [dir="rtl"] a[data-lees] > .sol-a11y-knop,
 [dir="rtl"] [data-lees][data-keuze] > .sol-a11y-knop { right: auto; left: 4px; }
 body.sol-a11y-luistermodus [data-lees][data-keuze] { padding-top: 46px; }
+/* De kaart om de categoriekop knipt af (overflow: hidden): het label "Nog een keer" staat daarom niet
+   op de rand maar in die strook bovenaan. */
+[data-lees][data-keuze] > .sol-a11y-tik-hint { top: 12px; transform: translateX(-50%); }
 
 .sol-a11y-knop:hover::before { background: #dcece1; }
 .sol-a11y-knop:active { transform: scale(0.94); }
