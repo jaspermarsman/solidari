@@ -535,13 +535,13 @@ function render() {
     const badgeKlassen = { stopt: 'stopt-chip', nieuw: 'nieuw-chip', let: 'let-chip' };
     const badgeClass = badgeKlassen[cat.badgeKleur] || 'let-chip';
     html += `<div class="categorie-kaart${i === 0 ? ' open' : ''}" style="animation-delay:${i * 0.05}s">
-      <div class="categorie-header" onclick="toggleCategorie(this)">
+      <div class="categorie-header" data-lees="" data-keuze onclick="toggleCategorie(this)">
         <div class="categorie-icoon" style="background:${cat.kleur}">${cat.icoon}</div>
         <div class="categorie-info">
-          <div class="categorie-naam">${cat.naam}</div>
-          <div class="categorie-samenvatting">${cat.samenvatting}</div>
+          <div class="categorie-naam" data-lees-deel>${cat.naam}</div>
+          <div class="categorie-samenvatting" data-lees-deel>${cat.samenvatting}</div>
         </div>
-        <span class="${badgeClass}" style="font-size:0.875rem;font-weight:700;padding:2px 8px;border-radius:4px;flex-shrink:0">${cat.badge}</span>
+        <span class="${badgeClass}" data-lees-deel style="font-size:0.875rem;font-weight:700;padding:2px 8px;border-radius:4px;flex-shrink:0">${cat.badge}</span>
         <span class="categorie-pijl">▼</span>
       </div>
       <div class="categorie-body">

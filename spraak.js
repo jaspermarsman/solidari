@@ -416,6 +416,7 @@
     b.innerHTML = '<span aria-hidden="true">🔊</span>';
     b.addEventListener('click', (e) => {
       e.stopPropagation();
+      if (b.closest('a[href]')) e.preventDefault();   // PLAN 17, B-2: het knopje in een toolkaart volgt de link niet
       // PLAN 16, B-1: de knopjes horen bij de voorleesstand. Staat die uit, dan zijn ze verborgen
       // (spraak.css) en lezen ze ook niets voor. Ze blijven wel staan, zodat aanzetten meteen werkt.
       if (!luisterActief) return;
@@ -900,9 +901,13 @@
     '.upload-knop', '.analyseer-knop', '.actie-knop', '.nieuwe-brief-knop', '.volgende-knop',
     '.knop-primair', '.knop-secundair', '.controle-ok-btn', '.res-opnieuw-btn',
     '.ai-ja-btn', '.ai-nee-btn', '.nieuw-btn',
+    // links in de inhoud (PLAN 17, B-2): eerst horen waar de link heen gaat, dan pas weg.
+    // Een toolkaart of een klikbare kaartkop leest zijn delen (data-lees-deel) als zinnen.
+    'a[href]',
   ];
-  // Nooit: verstuurknoppen voor getypte tekst, de 🔊/🎤-knoppen, de voorleesschakelaar, de navigatie.
-  const KEUZE_UITGESLOTEN = '.stuur-btn, .verstuur-knop, .sol-a11y-knop, .sol-a11y-mic, .sol-a11y-luister-toggle, nav, #solidari-nav, #solidari-nav-bar, footer, #solidari-footer, [data-keuze="nee"]';
+  // Nooit: verstuurknoppen voor getypte tekst, de 🔊/🎤-knoppen, de voorleesschakelaar, de navigatie,
+  // en de skiplink "Naar inhoud" (die is voor het toetsenbord, PLAN 17).
+  const KEUZE_UITGESLOTEN = '.stuur-btn, .verstuur-knop, .sol-a11y-knop, .sol-a11y-mic, .sol-a11y-luister-toggle, nav, #solidari-nav, #solidari-nav-bar, footer, #solidari-footer, .sol-skip, [data-keuze="nee"]';
   const KEUZE_SEL = ['[data-keuze]'].concat(KEUZE_SELECTOREN).join(', ');
   let keuzeTijd = 6000;                 // ms tussen eerste en tweede tik
   let keuzeGehoord = null;              // de knop die net is voorgelezen
@@ -916,8 +921,9 @@
   // opent, en het menu wordt dan opgenoemd (menuVoorlezen, aangeroepen vanuit components.js).
   const NAV_KEUZE_SEL = '#mob-menu a[href], #mob-menu .taal-btn, #solidari-nav-bar .dropdown-menu a[href], ' +
     '#solidari-nav-bar .nav-links > li > a[href], #solidari-nav-bar .taal-dd-btn, #solidari-footer-bar .footer-midden a[href], ' +
-    '#solidari-footer-bar .footer-feedback';
+    '#solidari-footer-bar .footer-feedback, #solidari-nav-bar .nav-logo, #solidari-footer-bar .footer-logo';
   function keuzeKnopVan(doel) {
+    if (doel && doel.closest && doel.closest('.sol-a11y-knop')) return null;
     const nav = doel && doel.closest && doel.closest(NAV_KEUZE_SEL);
     if (nav) return nav;
     const el = doel && doel.closest && doel.closest(KEUZE_SEL);
@@ -945,6 +951,17 @@
     return zonderEmoji(s);
   }
   function hoofdletter(s) { return s ? s.charAt(0).toLocaleUpperCase() + s.slice(1) : s; }
+  // Een chip in hoofdletters in de bron ("STOPT", "NIEUW RECHT") klinkt als een gewoon woord (B-3).
+  // Pas vanaf vier letters, zodat een afkorting als "DUO" of "BSN" blijft staan.
+  function zachteKapitalen(s) {
+    const letters = s.replace(/[^\p{L}]/gu, '');
+    if (letters.length < 4 || letters !== letters.toLocaleUpperCase() || letters === letters.toLocaleLowerCase()) return s;
+    return hoofdletter(s.toLocaleLowerCase(document.documentElement.lang || undefined));
+  }
+  // De delen van een kaart of klikbare kop: alleen die van dít blok, niet van een blok erin.
+  function delenVan(el) {
+    return [...el.querySelectorAll('[data-lees-deel]')].filter(d => d.parentElement.closest('[data-lees], [data-keuze], a[href]') === el);
+  }
   // Zinnen achter elkaar met een punt ertussen, zonder ".." of "?." (B-10).
   function zinnen(delen) {
     return delen.map(d => d.replace(/[\s.,;:،]+$/u, '')).filter(Boolean)
@@ -966,6 +983,9 @@
       delen.push(hoofdletter(zonderEmoji(af ? t('a11y-afgevinkt', 'afgevinkt') : t('a11y-niet-gedaan', 'nog niet gedaan'))));
       return zinnen(delen);
     }
+    // Een toolkaart of klikbare kaartkop (PLAN 17, B-2/B-3): naam, omschrijving en chip als zinnen.
+    const delen = delenVan(el);
+    if (delen.length) return zinnen(delen.map(d => zachteKapitalen(bronTekst(d))));
     const tekst = bronTekst(el);
     // De titel van een checklist zegt dát het een checklist is (B-10): "Checklist: klik aan …".
     if (el.getAttribute('data-lees-rol') === 'checklist') {
@@ -982,6 +1002,11 @@
   function keuzeTekst(el) {
     const lees = (el.getAttribute('data-lees') || '').trim();
     if (lees) return zonderEmoji(lees);
+    if (delenVan(el).length) return leesTekst(el);
+    // Een link in de inhoud (B-2): de bron-tekst, zonder aria-hidden en zonder sierpijltjes (← →).
+    if (el.matches('a[href]') && !el.matches(NAV_KEUZE_SEL)) {
+      return bronTekst(el).replace(/[←→]/gu, ' ').replace(/\s+/g, ' ').trim() || zonderEmoji(el.getAttribute('aria-label') || el.getAttribute('title'));
+    }
     // De hint (PLAN 15) hoort niet bij de knoptekst: even verbergen, dan telt innerText hem niet.
     const hint = el.querySelector(':scope > .sol-a11y-tik-hint');
     if (hint) hint.style.display = 'none';
@@ -1089,6 +1114,12 @@
   let autoSinds = 0;
   const autoGezien = new WeakSet();   // ballonnen die al in de wachtrij zijn gezet
   let autoKnoppen = [];      // {el, t}: keuzeknoppen die net in de pagina kwamen
+  // Vanzelf opnoemen geldt voor keuzeknoppen, niet voor gewone links (PLAN 17): een link in een
+  // chatballon leest de ballon al voor, en het logo of een menulink hoort niet bij de keuzes van de chat.
+  const KEUZE_KNOP_SEL = ['[data-keuze]'].concat(KEUZE_SELECTOREN.filter(s => s !== 'a[href]')).join(', ');
+  function autoKeuze(k) {
+    return !!keuzeKnopVan(k) && (!k.matches('a[href]') || k.matches(KEUZE_KNOP_SEL));
+  }
   function autoKan() {
     if (!luisterActief) return false;
     const taal = actieveTaal();
@@ -1134,7 +1165,7 @@
     const ballonnen = [...document.querySelectorAll('.bel-sol')].filter(b => !b.closest('.typing') && !autoGezien.has(b));
     if (!ballonnen.length) return;
     document.querySelectorAll(KEUZE_SEL).forEach(k => {
-      if (k.closest('#berichten, #invoer-zone, #keuze-zone') && keuzeKnopVan(k)) autoKnoppen.push({ el: k, t: nu });
+      if (k.closest('#berichten, #invoer-zone, #keuze-zone') && autoKeuze(k)) autoKnoppen.push({ el: k, t: nu });
     });
     ballonnen.forEach(b => autoBallon(b));
   }
@@ -1157,7 +1188,7 @@
         else n.querySelectorAll('.bel-sol').forEach(b => autoBallon(b));
         if (luisterActief) {
           const kn = n.matches(KEUZE_SEL) ? [n] : [...n.querySelectorAll(KEUZE_SEL)];
-          kn.forEach(k => { if (keuzeKnopVan(k)) autoKnoppen.push({ el: k, t: nu }); });
+          kn.forEach(k => { if (autoKeuze(k)) autoKnoppen.push({ el: k, t: nu }); });
         }
       }
     }
@@ -1166,9 +1197,36 @@
 
   // ── Luistermodus (tik-om-te-lezen) ─────────────────────────────────────
   let luisterActief = false;
+  // Een tik op een label (PLAN 17, B-4) leest het label voor, met wat erbij hoort als één zin:
+  // "(optioneel)" staat in het label, de teller wijst het label aan met data-lees-met (ids).
+  // Daarna doet het label wat het altijd doet: de focus naar het veld. Geen 🔊-knopje: het veld
+  // heeft al een 🎤.
+  const LABEL_SEL = 'label, .veld-label';
+  function labelTekst(lab) {
+    const delen = [bronTekst(lab)];
+    (lab.getAttribute('data-lees-met') || '').split(/\s+/).filter(Boolean).forEach(id => {
+      const x = document.getElementById(id);
+      if (x) delen.push(bronTekst(x));
+    });
+    return delen.filter(Boolean).join(', ');
+  }
+  function labelKlik(e) {
+    // Niet het veld zelf: ook niet de klik die een label doorgeeft aan zijn veld.
+    if (e.target.closest('input, textarea, select, button, a, .sol-a11y-knop')) return;
+    const lab = e.target.closest(LABEL_SEL);
+    if (!lab || lab.closest('nav, footer, #solidari-nav, #solidari-footer, #mob-menu, [data-geen-lees]')) return;
+    const taal = actieveTaal();
+    if (geenSpraak(taal)) return;
+    const tekst = labelTekst(lab);
+    if (!tekst) return;
+    document.querySelectorAll('.sol-a11y-leest-blok').forEach(x => x.classList.remove('sol-a11y-leest-blok'));
+    lab.classList.add('sol-a11y-leest-blok');
+    const klaar = () => lab.classList.remove('sol-a11y-leest-blok');
+    zeg(tekst, { taal, opEinde: klaar, opFout: klaar });
+  }
   function luisterKlik(e) {
     const el = e.target.closest && e.target.closest('[data-lees]');
-    if (!el) return;
+    if (!el) { if (e.target.closest) labelKlik(e); return; }
     if (e.target.closest('.sol-a11y-knop')) return; // knop doet z'n eigen ding
     if (keuzeKnopVan(e.target)) return;             // keuzeknop: zie keuzeKlik (twee tikken)
     const taal = (el.getAttribute('data-lees-taal') || actieveTaal()).toUpperCase();

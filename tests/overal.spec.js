@@ -38,7 +38,7 @@ const P1 = {
   'brief.html': ['.upload-titel', '.upload-sub', '.upload-formaten', '.context-titel', '.context-sub',
     '.tips-titel', '.tip-item', '#privacy-titel', '#privacy-tekst'],
   'naturalisatie.html': ['.header-badge', '.vraag-stap'],
-  '18jaar.html': ['.header-badge', '.leeftijd-label', '.fase-intro-tekst', '.disclaimer'],
+  '18jaar.html': ['.header-badge', '.leeftijd-label', '.fase-intro-tekst', '.categorie-header', '.disclaimer'],
   'over.html': ['.hero-label', '.sectie-label', '.principe-titel', '.arch-laag-naam', '.arch-laag-detail',
     '.arch-uitleg-titel', '.privacy-kaart-titel'],
   'feedback.html': ['.privacynoot'],
@@ -111,4 +111,229 @@ test.describe('P-1 div-koppen en -tekst', () => {
     await page.waitForTimeout(150);
     expect(await gezegdSamen(page)).toBe('');
   });
+});
+
+// ── Fase 3: links, kaarten en labels (P-2, B-3, P-3) ────────────────────────────────────────
+const KAART = 'a.tool-compact[href="brief.html"]';
+
+test.describe('P-2 links en toolkaarten', () => {
+  test('stand uit: een toolkaart en een gewone link werken met één tik', async ({ page }) => {
+    await laad(page, 'index.html', { stand: 'uit' });
+    await page.locator(KAART).click();
+    await page.waitForURL(/brief\.html/);
+    await page.waitForFunction(() => window.Solidari && window.Solidari.spraak);
+    await page.locator('a.terug-link').click();
+    await page.waitForURL(/index\.html/);
+    expect(await gezegdSamen(page)).toBe('');
+  });
+
+  test('stand aan: de eerste tik op een toolkaart leest naam en omschrijving, de tweede gaat erheen', async ({ page }) => {
+    await laad(page, 'index.html');
+    const kaart = page.locator(KAART);
+    await kaart.click();
+    await page.waitForTimeout(300);
+    expect(page.url()).toMatch(/index\.html/);
+    expect(await gezegdSamen(page)).toMatch(/^Brief Begrijper\. Maak een foto van je brief\. Wij leggen uit wat er staat, wat je moet doen en wanneer\.?/);
+    await expect(kaart.locator('.sol-a11y-tik-hint')).toBeVisible();
+    await expect(kaart).toHaveClass(/sol-a11y-keuze-gehoord/);
+    await kaart.click();
+    await page.waitForURL(/brief\.html/);
+  });
+
+  test('een toolkaart heeft één knopje; dat leest de kaart en navigeert niet', async ({ page }) => {
+    await laad(page, 'index.html');
+    const r = await page.evaluate(() => [...document.querySelectorAll('a.tool-compact')].map((a) => a.querySelectorAll('.sol-a11y-knop').length));
+    expect(r.length).toBe(7);
+    expect(r.every((n) => n === 1)).toBe(true);
+    await page.locator(`${KAART} > .sol-a11y-knop`).click();
+    await page.waitForTimeout(300);
+    expect(page.url()).toMatch(/index\.html/);
+    expect(await gezegdSamen(page)).toMatch(/^Brief Begrijper\. Maak een foto/);
+    expect(await page.locator('.sol-a11y-tik-hint').count()).toBe(0);
+  });
+
+  test('stand aan: links in de inhoud lezen eerst (terug-link zonder pijl, privacylink, logo)', async ({ page }) => {
+    await laad(page, 'brief.html');
+    let popups = 0;
+    page.on('popup', () => { popups++; });
+    // Terug-link: zonder "←".
+    await page.locator('a.terug-link').click();
+    await page.waitForTimeout(250);
+    expect(page.url()).toMatch(/brief\.html/);
+    expect(await gezegdSamen(page)).toMatch(/^Terug naar alle tools/);
+    // Link in het privacyblok (target=_blank): eerst horen, geen nieuw tabblad.
+    await wis(page);
+    await page.locator('#privacy-tekst a').click();
+    await page.waitForTimeout(250);
+    expect(popups).toBe(0);
+    expect(await gezegdSamen(page)).toMatch(/^Anthropic \(Claude API\)/);
+    // Logo in de menubalk (R-25).
+    await wis(page);
+    await page.locator('#solidari-nav-bar .nav-logo').click();
+    await page.waitForTimeout(250);
+    expect(page.url()).toMatch(/brief\.html/);
+    expect(await gezegdSamen(page)).toMatch(/^Solidari/);
+    await page.locator('#solidari-nav-bar .nav-logo').click();
+    await page.waitForURL(/index\.html/);
+  });
+
+  test('stand aan: de LinkedIn-link op over.html leest eerst', async ({ page }) => {
+    await laad(page, 'over.html');
+    let popups = 0;
+    page.on('popup', () => { popups++; });
+    await page.locator('a.linkedin-knop').click();
+    await page.waitForTimeout(250);
+    expect(popups).toBe(0);
+    expect(await gezegdSamen(page)).toMatch(/^LinkedIn/);
+  });
+
+  test('TI (geen stem): een toolkaart werkt met één tik, ook in de voorleesstand', async ({ page }) => {
+    await laad(page, 'index.html', { taal: 'TI' });
+    await page.locator(KAART).click();
+    await page.waitForURL(/brief\.html/);
+  });
+
+  test('RTL (AR): de toolkaart leest Arabisch, het label "nog een keer" staat in beeld', async ({ page }) => {
+    await laad(page, 'index.html', { taal: 'AR' });
+    expect(await page.evaluate(() => document.documentElement.dir)).toBe('rtl');
+    const kaart = page.locator(KAART);
+    await kaart.scrollIntoViewIfNeeded();
+    await kaart.click();
+    await page.waitForTimeout(300);
+    expect(page.url()).toMatch(/index\.html/);
+    const t = await gezegdSamen(page);
+    expect(t).toMatch(/[؀-ۿ]/);
+    expect(t).not.toMatch(EMOJI);
+    const r = await page.evaluate((sel) => {
+      const h = document.querySelector(sel + ' .sol-a11y-tik-hint').getBoundingClientRect();
+      const k = document.querySelector(sel + ' > .sol-a11y-knop').getBoundingClientRect();
+      const c = document.querySelector(sel).getBoundingClientRect();
+      return { h, k, c, vw: document.documentElement.clientWidth };
+    }, KAART);
+    expect(r.h.left).toBeGreaterThanOrEqual(0);
+    expect(r.h.right).toBeLessThanOrEqual(r.vw);
+    expect(r.k.left).toBeGreaterThanOrEqual(r.c.left - 1);
+    expect(r.k.right).toBeLessThanOrEqual(r.c.right + 1);
+  });
+});
+
+test.describe('B-3 categoriekop op 18jaar.html', () => {
+  test('stand aan: de eerste tik leest naam, samenvatting en chip; pas de tweede klapt open', async ({ page }) => {
+    await laad(page, '18jaar.html');
+    const kaart = page.locator('.categorie-kaart').nth(1);
+    const kop = kaart.locator('.categorie-header');
+    await expect(kaart).not.toHaveClass(/\bopen\b/);
+    const verwacht = await kop.evaluate((el) => {
+      const d = [...el.querySelectorAll('[data-lees-deel]')].map((x) => x.textContent.trim());
+      return d;
+    });
+    expect(verwacht.length).toBe(3);
+    await kop.click();
+    await page.waitForTimeout(300);
+    await expect(kaart).not.toHaveClass(/\bopen\b/);
+    const t = await gezegdSamen(page);
+    // "Kindgebonden budget. Stopt op je verjaardag. Stopt." — de chip niet in hoofdletters.
+    expect(t.startsWith(verwacht[0] + '. ')).toBe(true);
+    expect(t).toContain(verwacht[1].replace(/[.\s]+$/, ''));
+    const chip = verwacht[2].charAt(0) + verwacht[2].slice(1).toLowerCase();
+    expect(t).toMatch(new RegExp('\\. ' + chip + '\\.?'));
+    if (verwacht[2] !== chip) expect(t).not.toContain(verwacht[2]);
+    await kop.click();
+    await expect(kaart).toHaveClass(/\bopen\b/);
+  });
+
+  test('stand uit: één tik klapt open', async ({ page }) => {
+    await laad(page, '18jaar.html', { stand: 'uit' });
+    const kaart = page.locator('.categorie-kaart').nth(1);
+    await kaart.locator('.categorie-header').click();
+    await expect(kaart).toHaveClass(/\bopen\b/);
+  });
+
+  test('het knopje van de kop leest dezelfde tekst en klapt niet open', async ({ page }) => {
+    await laad(page, '18jaar.html');
+    const kaart = page.locator('.categorie-kaart').nth(1);
+    const kop = kaart.locator('.categorie-header');
+    expect(await kop.locator('.sol-a11y-knop').count()).toBe(1);
+    const lees = await kop.evaluate((el) => window.Solidari.spraak.leesTekst(el));
+    await kop.locator('> .sol-a11y-knop').click();
+    await page.waitForTimeout(250);
+    await expect(kaart).not.toHaveClass(/\bopen\b/);
+    expect(await gezegdSamen(page)).toBe(lees);
+  });
+});
+
+test.describe('P-3 labels', () => {
+  test('feedback.html: een label leest voor en geeft het veld de focus; geen knopje bij labels', async ({ page }) => {
+    await laad(page, 'feedback.html');
+    expect(await page.locator('label .sol-a11y-knop, .veld-label .sol-a11y-knop').count()).toBe(0);
+    await page.locator('label[for="omschrijving"]').click();
+    await page.waitForTimeout(200);
+    expect(await gezegdSamen(page)).toBe('Omschrijving, 0 / 2000');
+    expect(await page.evaluate(() => document.activeElement && document.activeElement.id)).toBe('omschrijving');
+    await wis(page);
+    await page.locator('label[for="email"]').click();
+    await page.waitForTimeout(200);
+    expect(await gezegdSamen(page)).toBe('E-mailadres (optioneel)');
+    expect(await page.evaluate(() => document.activeElement && document.activeElement.id)).toBe('email');
+    await wis(page);
+    await page.locator('#tool-label').click();
+    await page.waitForTimeout(200);
+    expect(await gezegdSamen(page)).toBe('Welke tool?');
+  });
+
+  test('feedback.html: de teller leest de stand van nu', async ({ page }) => {
+    await laad(page, 'feedback.html');
+    await page.locator('#omschrijving').fill('Hallo');
+    await page.locator('#omschrijving').dispatchEvent('input');
+    await wis(page);
+    await page.locator('label[for="omschrijving"]').click();
+    await page.waitForTimeout(200);
+    expect(await gezegdSamen(page)).toBe('Omschrijving, 5 / 2000');
+  });
+
+  test('vertaalhulp.html: label en uitleg', async ({ page }) => {
+    await laad(page, 'vertaalhulp.html');
+    await page.locator('label[for="taal-keuze"]').click();
+    await page.waitForTimeout(200);
+    expect(await gezegdSamen(page)).toBe('Wat is jouw moedertaal?');
+    expect(await page.evaluate(() => document.activeElement && document.activeElement.id)).toBe('taal-keuze');
+    await wis(page);
+    await page.locator('label[for="naam"]').click();
+    await page.waitForTimeout(200);
+    expect(await gezegdSamen(page)).toBe('Jouw naam (optioneel)');
+  });
+
+  test('stand uit: een label leest niets en geeft wel de focus', async ({ page }) => {
+    await laad(page, 'feedback.html', { stand: 'uit' });
+    await page.locator('label[for="omschrijving"]').click();
+    await page.waitForTimeout(200);
+    expect(await gezegdSamen(page)).toBe('');
+    expect(await page.evaluate(() => document.activeElement && document.activeElement.id)).toBe('omschrijving');
+  });
+
+  test('RTL (AR): het label leest Arabisch', async ({ page }) => {
+    await laad(page, 'feedback.html', { taal: 'AR' });
+    expect(await page.evaluate(() => document.documentElement.dir)).toBe('rtl');
+    await page.locator('label[for="email"]').click();
+    await page.waitForTimeout(200);
+    expect(await gezegdSamen(page)).toMatch(/[؀-ۿ]/);
+  });
+});
+
+test.describe('375 px', () => {
+  test.use({ viewport: { width: 375, height: 740 } });
+  for (const [pagina, sel] of [['index.html', 'a.tool-compact'], ['18jaar.html', '.categorie-header'], ['brief.html', '.tip-item'], ['over.html', '.arch-laag-naam']]) {
+    test(`${pagina}: de knopjes staan binnen hun blok, geen horizontaal scrollen`, async ({ page }) => {
+      await laad(page, pagina);
+      const r = await page.evaluate((sel) => ({
+        breed: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+        buiten: [...document.querySelectorAll(sel)].filter((el) => el.getClientRects().length).map((el) => {
+          const b = el.getBoundingClientRect(), k = el.querySelector(':scope > .sol-a11y-knop').getBoundingClientRect();
+          return k.left < b.left - 1 || k.right > b.right + 1 || k.width < 40 ? el.textContent.trim().slice(0, 20) : null;
+        }).filter(Boolean),
+      }), sel);
+      expect(r.breed).toBeLessThanOrEqual(0);
+      expect(r.buiten).toEqual([]);
+    });
+  }
 });

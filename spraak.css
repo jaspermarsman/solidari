@@ -68,6 +68,20 @@ body.sol-a11y-luistermodus .bel-sol { padding-inline-end: 52px; min-height: 48px
 [data-lees-delen] > .sol-a11y-knop { position: absolute; top: 4px; right: 4px; left: auto; margin: 0; }
 [dir="rtl"] [data-lees-delen] > .sol-a11y-knop { right: auto; left: 4px; }
 
+/* Een link of klikbare kop die als één blok voorleest (PLAN 17, B-2/B-3): de toolkaart op index.html
+   en de categoriekop op 18jaar.html. Op 375 px is de rij al vol; een knopje erbij maakte de tekst
+   te smal of viel eruit. Daarom in een hoek (RTL gespiegeld): bij de toolkaart rechtsonder, want
+   rechtsboven staat het vinkje. De categoriekop heeft rechts zijn pijltje, dus daar krijgt het
+   knopje in de voorleesstand een eigen strook bovenaan. */
+a[data-lees], [data-lees][data-keuze] { position: relative; }
+a[data-lees] > .sol-a11y-knop,
+[data-lees][data-keuze] > .sol-a11y-knop { position: absolute; right: 4px; left: auto; margin: 0; }
+a[data-lees] > .sol-a11y-knop { bottom: 4px; }
+[data-lees][data-keuze] > .sol-a11y-knop { top: 4px; }
+[dir="rtl"] a[data-lees] > .sol-a11y-knop,
+[dir="rtl"] [data-lees][data-keuze] > .sol-a11y-knop { right: auto; left: 4px; }
+body.sol-a11y-luistermodus [data-lees][data-keuze] { padding-top: 46px; }
+
 .sol-a11y-knop:hover::before { background: #dcece1; }
 .sol-a11y-knop:active { transform: scale(0.94); }
 
