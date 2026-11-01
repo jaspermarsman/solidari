@@ -1051,6 +1051,9 @@
   }
   function keuzeKlik(e) {
     if (!luisterActief) return;
+    // Een knop die zelf al gekozen is en daarna een bestandskeuze opent (brief.html: "Maak een foto"
+    // in het uploadvlak, W-I): die klik komt uit een script, niet van een vinger. Doorlaten.
+    if (!e.isTrusted && e.target.matches && e.target.matches('input[type="file"]')) return;
     const el = keuzeKnopVan(e.target);
     if (!el) return;
     const taal = actieveTaal();

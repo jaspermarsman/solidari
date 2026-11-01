@@ -270,6 +270,81 @@ test.describe('B-3 categoriekop op 18jaar.html', () => {
   });
 });
 
+// ── W-I: het uploadvlak op brief.html volgt twee tikken, net als .upload-knop ─────────────────
+// Het vlak is één groot onzichtbaar bestandsveld; een tik erop opent de camera of de bestandskeuze.
+const VLAK = '#dropzone';
+function telKiezer(page) {
+  const n = { kiezer: 0 };
+  page.on('filechooser', () => { n.kiezer++; });
+  return n;
+}
+test.describe('W-I uploadvlak op brief.html', () => {
+  test('stand aan: de eerste tik leest titel en uitleg, pas de tweede opent de bestandskeuze', async ({ page }) => {
+    await laad(page, 'brief.html');
+    const n = telKiezer(page);
+    const vlak = page.locator(VLAK);
+    const verwacht = await vlak.evaluate((el) => [el.querySelector('.upload-titel'), el.querySelector('.upload-sub')]
+      .map((x) => window.Solidari.spraak.leesTekst(x).replace(/[.\s]+$/, '')).join('. '));
+    await vlak.click({ position: { x: 20, y: 20 } });
+    await expect.poll(() => gezegdSamen(page)).toContain(verwacht);
+    await page.waitForTimeout(300);
+    expect(n.kiezer).toBe(0);
+    await expect(vlak).toHaveClass(/sol-a11y-keuze-gehoord/);
+    await vlak.click({ position: { x: 20, y: 20 } });
+    await expect.poll(() => n.kiezer).toBe(1);
+  });
+
+  test('stand aan: een tik op "Maak een foto" (het bestandsveld ligt eroverheen) leest eerst het vlak', async ({ page }) => {
+    await laad(page, 'brief.html');
+    const n = telKiezer(page);
+    const knop = page.locator('#camera-knop');
+    await knop.click({ force: true });   // waar de vinger komt: op het onzichtbare bestandsveld
+    await expect.poll(() => gezegdSamen(page)).toContain(await page.locator(VLAK + ' .upload-titel').evaluate((el) => window.Solidari.spraak.leesTekst(el)));
+    await page.waitForTimeout(300);
+    expect(n.kiezer).toBe(0);
+    await knop.click({ force: true });
+    await expect.poll(() => n.kiezer).toBe(1);
+  });
+
+  test('stand aan, toetsenbord: "Maak een foto" leest eerst, de tweede Enter opent de camera', async ({ page }) => {
+    await laad(page, 'brief.html');
+    const n = telKiezer(page);
+    await page.locator('#camera-knop').focus();
+    await page.keyboard.press('Enter');
+    await expect.poll(() => gezegdSamen(page)).toContain('Maak een foto');
+    await page.waitForTimeout(300);
+    expect(n.kiezer).toBe(0);
+    await page.keyboard.press('Enter');
+    await expect.poll(() => n.kiezer).toBe(1);
+  });
+
+  test('stand uit: één tik op het vlak opent de bestandskeuze en leest niets', async ({ page }) => {
+    await laad(page, 'brief.html', { stand: 'uit' });
+    const n = telKiezer(page);
+    await page.locator(VLAK).click({ position: { x: 20, y: 20 } });
+    await expect.poll(() => n.kiezer).toBe(1);
+    expect(await gezegdSamen(page)).toBe('');
+  });
+
+  test('TI (geen stem): één tik op het vlak opent de bestandskeuze, ook in de voorleesstand', async ({ page }) => {
+    await laad(page, 'brief.html', { taal: 'TI' });
+    const n = telKiezer(page);
+    await page.locator(VLAK).click({ position: { x: 20, y: 20 } });
+    await expect.poll(() => n.kiezer).toBe(1);
+  });
+
+  test('de knopjes van titel en uitleg lezen voor en openen niets', async ({ page }) => {
+    await laad(page, 'brief.html');
+    const n = telKiezer(page);
+    const titel = page.locator(VLAK + ' .upload-titel');
+    const lees = await titel.evaluate((el) => window.Solidari.spraak.leesTekst(el));
+    await titel.locator('> .sol-a11y-knop').click();
+    await expect.poll(() => gezegdSamen(page)).toBe(lees);
+    await page.waitForTimeout(300);
+    expect(n.kiezer).toBe(0);
+  });
+});
+
 test.describe('P-3 labels', () => {
   test('feedback.html: een label leest voor en geeft het veld de focus; geen knopje bij labels', async ({ page }) => {
     await laad(page, 'feedback.html');
