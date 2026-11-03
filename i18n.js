@@ -66,6 +66,9 @@ Solidari.i18n = (function() {
       'nav-terug-tools': 'Terug naar alle tools',
       'a11y-begin': 'Begin hier',
       'a11y-foto': 'Maak een foto',
+      // Uploadvlak brief.html (PLAN 18, K-2). TI: Nederlandse tekst naast het pictogram, tot een TI-spreker meekijkt.
+      'upload-kies-bestand': 'Kies bestand',
+      'upload-formaten': 'JPG, PNG, HEIC of PDF · Maximaal 10 MB',
       'a11y-hulp': 'Hulp',
       // Schermlezer-basis (PLAN-5 fase 3): skip-link, knopnamen, veldlabel. {x} = naam van de post.
       'a11y-naar-inhoud': 'Naar inhoud',
@@ -129,6 +132,8 @@ Solidari.i18n = (function() {
       'nav-terug-tools': 'Back to all tools',
       'a11y-begin': 'Start here',
       'a11y-foto': 'Take a photo',
+      'upload-kies-bestand': 'Choose file',
+      'upload-formaten': 'JPG, PNG, HEIC or PDF · Maximum 10 MB',
       'a11y-hulp': 'Help',
       // Schermlezer-basis (PLAN-5 fase 3): skip-link, knopnamen, veldlabel. {x} = naam van de post.
       'a11y-naar-inhoud': 'Skip to content',
@@ -191,6 +196,8 @@ Solidari.i18n = (function() {
       'nav-terug-tools': 'العودة إلى كل الأدوات',
       'a11y-begin': 'ابدأ هنا',
       'a11y-foto': 'التقط صورة',
+      'upload-kies-bestand': 'اختر ملفًا',
+      'upload-formaten': 'JPG أو PNG أو HEIC أو PDF · الحد الأقصى 10 ميغابايت',
       'a11y-hulp': 'مساعدة',
       // Schermlezer-basis (PLAN-5 fase 3): skip-link, knopnamen, veldlabel. {x} = naam van de post.
       'a11y-naar-inhoud': 'انتقل إلى المحتوى',
@@ -253,6 +260,8 @@ Solidari.i18n = (function() {
       'nav-terug-tools': 'Tüm araçlara dön',
       'a11y-begin': 'Buradan başla',
       'a11y-foto': 'Fotoğraf çek',
+      'upload-kies-bestand': 'Dosya seç',
+      'upload-formaten': 'JPG, PNG, HEIC veya PDF · En fazla 10 MB',
       'a11y-hulp': 'Yardım',
       // Schermlezer-basis (PLAN-5 fase 3): skip-link, knopnamen, veldlabel. {x} = naam van de post.
       'a11y-naar-inhoud': 'İçeriğe geç',
@@ -315,6 +324,8 @@ Solidari.i18n = (function() {
       'nav-terug-tools': 'ተመለሱ',   // B-6: a11y-terug; geen nieuwe TI-tekst (S-9)
       'a11y-begin': 'ካብዚ ጀምሩ',
       'a11y-foto': 'ስእሊ ውሰዱ',
+      'upload-kies-bestand': 'Kies bestand',
+      'upload-formaten': 'JPG, PNG, HEIC of PDF · Maximaal 10 MB',
       'a11y-hulp': 'ሓገዝ',
       // Schermlezer-basis (PLAN-5 fase 3): skip-link, knopnamen, veldlabel. {x} = naam van de post.
       'a11y-naar-inhoud': 'ናብ ትሕዝቶ ኪዱ',
@@ -378,6 +389,8 @@ Solidari.i18n = (function() {
       'nav-terug-tools': 'Назад до всіх інструментів',
       'a11y-begin': 'Почніть тут',
       'a11y-foto': 'Зробіть фото',
+      'upload-kies-bestand': 'Виберіть файл',
+      'upload-formaten': 'JPG, PNG, HEIC або PDF · Максимум 10 МБ',
       'a11y-hulp': 'Допомога',
       // Schermlezer-basis (PLAN-5 fase 3): skip-link, knopnamen, veldlabel. {x} = naam van de post.
       'a11y-naar-inhoud': 'Перейти до змісту',
@@ -440,6 +453,8 @@ Solidari.i18n = (function() {
       'nav-terug-tools': 'بازگشت به همه ابزارها',
       'a11y-begin': 'از اینجا شروع کنید',
       'a11y-foto': 'عکس بگیرید',
+      'upload-kies-bestand': 'فایل را انتخاب کنید',
+      'upload-formaten': 'JPG، PNG، HEIC یا PDF · حداکثر 10 مگابایت',
       'a11y-hulp': 'کمک',
       // Schermlezer-basis (PLAN-5 fase 3): skip-link, knopnamen, veldlabel. {x} = naam van de post.
       'a11y-naar-inhoud': 'رفتن به محتوا',
@@ -502,6 +517,8 @@ Solidari.i18n = (function() {
       'nav-terug-tools': 'Înapoi la toate instrumentele',
       'a11y-begin': 'Începe aici',
       'a11y-foto': 'Fă o fotografie',
+      'upload-kies-bestand': 'Alege un fișier',
+      'upload-formaten': 'JPG, PNG, HEIC sau PDF · Maximum 10 MB',
       'a11y-hulp': 'Ajutor',
       // Schermlezer-basis (PLAN-5 fase 3): skip-link, knopnamen, veldlabel. {x} = naam van de post.
       'a11y-naar-inhoud': 'Mergi la conținut',
@@ -564,6 +581,8 @@ Solidari.i18n = (function() {
       'nav-terug-tools': 'Wróć do wszystkich narzędzi',
       'a11y-begin': 'Zacznij tutaj',
       'a11y-foto': 'Zrób zdjęcie',
+      'upload-kies-bestand': 'Wybierz plik',
+      'upload-formaten': 'JPG, PNG, HEIC lub PDF · Maksymalnie 10 MB',
       'a11y-hulp': 'Pomoc',
       // Schermlezer-basis (PLAN-5 fase 3): skip-link, knopnamen, veldlabel. {x} = naam van de post.
       'a11y-naar-inhoud': 'Przejdź do treści',

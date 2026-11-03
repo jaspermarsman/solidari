@@ -94,3 +94,56 @@ test.describe('K-1 uploadknoppen boven het bestandsveld', () => {
     await expect(page.locator('#bestand-preview')).toHaveClass(/zichtbaar/);
   });
 });
+
+// ── Fase 2: het uploadvlak in alle talen (K-2, B-3) ──────────────────────────────────────────
+// TI krijgt bewust de Nederlandse tekst naast het pictogram, tot een TI-spreker meekijkt (B-3, S-9).
+const K2 = {
+  NL: ['Kies bestand', 'JPG, PNG, HEIC of PDF · Maximaal 10 MB'],
+  EN: ['Choose file', 'JPG, PNG, HEIC or PDF · Maximum 10 MB'],
+  AR: ['اختر ملفًا', 'JPG أو PNG أو HEIC أو PDF · الحد الأقصى 10 ميغابايت'],
+  TR: ['Dosya seç', 'JPG, PNG, HEIC veya PDF · En fazla 10 MB'],
+  TI: ['Kies bestand', 'JPG, PNG, HEIC of PDF · Maximaal 10 MB'],
+  UK: ['Виберіть файл', 'JPG, PNG, HEIC або PDF · Максимум 10 МБ'],
+  FA: ['فایل را انتخاب کنید', 'JPG، PNG، HEIC یا PDF · حداکثر 10 مگابایت'],
+  RO: ['Alege un fișier', 'JPG, PNG, HEIC sau PDF · Maximum 10 MB'],
+  PL: ['Wybierz plik', 'JPG, PNG, HEIC lub PDF · Maksymalnie 10 MB'],
+};
+const zichtbaar = (page, sel) => page.locator(sel).evaluate((el) => window.Solidari.spraak.leesTekst(el));
+
+test.describe('K-2 uploadvlak in alle talen', () => {
+  for (const [taal, [kies, formaten]] of Object.entries(K2)) {
+    test(`${taal}: "Kies bestand" en de formaten staan in de taal, met het pictogram`, async ({ page }) => {
+      await laad(page, 'brief.html', { taal });
+      const r = await page.evaluate(() => ({
+        knop: document.querySelector('#dropzone .upload-knop:not(#camera-knop)').textContent.replace(/\s+/g, ' ').trim(),
+        formaten: document.querySelector('[data-i18n="upload-formaten"]').textContent.trim(),
+      }));
+      expect(r.knop).toBe('📂 ' + kies);
+      expect(r.formaten).toBe(formaten);
+    });
+  }
+
+  test('stand aan, EN: de knop en het knopje bij de formaten lezen de Engelse tekst', async ({ page }) => {
+    await laad(page, 'brief.html', { taal: 'EN', stand: 'aan' });
+    await page.locator(KNOPPEN.bestand).click();
+    await expect.poll(() => gezegdSamen(page)).toContain('Choose file');
+    await page.evaluate(() => { window.Solidari.spraak.stop(); window.__spoken = []; });
+    expect(await zichtbaar(page, '.upload-formaten')).toBe(K2.EN[1]);
+    await page.locator('.upload-formaten > .sol-a11y-knop').click();
+    await expect.poll(() => gezegdSamen(page)).toBe(K2.EN[1]);
+  });
+
+  test('taalwissel EN → TI → AR: de teksten volgen; het knopje bij de formaten komt terug (TI heeft geen stem, S-7)', async ({ page }) => {
+    await laad(page, 'brief.html', { taal: 'EN', stand: 'aan' });
+    for (const taal of ['TI', 'AR']) {
+      await page.evaluate((t) => window.Solidari.i18n.passToe(t), taal);
+      await page.waitForTimeout(300);
+      const r = await page.evaluate(() => ({
+        kies: document.querySelector('[data-i18n="upload-kies-bestand"]').textContent,
+        formaten: document.querySelector('[data-i18n="upload-formaten"]').textContent,
+        knopjes: document.querySelectorAll('.upload-formaten > .sol-a11y-knop').length,
+      }));
+      expect(r, taal).toEqual({ kies: K2[taal][0], formaten: K2[taal][1], knopjes: taal === 'TI' ? 0 : 1 });
+    }
+  });
+});
