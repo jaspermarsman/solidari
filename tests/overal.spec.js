@@ -294,16 +294,18 @@ test.describe('W-I uploadvlak op brief.html', () => {
     await expect.poll(() => n.kiezer).toBe(1);
   });
 
-  test('stand aan: een tik op "Maak een foto" (het bestandsveld ligt eroverheen) leest eerst het vlak', async ({ page }) => {
+  // PLAN 18 (K-1): de knop ligt nu boven het bestandsveld. Vroeger kwam deze tik op het bestandsveld
+  // en las hij het vlak; dat was de fout waardoor "Maak een foto" nooit direct de camera opende.
+  test('stand aan: de eerste tik op "Maak een foto" leest de knop en opent niets, de tweede opent de camera', async ({ page }) => {
     await laad(page, 'brief.html');
     const n = telKiezer(page);
     const knop = page.locator('#camera-knop');
-    await knop.click({ force: true });   // waar de vinger komt: op het onzichtbare bestandsveld
-    await expect.poll(() => gezegdSamen(page)).toContain(await page.locator(VLAK + ' .upload-titel').evaluate((el) => window.Solidari.spraak.leesTekst(el)));
+    await knop.click();
+    await expect.poll(() => gezegdSamen(page)).toContain('Maak een foto');
     await page.waitForTimeout(300);
     expect(n.kiezer).toBe(0);
-    await knop.click({ force: true });
-    await expect.poll(() => n.kiezer).toBe(1);
+    const [kiezer] = await Promise.all([page.waitForEvent('filechooser'), knop.click()]);
+    expect(await kiezer.element().evaluate((el) => el.id)).toBe('camera-input');
   });
 
   test('stand aan, toetsenbord: "Maak een foto" leest eerst, de tweede Enter opent de camera', async ({ page }) => {

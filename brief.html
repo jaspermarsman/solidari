@@ -203,6 +203,9 @@
       cursor: pointer;
       font-family: 'Source Sans 3', sans-serif;
       transition: all 0.2s;
+      /* Boven het onzichtbare bestandsveld (inset: 0), anders opent "Maak een foto" de bestandskeuze (PLAN 18, K-1) */
+      position: relative;
+      z-index: 1;
     }
     .upload-knop:hover { background: #234830; }
     .upload-formaten {
