@@ -40,7 +40,7 @@ const STUB_ALLE_STEMMEN = () => {
 async function laad(page, pagina, taal) {
   await metTaal(page, taal);
   await page.addInitScript(STUB_ALLE_STEMMEN);
-  await page.goto('/' + pagina, { waitUntil: 'networkidle' });
+  await page.goto(pagina, { waitUntil: 'networkidle' });
   await page.waitForFunction(() => window.Solidari && window.Solidari.spraak);
   await page.waitForTimeout(600); // auto-markering + scan
 }

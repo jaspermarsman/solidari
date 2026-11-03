@@ -78,7 +78,7 @@ test.describe('voorleesknop: precies één per blok', () => {
         try { localStorage.setItem('solidari-voorlezen', 'aan'); } catch (e) {}
       });
       await vertraagManifest(page);
-      await page.goto('/' + pagina);
+      await page.goto(pagina);
       await page.waitForFunction(
         () => document.querySelectorAll('.sol-a11y-knop').length > 0,
         null, { timeout: 15000 },
@@ -99,7 +99,7 @@ test.describe('voorleesknop: precies één per blok', () => {
     await page.addInitScript(() => {
       try { localStorage.setItem('solidari-voorlezen', 'aan'); } catch (e) {}
     });
-    await page.goto('/over.html');
+    await page.goto('over.html');
     await page.waitForFunction(() => window.Solidari && window.Solidari.spraak, null, { timeout: 15000 });
     await page.waitForTimeout(1200);
 
@@ -124,7 +124,7 @@ test.describe('voorleesknop: precies één per blok', () => {
       try { localStorage.setItem('solidari-voorlezen', 'aan'); } catch (e) {}
     });
     await vertraagManifest(page);
-    await page.goto('/brief.html');
+    await page.goto('brief.html');
     await page.waitForFunction(() => document.querySelectorAll('.sol-a11y-knop').length > 0, null, { timeout: 15000 });
     await page.waitForTimeout(1200);
 
@@ -170,7 +170,7 @@ test.describe('voorleesknop: precies één per blok', () => {
     await page.addInitScript(() => {
       try { localStorage.setItem('solidari-voorlezen', 'aan'); } catch (e) {}
     });
-    await page.goto('/over.html');
+    await page.goto('over.html');
     await page.waitForFunction(() => window.Solidari && window.Solidari.spraak, null, { timeout: 15000 });
     await page.waitForTimeout(1200);
 
