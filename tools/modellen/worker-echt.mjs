@@ -6,17 +6,22 @@
 // PLAN 12 (taaldrift):
 //   node tools/modellen/worker-echt.mjs --variant V0,V1,V2,V3 --model claude-haiku-5-5 \
 //        --route digi|analyse --talen pl,tr,uk,ti,ar --herhaal 3 --uit <map> [--droog] [--plafond 15]
-//   De prompts komen letterlijk uit rechten.html en budgethulp.html (alleen gelezen); alleen de
-//   taalinstructie verschilt per variant. --droog schrijft alleen de prompts weg. Elke aanroep
+//   De prompt van rechten komt letterlijk uit de Worker (RECHTEN_PROMPT, alleen gelezen); alleen
+//   de taalinstructie verschilt per variant. --droog schrijft alleen de prompts weg. Elke aanroep
 //   telt mee in kosten/ naast de uitvoermap (zelfde map als meet.py); bij het plafond stopt
 //   de meting. Taalcontrole volgens taalregels.json (T-3).
-// PLAN 13 (hermeting): --variant PAGINA --route digi|analyse|gv --talen alle
-//   De prompt-functies komen letterlijk uit de branchversie van de pagina's en worden uitgevoerd:
-//   bouwAiPrompt() uit budgethulp.html, bouwAiVerzoek() uit rechten.html, bouwSystemPrompt() en
-//   bouwAiBerichten() uit goedvoorbereid.html. Extra controle: geen Nederlandse slotzin in een
-//   niet-NL antwoord. Bij gv (Goed voorbereid) tellen Nederlandse zinnen tussen aanhalingstekens
-//   apart (nl_citaten): de pagina geeft bewust Nederlandse zinnen om tegen de dokter te zeggen.
+// PLAN 19 (hermeting): --variant WORKER --route digi|analyse|gv --talen alle
+//   Het verzoek gaat naar /api/ai, gebouwd zoals de pagina's dat doen: alleen tool, taal en de
+//   invoer (rechten: het gesprek; gv: categorie, situatie en het gesprek; budget: gemeente en
+//   het overzicht). De systeemprompt, de taalregel en de slotzin komen uit de Worker zelf.
+//   De routenamen digi|analyse|gv zijn gebleven (rechten, budgethulp, Goed voorbereid), zodat
+//   de uitslagen naast die van PLAN 13 passen. De variant PAGINA (PLAN 13: de promptfuncties
+//   uit de HTML) is vervallen: de pagina's hebben geen prompt meer.
+//   Extra controle: geen Nederlandse slotzin in een niet-NL antwoord. Bij gv (Goed voorbereid)
+//   tellen Nederlandse zinnen tussen aanhalingstekens apart (nl_citaten): de pagina geeft bewust
+//   Nederlandse zinnen om tegen de dokter te zeggen.
 //   Met --live <worker-url> gaat het verzoek naar de gedeployde Worker (rooktest na deploy).
+//   V0–V3 (PLAN 12) gebruiken het oude contract en werken alleen zolang OUD_CONTRACT = true.
 // PLAN 14 (B-4): --route gv --zeg  meet de zin om te zeggen. Herhaling 1 en 3 is de vraag aan de
 //   klantmanager, herhaling 2 een afspraak bij de huisarts. Drie controles per antwoord:
 //   (a) zeg_nl: een zin tussen aanhalingstekens in het Nederlands (NL-woordaandeel ≥ 0,4);
@@ -70,12 +75,14 @@ const LIVE = vlag('live', null);
 // taalregels.json (PLAN 14). Geen API-aanroepen en geen sleutel nodig.
 const HERBEREKEN = vlag('herbereken', null);
 if (HERBEREKEN) { herbereken(HERBEREKEN); process.exit(0); }
-const env = LIVE ? {} : { ANTHROPIC_API_KEY: sleutel() };
+// De teller (PLAN 19, B-4) telt in de meting niet mee: deze nep-DB geeft altijd 1 terug.
+const GEEN_TELLER = { prepare: () => ({ bind: () => ({ first: async () => ({ n: 1 }) }) }) };
+const env = LIVE ? {} : { ANTHROPIC_API_KEY: sleutel(), DB: GEEN_TELLER };
 const schoon = (t) => String(t).replace(/sk-ant-[0-9A-Za-z_-]{8,}/g, '[sleutel]');
 
-// Het systeemprompt van rechten.html, letterlijk uit de pagina (alleen gelezen).
-const rechten = readFileSync(join(root, 'rechten.html'), 'utf-8');
-const m = rechten.match(/const SYSTEM_PROMPT = `([\s\S]*?)`;/);
+// De systeemprompt van rechten, letterlijk uit de Worker (alleen gelezen; PLAN 19: hij staat
+// niet meer in rechten.html). Alleen nog nodig voor het oude contract (V0–V3 en de rooktest).
+const m = bron.match(/^const RECHTEN_PROMPT = `([\s\S]*?)`;/m);
 const RECHTEN_SYSTEEM = m ? m[1] : null;
 
 const BUDGET_SYSTEEM = `Je bent een vriendelijke budgetcoach voor Solidari.
@@ -152,12 +159,16 @@ async function variantMeting() {
 
   // Budgethulp: systeemprompt en taalnamen letterlijk uit de pagina.
   const bh = readFileSync(join(root, 'budgethulp.html'), 'utf-8');
-  // V0–V3 bouwen op de oude prompt (vóór PLAN 13); op een branch zonder die prompt alleen PAGINA.
+  // V0–V3 bouwen op de oude prompt (vóór PLAN 13); op een branch zonder die prompt alleen WORKER.
   const sjabloon = (bh.match(/const systeemprompt = `([\s\S]*?)`\n/) || [])[1];
   const taalNamenBron = (bh.match(/const taalNamen = (\{[^}]*\});/) || [])[1];
   const paginaNamen = taalNamenBron ? Function('return ' + taalNamenBron)() : {};
-  if (!sjabloon && varianten.some(v => v !== 'PAGINA') && route === 'analyse') {
-    console.log('V0–V3 voor budgethulp vragen de oude prompt; deze pagina heeft bouwAiPrompt(): gebruik --variant PAGINA');
+  if (varianten.includes('PAGINA')) {
+    console.log('--variant PAGINA is vervallen (PLAN 19): de pagina\'s hebben geen prompt meer. Gebruik --variant WORKER');
+    process.exit(2);
+  }
+  if (!sjabloon && varianten.some(v => v !== 'WORKER') && route === 'analyse') {
+    console.log('V0–V3 voor budgethulp vragen de oude prompt uit de pagina; die is er niet meer: gebruik --variant WORKER');
     process.exit(2);
   }
   const GEMEENTE = 'Utrecht';
@@ -200,31 +211,12 @@ Nibud-referentie voor deze situatie:
     ti: 'ምስ ፍቓድ መንበሪ ንሰለስተ ኣዋርሕ ኣብ ሆላንድ እየ ዝነብር። ናይ ጥዕና ውሕስነት ሓገዝ (zorgtoeslag) ክረክብ መሰል ኣለኒ ድዩ? ከመይ ገይረ ክሓትት እኽእል?',
   };
 
-  // ── PAGINA: de prompt-functies letterlijk uit de branchversie van de HTML ──
-  function knip(bron, begin) {
-    const i = bron.indexOf(begin);
-    if (i < 0) throw new Error('niet gevonden in pagina: ' + begin);
-    const eind = bron.indexOf('\n}', i);
-    return bron.slice(i, bron.indexOf('\n', eind + 2) + 1);
-  }
-  const PAGINA = {};
-  if (varianten.includes('PAGINA')) {
-    const bh2 = readFileSync(join(root, 'budgethulp.html'), 'utf-8');
-    PAGINA.analyse = Function(knip(bh2, 'const AI_TAAL = {') + knip(bh2, 'function bouwAiPrompt(') +
-                              'return bouwAiPrompt;')();
-    const rh = readFileSync(join(root, 'rechten.html'), 'utf-8');
-    PAGINA.digi = Function('const SYSTEM_PROMPT = ' + JSON.stringify(RECHTEN_SYSTEEM) + ';\n' +
-                           knip(rh, 'const AI_TAAL = {') + knip(rh, 'function bouwAiVerzoek(') +
-                           'return bouwAiVerzoek;')();
-    const gv = readFileSync(join(root, 'goedvoorbereid.html'), 'utf-8');
-    PAGINA.gv = Function('huidigeCategorie', 'huidigeSituatie', 'taal', 'geschiedenis',
-      knip(gv, 'function bouwSystemPrompt(') + knip(gv, 'const AI_TAALREGEL = {') +
-      knip(gv, 'function bouwAiBerichten(') +
-      'return { systeem: bouwSystemPrompt(), berichten: bouwAiBerichten(geschiedenis, taal) };');
+  // ── WORKER (PLAN 19): alleen de namen van categorie en situatie komen nog uit de site ──
+  let gvData = null;
+  if (varianten.includes('WORKER') && route === 'gv') {
     globalThis.window = globalThis;
-    const gvData = readFileSync(join(root, 'goedvoorbereid-data.js'), 'utf-8');
-    Function(gvData)();
-    PAGINA.gvData = Object.values(globalThis).find(x => x && x.NL && x.NL.categorieen);
+    Function(readFileSync(join(root, 'goedvoorbereid-data.js'), 'utf-8'))();
+    gvData = Object.values(globalThis).find(x => x && x.NL && x.NL.categorieen);
   }
   // Verzonnen vragen voor de talen die PLAN 12 nog niet had (NL, EN, RO, FA) en voor Goed voorbereid.
   // Zelf geschreven, niet nagelezen.
@@ -261,14 +253,16 @@ Nibud-referentie voor deze situatie:
   const ZEG = process.argv.includes('--zeg');
 
   function prompts(v, taal, n = 1) {
-    if (v === 'PAGINA') {
-      if (route === 'analyse') return ['/api/analyse', PAGINA.analyse(GEMEENTE, taal, BERICHT)];
-      if (route === 'digi') return ['/api/digi', PAGINA.digi([{ role: 'user', content: VRAAG[taal] }], taal.toUpperCase())];
-      const d = PAGINA.gvData[taal.toUpperCase()] || PAGINA.gvData.NL;
+    if (v === 'WORKER') {
+      // Zoals de pagina's: budgethulp stuurt de taalcode in kleine letters, de andere twee in hoofdletters.
+      if (route === 'analyse') return ['/api/ai', { tool: 'budget', taal, gemeente: GEMEENTE, bericht: BERICHT }];
+      if (route === 'digi') return ['/api/ai', { tool: 'rechten', taal: taal.toUpperCase(), berichten: [{ role: 'user', content: VRAAG[taal] }] }];
+      const d = gvData[taal.toUpperCase()] || gvData.NL;
       const arts = ZEG && n % 2 === 0;
       const cat = d.categorieen.find(c => c.id === (arts ? 'dokter' : 'gemeente'));
       const sit = cat.situaties.find(x => x.id === (arts ? 'dokter-klacht' : 'gemeente-bijstand'));
-      return ['/api/digi', PAGINA.gv(cat, sit, taal.toUpperCase(), [{ role: 'user', content: (arts ? GV_ARTS : GV_VRAAG)[taal] }])];
+      return ['/api/ai', { tool: 'gv', taal: taal.toUpperCase(), categorie: cat.naam, situatie: sit.titel,
+                           berichten: [{ role: 'user', content: (arts ? GV_ARTS : GV_VRAAG)[taal] }] }];
     }
     const r = R[taal];
     const slot = v === 'V1' ? `(Antwoord in het ${r.naam_nl}.)` : (v === 'V2' || v === 'V3') ? r.kort : '';
@@ -290,9 +284,21 @@ Nibud-referentie voor deze situatie:
     const pmap = join(uit, '..', 'prompts');
     mkdirSync(pmap, { recursive: true });
     for (const v of varianten) for (const taal of talen) {
-      const [, data] = prompts(v, taal);
-      const gebruiker = data.bericht ?? data.berichten.at(-1).content;
-      writeFileSync(join(pmap, `${route}-${v}-${taal}.txt`), `=== SYSTEEM ===\n${data.systeem}\n\n=== GEBRUIKER ===\n${gebruiker}\n`, 'utf-8');
+      const [pad, data] = prompts(v, taal);
+      let systeem = data.systeem, gebruiker = data.bericht ?? data.berichten.at(-1).content;
+      if (v === 'WORKER') {
+        // De prompt staat in de Worker: vang op wat hij naar Anthropic zou sturen (geen netwerk).
+        const echt = globalThis.fetch; let naar = null;
+        globalThis.fetch = async (_url, init) => { naar = JSON.parse(init.body);
+          return new Response(JSON.stringify({ content: [{ type: 'text', text: 'droog' }], stop_reason: 'end_turn' })); };
+        const res = await worker.fetch(new Request('https://worker.test' + pad, { method: 'POST',
+          headers: { 'Content-Type': 'application/json', Origin: 'https://solidari.nl' }, body: JSON.stringify(data) }),
+          { ANTHROPIC_API_KEY: 'droog', DB: GEEN_TELLER });
+        globalThis.fetch = echt;
+        if (!naar) { console.log(`droog: de Worker weigerde ${route} ${taal} (${res.status})`); process.exit(1); }
+        systeem = naar.system; gebruiker = naar.messages.at(-1).content;
+      }
+      writeFileSync(join(pmap, `${route}-${v}-${taal}.txt`), `=== SYSTEEM ===\n${systeem}\n\n=== GEBRUIKER ===\n${gebruiker}\n`, 'utf-8');
     }
     console.log(`droog: ${varianten.length * talen.length} prompts in ${pmap}`);
     return;
@@ -476,7 +482,7 @@ const gevallen = talenModus ? [
   ['/api/digi', { systeem: RECHTEN_SYSTEEM, berichten: [
     { role: 'user', content: 'Ik woon sinds 3 maanden in Nederland met een verblijfsvergunning. Heb ik recht op zorgtoeslag en hoe vraag ik die aan?' }] }],
 ];
-if (!RECHTEN_SYSTEEM) console.log('LET OP: SYSTEM_PROMPT niet gevonden in rechten.html');
+if (!RECHTEN_SYSTEEM) console.log('LET OP: RECHTEN_PROMPT niet gevonden in de Worker');
 for (const [route, data, taal] of gevallen) {
   for (let n = 1; n <= aantal; n++) {
     let r;

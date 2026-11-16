@@ -68,7 +68,7 @@ const ANTWOORD = 'Kort: **ja**.\n\n- eerst bellen\n- <b>dan</b> mailen';
 test('rechten: AI-antwoord met opmaak; de geschiedenis blijft platte tekst', async ({ page }) => {
   await metTaal(page, 'NL');
   let verzoek = null;
-  await page.route(/\/api\/digi/, (r) => { verzoek = r.request().postDataJSON(); r.fulfill({ status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' }, body: JSON.stringify({ tekst: ANTWOORD, bronnen: [] }) }); });
+  await page.route(/\/api\/ai/, (r) => { verzoek = r.request().postDataJSON(); r.fulfill({ status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' }, body: JSON.stringify({ tekst: ANTWOORD, bronnen: [] }) }); });
   await page.goto('rechten.html');
   await page.fill('#invoer', 'Mag ik werken naast mijn uitkering?');
   await page.click('#stuur-btn');
@@ -100,7 +100,7 @@ test('goedvoorbereid: AI-antwoord met opmaak', async ({ page }) => {
 test('budgethulp: AI-analyse met opmaak, links blijven werken, geen HTML uit het model', async ({ page }) => {
   await metTaal(page, 'NL');
   const tekst = '**Bijzondere bijstand** via https://www.utrecht.nl/x?a=1&b=2 en <img src=x onerror="window.__xss=1">\n- **Voedselbank**\n- Kledingbank';
-  await page.route(/\/api\/analyse/, (r) => r.fulfill({ status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' }, body: JSON.stringify({ tekst }) }));
+  await page.route(/\/api\/ai/, (r) => r.fulfill({ status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' }, body: JSON.stringify({ tekst }) }));
   await page.goto('budgethulp.html');
   await page.waitForFunction(() => typeof window.Solidari.opmaak === 'function');
   // Rechtstreeks de analyse aanroepen, met een klein verzonnen budget.
@@ -177,14 +177,6 @@ test('budgethulp: zonder taalwissel begint de opening maar één keer', async ({
 });
 
 // ── R-5: de zin om te zeggen in het Nederlands, de betekenis in de eigen taal (B-3) ───────
-for (const [taal, naam] of [['AR', 'Arabic (العربية)'], ['NL', null]]) {
-  test(`goedvoorbereid ${taal}: systeemprompt vraagt een Nederlandse zin om te zeggen`, async ({ page }) => {
-    await metTaal(page, taal);
-    await page.goto('goedvoorbereid.html');
-    await page.waitForFunction(() => window.Solidari && window.Solidari.i18n);
-    const p = await page.evaluate(() => bouwSystemPrompt());
-    expect(p).toContain('altijd in eenvoudig Nederlands (niveau A2), tussen aanhalingstekens');
-    if (naam) expect(p).toContain(`wat die zin betekent in het ${naam}. De rest van je antwoord blijft in het ${naam}.`);
-    else expect(p).not.toContain('wat die zin betekent');
-  });
-}
+// PLAN 19: de systeemprompt staat niet meer op de pagina maar in de Worker. De twee tests die
+// hier stonden (AR en NL, via bouwSystemPrompt()) zijn verhuisd naar
+// tools/modellen/worker-stubtest.mjs, blok 11.

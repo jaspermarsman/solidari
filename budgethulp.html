@@ -242,7 +242,7 @@ function aiMelding(){
 // D-27: centrale Cloudflare Worker (dezelfde als rechten.html), niet de
 // uitgefaseerde zonne-server. Geen /api/status-ping meer.
 const API_BASE    = 'https://solidari-digi-hulp-worker.jaspermarsman.workers.dev';
-const ANALYSE_URL = API_BASE + '/api/analyse';
+const ANALYSE_URL = API_BASE + '/api/ai';
 
 // ══════════════════════════════════════════════════════
 // NIBUD MINIMUMVOORBEELDBEGROTINGEN JULI 2025
@@ -2511,52 +2511,10 @@ Nibud-referentie voor deze situatie:
 - Huur richtlijn: €${ref.huur} | Voeding richtlijn: €${ref.voeding} | Energie richtlijn: €${ref.energie}`;
 }
 
-// ── AI-prompt (PLAN 13, V3 uit PLAN 12) ──────────────────────────────────
-// Pure functie: tools/modellen/worker-echt.mjs leest hem letterlijk uit deze pagina om te meten.
-// naam = taal in de TAAL-regel (zoals voorheen); nl = Nederlandse taalnaam voor GEKOZEN TAAL;
-// regel = korte taalregel in de doeltaal, als laatste regel van het bericht;
-// slot = vaste slotzin (S-3), niet door het model te vertalen. Bron: tools/modellen/taalregels.json.
-// Tigrinya: geen regel en geen slotzin tot een moedertaalspreker ze gelezen heeft (S-9).
-const AI_TAAL = {
-  nl: { naam: 'Nederlands', nl: 'Nederlands', regel: 'Antwoord in het Nederlands.', slot: 'Neem de Excel of PDF mee naar je begeleider.' },
-  en: { naam: 'English', nl: 'Engels', regel: 'Answer in English.', slot: 'Take the Excel or PDF with you to your counsellor.' },
-  ar: { naam: 'Arabic', nl: 'Arabisch', regel: 'أجب باللغة العربية.', slot: 'خذ ملف Excel أو PDF معك إلى المرشد.' },
-  tr: { naam: 'Turkish', nl: 'Turks', regel: 'Türkçe cevap ver.', slot: 'Excel veya PDF dosyasını danışmanınıza götürün.' },
-  uk: { naam: 'Ukrainian', nl: 'Oekraïens', regel: 'Відповідай українською мовою.', slot: 'Візьміть Excel або PDF із собою до куратора.' },
-  ti: { naam: 'Tigrinya', nl: 'Tigrinya', regel: '', slot: '' },
-  fa: { naam: 'Dari (Farsi)', nl: 'Dari', regel: 'به زبان دری پاسخ بده.', slot: 'فایل Excel یا PDF را نزد مشاور خود ببرید.' },
-  ro: { naam: 'Romanian', nl: 'Roemeens', regel: 'Răspunde în limba română.', slot: 'Ia fișierul Excel sau PDF cu tine la consilier.' },
-  pl: { naam: 'Polish', nl: 'Pools', regel: 'Odpowiedz po polsku.', slot: 'Zabierz plik Excel lub PDF ze sobą do doradcy.' },
-};
-
-function bouwAiPrompt(gemeente, taal, budgetContext) {
-  const tl = AI_TAAL[taal] || AI_TAAL.nl;
-  const systeem = `Je bent een vriendelijke budgetcoach voor Solidari.
-TAAL: Antwoord UITSLUITEND in het ${tl.naam}. Geen uitzonderingen.
-
-Geef advies in 3 delen:
-
-1. BUDGETANALYSE (max 3 zinnen): Bespreek de financiele situatie eerlijk maar respectvol. Benoem het belangrijkste knelpunt.
-
-2. HULP IN ${gemeente.toUpperCase()}: Geef voor elke relevante categorie specifieke informatie voor gemeente ${gemeente}:
-- Bijzondere bijstand: hoe aanvragen
-- Collectieve zorgverzekering gemeente ${gemeente}
-- Kwijtschelding gemeentebelastingen: hoe aanvragen
-- Voedselbank: locatie als je die kent
-- Schuldhulpverlening gemeente ${gemeente}: contactgegevens
-- Sociaal Wijkteam of VluchtelingenWerk in ${gemeente}
-- Stichting Leergeld ${gemeente}: voor kinderen
-- Kledingbank in de regio
-Als je iets niet zeker weet, zeg dat eerlijk en verwijs naar de gemeente-website of het Sociaal Wijkteam.
-
-3. TOP 3 ACTIES: Drie concrete stappen die nu gezet kunnen worden.
-
-${tl.slot ? `Sluit af met precies deze zin: ${tl.slot}\n` : ''}Maximaal 400 woorden.
-
-GEKOZEN TAAL: De gebruiker heeft gekozen voor: ${tl.nl}. Schrijf je hele antwoord in het ${tl.nl}, ook al zijn deze instructies en het budgetoverzicht in het Nederlands.`;
-  const bericht = tl.regel ? `${budgetContext}\n\n${tl.regel}` : budgetContext;
-  return { systeem, bericht };
-}
+// ── AI-verzoek (PLAN 19) ─────────────────────────────────────────────────
+// De pagina stuurt alleen de tool, de gekozen taal, de gemeente en het budgetoverzicht. De
+// systeemprompt, de taalregels en de vaste slotzin staan in de Worker
+// (tools/worker/solidari-worker.js), niet meer op de pagina.
 
 async function roepAiAan(gemeente) {
   const t = T[taal];
@@ -2583,8 +2541,6 @@ async function roepAiAan(gemeente) {
     ? knelpunten.join(', ')
     : 'bijzondere bijstand, voedselbank, minimaregelingen';
 
-  const { systeem: systeemprompt, bericht: aiBericht } = bouwAiPrompt(gemeente, taal, budgetContext);
-
   // Timeout via Promise.race (AbortController werkt niet in sandboxed iframe)
   // API_BASE en ANALYSE_URL zijn globaal gedefinieerd bovenaan het script (D-27: centrale Worker)
 
@@ -2592,8 +2548,8 @@ async function roepAiAan(gemeente) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        systeem: systeemprompt,
-        bericht: aiBericht
+        tool: 'budget', taal, gemeente,
+        bericht: budgetContext
       })
     });
   const timeoutPromise = new Promise((_, reject) =>
