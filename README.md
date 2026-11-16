@@ -35,7 +35,7 @@ Cloudflare Worker                    api.solidari.nl
 (Budgethulp, Rechten,                Hetzner VPS, 24/7
  Vertaalhulp, Feedback)              (Flask + Gunicorn achter nginx)
     ↓                                ├── OCR + PII-redactie (op de server zelf)
-Claude API                           └── Claude API (Haiku) — geanonimiseerde brieftekst
+Claude API                           └── Claude API — geanonimiseerde brieftekst
 ```
 
 **Frontend:** Statische HTML/CSS/JS — geen buildstap, geen framework. Gedeelde architectuur via `components.js`, `components.css` en `i18n.js`.
@@ -43,7 +43,7 @@ Claude API                           └── Claude API (Haiku) — geanonimis
 **Backend:** Flask op Debian 13, nginx reverse proxy, Let's Encrypt HTTPS, op een eigen server bij Hetzner (Neurenberg, EU). Draait als `solidari` systeemgebruiker zonder root-rechten, met `ProtectSystem=strict`, ufw en fail2ban. De server is 24/7 bereikbaar; er is geen thuis-pc en geen zonne-afhankelijkheid meer in de keten. Naast `api.solidari.nl` luistert dezelfde server op `api-test.solidari.nl`, de staging-ingang waar wijzigingen eerst getest worden.
 
 **AI-routing:**
-- Brief Begrijper: OCR en PII-redactie lokaal → geanonimiseerde tekst naar Claude API (Haiku)
+- Brief Begrijper: OCR en PII-redactie lokaal → geanonimiseerde tekst naar Claude API
 - Overige tools (Budgethulp, Rechten & Plichten): Claude API direct — geen privacygevoelige documenten
 - *(Digi Hulp is verwijderd, besluit 2026-07-06.)*
 
@@ -124,15 +124,15 @@ omdat OCR en PII-redactie dáár draaien.
 
 | Code | Taal | RTL | AI-backend |
 |---|---|---|---|
-| NL | Nederlands | — | Claude API (Haiku) |
-| EN | Engels | — | Claude API (Haiku) |
-| AR | Arabisch | ✓ | Claude API (Haiku) |
-| TR | Turks | — | Claude API (Haiku) |
-| TI | Tigrinya | — | Claude API (Haiku) |
-| UK | Oekraïens | — | Claude API (Haiku) |
-| FA | Dari/Farsi | ✓ | Claude API (Haiku) |
-| RO | Roemeens | — | Claude API (Haiku) |
-| PL | Pools | — | Claude API (Haiku) |
+| NL | Nederlands | — | Claude API |
+| EN | Engels | — | Claude API |
+| AR | Arabisch | ✓ | Claude API |
+| TR | Turks | — | Claude API |
+| TI | Tigrinya | — | Claude API |
+| UK | Oekraïens | — | Claude API |
+| FA | Dari/Farsi | ✓ | Claude API |
+| RO | Roemeens | — | Claude API |
+| PL | Pools | — | Claude API |
 
 ---
 

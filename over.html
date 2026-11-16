@@ -642,7 +642,7 @@
             <div class="arch-laag-inhoud">
               <div class="arch-laag-naam">Cloudflare Worker — API-proxy</div>
               <div class="arch-laag-detail">
-                Een Cloudflare Worker fungeert als proxy tussen de browser en de AI-diensten — en handelt rate limiting op netwerkniveau af.
+                Een Cloudflare Worker staat tussen de browser en de AI-dienst. De Worker bewaart de instructies voor de AI, en begrenst het aantal vragen per dag.
               </div>
             </div>
           </div>
@@ -663,7 +663,7 @@
             <div class="arch-laag-inhoud">
               <div class="arch-laag-naam">AI-laag — Claude API (Anthropic)</div>
               <div class="arch-laag-detail">
-                Brief Begrijper gebruikt <span class="code-badge">Claude Haiku</span> via de Anthropic API. OCR en PII-redactie draaien op onze eigen server; alleen de geanonimiseerde brieftekst wordt naar de API gestuurd. Andere tools (Budgethulp, Rechten &amp; Plichten) gebruiken Claude API direct — zonder privacygevoelige documenten.
+                Brief Begrijper gebruikt een taalmodel van Anthropic (Claude) via de Anthropic API. OCR en PII-redactie draaien op onze eigen server; alleen de geanonimiseerde brieftekst wordt naar de API gestuurd. Andere tools (Budgethulp, Rechten &amp; Plichten) gebruiken Claude API direct — zonder privacygevoelige documenten.
               </div>
             </div>
           </div>
@@ -737,7 +737,7 @@
           <div class="privacy-kaart">
             <div class="privacy-kaart-titel">Geen cookies of tracking</div>
             <p class="privacy-kaart-tekst">
-              Solidari gebruikt geen cookies, geen analytics en geen trackingpixels. Er worden geen gegevens gedeeld met adverteerders of derde partijen.
+              Solidari gebruikt geen cookies, geen analytics en geen trackingpixels. De pagina's laden niets van andere partijen; ook de lettertypen staan bij ons zelf. Er worden geen gegevens gedeeld met adverteerders. Welke partijen technisch nodig zijn, staat onder “Waar je gegevens langskomen”.
             </p>
           </div>
           <div class="privacy-kaart">
@@ -777,6 +777,8 @@
           <div class="privacy-kaart">
             <div class="privacy-kaart-titel">Waar je gegevens langskomen</div>
             <p class="privacy-kaart-tekst">
+              De pagina's zelf worden geleverd door GitHub Pages (GitHub, Verenigde Staten). GitHub ziet
+              daarbij je IP-adres, zoals elke webserver; wat je in de tools invult komt daar niet langs.
               De server waarop brieven worden verwerkt staat in een datacenter van Hetzner in Duitsland (EU).
               De geanonimiseerde tekst wordt verwerkt door Anthropic (Verenigde Staten) op grond van
               standaardcontractbepalingen; Anthropic bewaart die tekst maximaal 30 dagen en gebruikt

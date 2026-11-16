@@ -351,3 +351,20 @@ test.describe('fase 4: lettertypen en scripts op eigen plek', () => {
     expect(r.kop).toBe('%PDF-');
   });
 });
+
+// ── Fase 5: over.html klopt weer (B-10, §3) ──────────────────────────────────────────────────
+test.describe('fase 5: over.html klopt weer', () => {
+  test('de drie zinnen uit §3, geen modelnaam, en de vier partijen', async ({ page }) => {
+    await metTaal(page, 'NL');
+    await page.goto('over.html');
+    const tekst = (await page.locator('body').innerText()).replace(/\s+/g, ' ');
+    expect(tekst).toContain('Een Cloudflare Worker staat tussen de browser en de AI-dienst. De Worker bewaart de instructies voor de AI, en begrenst het aantal vragen per dag.');
+    expect(tekst).toContain('Brief Begrijper gebruikt een taalmodel van Anthropic (Claude) via de Anthropic API.');
+    expect(tekst).toContain("Solidari gebruikt geen cookies, geen analytics en geen trackingpixels. De pagina's laden niets van andere partijen; ook de lettertypen staan bij ons zelf.");
+    expect(tekst).not.toMatch(/Haiku/i);
+    expect(tekst).not.toContain('rate limiting');
+    expect(tekst).not.toContain('derde partijen');
+    const kaart = page.locator('.privacy-kaart').filter({ has: page.locator('.privacy-kaart-titel', { hasText: 'Waar je gegevens langskomen' }) });
+    for (const partij of ['GitHub Pages', 'Hetzner', 'Anthropic', 'Cloudflare']) await expect(kaart).toContainText(partij);
+  });
+});
