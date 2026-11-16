@@ -1175,26 +1175,58 @@ async function stuurNaarBackend() {
 }
 
 // ─── RESULTAAT TONEN ─────────────────────────────────────────────
+// ── Uitleg veilig op de pagina (PLAN 19, B-7) ──────────────────────────────
+// De uitleg komt van de AI en de brief is invoer van buiten: er gaat daarom geen HTML uit het
+// antwoord rechtstreeks de pagina in. veiligeHtml() leest de HTML in een los document (daar
+// draait en laadt niets) en bouwt hem opnieuw op met alleen p, strong, em, ul, ol, li, br en
+// div (met hooguit class="tip"). Elk ander element wordt zijn tekst, elk ander attribuut
+// verdwijnt; van script en style blijft niets over. Geeft een DocumentFragment terug.
+function veiligeHtml(html) {
+  const MAG = ['P', 'STRONG', 'EM', 'UL', 'OL', 'LI', 'BR', 'DIV'];
+  const bron = new DOMParser().parseFromString('<!doctype html><body>' + String(html == null ? '' : html), 'text/html');
+  const kopieer = (van, naar) => {
+    van.childNodes.forEach((n) => {
+      if (n.nodeType === Node.TEXT_NODE) { naar.appendChild(document.createTextNode(n.nodeValue)); return; }
+      if (n.nodeType !== Node.ELEMENT_NODE) return;                    // commentaar e.d.
+      if (n.tagName === 'SCRIPT' || n.tagName === 'STYLE') return;      // code is geen tekst
+      if (!MAG.includes(n.tagName)) { naar.appendChild(document.createTextNode(n.textContent)); return; }
+      const el = document.createElement(n.tagName.toLowerCase());
+      if (n.tagName === 'DIV' && n.getAttribute('class') === 'tip') el.className = 'tip';
+      kopieer(n, el);
+      naar.appendChild(el);
+    });
+  };
+  const uit = document.createDocumentFragment();
+  kopieer(bron.body, uit);
+  return uit;
+}
+
 function toonResultaat(data) {
   toonStap('resultaat');
+  const tekst = (x) => String(x == null ? '' : x);
+  // Het voorbeeld op de pagina (DEMO_RESULTAAT) is onze eigen tekst en mag zijn opmaak houden
+  // (de deadline-regel en de link). Al het andere komt van de AI en wordt gefilterd.
+  const eigenVoorbeeld = data === DEMO_RESULTAAT;
 
-  // Urgentie banner
+  // Urgentie banner: titel en tekst als platte tekst
   const urgContainer = document.getElementById('urgentie-banner');
+  urgContainer.innerHTML = '';
   if (data.urgentie) {
     const u = data.urgentie;
+    const niveau = ['hoog', 'midden', 'laag'].includes(u.niveau) ? u.niveau : 'laag';
     urgContainer.innerHTML = `
-      <div class="urgentie-banner ${u.niveau}">
-        <span class="urgentie-icoon">${u.niveau === 'hoog' ? '⚠️' : u.niveau === 'midden' ? '📅' : 'ℹ️'}</span>
+      <div class="urgentie-banner ${niveau}">
+        <span class="urgentie-icoon">${niveau === 'hoog' ? '⚠️' : niveau === 'midden' ? '📅' : 'ℹ️'}</span>
         <div class="urgentie-tekst">
-          <strong>${u.titel}</strong>
-          ${u.tekst}
+          <strong></strong>
         </div>
       </div>`;
-  } else {
-    urgContainer.innerHTML = '';
+    const vak = urgContainer.querySelector('.urgentie-tekst');
+    vak.querySelector('strong').textContent = tekst(u.titel);
+    vak.appendChild(document.createTextNode(tekst(u.tekst)));
   }
 
-  // Resultaatkaarten
+  // Resultaatkaarten: pictogram en titel als platte tekst, de uitleg gefilterd
   const kaarten = document.getElementById('resultaat-kaarten');
   kaarten.innerHTML = '';
   (data.secties || []).forEach((sectie, idx) => {
@@ -1202,26 +1234,34 @@ function toonResultaat(data) {
     kaart.className = 'resultaat-kaart';
     kaart.innerHTML = `
       <div class="rk-header ${idx === 0 ? 'open' : ''}" onclick="toggleKaart(this)">
-        <div class="rk-icoon" style="background:${sectie.achtergrond || '#F5F2EC'}">${sectie.icoon}</div>
-        <div class="rk-naam">${sectie.titel}</div>
+        <div class="rk-icoon"></div>
+        <div class="rk-naam"></div>
         <span class="rk-chevron">▼</span>
       </div>
       <div class="rk-body ${idx === 0 ? 'open' : ''}">
-        ${sectie.inhoud}
       </div>`;
+    const icoon = kaart.querySelector('.rk-icoon');
+    icoon.style.background = /^#[0-9a-f]{6}$/i.test(tekst(sectie.achtergrond)) ? sectie.achtergrond : '#F5F2EC';
+    icoon.textContent = tekst(sectie.icoon);
+    kaart.querySelector('.rk-naam').textContent = tekst(sectie.titel);
+    const body = kaart.querySelector('.rk-body');
+    if (eigenVoorbeeld) body.innerHTML = sectie.inhoud;
+    else body.replaceChildren(veiligeHtml(sectie.inhoud));
     kaarten.appendChild(kaart);
   });
 
-  // Actiepunten
+  // Actiepunten: platte tekst
   const apBlok = document.getElementById('actiepunten-blok');
   const apLijst = document.getElementById('actiepunten-lijst');
-  if (data.actiepunten && data.actiepunten.length > 0) {
+  apLijst.innerHTML = '';
+  if (Array.isArray(data.actiepunten) && data.actiepunten.length > 0) {
     apBlok.style.display = 'block';
     apLijst.innerHTML = data.actiepunten.map((ap, i) => `
       <div class="actiepunt" id="ap-${i}">
         <div class="ap-vinkje" onclick="vinkAf(${i})"></div>
-        <span class="ap-tekst">${ap}</span>
+        <span class="ap-tekst"></span>
       </div>`).join('');
+    apLijst.querySelectorAll('.ap-tekst').forEach((el, i) => { el.textContent = tekst(data.actiepunten[i]); });
   } else {
     apBlok.style.display = 'none';
   }
