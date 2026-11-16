@@ -240,3 +240,114 @@ test.describe('fase 3: de uitleg van de Brief Begrijper wordt gefilterd', () => 
     expect(kopie).toBe(0);
   });
 });
+
+// ── Fase 4: lettertypen en scripts op eigen plek (B-8, B-9) ──────────────────────────────────
+const ALLE_PAGINAS = [
+  'index.html', 'brief.html', 'budgethulp.html', 'loont-werken.html', 'naturalisatie.html', '18jaar.html',
+  'rechten.html', 'goedvoorbereid.html', 'over.html', 'feedback.html', 'vertaalhulp.html', 'stemmen.html',
+];
+const DERDEN = /^(fonts\.googleapis\.com|fonts\.gstatic\.com|cdnjs\.cloudflare\.com)$/;
+
+test.describe('fase 4: lettertypen en scripts op eigen plek', () => {
+  for (const pagina of ALLE_PAGINAS) {
+    test(`${pagina}: geen verzoek naar Google Fonts of cdnjs, lettertypen van de eigen site`, async ({ page }) => {
+      const verzoeken = [];
+      const antwoorden = new Map();
+      page.on('request', (r) => verzoeken.push(r.url()));
+      page.on('response', (r) => antwoorden.set(r.url(), r.status()));
+      await metTaal(page, 'NL');
+      await page.goto(pagina, { waitUntil: 'networkidle' });
+      await page.evaluate(() => document.fonts.ready);
+      const eigen = new URL(page.url()).host;
+      const hosts = [...new Set(verzoeken.filter((u) => /^https?:/.test(u)).map((u) => new URL(u).host))];
+      expect(hosts.filter((h) => DERDEN.test(h))).toEqual([]);
+      // Bij het laden gaat er helemaal niets naar een andere partij.
+      expect(hosts.filter((h) => h !== eigen)).toEqual([]);
+      // De stylesheet en minstens één lettertypebestand komen van de eigen site en zijn gevonden.
+      const css = verzoeken.find((u) => /\/fonts\/fonts\.css$/.test(u));
+      expect(css, 'fonts/fonts.css is niet opgevraagd').toBeTruthy();
+      expect(antwoorden.get(css)).toBe(200);
+      const woff = verzoeken.filter((u) => /\/fonts\/[a-z0-9-]+\.woff2$/.test(u));
+      expect(woff.length).toBeGreaterThan(0);
+      for (const u of woff) expect(antwoorden.get(u), u).toBe(200);
+      // document.fonts.check is ook waar voor een lettertype dat nergens gedefinieerd is; daarom
+      // ook: het lettertype is echt geladen.
+      const f = await page.evaluate(() => ({
+        check: document.fonts.check('1em "Source Sans 3"'),
+        geladen: [...document.fonts].filter((x) => x.status === 'loaded').map((x) => x.family.replace(/["']/g, '')),
+      }));
+      expect(f.check).toBe(true);
+      expect(f.geladen).toContain('Source Sans 3');
+    });
+  }
+
+  test('fonts.css: alle bestanden bestaan, font-display: swap, geen adres van buiten', async ({ page }) => {
+    const css = await (await page.request.get('fonts/fonts.css')).text();
+    expect(css).not.toMatch(/https?:\/\//);
+    const blokken = css.match(/@font-face \{[^}]*\}/g);
+    expect(blokken.length).toBe(44);
+    for (const b of blokken) expect(b).toContain('font-display: swap');
+    const bestanden = [...new Set([...css.matchAll(/url\(([^)]+)\)/g)].map((m) => m[1]))];
+    expect(bestanden.length).toBe(15);
+    for (const b of bestanden) {
+      const r = await page.request.get('fonts/' + b);
+      expect(r.status(), b).toBe(200);
+      expect((await r.body()).subarray(0, 4).toString('latin1'), b).toBe('wOF2');
+    }
+    // De gewichten en de cursieve Playfair uit B-8.
+    for (const [fam, stijl, gewicht] of [['Playfair Display', 'normal', 400], ['Playfair Display', 'normal', 600], ['Playfair Display', 'normal', 700],
+      ['Playfair Display', 'italic', 400], ['Source Sans 3', 'normal', 300], ['Source Sans 3', 'normal', 400], ['Source Sans 3', 'normal', 500], ['Source Sans 3', 'normal', 600]]) {
+      expect(blokken.some((b) => b.includes(`font-family: '${fam}'`) && b.includes(`font-style: ${stijl}`) && b.includes(`font-weight: ${gewicht}`)), `${fam} ${stijl} ${gewicht}`).toBe(true);
+    }
+  });
+
+  test('over.html: de cursieve Playfair Display is beschikbaar', async ({ page }) => {
+    await metTaal(page, 'NL');
+    await page.goto('over.html');
+    const ok = await page.evaluate(async () => {
+      const f = await document.fonts.load('italic 400 1em "Playfair Display"', 'Solidari');
+      return f.length > 0 && f.every((x) => x.status === 'loaded' && x.style === 'italic');
+    });
+    expect(ok).toBe(true);
+  });
+
+  test('cyrillisch en uitgebreid latijn komen uit de eigen lettertypen (UK, PL)', async ({ page }) => {
+    await metTaal(page, 'UK');
+    const woff = [];
+    page.on('request', (r) => { if (/\.woff2$/.test(r.url())) woff.push(r.url().split('/').pop()); });
+    await page.goto('index.html', { waitUntil: 'networkidle' });
+    await page.evaluate(() => document.fonts.ready);
+    expect(woff).toContain('source-sans-3-cyrillic.woff2');
+    const ok = await page.evaluate(async () => (await document.fonts.load('1em "Source Sans 3"', 'żółć ąę')).length > 0);
+    expect(ok).toBe(true);
+  });
+
+  test('budgethulp: xlsx en jspdf komen uit vendor/, ongewijzigd, en werken', async ({ page }) => {
+    const crypto = require('crypto');
+    await metTaal(page, 'NL');
+    await page.goto('budgethulp.html', { waitUntil: 'networkidle' });
+    const src = await page.evaluate(() => [...document.scripts].map((s) => s.getAttribute('src')).filter(Boolean));
+    expect(src).toContain('vendor/xlsx.full.min.js');
+    expect(src).toContain('vendor/jspdf.umd.min.js');
+    expect(src.filter((s) => /^(https?:)?\/\//.test(s))).toEqual([]);
+    // Dezelfde SHA-256 als in vendor/LEESMIJ.md.
+    for (const [bestand, sha] of [['xlsx.full.min.js', 'c9506197caf809a075b6dee1da0d36fb19da7158ffe8a88e7b0c96c5d8623c99'],
+      ['jspdf.umd.min.js', '98ccf17aa10c20bb1301762618fcc9b6ab3a4e7f26b6071d64d0b41154df3875']]) {
+      const body = await (await page.request.get('vendor/' + bestand)).body();
+      expect(crypto.createHash('sha256').update(body).digest('hex'), bestand).toBe(sha);
+    }
+    const r = await page.evaluate(() => {
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet([['Huur', 780], ['Energie', 190]]), 'Budget');
+      const xlsx = XLSX.write(wb, { type: 'array', bookType: 'xlsx' });
+      const doc = new window.jspdf.jsPDF();
+      doc.text('Budgetoverzicht', 10, 10);
+      const pdf = doc.output('arraybuffer');
+      return { versie: XLSX.version, xlsx: xlsx.byteLength, pdf: pdf.byteLength, kop: String.fromCharCode(...new Uint8Array(pdf).slice(0, 5)) };
+    });
+    expect(r.versie).toBe('0.18.5');
+    expect(r.xlsx).toBeGreaterThan(1000);
+    expect(r.pdf).toBeGreaterThan(1000);
+    expect(r.kop).toBe('%PDF-');
+  });
+});
