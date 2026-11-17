@@ -110,8 +110,8 @@ curl -s -F brief=@tools/test/nepbrief.jpg -F taal=pl -F v=2 https://api.solidari
 ssh solidari-vps "journalctl -u solidari --since '10 min ago' | grep -Ei 'error|refusal|weigerde'"
 ```
 
-Let op: nginx laat op `/api/analyseer` maximaal 6 MB per verzoek door (`nginx/api.solidari.nl.conf`).
-De pagina houdt vier foto's samen onder die grens; een PDF boven 6 MB krijgt een 413.
+nginx laat op `/api/` sinds de uitrol van PLAN 20 maximaal 10 MB per verzoek door (`nginx/api.solidari.nl.conf`,
+was 6 MB); de backend zelf ook 10 MB. De pagina verstuurt niets boven 9,5 MB.
 Structured outputs uitzetten zonder code: `SOLIDARI_CLAUDE_SCHEMA=0` in `/etc/solidari/.env` en herstarten.
 
 ## Snapshot en herstel

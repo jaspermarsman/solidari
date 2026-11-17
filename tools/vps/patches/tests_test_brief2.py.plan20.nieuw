@@ -4,7 +4,8 @@ Draaien:  python3 tests/test_brief2.py
 Zonder netwerk en zonder API: het model en (waar nodig) de OCR zijn vervangen door een stub.
 Leest /etc/solidari/.env niet en raakt de productieteller niet aan.
 
-  1. De drie controles na het model (B-7): citaat, deadline in het verleden, niets te doen.
+  1. De controles na het model (B-7): citaat en deadline in het verleden. Een lege wat_doen mag
+     bij elke urgentie (controle 3 is bij W-L geschrapt).
   2. Het oude formaat voor pagina's zonder v=2 (B-8).
   3. Opschonen van het antwoord (geen HTML, hooguit drie acties).
   4. OCR: een PDF met tekstlaag gaat niet door Tesseract (B-4); altijd nld+eng.
@@ -145,14 +146,10 @@ laag = {'niveau': 'laag', 'titel': 'Ter informatie', 'tekst': 'Je hoeft niets te
 r = uitleg(wat_doen=[], deadline=None, urgentie=laag)
 check('brief zonder actie: wat_doen leeg en urgentie laag is goed (R-5)', r['wat_doen'] == [] and r['urgentie']['niveau'] == 'laag')
 aanroepen.clear()
-antwoorden[:] = [dict(copy.deepcopy(BASIS), wat_doen=[], deadline=None),
-                 dict(copy.deepcopy(BASIS), wat_doen=[], deadline=None, urgentie=laag)]
+antwoorden[:] = [dict(copy.deepcopy(BASIS), wat_doen=[], deadline=None)]
 r = ai.analyseer_brief(BRIEF, 'nl', '', vandaag=VANDAAG)
-check('geen actie maar urgentie hoog: één herkansing', len(aanroepen) == 2 and r['urgentie']['niveau'] == 'laag')
-aanroepen.clear()
-antwoorden[:] = [dict(copy.deepcopy(BASIS), wat_doen=[], deadline=None)] * 2
-check('… en daarna een fout', gooit(lambda: ai.analyseer_brief(BRIEF, 'nl', '', vandaag=VANDAAG), RuntimeError)
-      and len(aanroepen) == 2)
+check('geen actie bij urgentie hoog mag ook: geen herkansing en geen fout (besluit W-L)',
+      len(aanroepen) == 1 and r['wat_doen'] == [] and r['urgentie']['niveau'] == 'hoog')
 antwoorden[:] = [dict(copy.deepcopy(BASIS), leesbaar=False)]
 check('"leesbaar": false → BriefOnleesbaar', gooit(lambda: ai.analyseer_brief(BRIEF, 'nl', '', vandaag=VANDAAG), ai.BriefOnleesbaar))
 antwoorden[:] = [DagplafondBereikt(501, 500)]

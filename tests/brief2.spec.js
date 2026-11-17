@@ -480,13 +480,22 @@ test.describe('meer pagina\'s', () => {
     expect(b.reduce((s, x, i) => s + x * (i + 1), 0)).toBeLessThanOrEqual(10 * 5.5 * MB);   // elk aantal blijft ≤ 5,5 MB samen
   });
 
-  test('een PDF boven wat nginx doorlaat (6 MB) wordt niet verstuurd: te_groot', async ({ page }) => {
+  test('een PDF boven wat de server doorlaat (9,5 MB) wordt niet verstuurd: te_groot', async ({ page }) => {
     const { verzoeken } = await laad(page, MIN);
-    await kies(page, { name: 'groot.pdf', mimeType: 'application/pdf', buffer: Buffer.alloc(6 * 1024 * 1024) });
+    await kies(page, { name: 'groot.pdf', mimeType: 'application/pdf', buffer: Buffer.alloc(Math.round(9.7 * 1024 * 1024)) });
     await page.check('#privacy-checkbox');
     await page.click('#analyseer-knop');
     await expect(page.locator('#fout-bericht')).toHaveText(NL_FOUT.te_groot, { timeout: 20000 });
     expect(verzoeken).toHaveLength(0);
+  });
+
+  test('een PDF van 7 MB wordt wel verstuurd (nginx laat sinds W-L 10 MB door)', async ({ page }) => {
+    const { verzoeken } = await laad(page, MIN);
+    await kies(page, { name: 'zeven.pdf', mimeType: 'application/pdf', buffer: Buffer.alloc(7 * 1024 * 1024) });
+    await page.check('#privacy-checkbox');
+    await page.click('#analyseer-knop');
+    await expect(page.locator('#stap-resultaat')).toBeVisible({ timeout: 20000 });
+    expect(verzoeken).toHaveLength(1);
   });
 
   test('"Nieuwe brief" ruimt de pagina\'s op', async ({ page }) => {

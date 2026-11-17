@@ -793,7 +793,7 @@ const CONFIG = {
   MAX_PAGINAS: 4,
   // nginx vóór de backend laat op deze route 6 MB per verzoek door: de afbeeldingen samen blijven daar ruim onder.
   MAX_TOTAAL_BYTES: 5.5 * 1024 * 1024,     // doel voor alle afbeeldingen samen na compressie
-  MAX_VERZOEK_BYTES: 5.9 * 1024 * 1024,    // meer dan dit past niet door nginx: dan niet eens versturen
+  MAX_VERZOEK_BYTES: 9.5 * 1024 * 1024,    // nginx en de backend laten 10 MB per verzoek door (W-L, 17-11-2026); daarboven niet eens versturen
   // Beeldcompressie vóór verzending (PLAN-2 fase 1.5): langste zijde en doelgrootte
   COMPRESSIE_MAX_PX: 1568,
   COMPRESSIE_MAX_BYTES: 3 * 1024 * 1024   // per afbeelding, maximaal; bij meer pagina's krijgt elke pagina minder (zie budgetPerAfbeelding)
@@ -1206,7 +1206,7 @@ async function stuurNaarBackend() {
     const teVerzenden = [];
     for (const f of gekozen) teVerzenden.push(await comprimeerVoorVerzending(f, budget));
 
-    // Past het niet door de server vóór de backend (6 MB), dan hebben we niets aan versturen
+    // Past het niet door de server vóór de backend (10 MB), dan hebben we niets aan versturen
     // (zo'n afwijzing komt zonder CORS-kop terug en lijkt dan een storing).
     const totaal = teVerzenden.reduce((som, f) => som + f.size, 0);
     if (totaal > CONFIG.MAX_VERZOEK_BYTES) { const e = new Error('te groot'); e.code = 'te_groot'; throw e; }

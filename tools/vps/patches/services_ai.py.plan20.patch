@@ -12,8 +12,8 @@
 +  1. Persoonsgegevens gaan er lokaal uit, zo goed als dat met regels kan (services/redacteer.py).
 +  2. De overgebleven tekst gaat naar de Claude API, met de datum van vandaag erbij.
 +  3. Het antwoord is platte tekst in vaste velden (geen HTML).
-+  4. Drie controles in code (B-7): het citaat bij de deadline moet letterlijk in de brief staan,
-+     een deadline in het verleden wordt "verlopen", en "niets te doen" mag alleen bij urgentie laag.
++  4. Twee controles in code (B-7): het citaat bij de deadline moet letterlijk in de brief staan
++     (de datum komt uit het citaat), en een deadline in het verleden wordt "verlopen".
  
 -De AI-output wordt als gestructureerde JSON teruggegeven.
 +Oude pagina's (zonder v=2 in het verzoek) krijgen hetzelfde antwoord in het oude formaat:
@@ -42,7 +42,7 @@
  TAAL_NAMEN = {
      'nl': 'Nederlands',
      'en': 'English',
-@@ -32,8 +42,361 @@
+@@ -32,8 +42,358 @@
      'pl': 'Polski (Polish)',
  }
  
@@ -262,8 +262,9 @@
 +    verstuurd = geredigeerd[:MAX_BRIEF_TEKENS]
 +    systeem = _systeem_prompt(taal, vandaag)
 +
-+    # Stap 2: uitleg via de Claude API. Eén herkansing als het antwoord niet bruikbaar is
-+    # of als "niets te doen" en de urgentie elkaar tegenspreken (B-7, controle 3).
++    # Stap 2: uitleg via de Claude API. Eén herkansing als het antwoord niet bruikbaar is.
++    # Een lege "wat_doen" mag bij elke urgentie (besluit Jasper bij W-L, 17-11-2026): een besluit
++    # met een korting waar de lezer niets hoeft te doen is geen fout. Controle 3 uit B-7 is vervallen.
 +    for poging in (1, 2):
 +        try:
 +            ruw = _via_claude(bericht, systeem)
@@ -280,10 +281,6 @@
 +            continue
 +        if not resultaat.pop('leesbaar'):
 +            raise BriefOnleesbaar('Het model kon de tekst niet uitleggen.')
-+        if not resultaat['wat_doen'] and resultaat['urgentie']['niveau'] != 'laag':
-+            logger.warning('Geen actie maar urgentie %s (poging %d)',
-+                           resultaat['urgentie']['niveau'], poging)
-+            continue
 +
 +        resultaat = _controleer_deadline(resultaat, verstuurd, vandaag)
 +        resultaat['afgekapt'] = afgekapt
@@ -406,7 +403,7 @@
      'nl': {
          'wat_staat_er': 'Wat staat er in deze brief?',
          'waarom': 'Waarom krijg ik deze brief?',
-@@ -99,250 +462,38 @@
+@@ -99,250 +459,38 @@
      },
  }
  
@@ -415,7 +412,7 @@
 -TAAL: Schrijf altijd in de taal die de gebruiker heeft gekozen. Volg dit strikt op.
 -
 -TAAK: Leg uit wat er in de brief staat. Gebruik ALLEEN informatie uit de brief.
--
+ 
 -STAP 1 - LEES DE BRIEF ZORGVULDIG:
 -Identificeer: afzender, ontvanger, brieftdatum, deadline/vervaldatum, verplichte actie(s).
 -Let op: [BRIEFTDATUM] en [VERVALDATUM] labels staan boven de briefinhoud als hulp.
@@ -636,7 +633,7 @@
 -
 -def _maak_prompt(brief_tekst: str, taal: str, extra_context: str) -> str:
 -    taal_naam = TAAL_NAMEN.get(taal, 'Nederlands')
- 
+-
 -    context_deel = f'\nExtra context van de gebruiker: {extra_context}' if extra_context else ''
 -
 -    return f"""BELANGRIJK: Schrijf je VOLLEDIGE antwoord in het {taal_naam}. Dit geldt voor ALLE velden in de JSON: urgentie.titel, urgentie.tekst, alle sectie titels, alle sectie inhoud, EN alle actiepunten. De brief zelf is in het Nederlands maar jouw uitleg schrijf je volledig in het {taal_naam}.
@@ -688,7 +685,7 @@
      if not Config.ANTHROPIC_API_KEY:
          raise ValueError('ANTHROPIC_API_KEY niet ingesteld in .env')
  
-@@ -361,16 +512,31 @@
+@@ -361,16 +509,31 @@
  
      # Het denken telt mee in max_tokens; 4096 is een plafond, geen doel (PLAN 13, S-1).
      # effort alleen meesturen als die gezet is: Haiku 4.5 geeft er een fout op.
@@ -730,7 +727,7 @@
  
      # Op type lezen: het eerste blok kan een thinking-blok zijn. Weigering of geen tekst
      # wordt een fout en valt in de bestaande foutroute van analyseer_brief (M-6).
-@@ -390,6 +556,7 @@
+@@ -390,6 +553,7 @@
      # Soms geeft het model twee JSON-objecten, met tekst ertussen ("Sorry, hier is de
      # goede versie: {...}"); de greedy regex hieronder pakt dan beide samen en faalt.
      # Daarom eerst elk los object proberen en het laatste met inhoud nemen (PLAN 13).
@@ -738,7 +735,7 @@
      kandidaten = []
      decoder = json.JSONDecoder()
      pos = tekst.find('{')
-@@ -402,7 +569,7 @@
+@@ -402,7 +566,7 @@
          if isinstance(obj, dict):
              kandidaten.append(obj)
          pos = tekst.find('{', eind)
@@ -747,7 +744,7 @@
      if met_inhoud or kandidaten:
          return (met_inhoud or kandidaten)[-1]
  
-@@ -422,39 +589,3 @@
+@@ -422,39 +586,3 @@
      # Geen AI-uitvoer in het log: die kan delen van de brief bevatten (PLAN 8 §8).
      logger.error('Kon JSON niet parsen uit AI-output (%d tekens, stop_reason %s)', len(tekst), stop_reason)
      return None
