@@ -53,9 +53,9 @@ const ZOEKTOOL = { type: 'web_search_20250305', name: 'web_search' };
 // ── Grenzen en schakelaars (PLAN 19) ─────────────────────────────────────
 const MAX_PER_IP_DAG = 60;    // AI-verzoeken per IP-adres per dag (B-4); daarboven 429 'te_veel'
 const MAX_TOTAAL_DAG = 150;   // AI-verzoeken in totaal per dag; daarboven 429 'dagplafond'
-// Overgang (B-5): true = /api/analyse en /api/digi werken nog (met de teller). Zet op false
-// zodra de pagina's met /api/ai live staan, en deploy opnieuw; de oude routes geven dan 410.
-const OUD_CONTRACT = true;
+// Overgang (B-5): true = /api/analyse en /api/digi werken nog (met de teller); false = ze
+// geven 410. Sinds 17-11-2026 false: de pagina's met /api/ai staan live (W-K stap 4).
+const OUD_CONTRACT = false;
 // Alleen deze origins mogen POSTen (B-6). Geen jokers.
 const ORIGINS = ['https://solidari.nl', 'https://www.solidari.nl', 'https://jaspermarsman.github.io', 'http://localhost:8080'];
 const MAX_BERICHTEN = 30;         // laatste 30 berichten van een gesprek
