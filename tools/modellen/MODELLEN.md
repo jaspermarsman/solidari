@@ -10,8 +10,9 @@ Besluit: `blijven` · `upgraden` · `verwijderen` · `open` (wacht op een beslui
 
 | Laag | Plek | Model-ID | Status (bron, datum) | Besluit |
 |---|---|---|---|---|
-| Worker `solidari-digi-hulp-worker` | `/api/analyse` (budgethulp), `tools/worker/solidari-worker.js`, constante `MODEL` | live: `claude-haiku-4-5-20251001`. Branch `sonnet-v1`: `claude-sonnet-5-5`, effort `low`, `MAX_ANALYSE` 4096, zoektool `web_search_20250305` | 4.5 actief, niet eerder dan 15-10-2026; Sonnet 5.5 niet eerder dan 28-09-2027 [D] | **upgraden naar Sonnet 5.5 (PLAN 13, S-1), wacht op W-E.** Hermeting met de pagina-prompt (V3): 26/27 in 9 talen |
-| Worker | `/api/digi` (rechten, goedvoorbereid) | idem, `MAX_DIGI` 4096 | idem | **upgraden naar Sonnet 5.5 (S-1), wacht op W-E.** Hermeting V3: rechten 27/27, Goed voorbereid 27/27 in 9 talen |
+| Worker `solidari-digi-hulp-worker` | `POST /api/ai`, `tool: 'budget'` (Budgethulp). `tools/worker/solidari-worker.js`, constante `MODEL`. De systeemprompt staat in de Worker (PLAN 19) | live sinds 27-10-2026: `claude-sonnet-5-5`, effort `low`, `MAX_ANALYSE` 4096, zoektool `web_search_20250305` | Sonnet 5.5 niet eerder dan 28-09-2027 [D] | **blijven.** Hermeting PLAN 19 (16-11-2026, via `/api/ai`): 9/9 in 9 talen |
+| Worker | `POST /api/ai`, `tool: 'rechten'` (Rechten & Plichten) en `tool: 'gv'` (Goed voorbereid, zonder zoektool) | idem, `MAX_DIGI` 4096 | idem | **blijven.** Hermeting PLAN 19: rechten 9/9, Goed voorbereid 9/9 |
+| Worker | `/api/analyse` en `/api/digi` (het oude contract: de client stuurde de systeemprompt) | — | vervallen op 17-11-2026: `OUD_CONTRACT = false`, de routes geven `410` | verwijderd uit gebruik (PLAN 19, B-5) |
 | Backend VPS `api.solidari.nl` | Brief Begrijper, `config.py` `CLAUDE_MODEL` (`SOLIDARI_CLAUDE_MODEL`) → `services/ai.py` `_via_claude` | VPS: `claude-haiku-4-5-20251001`, `max_tokens` 2500. Lokaal/patches: `claude-sonnet-5-5`, effort `low`, `max_tokens` 4096, V3 | idem | **upgraden naar Sonnet 5.5 (S-1), samen met de beveiligingsronde (S-4), wacht op W-E.** Echte `ai.py`: 18/18 |
 | Backend VPS | een oudere route, **alleen op de VPS** | `claude-haiku-4-5-20251001` hardcoded | idem | lokaal vervallen, op de VPS nog aanwezig. Zie §4 |
 | Backend VPS | `routes/cursusblad.py` r. 94 (niet geregistreerd) | `claude-haiku-4-5-20251001` hardcoded | idem | dode code: helper en `Config.CLAUDE_MODEL` (M-8), wacht op §4 |
@@ -24,7 +25,7 @@ Besluit: `blijven` · `upgraden` · `verwijderen` · `open` (wacht op een beslui
 | Vertalen en beoordelen (PLAN 7, B-1) | `tools/vertaal/ronde.py` r. 18, `beoordeel.py`, `hervertaal.py`, `register.py` | `gemini-3.8-flash` | in de modellenlijst, geen preview-ID [G] | blijven. Gekozen op 13-10-2026 als nieuwste tekstmodel (`LOG-vertaalkwaliteit.md`, fase 2) |
 | Audio (PLAN 5 §6, S-7) | `tools/audio/genereer_gemini.py` r. 31 | `gemini-2.5-flash-preview-tts` | preview, bestaat nog [G] | open: wijzigen pas bij het audiobesluit. Nieuwste TTS in de lijst: `gemini-3.8-flash-tts` en `gemini-3.8-flash-lite-tts` [G] |
 | Proefproject Tigrinya-stem | `00_Bedrijfsbrein/tts-test-tigrinya/maak-mp3.py` r. 29–30 | `gemini-3.8-flash-tts`, `gemini-3.8-flash-lite-tts` | in de modellenlijst [G] | blijven (buiten de repo, niet in productie) |
-| Claude Code-uitvoerders | bouwplannen ("Sonnet" / "Opus" per fase) | sessie van 26-10-2026: Claude Code 2.1.310, `claude-opus-5-5` | actief, niet eerder dan 22-09-2027 [D] | per sessie vastleggen (M-11) |
+| Claude Code-uitvoerders | bouwplannen ("Sonnet" / "Opus" per fase) | sessie van 26-10-2026: Claude Code 2.1.310, `claude-opus-5-5`. Sessie van 16/17-11-2026 (PLAN 19): Claude Code 2.1.325, `claude-fable-5-2` | actief, niet eerder dan 22-09-2027 [D] | per sessie vastleggen (M-11) |
 
 ## 3. Vervallen of dode configuratie
 
@@ -51,6 +52,14 @@ De VPS draait een oudere versie van de backend dan de lokale kopie `solidari-bac
 ## 6. Taaldrift (PLAN 12)
 
 Meting van promptvarianten tegen taaldrift (Haiku 4.5, Haiku 5.5, Sonnet 5.5), 26-10-2026: zie `_werkdocumenten/RAPPORT-taaldrift.md` (lokaal, buiten git). Gereedschap: `meet.py --alleen varianten`, `worker-echt.mjs --variant`, `taalregels.json`. Advies W-D; daarna PLAN 13 (`_werkdocumenten/RAPPORT-sonnet.md`, lokaal).
+
+## 7. De Worker dicht (PLAN 19, live 17-11-2026)
+
+- De Worker neemt geen systeemprompt van de client meer aan. De pagina's sturen `{ tool, taal, … }` naar `/api/ai`; de prompts, taalregels en slotzinnen staan in `tools/worker/solidari-worker.js`. Een wijziging van een prompt is dus een deploy van de Worker.
+- Grenzen bovenin de Worker: `MAX_PER_IP_DAG = 60`, `MAX_TOTAAL_DAG = 150` (teller in D1, tabel `teller`), en de vaste lijst `ORIGINS`.
+- Meten: `worker-echt.mjs --variant WORKER` (de variant `PAGINA` is vervallen). Met `--live <worker-url>` gaat het naar de gedeployde Worker en telt het mee in de teller.
+- Deployen gaat sinds 17-11-2026 met wrangler; de configuratie staat lokaal, buiten git.
+- De rijen over de backend in §1 beschrijven nog de stand van vóór PLAN 13 en zijn in dit plan niet nagelopen.
 
 ## Bronnen
 
