@@ -1,0 +1,166 @@
+--- routes/brief.py
++++ routes/brief.py
+@@ -3,23 +3,32 @@
+ 
+ POST /api/analyseer
+   Form-data:
+-    brief  : bestand (afbeelding of PDF)
+-    taal   : 'nl' | 'en' | 'ar' | 'ti' | 'tr' | 'uk' | 'fa'
++    brief  : bestand; 1 tot 4 afbeeldingen (het veld meerdere keren) of één PDF
++    taal   : 'nl' | 'en' | 'ar' | 'ti' | 'tr' | 'uk' | 'fa' | 'ro' | 'pl'
+     context: (optioneel) extra info van de gebruiker
++    v      : '2' voor het nieuwe antwoord (PLAN 20). Zonder v: het oude formaat.
+ 
+-Returns JSON:
++Antwoord met v=2 (platte tekst in elk veld, geen HTML):
+   {
+-    urgentie: { niveau, titel, tekst } | null,
+-    secties: [ { icoon, titel, achtergrond, inhoud } ],
+-    actiepunten: [ string ]
++    urgentie: { niveau: 'hoog'|'midden'|'laag'|'verlopen', titel, tekst },
++    wat_staat_er, wat_doen: [string], deadline: { datum, citaat } | null,
++    als_je_niets_doet, bezwaar, contact, twijfel: string | null,
++    twijfel_code: 'deadline_onzeker' | null, afgekapt: bool
+   }
++
++Antwoord zonder v (oude pagina's, tijdelijk):
++  { urgentie: { niveau, titel, tekst }, secties: [ { icoon, titel, achtergrond, inhoud } ],
++    actiepunten: [ string ] }
++
++Fout: { fout: 'Nederlandse zin', code: ... }. De nieuwe pagina vertaalt op de code:
++  geen_bestand, type, te_groot, geen_tekst, onleesbaar, te_veel, dagplafond, storing.
+ """
+ 
+ import logging
+ from flask import Blueprint, request, jsonify
+-from services.ocr import lees_tekst_uit_bestand
++from services.ocr import lees_tekst_uit_bestanden
+ from services.preprocessor import verwerk_ocr_tekst
+-from services.ai import analyseer_brief
++from services.ai import analyseer_brief, naar_oud_formaat, BriefOnleesbaar
+ from services.teller import DagplafondBereikt
+ from config import Config
+ 
+@@ -27,73 +36,78 @@
+ brief_bp = Blueprint('brief', __name__)
+ 
+ 
++def _fout(code: str, zin: str, status: int, **extra):
++    return jsonify({'fout': zin, 'code': code, **extra}), status
++
++
+ @brief_bp.route('/analyseer', methods=['POST'])
+ def analyseer():
+-    # ── 1. Valideer bestand ───────────────────────────────────────
+-    if 'brief' not in request.files:
+-        return jsonify({'fout': 'Geen bestand meegestuurd.'}), 400
+-
+-    bestand = request.files['brief']
+-    if bestand.filename == '':
+-        return jsonify({'fout': 'Geen bestand geselecteerd.'}), 400
+-
+-    if bestand.content_type not in Config.UPLOAD_ALLOWED_TYPES:
+-        return jsonify({'fout': f'Bestandstype niet ondersteund: {bestand.content_type}'}), 415
++    # ── 1. Valideer de bestanden ──────────────────────────────────
++    bestanden = [b for b in request.files.getlist('brief') if b and b.filename]
++    if not bestanden:
++        return _fout('geen_bestand', 'Geen bestand meegestuurd.', 400)
++
++    types = [b.content_type for b in bestanden]
++    if any(t not in Config.UPLOAD_ALLOWED_TYPES for t in types):
++        return _fout('type', 'Bestandstype niet ondersteund. Gebruik een foto of een PDF.', 415)
++    if len(bestanden) > 1 and 'application/pdf' in types:
++        return _fout('type', 'Stuur één PDF, of alleen foto\'s.', 415)
++    if len(bestanden) > Config.MAX_AFBEELDINGEN:
++        return _fout('te_groot', f'Te veel bestanden. Maximaal {Config.MAX_AFBEELDINGEN} foto\'s of één PDF.', 413)
+ 
+     # ── 2. Lees parameters ────────────────────────────────────────
+     taal = request.form.get('taal', 'nl').lower()
+-    if taal not in Config.TESSERACT_TALEN:
++    if taal not in Config.ANTWOORD_TALEN:
+         taal = 'nl'
+ 
+     extra_context = request.form.get('context', '').strip()[:500]  # max 500 tekens
++    nieuw_formaat = request.form.get('v', '').strip() == '2'
+ 
+-    # ── 3. Lees bestand in RAM (nooit naar schijf schrijven) ──────
+-    bestand_bytes = bestand.read()
+-    content_type = bestand.content_type
+-    logger.info(f'Brief ontvangen: {len(bestand_bytes)} bytes, type={content_type}, taal={taal}')
++    # ── 3. Lees de bestanden in RAM (nooit naar schijf schrijven) ─
++    inhoud = [(b.read(), b.content_type) for b in bestanden]
++    totaal = sum(len(i) for i, _ in inhoud)
++    if totaal > Config.MAX_CONTENT_LENGTH:
++        return _fout('te_groot', 'Het bestand is te groot. Maximaal 10 MB.', 413)
++    logger.info(f'Brief ontvangen: {len(inhoud)} bestand(en), {totaal} bytes, taal={taal}, v2={nieuw_formaat}')
+ 
+-    # ── 4. OCR: tekst uit afbeelding/PDF halen ────────────────────
++    # ── 4. Tekst uit afbeelding of PDF halen ──────────────────────
+     try:
+-        bief_tekst = lees_tekst_uit_bestand(bestand_bytes, content_type, taal)
++        brief_tekst = lees_tekst_uit_bestanden(inhoud)
+     except Exception as e:
+-        logger.error(f'OCR mislukt: {e}')
+-        return jsonify({
+-            'fout': 'De brief kon niet worden gelezen. Probeer een duidelijkere foto.'
+-        }), 422
+-
+-    if len(bief_tekst.strip()) < 20:
+-        return jsonify({
+-            'fout': 'Er kon geen tekst worden gevonden in de brief. Zorg voor goede belichting en een scherpe foto.'
+-        }), 422
++        logger.error(f'OCR mislukt: {type(e).__name__}')
++        return _fout('onleesbaar', 'De brief kon niet worden gelezen. Probeer een duidelijkere foto.', 422)
++
++    if len(brief_tekst.strip()) < 20:
++        return _fout('geen_tekst', 'Er kon geen tekst worden gevonden in de brief. '
++                                   'Zorg voor goede belichting en een scherpe foto.', 422)
+ 
+-    logger.info(f'OCR succesvol: {len(bief_tekst)} tekens gelezen')
++    logger.info(f'Tekst gelezen: {len(brief_tekst)} tekens')
+     # Bewust GEEN logregel met de brieftekst zelf (privacybelofte: raakt nooit een logbestand).
+ 
+-    # ── 4b. Preprocessor: structuur labelen, artefacten opruimen ─────────
+-    bief_tekst = verwerk_ocr_tekst(bief_tekst)
+-    logger.info(f'Preprocessor klaar: {len(bief_tekst)} tekens na bewerking')
++    # ── 4b. Preprocessor: OCR-fouten herstellen, artefacten opruimen ──
++    brief_tekst = verwerk_ocr_tekst(brief_tekst)
+ 
+-    # ── 5. AI: brief analyseren en uitleggen ─────────────────────
++    # ── 5. AI: brief uitleggen (redactie zit in analyseer_brief) ──
+     try:
+-        resultaat = analyseer_brief(bief_tekst, taal, extra_context)
++        resultaat = analyseer_brief(brief_tekst, taal, extra_context)
+     except DagplafondBereikt as plafond:
+         # Kostenrem, geen storing. Eerlijk benoemen wat er aan de hand is: de
+         # gebruiker heeft niets fout gedaan en het heeft zin om het morgen te
+         # proberen. (audit 18-09-2026)
+         logger.error(f'Aanvraag geweigerd door dagplafond: {plafond}')
+-        return jsonify({
+-            'fout': 'Solidari heeft vandaag het maximale aantal brieven verwerkt. '
+-                    'Probeer het morgen opnieuw — het ligt niet aan uw brief.',
+-            'fout_en': 'Solidari has reached its daily limit. Please try again tomorrow.',
+-            'code': 'dagplafond',
+-        }), 429
++        return _fout('dagplafond',
++                     'Solidari heeft vandaag het maximale aantal brieven verwerkt. '
++                     'Probeer het morgen opnieuw — het ligt niet aan uw brief.', 429,
++                     fout_en='Solidari has reached its daily limit. Please try again tomorrow.')
++    except BriefOnleesbaar:
++        return _fout('onleesbaar', 'De brief kon niet worden gelezen. Probeer een duidelijkere foto.', 422)
+     except Exception as e:
+-        logger.error(f'AI-analyse mislukt: {e}')
+-        return jsonify({
+-            'fout': 'De brief kon niet worden geanalyseerd. Probeer het later opnieuw.'
+-        }), 500
++        logger.error(f'AI-analyse mislukt: {type(e).__name__}')
++        return _fout('storing', 'De brief kon niet worden geanalyseerd. Probeer het later opnieuw.', 500)
+ 
+-    # Bestand_bytes wordt hier automatisch uit RAM vrijgegeven (geen opslag)
+-    logger.info(f'Analyse klaar — {len(resultaat.get("secties", []))} secties')
++    # De bytes worden hier vanzelf uit het geheugen vrijgegeven (geen opslag)
++    logger.info('Analyse klaar')
+ 
++    if not nieuw_formaat:
++        return jsonify(naar_oud_formaat(resultaat, taal))
+     return jsonify(resultaat)

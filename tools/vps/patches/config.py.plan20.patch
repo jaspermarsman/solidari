@@ -1,0 +1,51 @@
+--- config.py
++++ config.py
+@@ -23,8 +23,6 @@
+         'https://jaspermarsman.github.io',   # staging (PLAN-1 fase 3.7 / A-6)
+         'http://localhost',
+         'http://127.0.0.1',
+-        'http://homeassistant.local:8123',
+-        'http://192.168.178.189',
+     ]
+ 
+     # ── Upload ───────────────────────────────────────────────────
+@@ -40,25 +38,23 @@
+     # Register met status en besluit: tools/modellen/MODELLEN.md
+     CLAUDE_MODEL = os.getenv('SOLIDARI_CLAUDE_MODEL', 'claude-sonnet-5-5')
+     CLAUDE_EFFORT = os.getenv('SOLIDARI_CLAUDE_EFFORT', 'low')
++    # Structured outputs voor de Brief Begrijper (PLAN 20, B-6). Uit met SOLIDARI_CLAUDE_SCHEMA=0,
++    # bijvoorbeeld bij terugdraaien naar een model dat het niet kent.
++    CLAUDE_SCHEMA = os.getenv('SOLIDARI_CLAUDE_SCHEMA', '1') != '0'
+ 
+-    # ── OCR ──────────────────────────────────────────────────────
+-    # Tesseract talen — installeer via: sudo apt install tesseract-ocr-[taal]
+-    TESSERACT_TALEN = {
+-        'nl': 'nld',
+-        'en': 'eng',
+-        'ar': 'ara',
+-        'tr': 'tur',
+-        'uk': 'ukr',
+-        # Pools en Roemeens: de brief zelf is Nederlands, dus Nederlandse OCR
+-        'pl': 'nld',
+-        'ro': 'nld',
+-        # Tigrinya (ti) en Dari (fa) hebben beperkte Tesseract-ondersteuning
+-        # Fallback: Engels + AI-vertaling
+-        'ti': 'eng',
+-        'fa': 'fas',
+-    }
++    # ── Talen ────────────────────────────────────────────────────
++    # De talen waarin de uitleg geschreven kan worden (PLAN 20, B-4). De brief zelf is altijd
++    # Nederlands; Tesseract leest daarom altijd met nld+eng (services/ocr.py), wat de gebruiker
++    # ook kiest. Een andere waarde in het verzoek wordt 'nl'.
++    ANTWOORD_TALEN = ['nl', 'en', 'ar', 'ti', 'tr', 'uk', 'fa', 'ro', 'pl']
++    # Oude naam, voor code die er nog naar kijkt.
++    TESSERACT_TALEN = ANTWOORD_TALEN
++
++    # ── Upload (Brief Begrijper) ─────────────────────────────────
++    MAX_AFBEELDINGEN = 4            # 1 tot 4 foto's, of één PDF (PLAN 20, B-5)
+ 
+     # ── Zonnepanelen ──────────────────────────────────────────────
++    # Nog in gebruik door /api/status (routes/status.py → services/zonstatus.py); daarom niet weg (B-13).
+     # Home Assistant long-lived access token voor zonstatus
+     # Aanmaken via: HA → Profiel → Long-Lived Access Tokens
+     HA_TOKEN = os.getenv('HA_TOKEN', '')

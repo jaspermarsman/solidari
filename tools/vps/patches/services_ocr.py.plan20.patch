@@ -1,0 +1,211 @@
+--- services/ocr.py
++++ services/ocr.py
+@@ -1,66 +1,92 @@
+ """
+ Solidari — OCR service
+ 
+-Leest tekst uit afbeeldingen en PDF's via Tesseract.
+-Alles verloopt in RAM — geen bestanden naar schijf.
++Leest tekst uit afbeeldingen en PDF's. Alles verloopt in RAM, er gaat niets naar schijf.
+ 
+-Installatie Tesseract:
+-  sudo apt install tesseract-ocr tesseract-ocr-nld tesseract-ocr-ara \\
+-                   tesseract-ocr-tur tesseract-ocr-ukr tesseract-ocr-fas
++Sinds PLAN 20 (B-4, B-5):
++  - Tesseract leest altijd met `nld+eng`. De brief is Nederlands, wat de taal van de gebruiker
++    ook is; met `nld+ara` of `nld+ukr` las Tesseract Nederlandse woorden als Arabisch of
++    Cyrillisch schrift.
++  - Een foto wordt eerst rechtgezet volgens de EXIF-oriëntatie (telefoonfoto's).
++  - Een PDF met een tekstlaag (Berichtenbox, MijnOverheid) wordt direct gelezen met
++    `pdftotext -layout`. Alleen als dat minder dan 200 tekens geeft, volgt OCR.
++  - Meer pagina's: 1 tot 4 afbeeldingen, of één PDF.
+ 
+-PDF-ondersteuning (pdf2image):
+-  sudo apt install poppler-utils
++Installatie:
++  sudo apt install tesseract-ocr tesseract-ocr-nld poppler-utils
+ """
+ 
+ import io
+ import logging
+-from typing import Optional
++import os
++import subprocess
+ 
+ import pytesseract
+-from PIL import Image, ImageFilter, ImageEnhance
++from PIL import Image, ImageFilter, ImageEnhance, ImageOps
+ 
+ logger = logging.getLogger('solidari.ocr')
+ 
+-# Taalcode mapping: Solidari-taal → Tesseract-taalcode
+-TAAL_NAAR_TESSERACT = {
+-    'nl': 'nld',
+-    'en': 'eng',
+-    'ar': 'ara',
+-    'ti': 'eng',   # Tigrinya niet in Tesseract, lees als Engels
+-    'tr': 'tur',
+-    'uk': 'ukr',
+-    'fa': 'fas',
+-}
+-
+-# Nederlandse brieven bevatten altijd NL tekst — voeg altijd toe als basis
+-ALTIJD_TOEVOEGEN = 'nld'
++OCR_TALEN = 'nld+eng'
++# Paginasegmentatie. Gemeten in PLAN 20 fase 3 (zie LOG-brief2.md); via de omgeving te wijzigen.
++OCR_PSM = os.getenv('SOLIDARI_OCR_PSM', '6')
++MAX_PAGINAS = 5                 # per PDF
++MIN_TEKST_PDF = 200             # minder tekens uit pdftotext → de PDF is een scan → OCR
++PAGINA_SCHEIDING = '\n\n--- NIEUWE PAGINA ---\n\n'
++
++
++def lees_tekst_uit_bestanden(bestanden: list[tuple[bytes, str]]) -> str:
++    """Lees tekst uit één of meer bestanden (bytes, content_type), in de gegeven volgorde."""
++    delen = []
++    for inhoud, content_type in bestanden:
++        if content_type == 'application/pdf':
++            tekst = _lees_uit_pdf(inhoud)
++        else:
++            tekst = _lees_uit_afbeelding(inhoud)
++        if tekst.strip():
++            delen.append(tekst)
++    return PAGINA_SCHEIDING.join(delen)
+ 
+ 
+ def lees_tekst_uit_bestand(bestand_bytes: bytes, content_type: str, taal: str = 'nl') -> str:
+-    """
+-    Hoofd-entrypoint: lees tekst uit een bestand (bytes in RAM).
+-    Ondersteunt JPEG, PNG, HEIC, WebP en PDF.
+-    """
+-    if content_type == 'application/pdf':
+-        return _lees_uit_pdf(bestand_bytes, taal)
+-    else:
+-        return _lees_uit_afbeelding(bestand_bytes, taal)
++    """Eén bestand. `taal` wordt niet meer gebruikt (de brief is altijd Nederlands)."""
++    return lees_tekst_uit_bestanden([(bestand_bytes, content_type)])
+ 
+ 
+-def _lees_uit_afbeelding(bestand_bytes: bytes, taal: str) -> str:
+-    """Lees tekst uit een afbeelding (JPEG, PNG, etc.)"""
++def _lees_uit_afbeelding(bestand_bytes: bytes) -> str:
++    """Lees tekst uit een afbeelding (JPEG, PNG, WebP, HEIC als Pillow dat kan)."""
+     afbeelding = Image.open(io.BytesIO(bestand_bytes))
++    # Telefoonfoto's liggen vaak op hun kant in het bestand; de stand staat in EXIF.
++    afbeelding = ImageOps.exif_transpose(afbeelding)
+ 
+-    # Zet om naar RGB als dat nodig is (bijv. HEIC kan RGBA zijn)
+     if afbeelding.mode not in ('RGB', 'L'):
+         afbeelding = afbeelding.convert('RGB')
+ 
+-    afbeelding = _verbeter_afbeelding(afbeelding)
+-    return _ocr(afbeelding, taal)
++    return _ocr(_verbeter_afbeelding(afbeelding))
++
+ 
++def _tekst_uit_pdf(bestand_bytes: bytes) -> str:
++    """De tekstlaag van een PDF, met pdftotext (poppler). Leeg als die er niet is of het misgaat."""
++    try:
++        uit = subprocess.run(
++            ['pdftotext', '-layout', '-l', str(MAX_PAGINAS), '-enc', 'UTF-8', '-', '-'],
++            input=bestand_bytes, capture_output=True, timeout=20, check=False)
++    except (OSError, subprocess.SubprocessError) as e:
++        logger.warning('pdftotext mislukt: %s', type(e).__name__)
++        return ''
++    if uit.returncode != 0:
++        return ''
++    # pdftotext zet een form feed tussen pagina's
++    paginas = [p.strip('\n') for p in uit.stdout.decode('utf-8', 'replace').split('\f')]
++    return PAGINA_SCHEIDING.join(p for p in paginas if p.strip())
++
++
++def _lees_uit_pdf(bestand_bytes: bytes) -> str:
++    """Lees tekst uit een PDF: eerst de tekstlaag, anders elke pagina als afbeelding."""
++    tekst = _tekst_uit_pdf(bestand_bytes)
++    if len(tekst.strip()) >= MIN_TEKST_PDF:
++        logger.info('PDF met tekstlaag: %d tekens, geen OCR', len(tekst))
++        return tekst
+ 
+-def _lees_uit_pdf(bestand_bytes: bytes, taal: str) -> str:
+-    """Lees tekst uit een PDF (elke pagina als afbeelding)"""
+     try:
+         from pdf2image import convert_from_bytes
+     except ImportError:
+@@ -69,18 +95,16 @@
+             'Voer uit: pip install pdf2image en apt install poppler-utils'
+         )
+ 
+-    # Converteer PDF naar lijst van afbeeldingen (in RAM)
+-    paginas = convert_from_bytes(bestand_bytes, dpi=200, fmt='jpeg')
+-    logger.info(f'PDF heeft {len(paginas)} pagina(\'s)')
++    paginas = convert_from_bytes(bestand_bytes, dpi=200, fmt='jpeg', last_page=MAX_PAGINAS)
++    logger.info('PDF zonder tekstlaag: %d pagina(\'s) naar OCR', len(paginas))
+ 
+     tekst_delen = []
+-    for i, pagina in enumerate(paginas[:5]):  # max 5 pagina's
+-        pagina = _verbeter_afbeelding(pagina)
+-        tekst = _ocr(pagina, taal)
++    for pagina in paginas[:MAX_PAGINAS]:
++        tekst = _ocr(_verbeter_afbeelding(pagina))
+         if tekst.strip():
+             tekst_delen.append(tekst)
+ 
+-    return '\n\n--- NIEUWE PAGINA ---\n\n'.join(tekst_delen)
++    return PAGINA_SCHEIDING.join(tekst_delen)
+ 
+ 
+ def _verbeter_afbeelding(afbeelding: Image.Image) -> Image.Image:
+@@ -92,44 +116,33 @@
+     breedte, hoogte = afbeelding.size
+     if breedte < 2000:
+         factor = 2000 / breedte
+-        nieuw_breedte = int(breedte * factor)
+-        nieuw_hoogte = int(hoogte * factor)
+-        afbeelding = afbeelding.resize((nieuw_breedte, nieuw_hoogte), Image.LANCZOS)
++        afbeelding = afbeelding.resize((int(breedte * factor), int(hoogte * factor)), Image.LANCZOS)
+ 
+     # Converteer naar grijswaarden
+     if afbeelding.mode != 'L':
+         afbeelding = afbeelding.convert('L')
+ 
+     # Verhoog contrast
+-    contrast = ImageEnhance.Contrast(afbeelding)
+-    afbeelding = contrast.enhance(1.8)
++    afbeelding = ImageEnhance.Contrast(afbeelding).enhance(1.8)
+ 
+     # Lichte verscherping
+-    afbeelding = afbeelding.filter(ImageFilter.SHARPEN)
+-
+-    return afbeelding
++    return afbeelding.filter(ImageFilter.SHARPEN)
+ 
+ 
+-def _ocr(afbeelding: Image.Image, taal: str) -> str:
++def _ocr(afbeelding: Image.Image, psm: str | None = None) -> str:
+     """Voer Tesseract OCR uit op een afbeelding."""
+-    tesseract_taal = TAAL_NAAR_TESSERACT.get(taal, 'nld')
+-
+-    # Combineer talen: altijd Nederlands + de gekozen taal
+-    if tesseract_taal != ALTIJD_TOEVOEGEN:
+-        taal_string = f'{ALTIJD_TOEVOEGEN}+{tesseract_taal}'
+-    else:
+-        taal_string = ALTIJD_TOEVOEGEN
+-
+-    config = '--oem 3 --psm 6'  # OEM 3 = beste mode, PSM 6 = block tekst
++    # preserve_interword_spaces: kolommen (adres links, kenmerk rechts) blijven uit elkaar staan,
++    # zodat de redactie het adresblok als kolom herkent.
++    config = f'--oem 3 --psm {psm or OCR_PSM} -c preserve_interword_spaces=1'
+ 
+     try:
+-        tekst = pytesseract.image_to_string(afbeelding, lang=taal_string, config=config)
+-        logger.debug(f'OCR ({taal_string}): {len(tekst)} tekens gelezen')
++        tekst = pytesseract.image_to_string(afbeelding, lang=OCR_TALEN, config=config)
++        logger.debug(f'OCR ({OCR_TALEN}): {len(tekst)} tekens gelezen')
+         return tekst
+     except pytesseract.TesseractNotFoundError:
+         raise RuntimeError(
+             'Tesseract niet gevonden. Installeer via: sudo apt install tesseract-ocr'
+         )
+     except Exception as e:
+-        logger.error(f'OCR fout: {e}')
++        logger.error(f'OCR fout: {type(e).__name__}')
+         raise
