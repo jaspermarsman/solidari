@@ -1234,7 +1234,12 @@ async function stuurNaarBackend() {
     }
 
     const data = await response.json();
-    if (!data || typeof data !== 'object' || Array.isArray(data)) { const e = new Error('onverwacht antwoord'); e.code = 'storing'; throw e; }
+    // Alleen het nieuwe antwoord (v=2) tonen. Een antwoord zonder uitleg of zonder actielijst is van
+    // een backend die v=2 nog niet kent (het oude formaat met 'secties') of is kapot. Dan een
+    // foutmelding: anders zou hier "Je hoeft niets te doen" staan bij een brief die we niet hebben uitgelegd.
+    if (!data || typeof data !== 'object' || Array.isArray(data) || !gevuld(data.wat_staat_er) || !Array.isArray(data.wat_doen)) {
+      const e = new Error('onverwacht antwoord'); e.code = 'storing'; throw e;
+    }
     toonResultaat(data, taal);
 
   } catch (err) {

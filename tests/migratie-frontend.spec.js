@@ -7,13 +7,13 @@ const { test, expect } = require('@playwright/test');
 const path = require('path');
 const { metTaal } = require('./helpers');
 
+// PLAN 20 (17-11-2026, akkoord Jasper): het nagebootste antwoord heeft het nieuwe formaat (v=2); de pagina
+// weigert het oude formaat met 'secties'.
 const DEMO = {
   urgentie: { niveau: 'hoog', titel: 'Reageer binnen 6 weken', tekst: 'Je kunt tot 25 september bezwaar maken.' },
-  secties: [
-    { icoon: '📄', titel: 'Wat is dit?', achtergrond: '#EBF3EE', inhoud: '<p>Een besluit van de gemeente over een Wmo-voorziening.</p>' },
-    { icoon: '✅', titel: 'Wat moet je doen?', achtergrond: '#FDF3E0', inhoud: '<p>Stuur een kopie van je ID op.</p>' },
-  ],
-  actiepunten: ['Kopie identiteitsbewijs opsturen (binnen 14 dagen)', 'Rekeningnummer controleren'],
+  wat_staat_er: 'Een besluit van de gemeente over een Wmo-voorziening.',
+  wat_doen: ['Kopie identiteitsbewijs opsturen (binnen 14 dagen)', 'Rekeningnummer controleren'],
+  deadline: null, als_je_niets_doet: null, bezwaar: null, contact: null, twijfel: null, twijfel_code: null, afgekapt: false,
 };
 const NEPBRIEF = path.resolve(__dirname, '..', 'tools', 'test', 'nepbrief.jpg');
 const API = '**/api/analyseer';

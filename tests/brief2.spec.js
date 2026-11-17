@@ -131,8 +131,9 @@ test.describe('resultaat in vaste blokken', () => {
   });
 
   test('lege velden, lege tekst of alleen spaties tellen als leeg; elk blok apart', async ({ page }) => {
-    await toonAntwoord(page, { ...MIN, wat_staat_er: '   ', bezwaar: 'Maak bezwaar.', contact: '', als_je_niets_doet: '\n', twijfel: ' ' });
-    expect(await blokken(page)).toEqual(['doen', 'bezwaar']);
+    // wat_staat_er moet gevuld zijn: zonder uitleg toont de pagina een foutmelding (zie onderaan dit bestand).
+    await toonAntwoord(page, { ...MIN, bezwaar: 'Maak bezwaar.', contact: '', als_je_niets_doet: '\n', twijfel: ' ' });
+    expect(await blokken(page)).toEqual(['wat', 'doen', 'bezwaar']);
   });
 
   test('lege wat_doen: "Je hoeft niets te doen. Bewaar de brief." en geen afvinklijst', async ({ page }) => {
@@ -663,4 +664,27 @@ test.describe('over.html: wat er weggehaald wordt', () => {
     await expect(kaart).toContainText('Vragen aan Rechten & Plichten, Budgethulp en Goed Voorbereid lopen via Cloudflare naar de AI-dienst. Cloudflare bewaart de vragen niet.');
     await expect(kaart).toContainText('Om misbruik te voorkomen tellen we het aantal vragen per dag. Daarvoor bewaren we een code die van je IP-adres is afgeleid. Het IP-adres zelf bewaren we niet. De code is elke dag anders en wordt na twee dagen gewist.');
   });
+});
+
+// Staging praat tot de uitrol met de oude backend: die kent v=2 niet en stuurt het oude formaat terug.
+test.describe('antwoord dat de pagina niet kent', () => {
+  for (const [naam, antwoord] of [
+    ['het oude formaat (secties en actiepunten)', { urgentie: { niveau: 'hoog', titel: 't', tekst: 't' }, secties: [{ icoon: '📋', titel: 'Wat staat er?', achtergrond: '#EBF3EE', inhoud: '<p>x</p>' }], actiepunten: ['Bel'] }],
+    ['een leeg object', {}],
+    ['zonder actielijst', { urgentie: { niveau: 'laag', titel: 't', tekst: 't' }, wat_staat_er: 'Uitleg.' }],
+  ]) {
+    test(`${naam}: foutmelding, en nooit "Je hoeft niets te doen"`, async ({ page }) => {
+      await page.addInitScript(() => { try { localStorage.setItem('solidari-taal', 'NL'); localStorage.setItem('solidari-welkom-gezien', '1'); } catch (e) {} });
+      await page.route('**/api/analyseer', (r) => r.fulfill({
+        status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' }, body: JSON.stringify(antwoord),
+      }));
+      await page.goto('brief.html');
+      await page.setInputFiles('#bestand-input', { name: 'brief.png', mimeType: 'image/png', buffer: Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==', 'base64') });
+      await page.check('#privacy-checkbox');
+      await page.click('#analyseer-knop');
+      await expect(page.locator('#stap-fout')).toBeVisible({ timeout: 20000 });
+      await expect(page.locator('#fout-bericht')).toHaveText('De tool is nu niet bereikbaar. Probeer het over een paar minuten opnieuw.');
+      await expect(page.locator('#stap-resultaat')).toBeHidden();
+    });
+  }
 });

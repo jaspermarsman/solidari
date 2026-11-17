@@ -174,7 +174,7 @@ test.describe('fase 3: de uitleg van de Brief Begrijper komt als tekst op de pag
   test('een antwoord met ontbrekende velden geeft geen "undefined" en geen fout', async ({ page }) => {
     const fouten = [];
     page.on('pageerror', (e) => fouten.push(e.message));
-    await toonAntwoord(page, { urgentie: { niveau: 'midden', titel: 'Alleen een titel' }, wat_doen: [null, 42], deadline: { datum: null }, bezwaar: null });
+    await toonAntwoord(page, { urgentie: { niveau: 'midden', titel: 'Alleen een titel' }, wat_staat_er: 'Uitleg.', wat_doen: [null, 42], deadline: { datum: null }, bezwaar: null });
     await expect(page.locator('#urgentie-banner .urgentie-banner.midden')).toBeVisible();
     await expect(page.locator('#stap-resultaat')).not.toContainText('undefined');
     await expect(page.locator('#stap-resultaat')).not.toContainText('null');
