@@ -40,12 +40,17 @@ test.describe('PLAN-2 brief.html', () => {
     expect(verzoeken.filter((u) => u.includes('api.solidari.nl'))).toHaveLength(0); // niets bij paginalaad
   });
 
-  test('responscontract rendert urgentie, kaarten en actiepunten (gestubde fetch)', async ({ page }) => {
+  // PLAN 20 (17-11-2026, akkoord Jasper): het antwoord is het nieuwe formaat (v=2); het oude wordt niet meer getoond.
+  test('responscontract rendert urgentie, blokken en actiepunten (gestubde fetch)', async ({ page }) => {
     await metTaal(page, 'NL');
     let body = null;
     await page.route(API, async (route) => {
       body = route.request().postDataBuffer();
-      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(DEMO) });
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({
+        urgentie: { niveau: 'hoog', titel: 'Reageer binnen 6 weken', tekst: 'Doe dat op tijd.' },
+        wat_staat_er: 'Een besluit van de gemeente.', wat_doen: ['Kopie identiteitsbewijs opsturen'], deadline: null,
+        als_je_niets_doet: null, bezwaar: null, contact: null, twijfel: null, twijfel_code: null, afgekapt: false,
+      }) });
     });
     await page.goto('/brief.html');
     await kiesNepbriefEnAkkoord(page);
@@ -53,7 +58,7 @@ test.describe('PLAN-2 brief.html', () => {
     await expect(page.locator('#stap-resultaat')).toBeVisible({ timeout: 20000 });
     await expect(page.locator('#urgentie-banner .urgentie-banner.hoog')).toBeVisible();
     await expect(page.locator('#urgentie-banner')).toContainText('Reageer binnen 6 weken');
-    await expect(page.locator('#resultaat-kaarten')).toContainText('Wat is dit?');
+    await expect(page.locator('#resultaat-kaarten')).toContainText('Een besluit van de gemeente.');
     await expect(page.locator('#resultaat-kaarten')).toContainText('Wat moet je doen?');
     await expect(page.locator('body')).toContainText('Kopie identiteitsbewijs opsturen');
     expect(body).not.toBeNull();
@@ -61,6 +66,7 @@ test.describe('PLAN-2 brief.html', () => {
     expect(body.length).toBeLessThan(3 * 1024 * 1024);
     expect(body.toString('latin1')).toContain('name="brief"');
     expect(body.toString('latin1')).toContain('filename="nepbrief.jpg"');
+    expect(body.toString('latin1')).toMatch(/name="v"\r\n\r\n2/);
   });
 
   test('beeldcompressie: grote foto wordt verkleind en gelogd', async ({ page }) => {
@@ -128,12 +134,13 @@ test.describe('PLAN-2 brief.html', () => {
     await expect(page.locator('#stap-fout button')).toContainText('Opnieuw');
   });
 
-  test('foutpad: nette serverfout (422) wordt letterlijk getoond', async ({ page }) => {
+  // PLAN 20: de pagina toont de zin bij de foutcode, niet meer de Nederlandse zin van de server.
+  test('foutpad: serverfout met code (422 geen_tekst) geeft de vertaalde melding', async ({ page }) => {
     await metTaal(page, 'NL');
-    await page.route(API, (route) => route.fulfill({ status: 422, contentType: 'application/json', body: JSON.stringify({ fout: 'Er kon geen tekst worden gevonden in de brief.' }) }));
+    await page.route(API, (route) => route.fulfill({ status: 422, contentType: 'application/json', body: JSON.stringify({ fout: 'Er kon geen tekst worden gevonden in de brief.', code: 'geen_tekst' }) }));
     await page.goto('/brief.html');
     await kiesNepbriefEnAkkoord(page);
     await page.click('#analyseer-knop');
-    await expect(page.locator('#fout-bericht')).toContainText('geen tekst worden gevonden', { timeout: 20000 });
+    await expect(page.locator('#fout-bericht')).toHaveText('We vonden geen tekst op de foto. Leg de brief plat, zorg voor licht en maak een nieuwe foto.', { timeout: 20000 });
   });
 });

@@ -298,19 +298,17 @@ test('18jaar: categoriekop is een knop (Enter klapt uit), checklist-vakje een ch
   await expect(vak).toHaveAttribute('aria-checked', 'false');
 });
 
-test('brief: resultaatkaart-kop is een knop, actiepunt-vinkje een checkbox met naam', async ({ page }) => {
+// PLAN 20 (17-11-2026, akkoord Jasper): het resultaat bestaat uit vaste blokken met een kop (h2), niet meer uit
+// inklapbare kaarten. De knop-rol van de kaartkop is daarmee vervallen; het vinkje en de axe-controle blijven.
+test('brief: elk blok heeft een kop, actiepunt-vinkje is een checkbox met naam', async ({ page }) => {
   await laad(page, 'brief.html');
   await page.evaluate(() => toonResultaat({
-    secties: [{ titel: 'Wat is dit voor brief?', icoon: '📄', inhoud: '<p>Uitleg.</p>' }, { titel: 'Wat moet je doen?', icoon: '✅', inhoud: '<p>Bellen.</p>' }],
-    actiepunten: ['Bel de gemeente'],
-  }));
-  const kop = page.locator('.rk-header').first();
-  await expect(kop).toHaveAttribute('role', 'button');
-  await expect(kop).toHaveAttribute('aria-expanded', 'true');
-  await expect(kop).toHaveAccessibleName('Wat is dit voor brief?');
-  await kop.focus();
-  await page.keyboard.press('Enter');
-  await expect(kop).toHaveAttribute('aria-expanded', 'false');
+    urgentie: { niveau: 'midden', titel: 'Bel de gemeente', tekst: 'Doe dat deze week.' },
+    wat_staat_er: 'Uitleg.', wat_doen: ['Bel de gemeente'], deadline: null,
+    als_je_niets_doet: null, bezwaar: 'Binnen zes weken.', contact: '14 0570', twijfel: null, twijfel_code: null, afgekapt: false,
+  }, 'nl'));
+  await expect(page.locator('#resultaat-kaarten section h2')).toHaveCount(4);
+  await expect(page.locator('#resultaat-kaarten section h2').first()).toContainText('Wat staat er in deze brief?');
   const vink = page.locator('.ap-vinkje').first();
   await expect(vink).toHaveAttribute('role', 'checkbox');
   await expect(vink).toHaveAccessibleName('Bel de gemeente');
