@@ -1,0 +1,410 @@
+{
+ "_uitleg": "Per brief: mag_niet en moet_blijven zijn reguliere expressies (hoofdletterongevoelig) op de geredigeerde tekst. deadline = de datum zoals hij in de brief staat, of null. termijn = alleen een termijn, geen datum (deadline.datum hoort dan null te zijn). deadline_mag_null = een afspraak op een dag; het model mag de datum als deadline geven of niet. urgentie geldt op de peildatum 17 november 2026. Alle namen, nummers en adressen zijn verzonnen; de BSN's halen de elfproef niet.",
+ "_peildatum": "2026-11-17",
+ "01-ind-verlenging": {
+  "mag_niet": [
+   "Gebremedhin",
+   "Kastanjelaan",
+   "3812 KP",
+   "2847561093",
+   "90847362511",
+   "14-03-1991"
+  ],
+  "moet_blijven": [
+   "1 december 2026",
+   "088 043 04 30",
+   "www\\.ind\\.nl",
+   "paspoort",
+   "14 januari 2027"
+  ],
+  "deadline": "1 december 2026",
+  "heeft_actie": true,
+  "urgentie": "hoog",
+  "bezwaar": false
+ },
+ "02-ind-gezinshereniging": {
+  "mag_niet": [
+   "Hamdan",
+   "Khaled",
+   "\\bLina\\b",
+   "Burgemeester Jansenplein",
+   "7411 HD",
+   "3900417265",
+   "55120938476",
+   "2 februari 1988",
+   "19 juni 2019",
+   "s\\.alhamdan84",
+   "voorbeeldmail"
+  ],
+  "moet_blijven": [
+   "ingewilligd",
+   "vier\\s+weken",
+   "088 043 04 30",
+   "www\\.ind\\.nl/bezwaar",
+   "6 november 2026"
+  ],
+  "deadline": null,
+  "heeft_actie": false,
+  "urgentie": "laag",
+  "bezwaar": true
+ },
+ "03-coa-verhuizing": {
+  "mag_niet": [
+   "\\bBah\\b",
+   "kamer 214",
+   "Lindenweg 60",
+   "9411 XX",
+   "2771930046",
+   "28417733"
+  ],
+  "moet_blijven": [
+   "24 november 2026",
+   "09\\.00 uur",
+   "088 715 70 00",
+   "Zutphen"
+  ],
+  "deadline": "24 november 2026",
+  "heeft_actie": true,
+  "urgentie": "hoog",
+  "bezwaar": false,
+  "deadline_mag_null": true
+ },
+ "04-duo-inburgering": {
+  "mag_niet": [
+   "Haddad",
+   "Van Speijkstraat",
+   "1057 GN",
+   "2184\\.59\\.307",
+   "218459307"
+  ],
+  "moet_blijven": [
+   "15 december 2026",
+   "14 maart 2027",
+   "€ 1\\.250",
+   "www\\.inburgeren\\.nl",
+   "050 599 96 00",
+   "11 maart 2026"
+  ],
+  "deadline": "15 december 2026",
+  "heeft_actie": true,
+  "urgentie": "hoog",
+  "bezwaar": false
+ },
+ "05-duo-achterstand": {
+  "mag_niet": [
+   "Heuvel",
+   "Dorpsstraat",
+   "6661 EK",
+   "77402915",
+   "NL18 RABO",
+   "0312 4455 90"
+  ],
+  "moet_blijven": [
+   "€ 138,40",
+   "28 november 2026",
+   "050 599 77 55",
+   "www\\.duo\\.nl/terugbetalen",
+   "€ 16"
+  ],
+  "deadline": "28 november 2026",
+  "heeft_actie": true,
+  "urgentie": "hoog",
+  "bezwaar": false
+ },
+ "06-gemeente-bijstand": {
+  "mag_niet": [
+   "Osman",
+   "Ibrahim",
+   "Wilgenhof",
+   "7412 BC",
+   "4471902",
+   "318 264 907",
+   "318264907",
+   "07-11-1985",
+   "fatima"
+  ],
+  "moet_blijven": [
+   "26 november 2026",
+   "14 0570",
+   "www\\.gemeentehoogeland\\.nl",
+   "inkomen@gemeentehoogeland\\.nl",
+   "huurcontract"
+  ],
+  "deadline": "26 november 2026",
+  "heeft_actie": true,
+  "urgentie": "hoog",
+  "bezwaar": false
+ },
+ "07-gemeente-maatregel": {
+  "mag_niet": [
+   "\\bVu\\b",
+   "Molenpad",
+   "3311 TS",
+   "118834",
+   "590318246"
+  ],
+  "moet_blijven": [
+   "26 november 2026",
+   "10\\.30 uur",
+   "€ 368,22",
+   "zes\\s+weken",
+   "078 770 81 11",
+   "30 procent"
+  ],
+  "deadline": "26 november 2026",
+  "heeft_actie": true,
+  "urgentie": "hoog",
+  "bezwaar": true,
+  "deadline_mag_null": true
+ },
+ "08-gemeente-wmo": {
+  "mag_niet": [
+   "Wit-Bakker",
+   "\\bWit\\b",
+   "Bakker",
+   "Sanne",
+   "Appelgaarde",
+   "2804 PR",
+   "004417",
+   "904417263"
+  ],
+  "moet_blijven": [
+   "2,5 uur",
+   "1 december 2026",
+   "€ 21,00",
+   "zes\\s+weken",
+   "010 246 55 00",
+   "www\\.rijnvliet\\.nl/wmo",
+   "Thuiszorg De Brug"
+  ],
+  "deadline": null,
+  "heeft_actie": false,
+  "urgentie": "laag",
+  "bezwaar": true
+ },
+ "09-gemeente-belastingen": {
+  "mag_niet": [
+   "Nowak",
+   "Kowalska",
+   "Sint Jorisstraat",
+   "5521 HK",
+   "80021547",
+   "613904"
+  ],
+  "moet_blijven": [
+   "€ 412,37",
+   "31 december 2026",
+   "zes\\s+weken",
+   "040 555 01 23",
+   "www\\.kempenland\\.nl/kwijtschelding",
+   "27 november 2026"
+  ],
+  "deadline": "31 december 2026",
+  "heeft_actie": true,
+  "urgentie": "midden",
+  "bezwaar": true
+ },
+ "10-toeslagen-terugvordering": {
+  "mag_niet": [
+   "Mensah",
+   "Lage Rijndijk",
+   "2315 JS",
+   "471820395"
+  ],
+  "moet_blijven": [
+   "€ 1\\.136",
+   "23 december 2026",
+   "6 weken",
+   "0800 - 0543",
+   "www\\.toeslagen\\.nl",
+   "betalingsregeling"
+  ],
+  "deadline": "23 december 2026",
+  "heeft_actie": true,
+  "urgentie": "midden",
+  "bezwaar": true
+ },
+ "11-belastingdienst-aangifte": {
+  "mag_niet": [
+   "Amrani",
+   "Zuiderkruis",
+   "8251 MP",
+   "6305\\.18\\.274",
+   "630518274",
+   "IH/2026/6305-A"
+  ],
+  "moet_blijven": [
+   "1 mei 2027",
+   "1 maart 2027",
+   "0800 - 0543",
+   "www\\.belastingdienst\\.nl/aangifte",
+   "DigiD"
+  ],
+  "deadline": "1 mei 2027",
+  "heeft_actie": true,
+  "urgentie": "midden",
+  "bezwaar": false
+ },
+ "12-uwv-formulier": {
+  "mag_niet": [
+   "Kova",
+   "Tulpstraat",
+   "4201 GH",
+   "228 451 906",
+   "228451906",
+   "45-771-203"
+  ],
+  "moet_blijven": [
+   "7 dagen",
+   "16 november 2026",
+   "088 898 92 94",
+   "www\\.uwv\\.nl",
+   "Inkomstenopgave"
+  ],
+  "deadline": null,
+  "heeft_actie": true,
+  "urgentie": "hoog",
+  "bezwaar": false,
+  "termijn": "binnen 7 dagen"
+ },
+ "13-svb-kinderbijslag": {
+  "mag_niet": [
+   "Demir",
+   "Yusuf",
+   "\\bElif\\b",
+   "Oude Veerweg",
+   "7202 AB",
+   "5530\\.21\\.846",
+   "553021846",
+   "3 mei 2015",
+   "22 augustus 2018",
+   "NL07 ASNB",
+   "0871 2209 13"
+  ],
+  "moet_blijven": [
+   "1 januari 2027",
+   "€ 629,24",
+   "www\\.svb\\.nl/kinderbijslag",
+   "0570 123 400",
+   "april 2027"
+  ],
+  "deadline": null,
+  "heeft_actie": false,
+  "urgentie": "laag",
+  "bezwaar": false
+ },
+ "14-zorgverzekeraar-achterstand": {
+  "mag_niet": [
+   "Okafor",
+   "Componistenlaan",
+   "5012 DA",
+   "30991824",
+   "DL-7719-0034-Z",
+   "39 20 41 17",
+   "j\\.okafor",
+   "voorbeeldmail"
+  ],
+  "moet_blijven": [
+   "€ 289,90",
+   "14 dagen",
+   "9 november 2026",
+   "013 555 02 40",
+   "klantenservice@delindezorg\\.nl",
+   "www\\.delindezorg\\.nl",
+   "CAK"
+  ],
+  "deadline": null,
+  "heeft_actie": true,
+  "urgentie": "hoog",
+  "bezwaar": false,
+  "termijn": "binnen 14 dagen"
+ },
+ "15-woningcorporatie-huurachterstand": {
+  "mag_niet": [
+   "Tesfay",
+   "Kidane",
+   "Zeemanstraat",
+   "3024 CX",
+   "0052714",
+   "HA/88213/04",
+   "88213"
+  ],
+  "moet_blijven": [
+   "€ 1\\.224,80",
+   "30 november 2026",
+   "010 444 12 34",
+   "deurwaarder",
+   "www\\.hetankerwonen\\.nl"
+  ],
+  "deadline": "30 november 2026",
+  "heeft_actie": true,
+  "urgentie": "hoog",
+  "bezwaar": false
+ },
+ "16-cjib-boete": {
+  "mag_niet": [
+   "Bouzid",
+   "Prinses Irenelaan",
+   "1911 HT",
+   "4081 2290 7715 3304",
+   "KZ-481-P"
+  ],
+  "moet_blijven": [
+   "€ 128,00",
+   "14 december 2026",
+   "28 december 2026",
+   "www\\.cjib\\.nl",
+   "058 234 21 00",
+   "50 procent"
+  ],
+  "deadline": "14 december 2026",
+  "heeft_actie": true,
+  "urgentie": "hoog",
+  "bezwaar": true
+ },
+ "17-incasso-vordering": {
+  "mag_niet": [
+   "\\bAli\\b",
+   "Kruisweg",
+   "3513 CT",
+   "0048213",
+   "1\\.20455\\.871",
+   "20455",
+   "517 20 388"
+  ],
+  "moet_blijven": [
+   "€ 347,12",
+   "10 november 2026",
+   "030 200 41 41",
+   "www\\.vestingincasso\\.nl",
+   "info@vestingincasso\\.nl",
+   "Belcom"
+  ],
+  "deadline": "10 november 2026",
+  "heeft_actie": true,
+  "urgentie": "verlopen",
+  "bezwaar": false
+ },
+ "18-ziekenhuis-afspraak": {
+  "mag_niet": [
+   "Benali",
+   "Boterbloemstraat",
+   "6922 EV",
+   "7302815",
+   "09-01-1962"
+  ],
+  "moet_blijven": [
+   "3 december 2026",
+   "14\\.10 uur",
+   "026 555 30 48",
+   "www\\.lindenoord\\.nl/cardiologie",
+   "24 uur",
+   "medicijnen"
+  ],
+  "deadline": "3 december 2026",
+  "heeft_actie": true,
+  "urgentie": "midden",
+  "bezwaar": false,
+  "deadline_mag_null": true
+ }
+}
