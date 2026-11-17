@@ -1,0 +1,96 @@
+--- tests/test_claude_util.py
++++ tests/test_claude_util.py
+@@ -1,4 +1,4 @@
+-"""Test voor claude_tekst() en de Claude-aanroep van de Brief Begrijper (PLAN 13 fase 1).
++"""Test voor claude_tekst() en de Claude-aanroep van de Brief Begrijper (PLAN 13 fase 1; bijgewerkt in PLAN 20).
+ 
+ Draaien:  python3 tests/test_claude_util.py
+ Zonder netwerk: de Anthropic-client wordt vervangen door een stub. Gebruikt een eigen
+@@ -16,6 +16,7 @@
+ os.environ['ANTHROPIC_API_KEY'] = 'test-sleutel-geen-echte'
+ os.environ.pop('SOLIDARI_CLAUDE_MODEL', None)
+ os.environ.pop('SOLIDARI_CLAUDE_EFFORT', None)
++os.environ.pop('SOLIDARI_CLAUDE_SCHEMA', None)
+ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+ 
+ import dotenv  # noqa: E402
+@@ -53,9 +54,10 @@
+ 
+ 
+ GELDIG = json.dumps({
++    'leesbaar': True,
+     'urgentie': {'niveau': 'laag', 'titel': 't', 'tekst': 't'},
+-    'secties': [{'icoon': 'x', 'titel': 'Wat staat er in deze brief?', 'achtergrond': '#EBF3EE', 'inhoud': '<p>x</p>'}],
+-    'actiepunten': ['a'],
++    'wat_staat_er': 'x', 'wat_doen': ['a'], 'deadline': None,
++    'als_je_niets_doet': None, 'bezwaar': None, 'contact': None, 'twijfel': None,
+ })
+ 
+ print('1. claude_tekst()')
+@@ -91,42 +93,50 @@
+ check('standaardmodel is claude-sonnet-5-5', Config.CLAUDE_MODEL == 'claude-sonnet-5-5')
+ check('standaard-effort is low', Config.CLAUDE_EFFORT == 'low')
+ StubClient.volgend = antwoord(blok('thinking', thinking='...'), blok('text', text=GELDIG))
+-prompt = ai._maak_prompt('Verzonnen brief.', 'pl', '')
++prompt, _ = ai._maak_bericht('Verzonnen brief.', 'pl', '')
+ res = ai._via_claude(prompt, ai._systeem_prompt('pl'))
+ v = StubClient.laatste
+ check('model uit Config', v['model'] == 'claude-sonnet-5-5')
+ check('max_tokens 4096', v['max_tokens'] == 4096)
+-check('output_config effort low', v.get('output_config') == {'effort': 'low'})
+-check('systeemprompt is de V3-prompt voor PL', v['system'] == ai._systeem_prompt('pl'))
+-check('V3: gekozen taal in de systeemprompt', 'De gebruiker heeft gekozen voor: Polski (Polish)' in v['system'])
+-check('V3: vertaalde sectietitel als voorbeeld', 'Co mówi ten list?' in v['system'])
++check('output_config: effort low', v.get('output_config', {}).get('effort') == 'low')
++check('output_config: het schema van het antwoord (PLAN 20)',
++      v['output_config'].get('format') == {'type': 'json_schema', 'schema': ai.ANTWOORD_SCHEMA})
++check('systeemprompt is die voor PL', v['system'] == ai._systeem_prompt('pl'))
++check('gekozen taal in de systeemprompt', 'Je schrijft in het Polski (Polish).' in v['system'])
++check('datum van vandaag in de systeemprompt', 'Vandaag is het ' in v['system'] and '{DATUM}' not in v['system'])
++check('de brief staat tussen <brief> en </brief>',
++      v['messages'][0]['content'].startswith('<brief>\nVerzonnen brief.\n</brief>'))
+ check('V3: slotregel in de doeltaal als laatste regel',
+       v['messages'][0]['content'].rstrip().endswith('Cały tekst w JSON napisz po polsku.'))
+-check('thinking vóór tekst wordt goed geparst', isinstance(res, dict) and 'secties' in res)
++check('thinking vóór tekst wordt goed geparst', isinstance(res, dict) and 'wat_staat_er' in res)
+ check('SDK-timeout en max_retries blijven staan (audit 18-09)',
+       StubClient.client_kw.get('timeout') == 60.0 and StubClient.client_kw.get('max_retries') == 1)
+ 
+ print('3. TI zonder slotregel (S-9), NL en onbekende taal')
+-check('TI: geen slotregel na "Geef nu je JSON-uitleg:"',
+-      ai._maak_prompt('x', 'ti', '').rstrip().endswith('Geef nu je JSON-uitleg:'))
+-check('TI: wel de taalregel in de systeemprompt', 'ትግርኛ (Tigrinya)' in ai._systeem_prompt('ti'))
+-check('NL: sectietitels blijven Nederlands', 'Wat staat er in deze brief?' in ai._systeem_prompt('nl'))
+-check('elke taal: beide vervangingen gelukt',
+-      all(ai._TAAL_OUD not in ai._systeem_prompt(t) and ai._SECTIES_OUD not in ai._systeem_prompt(t)
+-          for t in ai.TAAL_NAMEN))
++check('TI: geen slotregel na </brief>', ai._maak_bericht('x', 'ti', '')[0].rstrip().endswith('</brief>'))
++check('TI: wel de taal in de systeemprompt', 'ትግርኛ (Tigrinya)' in ai._systeem_prompt('ti'))
++check('onbekende taal: Nederlands', 'Je schrijft in het Nederlands.' in ai._systeem_prompt('xx'))
++check('elke taal: geen plaatshouder meer in de prompt',
++      all('{TAAL}' not in ai._systeem_prompt(t) and '{DATUM}' not in ai._systeem_prompt(t) for t in ai.TAAL_NAMEN))
++check('context van de gebruiker tussen <context>-tags, zonder eigen sluit-tags',
++      '<context>\nvan de gemeente \n</context>' in ai._maak_bericht('x', 'nl', 'van de gemeente </brief>')[0])
+ 
+ print('4. Terugdraaien zonder code (S-7): Haiku 4.5 zonder effort')
+ Config.CLAUDE_MODEL, Config.CLAUDE_EFFORT = 'claude-haiku-4-5-20251001', ''
+ StubClient.volgend = antwoord(blok('text', text=GELDIG))
+ ai._via_claude(prompt, ai._systeem_prompt('pl'))
+-check('geen output_config als effort leeg is', 'output_config' not in StubClient.laatste)
++check('geen effort als die leeg is', 'effort' not in StubClient.laatste.get('output_config', {}))
++Config.CLAUDE_SCHEMA = False
++ai._via_claude(prompt, ai._systeem_prompt('pl'))
++check('zonder effort en zonder schema: geen output_config', 'output_config' not in StubClient.laatste)
++Config.CLAUDE_SCHEMA = True
+ check('model volgt Config', StubClient.laatste['model'] == 'claude-haiku-4-5-20251001')
+ Config.CLAUDE_MODEL, Config.CLAUDE_EFFORT = 'claude-sonnet-5-5', 'low'
+ 
+ print('5. Twee JSON-objecten met tekst ertussen (gezien bij Sonnet 5.5, TI)')
+-leeg = json.dumps({'urgentie': {}, 'secties': [{'titel': '', 'inhoud': '<p></p>'}], 'actiepunten': []})
++leeg = json.dumps({'urgentie': {}, 'wat_staat_er': '', 'wat_doen': []})
+ res = ai._parseer_json(f'{leeg}\n\nSorry, nu goed:\n\n{GELDIG}')
+-check('laatste object met inhoud gekozen', isinstance(res, dict) and res.get('actiepunten') == ['a'])
++check('laatste object met inhoud gekozen', isinstance(res, dict) and res.get('wat_doen') == ['a'])
+ check('gewone JSON ongewijzigd', ai._parseer_json(GELDIG) == json.loads(GELDIG))
+ check('JSON in code fence', ai._parseer_json(f'```json\n{GELDIG}\n```') == json.loads(GELDIG))
+ check('tekst vóór de JSON', ai._parseer_json(f'Hier is het:\n{GELDIG}') == json.loads(GELDIG))

@@ -1,0 +1,321 @@
+"""Tests voor Brief Begrijper v2 (PLAN 20, fase 3 en 4).
+
+Draaien:  python3 tests/test_brief2.py
+Zonder netwerk en zonder API: het model en (waar nodig) de OCR zijn vervangen door een stub.
+Leest /etc/solidari/.env niet en raakt de productieteller niet aan.
+
+  1. De drie controles na het model (B-7): citaat, deadline in het verleden, niets te doen.
+  2. Het oude formaat voor pagina's zonder v=2 (B-8).
+  3. Opschonen van het antwoord (geen HTML, hooguit drie acties).
+  4. OCR: een PDF met tekstlaag gaat niet door Tesseract (B-4); altijd nld+eng.
+  5. De route: meer pagina's, grenzen en foutcodes (B-5, B-9).
+"""
+import copy
+import io
+import os
+import sys
+import tempfile
+from datetime import date
+
+TMP = tempfile.mkdtemp(prefix='solidari-brief2-test-')
+os.environ['SOLIDARI_LOG_DIR'] = TMP
+os.environ['ANTHROPIC_API_KEY'] = 'test-sleutel-geen-echte'
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+
+import dotenv  # noqa: E402
+dotenv.load_dotenv = lambda *a, **k: False  # config.py mag /etc/solidari/.env niet lezen
+
+from PIL import Image  # noqa: E402
+from flask import Flask  # noqa: E402
+from services import ai, ocr  # noqa: E402
+from services.teller import DagplafondBereikt  # noqa: E402
+import routes.brief as route  # noqa: E402
+
+fouten = []
+
+
+def check(naam, voorwaarde):
+    print(('  OK   ' if voorwaarde else '  FOUT ') + naam)
+    if not voorwaarde:
+        fouten.append(naam)
+
+
+def gooit(fn, fout):
+    try:
+        fn()
+    except fout:
+        return True
+    except Exception:  # noqa: BLE001
+        return False
+    return False
+
+
+VANDAAG = date(2026, 11, 17)
+BRIEF = ('Gemeente Hoogeland\n\nGeachte mevrouw,\n\nWij hebben informatie van u nodig.\n'
+         'Lever de stukken in vóór 26 november 2026. Dat kan aan de balie.\n'
+         'U had al stukken moeten sturen vóór 10 november 2026.\n'
+         'Bezwaar maken kan binnen zes weken na de datum van deze brief.\n'
+         'Vragen? Bel 14 0570.\n')
+BASIS = {
+    'leesbaar': True,
+    'urgentie': {'niveau': 'hoog', 'titel': 'Lever stukken in', 'tekst': 'Doe dit op tijd.'},
+    'wat_staat_er': 'De gemeente wil stukken van je.',
+    'wat_doen': ['Lever de stukken in vóór 26 november 2026.'],
+    'deadline': {'datum': '26 november 2026', 'citaat': 'Lever de stukken in vóór 26 november 2026.'},
+    'als_je_niets_doet': None, 'bezwaar': 'Bezwaar kan binnen zes weken.', 'contact': '14 0570', 'twijfel': None,
+}
+
+antwoorden = []
+aanroepen = []
+
+
+def stub_claude(bericht, systeem=None):
+    aanroepen.append((bericht, systeem))
+    a = antwoorden.pop(0)
+    if isinstance(a, Exception):
+        raise a
+    return a
+
+
+ai._via_claude = stub_claude
+
+
+def uitleg(**anders):
+    """Laat het model BASIS teruggeven met de gegeven velden anders, en haal het door analyseer_brief."""
+    a = copy.deepcopy(BASIS)
+    a.update(anders)
+    antwoorden[:] = [a]
+    return ai.analyseer_brief(BRIEF, 'nl', '', vandaag=VANDAAG)
+
+
+print('1. Controles na het model (B-7)')
+r = uitleg()
+check('citaat staat in de brief: deadline blijft', r['deadline'] == BASIS['deadline'] and r['twijfel_code'] is None)
+check('antwoord heeft geen veld "leesbaar" meer en wel "afgekapt"', 'leesbaar' not in r and r['afgekapt'] is False)
+r = uitleg(deadline={'datum': '26 november 2026', 'citaat': 'LEVER DE STUKKEN IN   voor 26 november 2026'})
+check('citaat met andere hoofdletters en witruimte maar ander woord ("voor"): vervalt',
+      r['deadline'] is None and r['twijfel_code'] == 'deadline_onzeker')
+r = uitleg(deadline={'datum': '26 november 2026', 'citaat': 'lever de stukken in\nVÓÓR  26 november 2026'})
+check('citaat met andere hoofdletters, witruimte en leestekens: blijft', r['deadline'] is not None)
+r = uitleg(deadline={'datum': '3 december 2026', 'citaat': 'U moet reageren vóór 3 december 2026.'})
+check('citaat dat niet in de brief staat: deadline null en twijfel_code deadline_onzeker',
+      r['deadline'] is None and r['twijfel_code'] == 'deadline_onzeker')
+check('… en de urgentie blijft wat het model zei', r['urgentie']['niveau'] == 'hoog')
+r = uitleg(deadline={'datum': '28 november 2026', 'citaat': 'Lever de stukken in vóór 26 november 2026.'})
+check('citaat klopt maar de datum staat niet in de brief: vervalt',
+      r['deadline'] is None and r['twijfel_code'] == 'deadline_onzeker')
+r = uitleg(deadline={'datum': '26-11-2026', 'citaat': 'Lever de stukken in vóór 26 november 2026.'})
+check('datum in een andere schrijfwijze (26-11-2026) wordt herkend', r['deadline'] is not None)
+r = uitleg(deadline={'datum': None, 'citaat': 'Bezwaar maken kan binnen zes weken na de datum van deze brief.'})
+check('alleen een termijn: datum null, citaat blijft', r['deadline'] == {
+    'datum': None, 'citaat': 'Bezwaar maken kan binnen zes weken na de datum van deze brief.'})
+r = uitleg(deadline={'datum': '10 november 2026', 'citaat': 'U had al stukken moeten sturen vóór 10 november 2026.'})
+check('deadline van vóór vandaag: urgentie wordt "verlopen"', r['urgentie']['niveau'] == 'verlopen')
+r = uitleg(deadline={'datum': '26 november 2026', 'citaat': 'Lever de stukken in vóór 26 november 2026.'})
+check('deadline in de toekomst: urgentie blijft', r['urgentie']['niveau'] == 'hoog')
+antwoorden[:] = [dict(copy.deepcopy(BASIS), deadline={'datum': '17 november 2026', 'citaat': 'x'})]
+r = ai.analyseer_brief(BRIEF + 'Reageer uiterlijk 17 november 2026.\n', 'nl', '', vandaag=VANDAAG)
+check('een citaat van één letter telt niet', r['deadline'] is None)
+antwoorden[:] = [dict(copy.deepcopy(BASIS), deadline={'datum': '17 november 2026', 'citaat': 'Reageer uiterlijk 17 november 2026.'})]
+r = ai.analyseer_brief(BRIEF + 'Reageer uiterlijk 17 november 2026.\n', 'nl', '', vandaag=VANDAAG)
+check('deadline vandaag is niet verlopen', r['urgentie']['niveau'] == 'hoog')
+
+laag = {'niveau': 'laag', 'titel': 'Ter informatie', 'tekst': 'Je hoeft niets te doen.'}
+r = uitleg(wat_doen=[], deadline=None, urgentie=laag)
+check('brief zonder actie: wat_doen leeg en urgentie laag is goed (R-5)', r['wat_doen'] == [] and r['urgentie']['niveau'] == 'laag')
+aanroepen.clear()
+antwoorden[:] = [dict(copy.deepcopy(BASIS), wat_doen=[], deadline=None),
+                 dict(copy.deepcopy(BASIS), wat_doen=[], deadline=None, urgentie=laag)]
+r = ai.analyseer_brief(BRIEF, 'nl', '', vandaag=VANDAAG)
+check('geen actie maar urgentie hoog: één herkansing', len(aanroepen) == 2 and r['urgentie']['niveau'] == 'laag')
+aanroepen.clear()
+antwoorden[:] = [dict(copy.deepcopy(BASIS), wat_doen=[], deadline=None)] * 2
+check('… en daarna een fout', gooit(lambda: ai.analyseer_brief(BRIEF, 'nl', '', vandaag=VANDAAG), RuntimeError)
+      and len(aanroepen) == 2)
+antwoorden[:] = [dict(copy.deepcopy(BASIS), leesbaar=False)]
+check('"leesbaar": false → BriefOnleesbaar', gooit(lambda: ai.analyseer_brief(BRIEF, 'nl', '', vandaag=VANDAAG), ai.BriefOnleesbaar))
+antwoorden[:] = [DagplafondBereikt(501, 500)]
+check('dagplafond gaat door naar de route', gooit(lambda: ai.analyseer_brief(BRIEF, 'nl', '', vandaag=VANDAAG), DagplafondBereikt))
+antwoorden[:] = [None, copy.deepcopy(BASIS)]
+check('onbruikbaar antwoord: herkansing', ai.analyseer_brief(BRIEF, 'nl', '', vandaag=VANDAAG)['wat_staat_er'] != '')
+
+print('1b. Wat er naar het model gaat')
+aanroepen.clear()
+uitleg()
+bericht, systeem = aanroepen[0]
+check('datum van vandaag in de systeemprompt', 'Vandaag is het dinsdag 17 november 2026.' in systeem)
+check('geen datumlabels meer in het bericht (B-3)', 'VERVALDATUM' not in bericht and 'BRIEFTDATUM' not in bericht)
+lang = 'Gemeente Hoogeland schrijft u. ' * 1000          # 31.000 tekens
+antwoorden[:] = [dict(copy.deepcopy(BASIS), deadline=None)]
+aanroepen.clear()
+r = ai.analyseer_brief(lang, 'nl', '', vandaag=VANDAAG)
+check('lange brief: afgekapt op 20.000 tekens en gemeld', r['afgekapt'] is True
+      and len(aanroepen[0][0]) < 20100 and len(aanroepen[0][0]) > 19000)
+slot = 'Betaal uiterlijk 1 december 2026.'
+antwoorden[:] = [dict(copy.deepcopy(BASIS), deadline={'datum': '1 december 2026', 'citaat': slot})]
+r = ai.analyseer_brief(lang + slot, 'nl', '', vandaag=VANDAAG)
+check('citaat uit het afgekapte deel telt niet (het model heeft het niet gezien)', r['deadline'] is None)
+
+print('2. Oud formaat zonder v=2 (B-8)')
+r = uitleg(wat_staat_er='Tekst met <b>haakjes</b> & een teken.', als_je_niets_doet='Dan stopt de uitkering.')
+oud = ai.naar_oud_formaat(r, 'pl')
+check('velden van het oude formaat', set(oud) == {'urgentie', 'secties', 'actiepunten'})
+check('eerste sectie: vertaalde titel en <p>-tekst', oud['secties'][0]['titel'] == 'Co mówi ten list?'
+      and oud['secties'][0]['inhoud'].startswith('<p>') and 'Dan stopt de uitkering.' in oud['secties'][0]['inhoud'])
+check('tekst is geëscapet (geen tags, & wordt &amp;)', '<b>' not in oud['secties'][0]['inhoud'] and '&amp;' in oud['secties'][0]['inhoud'])
+check('bezwaar en contact als eigen sectie', [s['titel'] for s in oud['secties'][1:]] == ['Nie zgadzasz się?', 'Kontakt'])
+check('actiepunten = wat_doen', oud['actiepunten'] == r['wat_doen'])
+check('elke sectie heeft icoon, titel, achtergrond (#rrggbb) en inhoud',
+      all(set(s) == {'icoon', 'titel', 'achtergrond', 'inhoud'} and len(s['achtergrond']) == 7 for s in oud['secties']))
+r = uitleg(deadline={'datum': '10 november 2026', 'citaat': 'U had al stukken moeten sturen vóór 10 november 2026.'})
+check('"verlopen" wordt "hoog" voor de oude pagina', ai.naar_oud_formaat(r, 'nl')['urgentie']['niveau'] == 'hoog')
+r = uitleg(wat_doen=[], deadline=None, urgentie=laag, bezwaar=None, contact=None)
+oud = ai.naar_oud_formaat(r, 'xx')
+check('zonder actie: lege lijst, één sectie, Nederlandse titel bij onbekende taal',
+      oud['actiepunten'] == [] and len(oud['secties']) == 1 and oud['secties'][0]['titel'] == 'Wat staat er in deze brief?')
+
+print('3. Opschonen van het antwoord')
+r = uitleg(wat_staat_er='<p>De <strong>gemeente</strong> wil stukken.</p>', wat_doen=['a', 'b', 'c', 'd', {'x': 1}, ''],
+           deadline=None, twijfel='null', contact='  ')
+check('HTML-tags uit de tekst', r['wat_staat_er'] == 'De gemeente wil stukken.')
+check('hooguit drie acties, alleen tekst', r['wat_doen'] == ['a', 'b', 'c'])
+check('"null" en lege tekst worden None', r['twijfel'] is None and r['contact'] is None)
+antwoorden[:] = [{'urgentie': {'niveau': 'paars'}, 'wat_staat_er': 'x'}, 'geen dict']
+check('ongeldige urgentie en geen object: fout na twee pogingen',
+      gooit(lambda: ai.analyseer_brief(BRIEF, 'nl', '', vandaag=VANDAAG), RuntimeError))
+
+print('4. OCR (B-4)')
+ocr_aanroepen = []
+echte_ocr = ocr.pytesseract.image_to_string
+
+
+def stub_tesseract(afbeelding, lang=None, config=None):
+    ocr_aanroepen.append((lang, config))
+    return 'Tekst uit de foto van de brief, lang genoeg.'
+
+
+ocr.pytesseract.image_to_string = stub_tesseract
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', '..', 'Solidari-brief2', 'tools', 'test', 'nepbrieven'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'tools', 'test', 'nepbrieven'))
+try:
+    import maak_beeld
+    from pathlib import Path
+    pdf_pad = Path(TMP) / 'tekst.pdf'
+    maak_beeld.naar_pdf(BRIEF * 3, pdf_pad)
+    tekst = ocr.lees_tekst_uit_bestand(pdf_pad.read_bytes(), 'application/pdf')
+    check('tekst-PDF: direct gelezen, geen OCR-aanroep', 'Gemeente Hoogeland' in tekst and '26 november 2026' in tekst
+          and ocr_aanroepen == [])
+    maak_beeld.naar_pdf('kort', pdf_pad)
+    ocr.lees_tekst_uit_bestand(pdf_pad.read_bytes(), 'application/pdf')
+    check('PDF met minder dan 200 tekens: wel OCR', len(ocr_aanroepen) == 1)
+except ImportError:
+    print('  (overgeslagen: maak_beeld.py niet gevonden; de PDF-test heeft tools/test/nepbrieven nodig)')
+
+
+def jpeg(exif_stand=None):
+    img = Image.new('RGB', (300, 200), 'white')
+    buf = io.BytesIO()
+    if exif_stand:
+        exif = img.getexif()
+        exif[0x0112] = exif_stand
+        img.save(buf, 'JPEG', exif=exif)
+    else:
+        img.save(buf, 'JPEG')
+    return buf.getvalue()
+
+
+ocr_aanroepen.clear()
+ocr.lees_tekst_uit_bestand(jpeg(), 'image/jpeg', 'ar')
+check('foto: altijd nld+eng, ook als de gebruiker Arabisch kiest', ocr_aanroepen[0][0] == 'nld+eng')
+check('psm uit de instelling', f'--psm {ocr.OCR_PSM}' in ocr_aanroepen[0][1])
+gezien = []
+echte_verbeter = ocr._verbeter_afbeelding
+ocr._verbeter_afbeelding = lambda a: (gezien.append(a.size), echte_verbeter(a))[1]
+ocr.lees_tekst_uit_bestand(jpeg(6), 'image/jpeg')      # 6 = een kwartslag gedraaid
+check('EXIF-stand: de foto wordt rechtgezet vóór de OCR', gezien[-1] == (200, 300))
+ocr._verbeter_afbeelding = echte_verbeter
+ocr_aanroepen.clear()
+tekst = ocr.lees_tekst_uit_bestanden([(jpeg(), 'image/jpeg')] * 3)
+check('drie foto\'s: drie keer OCR, met een paginascheiding ertussen',
+      len(ocr_aanroepen) == 3 and tekst.count('NIEUWE PAGINA') == 2)
+
+print('5. De route: meer pagina\'s, grenzen en foutcodes (B-5, B-9)')
+app = Flask(__name__)
+app.register_blueprint(route.brief_bp, url_prefix='/api')
+c = app.test_client()
+gelezen = {}
+
+
+def stub_analyse(tekst, taal='nl', context='', vandaag=None):
+    gelezen.update(tekst=tekst, taal=taal, context=context)
+    if stub_analyse.fout:
+        raise stub_analyse.fout
+    a = ai._normaliseer(copy.deepcopy(BASIS))
+    a.pop('leesbaar')
+    a['afgekapt'] = False
+    return a
+
+
+stub_analyse.fout = None
+route.analyseer_brief = stub_analyse
+
+
+def post(bestanden, **velden):
+    data = dict(velden)
+    data['brief'] = [(io.BytesIO(inhoud), naam, ctype) for inhoud, naam, ctype in bestanden]
+    return c.post('/api/analyseer', data=data, content_type='multipart/form-data')
+
+
+FOTO = (jpeg(), 'brief.jpg', 'image/jpeg')
+r = c.post('/api/analyseer', data={'taal': 'nl'})
+check('geen bestand → 400 geen_bestand', r.status_code == 400 and r.json['code'] == 'geen_bestand' and r.json['fout'])
+r = post([(b'abc', 'brief.docx', 'application/msword')])
+check('verkeerd type → 415 type', r.status_code == 415 and r.json['code'] == 'type')
+r = post([FOTO, (b'%PDF-1.4', 'brief.pdf', 'application/pdf')])
+check('PDF samen met een foto → 415 type', r.status_code == 415 and r.json['code'] == 'type')
+r = post([FOTO] * 5)
+check('vijf foto\'s → 413 te_groot', r.status_code == 413 and r.json['code'] == 'te_groot')
+groot = (b'\xff\xd8' + b'0' * (6 * 1024 * 1024), 'groot.jpg', 'image/jpeg')
+r = post([groot, groot])
+check('samen meer dan 10 MB → 413 te_groot', r.status_code == 413 and r.json['code'] == 'te_groot')
+ocr_aanroepen.clear()
+r = post([FOTO] * 4, taal='PL', context='van de gemeente', v='2')
+check('vier foto\'s met v=2 → 200 in het nieuwe formaat', r.status_code == 200 and 'wat_staat_er' in r.json
+      and 'secties' not in r.json and len(ocr_aanroepen) == 4)
+check('taal en context komen door', gelezen['taal'] == 'pl' and gelezen['context'] == 'van de gemeente')
+r = post([FOTO], taal='nl')
+check('zonder v → 200 in het oude formaat', r.status_code == 200 and set(r.json) == {'urgentie', 'secties', 'actiepunten'})
+r = post([FOTO], taal='zz', v='2')
+check('onbekende taal wordt nl', r.status_code == 200 and gelezen['taal'] == 'nl')
+ocr.pytesseract.image_to_string = lambda *a, **k: '  \n '
+r = post([FOTO], v='2')
+check('geen tekst → 422 geen_tekst', r.status_code == 422 and r.json['code'] == 'geen_tekst')
+
+
+def kapot(*a, **k):
+    raise OSError('kan het beeld niet lezen')
+
+
+ocr.pytesseract.image_to_string = kapot
+r = post([FOTO], v='2')
+check('OCR-fout → 422 onleesbaar', r.status_code == 422 and r.json['code'] == 'onleesbaar')
+r = post([(b'geen plaatje', 'brief.jpg', 'image/jpeg')], v='2')
+check('kapot bestand → 422 onleesbaar', r.status_code == 422 and r.json['code'] == 'onleesbaar')
+ocr.pytesseract.image_to_string = stub_tesseract
+stub_analyse.fout = ai.BriefOnleesbaar('x')
+r = post([FOTO], v='2')
+check('model zegt onleesbaar → 422 onleesbaar', r.status_code == 422 and r.json['code'] == 'onleesbaar')
+stub_analyse.fout = DagplafondBereikt(501, 500)
+r = post([FOTO], v='2')
+check('dagplafond → 429 dagplafond', r.status_code == 429 and r.json['code'] == 'dagplafond')
+stub_analyse.fout = RuntimeError('x')
+r = post([FOTO], v='2')
+check('storing → 500 storing, met de Nederlandse zin voor oude pagina\'s',
+      r.status_code == 500 and r.json['code'] == 'storing' and 'later opnieuw' in r.json['fout'])
+ocr.pytesseract.image_to_string = echte_ocr
+
+print()
+if fouten:
+    print(f'{len(fouten)} test(s) mislukt:', ', '.join(fouten))
+    sys.exit(1)
+print('Alle tests geslaagd.')

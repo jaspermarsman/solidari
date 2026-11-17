@@ -51,3 +51,34 @@ rm routes/analyse.py                                                            
 
 **Terugdraaien:** `SOLIDARI_CLAUDE_MODEL=claude-haiku-4-5-20251001` en `SOLIDARI_CLAUDE_EFFORT=` in
 `/etc/solidari/.env`, dan `systemctl restart solidari` (S-7). Volledig terug: de tar-backup uit fase 5.2.
+
+## PLAN 20 (17-11-2026): Brief Begrijper v2
+
+Ten opzichte van de VPS-stand van 17-11-2026 (= de stand na PLAN 13 en de PL/RO-fix van 27-10).
+Toegepast geeft dit precies de lokale `solidari-backend/` (gecontroleerd met `diff -rq`). Uitrol gaat
+met de rsync uit `tools/vps/README.md`, pas na W-L; deze patches zijn voor de diff-review en voor herbouw.
+
+```bash
+cd /opt/solidari-backend
+for p in /pad/naar/repo/tools/vps/patches/*.plan20.patch; do patch -p0 --dry-run < "$p" && patch -p0 < "$p"; done
+cp /pad/naar/repo/tools/vps/patches/tests_test_redactie_set.py.plan20.nieuw tests/test_redactie_set.py
+cp /pad/naar/repo/tools/vps/patches/tests_test_brief2.py.plan20.nieuw tests/test_brief2.py
+```
+
+| Patch | Wat | Waarom |
+|---|---|---|
+| `services_redacteer.py.plan20` | redactie v2: adresblok als drie regels (ook in een kolom), V-nummer, BSN met punten of spaties, geboortedatum, e-mail (niet op het domein van de afzender), 06 en +31 6, kenmerken met letters en na een label, kentekens, namen na een titel en de achternaam overal | R-1: naam, adres, V-nummer, BSN, geboortedatum, e-mail en mobiel bleven staan |
+| `services_preprocessor.py.plan20` | de labels BRIEFTDATUM, VERVALDATUM en ONTVANGERADRES vervallen; "www. x .nl" wordt hersteld; een korte regel met cijfers is geen ruis meer | R-2: de laatste datum werd als deadline aangewezen; een telefoonnummer op een eigen regel verdween |
+| `services_ocr.py.plan20` | altijd `nld+eng`; EXIF-rotatie; tekst-PDF eerst met `pdftotext -layout`; meer bestanden; `psm` via `SOLIDARI_OCR_PSM` (standaard 6) | R-8 |
+| `services_ai.py.plan20` | nieuwe systeemprompt met taal en datum; bericht met `<brief>`; antwoord als platte tekst in vaste velden, afgedwongen met structured outputs (`SOLIDARI_CLAUDE_SCHEMA=0` zet dat uit); grens 20.000 tekens; drie controles (citaat, verlopen, niets te doen); `naar_oud_formaat()` | R-3 t/m R-7 |
+| `routes_brief.py.plan20` | `getlist('brief')` (1 tot 4 afbeeldingen of één PDF), `v=2`, foutcodes | R-4, R-9 |
+| `config.py.plan20` | `ANTWOORD_TALEN` (lijst), `MAX_AFBEELDINGEN`, `CLAUDE_SCHEMA`; `homeassistant.local` en `192.168.178.189` uit `ALLOWED_ORIGINS` | B-4, B-13 |
+| `tests_test_claude_util.py.plan20` | de test volgt de nieuwe prompt en het schema | |
+| `tests_test_redactie_set.py.plan20.nieuw`, `tests_test_brief2.py.plan20.nieuw` | testscripts zonder netwerk (`python tests/…`) | acceptatie fase 2 t/m 4 |
+
+**Niet veranderd:** `app.py` (de 413- en 429-meldingen van de limiter hebben een getal als `code`;
+de pagina valt dan terug op de HTTP-status), nginx (`client_max_body_size 6M` op `/api/analyseer`).
+De zonnepanelen-config in `config.py` blijft: `/api/status` gebruikt hem nog.
+
+**Terugdraaien:** de tar-backup van vóór de uitrol uitpakken en `systemctl restart solidari`. De pagina
+van vóór PLAN 20 werkt ook met de nieuwe backend (zonder `v` komt het oude formaat terug).

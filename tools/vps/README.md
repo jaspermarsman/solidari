@@ -90,6 +90,30 @@ ssh solidari-vps "journalctl -u solidari --since '10 min ago' | grep -Ei 'error|
 Model terug zonder code: `SOLIDARI_CLAUDE_MODEL=claude-haiku-4-5-20251001` en `SOLIDARI_CLAUDE_EFFORT=`
 in `/etc/solidari/.env`, dan `systemctl restart solidari`. Volledig terug: de tar-backup uitpakken.
 
+## Uitrol PLAN 20 (Brief Begrijper v2): notitie
+
+Pas na W-L. Wat er verandert staat in `patches/README.md` (sectie PLAN 20).
+
+```bash
+ssh solidari-vps 'tar czf /root/backend-voor-plan20-$(date +%F).tgz -C /opt solidari-backend'   # backup
+# rsync zoals bij 3.2 (solidari-backend/ naar /opt/solidari-backend/), en het testmateriaal:
+rsync -a tools/test/nepbrieven tools/test/redactie_test.py tools/test/nepbrief.jpg tools/test/nepbrief.pdf \
+      solidari-vps:/opt/solidari-backend/tools/test/
+ssh solidari-vps 'chown -R solidari:solidari /opt/solidari-backend/services /opt/solidari-backend/routes /opt/solidari-backend/tests /opt/solidari-backend/config.py'
+ssh solidari-vps 'which pdftotext && tesseract --list-langs | grep -E "^(nld|eng)$"'            # beide nodig
+ssh solidari-vps 'systemctl restart solidari'
+ssh solidari-vps 'cd /opt/solidari-backend && for t in tests/test_*.py; do ./venv/bin/python $t | tail -1; done && ./venv/bin/python tools/test/redactie_test.py | tail -1'
+curl -s https://api.solidari.nl/api/health
+# Rooktest met een verzonnen brief: zonder v (oud formaat) en met v=2
+curl -s -F brief=@tools/test/nepbrief.jpg -F taal=nl https://api.solidari.nl/api/analyseer | head -c 300
+curl -s -F brief=@tools/test/nepbrief.jpg -F taal=pl -F v=2 https://api.solidari.nl/api/analyseer | head -c 300
+ssh solidari-vps "journalctl -u solidari --since '10 min ago' | grep -Ei 'error|refusal|weigerde'"
+```
+
+Let op: nginx laat op `/api/analyseer` maximaal 6 MB per verzoek door (`nginx/api.solidari.nl.conf`).
+De pagina houdt vier foto's samen onder die grens; een PDF boven 6 MB krijgt een 413.
+Structured outputs uitzetten zonder code: `SOLIDARI_CLAUDE_SCHEMA=0` in `/etc/solidari/.env` en herstarten.
+
 ## Snapshot en herstel
 
 **Er staan geen dagelijkse backups aan** (besluit A6, herzien bij W-A op 02-09-2026). Reden: deze
