@@ -67,3 +67,15 @@ Meting van promptvarianten tegen taaldrift (Haiku 4.5, Haiku 5.5, Sonnet 5.5), 2
 - [P] [Prijzen](https://platform.claude.com/docs/en/about-claude/pricing) en de migratiegids voor Haiku 5.5 (26-10-2026): Haiku 4.5 $1 / $5; Haiku 5.5 $0,10 / $0,50 per miljoen tokens bij een prompt tot 100k, daarboven $0,50 / $2,50. Ca. 30% meer tokens voor dezelfde tekst. `effort` geeft een fout op Haiku 4.5.
 - [W] [Web search tool](https://platform.claude.com/docs/en/agents-and-tools/tool-use/web-search-tool) (26-10-2026): versies `web_search_20250305`, `web_search_20260209` en `web_search_20260318`. Ondersteuning per model staat in de Models API (`capabilities.server_tools.web_search`).
 - [G] `GET /v1beta/models` (Gemini API, sleutel `solidari-lokaal`), 26-10-2026: 60 modellen.
+
+## PLAN 20 (17-11-2026): Brief Begrijper v2, nog niet uitgerold
+
+Lokaal en in `tools/vps/patches/*.plan20.*`; de VPS draait dit pas na W-L.
+
+- **Model:** ongewijzigd `claude-sonnet-5-5`, effort `low`, `max_tokens` 4096.
+- **Nieuw in het verzoek:** structured outputs (`output_config.format` met `ANTWOORD_SCHEMA` uit `services/ai.py`); uit met `SOLIDARI_CLAUDE_SCHEMA=0`. De systeemprompt bevat de taal en de datum van vandaag. De brief staat tussen `<brief>`-tags, tot 20.000 tekens.
+- **Controles na het model, in code:** het citaat bij de deadline moet in de brief staan; de datum komt uit het citaat; een datum vóór vandaag wordt `verlopen`; "niets te doen" alleen bij urgentie `laag`.
+- **Meten:** `meet.py --alleen brief2` (18 verzonnen brieven uit `tools/test/nepbrieven`, 102 aanroepen, ±$1,30 per ronde); `--herbereken` draait de controles opnieuw zonder API; `--proef` doet drie aanroepen.
+- **Lat (PLAN 20 fase 6):** citaat 100%; deadline goed bij ≥ 17 van 18 brieven en nooit een datum bij een brief zonder; geen actie bij brieven zonder actie; bezwaar alleen waar de brief het noemt; taalcontrole T-3 per taal alles op één na; niets boven 45 s. Uitslag: `_werkdocumenten/RAPPORT-brief2.md`.
+- `smoke`, `matrix`, `varianten` en `prod` in `meet.py` horen bij de backend van vóór PLAN 20 (`ai._maak_prompt` bestaat niet meer).
+- De rij "Backend VPS … Brief Begrijper" in §1 beschrijft nog de stand van vóór PLAN 13; de actuele stand staat in `_werkdocumenten/STATUS-2026-10-29.md`.

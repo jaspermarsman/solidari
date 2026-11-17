@@ -22,6 +22,15 @@ nooit een echte brief.
        --alleen prod --model claude-sonnet-5-5 [--talen alle] [--herhaal 2]
    Elke aanroep telt mee in
    kosten/ naast de uitvoermap; bij --plafond (standaard $15) stopt de meting.
+   Sinds PLAN 20 bestaat ai._maak_prompt niet meer: smoke, matrix, varianten en prod horen bij de
+   backend van vóór PLAN 20 (PLAN 8, 12 en 13) en draaien alleen nog tegen een kopie daarvan.
+5. brief2 (PLAN 20 fase 6): de achttien verzonnen brieven uit tools/test/nepbrieven door de échte
+   keten van de backend: preprocessor → ai.analyseer_brief() (redactie, prompt, structured
+   outputs, de drie controles). Per antwoord: citaat, deadline, actie, bezwaar en urgentie tegen
+   verwacht.json, de taalcontrole T-3, de duur, en of er iets uit mag_niet naar het model ging.
+       --alleen brief2 --nepbrieven tools/test/nepbrieven --plafond 10 [--droog] [--proef]
+   18 brieven × nl, ar, ti, pl, plus 6 brieven × en, tr, uk, fa, ro (102 aanroepen).
+   --herbereken haalt de bewaarde antwoorden opnieuw door de controles in code (geen API).
 """
 
 import argparse
@@ -553,13 +562,276 @@ def prod(ai, basis, uit, herhaal, model, talen, kosten, sleutel):
     return regels
 
 
+# ── 5. Brief Begrijper v2 (PLAN 20 fase 6) ───────────────────────────────
+BRIEF2_VOL = ["nl", "ar", "ti", "pl"]                       # alle 18 brieven
+BRIEF2_DEEL = ["en", "tr", "uk", "fa", "ro"]                # 6 brieven
+BRIEF2_ZES = ["01-ind-verlenging", "06-gemeente-bijstand", "08-gemeente-wmo", "12-uwv-formulier",
+              "16-cjib-boete", "17-incasso-vordering"]
+MAX_DUUR_S = 45
+
+
+def _brief2_tekst(res):
+    """De uitleg als platte tekst, zonder het citaat (dat hoort Nederlands te zijn)."""
+    delen = [res["urgentie"]["titel"], res["urgentie"]["tekst"], res["wat_staat_er"], *res["wat_doen"]]
+    delen += [res.get(k) or "" for k in ("als_je_niets_doet", "bezwaar", "twijfel")]
+    return "\n".join(d for d in delen if d)
+
+
+def _brief2_controles(res, ruw, verwacht, taal, datum_van):
+    """Vergelijk één antwoord met verwacht.json. `ruw` is wat het model gaf, vóór de controles in code."""
+    c = {}
+    d = res["deadline"]
+    datum = datum_van(d["datum"]) if d and d["datum"] else None
+    # Citaat: greep de controle in code in, dan gaf het model een citaat dat niet in de brief staat.
+    c["model_gaf_deadline"] = isinstance((ruw or {}).get("deadline"), dict)
+    c["citaat_ok"] = res["twijfel_code"] != "deadline_onzeker"
+    v = verwacht["deadline"]
+    if v:
+        goed = datum == datum_van(v)
+        c["deadline_ok"] = goed or (bool(verwacht.get("deadline_mag_null")) and datum is None)
+        c["deadline_onterecht"] = False
+    elif verwacht.get("termijn"):
+        c["deadline_ok"] = datum is None           # alleen een termijn: geen datum
+        c["deadline_onterecht"] = datum is not None
+    else:
+        c["deadline_ok"] = d is None or datum is None
+        c["deadline_onterecht"] = datum is not None            # hard: een datum bij een brief zonder
+        c["termijn_bij_brief_zonder"] = d is not None and datum is None   # zacht: alleen een termijn als citaat
+    c["actie_ok"] = bool(res["wat_doen"]) == verwacht["heeft_actie"]
+    c["bezwaar_ok"] = bool(res["bezwaar"]) == verwacht["bezwaar"]
+    c["urgentie_ok"] = res["urgentie"]["niveau"] == verwacht["urgentie"]
+    c["urgentie"] = res["urgentie"]["niveau"]
+    t = taalcontrole(_brief2_tekst(res), taal)
+    c["in_doeltaal"] = t["in_doeltaal"]
+    c["taaldetails"] = {k: t[k] for k in t if k != "in_doeltaal"}
+    c["citaat_nederlands"] = True
+    if d and taal != "nl":
+        c["citaat_nederlands"] = taalcontrole(d["citaat"], "nl") is not None and not re.search(
+            TAALREGELS.get(taal, {}).get("kenmerken", {}).get("schrift", r"$^"), d["citaat"])
+    uit = json.dumps(res, ensure_ascii=False)
+    c["geen_placeholders"] = not re.search(r"\[(NAAM|ADRES|BSN|KENMERK|V-NUMMER|REKENINGNUMMER|E-MAIL|TELEFOON|"
+                                           r"GEBOORTEDATUM|KENTEKEN)\]", _brief2_tekst(res))
+    c["geen_html"] = not re.search(r"<[a-z/][^>]*>", uit)
+    return c
+
+
+def brief2(ai, nepbrieven, uit, model, kosten, sleutel, droog=False, proef=False):
+    """PLAN 20 fase 6: de echte analyseer_brief op de achttien verzonnen brieven."""
+    import anthropic
+    from datetime import date
+    from config import Config
+    from services.preprocessor import verwerk_ocr_tekst, _extraheer_datums
+    from services.redacteer import redacteer_pii
+
+    verwacht = json.loads((nepbrieven / "verwacht.json").read_text(encoding="utf-8"))
+    vandaag = date.fromisoformat(verwacht["_peildatum"])
+    namen = sorted(k for k in verwacht if not k.startswith("_"))
+
+    def datum_van(tekst):
+        g = _extraheer_datums(tekst)
+        return g[0]["datum"].date() if g else None
+
+    werk = [(n, t) for n in namen for t in BRIEF2_VOL] + [(n, t) for n in BRIEF2_ZES for t in BRIEF2_DEEL]
+    if proef:
+        werk = [("06-gemeente-bijstand", "nl"), ("08-gemeente-wmo", "pl"), ("17-incasso-vordering", "ar")]
+    if droog:
+        pmap = uit / "prompts"
+        pmap.mkdir(parents=True, exist_ok=True)
+        for n in namen:
+            tekst = redacteer_pii(verwerk_ocr_tekst((nepbrieven / f"{n}.txt").read_text(encoding="utf-8")))
+            bericht, _ = ai._maak_bericht(tekst, "pl", "")
+            (pmap / f"brief2-{n}-pl.txt").write_text(
+                f"=== SYSTEEM ===\n{ai._systeem_prompt('pl', vandaag)}\n\n=== GEBRUIKER ===\n{bericht}\n", encoding="utf-8")
+        print(f"droog: {len(namen)} prompts in {pmap}; {len(werk)} aanroepen gepland")
+        return []
+
+    Config.ANTHROPIC_API_KEY = sleutel
+    Config.CLAUDE_MODEL = model
+    Config.CLAUDE_EFFORT = INSTELLING[model]["effort"] or ""
+    opname = []
+    echt = anthropic.Anthropic
+
+    def opnemende_client(**kw):
+        c = echt(**kw)
+        create = c.messages.create
+
+        def neem_op(**k):
+            bericht = create(**k)
+            opname.append((k, bericht))
+            return bericht
+        c.messages.create = neem_op
+        return c
+
+    ai.anthropic.Anthropic = opnemende_client
+    echte_parser = ai._parseer_json
+    ruw_antwoord = {}
+
+    def parser(tekst, stop_reason=None):
+        ruw_antwoord["laatste"] = echte_parser(tekst, stop_reason)
+        return ruw_antwoord["laatste"]
+    ai._parseer_json = parser
+
+    klaar = set()
+    if (uit / "brief2.jsonl").exists() and not proef:
+        for regel in (uit / "brief2.jsonl").read_text(encoding="utf-8").splitlines():
+            r = json.loads(regel)
+            if not r.get("fout"):
+                klaar.add((r["brief"], r["taal"]))
+    doel = uit / ("brief2-proef.jsonl" if proef else "brief2.jsonl")
+    regels = []
+    try:
+        for naam, taal in werk:
+            if (naam, taal) in klaar:
+                continue
+            kosten.check()
+            opname.clear()
+            ruw_antwoord.clear()
+            tekst = verwerk_ocr_tekst((nepbrieven / f"{naam}.txt").read_text(encoding="utf-8"))
+            r = {"brief": naam, "taal": taal, "model": model}
+            t0 = time.monotonic()
+            try:
+                res, fout = ai.analyseer_brief(tekst, taal, "", vandaag=vandaag), None
+            except Exception as e:  # noqa: BLE001 — de fout wordt gerapporteerd
+                res, fout = None, f"{type(e).__name__}: {_schoon(e)}"
+            r["duur_s"] = round(time.monotonic() - t0, 1)
+            r["aanroepen"] = len(opname)
+            usd = sum(_kosten(model, b.usage) for _, b in opname)
+            for _ in opname:
+                kosten.tel("brief2", usd / len(opname))
+            r["kosten_usd"] = round(usd, 5)
+            if opname:
+                k, b = opname[-1]
+                r.update(stop_reason=b.stop_reason, input_tokens=b.usage.input_tokens, output_tokens=b.usage.output_tokens,
+                         schema="format" in k.get("output_config", {}), effort=k.get("output_config", {}).get("effort"))
+                verstuurd = k["system"] + "\n" + k["messages"][0]["content"]
+                r["lek_naar_model"] = [p for p in verwacht[naam]["mag_niet"] if re.search(p, verstuurd, re.IGNORECASE)]
+            if fout or res is None:
+                r.update(fout=fout or "geen antwoord", geslaagd=False)
+            else:
+                r["antwoord"] = res
+                r["ruw_deadline"] = (ruw_antwoord.get("laatste") or {}).get("deadline")
+                r.update(_brief2_controles(res, ruw_antwoord.get("laatste"), verwacht[naam], taal, datum_van))
+                r["op_tijd"] = r["duur_s"] <= MAX_DUUR_S
+                r["geslaagd"] = all(r[k] for k in ("citaat_ok", "deadline_ok", "actie_ok", "bezwaar_ok", "in_doeltaal",
+                                                   "op_tijd", "geen_html")) and not r["deadline_onterecht"] \
+                    and not r.get("lek_naar_model")
+            regels.append(r)
+            print("brief2", json.dumps({k: r.get(k) for k in (
+                "brief", "taal", "duur_s", "aanroepen", "geslaagd", "citaat_ok", "deadline_ok", "deadline_onterecht",
+                "actie_ok", "bezwaar_ok", "urgentie", "urgentie_ok", "in_doeltaal", "kosten_usd", "fout")},
+                ensure_ascii=False), flush=True)
+            with open(doel, "a", encoding="utf-8") as f:
+                f.write(json.dumps(r, ensure_ascii=False) + "\n")
+    finally:
+        ai.anthropic.Anthropic = echt
+        ai._parseer_json = echte_parser
+    return regels
+
+
+def brief2_herbereken(ai, nepbrieven, uit):
+    """Draai de controles in code opnieuw op de bewaarde antwoorden (geen API). Het ruwe antwoord
+    van het model (ruw_deadline) gaat opnieuw door ai._controleer_deadline; de uitkomst komt in
+    brief2-herberekend.jsonl. Was de urgentie door de oude controle 'verlopen' geworden, dan is
+    het niveau van het model niet bewaard; de herberekening begint dan bij 'hoog'."""
+    import copy
+    from datetime import date
+    from services.preprocessor import verwerk_ocr_tekst, _extraheer_datums
+    from services.redacteer import redacteer_pii
+
+    verwacht = json.loads((nepbrieven / "verwacht.json").read_text(encoding="utf-8"))
+    vandaag = date.fromisoformat(verwacht["_peildatum"])
+
+    def datum_van(tekst):
+        g = _extraheer_datums(tekst)
+        return g[0]["datum"].date() if g else None
+
+    teksten = {}
+    doel = uit / "brief2-herberekend.jsonl"
+    doel.write_text("", encoding="utf-8")
+    for regel in (uit / "brief2.jsonl").read_text(encoding="utf-8").splitlines():
+        r = json.loads(regel)
+        if not r.get("fout"):
+            naam = r["brief"]
+            if naam not in teksten:
+                teksten[naam] = redacteer_pii(verwerk_ocr_tekst((nepbrieven / f"{naam}.txt").read_text(encoding="utf-8")))
+            res = copy.deepcopy(r["antwoord"])
+            ruw = r.get("ruw_deadline")
+            res["deadline"] = ({"datum": ai._tekst(ruw.get("datum")), "citaat": ai._tekst(ruw.get("citaat"))}
+                               if isinstance(ruw, dict) and ai._tekst(ruw.get("citaat")) else None)
+            res["twijfel_code"] = None
+            if res["urgentie"]["niveau"] == "verlopen":
+                res["urgentie"]["niveau"] = "hoog"
+            res = ai._controleer_deadline(res, teksten[naam][:ai.MAX_BRIEF_TEKENS], vandaag)
+            r["antwoord"] = res
+            r.update(_brief2_controles(res, {"deadline": ruw}, verwacht[naam], r["taal"], datum_van))
+            r["geslaagd"] = all(r[k] for k in ("citaat_ok", "deadline_ok", "actie_ok", "bezwaar_ok", "in_doeltaal",
+                                               "op_tijd", "geen_html")) and not r["deadline_onterecht"] \
+                and not r.get("lek_naar_model")
+        with open(doel, "a", encoding="utf-8") as f:
+            f.write(json.dumps(r, ensure_ascii=False) + "\n")
+    print(f"herberekend: {doel}")
+    brief2_uitslag(uit, nepbrieven, "brief2-herberekend.jsonl")
+
+
+def brief2_uitslag(uit, nepbrieven, bestand="brief2.jsonl"):
+    """Lees brief2.jsonl en zet de uitslag naast de lat van PLAN 20 fase 6."""
+    verwacht = json.loads((nepbrieven / "verwacht.json").read_text(encoding="utf-8"))
+    regels = {}
+    for regel in (uit / bestand).read_text(encoding="utf-8").splitlines():
+        r = json.loads(regel)
+        regels[(r["brief"], r["taal"])] = r          # een latere regel (herkansing na een fout) telt
+    rs = list(regels.values())
+    goed = [r for r in rs if not r.get("fout")]
+    print(f"\n{len(rs)} aanroepen, {len(rs) - len(goed)} met een fout, kosten ${sum(r.get('kosten_usd', 0) for r in rs):.2f}")
+    for r in rs:
+        if r.get("fout"):
+            print(f"  FOUT {r['brief']} {r['taal']}: {r['fout'][:120]}")
+
+    def lijst(test):
+        return [f"{r['brief'][:2]}/{r['taal']}" for r in goed if test(r)]
+    met_deadline = [r for r in goed if r.get("model_gaf_deadline")]
+    print(f"1. citaat letterlijk in de brief: {sum(r['citaat_ok'] for r in met_deadline)}/{len(met_deadline)}"
+          f" antwoorden met een deadline   mis: {lijst(lambda r: not r['citaat_ok'])}")
+    print("2. deadline klopt met verwacht.json, per taal (lat: ≥ 17 van de 18 brieven):")
+    for taal in BRIEF2_VOL + BRIEF2_DEEL:
+        t = [r for r in goed if r["taal"] == taal]
+        print(f"     {taal}: {sum(r['deadline_ok'] for r in t)}/{len(t)}   mis: {[r['brief'][:2] for r in t if not r['deadline_ok']]}")
+    print(f"   een datum als deadline bij een brief zonder (lat: nooit): {lijst(lambda r: r['deadline_onterecht'])}")
+    print(f"   alleen een termijn als citaat bij een brief zonder deadline (ter info): {lijst(lambda r: r.get('termijn_bij_brief_zonder'))}")
+    zonder = [r for r in goed if not verwacht[r["brief"]]["heeft_actie"]]
+    print(f"3. geen actie bij brieven zonder actie: {sum(r['actie_ok'] for r in zonder)}/{len(zonder)}"
+          f"   mis: {lijst(lambda r: not r['actie_ok'] and not verwacht[r['brief']]['heeft_actie'])}")
+    print(f"   wel een actie bij brieven met actie: mis: {lijst(lambda r: not r['actie_ok'] and verwacht[r['brief']]['heeft_actie'])}")
+    print(f"4. bezwaar alleen waar verwacht: {sum(r['bezwaar_ok'] for r in goed)}/{len(goed)}"
+          f"   onterecht genoemd: {lijst(lambda r: not r['bezwaar_ok'] and not verwacht[r['brief']]['bezwaar'])}"
+          f"   ontbreekt: {lijst(lambda r: not r['bezwaar_ok'] and verwacht[r['brief']]['bezwaar'])}")
+    print("5. taalcontrole T-3 per taal (lat: alles op één na):")
+    for taal in BRIEF2_VOL + BRIEF2_DEEL:
+        t = [r for r in rs if r["taal"] == taal]
+        print(f"     {taal}: {sum(bool(r.get('in_doeltaal')) for r in t)}/{len(t)}   mis: {[r['brief'][:2] for r in t if not r.get('in_doeltaal')]}")
+    duur = sorted(r["duur_s"] for r in rs)
+    print(f"6. duur: mediaan {duur[len(duur) // 2]} s, langste {duur[-1]} s (lat: niets boven {MAX_DUUR_S} s)"
+          f"   te lang: {lijst(lambda r: not r['op_tijd'])}")
+    print(f"   urgentie zoals verwacht (ter info): {sum(r['urgentie_ok'] for r in goed)}/{len(goed)}"
+          f"   anders: {[x + ':' + r['urgentie'] for x, r in zip(lijst(lambda r: True), goed) if not r['urgentie_ok']]}")
+    print(f"   herkansingen (meer dan één aanroep): {lijst(lambda r: r['aanroepen'] > 1)}")
+    print(f"   citaat niet Nederlands: {lijst(lambda r: not r['citaat_nederlands'])};"
+          f" placeholder in de uitleg: {lijst(lambda r: not r['geen_placeholders'])};"
+          f" HTML: {lijst(lambda r: not r['geen_html'])}; lek naar het model: {[r['brief'][:2] for r in rs if r.get('lek_naar_model')]}")
+    print(f"   structured outputs gebruikt: {sum(bool(r.get('schema')) for r in rs)}/{len(rs)}")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--backend", required=True, help="map solidari-backend (alleen gelezen)")
     ap.add_argument("--uit", required=True, help="uitvoermap, buiten git")
     ap.add_argument("--herhaal", type=int, default=2)
     ap.add_argument("--herhaal-smoke", type=int, default=3)
-    ap.add_argument("--alleen", choices=["smoke", "matrix", "effort", "varianten", "prod"])
+    ap.add_argument("--alleen", choices=["smoke", "matrix", "effort", "varianten", "prod", "brief2"])
+    ap.add_argument("--nepbrieven", default=str(Path(__file__).resolve().parents[1] / "test" / "nepbrieven"),
+                    help="voor --alleen brief2: map met de verzonnen brieven en verwacht.json")
+    ap.add_argument("--proef", action="store_true", help="voor --alleen brief2: drie aanroepen, als proef")
+    ap.add_argument("--herbereken", action="store_true", help="voor --alleen brief2: alleen de uitslag, geen API")
     ap.add_argument("--talen", default="pl,tr,uk", help="voor --alleen effort; 'alle' = 9 talen")
     ap.add_argument("--effort", default="medium", help="voor --alleen effort")
     ap.add_argument("--model", default=f"{MODEL_OUD},{MODEL_NIEUW}", help="voor --alleen varianten")
@@ -580,6 +852,22 @@ def main():
     os.environ.setdefault("SOLIDARI_LOG_DIR", tempfile.mkdtemp(prefix="solidari-meet-"))
     import anthropic
     from services import ai
+
+    if a.alleen == "brief2":
+        nep = Path(a.nepbrieven).resolve()
+        if a.herbereken:
+            brief2_herbereken(ai, nep, uit)
+            return
+        model = a.model if a.model in INSTELLING else MODEL_SONNET
+        kosten = Kosten(uit / "kosten", a.plafond, f"brief2-{model}")
+        try:
+            brief2(ai, nep, uit, model, kosten, None if a.droog else _sleutel(), droog=a.droog, proef=a.proef)
+        except PlafondBereikt as e:
+            print(f"PLAFOND: {e}")
+            sys.exit(3)
+        if not a.droog and not a.proef:
+            brief2_uitslag(uit, nep)
+        return
 
     if a.alleen == "prod":
         assert a.model in INSTELLING, a.model

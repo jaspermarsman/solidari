@@ -42,7 +42,7 @@
  TAAL_NAMEN = {
      'nl': 'Nederlands',
      'en': 'English',
-@@ -32,8 +42,327 @@
+@@ -32,8 +42,361 @@
      'pl': 'Polski (Polish)',
  }
  
@@ -53,8 +53,20 @@
 +    """Het model zegt dat de tekst te slecht is om uit te leggen ("leesbaar": false)."""
 +
 +
-+# ── Systeemprompt (PLAN 20 §3.1, letterlijk) ─────────────────────────────────
++# ── Systeemprompt (PLAN 20 §3.1) ─────────────────────────────────────────────
 +# {TAAL} en {DATUM} worden ingevuld met .replace(); het JSON-voorbeeld zit vol accolades.
++# De tekst is §3.1 letterlijk, op één blok na: "GEEN ACTIE OF GEEN BEZWAAR" (zie _AANVULLING).
++# AFWIJKING, te beslissen bij W-L. Met de prompt uit het plan zette het model bij een brief zonder
++# actie soms "je hoeft niets te doen" als actiepunt in de lijst, en één keer een zin in "bezwaar"
++# bij een brief zonder bezwaar (meting fase 6, zie LOG-brief2.md). Zonder de aanvulling:
++# SOLIDARI_PROMPT_AANVULLING=0.
++_AANVULLING = """GEEN ACTIE OF GEEN BEZWAAR
++Hoeft de lezer niets te doen? Dan is "wat_doen" een lege lijst: []. Zet er
++geen zin in als "je hoeft niets te doen". Staat er in de brief niet dat de
++lezer bezwaar of beroep kan instellen? Dan is "bezwaar" null.
++
++"""
++
 +SYSTEEM_PROMPT = """Je legt brieven van Nederlandse instanties uit aan volwassenen die weinig
 +Nederlands lezen of het systeem nog niet kennen. Je schrijft in het {TAAL}.
 +
@@ -192,7 +204,10 @@
 +
 +def _systeem_prompt(taal: str, vandaag: date | None = None) -> str:
 +    """SYSTEEM_PROMPT met de gekozen taal en de datum van vandaag erin."""
-+    return (SYSTEEM_PROMPT
++    prompt = SYSTEEM_PROMPT
++    if os.getenv('SOLIDARI_PROMPT_AANVULLING', '1') != '0':
++        prompt = prompt.replace('ANTWOORD\nAlleen dit JSON-object.', _AANVULLING + 'ANTWOORD\nAlleen dit JSON-object.')
++    return (prompt
 +            .replace('{TAAL}', TAAL_NAMEN.get(taal, 'Nederlands'))
 +            .replace('{DATUM}', _datum_nl(vandaag or _vandaag())))
 +
@@ -207,6 +222,11 @@
 +        delen += ['<context>', schoon, '</context>']
 +    if taal in TAALREGEL_JSON:
 +        delen.append(TAALREGEL_JSON[taal])
++    elif taal in TAAL_NAMEN and os.getenv('SOLIDARI_PROMPT_AANVULLING', '1') != '0':
++        # Talen zonder eigen slotzin (nu alleen TI, S-9) krijgen de slotregel in het Nederlands
++        # (variant V1 uit PLAN 12). Zonder slotregel schreef het model in de meting van PLAN 20
++        # een TI-uitleg helemaal in het Nederlands. AFWIJKING, te beslissen bij W-L.
++        delen.append(f'Schrijf alle tekst in de JSON in het {TAAL_NAMEN[taal]}.')
 +    return '\n'.join(delen), afgekapt
 +
 +
@@ -335,33 +355,47 @@
 +    B-7, controle 1 en 2. Een verzonnen deadline is de ergste fout die deze tool kan maken.
 +
 +    1. Het citaat moet letterlijk in de verstuurde brieftekst staan (witruimte, hoofdletters en
-+       leestekens gelijkgetrokken). Is de datum te lezen, dan moet die datum ook echt in de brief
-+       staan. Zo niet: de deadline vervalt en twijfel_code wordt 'deadline_onzeker'.
-+    2. Ligt de datum vóór vandaag, dan wordt de urgentie 'verlopen'.
++       leestekens gelijkgetrokken). Zo niet: de deadline vervalt, twijfel_code 'deadline_onzeker'.
++    2. De datum komt uit het citaat, niet uit het model:
++       - staat er geen datum in het citaat (alleen een termijn, "binnen 7 dagen"), dan is de
++         datum null, ook als het model er zelf een uitrekende of vertaalde;
++       - staat er één datum in, dan is dat de datum, zoals hij in de brief staat (het model
++         schrijft hem soms in de taal van de uitleg: "15 grudnia 2026");
++       - staan er meer in, dan moet de datum van het model er één van zijn; anders vervalt de
++         deadline met 'deadline_onzeker'.
++    3. Ligt de datum vóór vandaag, dan wordt de urgentie 'verlopen'.
 +    """
 +    deadline = resultaat['deadline']
 +    if not deadline:
 +        return resultaat
 +
-+    citaat = _gelijkgetrokken(deadline['citaat'])
-+    if len(citaat) < 8 or citaat not in _gelijkgetrokken(verstuurd):
-+        logger.warning('Citaat bij de deadline staat niet in de brief; deadline vervalt')
++    def vervalt(reden):
++        logger.warning('%s; deadline vervalt', reden)
 +        resultaat['deadline'] = None
 +        resultaat['twijfel_code'] = 'deadline_onzeker'
 +        return resultaat
 +
-+    if deadline['datum']:
-+        gelezen = _extraheer_datums(deadline['datum'])
-+        if gelezen:
-+            datum = gelezen[0]['datum'].date()
-+            in_brief = {d['datum'].date() for d in _extraheer_datums(verstuurd)}
-+            if datum not in in_brief:
-+                logger.warning('Datum van de deadline staat niet in de brief; deadline vervalt')
-+                resultaat['deadline'] = None
-+                resultaat['twijfel_code'] = 'deadline_onzeker'
-+                return resultaat
-+            if datum < vandaag:
-+                resultaat['urgentie']['niveau'] = 'verlopen'
++    citaat = _gelijkgetrokken(deadline['citaat'])
++    if len(citaat) < 8 or citaat not in _gelijkgetrokken(verstuurd):
++        return vervalt('Citaat bij de deadline staat niet in de brief')
++
++    in_citaat = _extraheer_datums(deadline['citaat'])
++    van_model = _extraheer_datums(deadline['datum'] or '')
++    if not in_citaat:
++        deadline['datum'] = None                      # alleen een termijn
++        return resultaat
++    if len(in_citaat) == 1:
++        gekozen = in_citaat[0]
++        if van_model and van_model[0]['datum'] != gekozen['datum']:
++            return vervalt('Datum van het model is een andere dan die in het citaat')
++    else:
++        gekozen = next((d for d in in_citaat if van_model and d['datum'] == van_model[0]['datum']), None)
++        if gekozen is None:
++            return vervalt('Meer datums in het citaat en geen ervan is die van het model')
++
++    deadline['datum'] = gekozen['origineel']
++    if gekozen['datum'].date() < vandaag:
++        resultaat['urgentie']['niveau'] = 'verlopen'
 +    return resultaat
 +
 +
@@ -372,12 +406,12 @@
      'nl': {
          'wat_staat_er': 'Wat staat er in deze brief?',
          'waarom': 'Waarom krijg ik deze brief?',
-@@ -99,250 +428,38 @@
+@@ -99,250 +462,38 @@
      },
  }
  
 -SYSTEEM_PROMPT = """Je bent een hulpverlener die brieven uitlegt in eenvoudige taal.
- 
+-
 -TAAL: Schrijf altijd in de taal die de gebruiker heeft gekozen. Volg dit strikt op.
 -
 -TAAK: Leg uit wat er in de brief staat. Gebruik ALLEEN informatie uit de brief.
@@ -602,7 +636,7 @@
 -
 -def _maak_prompt(brief_tekst: str, taal: str, extra_context: str) -> str:
 -    taal_naam = TAAL_NAMEN.get(taal, 'Nederlands')
--
+ 
 -    context_deel = f'\nExtra context van de gebruiker: {extra_context}' if extra_context else ''
 -
 -    return f"""BELANGRIJK: Schrijf je VOLLEDIGE antwoord in het {taal_naam}. Dit geldt voor ALLE velden in de JSON: urgentie.titel, urgentie.tekst, alle sectie titels, alle sectie inhoud, EN alle actiepunten. De brief zelf is in het Nederlands maar jouw uitleg schrijf je volledig in het {taal_naam}.
@@ -654,7 +688,7 @@
      if not Config.ANTHROPIC_API_KEY:
          raise ValueError('ANTHROPIC_API_KEY niet ingesteld in .env')
  
-@@ -361,16 +478,31 @@
+@@ -361,16 +512,31 @@
  
      # Het denken telt mee in max_tokens; 4096 is een plafond, geen doel (PLAN 13, S-1).
      # effort alleen meesturen als die gezet is: Haiku 4.5 geeft er een fout op.
@@ -696,7 +730,7 @@
  
      # Op type lezen: het eerste blok kan een thinking-blok zijn. Weigering of geen tekst
      # wordt een fout en valt in de bestaande foutroute van analyseer_brief (M-6).
-@@ -390,6 +522,7 @@
+@@ -390,6 +556,7 @@
      # Soms geeft het model twee JSON-objecten, met tekst ertussen ("Sorry, hier is de
      # goede versie: {...}"); de greedy regex hieronder pakt dan beide samen en faalt.
      # Daarom eerst elk los object proberen en het laatste met inhoud nemen (PLAN 13).
@@ -704,7 +738,7 @@
      kandidaten = []
      decoder = json.JSONDecoder()
      pos = tekst.find('{')
-@@ -402,7 +535,7 @@
+@@ -402,7 +569,7 @@
          if isinstance(obj, dict):
              kandidaten.append(obj)
          pos = tekst.find('{', eind)
@@ -713,7 +747,7 @@
      if met_inhoud or kandidaten:
          return (met_inhoud or kandidaten)[-1]
  
-@@ -422,39 +555,3 @@
+@@ -422,39 +589,3 @@
      # Geen AI-uitvoer in het log: die kan delen van de brief bevatten (PLAN 8 §8).
      logger.error('Kon JSON niet parsen uit AI-output (%d tekens, stop_reason %s)', len(tekst), stop_reason)
      return None

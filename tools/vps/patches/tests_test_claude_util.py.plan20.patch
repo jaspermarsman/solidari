@@ -27,7 +27,7 @@
  })
  
  print('1. claude_tekst()')
-@@ -91,42 +93,50 @@
+@@ -91,42 +93,57 @@
  check('standaardmodel is claude-sonnet-5-5', Config.CLAUDE_MODEL == 'claude-sonnet-5-5')
  check('standaard-effort is low', Config.CLAUDE_EFFORT == 'low')
  StubClient.volgend = antwoord(blok('thinking', thinking='...'), blok('text', text=GELDIG))
@@ -64,7 +64,14 @@
 -check('elke taal: beide vervangingen gelukt',
 -      all(ai._TAAL_OUD not in ai._systeem_prompt(t) and ai._SECTIES_OUD not in ai._systeem_prompt(t)
 -          for t in ai.TAAL_NAMEN))
-+check('TI: geen slotregel na </brief>', ai._maak_bericht('x', 'ti', '')[0].rstrip().endswith('</brief>'))
++check('TI: geen Tigrinya-slotzin (S-9), wel de Nederlandse slotregel (PLAN 20, aanvulling)',
++      ai._maak_bericht('x', 'ti', '')[0].rstrip().endswith('</brief>\nSchrijf alle tekst in de JSON in het ትግርኛ (Tigrinya).'))
++os.environ['SOLIDARI_PROMPT_AANVULLING'] = '0'
++check('zonder aanvulling: TI zonder slotregel en de prompt letterlijk §3.1',
++      ai._maak_bericht('x', 'ti', '')[0].rstrip().endswith('</brief>') and 'GEEN ACTIE OF GEEN BEZWAAR' not in ai._systeem_prompt('nl'))
++del os.environ['SOLIDARI_PROMPT_AANVULLING']
++check('met aanvulling: het blok staat vóór ANTWOORD',
++      'lezer bezwaar of beroep kan instellen? Dan is "bezwaar" null.\n\nANTWOORD\nAlleen dit JSON-object.' in ai._systeem_prompt('nl'))
 +check('TI: wel de taal in de systeemprompt', 'ትግርኛ (Tigrinya)' in ai._systeem_prompt('ti'))
 +check('onbekende taal: Nederlands', 'Je schrijft in het Nederlands.' in ai._systeem_prompt('xx'))
 +check('elke taal: geen plaatshouder meer in de prompt',

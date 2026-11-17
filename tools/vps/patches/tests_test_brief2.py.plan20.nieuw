@@ -102,13 +102,34 @@ check('citaat dat niet in de brief staat: deadline null en twijfel_code deadline
       r['deadline'] is None and r['twijfel_code'] == 'deadline_onzeker')
 check('… en de urgentie blijft wat het model zei', r['urgentie']['niveau'] == 'hoog')
 r = uitleg(deadline={'datum': '28 november 2026', 'citaat': 'Lever de stukken in vóór 26 november 2026.'})
-check('citaat klopt maar de datum staat niet in de brief: vervalt',
+check('citaat klopt maar het model noemt een andere datum: vervalt',
       r['deadline'] is None and r['twijfel_code'] == 'deadline_onzeker')
 r = uitleg(deadline={'datum': '26-11-2026', 'citaat': 'Lever de stukken in vóór 26 november 2026.'})
-check('datum in een andere schrijfwijze (26-11-2026) wordt herkend', r['deadline'] is not None)
+check('datum in een andere schrijfwijze: wordt de datum zoals hij in de brief staat',
+      r['deadline'] and r['deadline']['datum'] == '26 november 2026')
+r = uitleg(deadline={'datum': '26 listopada 2026', 'citaat': 'Lever de stukken in vóór 26 november 2026.'})
+check('datum in de taal van de uitleg (gezien in PL): de datum uit het citaat',
+      r['deadline'] and r['deadline']['datum'] == '26 november 2026' and r['twijfel_code'] is None)
+r = uitleg(deadline={'datum': '10 listopada 2026', 'citaat': 'U had al stukken moeten sturen vóór 10 november 2026.'})
+check('… en "verlopen" werkt dan ook', r['urgentie']['niveau'] == 'verlopen')
 r = uitleg(deadline={'datum': None, 'citaat': 'Bezwaar maken kan binnen zes weken na de datum van deze brief.'})
 check('alleen een termijn: datum null, citaat blijft', r['deadline'] == {
     'datum': None, 'citaat': 'Bezwaar maken kan binnen zes weken na de datum van deze brief.'})
+r = uitleg(deadline={'datum': '28 december 2026', 'citaat': 'Bezwaar maken kan binnen zes weken na de datum van deze brief.'})
+check('termijn waar het model zelf een datum bij rekent: datum null, citaat blijft, niet "onzeker"',
+      r['deadline'] and r['deadline']['datum'] is None and r['twijfel_code'] is None)
+antwoorden[:] = [dict(copy.deepcopy(BASIS), deadline={'datum': '7 dagen na 16 november 2026', 'citaat': 'Vul het formulier binnen 7 dagen na de datum van deze brief in.'})]
+r = ai.analyseer_brief(BRIEF + 'Datum: 16 november 2026\nVul het formulier binnen 7 dagen na de datum van deze brief in.\n', 'nl', '', vandaag=VANDAAG)
+check('"7 dagen na 16 november 2026" (gezien in TI): geen datum en niet "verlopen"',
+      r['deadline']['datum'] is None and r['urgentie']['niveau'] == 'hoog')
+twee = 'Betaal in twee termijnen: op 27 november 2026 en op 28 december 2026.'
+antwoorden[:] = [dict(copy.deepcopy(BASIS), deadline={'datum': '28 december 2026', 'citaat': twee})]
+r = ai.analyseer_brief(BRIEF + twee + '\n', 'nl', '', vandaag=VANDAAG)
+check('twee datums in het citaat: die van het model, als hij erbij staat', r['deadline']['datum'] == '28 december 2026')
+antwoorden[:] = [dict(copy.deepcopy(BASIS), deadline={'datum': '28 grudnia 2026', 'citaat': twee})]
+r = ai.analyseer_brief(BRIEF + twee + '\n', 'nl', '', vandaag=VANDAAG)
+check('twee datums in het citaat en de datum van het model is niet te lezen: vervalt', r['deadline'] is None
+      and r['twijfel_code'] == 'deadline_onzeker')
 r = uitleg(deadline={'datum': '10 november 2026', 'citaat': 'U had al stukken moeten sturen vóór 10 november 2026.'})
 check('deadline van vóór vandaag: urgentie wordt "verlopen"', r['urgentie']['niveau'] == 'verlopen')
 r = uitleg(deadline={'datum': '26 november 2026', 'citaat': 'Lever de stukken in vóór 26 november 2026.'})
