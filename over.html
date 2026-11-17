@@ -573,7 +573,7 @@
             <div class="principe-icoon">🔒</div>
             <div class="principe-titel">Privacy by design</div>
             <p class="principe-tekst">
-              Brieven bevatten persoonlijke informatie. De Brief Begrijper verwijdert persoonsgegevens op onze eigen server, vóórdat de brief naar de AI gaat. Naam, adres, BSN en rekeningnummer gaan nooit naar de AI. Geen opslag, geen logging, geen profiel.
+              Brieven bevatten persoonlijke informatie. De Brief Begrijper verwijdert persoonsgegevens op onze eigen server, vóórdat de brief naar de AI gaat. Naam, adres, BSN en rekeningnummer halen we zoveel mogelijk weg; dat lukt niet altijd helemaal. Geen opslag, geen logging, geen profiel.
             </p>
           </div>
           <div class="principe-kaart">
@@ -663,7 +663,7 @@
             <div class="arch-laag-inhoud">
               <div class="arch-laag-naam">AI-laag — Claude API (Anthropic)</div>
               <div class="arch-laag-detail">
-                Brief Begrijper gebruikt een taalmodel van Anthropic (Claude) via de Anthropic API. OCR en PII-redactie draaien op onze eigen server; alleen de geanonimiseerde brieftekst wordt naar de API gestuurd. Andere tools (Budgethulp, Rechten &amp; Plichten) gebruiken Claude API direct — zonder privacygevoelige documenten.
+                Brief Begrijper gebruikt een taalmodel van Anthropic (Claude) via de Anthropic API. Het weghalen van persoonsgegevens (zoveel mogelijk) gebeurt op onze eigen server; alleen de overgebleven brieftekst wordt naar de API gestuurd. Andere tools (Budgethulp, Rechten &amp; Plichten) gebruiken Claude API direct — zonder privacygevoelige documenten.
               </div>
             </div>
           </div>
@@ -675,7 +675,7 @@
             <div>
               <div class="arch-uitleg-titel">Brieven worden nooit opgeslagen</div>
               <p class="arch-uitleg-tekst">
-                De Brief Begrijper is de enige tool die privacygevoelige documenten verwerkt. Een geüploade brief wordt in het geheugen van de server gelezen en omgezet naar tekst (OCR). Daarna worden persoonsgegevens — naam, adres, BSN, rekeningnummer, kenmerknummers — op onze eigen server vervangen door neutrale placeholders. Alleen de inhoud van de brief (tekst, deadlines, instructies) wordt ter analyse doorgestuurd naar de Claude API. Het bestand raakt nooit een schijf, database of logbestand.
+                De Brief Begrijper is de enige tool die privacygevoelige documenten verwerkt. Een geüploade brief wordt in het geheugen van de server gelezen en omgezet naar tekst (OCR). Daarna worden persoonsgegevens — naam, adres, BSN, rekeningnummer, kenmerknummers — op onze eigen server zoveel mogelijk vervangen door neutrale placeholders. Alleen de inhoud van de brief (tekst, deadlines, instructies) wordt ter analyse doorgestuurd naar de Claude API. Het bestand raakt nooit een schijf, database of logbestand.
               </p>
               <p class="arch-uitleg-tekst">
                 De gebruiker geeft expliciet toestemming vóór de upload. Solidari heeft een verwerkersovereenkomst afgesloten met Anthropic. Gaat onze server plat, dan is Brief Begrijper tijdelijk niet bereikbaar — er is bewust geen alternatieve route gebouwd waarbij de onbewerkte brief alsnog naar een AI-dienst zou gaan.
@@ -741,15 +741,15 @@
             </p>
           </div>
           <div class="privacy-kaart">
-            <div class="privacy-kaart-titel">Brief Begrijper — geanonimiseerd</div>
+            <div class="privacy-kaart-titel">Brief Begrijper — persoonsgegevens weggehaald</div>
             <p class="privacy-kaart-tekst">
-              OCR en PII-redactie (naam, adres, BSN, rekeningnummer) draaien op onze eigen server. Alleen de geanonimiseerde brieftekst wordt naar de Claude API gestuurd. De brief wordt nooit opgeslagen. Je geeft expliciet toestemming vóór de upload.
+              Naam, adres, BSN en rekeningnummer halen we op onze eigen server zoveel mogelijk weg. Dat gaat automatisch en lukt niet altijd helemaal. Alleen de overgebleven tekst wordt naar de Claude API gestuurd. De brief wordt nooit opgeslagen. Je geeft expliciet toestemming vóór de upload.
             </p>
           </div>
           <div class="privacy-kaart">
             <div class="privacy-kaart-titel">Claude API</div>
             <p class="privacy-kaart-tekst">
-              Sommige tools (Budgethulp, Rechten & Plichten) en de Brief Begrijper maken gebruik van de Claude API van Anthropic. Feedbackdeling met Anthropic is uitgeschakeld (zie ook “Waar je gegevens langskomen” hieronder). Er worden geen persoonlijke documenten via de andere tools verwerkt; voor Brief Begrijper geldt dat persoonsgegevens op onze eigen server worden verwijderd vóór verzending.
+              Sommige tools (Budgethulp, Rechten & Plichten) en de Brief Begrijper maken gebruik van de Claude API van Anthropic. Feedbackdeling met Anthropic is uitgeschakeld (zie ook “Waar je gegevens langskomen” hieronder). Er worden geen persoonlijke documenten via de andere tools verwerkt; voor Brief Begrijper geldt dat we persoonsgegevens op onze eigen server zoveel mogelijk weghalen vóór verzending.
             </p>
           </div>
           <div class="privacy-kaart">
@@ -780,12 +780,18 @@
               De pagina's zelf worden geleverd door GitHub Pages (GitHub, Verenigde Staten). GitHub ziet
               daarbij je IP-adres, zoals elke webserver; wat je in de tools invult komt daar niet langs.
               De server waarop brieven worden verwerkt staat in een datacenter van Hetzner in Duitsland (EU).
-              De geanonimiseerde tekst wordt verwerkt door Anthropic (Verenigde Staten) op grond van
+              De overgebleven tekst wordt verwerkt door Anthropic (Verenigde Staten) op grond van
               standaardcontractbepalingen; Anthropic bewaart die tekst maximaal 30 dagen en gebruikt
               hem niet voor training.
               Feedback die je via het feedbackformulier stuurt wordt wél bewaard, in een database bij
               Cloudflare, en na twaalf maanden automatisch verwijderd — schrijf daarin geen
               persoonlijke gegevens.
+            </p>
+            <p class="privacy-kaart-tekst">
+              Vragen aan Rechten &amp; Plichten, Budgethulp en Goed Voorbereid lopen via Cloudflare naar de AI-dienst. Cloudflare bewaart de vragen niet.
+            </p>
+            <p class="privacy-kaart-tekst">
+              Om misbruik te voorkomen tellen we het aantal vragen per dag. Daarvoor bewaren we een code die van je IP-adres is afgeleid. Het IP-adres zelf bewaren we niet. De code is elke dag anders en wordt na twee dagen gewist.
             </p>
           </div>
         </div>

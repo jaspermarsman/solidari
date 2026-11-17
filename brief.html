@@ -394,107 +394,98 @@
     .urgentie-banner.laag { background: var(--groen-licht); border: 1px solid rgba(45,90,61,0.15); }
     .urgentie-icoon { font-size: 1.3rem; flex-shrink: 0; margin-top: 1px; }
     .urgentie-tekst { font-size: 0.88rem; line-height: 1.5; }
-    .urgentie-tekst strong { display: block; font-weight: 700; font-size: 0.92rem; margin-bottom: 2px; }
-    .urgentie-banner.hoog .urgentie-tekst strong { color: var(--rood); }
-    .urgentie-banner.midden .urgentie-tekst strong { color: var(--amber-diep); }
-    .urgentie-banner.laag .urgentie-tekst strong { color: var(--groen); }
+    .urgentie-tekst > strong { display: block; font-weight: 700; font-size: 0.92rem; margin-bottom: 2px; }
+    .urgentie-banner.hoog .urgentie-tekst > strong { color: var(--rood); }
+    .urgentie-banner.midden .urgentie-tekst > strong { color: var(--amber-diep); }
+    .urgentie-banner.laag .urgentie-tekst > strong { color: var(--groen); }
 
-    /* Resultaat kaarten */
+    /* Resultaatblokken (PLAN 20, B-10): vaste volgorde, elk met eigen pictogram en kleur */
     .resultaat-kaarten {
       display: flex;
       flex-direction: column;
       gap: 1rem;
     }
-    .resultaat-kaart {
-      background: white;
-      border: 1px solid var(--rand);
+    .rb {
+      --rb-bg: white;
+      --rb-rand: var(--rand);
+      --rb-kleur: var(--tekst);
+      background: var(--rb-bg);
+      border: 1px solid var(--rb-rand);
       border-radius: 16px;
-      overflow: hidden;
+      padding: 16px 18px;
     }
-    .rk-header {
+    .rb-wat { --rb-bg: var(--groen-licht); --rb-rand: rgba(45,90,61,0.2); --rb-kleur: var(--groen); }
+    .rb-doen { --rb-bg: white; --rb-rand: var(--groen); --rb-kleur: var(--groen); border-width: 2px; }
+    .rb-niets { --rb-bg: var(--amber-licht); --rb-rand: rgba(232,160,32,0.35); --rb-kleur: var(--amber-diep); }
+    .rb-bezwaar { --rb-bg: var(--wit-warm); --rb-rand: var(--rand); --rb-kleur: var(--tekst-zacht); }
+    .rb-contact { --rb-bg: var(--wit-warm); --rb-rand: var(--rand); --rb-kleur: var(--tekst-zacht); }
+    .rb-twijfel { --rb-bg: var(--amber-licht); --rb-rand: var(--amber); --rb-kleur: var(--amber-diep); }
+    .rb-kop {
       display: flex;
       align-items: center;
       gap: 10px;
-      padding: 14px 18px;
-      border-bottom: 1px solid var(--rand);
-      background: var(--wit-warm);
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .rk-header:hover { background: #EEE9E0; }
-    .rk-icoon {
-      width: 34px;
-      height: 34px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      font-family: 'Source Sans 3', sans-serif;
       font-size: 1rem;
-      flex-shrink: 0;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--rb-kleur);
+      margin-bottom: 8px;
     }
-    .rk-naam {
-      flex: 1;
-      font-weight: 600;
-      font-size: 0.92rem;
-      color: var(--tekst);
-    }
-    .rk-chevron {
-      color: var(--tekst-licht);
-      transition: transform 0.25s;
-      font-size: 0.875rem;
-    }
-    .rk-header.open .rk-chevron { transform: rotate(180deg); }
-    .rk-body {
-      padding: 18px 18px;
-      font-size: 0.9rem;
-      color: var(--tekst-zacht);
-      line-height: 1.7;
-      display: none;
-    }
-    .rk-body.open { display: block; }
-    .rk-body p { margin-bottom: 8px; }
-    .rk-body p:last-child { margin-bottom: 0; }
-    .rk-body ul { padding-left: 1.2rem; margin: 6px 0; }
-    .rk-body ul li { margin-bottom: 4px; }
-    .rk-body .deadline {
+    .rb-icoon { font-size: 1.2rem; flex-shrink: 0; }
+    .rb-body { font-size: 0.95rem; color: var(--tekst); line-height: 1.65; }
+    .rb-body p { margin-bottom: 6px; }
+    .rb-body p:last-child { margin-bottom: 0; }
+    .rb-body ul { margin: 4px 0; }
+    .rb-body li { margin-bottom: 4px; }
+    .rb-deadline {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: var(--rood-licht);
-      border: 1px solid rgba(220,38,38,0.15);
+      background: var(--amber-licht);
+      border: 1px solid var(--amber);
       border-radius: 6px;
       padding: 4px 10px;
-      font-size: 0.875rem;
-      font-weight: 600;
-      color: var(--rood);
-      margin: 4px 0;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--amber-diep);
+      margin-top: 10px;
     }
-    .rk-body .tip {
-      background: var(--blauw-licht);
-      border-left: 3px solid var(--blauw);
-      border-radius: 0 8px 8px 0;
+    .rb-citaat { margin-top: 6px; font-size: 0.875rem; color: var(--tekst-zacht); }
+    .rb-melding {
+      background: var(--wit-warm);
+      border: 1px solid var(--rand);
+      border-radius: 10px;
       padding: 10px 14px;
-      margin: 10px 0;
-      font-size: 0.875rem;
+      font-size: 0.9rem;
+      color: var(--tekst-zacht);
     }
+    .rb-melding + .rb-melding, .rb-body .rb-melding { margin-top: 8px; }
+    .urgentie-banner.verlopen { background: #FDECEC; border: 1px solid #B42318; }
+    .urgentie-banner.verlopen .urgentie-tekst > strong { color: #B42318; }
+    .urgentie-tekst p { margin: 0; }
+    .urgentie-tekst strong + div { margin-top: 2px; }
+
+    /* Gekozen pagina's en melding bij het uploaden (PLAN 20, B-5) */
+    .paginas-lijst { list-style: none; display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 0.2rem; }
+    .paginas-lijst li { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 0.875rem; color: var(--tekst-zacht); max-width: 110px; }
+    .paginas-lijst img { width: 96px; height: 96px; object-fit: cover; border-radius: 8px; border: 1px solid var(--rand); background: white; }
+    .pagina-nr { font-weight: 700; color: var(--tekst); }
+    .pagina-pdf { width: 96px; height: 96px; display: flex; align-items: center; justify-content: center; font-size: 2rem; border-radius: 8px; border: 1px solid var(--rand); background: var(--wit-warm); }
+    .pagina-naam { max-width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .paginas-acties { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1rem; }
+    .paginas-acties .actie-knop { min-height: 56px; padding: 7px 18px; }
+    .upload-melding {
+      margin-top: 1rem;
+      padding: 12px 16px;
+      background: var(--amber-licht);
+      border: 1px solid var(--amber);
+      border-radius: 10px;
+      font-size: 0.9rem;
+      color: var(--tekst);
+    }
+    .upload-melding[hidden] { display: none; }
 
     /* Actiepunten */
-    .actiepunten {
-      background: var(--groen-licht);
-      border: 1px solid rgba(45,90,61,0.15);
-      border-radius: 14px;
-      padding: 18px;
-      margin-top: 1rem;
-    }
-    .actiepunten-titel {
-      font-weight: 700;
-      font-size: 0.9rem;
-      color: var(--groen);
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
     .actiepunt {
       display: flex;
       align-items: flex-start;
@@ -653,7 +644,7 @@
   <div id="privacy-akkoord-blok" style="margin-bottom:1.5rem;">
     <div style="background:var(--amber-licht);border:1px solid var(--amber);border-radius:12px;padding:1.1rem 1.3rem;font-size:0.88rem;color:var(--tekst);line-height:1.6;">
       <strong id="privacy-titel" data-lees-rol="kop" style="color:var(--amber-diep);">🔒 Hoe gaan we om met je brief?</strong><br>
-      <span id="privacy-tekst" data-lees="">Een brief kan gevoelige informatie bevatten, bijvoorbeeld over je gezondheid of je verblijfsstatus. Je naam, adres, BSN en rekeningnummer worden <strong>op onze eigen server verwijderd</strong>. Alleen de overgebleven tekst gaat naar de AI-dienst <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener" style="color:var(--amber-diep);">Anthropic (Claude API)</a>. Er wordt niets bewaard. Je kunt de tool ook niet gebruiken en de brief aan je begeleider laten zien.</span>
+      <span id="privacy-tekst" data-lees="">Een brief kan gevoelige informatie bevatten, bijvoorbeeld over je gezondheid of je verblijfsstatus. Je naam, adres, BSN en rekeningnummer halen we op onze eigen server zoveel mogelijk weg. Dat gaat automatisch en lukt niet altijd helemaal. Alleen de overgebleven tekst gaat naar de AI-dienst <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener" style="color:var(--amber-diep);">Anthropic (Claude API)</a>. Er wordt niets bewaard. Je kunt de tool ook niet gebruiken en de brief aan je begeleider laten zien.</span>
     </div>
     <div style="margin-top:0.9rem;display:flex;align-items:center;gap:0.6rem;">
       <input type="checkbox" id="privacy-checkbox" style="width:18px;height:18px;cursor:pointer;accent-color:var(--groen);">
@@ -666,7 +657,7 @@
   <!-- STAP 1: UPLOAD -->
   <div id="stap-upload">
     <div class="upload-zone" id="dropzone" data-keuze>
-      <input type="file" id="bestand-input" accept="image/*,application/pdf" aria-label="Kies een bestand">
+      <input type="file" id="bestand-input" accept="image/*,application/pdf" multiple aria-label="Kies een bestand">
       <div class="upload-icoon">📸</div>
       <div class="upload-titel" data-lees-deel data-nl="Foto of scan van je brief" data-en="Photo or scan of your letter" data-ar="صورة أو مسح ضوئي لرسالتك" data-tr="Mektubunuzun fotoğrafı veya taraması">
         Foto of scan van je brief
@@ -684,13 +675,24 @@
         📂 <span data-i18n="upload-kies-bestand">Kies bestand</span>
       </button>
       <div class="upload-formaten"><span data-i18n="upload-formaten">JPG, PNG, HEIC of PDF · Maximaal 10 MB</span></div>
-      <div class="bestand-preview" id="bestand-preview">
-        <img id="preview-img" src="" alt="Voorbeeld van je brief">
-        <div class="bestand-naam" id="bestand-naam-tekst">
-          📄 <span id="bestandsnaam"></span>
-        </div>
+    </div>
+
+    <!-- Gekozen pagina's (PLAN 20, B-5): 1 tot 4 afbeeldingen of één PDF -->
+    <div class="bestand-preview" id="bestand-preview">
+      <ol class="paginas-lijst" id="paginas-lijst"></ol>
+      <div class="bestand-naam" id="bestand-naam-tekst">
+        <span aria-hidden="true">📄</span> <span id="bestandsnaam"></span>
+      </div>
+      <div class="paginas-acties">
+        <button type="button" class="actie-knop" id="pagina-erbij-knop" data-keuze>
+          <span aria-hidden="true">➕</span> <span data-i18n="brief-pagina-erbij">Nog een pagina</span>
+        </button>
+        <button type="button" class="actie-knop" id="paginas-wis-knop" data-keuze>
+          <span aria-hidden="true">↺</span> <span data-i18n="a11y-opnieuw">Opnieuw</span>
+        </button>
       </div>
     </div>
+    <p class="upload-melding" id="upload-melding" role="alert" hidden></p>
 
     <div class="context-blok">
       <div class="context-titel" id="context-titel" data-nl="Weet jij al iets over deze brief?" data-en="Do you know anything about this letter?" data-ar="هل تعرف شيئاً عن هذه الرسالة؟" data-tr="Bu mektup hakkında bir şey biliyor musunuz?">
@@ -728,7 +730,7 @@
     </div>
     <div class="verwerken-stap">
       <div class="verwerken-dot"></div>
-      <span id="verwerken-fase">Tekst lezen uit de brief…</span>
+      <span id="verwerken-fase" data-i18n="brief-bezig">We lezen je brief en schrijven de uitleg…</span>
     </div>
   </div>
 
@@ -745,25 +747,15 @@
     <!-- Urgentie banner (dynamisch gevuld) -->
     <div id="urgentie-banner"></div>
 
-    <!-- Resultaat kaarten (dynamisch gevuld) -->
+    <!-- Resultaatblokken in vaste volgorde (dynamisch gevuld, PLAN 20) -->
     <div class="resultaat-kaarten" id="resultaat-kaarten"></div>
-
-    <!-- Actiepunten -->
-    <div class="actiepunten" id="actiepunten-blok" style="display:none;">
-      <div class="actiepunten-titel">✅ Wat moet je doen?</div>
-      <div id="actiepunten-lijst"></div>
-    </div>
 
     <!-- AI Act art. 50 lid 4 — uitvoer herkenbaar maken (PLAN-3 fase 4.2, besluit D6) -->
     <div class="ai-label" data-i18n="ai-gegenereerd"
          style="margin:0.9rem 0 0.2rem;font-size:0.875rem;letter-spacing:0.02em;
                 color:var(--tekst-zacht,#6b6559);text-transform:uppercase;">Gegenereerd met AI</div>
 
-    <div class="disclaimer">
-      ⚠️ <strong>Let op:</strong> Dit is een automatische uitleg en kan fouten bevatten. Twijfel je? Neem contact op met het 
-      <a href="https://www.juridischloket.nl" target="_blank">Juridisch Loket</a>, 
-      <a href="https://www.vluchtelingenwerk.nl" target="_blank">VluchtelingenWerk</a> of je Sociaal Wijkteam.
-    </div>
+    <div class="disclaimer" id="brief-disclaimer"><span aria-hidden="true">⚠️</span> Let op: dit is een automatische uitleg en kan fouten bevatten. Twijfel je? Neem contact op met het <a href="https://www.juridischloket.nl" target="_blank">Juridisch Loket</a>, <a href="https://www.vluchtelingenwerk.nl" target="_blank">VluchtelingenWerk</a> of je Sociaal Wijkteam.</div>
 
     <div class="nieuwe-brief-wrap">
       <button class="nieuwe-brief-knop" onclick="nieuweBrief()">← Nieuwe brief analyseren</button>
@@ -773,8 +765,8 @@
   <!-- STAP 4: FOUT -->
   <div id="stap-fout">
     <div class="fout-icoon">😔</div>
-    <div class="fout-titel">Er ging iets mis</div>
-    <div class="fout-tekst" id="fout-bericht">De brief kon niet worden gelezen. Probeer het opnieuw met een duidelijkere foto.</div>
+    <div class="fout-titel" id="fout-titel" data-i18n="brief-fout-titel">Er ging iets mis</div>
+    <div class="fout-tekst" id="fout-bericht" data-i18n="brief-fout-storing">De tool is nu niet bereikbaar. Probeer het over een paar minuten opnieuw.</div>
     <button class="analyseer-knop" onclick="nieuweBrief()" style="max-width:300px; margin:0 auto;">
       Opnieuw proberen
     </button>
@@ -798,9 +790,13 @@ const CONFIG = {
     : 'https://api.solidari.nl/api/analyseer'),
   DEMO_MODUS: false, // true = voorbeeldresultaat tonen zonder server (stubtest)
   MAX_BESTAND_MB: 10,
+  MAX_PAGINAS: 4,
+  // nginx vóór de backend laat op deze route 6 MB per verzoek door: de afbeeldingen samen blijven daar ruim onder.
+  MAX_TOTAAL_BYTES: 5.5 * 1024 * 1024,     // doel voor alle afbeeldingen samen na compressie
+  MAX_VERZOEK_BYTES: 5.9 * 1024 * 1024,    // meer dan dit past niet door nginx: dan niet eens versturen
   // Beeldcompressie vóór verzending (PLAN-2 fase 1.5): langste zijde en doelgrootte
   COMPRESSIE_MAX_PX: 1568,
-  COMPRESSIE_MAX_BYTES: 3 * 1024 * 1024
+  COMPRESSIE_MAX_BYTES: 3 * 1024 * 1024   // per afbeelding, maximaal; bij meer pagina's krijgt elke pagina minder (zie budgetPerAfbeelding)
 };
 
 // ─── TALEN ───────────────────────────────────────────────────────
@@ -811,12 +807,8 @@ const TALEN = {
     uploadSub: 'Sleep het bestand hier naartoe, of klik om te bladeren',
     contextTitel: 'Weet jij al iets over deze brief?',
     contextSub: 'Optioneel — maar helpt ons een betere uitleg te geven',
-    verwerkFase1: 'Tekst lezen uit de brief…',
-    verwerkFase2: 'Brief begrijpen…',
-    verwerkFase3: 'Uitleg schrijven in het Nederlands…',
     headerSub: 'Maak een foto van je brief. Wij leggen uit wat er staat, wat je moet doen, en wanneer.',
     privacyTitel: '🔒 Hoe gaan we om met je brief?',
-    privacyTekst: 'Een brief kan gevoelige informatie bevatten, bijvoorbeeld over je gezondheid of je verblijfsstatus. Je naam, adres, BSN en rekeningnummer worden <strong>op onze eigen server verwijderd</strong>. Alleen de overgebleven tekst gaat naar de AI-dienst <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener" style="color:var(--amber-diep);">Anthropic (Claude API)</a>. Er wordt niets bewaard. Je kunt de tool ook niet gebruiken en de brief aan je begeleider laten zien.',
     privacyAkkoord: 'Ik begrijp dit en ga akkoord',
   },
   en: {
@@ -824,12 +816,8 @@ const TALEN = {
     uploadSub: 'Drag the file here, or click to browse',
     contextTitel: 'Do you know anything about this letter?',
     contextSub: 'Optional — but helps us give a better explanation',
-    verwerkFase1: 'Reading text from the letter…',
-    verwerkFase2: 'Understanding the letter…',
-    verwerkFase3: 'Writing explanation in English…',
     headerSub: 'Take a photo of your letter. We explain what it says, what you need to do, and when.',
     privacyTitel: '🔒 How do we handle your letter?',
-    privacyTekst: 'A letter can contain sensitive information, for example about your health or your residence status. Your name, address, BSN and bank account number are <strong>removed on our own server</strong>. Only the remaining text goes to the AI service <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener" style="color:var(--amber-diep);">Anthropic (Claude API)</a>. Nothing is stored. You can also choose not to use this tool and show the letter to your support worker instead.',
     privacyAkkoord: 'I understand this and agree',
   },
   ar: {
@@ -837,12 +825,8 @@ const TALEN = {
     uploadSub: 'اسحب الملف هنا أو انقر للتصفح',
     contextTitel: 'هل تعرف شيئاً عن هذه الرسالة؟',
     contextSub: 'اختياري — لكنه يساعدنا في تقديم شرح أفضل',
-    verwerkFase1: 'قراءة النص من الرسالة…',
-    verwerkFase2: 'فهم الرسالة…',
-    verwerkFase3: 'كتابة الشرح بالعربية…',
     headerSub: 'التقط صورة لرسالتك. سنشرح ما تقوله، وما يجب عليك فعله، ومتى.',
     privacyTitel: '🔒 كيف نتعامل مع رسالتك؟',
-    privacyTekst: 'قد تحتوي الرسالة على معلومات حساسة، مثل معلومات عن صحتك أو وضع إقامتك. يتم <strong>حذف</strong> اسمك وعنوانك ورقم BSN ورقم حسابك المصرفي <strong>على خادمنا الخاص</strong>. يُرسَل النص المتبقي فقط إلى خدمة الذكاء الاصطناعي <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener" style="color:var(--amber-diep);">Anthropic (Claude API)</a>. لا يتم تخزين أي شيء. يمكنك أيضاً عدم استخدام هذه الأداة وعرض الرسالة على مرافقك.',
     privacyAkkoord: 'أفهم هذا وأوافق',
   },
   ti: {
@@ -850,12 +834,8 @@ const TALEN = {
     uploadSub: 'ፋይል ናብዚ ስሓብዎ ወይ ጠውቑ',
     contextTitel: 'ብዛዕባ እዚ ደብዳቤ ዝኾነ ትፈልጡ ዲኹም?',
     contextSub: 'ኣማራጺ — ግን ዝሓሸ ምብርሃን ክንህብ ይሕግዘና',
-    verwerkFase1: 'ካብ ደብዳቤ ጽሑፍ ምንባብ…',
-    verwerkFase2: 'ደብዳቤ ምርዳእ…',
-    verwerkFase3: 'መብርሂ ብቋንቋ ሆላንድ ምጽሓፍ…',
     headerSub: 'ናይ ደብዳቤኹም ፎቶ ኣልዕሉ። እንታይ ከም ዝብል፣ እንታይ ክትገብሩ ከም ዘለኩምን መዓስ ክትገብርዎ ከም ዘለኩምን ክነብርህ ኢና።',
     privacyTitel: '🔒 ደብዳቤኹም ብኸመይ ንጥቀመሉ?',
-    privacyTekst: 'ደብዳቤ ተኣፋፊ ሓበሬታ ክሕዝ ይኽእል እዩ፣ ንኣብነት ብዛዕባ ጥዕናኹም ወይ ናይ መንበሪ ኵነታትኩም። ስምኩም፣ ኣድራሻኹም፣ BSN ከምኡውን ቁጽሪ ባንክኹም <strong>ኣብ ናትና ሰርቨር ይድምሰስ</strong>። እቲ ዝተረፈ ጽሑፍ ጥራይ ናብ ናይ AI ኣገልግሎት <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener" style="color:var(--amber-diep);">Anthropic (Claude API)</a> ይኸይድ። ዝኾነ ነገር ኣይዕቀብን። ነዚ መሳርሒ ዘይትጥቀሙ ኴንኩም እውን እታ ደብዳቤ ንሓጋዚኹም ከተርእይዋ ትኽእሉ ኢኹም።',
     privacyAkkoord: 'እዚ ተረዲኤ ይቕበሎ',
   },
   tr: {
@@ -863,12 +843,8 @@ const TALEN = {
     uploadSub: 'Dosyayı buraya sürükleyin veya tıklayın',
     contextTitel: 'Bu mektup hakkında bir şey biliyor musunuz?',
     contextSub: 'İsteğe bağlı — ancak daha iyi açıklama yapmamıza yardımcı olur',
-    verwerkFase1: 'Mektuptan metin okunuyor…',
-    verwerkFase2: 'Mektup anlaşılıyor…',
-    verwerkFase3: 'Türkçe açıklama yazılıyor…',
     headerSub: 'Mektubunuzun bir fotoğrafını çekin. Ne yazdığını, ne yapmanız gerektiğini ve ne zaman açıklıyoruz.',
     privacyTitel: '🔒 Mektubunuzu nasıl işliyoruz?',
-    privacyTekst: 'Bir mektup hassas bilgiler içerebilir, örneğin sağlığınız veya oturum durumunuz hakkında. Adınız, adresiniz, BSN numaranız ve banka hesap numaranız <strong>kendi sunucumuzda silinir</strong>. Yalnızca geriye kalan metin yapay zekâ hizmetine <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener" style="color:var(--amber-diep);">Anthropic (Claude API)</a> gönderilir. Hiçbir şey saklanmaz. Bu aracı kullanmamayı ve mektubu danışmanınıza göstermeyi de seçebilirsiniz.',
     privacyAkkoord: 'Bunu anlıyorum ve kabul ediyorum',
   },
   uk: {
@@ -876,12 +852,8 @@ const TALEN = {
     uploadSub: 'Перетягніть файл сюди або натисніть',
     contextTitel: 'Чи знаєте ви щось про цей лист?',
     contextSub: 'Необов\'язково — але допомагає дати краще пояснення',
-    verwerkFase1: 'Читання тексту з листа…',
-    verwerkFase2: 'Розуміння листа…',
-    verwerkFase3: 'Написання пояснення українською…',
     headerSub: 'Сфотографуйте свій лист. Ми пояснимо, що там написано, що потрібно зробити і коли.',
     privacyTitel: '🔒 Як ми обробляємо ваш лист?',
-    privacyTekst: 'Лист може містити чутливу інформацію, наприклад про ваше здоров’я або ваш статус перебування. Ваше ім’я, адреса, BSN і номер банківського рахунку <strong>видаляються на нашому власному сервері</strong>. До сервісу ШІ <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener" style="color:var(--amber-diep);">Anthropic (Claude API)</a> потрапляє лише текст, що залишився. Нічого не зберігається. Ви також можете не користуватися цим інструментом і показати лист своєму куратору.',
     privacyAkkoord: 'Я розумію це і погоджуюся',
   },
   fa: {
@@ -889,12 +861,8 @@ const TALEN = {
     uploadSub: 'فایل را اینجا بکشید یا کلیک کنید',
     contextTitel: 'آیا چیزی درباره این نامه می‌دانید؟',
     contextSub: 'اختیاری — اما به ما کمک می‌کند توضیح بهتری بدهیم',
-    verwerkFase1: 'خواندن متن از نامه…',
-    verwerkFase2: 'درک نامه…',
-    verwerkFase3: 'نوشتن توضیح به دری…',
     headerSub: 'از نامه‌تان عکس بگیرید. ما توضیح می‌دهیم که چه می‌گوید، چه باید انجام دهید و چه وقت.',
     privacyTitel: '🔒 نامه شما چگونه پردازش می‌شود؟',
-    privacyTekst: 'یک نامه ممکن است اطلاعات حساس داشته باشد، مثلاً درباره سلامتی یا وضعیت اقامت شما. نام، نشانی، شماره BSN و شماره حساب بانکی شما <strong>روی سرور خودمان حذف می‌شود</strong>. فقط متن باقی‌مانده به سرویس هوش مصنوعی <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener" style="color:var(--amber-diep);">Anthropic (Claude API)</a> فرستاده می‌شود. هیچ چیزی ذخیره نمی‌شود. می‌توانید از این ابزار استفاده نکنید و نامه را به مددکار خود نشان دهید.',
     privacyAkkoord: 'این را می‌فهمم و موافقم',
   },
   ro: {
@@ -902,12 +870,8 @@ const TALEN = {
     uploadSub: 'Trage fișierul aici sau dă click pentru a naviga',
     contextTitel: 'Știi deja ceva despre această scrisoare?',
     contextSub: 'Opțional — dar ne ajută să dăm o explicație mai bună',
-    verwerkFase1: 'Citire text din scrisoare…',
-    verwerkFase2: 'Înțelegere scrisoare…',
-    verwerkFase3: 'Scriere explicație în română…',
     headerSub: 'Fă o fotografie scrisorii tale. Explicăm ce înseamnă, ce trebuie să faci și până când.',
     privacyTitel: '🔒 Cum procesăm scrisoarea ta?',
-    privacyTekst: 'O scrisoare poate conține informații sensibile, de exemplu despre sănătatea dumneavoastră sau despre statutul de ședere. Numele, adresa, BSN-ul și numărul de cont bancar sunt <strong>șterse pe serverul nostru</strong>. Doar textul rămas ajunge la serviciul AI <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener" style="color:var(--amber-diep);">Anthropic (Claude API)</a>. Nu se păstrează nimic. Puteți alege și să nu folosiți acest instrument și să arătați scrisoarea însoțitorului dumneavoastră.',
     privacyAkkoord: 'Înțeleg acest lucru și sunt de acord',
   },
   pl: {
@@ -915,20 +879,67 @@ const TALEN = {
     uploadSub: 'Przeciągnij plik tutaj lub kliknij, aby wybrać',
     contextTitel: 'Czy wiesz już coś o tym piśmie?',
     contextSub: 'Opcjonalne — ale pomaga nam dać lepsze wyjaśnienie',
-    verwerkFase1: 'Odczytywanie tekstu z pisma…',
-    verwerkFase2: 'Rozumienie pisma…',
-    verwerkFase3: 'Pisanie wyjaśnienia po polsku…',
     headerSub: 'Zrób zdjęcie swojego pisma. Wyjaśniamy co oznacza, co musisz zrobić i do kiedy.',
     privacyTitel: '🔒 Jak przetwarzamy twoje pismo?',
-    privacyTekst: 'List może zawierać informacje wrażliwe, na przykład o Twoim zdrowiu albo statusie pobytu. Twoje imię i nazwisko, adres, numer BSN i numer konta są <strong>usuwane na naszym własnym serwerze</strong>. Do usługi AI <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener" style="color:var(--amber-diep);">Anthropic (Claude API)</a> trafia tylko pozostały tekst. Nic nie jest przechowywane. Możesz też nie korzystać z tego narzędzia i pokazać list swojemu opiekunowi.',
     privacyAkkoord: 'Rozumiem to i zgadzam się',
   },
 };
+
+// ─── VASTE TEKSTEN ───────────────────────────────────────────────
+// De vaste teksten (titels, meldingen, foutmeldingen) staan in i18n.js onder de sleutels brief-*.
+// Een element met data-i18n wisselt vanzelf mee bij een taalwissel (Solidari.i18n.passToe).
+// De uitleg zelf (de tekst van de AI) blijft in de taal waarin hij is geschreven.
+function vt(sleutel) {
+  try { if (window.Solidari && Solidari.i18n) return Solidari.i18n.t(sleutel, huidigeTaal); } catch (e) { /* i18n.js nog niet geladen */ }
+  return sleutel;
+}
+function setVast(el, sleutel) {
+  el.setAttribute('data-i18n', sleutel);
+  el.textContent = vt(sleutel);
+  return el;
+}
+const RTL_TALEN = ['ar', 'fa'];
+const richtingVan = (taal) => RTL_TALEN.includes(taal) ? 'rtl' : 'ltr';
+
+// Tekst met plaatshouders, bijv. "… de AI-dienst {anthropic}. …": de plaatshouder wordt een echte
+// link, de rest blijft tekst. Alles via DOM-methoden: er gaat geen vertaaltekst door innerHTML.
+const LINKS = {
+  anthropic: { href: 'https://www.anthropic.com/privacy', tekst: 'Anthropic (Claude API)', stijl: 'color:var(--amber-diep);', rel: true },
+  jl: { href: 'https://www.juridischloket.nl', tekst: 'Juridisch Loket' },
+  vw: { href: 'https://www.vluchtelingenwerk.nl', tekst: 'VluchtelingenWerk' },
+};
+function zetMetLinks(el, sleutel, voorvoegsel) {
+  if (!el) return;
+  const knopen = vt(sleutel).split(/(\{[a-z]+\})/).map((deel) => {
+    const m = /^\{([a-z]+)\}$/.exec(deel);
+    const l = m && LINKS[m[1]];
+    if (!l) return document.createTextNode(deel);
+    const a = document.createElement('a');
+    a.href = l.href; a.target = '_blank'; a.rel = 'noopener';
+    if (l.stijl) a.style.cssText = l.stijl;
+    a.textContent = l.tekst;
+    return a;
+  });
+  if (voorvoegsel) {
+    const v = document.createElement('span');
+    v.setAttribute('aria-hidden', 'true');
+    v.textContent = voorvoegsel;
+    knopen.unshift(v, document.createTextNode(' '));
+  }
+  el.replaceChildren(...knopen);
+}
 
 // ─── TAAL WISSELEN ───────────────────────────────────────────────
 function wisselTaal(taal) {
   huidigeTaal = taal;
   const t = TALEN[taal] || TALEN['nl'];
+
+  // De centrale taalstand (hoofdletters, data-i18n) volgt deze pagina: ook als de taal via de
+  // taalbalk van de pagina zelf wordt gekozen. Zo wisselen de vaste teksten van het resultaat en
+  // de foutmelding mee, ook als ze al op het scherm staan.
+  try {
+    if (window.Solidari && Solidari.i18n && Solidari.i18n.getTaal() !== taal.toUpperCase()) Solidari.i18n.passToe(taal.toUpperCase());
+  } catch (e) { /* i18n.js nog niet geladen */ }
 
   // Header
   document.getElementById('header-sub').textContent = t.headerSub;
@@ -939,21 +950,20 @@ function wisselTaal(taal) {
   document.querySelector('.context-titel').textContent = t.contextTitel;
   document.querySelector('.context-sub').textContent = t.contextSub;
 
-  // Privacymelding
+  // Privacymelding en disclaimer (met links op de plek van de plaatshouders)
   document.getElementById('privacy-titel').textContent = t.privacyTitel;
-  document.getElementById('privacy-tekst').innerHTML = t.privacyTekst;
+  zetMetLinks(document.getElementById('privacy-tekst'), 'brief-privacy-tekst');
   document.getElementById('privacy-akkoord').textContent = t.privacyAkkoord;
+  zetMetLinks(document.getElementById('brief-disclaimer'), 'brief-disclaimer', '⚠️');
 
   // Richting voor Arabisch/Dari
-  const rtlTalen = ['ar', 'fa'];
-  document.body.dir = rtlTalen.includes(taal) ? 'rtl' : 'ltr';
+  document.body.dir = richtingVan(taal);
 
   // Actief markeren
   document.querySelectorAll('.taal-item').forEach(item => {
     item.classList.toggle('actief', item.dataset.taal === taal);
   });
   document.querySelectorAll('.taal-btn').forEach(btn => {
-    const map = { nl: 'nl', en: 'en', ar: 'ar', tr: 'tr' };
     btn.classList.toggle('actief', btn.dataset.taal === taal);
   });
 }
@@ -965,21 +975,108 @@ document.querySelectorAll('.taal-btn').forEach(btn => {
   btn.addEventListener('click', () => wisselTaal(btn.dataset.taal));
 });
 
-// ─── BESTAND KIEZEN ──────────────────────────────────────────────
-let gekozenBestand = null;
+// ─── PAGINA'S KIEZEN ─────────────────────────────────────────────
+// 1 tot 4 afbeeldingen, of één PDF. Een PDF kan niet met andere bestanden worden gecombineerd:
+// wie een PDF kiest, vervangt de gekozen foto's; wie een foto kiest terwijl er een PDF staat, vervangt de PDF.
+let paginas = [];       // File[], in de volgorde van kiezen
+let paginaUrls = [];    // object-URL's van de miniaturen, om op te ruimen
 
-// Analyseer-knop: alleen actief als bestand gekozen EN akkoord gegeven
+const isPdf = (f) => f.type === 'application/pdf' || /\.pdf$/i.test(f.name || '');
+
+// Analyseer-knop: alleen actief als er een pagina is gekozen EN akkoord gegeven
 function _updateAnalyseerKnop() {
-  const heeftBestand = !!gekozenBestand;
+  const heeftBestand = paginas.length > 0;
   const heeftAkkoord = document.getElementById('privacy-checkbox').checked;
   const knop = document.getElementById('analyseer-knop');
   if (knop) knop.disabled = !(heeftBestand && heeftAkkoord);
 }
 document.getElementById('privacy-checkbox').addEventListener('change', _updateAnalyseerKnop);
 
-document.getElementById('bestand-input').addEventListener('change', function(e) {
-  const bestand = e.target.files[0];
-  if (bestand) verwerkBestand(bestand);
+// Melding in de pagina (geen alert). sleutel = een brief-sleutel; zonder sleutel verdwijnt de melding.
+function toonUploadMelding(sleutel) {
+  const el = document.getElementById('upload-melding');
+  if (!sleutel) { el.hidden = true; el.removeAttribute('data-i18n'); el.textContent = ''; return; }
+  setVast(el, sleutel);
+  el.hidden = false;
+}
+
+function voegPaginasToe(bestanden) {
+  const nieuwe = Array.from(bestanden || []);
+  if (!nieuwe.length) return;
+  const maxBytes = CONFIG.MAX_BESTAND_MB * 1024 * 1024;
+  let melding = null;
+  for (const f of nieuwe) {
+    if (f.size > maxBytes) { melding = 'brief-fout-te_groot'; continue; }
+    if (isPdf(f)) { paginas = [f]; continue; }
+    if (paginas.length && isPdf(paginas[0])) paginas = [];
+    if (paginas.length >= CONFIG.MAX_PAGINAS) { melding = 'brief-te-veel-paginas'; continue; }
+    paginas.push(f);
+  }
+  toonUploadMelding(melding);
+  verversPaginas();
+}
+
+function verversPaginas() {
+  paginaUrls.forEach((u) => URL.revokeObjectURL(u));
+  paginaUrls = [];
+  const lijst = document.getElementById('paginas-lijst');
+  lijst.replaceChildren();
+  paginas.forEach((f, i) => {
+    const li = document.createElement('li');
+    let beeld;
+    if (f.type && f.type.startsWith('image/')) {
+      beeld = document.createElement('img');
+      beeld.alt = '';
+      const url = URL.createObjectURL(f);
+      paginaUrls.push(url);
+      beeld.src = url;
+      // HEIC e.d. kan de browser soms niet tonen: dan een pictogram in plaats van een kapot plaatje
+      beeld.addEventListener('error', () => {
+        const vervanging = document.createElement('div');
+        vervanging.className = 'pagina-pdf';
+        vervanging.setAttribute('aria-hidden', 'true');
+        vervanging.textContent = '🖼️';
+        beeld.replaceWith(vervanging);
+      });
+    } else {
+      beeld = document.createElement('div');
+      beeld.className = 'pagina-pdf';
+      beeld.setAttribute('aria-hidden', 'true');
+      beeld.textContent = '📄';
+    }
+    const nr = document.createElement('span');
+    nr.className = 'pagina-nr';
+    nr.textContent = (i + 1) + '.';
+    const naam = document.createElement('span');
+    naam.className = 'pagina-naam';
+    naam.textContent = f.name || '';
+    li.append(beeld, nr, naam);
+    lijst.appendChild(li);
+  });
+  document.getElementById('bestandsnaam').textContent = paginas.map((f) => f.name).join(', ');
+  document.getElementById('bestand-preview').classList.toggle('zichtbaar', paginas.length > 0);
+  // "Nog een pagina": alleen bij foto's en zolang er plek is
+  document.getElementById('pagina-erbij-knop').style.display =
+    (paginas.length && !isPdf(paginas[0]) && paginas.length < CONFIG.MAX_PAGINAS) ? '' : 'none';
+  _updateAnalyseerKnop();
+}
+
+document.getElementById('bestand-input').addEventListener('change', function (e) {
+  voegPaginasToe(e.target.files);   // eerst lezen, dan leegmaken: dezelfde foto kan opnieuw gekozen worden
+  e.target.value = '';
+});
+// Een foto met de camera komt er ook bij (net als een bestand)
+document.getElementById('camera-input').addEventListener('change', function () {
+  voegPaginasToe(this.files);
+  this.value = '';
+});
+document.getElementById('pagina-erbij-knop').addEventListener('click', () => {
+  document.getElementById('camera-input').click();
+});
+document.getElementById('paginas-wis-knop').addEventListener('click', () => {
+  paginas = [];
+  toonUploadMelding(null);
+  verversPaginas();
 });
 
 // Drag & drop
@@ -989,42 +1086,15 @@ dropzone.addEventListener('dragleave', () => dropzone.classList.remove('drag-ove
 dropzone.addEventListener('drop', e => {
   e.preventDefault();
   dropzone.classList.remove('drag-over');
-  const bestand = e.dataTransfer.files[0];
-  if (bestand) verwerkBestand(bestand);
+  voegPaginasToe(e.dataTransfer.files);
 });
-
-function verwerkBestand(bestand) {
-  const maxBytes = CONFIG.MAX_BESTAND_MB * 1024 * 1024;
-  if (bestand.size > maxBytes) {
-    alert(`Het bestand is te groot. Maximaal ${CONFIG.MAX_BESTAND_MB} MB.`);
-    return;
-  }
-
-  gekozenBestand = bestand;
-  document.getElementById('bestandsnaam').textContent = bestand.name;
-  document.getElementById('bestand-preview').classList.add('zichtbaar');
-  _updateAnalyseerKnop();
-
-  // Toon preview als het een afbeelding is
-  const previewImg = document.getElementById('preview-img');
-  if (bestand.type.startsWith('image/')) {
-    const reader = new FileReader();
-    reader.onload = e => {
-      previewImg.src = e.target.result;
-      previewImg.style.display = 'block';
-    };
-    reader.readAsDataURL(bestand);
-  } else {
-    previewImg.style.display = 'none';
-  }
-}
 
 // ─── STAP NAVIGATIE ──────────────────────────────────────────────
 function toonStap(stap) {
   ['upload', 'verwerken', 'resultaat', 'fout'].forEach(s => {
     document.getElementById('stap-' + s).style.display = 'none';
   });
-  document.getElementById('stap-' + stap).style.display = (stap === 'verwerken') ? 'block' : 'block';
+  document.getElementById('stap-' + stap).style.display = 'block';
   document.getElementById('stap-' + stap).style.animation = 'none';
   void document.getElementById('stap-' + stap).offsetWidth;
   document.getElementById('stap-' + stap).style.animation = '';
@@ -1040,45 +1110,51 @@ function toonStap(stap) {
   });
 }
 
+// ─── FOUTEN ──────────────────────────────────────────────────────
+// De backend stuurt bij elke fout een code (PLAN 20, B-9); de pagina vertaalt op die code en toont
+// nooit de Nederlandse zin van de server. Zonder (bekende) code beslist de HTTP-status.
+const FOUTCODES = ['geen_bestand', 'type', 'te_groot', 'geen_tekst', 'onleesbaar', 'te_veel', 'dagplafond', 'storing'];
+function foutCodeVan(code, status) {
+  if (FOUTCODES.includes(code)) return code;
+  if (status === 413) return 'te_groot';
+  if (status === 415) return 'type';
+  if (status === 429) return 'te_veel';
+  return 'storing';
+}
+function toonFout(code) {
+  const c = FOUTCODES.includes(code) ? code : 'storing';
+  toonStap('fout');
+  setVast(document.getElementById('fout-titel'), 'brief-fout-titel');
+  setVast(document.getElementById('fout-bericht'), 'brief-fout-' + c);
+}
+
 // ─── ANALYSE STARTEN ─────────────────────────────────────────────
 function startAnalyse() {
-  if (!gekozenBestand) return;
+  if (!paginas.length) { toonFout('geen_bestand'); return; }
   toonStap('verwerken');
 
   if (CONFIG.DEMO_MODUS || !CONFIG.BACKEND_URL) {
-    // DEMO: simuleer verwerking en toon voorbeeldresultaat
-    simuleerVerwerking();
+    // DEMO: toon na ~6 seconden het voorbeeldresultaat
+    setTimeout(() => toonResultaat(DEMO_RESULTAAT), 6000);
   } else {
     // PRODUCTIE: stuur naar Flask-backend
     stuurNaarBackend();
   }
 }
 
-function simuleerVerwerking() {
-  const t = TALEN[huidigeTaal] || TALEN['nl'];
-  const fases = [t.verwerkFase1, t.verwerkFase2, t.verwerkFase3];
-  let i = 0;
-  const interval = setInterval(() => {
-    document.getElementById('verwerken-fase').textContent = fases[i % fases.length];
-    i++;
-  }, 1800);
-
-  // Na ~6 seconden: toon demoResultaat
-  setTimeout(() => {
-    clearInterval(interval);
-    toonResultaat(DEMO_RESULTAAT);
-  }, 6000);
-}
-
-// ─── BEELDCOMPRESSIE VÓÓR VERZENDING (PLAN-2 fase 1.5) ──────────────────
+// ─── BEELDCOMPRESSIE VÓÓR VERZENDING (PLAN-2 fase 1.5, PLAN 20 B-5) ──────────────────
 // De server (kleine ARM-VPS) doet OCR; een 12-megapixelfoto is daar de traagste stap.
-// Langste zijde ≤ COMPRESSIE_MAX_PX, JPEG-kwaliteit omlaag tot < COMPRESSIE_MAX_BYTES.
+// Langste zijde ≤ COMPRESSIE_MAX_PX, JPEG-kwaliteit omlaag tot < maxBytes.
 // PDF's gaan ongewijzigd (de server maakt er zelf beeld van). Faalt de compressie: origineel sturen.
-async function comprimeerVoorVerzending(bestand) {
+// Bij meer pagina's krijgt elke pagina een kleiner deel van het totaalbudget.
+function budgetPerAfbeelding(aantal) {
+  return Math.min(CONFIG.COMPRESSIE_MAX_BYTES, Math.floor(CONFIG.MAX_TOTAAL_BYTES / Math.max(1, aantal)));
+}
+async function comprimeerVoorVerzending(bestand, budget) {
   if (!bestand || !bestand.type || !bestand.type.startsWith('image/')) return bestand;
   if (typeof createImageBitmap !== 'function' || !document.createElement('canvas').getContext) return bestand;
   const maxPx = CONFIG.COMPRESSIE_MAX_PX || 1568;
-  const maxBytes = CONFIG.COMPRESSIE_MAX_BYTES || 3 * 1024 * 1024;
+  const maxBytes = budget || CONFIG.COMPRESSIE_MAX_BYTES || 3 * 1024 * 1024;
   try {
     let bitmap;
     try { bitmap = await createImageBitmap(bestand, { imageOrientation: 'from-image' }); }
@@ -1123,19 +1199,22 @@ async function stuurNaarBackend() {
     // Wake Lock niet ondersteund — gewoon doorgaan
   }
 
-  const t = TALEN[huidigeTaal] || TALEN['nl'];
-  const fases = [t.verwerkFase1, t.verwerkFase2, t.verwerkFase3];
-  let fase = 0;
-  const interval = setInterval(() => {
-    document.getElementById('verwerken-fase').textContent = fases[fase % fases.length];
-    fase++;
-  }, 2000);
-
+  const taal = huidigeTaal;   // de uitleg komt in de taal van het moment van versturen
   try {
-    const teVerzenden = await comprimeerVoorVerzending(gekozenBestand);
+    const gekozen = paginas.slice();
+    const budget = budgetPerAfbeelding(gekozen.length);
+    const teVerzenden = [];
+    for (const f of gekozen) teVerzenden.push(await comprimeerVoorVerzending(f, budget));
+
+    // Past het niet door de server vóór de backend (6 MB), dan hebben we niets aan versturen
+    // (zo'n afwijzing komt zonder CORS-kop terug en lijkt dan een storing).
+    const totaal = teVerzenden.reduce((som, f) => som + f.size, 0);
+    if (totaal > CONFIG.MAX_VERZOEK_BYTES) { const e = new Error('te groot'); e.code = 'te_groot'; throw e; }
+
     const formData = new FormData();
-    formData.append('brief', teVerzenden, teVerzenden.name || 'brief.jpg');
-    formData.append('taal', huidigeTaal);
+    teVerzenden.forEach((f, i) => formData.append('brief', f, f.name || ('brief-' + (i + 1) + '.jpg')));
+    formData.append('taal', taal);
+    formData.append('v', '2');
     const context = document.getElementById('extra-context').value.trim();
     if (context) formData.append('context', context);
 
@@ -1145,130 +1224,202 @@ async function stuurNaarBackend() {
       signal: AbortSignal.timeout(180000)
     });
 
-    clearInterval(interval);
-    if (wakeLock) wakeLock.release();
-
     if (!response.ok) {
-      // Nette fout van de server (bijv. 422 "geen tekst gevonden", 429 te veel verzoeken)
-      let serverFout = null;
-      try { serverFout = (await response.json()).fout || null; } catch (e) { /* geen JSON */ }
-      const e = new Error(serverFout || ('Server fout: ' + response.status));
-      e.serverFout = serverFout;
+      let code = null;
+      try { code = (await response.json()).code || null; } catch (e) { /* geen JSON */ }
+      const e = new Error('Server fout: ' + response.status);
+      e.code = foutCodeVan(code, response.status);
       e.status = response.status;
       throw e;
     }
 
     const data = await response.json();
-    toonResultaat(data);
+    if (!data || typeof data !== 'object' || Array.isArray(data)) { const e = new Error('onverwacht antwoord'); e.code = 'storing'; throw e; }
+    toonResultaat(data, taal);
 
   } catch (err) {
-    clearInterval(interval);
-    if (wakeLock) wakeLock.release();
-    toonStap('fout');
-    // Tekst voorlopig NL; PLAN-3 vertaalt 'brief-nietBereikbaar' naar negen talen.
-    const nietBereikbaar = 'De tool is nu niet bereikbaar. Probeer het over een paar minuten opnieuw.';
-    document.getElementById('fout-bericht').textContent =
-      err.serverFout ? err.serverFout : nietBereikbaar;
-    console.warn('[brief] analyse mislukt:', err.name, err.status || '', err.message);
+    toonFout(foutCodeVan(err && err.code, err && err.status));   // netwerkfout of time-out: storing
+    console.warn('[brief] analyse mislukt:', err && err.name, (err && err.status) || '', err && err.message);
+  } finally {
+    try { if (wakeLock) wakeLock.release(); } catch (e) { /* al losgelaten */ }
   }
 }
 
-// ─── RESULTAAT TONEN ─────────────────────────────────────────────
-// ── Uitleg veilig op de pagina (PLAN 19, B-7) ──────────────────────────────
-// De uitleg komt van de AI en de brief is invoer van buiten: er gaat daarom geen HTML uit het
-// antwoord rechtstreeks de pagina in. veiligeHtml() leest de HTML in een los document (daar
-// draait en laadt niets) en bouwt hem opnieuw op met alleen p, strong, em, ul, ol, li, br en
-// div (met hooguit class="tip"). Elk ander element wordt zijn tekst, elk ander attribuut
-// verdwijnt; van script en style blijft niets over. Geeft een DocumentFragment terug.
-function veiligeHtml(html) {
-  const MAG = ['P', 'STRONG', 'EM', 'UL', 'OL', 'LI', 'BR', 'DIV'];
-  const bron = new DOMParser().parseFromString('<!doctype html><body>' + String(html == null ? '' : html), 'text/html');
-  const kopieer = (van, naar) => {
-    van.childNodes.forEach((n) => {
-      if (n.nodeType === Node.TEXT_NODE) { naar.appendChild(document.createTextNode(n.nodeValue)); return; }
-      if (n.nodeType !== Node.ELEMENT_NODE) return;                    // commentaar e.d.
-      if (n.tagName === 'SCRIPT' || n.tagName === 'STYLE') return;      // code is geen tekst
-      if (!MAG.includes(n.tagName)) { naar.appendChild(document.createTextNode(n.textContent)); return; }
-      const el = document.createElement(n.tagName.toLowerCase());
-      if (n.tagName === 'DIV' && n.getAttribute('class') === 'tip') el.className = 'tip';
-      kopieer(n, el);
-      naar.appendChild(el);
-    });
-  };
-  const uit = document.createDocumentFragment();
-  kopieer(bron.body, uit);
-  return uit;
+// ─── RESULTAAT TONEN (PLAN 20, B-10) ─────────────────────────────
+// Vaste blokken in een vaste volgorde; een blok verschijnt alleen als zijn veld gevuld is.
+// Alle tekstvelden zijn platte tekst: ze gaan via Solidari.opmaak (escapet eerst, maakt dan alleen
+// vet, cursief en lijsten) of via textContent de pagina in. Er komt nergens AI-tekst via innerHTML
+// zonder die opmaakfunctie.
+const gevuld = (x) => (typeof x === 'string' || typeof x === 'number') && String(x).trim() !== '';
+const alsTekst = (x) => String(x == null ? '' : x);
+
+// Zet platte tekst in el, opgemaakt (of, als de opmaakfunctie ontbreekt, als kale tekst).
+function zetOpgemaakt(el, tekst, taal) {
+  if (window.Solidari && typeof Solidari.opmaak === 'function') el.innerHTML = Solidari.opmaak(alsTekst(tekst), { dir: richtingVan(taal) });
+  else el.textContent = alsTekst(tekst);
 }
 
-function toonResultaat(data) {
-  toonStap('resultaat');
-  const tekst = (x) => String(x == null ? '' : x);
-  // Het voorbeeld op de pagina (DEMO_RESULTAAT) is onze eigen tekst en mag zijn opmaak houden
-  // (de deadline-regel en de link). Al het andere komt van de AI en wordt gefilterd.
-  const eigenVoorbeeld = data === DEMO_RESULTAAT;
+function maakBlok(soort, icoon, kopSleutel, taal) {
+  const sec = document.createElement('section');
+  sec.className = 'rb rb-' + soort;
+  sec.dataset.blok = soort;
+  const kop = document.createElement('h2');
+  kop.className = 'rb-kop';
+  const ic = document.createElement('span');
+  ic.className = 'rb-icoon';
+  ic.setAttribute('aria-hidden', 'true');
+  ic.textContent = icoon;
+  kop.append(ic, setVast(document.createElement('span'), kopSleutel));
+  const body = document.createElement('div');
+  body.className = 'rb-body';
+  body.lang = taal;
+  body.dir = richtingVan(taal);
+  sec.append(kop, body);
+  return { sec, body };
+}
 
-  // Urgentie banner: titel en tekst als platte tekst
-  const urgContainer = document.getElementById('urgentie-banner');
-  urgContainer.innerHTML = '';
-  if (data.urgentie) {
-    const u = data.urgentie;
-    const niveau = ['hoog', 'midden', 'laag'].includes(u.niveau) ? u.niveau : 'laag';
-    urgContainer.innerHTML = `
-      <div class="urgentie-banner ${niveau}">
-        <span class="urgentie-icoon">${niveau === 'hoog' ? '⚠️' : niveau === 'midden' ? '📅' : 'ℹ️'}</span>
-        <div class="urgentie-tekst">
-          <strong></strong>
-        </div>
-      </div>`;
-    const vak = urgContainer.querySelector('.urgentie-tekst');
-    vak.querySelector('strong').textContent = tekst(u.titel);
-    vak.appendChild(document.createTextNode(tekst(u.tekst)));
-  }
+// Een blok met één tekstveld; de hele tekst kan als één geheel worden voorgelezen.
+function tekstBlok(soort, icoon, kopSleutel, tekst, taal) {
+  const { sec, body } = maakBlok(soort, icoon, kopSleutel, taal);
+  body.setAttribute('data-lees', '');
+  zetOpgemaakt(body, tekst, taal);
+  return sec;
+}
 
-  // Resultaatkaarten: pictogram en titel als platte tekst, de uitleg gefilterd
-  const kaarten = document.getElementById('resultaat-kaarten');
-  kaarten.innerHTML = '';
-  (data.secties || []).forEach((sectie, idx) => {
-    const kaart = document.createElement('div');
-    kaart.className = 'resultaat-kaart';
-    kaart.innerHTML = `
-      <div class="rk-header ${idx === 0 ? 'open' : ''}" onclick="toggleKaart(this)">
-        <div class="rk-icoon"></div>
-        <div class="rk-naam"></div>
-        <span class="rk-chevron">▼</span>
-      </div>
-      <div class="rk-body ${idx === 0 ? 'open' : ''}">
-      </div>`;
-    const icoon = kaart.querySelector('.rk-icoon');
-    icoon.style.background = /^#[0-9a-f]{6}$/i.test(tekst(sectie.achtergrond)) ? sectie.achtergrond : '#F5F2EC';
-    icoon.textContent = tekst(sectie.icoon);
-    kaart.querySelector('.rk-naam').textContent = tekst(sectie.titel);
-    const body = kaart.querySelector('.rk-body');
-    if (eigenVoorbeeld) body.innerHTML = sectie.inhoud;
-    else body.replaceChildren(veiligeHtml(sectie.inhoud));
-    kaarten.appendChild(kaart);
-  });
+function maakMelding(sleutel) {
+  const d = setVast(document.createElement('div'), sleutel);
+  d.className = 'rb-melding';
+  d.setAttribute('data-lees', '');
+  return d;
+}
 
-  // Actiepunten: platte tekst
-  const apBlok = document.getElementById('actiepunten-blok');
-  const apLijst = document.getElementById('actiepunten-lijst');
-  apLijst.innerHTML = '';
-  if (Array.isArray(data.actiepunten) && data.actiepunten.length > 0) {
-    apBlok.style.display = 'block';
-    apLijst.innerHTML = data.actiepunten.map((ap, i) => `
-      <div class="actiepunt" id="ap-${i}">
-        <div class="ap-vinkje" onclick="vinkAf(${i})"></div>
-        <span class="ap-tekst"></span>
-      </div>`).join('');
-    apLijst.querySelectorAll('.ap-tekst').forEach((el, i) => { el.textContent = tekst(data.actiepunten[i]); });
+function toonBanner(u, taal) {
+  const cont = document.getElementById('urgentie-banner');
+  cont.replaceChildren();
+  if (!u || typeof u !== 'object') return;
+  const verlopen = u.niveau === 'verlopen';
+  if (!verlopen && !gevuld(u.titel) && !gevuld(u.tekst)) return;
+  const niveau = verlopen ? 'verlopen' : (['hoog', 'midden', 'laag'].includes(u.niveau) ? u.niveau : 'laag');
+  const banner = document.createElement('div');
+  banner.className = 'urgentie-banner ' + niveau;
+  const icoon = document.createElement('span');
+  icoon.className = 'urgentie-icoon';
+  icoon.setAttribute('aria-hidden', 'true');
+  icoon.textContent = { hoog: '⚠️', midden: '📅', laag: 'ℹ️', verlopen: '⏰' }[niveau];
+  const vak = document.createElement('div');
+  vak.className = 'urgentie-tekst';
+  vak.setAttribute('data-lees', '');
+  const strong = document.createElement('strong');
+  const tekst = document.createElement('div');
+  if (verlopen) {
+    // Eigen tekst van de pagina, niet die van het model: een verlopen datum vraagt om één vaste boodschap.
+    setVast(strong, 'brief-verlopen-titel');
+    setVast(tekst, 'brief-verlopen-tekst');
   } else {
-    apBlok.style.display = 'none';
+    vak.lang = taal; vak.dir = richtingVan(taal);
+    strong.textContent = alsTekst(u.titel);
+    zetOpgemaakt(tekst, u.tekst, taal);
   }
+  vak.append(strong, tekst);
+  banner.append(icoon, vak);
+  cont.appendChild(banner);
 }
 
-function toggleKaart(header) {
-  header.classList.toggle('open');
-  header.nextElementSibling.classList.toggle('open');
+function toonResultaat(data, taal) {
+  toonStap('resultaat');
+  taal = taal || huidigeTaal;
+  data = (data && typeof data === 'object') ? data : {};
+
+  toonBanner(data.urgentie, taal);
+
+  const cont = document.getElementById('resultaat-kaarten');
+  cont.replaceChildren();
+
+  // De brief was te lang voor één keer: zeg dat vóór de uitleg
+  if (data.afgekapt === true) cont.appendChild(maakMelding('brief-afgekapt'));
+
+  if (gevuld(data.wat_staat_er)) cont.appendChild(tekstBlok('wat', '📋', 'brief-wat-staat-er', data.wat_staat_er, taal));
+
+  // Wat moet je doen: de afvinklijst, of de zin dat er niets hoeft; daaronder de deadline
+  {
+    const { sec, body } = maakBlok('doen', '✅', 'brief-wat-doen', taal);
+    const acties = (Array.isArray(data.wat_doen) ? data.wat_doen : []).filter(gevuld).map(alsTekst);
+    if (acties.length) {
+      const lijst = document.createElement('div');
+      lijst.id = 'actiepunten-lijst';
+      acties.forEach((tx, i) => {
+        const rij = document.createElement('div');
+        rij.className = 'actiepunt';
+        rij.id = 'ap-' + i;
+        rij.setAttribute('data-lees', '');
+        rij.setAttribute('data-lees-vink', '');
+        const vink = document.createElement('div');
+        vink.className = 'ap-vinkje';
+        const t = document.createElement('span');
+        t.className = 'ap-tekst';
+        t.setAttribute('data-lees-deel', '');
+        t.textContent = tx;
+        rij.append(vink, t);
+        rij.addEventListener('click', () => vinkAf(i));
+        lijst.appendChild(rij);
+      });
+      body.appendChild(lijst);
+    } else {
+      const p = setVast(document.createElement('p'), 'brief-niets-doen');
+      p.setAttribute('data-lees', '');
+      body.appendChild(p);
+    }
+    const dl = data.deadline;
+    if (dl && typeof dl === 'object') {
+      if (gevuld(dl.datum)) {
+        const d = document.createElement('div');
+        d.className = 'rb-deadline';
+        d.setAttribute('data-lees', '');
+        const ic = document.createElement('span');
+        ic.setAttribute('aria-hidden', 'true');
+        ic.textContent = '⏰';
+        const datum = document.createElement('span');
+        datum.className = 'rb-datum';
+        datum.lang = taal;
+        datum.textContent = alsTekst(dl.datum);
+        d.append(ic, datum);
+        body.appendChild(d);
+      }
+      if (gevuld(dl.citaat)) {
+        // Het citaat is letterlijk uit de brief en dus Nederlands, ook in een RTL-pagina.
+        const c = document.createElement('div');
+        c.className = 'rb-citaat';
+        const label = setVast(document.createElement('span'), 'brief-in-de-brief');
+        label.setAttribute('data-lees', '');
+        const bdi = document.createElement('bdi');
+        bdi.lang = 'nl';
+        bdi.setAttribute('data-lees', '');
+        bdi.setAttribute('data-lees-taal', 'NL');
+        bdi.textContent = '“' + alsTekst(dl.citaat) + '”';
+        c.append(label, document.createTextNode(' '), bdi);
+        body.appendChild(c);
+      }
+    }
+    cont.appendChild(sec);
+  }
+
+  if (gevuld(data.als_je_niets_doet)) cont.appendChild(tekstBlok('niets', '⏳', 'brief-als-niets', data.als_je_niets_doet, taal));
+  if (gevuld(data.bezwaar)) cont.appendChild(tekstBlok('bezwaar', '⚖️', 'brief-bezwaar', data.bezwaar, taal));
+  if (gevuld(data.contact)) cont.appendChild(tekstBlok('contact', '📞', 'brief-contact', data.contact, taal));
+
+  // Onderaan: wat niet goed te lezen was
+  const onzeker = data.twijfel_code === 'deadline_onzeker';
+  if (onzeker || gevuld(data.twijfel)) {
+    const { sec, body } = maakBlok('twijfel', '❓', 'brief-twijfel', taal);
+    if (onzeker) body.appendChild(maakMelding('brief-deadline-onzeker'));
+    if (gevuld(data.twijfel)) {
+      const t = document.createElement('div');
+      t.setAttribute('data-lees', '');
+      zetOpgemaakt(t, data.twijfel, taal);
+      body.appendChild(t);
+    }
+    cont.appendChild(sec);
+  }
 }
 
 function vinkAf(i) {
@@ -1279,11 +1430,11 @@ function vinkAf(i) {
 }
 
 function nieuweBrief() {
-  gekozenBestand = null;
+  paginas = [];
+  verversPaginas();
+  toonUploadMelding(null);
   document.getElementById('bestand-input').value = '';
-  document.getElementById('bestand-preview').classList.remove('zichtbaar');
-  document.getElementById('preview-img').src = '';
-  document.getElementById('bestandsnaam').textContent = '';
+  document.getElementById('camera-input').value = '';
   document.getElementById('extra-context').value = '';
   document.getElementById('analyseer-knop').disabled = true;
   toonStap('upload');
@@ -1292,12 +1443,13 @@ function nieuweBrief() {
 function afdrukken() { window.print(); }
 
 function kopieerTekst() {
-  const kaarten = document.querySelectorAll('.rk-naam, .rk-body');
   let tekst = 'Brief Begrijper — Solidari.nl\n\n';
-  document.querySelectorAll('.resultaat-kaart').forEach(kaart => {
-    const naam = kaart.querySelector('.rk-naam').textContent;
-    const body = kaart.querySelector('.rk-body').innerText.trim();
-    tekst += `${naam}\n${body}\n\n`;
+  const banner = document.querySelector('#urgentie-banner .urgentie-tekst');
+  if (banner) tekst += banner.innerText.trim() + '\n\n';
+  document.querySelectorAll('#resultaat-kaarten > *').forEach(blok => {
+    const kop = blok.querySelector('.rb-kop');
+    const body = blok.querySelector('.rb-body');
+    tekst += kop && body ? `${kop.innerText.trim()}\n${body.innerText.trim()}\n\n` : blok.innerText.trim() + '\n\n';
   });
   navigator.clipboard.writeText(tekst).then(() => {
     alert('Tekst gekopieerd!');
@@ -1305,62 +1457,18 @@ function kopieerTekst() {
 }
 
 // ─── DEMO RESULTAAT ──────────────────────────────────────────────
+// Eigen voorbeeldtekst in het antwoordformaat van de backend (v=2). Alleen voor DEMO_MODUS.
 const DEMO_RESULTAAT = {
-  urgentie: {
-    niveau: 'midden',
-    titel: '📅 Reageer vóór 28 maart 2026',
-    tekst: 'Je hebt nog 16 dagen om te reageren op dit besluit. Doe dat op tijd om problemen te voorkomen.'
-  },
-  secties: [
-    {
-      icoon: '📋',
-      titel: 'Wat staat er in deze brief?',
-      achtergrond: '#EBF3EE',
-      inhoud: `<p>Dit is een brief van de <strong>gemeente</strong> over je uitkering.</p>
-               <p>De gemeente schrijft dat ze je uitkering gaan <strong>verlagen</strong> omdat je meer uren bent gaan werken.</p>
-               <p>Vanaf 1 april 2026 ontvang je <strong>€ 280 minder</strong> per maand.</p>`
-    },
-    {
-      icoon: '❓',
-      titel: 'Waarom krijg ik deze brief?',
-      achtergrond: '#FDF3E0',
-      inhoud: `<p>Je hebt de gemeente laten weten dat je meer bent gaan werken. Dat is goed nieuws!</p>
-               <p>Maar als je meer verdient, heb je recht op minder bijstand. Dat heet <em>inkomensverrekening</em> — de gemeente trekt je salaris gedeeltelijk af van je uitkering.</p>
-               <div class="tip">💡 Dit is <strong>normaal</strong>. Het betekent niet dat je iets fout hebt gedaan.</div>`
-    },
-    {
-      icoon: '⚖️',
-      titel: 'Ben je het niet eens met dit besluit?',
-      achtergrond: '#EFF6FF',
-      inhoud: `<p>Je kunt <strong>bezwaar maken</strong> als je denkt dat de gemeente iets fout berekend heeft.</p>
-               <p>Je hebt hiervoor <strong>6 weken</strong> de tijd, vanaf de datum op de brief.</p>
-               <ul>
-                 <li>Schrijf een brief aan de gemeente</li>
-                 <li>Leg uit waarom je het er niet mee eens bent</li>
-                 <li>Stuur kopieën van bewijsstukken mee</li>
-               </ul>
-               <div class="deadline">⏰ Deadline bezwaar: uiterlijk 14 april 2026</div>
-               <p>Hulp nodig? <a href="https://www.juridischloket.nl" target="_blank">Juridisch Loket</a> helpt gratis.</p>`
-    },
-    {
-      icoon: '📞',
-      titel: 'Vragen? Neem contact op',
-      achtergrond: '#F5F2EC',
-      inhoud: `<p>Op de brief staat een <strong>telefoonnummer</strong> en een <strong>referentienummer</strong> (zaaknummer).</p>
-               <p>Heb je hulp nodig bij het begrijpen van deze brief of het schrijven van een bezwaar?</p>
-               <ul>
-                 <li>🏢 <strong>Sociaal Wijkteam</strong> van jouw gemeente</li>
-                 <li>🤝 <strong>VluchtelingenWerk Nederland</strong> — gratis hulp voor statushouders</li>
-                 <li>⚖️ <strong>Juridisch Loket</strong> — gratis juridisch advies</li>
-               </ul>`
-    }
-  ],
-  actiepunten: [
-    'Lees de brief nog een keer goed door',
-    'Controleer of het bedrag klopt op basis van je loonstrook',
-    'Ben je het niet eens? Maak bezwaar vóór 14 april 2026',
-    'Neem bij vragen contact op met je Sociaal Wijkteam'
-  ]
+  urgentie: { niveau: 'midden', titel: 'Reageer vóór 14 april 2026', tekst: 'Je uitkering wordt lager. Ben je het er niet mee eens, dan kun je bezwaar maken.' },
+  wat_staat_er: 'Dit is een brief van de **gemeente** over je uitkering.\n\nDe gemeente schrijft dat je vanaf 1 april 2026 € 280 minder krijgt per maand. Je werkt meer uren.',
+  wat_doen: ['Controleer of het bedrag klopt met je loonstrook', 'Ben je het er niet mee eens? Maak bezwaar voor 14 april 2026'],
+  deadline: { datum: '14 april 2026', citaat: 'U kunt binnen zes weken na de datum van dit besluit bezwaar maken.' },
+  als_je_niets_doet: 'Dan gaat het lagere bedrag op 1 april 2026 in.',
+  bezwaar: 'Je kunt bezwaar maken binnen 6 weken. Schrijf een brief aan de gemeente en leg uit waarom je het er niet mee eens bent.',
+  contact: 'Bel de gemeente via het nummer op de brief.',
+  twijfel: null,
+  twijfel_code: null,
+  afgekapt: false
 };
 
 // ─── NAV TAAL BRIDGE ─────────────────────────────────────────────
@@ -1368,24 +1476,6 @@ const DEMO_RESULTAAT = {
 // Wij koppelen dat door naar de eigen wisselTaal() functie van deze pagina.
 window.setTaal = function(taal) { wisselTaal(taal); };
 
-
-
-// Camera-eerst: stuur een gemaakte foto door naar het bestaande bestand-input,
-// zodat de verwerkingslogica onaangeroerd blijft (fase 5).
-document.addEventListener('DOMContentLoaded', function () {
-  var cam = document.getElementById('camera-input');
-  var doel = document.getElementById('bestand-input');
-  if (!cam || !doel) return;
-  cam.addEventListener('change', function () {
-    if (!this.files || !this.files.length) return;
-    try {
-      var dt = new DataTransfer();
-      for (var i = 0; i < this.files.length; i++) dt.items.add(this.files[i]);
-      doel.files = dt.files;
-    } catch (e) { /* oudere browser: laat de gebruiker de bestandskeuze gebruiken */ }
-    doel.dispatchEvent(new Event('change', { bubbles: true }));
-  });
-});
 </script>
 <script src="i18n.js"></script>
 <script src="spraak.js"></script>
