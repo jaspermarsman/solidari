@@ -1,0 +1,169 @@
+--- services/preprocessor.py
++++ services/preprocessor.py
+@@ -1,13 +1,16 @@
+ """
+ Solidari — OCR Preprocessor
+ 
+-Bewerkt ruwe OCR-tekst vóórdat deze naar de AI gaat.
+-Doel: het model minder laten raden door datums expliciet te labelen
+-en onleesbare fragmenten te verwijderen.
++Bewerkt ruwe OCR-tekst vóórdat deze naar de redactie en de AI gaat.
+ 
+ Stappen:
+-  1. Artefacten verwijderen (losse tekens, te korte regels)
+-  2. Datums detecteren en labelen (BRIEFTDATUM / VERVALDATUM)
++  1. OCR-fouten in datums herstellen ("| oktober" → "1 oktober")
++  2. Artefacten verwijderen (losse tekens, te korte regels)
++
++Sinds PLAN 20 (B-3) zet de preprocessor geen labels meer boven de brief. BRIEFTDATUM en
++VERVALDATUM wezen "de laatste datum" aan als deadline, en dat was vaak de verkeerde. Het model
++leest de deadline nu zelf en de code controleert het citaat (services/ai.py). Het adresblok
++zoekt de redactie zelf (services/redacteer.py). _extraheer_datums blijft voor die controle.
+ """
+ 
+ import re
+@@ -45,27 +48,29 @@
+ )
+ 
+ 
++WWW_MET_SPATIE = re.compile(r'(?i)\bwww\.[ ]{0,2}([\w-]+)[ ]{0,2}\.(?=[a-z]{2,})')
++
++
+ def _corrigeer_ocr_fouten(tekst: str) -> str:
+     """Herstel veelvoorkomende OCR-misreadings die datums kapotmaken."""
+     # | oktober -> 1 oktober
+     tekst = PIPE_VOOR_MAAND.sub(lambda m: '1 ' + m.group(1), tekst)
++    # "www. gemeente .nl" -> "www.gemeente.nl": OCR zet vaak een spatie rond de punten (PLAN 20).
++    # Zonder dit herkent de redactie het domein van de afzender niet en gaat diens e-mail weg.
++    tekst = WWW_MET_SPATIE.sub(lambda m: 'www.' + m.group(1) + '.', tekst)
+     return tekst
+ 
+ 
+ def verwerk_ocr_tekst(tekst: str) -> str:
+     """
+-    Hoofd-entrypoint: verwerk ruwe OCR-tekst naar opgeschoonde,
+-    gelabelde tekst voor de AI.
++    Hoofd-entrypoint: ruwe OCR-tekst opschonen voor de redactie en de AI.
+     """
+     logger.debug(f'Preprocessor start: {len(tekst)} tekens')
+ 
+     tekst = _corrigeer_ocr_fouten(tekst)
+     tekst = _verwijder_artefacten(tekst)
+-    datums = _extraheer_datums(tekst)
+-    tekst = _label_datums(tekst, datums)
+-    tekst = _label_ontvangeradres(tekst)
+ 
+-    logger.debug(f'Preprocessor klaar: {len(tekst)} tekens, {len(datums)} datums gevonden')
++    logger.debug(f'Preprocessor klaar: {len(tekst)} tekens')
+     return tekst
+ 
+ 
+@@ -93,8 +98,11 @@
+             continue
+ 
+         # Verwijder regels zonder enig woord van 3+ letters en korter dan 15 tekens
++        # Een korte regel met cijfers is geen ruis: een telefoonnummer, bedrag of datum
++        # dat door de regelafbreking alleen staat (PLAN 20: "0800 - 0543" verdween).
+         heeft_woord = bool(re.search(r'[a-zA-Z\u00C0-\u00FF]{3,}', stripped))
+-        if not heeft_woord and len(stripped) < 15:
++        heeft_cijfers = len(re.findall(r'\d', stripped)) >= 3
++        if not heeft_woord and not heeft_cijfers and len(stripped) < 15:
+             logger.debug(f'Artefact verwijderd (geen woord): "{stripped}"')
+             continue
+ 
+@@ -103,62 +111,7 @@
+     return '\n'.join(schone_regels)
+ 
+ 
+-# ── Stap 2: Datums detecteren en labelen ─────────────────────────────────────
+-
+-# ── Stap 3: Ontvangeradres labelen ───────────────────────────────────────────
+-
+-# Postcode + plaatsnaam patroon — duidt op ontvangeradres bovenaan de brief
+-POSTCODE_REGEL = re.compile(r'\b\d{4}\s?[A-Z]{2}\b')
+-
+-
+-def _label_ontvangeradres(tekst: str) -> str:
+-    """
+-    Detecteer het ontvangeradres (naam + straat + postcode bovenaan de brief)
+-    en label het expliciet zodat het model het niet als afzendercontact gebruikt.
+-
+-    Strategie: zoek de eerste postcode in de tekst. De regels rondom die
+-    postcode vormen het ontvangeradres. Label dat blok als [ONTVANGERADRES].
+-    """
+-    regels = tekst.splitlines()
+-    postcode_regel_idx = None
+-
+-    for i, regel in enumerate(regels):
+-        # Sla labels van de preprocessor zelf over
+-        if regel.startswith('['):
+-            continue
+-        if POSTCODE_REGEL.search(regel):
+-            postcode_regel_idx = i
+-            break
+-
+-    if postcode_regel_idx is None:
+-        return tekst
+-
+-    # Neem de postcoderegel, de regel erna, en daarboven maximaal 2 NIET-LEGE regels
+-    # (OCR zet vaak lege regels tussen naam en straat — v1.1: dan bleef de naam buiten het blok).
+-    # Stop omhoog bij iets wat op een afzender/kop lijkt.
+-    STOPWOORDEN = ('gemeente', 'afdeling', 'postbus', 'belastingdienst', 'uwv', 'svb', 'ind', 'duo', 'retouradres')
+-    start = postcode_regel_idx
+-    gevonden = 0
+-    i = postcode_regel_idx - 1
+-    while i >= 0 and gevonden < 2:
+-        r = regels[i].strip()
+-        if r == '':
+-            i -= 1
+-            continue
+-        if r.startswith('[') or any(w in r.lower() for w in STOPWOORDEN):
+-            break
+-        start = i
+-        gevonden += 1
+-        i -= 1
+-    eind = min(len(regels), postcode_regel_idx + 2)
+-
+-    adresblok = '\n'.join(regels[start:eind]).strip()
+-    label = f'[ONTVANGERADRES — gebruik dit NOOIT als contactgegeven van de afzender: {adresblok}]'
+-
+-    # Vervang het blok door het gelabelde blok
+-    nieuwe_regels = regels[:start] + [label] + regels[eind:]
+-    return '\n'.join(nieuwe_regels)
+-
++# ── Datums lezen (voor de controle van de deadline in services/ai.py) ────────
+ 
+ def _extraheer_datums(tekst: str) -> list:
+     """
+@@ -200,31 +153,3 @@
+ 
+     gevonden.sort(key=lambda x: x['positie'])
+     return gevonden
+-
+-
+-def _label_datums(tekst: str, datums: list) -> str:
+-    """
+-    Voeg een gelabeld datumblok toe boven de briefinhoud.
+-    De eerste datum in de tekst is doorgaans de brieftdatum,
+-    de laatste de vervaldatum.
+-    """
+-    if not datums:
+-        return tekst
+-
+-    if len(datums) == 1:
+-        label_blok = f"[DATUM IN BRIEF: {datums[0]['origineel']}]\n"
+-    else:
+-        brieftdatum = datums[0]
+-        vervaldatum = datums[-1]
+-
+-        label_blok = (
+-            f"[BRIEFTDATUM: {brieftdatum['origineel']}]\n"
+-            f"[VERVALDATUM (deadline voor actie): {vervaldatum['origineel']}]\n"
+-        )
+-
+-        if len(datums) > 2:
+-            overige = ', '.join(d['origineel'] for d in datums[1:-1])
+-            label_blok += f"[OVERIGE DATUMS IN BRIEF: {overige}]\n"
+-
+-    logger.info(f'Datums gelabeld: {len(datums)}')
+-    return label_blok + '\n' + tekst

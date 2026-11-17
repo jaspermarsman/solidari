@@ -9,6 +9,9 @@ terwijl de inhoud (Wmo, bezwaartermijn, afzender) wél overblijft.
 Gebruik (vanuit de backend-map, met de venv):
   cd /opt/solidari-backend && ./venv/bin/python tools/test/redactie_test.py
 Exit 0 = GROEN, 1 = FOUT (met de gevonden fragmenten — uit de nepbrief, dus niet gevoelig).
+
+De bredere test staat in de backend: tests/test_redactie_set.py haalt de achttien verzonnen
+brieven uit tools/test/nepbrieven/ door preprocessor en redactie (PLAN 20).
 """
 import sys, re, time
 from pathlib import Path
@@ -52,7 +55,7 @@ for bestand, ctype, taal in [(HIER / 'nepbrief.jpg', 'image/jpeg', 'nl'), (HIER 
             print(f'  ok    inhoud "{naam}" behouden')
         else:
             fout += 1; print(f'  FOUT  inhoud "{naam}" verdwenen (te agressief of OCR mislukt)')
-    for label in ('[BSN]', '[REKENINGNUMMER]', '[NAAM]', '[ONTVANGERADRES VERWIJDERD]'):
+    for label in ('[BSN]', '[REKENINGNUMMER]', '[NAAM]', '[ADRES]'):   # [ADRES] sinds PLAN 20 (redactie v2)
         print(f'  {"ok   " if label in schoon else "let op"} {label} {"aanwezig" if label in schoon else "ONTBREEKT"}')
 
 print('\nRESULTAAT:', 'GROEN' if fout == 0 else f'FOUT ({fout})')

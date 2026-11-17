@@ -1,0 +1,72 @@
+#!/usr/bin/env python3
+"""
+Solidari — redactietest op de set van achttien verzonnen brieven (PLAN 20, B-1).
+
+Per brief gaat de tekst door preprocessor + PII-redactie (zonder OCR, zonder AI). Daarna:
+  - mag_niet:     geen enkele treffer (een treffer is een lek);
+  - moet_blijven: alles staat er nog (anders is de redactie te grof).
+
+Gebruik:  ./venv/bin/python tests/test_redactie_set.py [map-met-nepbrieven]
+De map is standaard tools/test/nepbrieven naast of boven de backend, of $SOLIDARI_NEPBRIEVEN.
+Exit 0 = 18/18. De fragmenten in de uitvoer komen uit verzonnen brieven en zijn niet gevoelig.
+"""
+import json
+import os
+import re
+import sys
+from pathlib import Path
+
+BACKEND = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(BACKEND))
+
+from services.preprocessor import verwerk_ocr_tekst   # noqa: E402
+from services.redacteer import redacteer_pii          # noqa: E402
+
+
+def vind_map():
+    kandidaten = [
+        sys.argv[1] if len(sys.argv) > 1 else None,
+        os.getenv('SOLIDARI_NEPBRIEVEN'),
+        BACKEND / 'tools' / 'test' / 'nepbrieven',
+        BACKEND.parent / 'tools' / 'test' / 'nepbrieven',
+        BACKEND.parent.parent / 'Solidari-brief2' / 'tools' / 'test' / 'nepbrieven',
+    ]
+    for k in kandidaten:
+        if k and (Path(k) / 'verwacht.json').exists():
+            return Path(k)
+    print('FOUT: map met nepbrieven niet gevonden'); sys.exit(2)
+
+
+def controleer(map_):
+    verwacht = json.loads((map_ / 'verwacht.json').read_text(encoding='utf-8'))
+    uitslag = {}
+    for naam in sorted(k for k in verwacht if not k.startswith('_')):
+        tekst = (map_ / f'{naam}.txt').read_text(encoding='utf-8')
+        schoon = redacteer_pii(verwerk_ocr_tekst(tekst))
+        lekken = [p for p in verwacht[naam]['mag_niet'] if re.search(p, schoon, re.IGNORECASE)]
+        weg = [p for p in verwacht[naam]['moet_blijven'] if not re.search(p, schoon, re.IGNORECASE)]
+        uitslag[naam] = (lekken, weg)
+    return uitslag
+
+
+def main():
+    uitslag = controleer(vind_map())
+    goed = 0
+    n_lek = n_weg = 0
+    for naam, (lekken, weg) in uitslag.items():
+        ok = not lekken and not weg
+        goed += ok
+        n_lek += len(lekken); n_weg += len(weg)
+        print(f'{"ok  " if ok else "FOUT"} {naam}'
+              + (f'\n       lek: {lekken}' if lekken else '')
+              + (f'\n       verdwenen: {weg}' if weg else ''))
+    print(f'\nRESULTAAT: {goed}/{len(uitslag)} brieven goed, {n_lek} lekken, {n_weg} verdwenen')
+    return 0 if goed == len(uitslag) else 1
+
+
+def test_redactie_set():          # voor pytest, als dat er is
+    assert main() == 0
+
+
+if __name__ == '__main__':
+    sys.exit(main())

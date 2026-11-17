@@ -1,0 +1,496 @@
+--- services/redacteer.py
++++ services/redacteer.py
+@@ -1,21 +1,30 @@
+ """
+-Solidari — PII Redactie service
++Solidari — PII Redactie service (v2, PLAN 20 B-2)
+ 
+-Verwijdert persoonsidentificerende informatie uit OCR-tekst
+-vóórdat die naar een externe AI-dienst wordt gestuurd.
++Haalt persoonsgegevens uit de brieftekst vóórdat die naar een externe AI-dienst gaat.
++Dit gaat met regels en lukt dus niet altijd helemaal; de privacytekst zegt dat ook.
+ 
+-Wat wordt geredacteerd:
+-  - BSN (burgerservicenummer, 9 cijfers)
++Wat eruit gaat:
++  - het adresblok van de ontvanger (naam / straat + nummer / postcode + plaats), ook als het
++    in een kolom naast het kenmerkblok staat; straat en postcode ook elders in de brief
++  - namen na "de heer", "mevrouw", "dhr.", "mw.", "mevr.", "meneer", "familie"
++  - de gevonden achternaam overal, ook met een andere voornaam ervoor (partner, kind),
++    en die voornamen als ze los staan
++  - BSN (9 cijfers, ook met punten of spaties), V-nummer (10 cijfers)
+   - IBAN / rekeningnummers
+-  - Aanslagnummers, subjectnummers, klantnummers (lange cijferreeksen)
+-  - Het [ONTVANGERADRES]-blok (al gelabeld door preprocessor)
+-  - Geboortedatums in combinatie met naam-context
++  - geboortedatum (na "geboren", "geboortedatum", "geb.")
++  - e-mailadressen, behalve op het domein van de afzender (het domein van een website in de brief)
++  - mobiele nummers (06 en +31 6)
++  - kenmerken: wat na een woord op -nummer, -kenmerk of -referentie staat, kenmerken met
++    letters (Z-2026/118834), kentekens en lange cijferreeksen
+ 
+ Wat blijft staan:
+-  - Deadlines en vervaldata
+-  - Bedragen en belastingsoorten
+-  - Instructies en actiepunten
+-  - Contactgegevens van de afzender (telefoon, website)
++  - datums, termijnen en bedragen
++  - telefoon (vast), website en e-mail van de afzender
++  - het adres van de afzender (postbus, bezoekadres van een organisatie)
++
++Getest met tests/test_redactie_set.py (achttien verzonnen brieven) en tools/test/redactie_test.py.
++In het log komen alleen aantallen, nooit de gevonden tekst.
+ """
+ 
+ import re
+@@ -23,162 +32,328 @@
+ 
+ logger = logging.getLogger('solidari.redacteer')
+ 
+-# ── Patronen ──────────────────────────────────────────────────────────────────
++# ── Bouwstenen ────────────────────────────────────────────────────────────────
+ 
+-# BSN: 9 cijfers op zichzelf (niet onderdeel van langere reeks)
+-BSN = re.compile(r'\b\d{9}\b')
++HOOFD = r'A-ZÀ-ÖØ-ÞŠŽČĆĐ'
++WOORD = rf'[{HOOFD}][\w\'’]*'                       # woord met hoofdletter
++TUSSEN = r"(?:van|von|de|den|der|des|ter|ten|te|het|'t|la|le|el|al|ait|ben|bin|abu|da|di|do|dos)"
++TITEL = r'(?:de\s+heer|heer|mevrouw|meneer|dhr\.?|mw\.?|mevr\.?|familie|fam\.)'
++
++MAANDEN = (r'(?:januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|'
++           r'november|december|jan\.?|feb\.?|mrt\.?|apr\.?|jun\.?|jul\.?|aug\.?|sep\.?|sept\.?|okt\.?|nov\.?|dec\.?)')
++DATUM = rf'(?:\d{{1,2}}[-./]\d{{1,2}}[-./]\d{{2,4}}|\d{{1,2}}\s+{MAANDEN}\s+\d{{4}})'
+ 
+-# IBAN: NL + 2 cijfers + 4 letters + 10 cijfers (meest voorkomend)
+-# ook gemaskeerde varianten zoals NL**RABO*******895
+-# v1.1: OCR-tolerant — de letter O wordt vaak gelezen waar een 0 staat (NLO2ABNA…)
++# IBAN: NL + 2 cijfers + 4 letters + 10 cijfers; ook gemaskeerd (NL**RABO*******895) en
++# OCR-tolerant (de letter O waar een 0 staat).
+ IBAN = re.compile(r'\b[A-Z]{2}[\dO*]{2}\s?[A-Z]{4}\s?[\dO*\s]{8,24}\b|\b[A-Z]{2}[\d*]{2}[\sA-Z\d*]{10,30}\b')
+ 
+-# Aanslagnummer / subjectnummer / klantnummer: 6-10 cijfers op zichzelf
+-# Maar niet als het een postcode (4 cijfers) of telefoonnummer (10+ cijfers) is
+-AANSLAGNUMMER = re.compile(r'\b\d{6,9}\b')
++GEBOORTE = re.compile(rf'(?i)\b(geboren(?:[ \t]+op)?|geboortedatum|geb\.)([ \t]*:?[ \t]*)({DATUM})')
++
++# OCR zet soms een spatie rond de @ of de punt ("naam@voorbeeld .nl"); dat telt ook als e-mail.
++EMAIL = re.compile(r'[\w.+-]+[ ]?@[ ]?([\w-]+(?:[ ]?\.[ ]?[a-z0-9-]+)*)')
++WEBSITE = re.compile(r'(?i)\bwww\.([\w-]+(?:\.[\w-]+)+)')
+ 
+-# Telefoonnummers bewaren — patroon om te herkennen zodat we ze NIET redacteren
+-TELEFOON = re.compile(r'\b0\d[\s\-]?\d{3}[\s\-]?\d{4}\b|\b\d{3}\s\d{3}\s\d{2}\s\d{2}\b')
++MOBIEL = re.compile(r'(?<![\w+])(?:\+31[ ]?\(?0?\)?[ ]?6|0031[ ]?6|06)[ -]?(?:\d[ -]?){7}\d(?!\d)')
++
++# Vaste nummers: beginnen met 0 (niet 06), 10 cijfers; 0800/0900: 8 tot 11 cijfers; 14 + netnummer.
++TELEFOON = re.compile(r'(?<![\w+.,/-])\(?0\d{1,3}\)?(?:[ ]?-[ ]?|[ ])?\d(?:[ -]?\d){4,8}(?![\d-])')
++TELEFOON_14 = re.compile(r'\b14[ ]?0\d{2,3}\b')
++
++BSN_PUNT = re.compile(r'(?<![\d.])\d{4}\.\d{2}\.\d{3}(?![\d.])')
++BSN_SPATIE = re.compile(r'(?<!\d)\d{3} \d{3} \d{3}(?!\d)')
++BSN = re.compile(r'\b\d{9}\b')
++V_NUMMER = re.compile(r'(?<!\d)[1-9]\d{9}(?!\d)')
++CIJFERGROEPEN = re.compile(r'(?<!\d)\d{4}(?: \d{4}){2,}(?!\d)')
++LANGE_REEKS = re.compile(r'(?<!\d)\d{11,}(?!\d)')
++AANSLAGNUMMER = re.compile(r'\b\d{6,9}\b')
+ 
+-# Ontvangeradres-blok (gelabeld door preprocessor)
+-ONTVANGERADRES_BLOK = re.compile(
+-    r'\[ONTVANGERADRES[^\]]*\]',
+-    re.IGNORECASE
+-)
++# "Klantnummer: 4471902", "Ons kenmerk: WW 45-771-203", "V-nummer referent: 39…", "Kenteken KZ-481-P"
++LABEL_WAARDE = re.compile(
++    r'(?i)\b((?!tele|tel\b|fax|kvk|btw)[\w-]*(?:nummer|kenmerk|referentie|kenteken)|[\w-]*nr\.?)'
++    r'((?:[ \t]+[a-zà-ÿ]+)?[ \t]*:?[ \t]+)'
++    r'((?:[A-Z]{1,4} )?[A-Z0-9]*\d[A-Za-z0-9./-]*(?: \d[\d./-]*)*)')
++
++# Kenmerk met letters, zonder label ervoor: Z-2026/118834, INC/2026/0048213, DL-7719-0034-Z
++KENMERK_LETTERS = re.compile(r'(?<![\w/-])[A-Z]{1,5}\d{0,2}[-/]\d[\w/-]*')
++# Nederlands kenteken: drie groepjes, samen zes tekens, letters én cijfers
++KENTEKEN = re.compile(r'(?<![\w-])(?=[A-Z0-9-]{8}(?![\w-]))[A-Z0-9]{1,3}-[A-Z0-9]{1,3}-[A-Z0-9]{1,3}')
+ 
+-# Aanhef met naam: "Geachte heer/mevrouw Jansen," / "Beste mevrouw De Vries," (v1.1)
+ AANHEF = re.compile(
+-    r'(?im)^(\s*(?:geachte|beste)\s+(?:heer/mevrouw|heer|mevrouw|dhr\.?|mw\.?|mevr\.?)?\s*)([^\n,]{2,60}),')
++    rf'(?m)^(\s*(?i:geachte|beste)\s+(?i:heer/mevrouw|heer|mevrouw|meneer|dhr\.?|mw\.?|mevr\.?)?\s*)'
++    rf'([{HOOFD}][^\n,\[/]{{1,59}}),')
++
++# Naam na een titel: voorletters, tussenvoegsels, 1–3 woorden met hoofdletter (op dezelfde regel)
++NA_TITEL = re.compile(
++    rf'(?i:\b({TITEL}))([ \t]{{1,2}})'
++    rf'((?:[A-Z]\.[ \t]?)*(?:(?i:{TUSSEN})[ \t])*{WOORD}(?:-{WOORD})*'
++    rf'(?:[ \t](?:(?i:{TUSSEN})[ \t])*{WOORD}(?:-{WOORD})*){{0,2}})')
++
++# Adresblok
++POSTCODE_PLAATS = re.compile(rf'^\d{{4}}[ ]?[A-Z]{{2}}[ ]{{1,3}}[{HOOFD}a-z].{{0,40}}$')
++POSTCODE = re.compile(r'\b\d{4}[ ]?[A-Z]{2}\b')
++GEEN_ADRES = re.compile(r'(?i)retour|postbus|antwoordnummer')
++ORGANISATIE = re.compile(
++    r'(?i)\b(gemeente\w*|team|afdeling|afd\.|dienst|kantoor|loket|bureau|stichting|b\.v\.|bv|n\.v\.|nv|'
++    r'ziekenhuis|polikliniek|kliniek|belastingdienst|toeslagen|uwv|svb|ind|duo|coa|cjib|\w*bank|'
++    r'\w*verzeker\w*|woon\w+|\w*incasso\w*|ministerie|college|centraal|locatie|huisartsen\w*|apotheek)\b')
++PERSOONSTITEL = re.compile(rf'(?i)\b(?:{TITEL}|aan|t\.a\.v\.)')
++
++# Woorden met een hoofdletter die geen voornaam zijn (begin van een zin, titels)
++GEEN_VOORNAAM = (r'(?:De|Het|Een|Geachte|Beste|Mevrouw|Meneer|Heer|Dhr|Mw|Mevr|Familie|Fam|Aan|Voor|Uw|U|Van|'
++                 r'Dokter|Dr|Kind|Partner|Dochter|Zoon|Echtgenoot|Echtgenote|En|Of|Als|Dan|Ook|Volgens|Bij|Met|'
++                 r'Naam|Betreft|Onderwerp|Namens|Zie|Wij|Ik|Hebt|Heeft|Is|Was|Omdat|Dat|Dit|Deze|Op|In|Om|Door)')
+ 
+ 
+ # ── Hoofd-entrypoint ──────────────────────────────────────────────────────────
+ 
+ def redacteer_pii(tekst: str) -> str:
+-    """
+-    Verwijder PII uit de tekst. Geeft geredacteerde tekst terug.
+-    Logt het aantal vervangingen per categorie.
+-    """
++    """Verwijder persoonsgegevens uit de tekst. Logt alleen aantallen per soort."""
+     originele_lengte = len(tekst)
++    n = {}
++
++    # 1. Namen en adres van de ontvanger zoeken (op de oorspronkelijke tekst)
++    regels = tekst.split('\n')
++    blokken = _vind_adresblokken(regels)
++    achternamen, voornamen, straten, postcodes = set(), set(), set(), set()
++    for blok in blokken:
++        for naamregel in blok['namen']:
++            _namen_uit_regel(naamregel, achternamen, voornamen)
++        straat = re.match(r"[^\d]{4,}?(?=[ ]+\d)", blok['straat'])
++        if straat and len(straat.group(0).strip()) >= 5:
++            straten.add(straat.group(0).strip())
++        pc = POSTCODE.search(blok['postcode'])
++        if pc:
++            postcodes.add(pc.group(0))
++    for m in NA_TITEL.finditer(tekst):
++        _namen_uit_regel(m.group(3), achternamen, voornamen)
++
++    # 2. Het adresblok zelf
++    tekst = _vervang_adresblokken(regels, blokken)
++    n['adres'] = len(blokken)
++
++    # 3. Namen: na een titel, in de aanhef, en de gevonden achternamen en voornamen overal
++    tekst, n['naam'] = NA_TITEL.subn(lambda m: f'{m.group(1)}{m.group(2)}[NAAM]', tekst)
++    tekst, k = AANHEF.subn(lambda m: f'{m.group(1)}[NAAM],', tekst)
++    n['naam'] += k
++    tekst, k = _redacteer_namen(tekst, achternamen, voornamen)
++    n['naam'] += k
++
++    # 4. Straat en postcode van de ontvanger elders in de brief
++    for straat in straten:
++        tekst, k = re.subn(r'(?i)(?<!\w)' + re.escape(straat) + r'(?:[ ]+\d+(?:[ -]?[A-Za-z]{1,3}\b)?)?', '[ADRES]', tekst)
++        n['adres'] += k
++    for pc in postcodes:
++        tekst, k = re.subn(r'(?<!\w)' + re.escape(pc).replace(r'\ ', '[ ]?') + r'(?!\w)', '[ADRES]', tekst)
++        n['adres'] += k
++
++    # 5. Geboortedatum, e-mail, rekeningnummer, mobiel
++    tekst, n['geboortedatum'] = GEBOORTE.subn(lambda m: f'{m.group(1)}{m.group(2)}[GEBOORTEDATUM]', tekst)
++    tekst, n['e-mail'] = _redacteer_email(tekst)
++    tekst, n['IBAN'] = IBAN.subn(
++        lambda m: '[REKENINGNUMMER]' + m.group(0)[len(m.group(0).rstrip()):], tekst)
++    tekst, n['mobiel'] = MOBIEL.subn('[TELEFOON]', tekst)
+ 
+-    # 0. Naam van de ontvanger afleiden uit het adresblok (eerste regel) — vóór het blok verdwijnt
+-    naam_varianten = _naam_uit_adresblok(tekst)
++    # 6. Nummers en kenmerken; vaste telefoonnummers blijven staan
++    tekst, n['nummer'] = _redacteer_nummers(tekst)
+ 
+-    # 1. Ontvangeradres-blok volledig vervangen
+-    tekst, n_adres = _vervang_patroon(
+-        tekst, ONTVANGERADRES_BLOK,
+-        '[ONTVANGERADRES VERWIJDERD]',
+-        'ontvangeradres'
+-    )
+-
+-    # 1b. Naam elders in de brief (aanhef, herhaling) → [NAAM]  (v1.1)
+-    tekst, n_naam = _redacteer_naam(tekst, naam_varianten)
+-
+-    # 2. IBAN (vóór aanslagnummer, want IBAN bevat ook lange cijferreeksen)
+-    tekst, n_iban = _vervang_patroon(
+-        tekst, IBAN,
+-        '[REKENINGNUMMER]',
+-        'IBAN'
+-    )
+-
+-    # 3. BSN
+-    tekst, n_bsn = _vervang_patroon(
+-        tekst, BSN,
+-        '[BSN]',
+-        'BSN'
+-    )
+-
+-    # 4. Aanslagnummers (6-9 cijfers) — maar bewaar telefoonnummers
+-    tekst = _redacteer_aanslagnummers(tekst)
+-
+-    logger.info(
+-        f'Redactie klaar: {originele_lengte}→{len(tekst)} tekens, '
+-        f'adres={n_adres}, naam={n_naam}, IBAN={n_iban}, BSN={n_bsn}'
+-    )
++    logger.info('Redactie klaar: %d→%d tekens, %s', originele_lengte, len(tekst),
++                ', '.join(f'{k}={v}' for k, v in n.items()))
+     return tekst
+ 
+ 
+-# ── Hulpfuncties ──────────────────────────────────────────────────────────────
++# ── Adresblok ─────────────────────────────────────────────────────────────────
+ 
+-def _vervang_patroon(tekst: str, patroon: re.Pattern,
+-                     vervanging: str, naam: str) -> tuple[str, int]:
+-    """Vervang alle matches van patroon door vervanging. Geeft (tekst, aantal) terug."""
+-    matches = patroon.findall(tekst)
+-    if matches:
+-        logger.debug(f'Redacteer {naam}: {len(matches)} match(es)')
+-    return patroon.sub(vervanging, tekst), len(matches)
++def _segmenten(regel: str) -> list[tuple[int, str]]:
++    """Splits een regel in kolommen (drie of meer spaties ertussen). Geeft (kolom, tekst)."""
++    return [(m.start(), m.group(0).strip()) for m in re.finditer(r'\S(?:.*?\S)??(?=[ \t]{3,}|[ \t]*$)', regel)]
++
++
++def _segment_erboven(regels, i, kolom):
++    """Het segment in de eerste niet-lege regel boven i dat in dezelfde kolom begint."""
++    j = i - 1
++    while j >= 0 and not regels[j].strip():
++        j -= 1
++    if j < 0:
++        return None
++    for kol, seg in _segmenten(regels[j]):
++        if abs(kol - kolom) <= 3:
++            return j, kol, seg
++    return None
+ 
+ 
+-def _redacteer_aanslagnummers(tekst: str) -> int:
+-    """
+-    Vervang 6-9-cijferige reeksen door [KENMERK], maar bewaar telefoonnummers.
+-    Telefoonnummers worden eerst gemarkeerd, daarna teruggezet.
++def _vind_adresblokken(regels: list[str]) -> list[dict]:
++    """Zoek blokken naam / straat + nummer / postcode + plaats (B-2a).
++
++    Regels met "retour", "postbus" of "antwoordnummer" tellen niet. Een blok waarvan de naamregel
++    een organisatie is en geen persoonstitel heeft, is het adres van de afzender en blijft staan.
+     """
+-    # Markeer telefoonnummers tijdelijk
+-    telefoons = {}
+-    teller = [0]
+-
+-    def bewaar_telefoon(m):
+-        sleutel = f'__TEL{teller[0]}__'
+-        telefoons[sleutel] = m.group(0)
+-        teller[0] += 1
+-        return sleutel
++    blokken = []
++    for i, regel in enumerate(regels):
++        for kolom, seg in _segmenten(regel):
++            if not POSTCODE_PLAATS.match(seg) or GEEN_ADRES.search(seg):
++                continue
++            boven = _segment_erboven(regels, i, kolom)
++            if not boven:
++                continue
++            j, kol_s, straat = boven
++            if not re.search(r'\d', straat) or GEEN_ADRES.search(straat) or POSTCODE_PLAATS.match(straat):
++                continue
++            delen = [(i, kolom, seg), (j, kol_s, straat)]
++            namen = []
++            # Daarboven: hooguit één extra adresregel (met een cijfer: "kamer 214"), dan de naam
++            # en eventueel nog een naamregel erboven ("Familie …").
++            k, extra = j, 0
++            while len(namen) < 2:
++                boven = _segment_erboven(regels, k, kolom)
++                if not boven:
++                    break
++                k, kol_n, seg_n = boven
++                if GEEN_ADRES.search(seg_n) or len(seg_n) > 70:
++                    break
++                heeft_titel = bool(PERSOONSTITEL.match(seg_n))
++                if re.search(r'\d', seg_n) and not heeft_titel:
++                    if namen or extra:
++                        break
++                    extra += 1
++                    delen.append((k, kol_n, seg_n))
++                    continue
++                if namen and not heeft_titel:
++                    break                      # een tweede naamregel alleen met een titel
++                namen.append(seg_n)
++                delen.append((k, kol_n, seg_n))
++            if not namen:
++                continue
++            if ORGANISATIE.search(namen[0]) and not PERSOONSTITEL.search(namen[0]):
++                continue                       # adres van de afzender
++            blokken.append({'namen': namen, 'straat': straat, 'postcode': seg, 'delen': delen})
++    return blokken
++
++
++def _vervang_adresblokken(regels: list[str], blokken: list[dict]) -> str:
++    regels = list(regels)
++    vervang = []
++    for blok in blokken:
++        for nr, (i, kolom, seg) in enumerate(blok['delen']):
++            vervang.append((i, kolom, seg, '[NAAM]' if seg in blok['namen'] else '[ADRES]'))
++    # Van rechts naar links per regel, zodat de kolommen blijven kloppen
++    for i, kolom, seg, label in sorted(set(vervang), key=lambda v: (v[0], -v[1])):
++        regel = regels[i]
++        begin = regel.find(seg, max(0, kolom - 3))
++        if begin >= 0:
++            regels[i] = regel[:begin] + label + regel[begin + len(seg):]
++    return '\n'.join(regels)
++
++
++# ── Namen ─────────────────────────────────────────────────────────────────────
++
++def _namen_uit_regel(regel: str, achternamen: set, voornamen: set) -> None:
++    """Haal achternaam (en voornamen) uit "De heer Y. Tesfay en mevrouw S. Kidane", "R.J. van den Heuvel"."""
++    regel = re.sub(r'(?i)^\s*(aan|t\.a\.v\.)\s*:?\s*', '', regel)
++    for persoon in re.split(r'(?i)\s+en\s+|\s*&\s*|\s*/\s*', regel):
++        persoon = re.sub(rf'(?i)^\s*{TITEL}\s+', '', persoon.strip())
++        persoon = re.sub(r'^(?:[A-Z]\.\s?)+', '', persoon).strip(' ,.;:')
++        woorden = [w for w in persoon.split() if w]
++        if not woorden or re.search(r'\d', persoon):
++            continue
++        kern = [w for w in woorden if not re.fullmatch(rf'(?i){TUSSEN}', w)]
++        if not kern:
++            continue
++        achternaam = kern[-1]
++        if len(achternaam) < 2 or not re.match(rf'[{HOOFD}]', achternaam):
++            continue
++        achternamen.add(achternaam)
++        for deel in achternaam.split('-'):
++            if len(deel) >= 3 and not re.fullmatch(rf'(?i){TUSSEN}', deel):
++                achternamen.add(deel)
++        for w in kern[:-1]:
++            if len(w) >= 3 and re.match(rf'[{HOOFD}]', w) and not re.fullmatch(GEEN_VOORNAAM, w):
++                voornamen.add(w)
+ 
+-    tekst = TELEFOON.sub(bewaar_telefoon, tekst)
+ 
+-    # Vervang aanslagnummers
+-    n = [0]
++def _redacteer_namen(tekst: str, achternamen: set, voornamen: set) -> tuple[str, int]:
++    """Achternaam overal, met voorletters, voornamen en tussenvoegsels die ervoor staan (B-2i)."""
++    n = 0
++    nieuw_voor = set()
++    for naam in sorted(achternamen, key=len, reverse=True):
++        vormen = '|'.join(re.escape(v) for v in {naam, naam.upper()})
++        patroon = re.compile(
++            rf'(?<![\w.-])((?:(?!{GEEN_VOORNAAM}\b)(?:{WOORD}|[A-Z]\.)[ \t]?){{0,2}})'
++            rf'((?:(?i:{TUSSEN})[ \t])*(?:{WOORD}-)*)(?:{vormen})((?:-{WOORD})*)(?![\w])')
++
++        def vervang(m):
++            for w in m.group(1).split():
++                if len(w) >= 3 and not w.endswith('.'):
++                    nieuw_voor.add(w)
++            return '[NAAM]'
++        tekst, k = patroon.subn(vervang, tekst)
++        n += k
++    for voornaam in sorted(voornamen | nieuw_voor, key=len, reverse=True):
++        tekst, k = re.subn(r'(?<![\w-])' + re.escape(voornaam) + r'(?![\w-])', '[NAAM]', tekst)
++        n += k
++    return tekst, n
++
++
++# ── E-mail ────────────────────────────────────────────────────────────────────
++
++def _redacteer_email(tekst: str) -> tuple[str, int]:
++    """E-mailadressen weg, behalve op het domein van een website die in de brief staat (B-2d)."""
++    afzender = {m.group(1).lower().rstrip('.') for m in WEBSITE.finditer(tekst)}
++    n = 0
+ 
+     def vervang(m):
+-        n[0] += 1
+-        return '[KENMERK]'
++        nonlocal n
++        domein = m.group(1).replace(' ', '').lower().rstrip('.')
++        if any(domein == d or domein.endswith('.' + d) or d.endswith('.' + domein) for d in afzender):
++            return m.group(0)
++        n += 1
++        return '[E-MAIL]'
++    return EMAIL.sub(vervang, tekst), n
+ 
+-    tekst = AANSLAGNUMMER.sub(vervang, tekst)
+-    if n[0]:
+-        logger.debug(f'Redacteer aanslagnummers: {n[0]} match(es)')
+-
+-    # Zet telefoonnummers terug
+-    for sleutel, waarde in telefoons.items():
+-        tekst = tekst.replace(sleutel, waarde)
+ 
+-    return tekst
++# ── Nummers ───────────────────────────────────────────────────────────────────
++
++def _is_telefoon(tekst: str) -> bool:
++    cijfers = re.sub(r'\D', '', tekst)
++    if cijfers.startswith(('0800', '0900', '0906', '0909')):
++        return 8 <= len(cijfers) <= 11
++    return len(cijfers) == 10 and not cijfers.startswith('06')
+ 
+ 
+-# ── Naamredactie (v1.1) ───────────────────────────────────────────────────────
++def _redacteer_nummers(tekst: str) -> tuple[str, int]:
++    """BSN, V-nummer en kenmerken weg; vaste telefoonnummers worden eerst opzij gezet."""
++    bewaard = []
+ 
+-def _naam_uit_adresblok(tekst: str) -> list[str]:
+-    """Eerste niet-lege regel van het gelabelde adresblok is (vrijwel altijd) de naam.
+-    Geeft varianten terug: de hele regel en de achternaam (laatste woord ≥ 4 letters)."""
+-    m = ONTVANGERADRES_BLOK.search(tekst)
+-    if not m:
+-        return []
+-    blok = m.group(0).split(':', 1)[-1].rstrip(']')
+-    regels = [r.strip() for r in blok.splitlines() if r.strip()]
+-    if not regels:
+-        return []
+-    naamregel = regels[0]
+-    # Geen straat/postcode als naam aanzien
+-    if re.search(r'\d', naamregel):
+-        return []
+-    varianten = [naamregel]
+-    woorden = [w for w in re.split(r'[\s.]+', naamregel) if len(w) >= 4]
+-    if woorden:
+-        varianten.append(woorden[-1])
+-    return varianten
++    def bewaar(m):
++        if m.re is TELEFOON and not _is_telefoon(m.group(0)):
++            return m.group(0)
++        bewaard.append(m.group(0))
++        return f'\x00T{len(bewaard) - 1}\x00'
+ 
++    tekst = TELEFOON_14.sub(bewaar, tekst)
++    tekst = TELEFOON.sub(bewaar, tekst)
+ 
+-def _redacteer_naam(tekst: str, varianten: list[str]) -> tuple[str, int]:
+     n = 0
+-    # a) aanhefregel: naam na "Geachte heer/mevrouw" altijd weg, ook zonder adresblok
+-    def aanhef_sub(m):
+-        nonlocal n
+-        n += 1
+-        return f'{m.group(1)}[NAAM],'
+-    tekst = AANHEF.sub(aanhef_sub, tekst)
+-    # b) naamvarianten uit het adresblok, overal in de tekst (hoofdletterongevoelig, hele woorden)
+-    for v in varianten:
+-        pat = re.compile(r'(?<![\w])' + re.escape(v) + r'(?![\w])', re.IGNORECASE)
+-        tekst, k = pat.subn('[NAAM]', tekst)
++    for patroon, label in ((BSN_PUNT, '[BSN]'), (BSN_SPATIE, '[BSN]'), (BSN, '[BSN]')):
++        tekst, k = patroon.subn(label, tekst)
+         n += k
+-    if n:
+-        logger.debug(f'Redacteer naam: {n} match(es)')
++
++    tekst, k = LABEL_WAARDE.subn(
++        lambda m: f'{m.group(1)}{m.group(2)}[KENMERK]' + ('.' if m.group(3).endswith('.') else ''), tekst)
++    n += k
++
++    def kenmerk(m):
++        return '[KENMERK]' if len(re.sub(r'\D', '', m.group(0))) >= 4 else m.group(0)
++    tekst, _ = KENMERK_LETTERS.subn(kenmerk, tekst)
++
++    def kenteken(m):
++        t = m.group(0)
++        return '[KENTEKEN]' if re.search(r'[A-Z]', t) and re.search(r'\d', t) else t
++    tekst = KENTEKEN.sub(kenteken, tekst)
++
++    for patroon, label in ((V_NUMMER, '[V-NUMMER]'), (CIJFERGROEPEN, '[KENMERK]'),
++                           (LANGE_REEKS, '[KENMERK]'), (AANSLAGNUMMER, '[KENMERK]')):
++        tekst, k = patroon.subn(label, tekst)
++        n += k
++
++    tekst = re.sub(r'\x00T(\d+)\x00', lambda m: bewaard[int(m.group(1))], tekst)
+     return tekst, n
